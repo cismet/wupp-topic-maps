@@ -15,7 +15,7 @@ export class BPlaene_ extends React.Component {
   }
   render() {   
     //console.log(this.props.params.layers) 
-    console.log(this.props) 
+    //console.log(this.props) 
 
    return (
         <div>
@@ -29,7 +29,7 @@ export class BPlaene_ extends React.Component {
   }
 }
 
-const BPlaene = withRouter(connect(mapStateToProps))(BPlaene_);
+const BPlaene = (connect(mapStateToProps))(BPlaene_);
 
 export default BPlaene;
 

@@ -4,7 +4,7 @@ import { TileLayer, WMSTileLayer } from 'react-leaflet';
 
 export const Layers = new Map();
 
-Layers.set("NRWLayer", (opacity) => {
+Layers.set("orthoNRW", (opacity) => {
   return (
     <WMSTileLayer
       key="NRWLayer"
@@ -20,7 +20,7 @@ Layers.set("NRWLayer", (opacity) => {
 });
 
 
-Layers.set("StadtgrundKarteABK", (opacity) => {
+Layers.set("abkIntra", (opacity) => {
   return (
     <WMSTileLayer
       key="StadtgrundKarteABK"
@@ -35,7 +35,7 @@ Layers.set("StadtgrundKarteABK", (opacity) => {
 });
 
 
-Layers.set("Ortho2014", (opacity) => {
+Layers.set("orthoIntra", (opacity) => {
   return (
     <WMSTileLayer
       key="Ortho2014"
@@ -50,7 +50,7 @@ Layers.set("Ortho2014", (opacity) => {
 });
 
 
-Layers.set("Osm", (opacity) => {
+Layers.set("osm", (opacity) => {
   return (
     <WMSTileLayer
       key="Osm"

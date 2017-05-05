@@ -12,27 +12,59 @@ import FullscreenControl from 'react-leaflet-fullscreen';
 import Control from 'react-leaflet-control';
 import { Form, FormGroup, InputGroup, FormControl, Button, Glyphicon, Well} from 'react-bootstrap';
 
+import { push } from 'react-router-redux'
+import {store} from '../index.js';
 
 
-const position = [51.272399, 7.199712];
+const fallbackposition = {
+  lat: 51.272399,
+  lng: 7.199712
+};
 
 
 function mapStateToProps(state) {
   return {
     uiState: state.uiState,
     mapping: state.mapping,
-    attributionControl: false
+    attributionControl: false,
+    routing: state.routing,
+
   };
 }
- export function createLeafletElement () {}    
+export function createLeafletElement () {}    
 export class Cismap_ extends React.Component {
       constructor(props) {
         super(props);
 
 
       }
+componentDidMount() {
+    this.refs.leafletMap.leafletElement.on('moveend', () => {
+        const zoom=this.refs.leafletMap.leafletElement.getZoom();
+        const center= this.refs.leafletMap.leafletElement.getCenter();
+        const latFromUrl=parseFloat(this.props.routing.locationBeforeTransitions.query.lat)
+        const lngFromUrl=parseFloat(this.props.routing.locationBeforeTransitions.query.lng)
+        
+        //browserHistory.push(this.props.location.pathname + querypart)
+        var lat=center.lat
+        var lng=center.lng
+
+        if (Math.abs(latFromUrl-center.lat) < 0.00001) {
+          lat=latFromUrl;
+        }
+        if (Math.abs(lngFromUrl-center.lng) < 0.00001) {
+          lng=lngFromUrl;
+        }
+        
+        const querypart='?lat='+lat+'&lng='+lng+'&zoom='+zoom;
+        store.dispatch(push(this.props.location.pathname + querypart))
+
+    });
+}
 
 render() {
+
+
     const mapStyle = {
       height: this.props.uiState.height,
       width:  this.props.uiState.width
@@ -41,17 +73,20 @@ render() {
       mapStyle.height=window.innerHeight
       mapStyle.width=window.innerWidth
     }
-        console.log(this.props) 
+   
+   const positionByUrl=[parseFloat(this.props.routing.locationBeforeTransitions.query.lat)||fallbackposition.lat,parseFloat(this.props.routing.locationBeforeTransitions.query.lng)||fallbackposition.lng]
+   const zoomByUrl= parseInt(this.props.routing.locationBeforeTransitions.query.zoom)||14
+
+   const layerArr=this.props.layers.split(",");
 
     return (
-      <Map ref="leafletMap" key="leafletMap" crs={crs25832}  style={mapStyle} center={position} zoom={14} attributionControl={false} ondblclick={this.mapClick} doubleClickZoom={false} >
-        {this.props.uiState.layers.map((layer) => {
-          if (layer.enabled) {
-            return (
-              Layers.get(layer.key)(layer.opacity)
-            );
-          }
-        })}
+      <Map ref="leafletMap" key="leafletMap" crs={crs25832}  style={mapStyle} center={positionByUrl} zoom={zoomByUrl} attributionControl={false} ondblclick={this.mapClick} doubleClickZoom={false} >
+        {
+          layerArr.map((layerWithOpacity)=> {
+            const layOp=layerWithOpacity.split('@')
+              return Layers.get(layOp[0])(parseInt(layOp[1]||'100')/100.0);
+          })
+        }
        
        //<ProjGeoJson key={JSON.stringify(this.props.mapping)} mappingProps={this.props.mapping}  />
         <FullscreenControl position="topleft" />
@@ -114,4 +149,7 @@ Cismap_.propTypes = {
   mapping: PropTypes.object,
   height: PropTypes.number,
   width: PropTypes.number,
+  layers: PropTypes.string,
+  location: PropTypes.object,
+
 };

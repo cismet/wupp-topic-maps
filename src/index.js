@@ -35,3 +35,7 @@ if (module.hot) {
     );
   });
 }
+
+export {
+  store
+};

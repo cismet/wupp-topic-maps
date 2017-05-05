@@ -29,19 +29,19 @@ export default {
     waitingUIAnimation: true,
 
     layers: [{
-        key: "Osm",
+        key: "osm",
         opacity: 1,
         enabled: false
       },
       {
-        key: "StadtgrundKarteABK",
+        key: "abkIntra",
         opacity: 1,
         enabled: true
       },
       {
-        key: "Ortho2014",
+        key: "orthoIntra",
         opacity: 0.6,
-        enabled: false
+        enabled: true
       }
     ],
   }

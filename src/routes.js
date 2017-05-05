@@ -1,15 +1,15 @@
 import React from 'react';
-import { Route, IndexRoute } from 'react-router';
+import { Route, IndexRoute, browserHistory } from 'react-router';
 
 import App from './components/App';
-import HomePage from './containers/HomePage';
-import AboutPage from './components/AboutPage';
+import DefaultPage from './containers/DefaultPage';
+import BPlaene from './containers/BPlaene';
 import NotFoundPage from './components/NotFoundPage';
 
 export default (
   <Route path="/" component={App}>
-    <IndexRoute component={HomePage}/>
-    <Route path="about" component={AboutPage}/>
+    <IndexRoute component={DefaultPage}/>
+    <Route path="bplaene(/:layers)(/:bplannummer)" component={BPlaene}/>
     <Route path="*" component={NotFoundPage}/>
   </Route>
 );

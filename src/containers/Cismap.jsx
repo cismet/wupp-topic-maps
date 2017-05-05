@@ -37,14 +37,14 @@ render() {
       height: this.props.uiState.height,
       width:  this.props.uiState.width
     };
-    console.log(mapStyle)
     if (mapStyle.height==null || mapStyle.width==null) {
       mapStyle.height=window.innerHeight
       mapStyle.width=window.innerWidth
     }
+        console.log(this.props) 
 
     return (
-      <Map ref="leafletMap" key="leafletMap" crs={crs25832}  style={mapStyle} center={position} zoom={14}attributionControl={false} ondblclick={this.mapClick} doubleClickZoom={false} >
+      <Map ref="leafletMap" key="leafletMap" crs={crs25832}  style={mapStyle} center={position} zoom={14} attributionControl={false} ondblclick={this.mapClick} doubleClickZoom={false} >
         {this.props.uiState.layers.map((layer) => {
           if (layer.enabled) {
             return (
@@ -99,10 +99,7 @@ render() {
 
           </Well>
         </Control>
-         <Control position="top
-         right" >
-          <button onClick={ () => this.setState({bounds: position}) }>Reset View </button>
-        </Control>
+         {this.props.children}
       </Map>
     );
     

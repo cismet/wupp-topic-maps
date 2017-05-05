@@ -7,7 +7,7 @@ function mapStateToProps(state) {
     ui: state.uiState,
   };
 }
-export class HomePage_ extends React.Component {
+export class DefaultPage_ extends React.Component {
   constructor(props, context) {
       super(props, context);
   }
@@ -20,11 +20,11 @@ export class HomePage_ extends React.Component {
     );
   }
 }
-const HomePage = connect(mapStateToProps)(HomePage_);
+const DefaultPage = connect(mapStateToProps)(DefaultPage_);
 
-export default HomePage;
+export default DefaultPage;
 
-HomePage_.propTypes = {
+DefaultPage_.propTypes = {
   ui: PropTypes.object,
   kassenzeichen: PropTypes.object,
   uiState: PropTypes.object

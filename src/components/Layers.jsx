@@ -62,19 +62,7 @@ Layers.set("abkg", (opacity) => {
     />
   );
 });
-Layers.set("abkt", (opacity) => {
-  return (
-    <WMSTileLayer
-      key="ABK"
-      url="http://geoportal.wuppertal.de:80/deegree/wms"
-      layers="abkt"
-      format="image/png"
-      tiled="true"
-      maxZoom={19}
-      opacity={opacity}
-    />
-  );
-});
+
 
 
 Layers.set("abkIntra", (opacity) => {

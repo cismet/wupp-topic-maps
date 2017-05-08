@@ -4,15 +4,72 @@ import { TileLayer, WMSTileLayer } from 'react-leaflet';
 
 export const Layers = new Map();
 
-Layers.set("orthoNRW", (opacity) => {
+
+Layers.set("nrwDOP20", (opacity) => {
   return (
     <WMSTileLayer
-      key="NRWLayer"
-      url="http://www.wms.nrw.de/geobasis/wms_nw_dop40"
-      layers="WMS_NW_DOP40"
+      key="nrwDOP20"
+      url="https://www.wms.nrw.de/geobasis/wms_nw_dop20"
+      layers="nw_dop20"
       format="image/png"
       tiled="true"
       //crs={L.CRS.EPSG3857}
+      maxZoom={19}
+      opacity={opacity}
+    />
+  );
+});
+
+
+Layers.set("osm", (opacity) => {
+  return (
+    <WMSTileLayer
+      key="Terrestris OSM"
+      url="http://ows.terrestris.de/osm/service"
+      layers="OSM-WMS"
+      format="image/png"
+      tiled="true"
+      maxZoom={19}
+      opacity={opacity}
+    />
+  );
+});
+
+
+Layers.set("abkf", (opacity) => {
+  return (
+    <WMSTileLayer
+      key="ABK"
+      url="http://geoportal.wuppertal.de:80/deegree/wms"
+      layers="abkf"
+      format="image/png"
+      tiled="true"
+      maxZoom={19}
+      opacity={opacity}
+    />
+  );
+});
+Layers.set("abkg", (opacity) => {
+  return (
+    <WMSTileLayer
+      key="ABK"
+      url="http://geoportal.wuppertal.de:80/deegree/wms"
+      layers="abkg"
+      format="image/png"
+      tiled="true"
+      maxZoom={19}
+      opacity={opacity}
+    />
+  );
+});
+Layers.set("abkt", (opacity) => {
+  return (
+    <WMSTileLayer
+      key="ABK"
+      url="http://geoportal.wuppertal.de:80/deegree/wms"
+      layers="abkt"
+      format="image/png"
+      tiled="true"
       maxZoom={19}
       opacity={opacity}
     />
@@ -34,7 +91,6 @@ Layers.set("abkIntra", (opacity) => {
   );
 });
 
-
 Layers.set("orthoIntra", (opacity) => {
   return (
     <WMSTileLayer
@@ -49,20 +105,6 @@ Layers.set("orthoIntra", (opacity) => {
   );
 });
 
-
-Layers.set("osm", (opacity) => {
-  return (
-    <WMSTileLayer
-      key="Osm"
-      url="http://ows.terrestris.de/osm/service"
-      layers="OSM-WMS"
-      format="image/png"
-      tiled="true"
-      maxZoom={19}
-      opacity={opacity}
-    />
-  );
-});
 
 
 

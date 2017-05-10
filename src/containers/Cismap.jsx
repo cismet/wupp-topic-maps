@@ -11,9 +11,12 @@ import 'react-leaflet-fullscreen/dist/styles.css';
 import FullscreenControl from 'react-leaflet-fullscreen';
 import Control from 'react-leaflet-control';
 import { Form, FormGroup, InputGroup, FormControl, Button, Glyphicon, Well} from 'react-bootstrap';
+import { Typeahead } from 'react-bootstrap-typeahead';
 
 import { push } from 'react-router-redux'
 import {store} from '../index.js';
+
+import wuppadr from '../wuppadr.json';
 
 
 const fallbackposition = {
@@ -45,7 +48,6 @@ componentDidMount() {
         const latFromUrl=parseFloat(this.props.routing.locationBeforeTransitions.query.lat)
         const lngFromUrl=parseFloat(this.props.routing.locationBeforeTransitions.query.lng)
         
-        //browserHistory.push(this.props.location.pathname + querypart)
         var lat=center.lat
         var lng=center.lng
 
@@ -57,12 +59,13 @@ componentDidMount() {
         }
         
         const querypart='?lat='+lat+'&lng='+lng+'&zoom='+zoom;
-        store.dispatch(push(this.props.location.pathname + querypart))
+        store.dispatch(push(this.props.routing.locationBeforeTransitions.pathname + querypart))
 
     });
 }
 
 render() {
+    console.log(this.props);
 
 
     const mapStyle = {
@@ -78,9 +81,20 @@ render() {
    const zoomByUrl= parseInt(this.props.routing.locationBeforeTransitions.query.zoom)||14
 
    const layerArr=this.props.layers.split(",");
-
     return (
-      <Map ref="leafletMap" key="leafletMap" crs={crs25832}  style={mapStyle} center={positionByUrl} zoom={zoomByUrl} attributionControl={false} ondblclick={this.mapClick} doubleClickZoom={false} >
+      <Map 
+        ref="leafletMap"
+        key="leafletMap" 
+        crs={crs25832}  
+        style={mapStyle} 
+        center={positionByUrl} 
+        zoom={zoomByUrl} 
+        attributionControl={false} 
+        ondblclick={this.mapClick} 
+        doubleClickZoom={false}
+        minZoom={7} 
+        maxZoom={18} 
+        >
         {
           layerArr.map((layerWithOpacity)=> {
             const layOp=layerWithOpacity.split('@')
@@ -90,50 +104,35 @@ render() {
        
        //<ProjGeoJson key={JSON.stringify(this.props.mapping)} mappingProps={this.props.mapping}  />
         <FullscreenControl position="topleft" />
-        <Control   position="bottomleft" >
-          <Form >
+       <Control position="bottomleft"  >
+        <Form style={{ width: '300px'}}  action="#">
             <FormGroup >
               <InputGroup>
                 <InputGroup.Button  >
                   <Button><Glyphicon glyph="search" /></Button>
                 </InputGroup.Button>
-                <FormControl type="text" style={{ width: '200px'}} />
+                <Typeahead style={{ width: '300px'}} 
+                  onPaginate={e => console.log('Results paginated')}
+                  onChange={selectedObject => {console.log(this.refs.leafletMap.leafletElement.panTo())}}
+                  options={wuppadr.map(o => o)  }
+                  labelKey={"string"}
+                  paginate={true}
+                  dropup={true}
+                  placeholder="Geben Sie einen Suchbegriff ein."
+                  minLength={4}
+                  align={'justify'}
+                  emptyLabel={'Keine Treffer gefunden'}
+                  paginationText={"Mehr Treffer anzeigen"}
+                  autoFocus={true}
+                />
               </InputGroup>
             </FormGroup>
             </Form>
+      
+      
+         
           </Control>
-         <Control position="bottomright" >
-          <Well bsSize="small" style={{ width: '250px'}}>
-            <table style={{ width: '100%' }}>
-              <tbody>
-                <tr>
-                  <td style={{ textAlign: 'left', verticalAlign: 'top' }}>
-                    <h4>BPlan 442</h4>
-                    <h6>Rathaus</h6>
-                    </td>
-                  <td style={{ textAlign: 'right', verticalAlign: 'top' }}>
-                    <h4><Glyphicon glyph="download" /></h4>
-                    <h6><a href="#">Plan</a></h6>
-                    <h6><a href="#">alles</a></h6>
-               
-
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-            <br/>
-            <table style={{ width: '100%' }}>
-              <tbody>
-                <tr>
-                  <td style={{ textAlign: 'left', verticalAlign: 'center' }}><a href="#">&lt;&lt;</a></td>
-                  <td style={{ textAlign: 'center', verticalAlign: 'center' }}>4 weitere</td>
-                  <td style={{ textAlign: 'right', verticalAlign: 'center' }}><a href="#">&gt;&gt;</a></td>
-                </tr>
-              </tbody>
-            </table>
-
-          </Well>
-        </Control>
+        
          {this.props.children}
       </Map>
     );
@@ -149,7 +148,9 @@ Cismap_.propTypes = {
   mapping: PropTypes.object,
   height: PropTypes.number,
   width: PropTypes.number,
-  layers: PropTypes.string,
-  location: PropTypes.object,
-
+  layers: PropTypes.string.isRequired,
 };
+
+Cismap_.defaultProps = {
+  layers: "abkf"
+}

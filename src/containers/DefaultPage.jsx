@@ -12,7 +12,6 @@ export class DefaultPage_ extends React.Component {
       super(props, context);
   }
   render() {   
-    console.log(this.props.ui.width+" - "+this.props.ui.height) 
    return (
         <div>
             <Cismap />

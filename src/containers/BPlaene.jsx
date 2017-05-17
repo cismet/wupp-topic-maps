@@ -15,16 +15,21 @@ function mapStateToProps(state) {
 export class BPlaene_ extends React.Component {
   constructor(props, context) {
       super(props, context);
+      this.bplanSearchButtonHit=this.bplanSearchButtonHit.bind(this);
+      this.bplanGazeteerhHit=this.bplanGazeteerhHit.bind(this);
+
   }
 
-bplanGazeteerhHit(selectedObject){
-  console.log("^^");
-}
+  bplanGazeteerhHit(selectedObject){
+    console.log("^^");
+    console.log(this.props);
+  }
 
-bplanSearchButtonHit(event) {
-  console.log("^^");
-}
-  render() {   
+  bplanSearchButtonHit(event) {
+    console.log(this.props);
+  }
+  render() {  
+    console.log(this.props) ;
    return (
         <div>
             <Cismap layers={this.props.params.layers ||'abkIntra'} gazeteerHitTriggerX={this.bplanGazeteerhHit} searchButtonTrigger={this.bplanSearchButtonHit}>

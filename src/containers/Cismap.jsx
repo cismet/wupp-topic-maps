@@ -42,8 +42,6 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
-
-
 export function createLeafletElement () {}    
 
 export class Cismap_ extends React.Component {
@@ -75,15 +73,20 @@ componentDidMount() {
           //store.dispatch(push(this.props.routing.locationBeforeTransitions.pathname + querypart))
           this.props.routingActions.push(this.props.routing.locationBeforeTransitions.pathname + querypart)
         }
-
-        //store the projected bounds in the store
-        const bounds=this.refs.leafletMap.leafletElement.getBounds()
-        const projectedNE=proj4(proj4.defs('EPSG:4326'),proj4crs25832def,[bounds._northEast.lng,bounds._northEast.lat])
-        const projectedSW=proj4(proj4.defs('EPSG:4326'),proj4crs25832def,[bounds._southWest.lng,bounds._southWest.lat])
-        const bbox = {left: projectedSW[0], top: projectedNE[1], right: projectedNE[0], bottom: projectedSW[1]};
-        //console.log(getPolygon(bbox));
-        this.props.mappingActions.mappingBoundsChanged(bbox);
+        this.storeBoundingBox();
+        
     });
+    this.storeBoundingBox();
+}
+
+storeBoundingBox(){
+  //store the projected bounds in the store
+  const bounds=this.refs.leafletMap.leafletElement.getBounds()
+  const projectedNE=proj4(proj4.defs('EPSG:4326'),proj4crs25832def,[bounds._northEast.lng,bounds._northEast.lat])
+  const projectedSW=proj4(proj4.defs('EPSG:4326'),proj4crs25832def,[bounds._southWest.lng,bounds._southWest.lat])
+  const bbox = {left: projectedSW[0], top: projectedNE[1], right: projectedNE[0], bottom: projectedSW[1]};
+  //console.log(getPolygon(bbox));
+  this.props.mappingActions.mappingBoundsChanged(bbox);
 }
 
 internalGazeteerHitTrigger(hit){
@@ -104,8 +107,6 @@ internalGazeteerHitTrigger(hit){
 }
 
 internalSearchButtonTrigger(event){
-   console.log(this.refs.leafletMap.leafletElement.getBounds())
-
   if (this.props.searchButtonTrigger!==undefined) {
     this.props.searchButtonTrigger(event)
   } else {

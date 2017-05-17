@@ -69,6 +69,20 @@ Layers.set("abkIntra", (opacity) => {
   return (
     <WMSTileLayer
       key="StadtgrundKarteABK"
+      url="http://localhost/alkis/services"
+      layers="alkomf"
+      format="image/png"
+      tiled="true"
+      maxZoom={19}
+      opacity={opacity}
+    />
+  );
+});
+
+Layers.set("abkIntraNC", (opacity) => {
+  return (
+    <WMSTileLayer
+      key="StadtgrundKarteABK"
       url="http://s10221:7098/alkis/services"
       layers="alkomf"
       format="image/png"
@@ -80,6 +94,20 @@ Layers.set("abkIntra", (opacity) => {
 });
 
 Layers.set("orthoIntra", (opacity) => {
+  return (
+    <WMSTileLayer
+      key="Ortho2014"
+      url="http://localhost/orthofotos/services"
+      layers="WO2014"
+      format="image/png"
+      tiled="true"
+      maxZoom={19}
+      opacity={opacity}
+    />
+  );
+});
+
+Layers.set("orthoIntraNC", (opacity) => {
   return (
     <WMSTileLayer
       key="Ortho2014"

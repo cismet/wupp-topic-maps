@@ -5,7 +5,7 @@ export default {
   },
   mapping: {
     featureCollection: [],
-    bounds: null,
+    boundingBox: null,
     boundsFittingEnabled: false
   },
   uiState: {

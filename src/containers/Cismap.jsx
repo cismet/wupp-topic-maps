@@ -13,11 +13,11 @@ import Control from 'react-leaflet-control';
 import { Form, FormGroup, InputGroup, FormControl, Button, Glyphicon, Well} from 'react-bootstrap';
 import { Typeahead } from 'react-bootstrap-typeahead';
 
-import { push } from 'react-router-redux'
-import {store} from '../index.js';
+import { routerActions } from 'react-router-redux'
 
 import wuppadr from '../wuppadr.json';
-
+import * as MappingActions from '../actions/mappingActions';
+ 
 
 const fallbackposition = {
   lat: 51.272399,
@@ -34,11 +34,23 @@ function mapStateToProps(state) {
 
   };
 }
+
+function mapDispatchToProps(dispatch) {
+  return {
+    mappingActions: bindActionCreators(MappingActions, dispatch),
+    routingActions: bindActionCreators(routerActions,dispatch),
+  };
+}
+
+
+
 export function createLeafletElement () {}    
+
 export class Cismap_ extends React.Component {
       constructor(props) {
         super(props);
-
+        this.internalGazeteerHitTrigger=this.internalGazeteerHitTrigger.bind(this);
+        this.internalSearchButtonTrigger=this.internalSearchButtonTrigger.bind(this);
 
       }
 componentDidMount() {
@@ -51,23 +63,58 @@ componentDidMount() {
         var lat=center.lat
         var lng=center.lng
 
-        if (Math.abs(latFromUrl-center.lat) < 0.00001) {
+        if (Math.abs(latFromUrl-center.lat) < 0.0001) {
           lat=latFromUrl;
         }
-        if (Math.abs(lngFromUrl-center.lng) < 0.00001) {
+        if (Math.abs(lngFromUrl-center.lng) < 0.0001) {
           lng=lngFromUrl;
         }
         
         const querypart='?lat='+lat+'&lng='+lng+'&zoom='+zoom;
-        store.dispatch(push(this.props.routing.locationBeforeTransitions.pathname + querypart))
+        if (lng!==lngFromUrl || lat!==latFromUrl) {
+          //store.dispatch(push(this.props.routing.locationBeforeTransitions.pathname + querypart))
+          this.props.routingActions.push(this.props.routing.locationBeforeTransitions.pathname + querypart)
+        }
 
+        //store the projected bounds in the store
+        const bounds=this.refs.leafletMap.leafletElement.getBounds()
+        const projectedNE=proj4(proj4.defs('EPSG:4326'),proj4crs25832def,[bounds._northEast.lng,bounds._northEast.lat])
+        const projectedSW=proj4(proj4.defs('EPSG:4326'),proj4crs25832def,[bounds._southWest.lng,bounds._southWest.lat])
+        const bbox = {left: projectedSW[0], top: projectedNE[1], right: projectedNE[0], bottom: projectedSW[1]};
+        //console.log(getPolygon(bbox));
+        this.props.mappingActions.mappingBoundsChanged(bbox);
     });
 }
 
+internalGazeteerHitTrigger(hit){
+  if (this.props.gazeteerHitTrigger!==undefined) {
+    this.props.gazeteerHitTrigger(hit);
+  }
+  else {
+    if (hit!==undefined && hit.length !=undefined && hit[0].x!==undefined && hit[0].y!==undefined) {
+        console.log(hit)
+        const pos=proj4(proj4crs25832def,proj4.defs('EPSG:4326'),[hit[0].x,hit[0].y])
+        console.log(pos)
+        this.refs.leafletMap.leafletElement.panTo([pos[1],pos[0]]);
+    }
+    else {
+      console.log(hit);
+    }
+  }
+}
+
+internalSearchButtonTrigger(event){
+   console.log(this.refs.leafletMap.leafletElement.getBounds())
+
+  if (this.props.searchButtonTrigger!==undefined) {
+    this.props.searchButtonTrigger(event)
+  } else {
+    console.log("no searchButtonTrigger defined");
+  }
+
+}
+
 render() {
-    console.log(this.props);
-
-
     const mapStyle = {
       height: this.props.uiState.height,
       width:  this.props.uiState.width
@@ -108,12 +155,12 @@ render() {
         <Form style={{ width: '300px'}}  action="#">
             <FormGroup >
               <InputGroup>
-                <InputGroup.Button  >
+                <InputGroup.Button  onClick={this.internalSearchButtonTrigger}>
                   <Button><Glyphicon glyph="search" /></Button>
                 </InputGroup.Button>
                 <Typeahead style={{ width: '300px'}} 
                   onPaginate={e => console.log('Results paginated')}
-                  onChange={selectedObject => {console.log(this.refs.leafletMap.leafletElement.panTo())}}
+                  onChange={this.internalGazeteerHitTrigger}
                   options={wuppadr.map(o => o)  }
                   labelKey={"string"}
                   paginate={true}
@@ -140,7 +187,7 @@ render() {
   }
 }
 
-const Cismap = connect(mapStateToProps, null, null, {withRef:true})(Cismap_);
+const Cismap = connect(mapStateToProps, mapDispatchToProps, null, {withRef:true})(Cismap_);
 export default Cismap;
 
 Cismap_.propTypes = {
@@ -149,8 +196,13 @@ Cismap_.propTypes = {
   height: PropTypes.number,
   width: PropTypes.number,
   layers: PropTypes.string.isRequired,
+  gazeteerHitTrigger: PropTypes.func.isRequired,
+  searchButtonTrigger: PropTypes.func.isRequired,
+  mappingAction: PropTypes.object,
 };
 
 Cismap_.defaultProps = {
-  layers: "abkf"
+  layers: "abkf",
+  gazeteerHitTrigger: function(){},
+  searchButtonTrigger: function(){},
 }

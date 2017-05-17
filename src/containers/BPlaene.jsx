@@ -16,10 +16,18 @@ export class BPlaene_ extends React.Component {
   constructor(props, context) {
       super(props, context);
   }
+
+bplanGazeteerhHit(selectedObject){
+  console.log("^^");
+}
+
+bplanSearchButtonHit(event) {
+  console.log("^^");
+}
   render() {   
    return (
         <div>
-            <Cismap layers={this.props.params.layers ||'abkIntra'}>
+            <Cismap layers={this.props.params.layers ||'abkIntra'} gazeteerHitTriggerX={this.bplanGazeteerhHit} searchButtonTrigger={this.bplanSearchButtonHit}>
                 <Control position="topright" >
                 <button onClick={ () => browserHistory.push(this.props.location.pathname+ '?lat=51.272399&lng=7.199712&zoom=14') }>Reset View </button>
                 </Control>

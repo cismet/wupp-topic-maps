@@ -27,5 +27,4 @@ DefaultPage_.propTypes = {
   ui: PropTypes.object,
   kassenzeichen: PropTypes.object,
   uiState: PropTypes.object
-
 };

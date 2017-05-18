@@ -38,7 +38,6 @@ export function searchForPlans() {
             for (let objArr of result.$collection) {
                 featureArray.push(convertPropArrayToFeature(objArr));
             }
-            console.log(featureArray);
         //   dispatch(uiStateActions.showWaiting(false));
            dispatch(mappingActions.setFeatureCollection(featureArray));
         //   dispatch(mappingActions.showKassenzeichenObject(kassenzeichenData,skipFitBounds));

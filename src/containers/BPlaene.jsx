@@ -36,7 +36,7 @@ export class BPlaene_ extends React.Component {
   }
 
   bplanGazeteerhHit(selectedObject){
-    console.log("^^");
+    this.bplanSearchButtonHit();
   }
 
   bplanSearchButtonHit(event) {
@@ -47,7 +47,7 @@ export class BPlaene_ extends React.Component {
    return (
         <div>
             <Cismap layers={this.props.params.layers ||'abkIntra'} 
-                    gazeteerHitTriggerX={this.bplanGazeteerhHit} 
+                    gazeteerHitTrigger={this.bplanGazeteerhHit} 
                     searchButtonTrigger={this.bplanSearchButtonHit} 
                     featureStyler={bplanFeatureStyler}
                     labeler={bplanLabeler}>

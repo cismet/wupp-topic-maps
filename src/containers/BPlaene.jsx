@@ -4,6 +4,12 @@ import { connect } from "react-redux";
 import Control from 'react-leaflet-control';
 import {browserHistory } from 'react-router';
 import { Form, FormGroup, InputGroup, FormControl, Button, Glyphicon, Well} from 'react-bootstrap';
+import { getPolygonfromBBox } from '../utils/gisHelper';
+import * as bplanActions from '../actions/bplanActions';
+import { bindActionCreators } from 'redux';
+import { bplanFeatureStyler } from '../utils/bplanHelper';
+
+
 
 function mapStateToProps(state) {
   return {
@@ -12,6 +18,15 @@ function mapStateToProps(state) {
     routing: state.routing,
   };
 }
+
+
+function mapDispatchToProps(dispatch) {
+  return {
+    bplanActions: bindActionCreators(bplanActions,dispatch),
+  };
+}
+
+
 export class BPlaene_ extends React.Component {
   constructor(props, context) {
       super(props, context);
@@ -22,17 +37,17 @@ export class BPlaene_ extends React.Component {
 
   bplanGazeteerhHit(selectedObject){
     console.log("^^");
-    console.log(this.props);
   }
 
   bplanSearchButtonHit(event) {
-    console.log(this.props);
+    this.props.bplanActions.searchForPlans();
+
   }
   render() {  
     console.log(this.props) ;
    return (
         <div>
-            <Cismap layers={this.props.params.layers ||'abkIntra'} gazeteerHitTriggerX={this.bplanGazeteerhHit} searchButtonTrigger={this.bplanSearchButtonHit}>
+            <Cismap layers={this.props.params.layers ||'abkIntra'} gazeteerHitTriggerX={this.bplanGazeteerhHit} searchButtonTrigger={this.bplanSearchButtonHit} featureStyler={bplanFeatureStyler}>
                 <Control position="topright" >
                 <button onClick={ () => browserHistory.push(this.props.location.pathname+ '?lat=51.272399&lng=7.199712&zoom=14') }>Reset View </button>
                 </Control>
@@ -71,7 +86,7 @@ export class BPlaene_ extends React.Component {
   }
 }
 
-const BPlaene = connect(mapStateToProps)(BPlaene_);
+const BPlaene = connect(mapStateToProps,mapDispatchToProps)(BPlaene_);
 
 export default BPlaene;
 

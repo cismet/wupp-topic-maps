@@ -13,6 +13,12 @@ export default function mappingReducer(state = initialState.mapping, action) {
         newState.boundingBox = action.bbox;
         return newState;
       }
+      case actionTypes.FEATURE_COLLECTION_CHANGED:
+      {
+        newState = objectAssign({}, state);
+        newState.featureCollection = action.featureCollection;
+        return newState;
+      } 
    default:
         return state;
  }

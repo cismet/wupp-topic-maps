@@ -6,3 +6,10 @@ export function mappingBoundsChanged(bbox) {
     bbox
   };
 }
+
+export function setFeatureCollection(featureCollection) {
+  return {
+    type: actionTypes.FEATURE_COLLECTION_CHANGED,
+    featureCollection
+  };
+}

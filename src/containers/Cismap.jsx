@@ -16,7 +16,7 @@ import { Typeahead } from 'react-bootstrap-typeahead';
 import { routerActions } from 'react-router-redux'
 
 import wuppadr from '../wuppadr.json';
-import * as MappingActions from '../actions/mappingActions';
+import * as mappingActions from '../actions/mappingActions';
  
 
 const fallbackposition = {
@@ -37,7 +37,7 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    mappingActions: bindActionCreators(MappingActions, dispatch),
+    mappingActions: bindActionCreators(mappingActions, dispatch),
     routingActions: bindActionCreators(routerActions,dispatch),
   };
 }
@@ -95,9 +95,9 @@ internalGazeteerHitTrigger(hit){
   }
   else {
     if (hit!==undefined && hit.length !=undefined && hit[0].x!==undefined && hit[0].y!==undefined) {
-        console.log(hit)
+        //console.log(hit)
         const pos=proj4(proj4crs25832def,proj4.defs('EPSG:4326'),[hit[0].x,hit[0].y])
-        console.log(pos)
+        //console.log(pos)
         this.refs.leafletMap.leafletElement.panTo([pos[1],pos[0]]);
     }
     else {
@@ -150,7 +150,7 @@ render() {
           })
         }
        
-       //<ProjGeoJson key={JSON.stringify(this.props.mapping)} mappingProps={this.props.mapping}  />
+       <ProjGeoJson key={JSON.stringify(this.props.mapping)} mappingProps={this.props.mapping}  style={this.props.featureStyler}/>
         <FullscreenControl position="topleft" />
        <Control position="bottomleft"  >
         <Form style={{ width: '300px'}}  action="#">
@@ -200,6 +200,8 @@ Cismap_.propTypes = {
   gazeteerHitTrigger: PropTypes.func.isRequired,
   searchButtonTrigger: PropTypes.func.isRequired,
   mappingAction: PropTypes.object,
+  featureStyler: PropTypes.func.isRequired,
+
 };
 
 Cismap_.defaultProps = {

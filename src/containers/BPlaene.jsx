@@ -54,6 +54,7 @@ export class BPlaene_ extends React.Component {
                 <Control position="topright" >
                 <button onClick={ () => browserHistory.push(this.props.location.pathname+ '?lat=51.272399&lng=7.199712&zoom=14') }>Reset View </button>
                 </Control>
+                
                 <Control position="bottomright" >
                   <Well bsSize="small" style={{ width: '250px'}}>
                     <table style={{ width: '100%' }}>

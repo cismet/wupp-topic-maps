@@ -38,6 +38,9 @@ export function searchForPlans() {
             for (let objArr of result.$collection) {
                 featureArray.push(convertPropArrayToFeature(objArr));
             }
+            if (featureArray.length>0) {
+              featureArray[0].selected=true;
+            }
         //   dispatch(uiStateActions.showWaiting(false));
            dispatch(mappingActions.setFeatureCollection(featureArray));
         //   dispatch(mappingActions.showKassenzeichenObject(kassenzeichenData,skipFitBounds));
@@ -53,6 +56,7 @@ export function searchForPlans() {
 function convertPropArrayToFeature(propArray){
     return  {
     "type": "Feature",
+    "selected": false,
     "geometry": JSON.parse(propArray[5]),
     "crs": {
         "type": "name",

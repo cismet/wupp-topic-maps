@@ -1,19 +1,18 @@
 export const bplanFeatureStyler = (feature) => {
-  let color = getColorFromStatus(feature.properties.status);
   const style = {
-    "color": color,
+    "color": getColorFromFeature(feature),
     "weight": 6,
     "opacity": 1.0,
-    "fillColor": color,
+    "fillColor": getColorFromFeatureConsideringSelection(feature),
     "fillOpacity": 0.3
   };
-
+  console.log(style);
   return style;
 };
 
-export const getColorFromStatus = (status) => {
+export const getColorFromFeature = (feature) => {
   let color = '#ff0000';
-  switch (status) {
+  switch (feature.properties.status) {
     case 'rechtskräftig':
       color = "#2AFF00";
       break;
@@ -27,6 +26,16 @@ export const getColorFromStatus = (status) => {
 };
 
 
+export const getColorFromFeatureConsideringSelection = (feature) => {
+  if (feature.selected) {
+    return '#4395FE';
+  }else {
+    return getColorFromFeature(feature);
+  }
+}
+
+
 export const bplanLabeler = (feature) => {
-  return "<h3 style='color:"+getColorFromStatus(feature.properties.status)+";'>"+feature.properties.nummer+"</h3>";
+
+  return "<h3 style='color:"+getColorFromFeature(feature)+";'>"+feature.properties.nummer+"</h3>";
 }

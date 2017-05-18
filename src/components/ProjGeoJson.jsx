@@ -23,19 +23,6 @@ export default class ProjGeoJson extends Path {
       };
     
     this.leafletElement = L.Proj.geoJson(mappingProps.featureCollection, props);
-  
-    
-    
-    
-    // this.leafletElement.onEachFeature=function(feature, layer) {
-    // var label = L.marker(layer.getBounds().getCenter(), {
-    //   icon: L.divIcon({
-    //     className: 'label',
-    //     html: feature.properties.NAME,
-    //     iconSize: [100, 40]
-    //   })
-    // });
-    // }
   }
   createLeafletElement () {} 
   componentDidUpdate(prevProps) {

@@ -7,7 +7,7 @@ import { Form, FormGroup, InputGroup, FormControl, Button, Glyphicon, Well} from
 import { getPolygonfromBBox } from '../utils/gisHelper';
 import * as bplanActions from '../actions/bplanActions';
 import { bindActionCreators } from 'redux';
-import { bplanFeatureStyler } from '../utils/bplanHelper';
+import { bplanFeatureStyler, bplanLabeler } from '../utils/bplanHelper';
 
 
 
@@ -44,10 +44,13 @@ export class BPlaene_ extends React.Component {
 
   }
   render() {  
-    console.log(this.props) ;
    return (
         <div>
-            <Cismap layers={this.props.params.layers ||'abkIntra'} gazeteerHitTriggerX={this.bplanGazeteerhHit} searchButtonTrigger={this.bplanSearchButtonHit} featureStyler={bplanFeatureStyler}>
+            <Cismap layers={this.props.params.layers ||'abkIntra'} 
+                    gazeteerHitTriggerX={this.bplanGazeteerhHit} 
+                    searchButtonTrigger={this.bplanSearchButtonHit} 
+                    featureStyler={bplanFeatureStyler}
+                    labeler={bplanLabeler}>
                 <Control position="topright" >
                 <button onClick={ () => browserHistory.push(this.props.location.pathname+ '?lat=51.272399&lng=7.199712&zoom=14') }>Reset View </button>
                 </Control>

@@ -150,7 +150,7 @@ render() {
           })
         }
        
-       <ProjGeoJson key={JSON.stringify(this.props.mapping)} mappingProps={this.props.mapping}  style={this.props.featureStyler}/>
+       <ProjGeoJson key={JSON.stringify(this.props.mapping)} mappingProps={this.props.mapping} style={this.props.featureStyler} labeler={this.props.labeler}/>
         <FullscreenControl position="topleft" />
        <Control position="bottomleft"  >
         <Form style={{ width: '300px'}}  action="#">
@@ -201,6 +201,7 @@ Cismap_.propTypes = {
   searchButtonTrigger: PropTypes.func.isRequired,
   mappingAction: PropTypes.object,
   featureStyler: PropTypes.func.isRequired,
+  labeler: PropTypes.func.isRequired,
 
 };
 

@@ -25,3 +25,8 @@ export const getColorFromStatus = (status) => {
   }
   return color;
 };
+
+
+export const bplanLabeler = (feature) => {
+  return "<h3 style='color:"+getColorFromStatus(feature.properties.status)+";'>"+feature.properties.nummer+"</h3>";
+}

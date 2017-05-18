@@ -90,20 +90,19 @@ storeBoundingBox(){
 }
 
 internalGazeteerHitTrigger(hit){
+    if (hit!==undefined && hit.length !=undefined && hit[0].x!==undefined && hit[0].y!==undefined) {
+      //console.log(hit)
+      const pos=proj4(proj4crs25832def,proj4.defs('EPSG:4326'),[hit[0].x,hit[0].y])
+      //console.log(pos)
+      this.refs.leafletMap.leafletElement.panTo([pos[1],pos[0]]);
+  }
+  else {
+    console.log(hit);
+  }
   if (this.props.gazeteerHitTrigger!==undefined) {
     this.props.gazeteerHitTrigger(hit);
   }
-  else {
-    if (hit!==undefined && hit.length !=undefined && hit[0].x!==undefined && hit[0].y!==undefined) {
-        //console.log(hit)
-        const pos=proj4(proj4crs25832def,proj4.defs('EPSG:4326'),[hit[0].x,hit[0].y])
-        //console.log(pos)
-        this.refs.leafletMap.leafletElement.panTo([pos[1],pos[0]]);
-    }
-    else {
-      console.log(hit);
-    }
-  }
+  
 }
 
 internalSearchButtonTrigger(event){

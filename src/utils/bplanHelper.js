@@ -1,12 +1,11 @@
 export const bplanFeatureStyler = (feature) => {
   const style = {
-    "color": getColorFromFeature(feature),
+    "color": getColorFromFeatureConsideringSelection(feature),
     "weight": 6,
     "opacity": 1.0,
     "fillColor": getColorFromFeatureConsideringSelection(feature),
     "fillOpacity": 0.3
   };
-  console.log(style);
   return style;
 };
 

@@ -8,8 +8,9 @@ import { getPolygonfromBBox } from '../utils/gisHelper';
 import * as bplanActions from '../actions/bplanActions';
 import { bindActionCreators } from 'redux';
 import { bplanFeatureStyler, bplanLabeler } from '../utils/bplanHelper';
+import * as mappingActions from '../actions/mappingActions';
 
-
+import BPlanInfo  from '../components/BPlanInfo'
 
 function mapStateToProps(state) {
   return {
@@ -23,6 +24,7 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
   return {
     bplanActions: bindActionCreators(bplanActions,dispatch),
+    mappingActions: bindActionCreators(mappingActions,dispatch),
   };
 }
 
@@ -32,6 +34,8 @@ export class BPlaene_ extends React.Component {
       super(props, context);
       this.bplanSearchButtonHit=this.bplanSearchButtonHit.bind(this);
       this.bplanGazeteerhHit=this.bplanGazeteerhHit.bind(this);
+      this.selectNextIndex=this.selectNextIndex.bind(this);
+      this.selectPreviousIndex=this.selectPreviousIndex.bind(this);
 
   }
 
@@ -41,9 +45,40 @@ export class BPlaene_ extends React.Component {
 
   bplanSearchButtonHit(event) {
     this.props.bplanActions.searchForPlans();
-
   }
+
+  selectNextIndex() {
+    let potIndex=this.props.mapping.selectedIndex+1;
+    if (potIndex>=this.props.mapping.featureCollection.length){
+      potIndex=0;
+    }
+    this.props.mappingActions.setSelectedFeatureIndex(potIndex);
+  }
+
+  selectPreviousIndex() {
+    let potIndex=this.props.mapping.selectedIndex-1;
+    if (potIndex<0){
+      potIndex=this.props.mapping.featureCollection.length-1;
+    }
+    this.props.mappingActions.setSelectedFeatureIndex(potIndex);
+  }
+
   render() {  
+   let info= null;
+     if (this.props.mapping.featureCollection.length>0) {
+        info = (
+          <BPlanInfo 
+              featureCollection={this.props.mapping.featureCollection} 
+              selectedIndex={this.props.mapping.selectedIndex||0}
+              next={this.selectNextIndex}
+              previous={this.selectPreviousIndex}
+              />
+          )
+     }
+     else {
+       info = (<Well>jhhasdgfjakldsjdshafkahdsfjkhdfsjkhahdsgjhkdfsgjhkg</Well>)
+     }
+  
    return (
         <div>
             <Cismap layers={this.props.params.layers ||'abkIntra'} 
@@ -54,35 +89,8 @@ export class BPlaene_ extends React.Component {
                 <Control position="topright" >
                 <button onClick={ () => browserHistory.push(this.props.location.pathname+ '?lat=51.272399&lng=7.199712&zoom=14') }>Reset View </button>
                 </Control>
-                
                 <Control position="bottomright" >
-                  <Well bsSize="small" style={{ width: '250px'}}>
-                    <table style={{ width: '100%' }}>
-                      <tbody>
-                        <tr>
-                          <td style={{ textAlign: 'left', verticalAlign: 'top' }}>
-                            <h4>BPlan 442</h4>
-                            <h6>Rathaus</h6>
-                            </td>
-                          <td style={{ textAlign: 'right', verticalAlign: 'top' }}>
-                            <h4><Glyphicon glyph="download" /></h4>
-                            <h6><a href="#">Plan</a></h6>
-                            <h6><a href="#">alles</a></h6>
-                          </td>
-                        </tr>
-                      </tbody>
-                    </table>
-                    <br/>
-                    <table style={{ width: '100%' }}>
-                      <tbody>
-                        <tr>
-                          <td style={{ textAlign: 'left', verticalAlign: 'center' }}><a href="#">&lt;&lt;</a></td>
-                          <td style={{ textAlign: 'center', verticalAlign: 'center' }}>4 weitere</td>
-                          <td style={{ textAlign: 'right', verticalAlign: 'center' }}><a href="#">&gt;&gt;</a></td>
-                        </tr>
-                      </tbody>
-                    </table>
-                  </Well>
+                  {info}                    
                 </Control>
             </Cismap>
         </div>

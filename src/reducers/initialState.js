@@ -5,6 +5,7 @@ export default {
   },
   mapping: {
     featureCollection: [],
+    selectedIndex: null,
     boundingBox: null,
     boundsFittingEnabled: false
   },

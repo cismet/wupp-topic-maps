@@ -38,11 +38,10 @@ export function searchForPlans() {
             for (let objArr of result.$collection) {
                 featureArray.push(convertPropArrayToFeature(objArr));
             }
-            if (featureArray.length>0) {
-              featureArray[0].selected=true;
-            }
+            
         //   dispatch(uiStateActions.showWaiting(false));
            dispatch(mappingActions.setFeatureCollection(featureArray));
+           dispatch(mappingActions.setSelectedFeatureIndex(0));
         //   dispatch(mappingActions.showKassenzeichenObject(kassenzeichenData,skipFitBounds));
         });
       } else if (response.status === 401) {
@@ -55,6 +54,7 @@ export function searchForPlans() {
 
 function convertPropArrayToFeature(propArray){
     return  {
+    "id": propArray[0],
     "type": "Feature",
     "selected": false,
     "geometry": JSON.parse(propArray[5]),

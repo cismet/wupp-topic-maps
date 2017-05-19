@@ -13,3 +13,11 @@ export function setFeatureCollection(featureCollection) {
     featureCollection
   };
 }
+
+export function setSelectedFeatureIndex(index) {
+  return {
+    type: actionTypes.FEATURE_SELECTION_INDEX_CHANGED,
+    index
+  };
+}
+

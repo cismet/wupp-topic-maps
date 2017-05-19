@@ -128,6 +128,7 @@ render() {
    const zoomByUrl= parseInt(this.props.routing.locationBeforeTransitions.query.zoom)||14
 
    const layerArr=this.props.layers.split(",");
+
     return (
       <Map 
         ref="leafletMap"

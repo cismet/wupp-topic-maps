@@ -53,6 +53,21 @@ export function searchForPlans() {
 }
 
 function convertPropArrayToFeature(propArray){
+    let plaene;
+    if (propArray[3]!=null) {
+      plaene=JSON.parse(propArray[3]);
+    } else {
+      plaene=[];
+    }
+    console.log("pläne duch");
+    let docs;
+    if (propArray[4]!=null) {
+      docs=JSON.parse(propArray[4]);
+    } else {
+      docs=[];
+    }
+    console.log("docs duch");
+    
     return  {
     "id": propArray[0],
     "type": "Feature",
@@ -68,8 +83,8 @@ function convertPropArrayToFeature(propArray){
     "nummer":propArray[0],
     "name":propArray[1],
     "status":propArray[2],
-    "plaene":propArray[3],
-    "docs":propArray[4],    
+    "plaene":plaene,
+    "docs":docs    
     }
   };
 }

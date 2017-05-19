@@ -30,7 +30,6 @@ export class ProjGeoJson_ extends Path {
     const { mappingProps, ...props } = this.props;
     
     props.onEachFeature=function (feature, layer) {
-        layer.bindTooltip(props.labeler(feature), {className: 'customGeoJSONFeatureTooltipClass', permanent:true, direction:'center', opacity: '0.9'});
         //TODO set a offset so that the Tooltip is shown in the current map 
 
         layer._leaflet_id = feature.id;  
@@ -38,8 +37,13 @@ export class ProjGeoJson_ extends Path {
           //ugly winning: a direct call of bringToFront has no effect -.-
           setTimeout(function () {
             layer.bringToFront();
+            layer.bindTooltip(props.labeler(feature), {className: 'customGeoJSONFeatureTooltipClass', permanent:true, direction:'center', opacity: '0.9'});
+
           }, 10);
         } 
+        else {
+            layer.bindTooltip(props.labeler(feature), {className: 'customGeoJSONFeatureTooltipClass', permanent:true, direction:'center', opacity: '0.9'});
+        }
       };
     
     this.leafletElement = L.Proj.geoJson(mappingProps.featureCollection, props);

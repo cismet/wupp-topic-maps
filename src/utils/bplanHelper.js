@@ -3,7 +3,7 @@ export const bplanFeatureStyler = (feature) => {
     "color": getColorFromFeatureConsideringSelection(feature),
     "weight": 6,
     "opacity": 1.0,
-    "fillColor": getColorFromFeatureConsideringSelection(feature),
+    "fillColor": getColorFromFeature(feature),
     "fillOpacity": 0.3
   };
   return style;
@@ -36,5 +36,5 @@ export const getColorFromFeatureConsideringSelection = (feature) => {
 
 export const bplanLabeler = (feature) => {
 
-  return "<h3 style='color:"+getColorFromFeature(feature)+";'>"+feature.properties.nummer+"</h3>";
+  return "<h3 style='color:"+getColorFromFeatureConsideringSelection(feature)+";'>"+feature.properties.nummer+"</h3>";
 }

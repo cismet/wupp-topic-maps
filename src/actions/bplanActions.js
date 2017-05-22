@@ -42,6 +42,8 @@ export function searchForPlans() {
         //   dispatch(uiStateActions.showWaiting(false));
            dispatch(mappingActions.setFeatureCollection(featureArray));
            dispatch(mappingActions.setSelectedFeatureIndex(0));
+           dispatch(mappingActions.fitFeatureBounds(featureArray[0]));
+
         //   dispatch(mappingActions.showKassenzeichenObject(kassenzeichenData,skipFitBounds));
         });
       } else if (response.status === 401) {
@@ -59,15 +61,12 @@ function convertPropArrayToFeature(propArray){
     } else {
       plaene=[];
     }
-    console.log("pläne duch");
     let docs;
     if (propArray[4]!=null) {
       docs=JSON.parse(propArray[4]);
     } else {
       docs=[];
     }
-    console.log("docs duch");
-    
     return  {
     "id": propArray[0],
     "type": "Feature",

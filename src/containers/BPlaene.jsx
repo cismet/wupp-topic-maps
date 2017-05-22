@@ -53,6 +53,7 @@ export class BPlaene_ extends React.Component {
       potIndex=0;
     }
     this.props.mappingActions.setSelectedFeatureIndex(potIndex);
+    this.props.mappingActions.fitSelectedFeatureBounds();
   }
 
   selectPreviousIndex() {
@@ -61,6 +62,7 @@ export class BPlaene_ extends React.Component {
       potIndex=this.props.mapping.featureCollection.length-1;
     }
     this.props.mappingActions.setSelectedFeatureIndex(potIndex);
+    this.props.mappingActions.fitSelectedFeatureBounds();
   }
 
   render() {  

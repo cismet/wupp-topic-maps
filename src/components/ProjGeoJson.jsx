@@ -36,7 +36,12 @@ export class ProjGeoJson_ extends Path {
         if (feature.selected) {
           //ugly winning: a direct call of bringToFront has no effect -.-
           setTimeout(function () {
-            layer.bringToFront();
+            try {
+              layer.bringToFront();
+            }
+            catch (err) {
+              //ugly winning
+            }
             layer.bindTooltip(props.labeler(feature), {className: 'customGeoJSONFeatureTooltipClass', permanent:true, direction:'center', opacity: '0.9'});
 
           }, 10);
@@ -58,8 +63,6 @@ export class ProjGeoJson_ extends Path {
     } else {
       this.setStyleIfChanged(prevProps, this.props);
     }
-    this.leafletElement.getLayer(this.props.mapping.featureCollection[this.props.mapping.selectedIndex].id).bringToFront();
-    console.log(this.props.mapping.featureCollection[this.props.mapping.selectedIndex].id);
   }
 
   render() {

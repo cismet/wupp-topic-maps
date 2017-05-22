@@ -49,7 +49,6 @@ export class Cismap_ extends React.Component {
         super(props);
         this.internalGazeteerHitTrigger=this.internalGazeteerHitTrigger.bind(this);
         this.internalSearchButtonTrigger=this.internalSearchButtonTrigger.bind(this);
-
       }
 componentDidMount() {
     this.refs.leafletMap.leafletElement.on('moveend', () => {
@@ -78,6 +77,16 @@ componentDidMount() {
     });
     this.storeBoundingBox();
 }
+
+componentDidUpdate() {
+    if ((typeof (this.refs.leafletMap) != 'undefined' && this.refs.leafletMap != null)) {
+      if (this.props.mapping.autoFitBounds) {
+        this.refs.leafletMap.leafletElement.fitBounds(this.props.mapping.autoFitBoundsTarget);
+        this.props.mappingActions.setAutoFit(false);
+      }
+    }
+  }
+
 
 storeBoundingBox(){
   //store the projected bounds in the store

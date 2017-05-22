@@ -5,7 +5,6 @@ import * as actionTypes from '../constants/actionTypes';
 
 export default function mappingReducer(state = initialState.mapping, action) {
   let newState;
-  console.log("mappingActions "+action.type);
   switch (action.type) {
       case actionTypes.MAP_BOUNDING_BOX_CHANGED:
       {
@@ -30,6 +29,14 @@ export default function mappingReducer(state = initialState.mapping, action) {
         newState.selectedIndex = action.index;
         return newState;
       } 
+      case actionTypes.SET_AUTO_FIT:
+      {
+        newState = objectAssign({}, state);
+        newState.autoFitBounds=action.autofit;
+        newState.autoFitBoundsTarget=action.bounds;
+        return newState;
+      } 
+
    default:
         return state;
  }

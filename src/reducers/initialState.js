@@ -7,7 +7,8 @@ export default {
     featureCollection: [],
     selectedIndex: null,
     boundingBox: null,
-    boundsFittingEnabled: false
+    autoFitBoundsTarget: null,
+    autoFitBounds: false
   },
   uiState: {
     width: null,

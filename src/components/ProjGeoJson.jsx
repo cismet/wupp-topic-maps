@@ -33,6 +33,8 @@ export class ProjGeoJson_ extends Path {
         //TODO set a offset so that the Tooltip is shown in the current map 
 
         layer._leaflet_id = feature.id;  
+        layer.feature=feature
+        layer.on('click',props.featureClickHandler);
         if (feature.selected) {
           //ugly winning: a direct call of bringToFront has no effect -.-
           setTimeout(function () {
@@ -76,4 +78,5 @@ export default ProjGeoJson;
 ProjGeoJson.propTypes = {
   mappingProps: PropTypes.object.isRequired,
   labeler: PropTypes.func.isRequired,
+  featureClickHandler: PropTypes.func.isRequired,
 };

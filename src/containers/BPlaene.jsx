@@ -36,6 +36,7 @@ export class BPlaene_ extends React.Component {
       this.bplanGazeteerhHit=this.bplanGazeteerhHit.bind(this);
       this.selectNextIndex=this.selectNextIndex.bind(this);
       this.selectPreviousIndex=this.selectPreviousIndex.bind(this);
+      this.featureClick=this.featureClick.bind(this);
 
   }
 
@@ -65,6 +66,15 @@ export class BPlaene_ extends React.Component {
     this.props.mappingActions.fitSelectedFeatureBounds();
   }
 
+  featureClick(event){
+    if (event.target.feature.selected) {
+      this.props.mappingActions.fitSelectedFeatureBounds();
+    }
+    else {
+      this.props.mappingActions.setSelectedFeatureIndex(this.props.mapping.featureCollection.indexOf(event.target.feature));
+    }
+  }
+
   render() {  
    let info= null;
      if (this.props.mapping.featureCollection.length>0) {
@@ -87,7 +97,8 @@ export class BPlaene_ extends React.Component {
                     gazeteerHitTrigger={this.bplanGazeteerhHit} 
                     searchButtonTrigger={this.bplanSearchButtonHit} 
                     featureStyler={bplanFeatureStyler}
-                    labeler={bplanLabeler}>
+                    labeler={bplanLabeler}
+                    featureClickHandler={this.featureClick}>
                 <Control position="topright" >
                 <button onClick={ () => browserHistory.push(this.props.location.pathname+ '?lat=51.272399&lng=7.199712&zoom=14') }>Reset View </button>
                 </Control>

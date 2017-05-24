@@ -49,6 +49,8 @@ export class Cismap_ extends React.Component {
         super(props);
         this.internalGazeteerHitTrigger=this.internalGazeteerHitTrigger.bind(this);
         this.internalSearchButtonTrigger=this.internalSearchButtonTrigger.bind(this);
+        this.featureClick = this.featureClick.bind(this);
+
       }
 componentDidMount() {
     this.refs.leafletMap.leafletElement.on('moveend', () => {
@@ -122,6 +124,10 @@ internalSearchButtonTrigger(event){
   }
 
 }
+featureClick(event) {
+    this.props.featureClickHandler(event);
+}
+
 
 render() {
     const mapStyle = {
@@ -147,7 +153,6 @@ render() {
         center={positionByUrl} 
         zoom={zoomByUrl} 
         attributionControl={false} 
-        ondblclick={this.mapClick} 
         doubleClickZoom={false}
         minZoom={7} 
         maxZoom={18} 
@@ -159,8 +164,8 @@ render() {
           })
         }
        
-       <ProjGeoJson key={JSON.stringify(this.props.mapping)} mappingProps={this.props.mapping} style={this.props.featureStyler} labeler={this.props.labeler}/>
-        <FullscreenControl position="topleft" />
+       <ProjGeoJson key={JSON.stringify(this.props.mapping)} mappingProps={this.props.mapping} style={this.props.featureStyler} labeler={this.props.labeler} featureClickHandler={this.featureClick}/>
+       <FullscreenControl position="topleft" />
        <Control position="bottomleft"  >
         <Form style={{ width: '300px'}}  action="#">
             <FormGroup >
@@ -211,6 +216,7 @@ Cismap_.propTypes = {
   mappingAction: PropTypes.object,
   featureStyler: PropTypes.func.isRequired,
   labeler: PropTypes.func.isRequired,
+  featureClickHandler: PropTypes.func.isRequired,
 
 };
 
@@ -218,4 +224,5 @@ Cismap_.defaultProps = {
   layers: "abkf",
   gazeteerHitTrigger: function(){},
   searchButtonTrigger: function(){},
+  featureClickHandler: function(){},
 }

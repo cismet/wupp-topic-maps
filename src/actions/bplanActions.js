@@ -1,4 +1,4 @@
-import * as actionTypes from '../constants/actionTypes';
+//import * as actionTypes from '../constants/actionTypes';
 import { getPolygonfromBBox } from '../utils/gisHelper';
 import * as mappingActions from './mappingActions';
 

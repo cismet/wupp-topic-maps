@@ -11,14 +11,17 @@ import 'react-leaflet-fullscreen/dist/styles.css';
 import FullscreenControl from 'react-leaflet-fullscreen';
 import Control from 'react-leaflet-control';
 import { Form, FormGroup, InputGroup, FormControl, Button, Glyphicon, Well} from 'react-bootstrap';
-import { Typeahead } from 'react-bootstrap-typeahead';
+import { Typeahead, AsyncTypeahead } from 'react-bootstrap-typeahead';
 import * as stateConstants from '../constants/stateConstants';
 
 import { routerActions } from 'react-router-redux'
 
-import wuppadr from '../wuppadr.json';
 import * as mappingActions from '../actions/mappingActions';
- 
+
+import {
+  SERVICE,
+  DOMAIN
+} from '../constants/cids';
 
 const fallbackposition = {
   lat: 51.272399,
@@ -50,7 +53,8 @@ export class Cismap_ extends React.Component {
         super(props);
         this.internalGazeteerHitTrigger=this.internalGazeteerHitTrigger.bind(this);
         this.internalSearchButtonTrigger=this.internalSearchButtonTrigger.bind(this);
-        this.featureClick = this.featureClick.bind(this);
+        this.featureClick = this.featureClick.bind(this);        
+        this.handleSearch=this.handleSearch.bind(this);
 
       }
 componentDidMount() {
@@ -109,11 +113,11 @@ storeBoundingBox(){
 }
 
 internalGazeteerHitTrigger(hit){
-    if (hit!==undefined && hit.length !=undefined && hit[0].x!==undefined && hit[0].y!==undefined) {
+    if (hit!==undefined && hit.length !=undefined && hit.length>0 && hit[0].x!==undefined && hit[0].y!==undefined) {
       //console.log(hit)
       const pos=proj4(proj4crs25832def,proj4.defs('EPSG:4326'),[hit[0].x,hit[0].y])
       //console.log(pos)
-      this.refs.leafletMap.leafletElement.panTo([pos[1],pos[0]]);
+      this.refs.leafletMap.leafletElement.panTo([pos[1],pos[0]], {"animate":false});
   }
   else {
     console.log(hit);
@@ -136,6 +140,48 @@ featureClick(event) {
     this.props.featureClickHandler(event);
 }
 
+
+
+renderMenuItemChildren(option, props, index) {
+    return (
+      <div key={option.id}>
+       <Glyphicon style={{
+            marginRight: '10px',
+            width: '18px',
+          }} glyph={option.glyphkey} />
+        <span>{option.string}</span>
+      </div>
+    );
+  }
+
+  handleSearch(query) {
+    if (!query) {
+      return;
+    }
+
+    let username = "admin";
+    let pass = "leo";
+    let queryO={
+      "list": [{
+        "key": "input",
+        "value": query
+      }]
+    };
+    fetch(SERVICE + '/searches/WUNDA_BLAU.BPlanAPIGazeteerSearch/results?role=all&limit=100&offset=0', {
+      method: 'post',
+      headers: {
+        'Authorization': 'Basic ' + btoa(username + '@' + DOMAIN + ':' + pass),
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(queryO)
+
+    })
+      .then(resp => resp.json())
+      .then(json => {
+        console.log(json);
+        this.setState({options: json.$collection});
+      });
+  }
 
 render() {
     const mapStyle = {
@@ -181,28 +227,25 @@ render() {
                 <InputGroup.Button  onClick={this.internalSearchButtonTrigger}>
                   <Button><Glyphicon glyph="search" /></Button>
                 </InputGroup.Button>
-                <Typeahead style={{ width: '300px'}} 
-                  onPaginate={e => console.log('Results paginated')}
+                <AsyncTypeahead style={{ width: '300px'}}
+                  {...this.state}
+                  labelKey="string"
+                  onSearch={this.handleSearch}
                   onChange={this.internalGazeteerHitTrigger}
-                  options={wuppadr.map(o => o)  }
-                  labelKey={"string"}
                   paginate={true}
                   dropup={true}
                   placeholder="Geben Sie einen Suchbegriff ein."
-                  minLength={4}
+                  minLength={3}
                   align={'justify'}
                   emptyLabel={'Keine Treffer gefunden'}
                   paginationText={"Mehr Treffer anzeigen"}
                   autoFocus={true}
-                />
+                  renderMenuItemChildren={this.renderMenuItemChildren}
+                  />
               </InputGroup>
             </FormGroup>
             </Form>
-      
-      
-         
           </Control>
-        
          {this.props.children}
       </Map>
     );

@@ -42,12 +42,15 @@ const BPlanInfo = ({featureCollection, selectedIndex, next, previous}) => {
   let planOrPlaene;
   let planOrPlanteile_rk;
   let planOrPlanteile_nrk;
+  let dokumentArt=""
 
   if (currentFeature.properties.plaene_rk.length+currentFeature.properties.plaene_nrk.length>1){
     planOrPlaene="Pläne";
+    dokumentArt="ZIP Archiv"
   }
   else {
     planOrPlaene="Plan";  
+    dokumentArt="PDF Dokument"
   }
 
   if (currentFeature.properties.plaene_rk.length>1||currentFeature.properties.plaene_rk.length==0){
@@ -67,8 +70,9 @@ const BPlanInfo = ({featureCollection, selectedIndex, next, previous}) => {
   if (currentFeature.properties.plaene_nrk.length>0) {
     nichtRK=" und "+ currentFeature.properties.plaene_nrk.length + " " + planOrPlanteile_nrk
   }
+
   const planTooltip = (  
-    <Tooltip id="planTooltip">PDF Dokument mit {currentFeature.properties.plaene_rk.length + " " + planOrPlanteile_rk+nichtRK}</Tooltip>
+    <Tooltip id="planTooltip">{dokumentArt} mit {currentFeature.properties.plaene_rk.length + " " + planOrPlanteile_rk+nichtRK}</Tooltip>
   );
 
   let docsEnabled;

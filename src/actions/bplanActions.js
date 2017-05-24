@@ -8,6 +8,7 @@ import {
 } from '../constants/cids';
 
 import 'whatwg-fetch';
+import * as stateConstants from '../constants/stateConstants';
 
 
 export function searchForPlans() {
@@ -42,7 +43,7 @@ export function searchForPlans() {
         //   dispatch(uiStateActions.showWaiting(false));
            dispatch(mappingActions.setFeatureCollection(featureArray));
            dispatch(mappingActions.setSelectedFeatureIndex(0));
-           dispatch(mappingActions.fitFeatureBounds(featureArray[0]));
+           dispatch(mappingActions.fitFeatureBounds(featureArray[0],stateConstants.AUTO_FIT_MODE_STRICT));
 
         //   dispatch(mappingActions.showKassenzeichenObject(kassenzeichenData,skipFitBounds));
         });

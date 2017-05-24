@@ -23,32 +23,27 @@ export function setSelectedFeatureIndex(index) {
   };
 }
 
-export function fitSelectedFeatureBounds() {
+export function fitSelectedFeatureBounds(mode) {
   return function (dispatch, getState) {
     const currentState=getState();
-    dispatch(fitFeatureBounds(currentState.mapping.featureCollection[currentState.mapping.selectedIndex]));
+    dispatch(fitFeatureBounds(currentState.mapping.featureCollection[currentState.mapping.selectedIndex],mode));
   };
 }
 
-export function fitFeatureBounds(feature) {
-  return function (dispatch) {
+export function fitFeatureBounds(feature, mode) {
+return function (dispatch) {
     const projectedF = L.Proj.geoJson(feature);
     const bounds=projectedF.getBounds();
-    dispatch(setAutoFit(true,bounds));
+    dispatch(setAutoFit(true,bounds,mode));
 };
 }
 
-// export function setTargetBounds(bounds) {
-//   return {
-//     type: actionTypes.FEATURE_SELECTION_INDEX_CHANGED,
-//     bounds
-//   };    
-// }
 
-export function setAutoFit(autofit, bounds) {
+export function setAutoFit(autofit, bounds, mode) {
   return {
     type: actionTypes.SET_AUTO_FIT,
     autofit,
-    bounds
+    bounds,
+    mode
   };    
 }

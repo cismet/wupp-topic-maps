@@ -9,6 +9,7 @@ import * as bplanActions from '../actions/bplanActions';
 import { bindActionCreators } from 'redux';
 import { bplanFeatureStyler, bplanLabeler } from '../utils/bplanHelper';
 import * as mappingActions from '../actions/mappingActions';
+import * as stateConstants from '../constants/stateConstants';
 
 import BPlanInfo  from '../components/BPlanInfo'
 
@@ -54,7 +55,7 @@ export class BPlaene_ extends React.Component {
       potIndex=0;
     }
     this.props.mappingActions.setSelectedFeatureIndex(potIndex);
-    this.props.mappingActions.fitSelectedFeatureBounds();
+    this.props.mappingActions.fitSelectedFeatureBounds(stateConstants.AUTO_FIT_MODE_NO_ZOOM_IN);
   }
 
   selectPreviousIndex() {
@@ -63,7 +64,7 @@ export class BPlaene_ extends React.Component {
       potIndex=this.props.mapping.featureCollection.length-1;
     }
     this.props.mappingActions.setSelectedFeatureIndex(potIndex);
-    this.props.mappingActions.fitSelectedFeatureBounds();
+    this.props.mappingActions.fitSelectedFeatureBounds(stateConstants.AUTO_FIT_MODE_NO_ZOOM_IN);
   }
 
   featureClick(event){

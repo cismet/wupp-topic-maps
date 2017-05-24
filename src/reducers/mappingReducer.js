@@ -33,6 +33,7 @@ export default function mappingReducer(state = initialState.mapping, action) {
       {
         newState = objectAssign({}, state);
         newState.autoFitBounds=action.autofit;
+        newState.autoFitMode=action.mode;
         newState.autoFitBoundsTarget=action.bounds;
         return newState;
       } 

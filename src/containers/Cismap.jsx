@@ -12,6 +12,7 @@ import FullscreenControl from 'react-leaflet-fullscreen';
 import Control from 'react-leaflet-control';
 import { Form, FormGroup, InputGroup, FormControl, Button, Glyphicon, Well} from 'react-bootstrap';
 import { Typeahead } from 'react-bootstrap-typeahead';
+import * as stateConstants from '../constants/stateConstants';
 
 import { routerActions } from 'react-router-redux'
 
@@ -83,7 +84,14 @@ componentDidMount() {
 componentDidUpdate() {
     if ((typeof (this.refs.leafletMap) != 'undefined' && this.refs.leafletMap != null)) {
       if (this.props.mapping.autoFitBounds) {
-        this.refs.leafletMap.leafletElement.fitBounds(this.props.mapping.autoFitBoundsTarget);
+        if (this.props.mapping.autoFitMode==stateConstants.AUTO_FIT_MODE_NO_ZOOM_IN) {
+          if (!this.refs.leafletMap.leafletElement.getBounds().contains(this.props.mapping.autoFitBoundsTarget)) {
+            this.refs.leafletMap.leafletElement.fitBounds(this.props.mapping.autoFitBoundsTarget);         
+          }
+        }
+        else {
+          this.refs.leafletMap.leafletElement.fitBounds(this.props.mapping.autoFitBoundsTarget);        
+        }
         this.props.mappingActions.setAutoFit(false);
       }
     }

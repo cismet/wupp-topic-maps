@@ -54,9 +54,9 @@ componentDidMount() {
     this.refs.leafletMap.leafletElement.on('moveend', () => {
         const zoom=this.refs.leafletMap.leafletElement.getZoom();
         const center= this.refs.leafletMap.leafletElement.getCenter();
-        const latFromUrl=parseFloat(this.props.routing.locationBeforeTransitions.query.lat)
-        const lngFromUrl=parseFloat(this.props.routing.locationBeforeTransitions.query.lng)
-        
+        const latFromUrl=parseFloat(this.props.routing.locationBeforeTransitions.query.lat);
+        const lngFromUrl=parseFloat(this.props.routing.locationBeforeTransitions.query.lng);
+        const zoomFromUrl=parseInt(this.props.routing.locationBeforeTransitions.query.zoom);
         var lat=center.lat
         var lng=center.lng
 
@@ -68,7 +68,7 @@ componentDidMount() {
         }
         
         const querypart='?lat='+lat+'&lng='+lng+'&zoom='+zoom;
-        if (lng!==lngFromUrl || lat!==latFromUrl) {
+        if (lng!==lngFromUrl || lat!==latFromUrl || zoomFromUrl!==zoom) {
           //store.dispatch(push(this.props.routing.locationBeforeTransitions.pathname + querypart))
           this.props.routingActions.push(this.props.routing.locationBeforeTransitions.pathname + querypart)
         }

@@ -13,13 +13,19 @@ const BPlanInfo = ({featureCollection, selectedIndex, next, previous}) => {
   const currentFeature=featureCollection[selectedIndex];
 
   let downloadPlan=function() {
-    if (currentFeature.properties.plaene.length==1 ) {
-      downloadSingleFile(currentFeature.properties.plaene[0]);
+    if ((currentFeature.properties.plaene_rk.length+currentFeature.properties.plaene_nrk.length)==1 ) {
+      if (currentFeature.properties.plaene_rk.length==1) {
+        downloadSingleFile(currentFeature.properties.plaene_rk[0]);
+      }
+      else {
+        downloadSingleFile(currentFeature.properties.plaene_nrk[0]);
+      }
     }
     else {
       downloadMultipleFiles(
         [
-          {"folder":"/","downloads":currentFeature.properties.plaene}
+          {"folder":"/","downloads":currentFeature.properties.plaene_rk},
+          {"folder":"/nicht rechtskräftig/","downloads":currentFeature.properties.plaene_nrk}
         ], "BPLAN_Plaene."+currentFeature.properties.nummer);
     }
   }
@@ -27,24 +33,42 @@ const BPlanInfo = ({featureCollection, selectedIndex, next, previous}) => {
   let downloadDocs=function() {
       downloadMultipleFiles(
         [
-          {"folder":"/","downloads":currentFeature.properties.plaene},
+          {"folder":"/","downloads":currentFeature.properties.plaene_rk},
+          {"folder":"/nicht rechtskräftig/","downloads":currentFeature.properties.plaene_nrk},
           {"folder":"/Zusatzdokumente/","downloads":currentFeature.properties.docs}
         ], "BPLAN_Plaene_und_Zusatzdokumente."+currentFeature.properties.nummer);
   };
 
   let planOrPlaene;
-  let planOrPlanteile
-  if (currentFeature.properties.plaene.length>1){
+  let planOrPlanteile_rk;
+  let planOrPlanteile_nrk;
+
+  if (currentFeature.properties.plaene_rk.length+currentFeature.properties.plaene_nrk.length>1){
     planOrPlaene="Pläne";
-    planOrPlanteile="Planteilen";
   }
   else {
-    planOrPlaene="Plan";
-    planOrPlanteile="Plan";
+    planOrPlaene="Plan";  
+  }
+
+  if (currentFeature.properties.plaene_rk.length>1||currentFeature.properties.plaene_rk.length==0){
+    planOrPlanteile_rk="rechtskräftigen Planteilen";
+  }
+  else {
+    planOrPlanteile_rk="rechtskräftigem Plan";
+  }  
+  if (currentFeature.properties.plaene_nrk.length>1||currentFeature.properties.plaene_nrk.length==0){
+    planOrPlanteile_nrk="nicht rechtskräftigen Planteilen";
+  }
+  else {
+    planOrPlanteile_nrk="nicht rechtskräftigem Plan";
   }
   
-  const planTooltip = (
-    <Tooltip id="planTooltip">PDF Dokument mit {currentFeature.properties.plaene.length + " " + planOrPlanteile}</Tooltip>
+  let nichtRK=""
+  if (currentFeature.properties.plaene_nrk.length>0) {
+    nichtRK=" und "+ currentFeature.properties.plaene_nrk.length + " " + planOrPlanteile_nrk
+  }
+  const planTooltip = (  
+    <Tooltip id="planTooltip">PDF Dokument mit {currentFeature.properties.plaene_rk.length + " " + planOrPlanteile_rk+nichtRK}</Tooltip>
   );
 
   let docsEnabled;

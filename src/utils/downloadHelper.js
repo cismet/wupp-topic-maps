@@ -37,7 +37,6 @@ export const downloadMultipleFiles = ( downloadOptions, downloadFileName ) => {
     let zipFilename = downloadFileName+".zip";
     
     allOptions.forEach(function(dlOption){
-      console.log(dlOption.url);
         ziputils.getBinaryContent(urlPrefixToDisableCORSPrevention+dlOption.url, function (err, data) {
           if(err) {
               //throw err; // or handle the error

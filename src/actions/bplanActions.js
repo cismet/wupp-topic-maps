@@ -55,15 +55,21 @@ export function searchForPlans() {
 }
 
 function convertPropArrayToFeature(propArray){
-    let plaene;
+    let plaene_rk;
     if (propArray[3]!=null) {
-      plaene=JSON.parse(propArray[3]);
+      plaene_rk=JSON.parse(propArray[3]);
     } else {
-      plaene=[];
+      plaene_rk=[];
+    }
+    let plaene_nrk;
+    if (propArray[4]!=null) {
+      plaene_nrk=JSON.parse(propArray[4]);
+    } else {
+      plaene_nrk=[];
     }
     let docs;
-    if (propArray[4]!=null) {
-      docs=JSON.parse(propArray[4]);
+    if (propArray[5]!=null) {
+      docs=JSON.parse(propArray[5]);
     } else {
       docs=[];
     }
@@ -71,7 +77,7 @@ function convertPropArrayToFeature(propArray){
     "id": propArray[0],
     "type": "Feature",
     "selected": false,
-    "geometry": JSON.parse(propArray[5]),
+    "geometry": JSON.parse(propArray[6]),
     "crs": {
         "type": "name",
         "properties": {
@@ -82,7 +88,8 @@ function convertPropArrayToFeature(propArray){
     "nummer":propArray[0],
     "name":propArray[1],
     "status":propArray[2],
-    "plaene":plaene,
+    "plaene_rk":plaene_rk,
+    "plaene_nrk":plaene_nrk,
     "docs":docs    
     }
   };

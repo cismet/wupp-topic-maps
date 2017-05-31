@@ -89,7 +89,12 @@ export class BPlaene_ extends React.Component {
           )
      }
      else {
-       info = (<Well>jhhasdgfjakldsjdshafkahdsfjkhdfsjkhahdsgjhkdfsgjhkg</Well>)
+       info = (<Well>
+                  <h5>Es werden momentan keine Pl&auml;ne angezeigt.</h5>
+                  <p>Bebauungspl&auml;ne k&ouml;nnen entweder durch die Nummer <br />
+                  (z.B.: #4711), durch die Adresse (z.B. Johannes-Rau-Platz 1) <br />
+                  oder durch eine manuelle Suche <Glyphicon glyph="search"/> angezeigt werden.</p>
+               </Well>)
      }
   
    return (

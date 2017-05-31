@@ -26,7 +26,6 @@ export function searchForPlans() {
     fetch(SERVICE + '/searches/WUNDA_BLAU.BPlanAPISearch/results?role=all&limit=100&offset=0', {
       method: 'post',
       headers: {
-        'Authorization': 'Basic ' + btoa(username + '@' + DOMAIN + ':' + pass),
         'Content-Type': 'application/json'
       },
       body: JSON.stringify(query)

@@ -1,3 +1,2 @@
 export const DOMAIN = "WUNDA_BLAU";
-//export const SERVICE = "https://verdis-api.cismet.de";
-export const SERVICE = "http://192.168.178.69:8890";
+export const SERVICE = "https://wunda-geoportal-api.cismet.de";

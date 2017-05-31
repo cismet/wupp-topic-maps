@@ -159,8 +159,6 @@ renderMenuItemChildren(option, props, index) {
       return;
     }
 
-    let username = "admin";
-    let pass = "leo";
     let queryO={
       "list": [{
         "key": "input",
@@ -170,7 +168,6 @@ renderMenuItemChildren(option, props, index) {
     fetch(SERVICE + '/searches/WUNDA_BLAU.BPlanAPIGazeteerSearch/results?role=all&limit=100&offset=0', {
       method: 'post',
       headers: {
-        'Authorization': 'Basic ' + btoa(username + '@' + DOMAIN + ':' + pass),
         'Content-Type': 'application/json'
       },
       body: JSON.stringify(queryO)

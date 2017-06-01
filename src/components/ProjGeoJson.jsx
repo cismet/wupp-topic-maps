@@ -30,16 +30,27 @@ export class ProjGeoJson_ extends Path {
     const { mappingProps, ...props } = this.props;
     
     props.onEachFeature=function (feature, layer) {
-        layer.bindTooltip(props.labeler(feature), {className: 'customGeoJSONFeatureTooltipClass', permanent:true, direction:'center', opacity: '0.9'});
         //TODO set a offset so that the Tooltip is shown in the current map 
 
         layer._leaflet_id = feature.id;  
+        layer.feature=feature
+        layer.on('click',props.featureClickHandler);
         if (feature.selected) {
           //ugly winning: a direct call of bringToFront has no effect -.-
           setTimeout(function () {
-            layer.bringToFront();
+            try {
+              layer.bringToFront();
+            }
+            catch (err) {
+              //ugly winning
+            }
+            layer.bindTooltip(props.labeler(feature), {className: 'customGeoJSONFeatureTooltipClass', permanent:true, direction:'center', opacity: '0.9'});
+
           }, 10);
         } 
+        else {
+            layer.bindTooltip(props.labeler(feature), {className: 'customGeoJSONFeatureTooltipClass', permanent:true, direction:'center', opacity: '0.9'});
+        }
       };
     
     this.leafletElement = L.Proj.geoJson(mappingProps.featureCollection, props);
@@ -54,8 +65,6 @@ export class ProjGeoJson_ extends Path {
     } else {
       this.setStyleIfChanged(prevProps, this.props);
     }
-    this.leafletElement.getLayer(this.props.mapping.featureCollection[this.props.mapping.selectedIndex].id).bringToFront();
-    console.log(this.props.mapping.featureCollection[this.props.mapping.selectedIndex].id);
   }
 
   render() {
@@ -69,4 +78,5 @@ export default ProjGeoJson;
 ProjGeoJson.propTypes = {
   mappingProps: PropTypes.object.isRequired,
   labeler: PropTypes.func.isRequired,
+  featureClickHandler: PropTypes.func.isRequired,
 };

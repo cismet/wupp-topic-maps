@@ -1,10 +1,11 @@
 export const bplanFeatureStyler = (feature) => {
   const style = {
     "color": getColorFromFeatureConsideringSelection(feature),
-    "weight": 6,
+    "weight": 3,
     "opacity": 1.0,
-    "fillColor": getColorFromFeatureConsideringSelection(feature),
-    "fillOpacity": 0.3
+//    "dashArray": "30",
+    "fillColor": getColorFromFeature(feature),
+    "fillOpacity": getFeatureOpacityConsideringSelection(feature)
   };
   return style;
 };
@@ -18,8 +19,23 @@ export const getColorFromFeature = (feature) => {
     case 'nicht rechtskräftig':
       color = "#FC0000";
       break;
-    default:
-      color = "#0000FF";
+    default: //beides
+      color = "#2AFF00";
+  }
+  return color;
+};
+
+export const getLineColorFromFeature = (feature) => {
+  let color = '#ff0000';
+  switch (feature.properties.status) {
+    case 'rechtskräftig':
+      color = "#2AFF00";
+      break;
+    case 'nicht rechtskräftig':
+      color = "#FC0000";
+      break;
+    default: //beides
+      color = "#FC0000";
   }
   return color;
 };
@@ -31,10 +47,23 @@ export const getColorFromFeatureConsideringSelection = (feature) => {
   }else {
     return getColorFromFeature(feature);
   }
-}
-
+};
+export const getLineColorFromFeatureConsideringSelection = (feature) => {
+  if (feature.selected) {
+    return '#4395FE';
+  }else {
+    return getLineColorFromFeature(feature);
+  }
+};
+export const getFeatureOpacityConsideringSelection = (feature) => {
+  if (feature.selected) {
+    return 0.5;
+  }else {
+    return 0.4;
+  }
+};
 
 export const bplanLabeler = (feature) => {
 
-  return "<h3 style='color:"+getColorFromFeature(feature)+";'>"+feature.properties.nummer+"</h3>";
-}
+  return "<h3 style='color:"+getLineColorFromFeature(feature)+";'>"+feature.properties.nummer+"</h3>";
+};

@@ -9,6 +9,8 @@ import * as bplanActions from '../actions/bplanActions';
 import { bindActionCreators } from 'redux';
 import { bplanFeatureStyler, bplanLabeler } from '../utils/bplanHelper';
 import * as mappingActions from '../actions/mappingActions';
+import * as stateConstants from '../constants/stateConstants';
+import { downloadSingleFile,downloadMultipleFiles } from '../utils/downloadHelper';
 
 import BPlanInfo  from '../components/BPlanInfo'
 
@@ -17,6 +19,7 @@ function mapStateToProps(state) {
     ui: state.uiState,
     mapping: state.mapping,
     routing: state.routing,
+    bplanAppState: state.bplanApp
   };
 }
 
@@ -36,10 +39,14 @@ export class BPlaene_ extends React.Component {
       this.bplanGazeteerhHit=this.bplanGazeteerhHit.bind(this);
       this.selectNextIndex=this.selectNextIndex.bind(this);
       this.selectPreviousIndex=this.selectPreviousIndex.bind(this);
+      this.featureClick=this.featureClick.bind(this);
+      this.downloadPlan=this.downloadPlan.bind(this);
+      this.downloadEverything=this.downloadEverything.bind(this);
+      this.downloadDone=this.downloadDone.bind(this);
 
   }
 
-  bplanGazeteerhHit(selectedObject){
+  bplanGazeteerhHit(selectedObject){   
     this.bplanSearchButtonHit();
   }
 
@@ -53,6 +60,7 @@ export class BPlaene_ extends React.Component {
       potIndex=0;
     }
     this.props.mappingActions.setSelectedFeatureIndex(potIndex);
+    this.props.mappingActions.fitSelectedFeatureBounds(stateConstants.AUTO_FIT_MODE_NO_ZOOM_IN);
   }
 
   selectPreviousIndex() {
@@ -61,6 +69,52 @@ export class BPlaene_ extends React.Component {
       potIndex=this.props.mapping.featureCollection.length-1;
     }
     this.props.mappingActions.setSelectedFeatureIndex(potIndex);
+    this.props.mappingActions.fitSelectedFeatureBounds(stateConstants.AUTO_FIT_MODE_NO_ZOOM_IN);
+  }
+
+
+  downloadPlan() {
+    const currentFeature=this.props.mapping.featureCollection[this.props.mapping.selectedIndex];
+    if ((currentFeature.properties.plaene_rk.length+currentFeature.properties.plaene_nrk.length)==1 ) {
+      if (currentFeature.properties.plaene_rk.length==1) {
+        downloadSingleFile(currentFeature.properties.plaene_rk[0]);
+      }
+      else {
+        downloadSingleFile(currentFeature.properties.plaene_nrk[0]);
+      }
+    }
+    else {
+      this.props.bplanActions.setDocumentLoadingIndicator(true);
+      downloadMultipleFiles(
+        [
+          {"folder":"/","downloads":currentFeature.properties.plaene_rk},
+          {"folder":"/nicht rechtskräftig/","downloads":currentFeature.properties.plaene_nrk}
+        ], "BPLAN_Plaene."+currentFeature.properties.nummer,this.downloadDone);
+    }
+  }
+
+  downloadEverything() {
+    this.props.bplanActions.setDocumentLoadingIndicator(true);
+    const currentFeature=this.props.mapping.featureCollection[this.props.mapping.selectedIndex];
+    downloadMultipleFiles(
+        [
+          {"folder":"/","downloads":currentFeature.properties.plaene_rk},
+          {"folder":"/nicht rechtskräftig/","downloads":currentFeature.properties.plaene_nrk},
+          {"folder":"/Zusatzdokumente/","downloads":currentFeature.properties.docs}
+        ], "BPLAN_Plaene_und_Zusatzdokumente."+currentFeature.properties.nummer,this.downloadDone);
+  }
+  
+  downloadDone() {
+    this.props.bplanActions.setDocumentLoadingIndicator(false);
+  }
+
+  featureClick(event){
+    if (event.target.feature.selected) {
+      this.props.mappingActions.fitSelectedFeatureBounds();
+    }
+    else {
+      this.props.mappingActions.setSelectedFeatureIndex(this.props.mapping.featureCollection.indexOf(event.target.feature));
+    }
   }
 
   render() {  
@@ -72,11 +126,19 @@ export class BPlaene_ extends React.Component {
               selectedIndex={this.props.mapping.selectedIndex||0}
               next={this.selectNextIndex}
               previous={this.selectPreviousIndex}
+              loadingIndicator={this.props.bplanAppState.documentsLoading}
+              downloadPlan={this.downloadPlan}
+              downloadEverything={this.downloadEverything}
               />
           )
      }
      else {
-       info = (<Well>jhhasdgfjakldsjdshafkahdsfjkhdfsjkhahdsgjhkdfsgjhkg</Well>)
+       info = (<Well>
+                  <h5>Es werden momentan keine Pl&auml;ne angezeigt.</h5>
+                  <p>Bebauungspl&auml;ne k&ouml;nnen entweder durch die Nummer <br />
+                  (z.B.: #4711), durch die Adresse (z.B. Johannes-Rau-Platz 1) <br />
+                  oder durch eine manuelle Suche <Glyphicon glyph="search"/> angezeigt werden.</p>
+               </Well>)
      }
   
    return (
@@ -85,9 +147,13 @@ export class BPlaene_ extends React.Component {
                     gazeteerHitTrigger={this.bplanGazeteerhHit} 
                     searchButtonTrigger={this.bplanSearchButtonHit} 
                     featureStyler={bplanFeatureStyler}
-                    labeler={bplanLabeler}>
+                    labeler={bplanLabeler}
+                    featureClickHandler={this.featureClick}>
                 <Control position="topright" >
-                <button onClick={ () => browserHistory.push(this.props.location.pathname+ '?lat=51.272399&lng=7.199712&zoom=14') }>Reset View </button>
+                <button onClick={ () => {
+                      browserHistory.push(this.props.location.pathname+ '?lat=51.272399&lng=7.199712&zoom=14') 
+                    }
+                  }>Reset View </button>
                 </Control>
                 <Control position="bottomright" >
                   {info}                    
@@ -105,6 +171,6 @@ export default BPlaene;
 BPlaene.propTypes = {
   ui: PropTypes.object,
   kassenzeichen: PropTypes.object,
-  uiState: PropTypes.object
-
+  uiState: PropTypes.object,
+  bplanAppState: PropTypes.object,
 };

@@ -2,31 +2,60 @@ import React, { PropTypes } from 'react';
 import {Link} from 'react-router';
 import { OverlayTrigger, Glyphicon, Well, Tooltip } from 'react-bootstrap';
 import Control from 'react-leaflet-control';
-
+import ziputils from 'jszip-utils';
+import JSZip from 'jszip';
+import * as FileSaver from 'file-saver';
+import Loadable from 'react-loading-overlay'
 // Since this component is simple and static, there's no parent container for it.
-const BPlanInfo = ({featureCollection, selectedIndex, next, previous}) => {
+const BPlanInfo = ({featureCollection, selectedIndex, next, previous, loadingIndicator, downloadPlan, downloadEverything}) => {
+
+  const currentFeature=featureCollection[selectedIndex];
+
+  
+
   let planOrPlaene;
-  let planOrPlanteile
-  if (featureCollection[selectedIndex].properties.plaene>1){
+  let planOrPlanteile_rk;
+  let planOrPlanteile_nrk;
+  let dokumentArt=""
+
+  if (currentFeature.properties.plaene_rk.length+currentFeature.properties.plaene_nrk.length>1){
     planOrPlaene="Pläne";
-    planOrPlanteile="Planteilen";
+    dokumentArt="ZIP Archiv"
   }
   else {
-    planOrPlaene="Plan";
-    planOrPlanteile="Plan";
+    planOrPlaene="Plan";  
+    dokumentArt="PDF Dokument"
+  }
+
+  if (currentFeature.properties.plaene_rk.length>1||currentFeature.properties.plaene_rk.length==0){
+    planOrPlanteile_rk="rechtskräftigen Planteilen";
+  }
+  else {
+    planOrPlanteile_rk="rechtskräftigem Plan";
+  }  
+  if (currentFeature.properties.plaene_nrk.length>1||currentFeature.properties.plaene_nrk.length==0){
+    planOrPlanteile_nrk="nicht rechtskräftigen Planteilen";
+  }
+  else {
+    planOrPlanteile_nrk="nicht rechtskräftigem Plan";
   }
   
-  const planTooltip = (
-    <Tooltip id="planTooltip">PDF Dokument mit {featureCollection[selectedIndex].properties.plaene + " " + planOrPlanteile}</Tooltip>
+  let nichtRK=""
+  if (currentFeature.properties.plaene_nrk.length>0) {
+    nichtRK=" und "+ currentFeature.properties.plaene_nrk.length + " " + planOrPlanteile_nrk
+  }
+
+  const planTooltip = (  
+    <Tooltip id="planTooltip">{dokumentArt} mit {currentFeature.properties.plaene_rk.length + " " + planOrPlanteile_rk+nichtRK}</Tooltip>
   );
 
   let docsEnabled;
   let docOrDocs;
-  if (featureCollection[selectedIndex].properties.docs===0){
+  if (currentFeature.properties.docs.length===0){
     docsEnabled=false;
     docOrDocs="Dokumente";
   }
-  else if (featureCollection[selectedIndex].properties.docs>0){
+  else if (currentFeature.properties.docs.length>0){
     docsEnabled=true;
     docOrDocs="Zusatzdokumenten";
   }
@@ -36,7 +65,7 @@ const BPlanInfo = ({featureCollection, selectedIndex, next, previous}) => {
   }
 
   const docsTooltip = (
-    <Tooltip id="docsTooltip">ZIP Archiv mit allen Plänen und {featureCollection[selectedIndex].properties.docs + " " + docOrDocs}</Tooltip>
+    <Tooltip id="docsTooltip">ZIP Archiv mit allen Plänen und {currentFeature.properties.docs.length + " " + docOrDocs}</Tooltip>
   );
 
   let docDownload=null;
@@ -44,7 +73,7 @@ const BPlanInfo = ({featureCollection, selectedIndex, next, previous}) => {
     docDownload=(
         <h6>
             <OverlayTrigger placement="left" overlay={docsTooltip}>
-                <a href="#">alles</a>
+                <a href="#" onClick={downloadEverything}>alles</a>
             </OverlayTrigger>
         </h6>      
     );
@@ -56,20 +85,26 @@ const BPlanInfo = ({featureCollection, selectedIndex, next, previous}) => {
         </h6>   
     )
   }
+
   return (
+    <Loadable
+      active={loadingIndicator}
+      spinner
+      text='Zusammenstellen der Dokumente ...'
+    >
         <Well bsSize="small" style={{ width: '250px'}}>
           <table style={{ width: '100%' }}>
             <tbody>
               <tr>
                 <td style={{ textAlign: 'left', verticalAlign: 'top' }}>
-                  <h4>BPlan {featureCollection[selectedIndex].properties.nummer}</h4>
-                  <h6>{featureCollection[selectedIndex].properties.name}</h6>
+                  <h4>BPlan {currentFeature.properties.nummer}</h4>
+                  <h6>{currentFeature.properties.name}</h6>
                   </td>
                 <td style={{ textAlign: 'right', verticalAlign: 'top' }}>
                   <h4><Glyphicon glyph="download" /></h4>
                   <h6>
                       <OverlayTrigger placement="left" overlay={planTooltip}>
-                          <a href="#">{planOrPlaene}</a>
+                          <a href="#" onClick={downloadPlan} >{planOrPlaene}</a>
                       </OverlayTrigger>
                   </h6>
                  {docDownload}
@@ -88,6 +123,8 @@ const BPlanInfo = ({featureCollection, selectedIndex, next, previous}) => {
             </tbody>
           </table>
         </Well>
+</Loadable>
+
   );
 };
 
@@ -95,4 +132,7 @@ export default BPlanInfo;
  BPlanInfo.propTypes = {
    featureCollection: PropTypes.array.isRequired,
    selectedIndex: PropTypes.number.isRequired,
+   loadingIndicator: PropTypes.bool.isRequired,
+   downloadPlan: PropTypes.func.isRequired,
+   downloadEverything: PropTypes.func.isRequired,
  };

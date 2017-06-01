@@ -11,13 +11,17 @@ import 'react-leaflet-fullscreen/dist/styles.css';
 import FullscreenControl from 'react-leaflet-fullscreen';
 import Control from 'react-leaflet-control';
 import { Form, FormGroup, InputGroup, FormControl, Button, Glyphicon, Well} from 'react-bootstrap';
-import { Typeahead } from 'react-bootstrap-typeahead';
-
+import { Typeahead, AsyncTypeahead } from 'react-bootstrap-typeahead';
+import * as stateConstants from '../constants/stateConstants';
+import Loadable from 'react-loading-overlay'
 import { routerActions } from 'react-router-redux'
 
-import wuppadr from '../wuppadr.json';
 import * as mappingActions from '../actions/mappingActions';
- 
+
+import {
+  SERVICE,
+  DOMAIN
+} from '../constants/cids';
 
 const fallbackposition = {
   lat: 51.272399,
@@ -49,15 +53,17 @@ export class Cismap_ extends React.Component {
         super(props);
         this.internalGazeteerHitTrigger=this.internalGazeteerHitTrigger.bind(this);
         this.internalSearchButtonTrigger=this.internalSearchButtonTrigger.bind(this);
+        this.featureClick = this.featureClick.bind(this);        
+        this.handleSearch=this.handleSearch.bind(this);
 
       }
 componentDidMount() {
     this.refs.leafletMap.leafletElement.on('moveend', () => {
         const zoom=this.refs.leafletMap.leafletElement.getZoom();
         const center= this.refs.leafletMap.leafletElement.getCenter();
-        const latFromUrl=parseFloat(this.props.routing.locationBeforeTransitions.query.lat)
-        const lngFromUrl=parseFloat(this.props.routing.locationBeforeTransitions.query.lng)
-        
+        const latFromUrl=parseFloat(this.props.routing.locationBeforeTransitions.query.lat);
+        const lngFromUrl=parseFloat(this.props.routing.locationBeforeTransitions.query.lng);
+        const zoomFromUrl=parseInt(this.props.routing.locationBeforeTransitions.query.zoom);
         var lat=center.lat
         var lng=center.lng
 
@@ -69,7 +75,7 @@ componentDidMount() {
         }
         
         const querypart='?lat='+lat+'&lng='+lng+'&zoom='+zoom;
-        if (lng!==lngFromUrl || lat!==latFromUrl) {
+        if (lng!==lngFromUrl || lat!==latFromUrl || zoomFromUrl!==zoom) {
           //store.dispatch(push(this.props.routing.locationBeforeTransitions.pathname + querypart))
           this.props.routingActions.push(this.props.routing.locationBeforeTransitions.pathname + querypart)
         }
@@ -78,6 +84,23 @@ componentDidMount() {
     });
     this.storeBoundingBox();
 }
+
+componentDidUpdate() {
+    if ((typeof (this.refs.leafletMap) != 'undefined' && this.refs.leafletMap != null)) {
+      if (this.props.mapping.autoFitBounds) {
+        if (this.props.mapping.autoFitMode==stateConstants.AUTO_FIT_MODE_NO_ZOOM_IN) {
+          if (!this.refs.leafletMap.leafletElement.getBounds().contains(this.props.mapping.autoFitBoundsTarget)) {
+            this.refs.leafletMap.leafletElement.fitBounds(this.props.mapping.autoFitBoundsTarget);         
+          }
+        }
+        else {
+          this.refs.leafletMap.leafletElement.fitBounds(this.props.mapping.autoFitBoundsTarget);        
+        }
+        this.props.mappingActions.setAutoFit(false);
+      }
+    }
+  }
+
 
 storeBoundingBox(){
   //store the projected bounds in the store
@@ -90,14 +113,14 @@ storeBoundingBox(){
 }
 
 internalGazeteerHitTrigger(hit){
-    if (hit!==undefined && hit.length !=undefined && hit[0].x!==undefined && hit[0].y!==undefined) {
+    if (hit!==undefined && hit.length !=undefined && hit.length>0 && hit[0].x!==undefined && hit[0].y!==undefined) {
       //console.log(hit)
       const pos=proj4(proj4crs25832def,proj4.defs('EPSG:4326'),[hit[0].x,hit[0].y])
       //console.log(pos)
-      this.refs.leafletMap.leafletElement.panTo([pos[1],pos[0]]);
+      this.refs.leafletMap.leafletElement.panTo([pos[1],pos[0]], {"animate":false});
   }
   else {
-    console.log(hit);
+    //console.log(hit);
   }
   if (this.props.gazeteerHitTrigger!==undefined) {
     this.props.gazeteerHitTrigger(hit);
@@ -106,13 +129,55 @@ internalGazeteerHitTrigger(hit){
 }
 
 internalSearchButtonTrigger(event){
-  if (this.props.searchButtonTrigger!==undefined) {
+  if (this.props.mapping.searchInProgress===false && this.props.searchButtonTrigger!==undefined) {
     this.props.searchButtonTrigger(event)
   } else {
-    console.log("no searchButtonTrigger defined");
+    //console.log("search in progress or no searchButtonTrigger defined");
   }
 
 }
+featureClick(event) {
+    this.props.featureClickHandler(event);
+}
+
+
+
+renderMenuItemChildren(option, props, index) {
+    return (
+      <div key={option.id}>
+       <Glyphicon style={{
+            marginRight: '10px',
+            width: '18px',
+          }} glyph={option.glyphkey} />
+        <span>{option.string}</span>
+      </div>
+    );
+  }
+
+  handleSearch(query) {
+    if (!query) {
+      return;
+    }
+
+    let queryO={
+      "list": [{
+        "key": "input",
+        "value": query
+      }]
+    };
+    fetch(SERVICE + '/searches/WUNDA_BLAU.BPlanAPIGazeteerSearch/results?role=all&limit=100&offset=0', {
+      method: 'post',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(queryO)
+
+    })
+      .then(resp => resp.json())
+      .then(json => {
+        this.setState({options: json.$collection});
+      });
+  }
 
 render() {
     const mapStyle = {
@@ -129,6 +194,16 @@ render() {
 
    const layerArr=this.props.layers.split(",");
 
+
+   let searchIcon=(
+      <Glyphicon glyph="search" />
+   )
+   if (this.props.mapping.searchInProgress) {
+     searchIcon=(
+      <Glyphicon glyph="refresh" />
+     )
+   }
+
     return (
       <Map 
         ref="leafletMap"
@@ -138,7 +213,6 @@ render() {
         center={positionByUrl} 
         zoom={zoomByUrl} 
         attributionControl={false} 
-        ondblclick={this.mapClick} 
         doubleClickZoom={false}
         minZoom={7} 
         maxZoom={18} 
@@ -150,37 +224,34 @@ render() {
           })
         }
        
-       <ProjGeoJson key={JSON.stringify(this.props.mapping)} mappingProps={this.props.mapping} style={this.props.featureStyler} labeler={this.props.labeler}/>
-        <FullscreenControl position="topleft" />
+       <ProjGeoJson key={JSON.stringify(this.props.mapping)} mappingProps={this.props.mapping} style={this.props.featureStyler} labeler={this.props.labeler} featureClickHandler={this.featureClick}/>
+       <FullscreenControl position="topleft" />
        <Control position="bottomleft"  >
         <Form style={{ width: '300px'}}  action="#">
             <FormGroup >
               <InputGroup>
-                <InputGroup.Button  onClick={this.internalSearchButtonTrigger}>
-                  <Button><Glyphicon glyph="search" /></Button>
-                </InputGroup.Button>
-                <Typeahead style={{ width: '300px'}} 
-                  onPaginate={e => console.log('Results paginated')}
+                  <InputGroup.Button  disabled={this.props.mapping.searchInProgress} onClick={this.internalSearchButtonTrigger}>
+                    <Button disabled={this.props.mapping.searchInProgress} >{searchIcon}</Button>
+                  </InputGroup.Button>
+                <AsyncTypeahead style={{ width: '300px'}}
+                  {...this.state}
+                  labelKey="string"
+                  onSearch={this.handleSearch}
                   onChange={this.internalGazeteerHitTrigger}
-                  options={wuppadr.map(o => o)  }
-                  labelKey={"string"}
                   paginate={true}
                   dropup={true}
                   placeholder="Geben Sie einen Suchbegriff ein."
-                  minLength={4}
+                  minLength={3}
                   align={'justify'}
                   emptyLabel={'Keine Treffer gefunden'}
                   paginationText={"Mehr Treffer anzeigen"}
                   autoFocus={true}
-                />
+                  renderMenuItemChildren={this.renderMenuItemChildren}
+                  />
               </InputGroup>
             </FormGroup>
             </Form>
-      
-      
-         
           </Control>
-        
          {this.props.children}
       </Map>
     );
@@ -202,6 +273,7 @@ Cismap_.propTypes = {
   mappingAction: PropTypes.object,
   featureStyler: PropTypes.func.isRequired,
   labeler: PropTypes.func.isRequired,
+  featureClickHandler: PropTypes.func.isRequired,
 
 };
 
@@ -209,4 +281,5 @@ Cismap_.defaultProps = {
   layers: "abkf",
   gazeteerHitTrigger: function(){},
   searchButtonTrigger: function(){},
+  featureClickHandler: function(){},
 }

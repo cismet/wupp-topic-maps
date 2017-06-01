@@ -9,7 +9,7 @@ Layers.set("nrwDOP20", (opacity) => {
   return (
     <WMSTileLayer
       key="nrwDOP20"
-      url="https://www.wms.nrw.de/geobasis/wms_nw_dop20"
+      url="https://wunda-geoportal-cache.cismet.de/nrwDOP20"
       layers="nw_dop20"
       format="image/png"
       tiled="true"
@@ -40,7 +40,7 @@ Layers.set("abkf", (opacity) => {
   return (
     <WMSTileLayer
       key="ABK"
-      url="http://geoportal.wuppertal.de:80/deegree/wms"
+      url="https://wunda-geoportal-cache.cismet.de/geoportal"
       layers="abkf"
       format="image/png"
       tiled="true"
@@ -53,7 +53,7 @@ Layers.set("abkg", (opacity) => {
   return (
     <WMSTileLayer
       key="ABK"
-      url="http://geoportal.wuppertal.de:80/deegree/wms"
+      url="https://wunda-geoportal-cache.cismet.de/geoportal"
       layers="abkg"
       format="image/png"
       tiled="true"
@@ -69,20 +69,6 @@ Layers.set("abkIntra", (opacity) => {
   return (
     <WMSTileLayer
       key="StadtgrundKarteABK"
-      url="http://localhost/alkis/services"
-      layers="alkomf"
-      format="image/png"
-      tiled="true"
-      maxZoom={19}
-      opacity={opacity}
-    />
-  );
-});
-
-Layers.set("abkIntraNC", (opacity) => {
-  return (
-    <WMSTileLayer
-      key="StadtgrundKarteABK"
       url="http://s10221:7098/alkis/services"
       layers="alkomf"
       format="image/png"
@@ -93,21 +79,8 @@ Layers.set("abkIntraNC", (opacity) => {
   );
 });
 
-Layers.set("orthoIntra", (opacity) => {
-  return (
-    <WMSTileLayer
-      key="Ortho2014"
-      url="http://localhost/orthofotos/services"
-      layers="WO2014"
-      format="image/png"
-      tiled="true"
-      maxZoom={19}
-      opacity={opacity}
-    />
-  );
-});
 
-Layers.set("orthoIntraNC", (opacity) => {
+Layers.set("orthoIntra", (opacity) => {
   return (
     <WMSTileLayer
       key="Ortho2014"

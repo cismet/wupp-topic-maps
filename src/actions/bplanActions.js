@@ -1,21 +1,20 @@
-import * as actionTypes from '../constants/actionTypes';
+//import * as actionTypes from '../constants/actionTypes';
 import { getPolygonfromBBox } from '../utils/gisHelper';
 import * as mappingActions from './mappingActions';
+import * as actionTypes from '../constants/actionTypes';
 
 import {
-  SERVICE,
-  DOMAIN
+  SERVICE
 } from '../constants/cids';
 
 import 'whatwg-fetch';
+import * as stateConstants from '../constants/stateConstants';
 
 
 export function searchForPlans() {
   return function (dispatch, getState) {
-    // dispatch(uiStateActions.showWaiting(true, "Kassenzeichen laden ..."));
+    dispatch(mappingActions.setSearchProgressIndicator(true));
     const state = getState();
-    let username = "admin";
-    let pass = "leo";
     let query={
       "list": [{
         "key": "wktString",
@@ -25,7 +24,6 @@ export function searchForPlans() {
     fetch(SERVICE + '/searches/WUNDA_BLAU.BPlanAPISearch/results?role=all&limit=100&offset=0', {
       method: 'post',
       headers: {
-        'Authorization': 'Basic ' + btoa(username + '@' + DOMAIN + ':' + pass),
         'Content-Type': 'application/json'
       },
       body: JSON.stringify(query)
@@ -39,25 +37,48 @@ export function searchForPlans() {
                 featureArray.push(convertPropArrayToFeature(objArr));
             }
             
-        //   dispatch(uiStateActions.showWaiting(false));
+           dispatch(mappingActions.setSearchProgressIndicator(false));
            dispatch(mappingActions.setFeatureCollection(featureArray));
            dispatch(mappingActions.setSelectedFeatureIndex(0));
-        //   dispatch(mappingActions.showKassenzeichenObject(kassenzeichenData,skipFitBounds));
+           dispatch(mappingActions.fitFeatureBounds(featureArray[0],stateConstants.AUTO_FIT_MODE_STRICT));
         });
       } else if (response.status === 401) {
-        // dispatch(uiStateActions.showWaiting(false));
-        // dispatch(uiStateActions.invalidateLogin(username, pass, false));
+           dispatch(mappingActions.setSearchProgressIndicator(false));
       }
     });
   };
 }
+export function setDocumentLoadingIndicator(isLoading) {
+  return {
+    type: actionTypes.SET_DOCUMENT_LOADING_INDICATOR,
+    isLoading
+  };
+}
 
 function convertPropArrayToFeature(propArray){
+    let plaene_rk;
+    if (propArray[3]!=null) {
+      plaene_rk=JSON.parse(propArray[3]);
+    } else {
+      plaene_rk=[];
+    }
+    let plaene_nrk;
+    if (propArray[4]!=null) {
+      plaene_nrk=JSON.parse(propArray[4]);
+    } else {
+      plaene_nrk=[];
+    }
+    let docs;
+    if (propArray[5]!=null) {
+      docs=JSON.parse(propArray[5]);
+    } else {
+      docs=[];
+    }
     return  {
     "id": propArray[0],
     "type": "Feature",
     "selected": false,
-    "geometry": JSON.parse(propArray[5]),
+    "geometry": JSON.parse(propArray[6]),
     "crs": {
         "type": "name",
         "properties": {
@@ -68,8 +89,9 @@ function convertPropArrayToFeature(propArray){
     "nummer":propArray[0],
     "name":propArray[1],
     "status":propArray[2],
-    "plaene":propArray[3],
-    "docs":propArray[4],    
+    "plaene_rk":plaene_rk,
+    "plaene_nrk":plaene_nrk,
+    "docs":docs    
     }
   };
 }

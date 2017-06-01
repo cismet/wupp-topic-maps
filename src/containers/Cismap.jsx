@@ -13,7 +13,7 @@ import Control from 'react-leaflet-control';
 import { Form, FormGroup, InputGroup, FormControl, Button, Glyphicon, Well} from 'react-bootstrap';
 import { Typeahead, AsyncTypeahead } from 'react-bootstrap-typeahead';
 import * as stateConstants from '../constants/stateConstants';
-
+import Loadable from 'react-loading-overlay'
 import { routerActions } from 'react-router-redux'
 
 import * as mappingActions from '../actions/mappingActions';
@@ -129,10 +129,11 @@ internalGazeteerHitTrigger(hit){
 }
 
 internalSearchButtonTrigger(event){
-  if (this.props.searchButtonTrigger!==undefined) {
+  console.log(this.props.mapping.searchInProgress)
+  if (this.props.mapping.searchInProgress===false && this.props.searchButtonTrigger!==undefined) {
     this.props.searchButtonTrigger(event)
   } else {
-    console.log("no searchButtonTrigger defined");
+    console.log("search in progress or no searchButtonTrigger defined");
   }
 
 }
@@ -195,6 +196,16 @@ render() {
 
    const layerArr=this.props.layers.split(",");
 
+
+   let searchIcon=(
+      <Glyphicon glyph="search" />
+   )
+   if (this.props.mapping.searchInProgress) {
+     searchIcon=(
+      <Glyphicon glyph="refresh" />
+     )
+   }
+
     return (
       <Map 
         ref="leafletMap"
@@ -221,9 +232,9 @@ render() {
         <Form style={{ width: '300px'}}  action="#">
             <FormGroup >
               <InputGroup>
-                <InputGroup.Button  onClick={this.internalSearchButtonTrigger}>
-                  <Button><Glyphicon glyph="search" /></Button>
-                </InputGroup.Button>
+                  <InputGroup.Button  disabled={this.props.mapping.searchInProgress} onClick={this.internalSearchButtonTrigger}>
+                    <Button disabled={this.props.mapping.searchInProgress} >{searchIcon}</Button>
+                  </InputGroup.Button>
                 <AsyncTypeahead style={{ width: '300px'}}
                   {...this.state}
                   labelKey="string"

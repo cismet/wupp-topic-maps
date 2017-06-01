@@ -1,6 +1,7 @@
 //import * as actionTypes from '../constants/actionTypes';
 import { getPolygonfromBBox } from '../utils/gisHelper';
 import * as mappingActions from './mappingActions';
+import * as actionTypes from '../constants/actionTypes';
 
 import {
   SERVICE,
@@ -13,10 +14,8 @@ import * as stateConstants from '../constants/stateConstants';
 
 export function searchForPlans() {
   return function (dispatch, getState) {
-    // dispatch(uiStateActions.showWaiting(true, "Kassenzeichen laden ..."));
+    dispatch(mappingActions.setSearchProgressIndicator(true));
     const state = getState();
-    let username = "admin";
-    let pass = "leo";
     let query={
       "list": [{
         "key": "wktString",
@@ -39,18 +38,21 @@ export function searchForPlans() {
                 featureArray.push(convertPropArrayToFeature(objArr));
             }
             
-        //   dispatch(uiStateActions.showWaiting(false));
+           dispatch(mappingActions.setSearchProgressIndicator(false));
            dispatch(mappingActions.setFeatureCollection(featureArray));
            dispatch(mappingActions.setSelectedFeatureIndex(0));
            dispatch(mappingActions.fitFeatureBounds(featureArray[0],stateConstants.AUTO_FIT_MODE_STRICT));
-
-        //   dispatch(mappingActions.showKassenzeichenObject(kassenzeichenData,skipFitBounds));
         });
       } else if (response.status === 401) {
-        // dispatch(uiStateActions.showWaiting(false));
-        // dispatch(uiStateActions.invalidateLogin(username, pass, false));
+           dispatch(mappingActions.setSearchProgressIndicator(false));
       }
     });
+  };
+}
+export function setDocumentLoadingIndicator(isLoading) {
+  return {
+    type: actionTypes.SET_DOCUMENT_LOADING_INDICATOR,
+    isLoading
   };
 }
 

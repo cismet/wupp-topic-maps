@@ -37,6 +37,12 @@ export default function mappingReducer(state = initialState.mapping, action) {
         newState.autoFitBoundsTarget=action.bounds;
         return newState;
       } 
+      case actionTypes.SET_SEARCH_PROGRESS_INDICATOR:
+      {
+        newState = objectAssign({}, state);
+        newState.searchInProgress=action.inProgress;
+        return newState;
+      } 
 
    default:
         return state;

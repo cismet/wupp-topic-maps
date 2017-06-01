@@ -5,39 +5,13 @@ import Control from 'react-leaflet-control';
 import ziputils from 'jszip-utils';
 import JSZip from 'jszip';
 import * as FileSaver from 'file-saver';
-import { downloadSingleFile,downloadMultipleFiles } from '../utils/downloadHelper';
-
+import Loadable from 'react-loading-overlay'
 // Since this component is simple and static, there's no parent container for it.
-const BPlanInfo = ({featureCollection, selectedIndex, next, previous}) => {
+const BPlanInfo = ({featureCollection, selectedIndex, next, previous, loadingIndicator, downloadPlan, downloadEverything}) => {
 
   const currentFeature=featureCollection[selectedIndex];
 
-  let downloadPlan=function() {
-    if ((currentFeature.properties.plaene_rk.length+currentFeature.properties.plaene_nrk.length)==1 ) {
-      if (currentFeature.properties.plaene_rk.length==1) {
-        downloadSingleFile(currentFeature.properties.plaene_rk[0]);
-      }
-      else {
-        downloadSingleFile(currentFeature.properties.plaene_nrk[0]);
-      }
-    }
-    else {
-      downloadMultipleFiles(
-        [
-          {"folder":"/","downloads":currentFeature.properties.plaene_rk},
-          {"folder":"/nicht rechtskräftig/","downloads":currentFeature.properties.plaene_nrk}
-        ], "BPLAN_Plaene."+currentFeature.properties.nummer);
-    }
-  }
-
-  let downloadDocs=function() {
-      downloadMultipleFiles(
-        [
-          {"folder":"/","downloads":currentFeature.properties.plaene_rk},
-          {"folder":"/nicht rechtskräftig/","downloads":currentFeature.properties.plaene_nrk},
-          {"folder":"/Zusatzdokumente/","downloads":currentFeature.properties.docs}
-        ], "BPLAN_Plaene_und_Zusatzdokumente."+currentFeature.properties.nummer);
-  };
+  
 
   let planOrPlaene;
   let planOrPlanteile_rk;
@@ -99,7 +73,7 @@ const BPlanInfo = ({featureCollection, selectedIndex, next, previous}) => {
     docDownload=(
         <h6>
             <OverlayTrigger placement="left" overlay={docsTooltip}>
-                <a href="#" onClick={downloadDocs}>alles</a>
+                <a href="#" onClick={downloadEverything}>alles</a>
             </OverlayTrigger>
         </h6>      
     );
@@ -113,6 +87,11 @@ const BPlanInfo = ({featureCollection, selectedIndex, next, previous}) => {
   }
 
   return (
+    <Loadable
+      active={loadingIndicator}
+      spinner
+      text='Zusammenstellen der Dokumente ...'
+    >
         <Well bsSize="small" style={{ width: '250px'}}>
           <table style={{ width: '100%' }}>
             <tbody>
@@ -144,6 +123,8 @@ const BPlanInfo = ({featureCollection, selectedIndex, next, previous}) => {
             </tbody>
           </table>
         </Well>
+</Loadable>
+
   );
 };
 
@@ -151,4 +132,7 @@ export default BPlanInfo;
  BPlanInfo.propTypes = {
    featureCollection: PropTypes.array.isRequired,
    selectedIndex: PropTypes.number.isRequired,
+   loadingIndicator: PropTypes.bool.isRequired,
+   downloadPlan: PropTypes.func.isRequired,
+   downloadEverything: PropTypes.func.isRequired,
  };

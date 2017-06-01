@@ -38,6 +38,12 @@ return function (dispatch) {
 };
 }
 
+export function setSearchProgressIndicator(inProgress) {
+  return {
+    type: actionTypes.SET_SEARCH_PROGRESS_INDICATOR,
+    inProgress
+  };
+}
 
 export function setAutoFit(autofit, bounds, mode) {
   return {

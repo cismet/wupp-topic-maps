@@ -21,7 +21,7 @@ export const downloadFile = (url, success) => {
     xhr.send(null);
 }
 
-export const downloadMultipleFiles = ( downloadOptions, downloadFileName ) => {
+export const downloadMultipleFiles = ( downloadOptions, downloadFileName , done ) => {
     let zip=JSZip();
     let count = 0;
     let allOptions=[]
@@ -48,6 +48,9 @@ export const downloadMultipleFiles = ( downloadOptions, downloadFileName ) => {
             zip.generateAsync({type:"blob"})
               .then(function (blob) {
                   FileSaver.saveAs(blob, zipFilename);
+                  if (done != undefined){
+                      done();
+                  }
               });
           }
         });

@@ -15,7 +15,6 @@ import { downloadSingleFile,downloadMultipleFiles } from '../utils/downloadHelpe
 import BPlanInfo  from '../components/BPlanInfo'
 
 function mapStateToProps(state) {
-  console.log(state)
   return {
     ui: state.uiState,
     mapping: state.mapping,

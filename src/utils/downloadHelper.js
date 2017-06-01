@@ -5,12 +5,12 @@ import * as FileSaver from 'file-saver';
 
 const urlPrefixToDisableCORSPrevention="https://crossorigin.me/";
 
-export const bplanFeatureStyler = (feature) => {
-}
+
+
 
 
 export const downloadFile = (url, success) => {
-    var xhr = new XMLHttpRequest(); 
+    let xhr = new XMLHttpRequest(); 
     xhr.open('GET', url, true); 
     xhr.responseType = "blob";
     xhr.onreadystatechange = function () { 
@@ -19,18 +19,18 @@ export const downloadFile = (url, success) => {
         }
     };
     xhr.send(null);
-}
+};
 
 export const downloadMultipleFiles = ( downloadOptions, downloadFileName , done ) => {
     let zip=JSZip();
     let count = 0;
-    let allOptions=[]
+    let allOptions=[];
     downloadOptions.forEach(function(suboptions){
         suboptions.downloads.forEach(function(downloadInfo){
             let newDLInfo={
                 "file":suboptions.folder+downloadInfo.file,
                 "url":downloadInfo.url
-            }
+            };
             allOptions.push(newDLInfo);
         });
     });
@@ -40,7 +40,7 @@ export const downloadMultipleFiles = ( downloadOptions, downloadFileName , done 
         ziputils.getBinaryContent(urlPrefixToDisableCORSPrevention+dlOption.url, function (err, data) {
           if(err) {
               //throw err; // or handle the error
-              console.log(err);
+              //console.log(err);
           }
           zip.file(dlOption.file, data, {binary:true});
           count++;
@@ -66,4 +66,4 @@ export const downloadSingleFile = ( downloadOptions ) => {
         link.href = downloadOptions.url;
         link.download = downloadOptions.file;
         link.click();
-}
+};

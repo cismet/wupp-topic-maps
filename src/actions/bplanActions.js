@@ -4,8 +4,7 @@ import * as mappingActions from './mappingActions';
 import * as actionTypes from '../constants/actionTypes';
 
 import {
-  SERVICE,
-  DOMAIN
+  SERVICE
 } from '../constants/cids';
 
 import 'whatwg-fetch';

@@ -120,7 +120,7 @@ internalGazeteerHitTrigger(hit){
       this.refs.leafletMap.leafletElement.panTo([pos[1],pos[0]], {"animate":false});
   }
   else {
-    console.log(hit);
+    //console.log(hit);
   }
   if (this.props.gazeteerHitTrigger!==undefined) {
     this.props.gazeteerHitTrigger(hit);
@@ -129,11 +129,10 @@ internalGazeteerHitTrigger(hit){
 }
 
 internalSearchButtonTrigger(event){
-  console.log(this.props.mapping.searchInProgress)
   if (this.props.mapping.searchInProgress===false && this.props.searchButtonTrigger!==undefined) {
     this.props.searchButtonTrigger(event)
   } else {
-    console.log("search in progress or no searchButtonTrigger defined");
+    //console.log("search in progress or no searchButtonTrigger defined");
   }
 
 }
@@ -176,7 +175,6 @@ renderMenuItemChildren(option, props, index) {
     })
       .then(resp => resp.json())
       .then(json => {
-        console.log(json);
         this.setState({options: json.$collection});
       });
   }

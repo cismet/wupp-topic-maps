@@ -64,6 +64,5 @@ export const getFeatureOpacityConsideringSelection = (feature) => {
 };
 
 export const bplanLabeler = (feature) => {
-
-  return "<h3 style='color:"+getLineColorFromFeature(feature)+";'>"+feature.properties.nummer+"</h3>";
+  return "<h3 style='color:"+getLineColorFromFeature(feature)+";text-shadow: 1px 1px 0px  #000000,-1px 1px 0px  #000000, 1px -1px 0px  #000000, -1px -1px 0px  #000000, 0px 0px 6px #000000; '>"+feature.properties.nummer+"</h3>";  
 };

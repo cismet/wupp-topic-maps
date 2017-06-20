@@ -111,6 +111,9 @@ export class BPlaene_ extends React.Component {
   featureClick(event){
     if (event.target.feature.selected) {
       this.props.mappingActions.fitSelectedFeatureBounds();
+      if (event.target.feature.twin!=null) {
+        this.props.mappingActions.setSelectedFeatureIndex(event.target.feature.twin);
+      }
     }
     else {
       this.props.mappingActions.setSelectedFeatureIndex(this.props.mapping.featureCollection.indexOf(event.target.feature));

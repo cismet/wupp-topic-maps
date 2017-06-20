@@ -90,7 +90,7 @@ export default ProjGeoJson;
 
 ProjGeoJson.propTypes = {
   mappingProps: PropTypes.object.isRequired,
-  labeler: PropTypes.func.isRequired,
+  labeler: PropTypes.func,
   featureClickHandler: PropTypes.func.isRequired,
   mapRef: PropTypes.object.isRequired
 };

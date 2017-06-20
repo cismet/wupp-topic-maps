@@ -61,6 +61,7 @@ const FeatureCollectionDisplay = ({mappingProps, style, labeler, featureClickHan
     <div>
          <ProjGeoJson key={JSON.stringify(mappingProps)} mappingProps={mappingProps} style={style}  featureClickHandler={featureClickHandler} mapRef={mapRef}/>
         {markers}         
+
     </div>
   );
 };
@@ -96,7 +97,7 @@ function createMarker(currentFeature, key, coordinates, view, markerPos, labeler
     markerPos.push(position[0]+"-"+position[1]);                 
     return (
         <Marker key={key} position={[pointOnPolygonWGS84[1],pointOnPolygonWGS84[0]]} opacity={0.0} onClick={labelClick}>
-            <Tooltip className={'customGeoJSONFeatureTooltipClass'} permanent={true} direction={'center'} offset={offset} >
+            <Tooltip className={'customGeoJSONFeatureTooltipClass'} permanent={true} direction={'center'} offset={offset} onClick={labelClick}>
                 <div>{labeler(currentFeature)}</div>
             </Tooltip>
         </Marker>
@@ -104,7 +105,8 @@ function createMarker(currentFeature, key, coordinates, view, markerPos, labeler
 }
 
 function labelClick(event) {
-    console.log(event);
+    // console.log("TOOOOOOLTIP");
+    // console.log(event);
 }
 
 export default FeatureCollectionDisplay;
@@ -113,6 +115,6 @@ export default FeatureCollectionDisplay;
    style: PropTypes.func.isRequired,
    labeler: PropTypes.func.isRequired,
    featureClickHandler: PropTypes.func.isRequired,
-   mapRef: PropTypes.object.isRequired,
+   mapRef: PropTypes.object,
  };
  

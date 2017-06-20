@@ -8,7 +8,6 @@ import {
 } from '../constants/cids';
 
 import 'whatwg-fetch';
-import * as stateConstants from '../constants/stateConstants';
 
 
 export function searchForPlans() {

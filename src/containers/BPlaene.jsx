@@ -7,7 +7,7 @@ import { Form, FormGroup, InputGroup, FormControl, Button, Glyphicon, Well} from
 import { getPolygonfromBBox } from '../utils/gisHelper';
 import * as bplanActions from '../actions/bplanActions';
 import { bindActionCreators } from 'redux';
-import { bplanFeatureStyler, bplanLabeler } from '../utils/bplanHelper';
+import { bplanFeatureStyler, bplanLabeler, getLineColorFromFeature } from '../utils/bplanHelper';
 import * as mappingActions from '../actions/mappingActions';
 import * as stateConstants from '../constants/stateConstants';
 import { downloadSingleFile,downloadMultipleFiles } from '../utils/downloadHelper';

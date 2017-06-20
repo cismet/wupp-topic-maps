@@ -3,7 +3,7 @@ import { Map, TileLayer } from 'react-leaflet';
 import { connect } from "react-redux";
 import 'proj4leaflet';
 import { Layers } from '../components/Layers';
-import ProjGeoJson from '../components/ProjGeoJson';
+import FeatureCollectionDisplay from '../components/FeatureCollectionDisplay';
 import { crs25832, proj4crs25832def } from '../constants/gis';
 import proj4 from 'proj4';
 import { bindActionCreators } from 'redux';
@@ -130,6 +130,7 @@ internalGazeteerHitTrigger(hit){
 
 internalSearchButtonTrigger(event){
   if (this.props.mapping.searchInProgress===false && this.props.searchButtonTrigger!==undefined) {
+    
     this.props.searchButtonTrigger(event)
   } else {
     //console.log("search in progress or no searchButtonTrigger defined");
@@ -224,7 +225,7 @@ render() {
           })
         }
        
-       <ProjGeoJson key={JSON.stringify(this.props.mapping)} mappingProps={this.props.mapping} style={this.props.featureStyler} labeler={this.props.labeler} featureClickHandler={this.featureClick}/>
+       <FeatureCollectionDisplay key={JSON.stringify(this.props.mapping)} mappingProps={this.props.mapping} style={this.props.featureStyler} labeler={this.props.labeler} featureClickHandler={this.featureClick} mapRef={this.refs.leafletMap}/>
        <FullscreenControl position="topleft" />
        <Control position="bottomleft"  >
         <Form style={{ width: '300px'}}  action="#">

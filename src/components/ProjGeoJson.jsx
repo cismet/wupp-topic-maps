@@ -2,11 +2,19 @@ import L from 'leaflet';
 import { isFunction } from 'lodash';
 import { PropTypes } from 'react';
 import 'proj4leaflet';
+import proj4 from 'proj4';
+import { crs25832, proj4crs25832def } from '../constants/gis';
+
 import { connect } from "react-redux";
 import { bindActionCreators } from 'redux';
 import * as mappingActions from '../actions/mappingActions';
+import * as gisHelpers from '../utils/gisHelper';
+
+import pointOnSurface from '@turf/point-on-surface';
+import * as turf from '@turf/turf';
 
 import { Path } from 'react-leaflet';
+import polylabel from '@mapbox/polylabel'
 
 function mapStateToProps(state) {
   return {
@@ -35,6 +43,7 @@ export class ProjGeoJson_ extends Path {
         layer._leaflet_id = feature.id;  
         layer.feature=feature
         layer.on('click',props.featureClickHandler);
+         let zoffset=new L.point(0,0);
         if (feature.selected) {
           //ugly winning: a direct call of bringToFront has no effect -.-
           setTimeout(function () {
@@ -44,20 +53,24 @@ export class ProjGeoJson_ extends Path {
             catch (err) {
               //ugly winning
             }
-            layer.bindTooltip(props.labeler(feature), {className: 'customGeoJSONFeatureTooltipClass', permanent:true, direction:'center', opacity: '0.9'});
-
+            if (props.labeler) {
+              layer.bindTooltip(props.labeler(feature), {className: 'customGeoJSONFeatureTooltipClass', permanent:true, direction:'center', offset: zoffset, opacity: '0.9'});
+            }
           }, 10);
         } 
         else {
-            layer.bindTooltip(props.labeler(feature), {className: 'customGeoJSONFeatureTooltipClass', permanent:true, direction:'center', opacity: '0.9'});
+            if (props.labeler) {
+              layer.bindTooltip(props.labeler(feature), {className: 'customGeoJSONFeatureTooltipClass', permanent:true, direction:'center', offset: zoffset, opacity: '0.9'});
+            }
         }
       };
     
+    
     this.leafletElement = L.Proj.geoJson(mappingProps.featureCollection, props);
-    //console.log(this.leafletElement);
   }
 
-  createLeafletElement () {} 
+  createLeafletElement () {
+  } 
 
   componentDidUpdate(prevProps) {
     if (isFunction(this.props.style)) {
@@ -79,4 +92,5 @@ ProjGeoJson.propTypes = {
   mappingProps: PropTypes.object.isRequired,
   labeler: PropTypes.func.isRequired,
   featureClickHandler: PropTypes.func.isRequired,
+  mapRef: PropTypes.object.isRequired
 };

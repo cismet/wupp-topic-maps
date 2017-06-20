@@ -33,14 +33,16 @@ export function searchForPlans() {
         response.json().then(function (result) {
             
             let featureArray=[];
+            let counter=0;
             for (let objArr of result.$collection) {
-                featureArray.push(convertPropArrayToFeature(objArr));
+                featureArray.push(convertPropArrayToFeature(objArr,counter));
+                counter++;
             }
             
            dispatch(mappingActions.setSearchProgressIndicator(false));
            dispatch(mappingActions.setFeatureCollection(featureArray));
            dispatch(mappingActions.setSelectedFeatureIndex(0));
-           dispatch(mappingActions.fitFeatureBounds(featureArray[0],stateConstants.AUTO_FIT_MODE_STRICT));
+          // dispatch(mappingActions.fitFeatureBounds(featureArray[0],stateConstants.AUTO_FIT_MODE_STRICT));
         });
       } else if (response.status === 401) {
            dispatch(mappingActions.setSearchProgressIndicator(false));
@@ -55,7 +57,7 @@ export function setDocumentLoadingIndicator(isLoading) {
   };
 }
 
-function convertPropArrayToFeature(propArray){
+function convertPropArrayToFeature(propArray,counter){
     let plaene_rk;
     if (propArray[3]!=null) {
       plaene_rk=JSON.parse(propArray[3]);
@@ -75,7 +77,7 @@ function convertPropArrayToFeature(propArray){
       docs=[];
     }
     return  {
-    "id": propArray[0],
+    "id": propArray[0]+"."+counter,
     "type": "Feature",
     "selected": false,
     "geometry": JSON.parse(propArray[6]),

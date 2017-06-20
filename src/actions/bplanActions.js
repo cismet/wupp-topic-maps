@@ -8,7 +8,6 @@ import {
 } from '../constants/cids';
 
 import 'whatwg-fetch';
-import * as stateConstants from '../constants/stateConstants';
 
 
 export function searchForPlans() {
@@ -33,14 +32,28 @@ export function searchForPlans() {
         response.json().then(function (result) {
             
             let featureArray=[];
+            let counter=0;
+            let lastFeature=null;
             for (let objArr of result.$collection) {
-                featureArray.push(convertPropArrayToFeature(objArr));
+                let feature=convertPropArrayToFeature(objArr,counter);
+                
+                if (lastFeature!=null && JSON.stringify(feature.geometry)==JSON.stringify(lastFeature.geometry)) {
+                  lastFeature.twin=counter;
+                  feature.twin=counter-1;
+                }
+                featureArray.push(feature);
+                lastFeature=feature;
+                counter++;
             }
+
+
+
+
             
            dispatch(mappingActions.setSearchProgressIndicator(false));
            dispatch(mappingActions.setFeatureCollection(featureArray));
            dispatch(mappingActions.setSelectedFeatureIndex(0));
-           dispatch(mappingActions.fitFeatureBounds(featureArray[0],stateConstants.AUTO_FIT_MODE_STRICT));
+          // dispatch(mappingActions.fitFeatureBounds(featureArray[0],stateConstants.AUTO_FIT_MODE_STRICT));
         });
       } else if (response.status === 401) {
            dispatch(mappingActions.setSearchProgressIndicator(false));
@@ -55,8 +68,10 @@ export function setDocumentLoadingIndicator(isLoading) {
   };
 }
 
-function convertPropArrayToFeature(propArray){
+function convertPropArrayToFeature(propArray,counter,){
     let plaene_rk;
+    let geom=JSON.parse(propArray[6]);
+    
     if (propArray[3]!=null) {
       plaene_rk=JSON.parse(propArray[3]);
     } else {
@@ -75,10 +90,10 @@ function convertPropArrayToFeature(propArray){
       docs=[];
     }
     return  {
-    "id": propArray[0],
+    "id": propArray[0]+"."+counter,
     "type": "Feature",
     "selected": false,
-    "geometry": JSON.parse(propArray[6]),
+    "geometry": geom,
     "crs": {
         "type": "name",
         "properties": {
@@ -91,7 +106,8 @@ function convertPropArrayToFeature(propArray){
     "status":propArray[2],
     "plaene_rk":plaene_rk,
     "plaene_nrk":plaene_nrk,
-    "docs":docs    
+    "docs":docs,
+    "twin":null
     }
   };
 }

@@ -7,7 +7,7 @@ import { Form, FormGroup, InputGroup, FormControl, Button, Glyphicon, Well} from
 import { getPolygonfromBBox } from '../utils/gisHelper';
 import * as bplanActions from '../actions/bplanActions';
 import { bindActionCreators } from 'redux';
-import { bplanFeatureStyler, bplanLabeler } from '../utils/bplanHelper';
+import { bplanFeatureStyler, bplanLabeler, getLineColorFromFeature } from '../utils/bplanHelper';
 import * as mappingActions from '../actions/mappingActions';
 import * as stateConstants from '../constants/stateConstants';
 import { downloadSingleFile,downloadMultipleFiles } from '../utils/downloadHelper';
@@ -111,6 +111,9 @@ export class BPlaene_ extends React.Component {
   featureClick(event){
     if (event.target.feature.selected) {
       this.props.mappingActions.fitSelectedFeatureBounds();
+      if (event.target.feature.twin!=null) {
+        this.props.mappingActions.setSelectedFeatureIndex(event.target.feature.twin);
+      }
     }
     else {
       this.props.mappingActions.setSelectedFeatureIndex(this.props.mapping.featureCollection.indexOf(event.target.feature));
@@ -149,12 +152,6 @@ export class BPlaene_ extends React.Component {
                     featureStyler={bplanFeatureStyler}
                     labeler={bplanLabeler}
                     featureClickHandler={this.featureClick}>
-                <Control position="topright" >
-                <button onClick={ () => {
-                      browserHistory.push(this.props.location.pathname+ '?lat=51.272399&lng=7.199712&zoom=14') 
-                    }
-                  }>Reset View </button>
-                </Control>
                 <Control position="bottomright" >
                   {info}                    
                 </Control>

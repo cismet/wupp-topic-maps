@@ -63,7 +63,10 @@ export const downloadSingleFile = ( downloadOptions ) => {
     //     FileSaver.saveAs(blob, downloadOptions.file);
     // });
     let link=document.createElement('a');
+        document.body.appendChild(link);
+        link.setAttribute('type','hidden');
         link.href = downloadOptions.url;
         link.download = downloadOptions.file;
+        link.target='_blank';
         link.click();
 };

@@ -6,12 +6,16 @@ import ziputils from 'jszip-utils';
 import JSZip from 'jszip';
 import * as FileSaver from 'file-saver';
 import Loadable from 'react-loading-overlay'
+
 // Since this component is simple and static, there's no parent container for it.
 const BPlanInfo = ({featureCollection, selectedIndex, next, previous, loadingIndicator, downloadPlan, downloadEverything}) => {
 
   const currentFeature=featureCollection[selectedIndex];
 
-  
+
+  let logCurrentFeature=function() {
+    //console.log(JSON.stringify(currentFeature));
+  }
 
   let planOrPlaene;
   let planOrPlanteile_rk;
@@ -92,7 +96,7 @@ const BPlanInfo = ({featureCollection, selectedIndex, next, previous, loadingInd
       spinner
       text='Zusammenstellen der Dokumente ...'
     >
-        <Well bsSize="small" style={{ width: '250px'}}>
+        <Well bsSize="small" style={{ width: '250px'}} onClick={logCurrentFeature}>
           <table style={{ width: '100%' }}>
             <tbody>
               <tr>
@@ -127,6 +131,8 @@ const BPlanInfo = ({featureCollection, selectedIndex, next, previous, loadingInd
 
   );
 };
+
+
 
 export default BPlanInfo;
  BPlanInfo.propTypes = {

@@ -79,6 +79,20 @@ Layers.set("abkIntra", (opacity) => {
   );
 });
 
+Layers.set("uwBPlan", (opacity) => {
+  return (
+    <WMSTileLayer
+      key="BPlanreihe auf Umwis"
+      url="http://umwis.wuppertal-intra.de:80/deegreewms/wms"
+      layers="bplanreihe"
+      format="image/png"
+      tiled="true"
+      maxZoom={19}
+      opacity={opacity}
+    />
+  );
+});
+
 
 Layers.set("orthoIntra", (opacity) => {
   return (

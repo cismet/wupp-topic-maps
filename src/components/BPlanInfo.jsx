@@ -90,6 +90,17 @@ const BPlanInfo = ({featureCollection, selectedIndex, next, previous, loadingInd
     )
   }
 
+  let statusGlyphs=null;
+  let status=currentFeature.properties.status;
+  if (status=="rechtskräftig") {
+    statusGlyphs=(<span>&nbsp;<Glyphicon glyph="ok-circle" /></span>)
+  }
+  else if (status=="nicht rechtskräftig") {
+    statusGlyphs=(<span>&nbsp;<Glyphicon glyph="remove-circle" /></span>)
+  }
+  else {
+    statusGlyphs=(<span>&nbsp;<Glyphicon glyph="ok-circle" /><Glyphicon glyph="remove-circle" /></span>)
+  }
   return (
     <Loadable
       active={loadingIndicator}
@@ -101,7 +112,7 @@ const BPlanInfo = ({featureCollection, selectedIndex, next, previous, loadingInd
             <tbody>
               <tr>
                 <td style={{ textAlign: 'left', verticalAlign: 'top' }}>
-                  <h4>BPlan {currentFeature.properties.nummer}</h4>
+                  <h4>BPlan {currentFeature.properties.nummer}{statusGlyphs}</h4>
                   <h6>{currentFeature.properties.name}</h6>
                   </td>
                 <td style={{ textAlign: 'right', verticalAlign: 'top' }}>

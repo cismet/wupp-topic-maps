@@ -27,10 +27,11 @@ export function searchForPlans(gazObject) {
         "value": 25832
       },{
         "key": "urlprefix",
-        "value": "https:/aaa.cismet.de"
+        "value": "https://wunda-geoportal-docs.cismet.de"
       }
       ]
     };
+    //console.log(JSON.stringify(query));
     fetch(SERVICE + '/searches/WUNDA_BLAU.BPlanAPISearch/results?role=all&limit=100&offset=0', {
       method: 'post',
       headers: {

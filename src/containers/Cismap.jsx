@@ -237,12 +237,13 @@ render() {
                 <AsyncTypeahead style={{ width: '300px'}}
                   {...this.state}
                   labelKey="string"
+                  useCache={false}
                   onSearch={this.handleSearch}
                   onChange={this.internalGazeteerHitTrigger}
                   paginate={true}
                   dropup={true}
                   placeholder="Geben Sie einen Suchbegriff ein."
-                  minLength={3}
+                  minLength={2}
                   align={'justify'}
                   emptyLabel={'Keine Treffer gefunden'}
                   paginationText={"Mehr Treffer anzeigen"}

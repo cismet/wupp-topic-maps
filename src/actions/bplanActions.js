@@ -10,7 +10,7 @@ import {
 import 'whatwg-fetch';
 
 
-export function searchForPlans() {
+export function searchForPlans(gazObject) {
   return function (dispatch, getState) {
     dispatch(mappingActions.setSearchProgressIndicator(true));
     const state = getState();
@@ -18,7 +18,18 @@ export function searchForPlans() {
       "list": [{
         "key": "wktString",
         "value": getPolygonfromBBox(state.mapping.boundingBox)
-      }]
+      }
+      ,{
+        "key": "status",
+        "value": ''
+      },{
+        "key": "srs",
+        "value": 25832
+      },{
+        "key": "urlprefix",
+        "value": "https:/aaa.cismet.de"
+      }
+      ]
     };
     fetch(SERVICE + '/searches/WUNDA_BLAU.BPlanAPISearch/results?role=all&limit=100&offset=0', {
       method: 'post',
@@ -34,6 +45,7 @@ export function searchForPlans() {
             let featureArray=[];
             let counter=0;
             let lastFeature=null;
+            let selectionIndexWish=0;
             for (let objArr of result.$collection) {
                 let feature=convertPropArrayToFeature(objArr,counter);
                 
@@ -41,18 +53,18 @@ export function searchForPlans() {
                   lastFeature.twin=counter;
                   feature.twin=counter-1;
                 }
+                 
+                if (gazObject!=null && gazObject[0].string==feature.properties.nummer) {
+                  selectionIndexWish=counter;
+                }
                 featureArray.push(feature);
                 lastFeature=feature;
                 counter++;
             }
 
-
-
-
-            
            dispatch(mappingActions.setSearchProgressIndicator(false));
            dispatch(mappingActions.setFeatureCollection(featureArray));
-           dispatch(mappingActions.setSelectedFeatureIndex(0));
+           dispatch(mappingActions.setSelectedFeatureIndex(selectionIndexWish));
           // dispatch(mappingActions.fitFeatureBounds(featureArray[0],stateConstants.AUTO_FIT_MODE_STRICT));
         });
       } else if (response.status === 401) {

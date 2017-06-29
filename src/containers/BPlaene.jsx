@@ -47,7 +47,7 @@ export class BPlaene_ extends React.Component {
   }
 
   bplanGazeteerhHit(selectedObject){   
-    this.bplanSearchButtonHit();
+    this.props.bplanActions.searchForPlans(selectedObject);
   }
 
   bplanSearchButtonHit(event) {

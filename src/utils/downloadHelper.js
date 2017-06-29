@@ -3,7 +3,7 @@ import JSZip from 'jszip';
 import * as FileSaver from 'file-saver';
 
 
-const urlPrefixToDisableCORSPrevention="https://crossorigin.me/";
+const urlPrefixToDisableCORSPrevention="";
 
 
 

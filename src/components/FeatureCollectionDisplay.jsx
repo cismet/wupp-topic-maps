@@ -26,7 +26,7 @@ const FeatureCollectionDisplay = ({mappingProps, style, labeler, featureClickHan
                     mappingProps.boundingBox.top
                      ];
     let view=turf.bboxPolygon(bbox)
-
+    let selectedMarkers=[];
     if (mappingProps.featureCollection.length>0) {
         for (let currentfeatureIdx in mappingProps.featureCollection) {
             let currentFeature=mappingProps.featureCollection[currentfeatureIdx];
@@ -42,19 +42,33 @@ const FeatureCollectionDisplay = ({mappingProps, style, labeler, featureClickHan
                 }
                 
                 let marker=createMarker(currentFeature,"marker."+currentFeature.id,coordinates,view,markerPos, labeler);
-                markers.push(marker);
+                if (currentFeature.selected==true) {
+                    selectedMarkers.push(marker);
+                }
+                else {
+                    markers.push(marker);
+                }
+                
             }
             else {
                 //console.log("Multipolygon mit "+currentFeature.geometry.coordinates.length);
                 for (let currentsubfeatureIdx in currentFeature.geometry.coordinates) {
                     let coordinates=currentFeature.geometry.coordinates[currentsubfeatureIdx]
                     let marker=createMarker(currentFeature,"marker.subfeature"+currentFeature.id+"."+currentsubfeatureIdx,coordinates,view,markerPos, labeler);
-                    markers.push(marker);
+                    if (currentFeature.selected==true) {
+                        selectedMarkers.push(marker);
+                    }
+                    else {
+                        markers.push(marker);
+                    }                
                 }
             }
-            
         }
+        for (let midx in selectedMarkers) {
+            markers.push(selectedMarkers[midx]);
+        }        
     }
+
 
 
   return (

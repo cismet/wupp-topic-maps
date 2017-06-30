@@ -97,16 +97,9 @@ const BPlanInfo = ({featureCollection, selectedIndex, next, previous, fitAll, lo
   //let rk=(<FontAwesome name='check-circle-o' />);
   let rktt=(<Tooltip id="rktt">rechtswirksam</Tooltip>)
   let nrktt=(<Tooltip id="nrktt">laufendes Verfahren</Tooltip>)
-  let redcolorstyle={
-  color: 'red',
-  opacity: .50
-  }
-  let greencolorstyle={
-  color: 'green',
-  opacity: .50
-  }
-  let rk=(<OverlayTrigger placement="top" overlay={rktt}><Icon style={greencolorstyle} name='check-circle-o' /></OverlayTrigger>);
-  let nrk=(<OverlayTrigger placement="top" overlay={nrktt}><Icon style={redcolorstyle} name='times-circle-o' /></OverlayTrigger>);
+
+  let rk=(<OverlayTrigger placement="top" overlay={rktt}><Icon style={{color: 'green',opacity: .50}} name='check-circle-o' /></OverlayTrigger>);
+  let nrk=(<OverlayTrigger placement="top" overlay={nrktt}><Icon style={{color: 'red',opacity: .50}} name='times-circle-o' /></OverlayTrigger>);
   if (status=="rechtskräftig") {
     statusGlyphs=(<span>&nbsp;{rk}</span>);
   }

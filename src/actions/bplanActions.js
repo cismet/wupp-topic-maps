@@ -54,8 +54,9 @@ export function searchForPlans(gazObject) {
                   lastFeature.twin=counter;
                   feature.twin=counter-1;
                 }
-                 
-                if (gazObject!=null && gazObject[0].string==feature.properties.nummer) {
+
+                if (gazObject!=null && gazObject.length == 1 && gazObject[0] !=null && gazObject.string==feature.properties.nummer) {
+//                  if (gazObject!=null && gazObject[0].string==feature.properties.nummer) {
                   selectionIndexWish=counter;
                 }
                 featureArray.push(feature);
@@ -65,7 +66,9 @@ export function searchForPlans(gazObject) {
 
            dispatch(mappingActions.setSearchProgressIndicator(false));
            dispatch(mappingActions.setFeatureCollection(featureArray));
-           dispatch(mappingActions.setSelectedFeatureIndex(selectionIndexWish));
+           if (featureArray.length>0) {
+            dispatch(mappingActions.setSelectedFeatureIndex(selectionIndexWish));
+           }
           // dispatch(mappingActions.fitFeatureBounds(featureArray[0],stateConstants.AUTO_FIT_MODE_STRICT));
         });
       } else if (response.status === 401) {

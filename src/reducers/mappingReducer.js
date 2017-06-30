@@ -43,6 +43,12 @@ export default function mappingReducer(state = initialState.mapping, action) {
         newState.searchInProgress=action.inProgress;
         return newState;
       } 
+      case actionTypes.GAZETTEER_HIT:
+      {
+        newState = objectAssign({}, state);
+        newState.gazetteerHit=action.hit;
+        return newState;
+      } 
 
    default:
         return state;

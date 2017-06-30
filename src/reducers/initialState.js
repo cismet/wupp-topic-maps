@@ -6,7 +6,8 @@ export default {
     boundingBox: null,
     autoFitBoundsTarget: null,
     autoFitBounds: false,
-    searchInProgress: false
+    searchInProgress: false,
+    gazetteerHit: null
 
   },
   uiState: {

@@ -1,4 +1,6 @@
 import * as actionTypes from '../constants/actionTypes';
+import * as stateConstants from '../constants/stateConstants';
+
 import L from 'leaflet';
 import 'proj4leaflet';
 
@@ -52,4 +54,26 @@ export function setAutoFit(autofit, bounds, mode) {
     bounds,
     mode
   };    
+}
+
+export function gazetteerHit(hit) {
+  return {
+    type: actionTypes.GAZETTEER_HIT,
+    hit
+  };   
+}
+
+export function fitAll() {
+  return function (dispatch, getState) {
+    const currentState=getState();
+    dispatch(fitFeatureCollection(currentState.mapping.featureCollection));
+  };
+}
+
+export function fitFeatureCollection(features) {
+    return function (dispatch) {
+      const projectedFC = L.Proj.geoJson(features);
+      const bounds=projectedFC.getBounds();
+      dispatch(setAutoFit(true,bounds,stateConstants.AUTO_FIT_MODE_STRICT));
+    };
 }

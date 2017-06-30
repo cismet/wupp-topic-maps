@@ -5,10 +5,12 @@ import Control from 'react-leaflet-control';
 import ziputils from 'jszip-utils';
 import JSZip from 'jszip';
 import * as FileSaver from 'file-saver';
-import Loadable from 'react-loading-overlay'
+import Loadable from 'react-loading-overlay';
+import {Icon} from 'react-fa'
+
 
 // Since this component is simple and static, there's no parent container for it.
-const BPlanInfo = ({featureCollection, selectedIndex, next, previous, loadingIndicator, downloadPlan, downloadEverything}) => {
+const BPlanInfo = ({featureCollection, selectedIndex, next, previous, fitAll, loadingIndicator, downloadPlan, downloadEverything}) => {
 
   const currentFeature=featureCollection[selectedIndex];
 
@@ -90,6 +92,23 @@ const BPlanInfo = ({featureCollection, selectedIndex, next, previous, loadingInd
     )
   }
 
+  let statusGlyphs=null;
+  let status=currentFeature.properties.status;
+  //let rk=(<FontAwesome name='check-circle-o' />);
+  let rktt=(<Tooltip id="rktt">rechtswirksam</Tooltip>)
+  let nrktt=(<Tooltip id="nrktt">laufendes Verfahren</Tooltip>)
+
+  let rk=(<OverlayTrigger placement="top" overlay={rktt}><Icon style={{color: 'green',opacity: .50}} name='check-circle-o' /></OverlayTrigger>);
+  let nrk=(<OverlayTrigger placement="top" overlay={nrktt}><Icon style={{color: 'red',opacity: .50}} name='times-circle-o' /></OverlayTrigger>);
+  if (status=="rechtskräftig") {
+    statusGlyphs=(<span>&nbsp;{rk}</span>);
+  }
+  else if (status=="nicht rechtskräftig") {
+    statusGlyphs=(<span>&nbsp;{nrk}</span>);
+  }
+  else {
+    statusGlyphs=(<span>&nbsp;{rk}&nbsp;{nrk}</span>)
+  }
   return (
     <Loadable
       active={loadingIndicator}
@@ -101,7 +120,7 @@ const BPlanInfo = ({featureCollection, selectedIndex, next, previous, loadingInd
             <tbody>
               <tr>
                 <td style={{ textAlign: 'left', verticalAlign: 'top' }}>
-                  <h4>BPlan {currentFeature.properties.nummer}</h4>
+                  <h4>BPlan {currentFeature.properties.nummer}{statusGlyphs}</h4>
                   <h6>{currentFeature.properties.name}</h6>
                   </td>
                 <td style={{ textAlign: 'right', verticalAlign: 'top' }}>
@@ -121,7 +140,7 @@ const BPlanInfo = ({featureCollection, selectedIndex, next, previous, loadingInd
             <tbody>
               <tr>
                 <td style={{ textAlign: 'left', verticalAlign: 'center' }}><a onClick={previous} href="#">&lt;&lt;</a></td>
-                <td style={{ textAlign: 'center', verticalAlign: 'center' }}>{featureCollection.length-1} weitere</td>
+                <td style={{ textAlign: 'center', verticalAlign: 'center' }}><a onClick={fitAll} href="#"> {featureCollection.length} insgesamt</a></td>
                 <td style={{ textAlign: 'right', verticalAlign: 'center' }}><a onClick={next} href="#">&gt;&gt;</a></td>
               </tr>
             </tbody>
@@ -139,6 +158,11 @@ export default BPlanInfo;
    featureCollection: PropTypes.array.isRequired,
    selectedIndex: PropTypes.number.isRequired,
    loadingIndicator: PropTypes.bool.isRequired,
+   next: PropTypes.func.isRequired,
+   previous: PropTypes.func.isRequired,
+   fitAll: PropTypes.func.isRequired,
    downloadPlan: PropTypes.func.isRequired,
    downloadEverything: PropTypes.func.isRequired,
  };
+
+

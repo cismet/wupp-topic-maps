@@ -39,6 +39,7 @@ export class BPlaene_ extends React.Component {
       this.bplanGazeteerhHit=this.bplanGazeteerhHit.bind(this);
       this.selectNextIndex=this.selectNextIndex.bind(this);
       this.selectPreviousIndex=this.selectPreviousIndex.bind(this);
+      this.fitAll=this.fitAll.bind(this);
       this.featureClick=this.featureClick.bind(this);
       this.downloadPlan=this.downloadPlan.bind(this);
       this.downloadEverything=this.downloadEverything.bind(this);
@@ -60,7 +61,7 @@ export class BPlaene_ extends React.Component {
       potIndex=0;
     }
     this.props.mappingActions.setSelectedFeatureIndex(potIndex);
-    this.props.mappingActions.fitSelectedFeatureBounds(stateConstants.AUTO_FIT_MODE_NO_ZOOM_IN);
+    //this.props.mappingActions.fitSelectedFeatureBounds(stateConstants.AUTO_FIT_MODE_NO_ZOOM_IN);
   }
 
   selectPreviousIndex() {
@@ -69,9 +70,12 @@ export class BPlaene_ extends React.Component {
       potIndex=this.props.mapping.featureCollection.length-1;
     }
     this.props.mappingActions.setSelectedFeatureIndex(potIndex);
-    this.props.mappingActions.fitSelectedFeatureBounds(stateConstants.AUTO_FIT_MODE_NO_ZOOM_IN);
+    //this.props.mappingActions.fitSelectedFeatureBounds(stateConstants.AUTO_FIT_MODE_NO_ZOOM_IN);
   }
 
+  fitAll() {
+    this.props.mappingActions.fitAll();
+  }
 
   downloadPlan() {
     const currentFeature=this.props.mapping.featureCollection[this.props.mapping.selectedIndex];
@@ -129,6 +133,7 @@ export class BPlaene_ extends React.Component {
               selectedIndex={this.props.mapping.selectedIndex||0}
               next={this.selectNextIndex}
               previous={this.selectPreviousIndex}
+              fitAll={this.fitAll}
               loadingIndicator={this.props.bplanAppState.documentsLoading}
               downloadPlan={this.downloadPlan}
               downloadEverything={this.downloadEverything}

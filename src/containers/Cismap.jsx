@@ -16,7 +16,7 @@ import { Typeahead, AsyncTypeahead } from 'react-bootstrap-typeahead';
 import * as stateConstants from '../constants/stateConstants';
 import Loadable from 'react-loading-overlay'
 import { routerActions } from 'react-router-redux'
-
+import { modifyQueryPart } from '../utils/routingHelper'
 import * as mappingActions from '../actions/mappingActions';
 
 import {
@@ -78,7 +78,13 @@ componentDidMount() {
         const querypart='?lat='+lat+'&lng='+lng+'&zoom='+zoom;
         if (lng!==lngFromUrl || lat!==latFromUrl || zoomFromUrl!==zoom) {
           //store.dispatch(push(this.props.routing.locationBeforeTransitions.pathname + querypart))
-          this.props.routingActions.push(this.props.routing.locationBeforeTransitions.pathname + querypart)
+          this.props.routingActions.push(
+            this.props.routing.locationBeforeTransitions.pathname 
+            + modifyQueryPart(this.props.routing.locationBeforeTransitions.query,{
+              lat:lat,
+              lng:lng,
+              zoom:zoom
+            }))
         }
         this.storeBoundingBox();
         
@@ -114,11 +120,21 @@ storeBoundingBox(){
 }
 
 internalGazeteerHitTrigger(hit){
-    if (hit!==undefined && hit.length !=undefined && hit.length>0 && hit[0].x!==undefined && hit[0].y!==undefined) {
+   //this.props.routingActions.push(this.props.routing.locationBeforeTransitions.pathname+"lat=51.271767290892676&lng=7.2000696125004575&zoom=14");
+   if (hit!==undefined && hit.length !=undefined && hit.length>0 && hit[0].x!==undefined && hit[0].y!==undefined) {
       //console.log(JSON.stringify(hit))
       const pos=proj4(proj4crs25832def,proj4.defs('EPSG:4326'),[hit[0].x,hit[0].y])
       //console.log(pos)
       this.refs.leafletMap.leafletElement.panTo([pos[1],pos[0]], {"animate":false});
+      // this.props.routingActions.push(
+      //       this.props.routing.locationBeforeTransitions.pathname 
+      //       + modifyQueryPart(this.props.routing.locationBeforeTransitions.query,{
+      //         lat:pos[1],
+      //         lng:pos[0]
+      //       }));
+      this.props.mappingActions.gazetteerHit(hit[0]);
+
+
   }
   else {
     //console.log(hit);
@@ -131,7 +147,8 @@ internalGazeteerHitTrigger(hit){
 
 internalSearchButtonTrigger(event){
   if (this.props.mapping.searchInProgress===false && this.props.searchButtonTrigger!==undefined) {
-    
+    this.refs.typeahead.getInstance().clear();
+    this.props.mappingActions.gazetteerHit(null);
     this.props.searchButtonTrigger(event)
   } else {
     //console.log("search in progress or no searchButtonTrigger defined");
@@ -236,7 +253,7 @@ render() {
                   <InputGroup.Button  disabled={this.props.mapping.searchInProgress} onClick={this.internalSearchButtonTrigger}>
                     <Button disabled={this.props.mapping.searchInProgress} >{searchIcon}</Button>
                   </InputGroup.Button>
-                <AsyncTypeahead style={{ width: '300px'}}
+                <AsyncTypeahead ref="typeahead" style={{ width: '300px'}}
                   {...this.state}
                   labelKey="string"
                   useCache={false}

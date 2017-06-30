@@ -5,7 +5,9 @@ import Control from 'react-leaflet-control';
 import ziputils from 'jszip-utils';
 import JSZip from 'jszip';
 import * as FileSaver from 'file-saver';
-import Loadable from 'react-loading-overlay'
+import Loadable from 'react-loading-overlay';
+import {Icon} from 'react-fa'
+
 
 // Since this component is simple and static, there's no parent container for it.
 const BPlanInfo = ({featureCollection, selectedIndex, next, previous, fitAll, loadingIndicator, downloadPlan, downloadEverything}) => {
@@ -92,14 +94,27 @@ const BPlanInfo = ({featureCollection, selectedIndex, next, previous, fitAll, lo
 
   let statusGlyphs=null;
   let status=currentFeature.properties.status;
+  //let rk=(<FontAwesome name='check-circle-o' />);
+  let rktt=(<Tooltip id="rktt">rechtswirksam</Tooltip>)
+  let nrktt=(<Tooltip id="nrktt">laufendes Verfahren</Tooltip>)
+  let redcolorstyle={
+  color: 'red',
+  opacity: .50
+  }
+  let greencolorstyle={
+  color: 'green',
+  opacity: .50
+  }
+  let rk=(<OverlayTrigger placement="top" overlay={rktt}><Icon style={greencolorstyle} name='check-circle-o' /></OverlayTrigger>);
+  let nrk=(<OverlayTrigger placement="top" overlay={nrktt}><Icon style={redcolorstyle} name='times-circle-o' /></OverlayTrigger>);
   if (status=="rechtskräftig") {
-    statusGlyphs=(<span>&nbsp;<Glyphicon glyph="ok-circle" /></span>)
+    statusGlyphs=(<span>&nbsp;{rk}</span>);
   }
   else if (status=="nicht rechtskräftig") {
-    statusGlyphs=(<span>&nbsp;<Glyphicon glyph="remove-circle" /></span>)
+    statusGlyphs=(<span>&nbsp;{nrk}</span>);
   }
   else {
-    statusGlyphs=(<span>&nbsp;<Glyphicon glyph="ok-circle" /><Glyphicon glyph="remove-circle" /></span>)
+    statusGlyphs=(<span>&nbsp;{rk}&nbsp;{nrk}</span>)
   }
   return (
     <Loadable

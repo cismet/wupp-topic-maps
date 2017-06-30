@@ -8,7 +8,7 @@ import * as FileSaver from 'file-saver';
 import Loadable from 'react-loading-overlay'
 
 // Since this component is simple and static, there's no parent container for it.
-const BPlanInfo = ({featureCollection, selectedIndex, next, previous, loadingIndicator, downloadPlan, downloadEverything}) => {
+const BPlanInfo = ({featureCollection, selectedIndex, next, previous, fitAll, loadingIndicator, downloadPlan, downloadEverything}) => {
 
   const currentFeature=featureCollection[selectedIndex];
 
@@ -132,7 +132,7 @@ const BPlanInfo = ({featureCollection, selectedIndex, next, previous, loadingInd
             <tbody>
               <tr>
                 <td style={{ textAlign: 'left', verticalAlign: 'center' }}><a onClick={previous} href="#">&lt;&lt;</a></td>
-                <td style={{ textAlign: 'center', verticalAlign: 'center' }}>{featureCollection.length-1} weitere</td>
+                <td style={{ textAlign: 'center', verticalAlign: 'center' }}><a onClick={fitAll} href="#"> {featureCollection.length} insgesamt</a></td>
                 <td style={{ textAlign: 'right', verticalAlign: 'center' }}><a onClick={next} href="#">&gt;&gt;</a></td>
               </tr>
             </tbody>
@@ -150,6 +150,11 @@ export default BPlanInfo;
    featureCollection: PropTypes.array.isRequired,
    selectedIndex: PropTypes.number.isRequired,
    loadingIndicator: PropTypes.bool.isRequired,
+   next: PropTypes.func.isRequired,
+   previous: PropTypes.func.isRequired,
+   fitAll: PropTypes.func.isRequired,
    downloadPlan: PropTypes.func.isRequired,
    downloadEverything: PropTypes.func.isRequired,
  };
+
+

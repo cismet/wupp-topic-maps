@@ -121,9 +121,6 @@ storeBoundingBox(){
 }
 
 internalGazeteerHitTrigger(hit){
-  console.log("HIT");
-  console.log(hit);
-  
    //this.props.routingActions.push(this.props.routing.locationBeforeTransitions.pathname+"lat=51.271767290892676&lng=7.2000696125004575&zoom=14");
    if (hit!==undefined && hit.length !=undefined && hit.length>0 && hit[0].x!==undefined && hit[0].y!==undefined) {
       //console.log(JSON.stringify(hit))

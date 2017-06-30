@@ -2,6 +2,8 @@
 import { getPolygonfromBBox } from '../utils/gisHelper';
 import * as mappingActions from './mappingActions';
 import * as actionTypes from '../constants/actionTypes';
+import * as turf from '@turf/turf';
+import * as stateConstants from '../constants/stateConstants';
 
 import {
   SERVICE
@@ -69,7 +71,13 @@ export function searchForPlans(gazObject) {
            if (featureArray.length>0) {
             dispatch(mappingActions.setSelectedFeatureIndex(selectionIndexWish));
            }
-          // dispatch(mappingActions.fitFeatureBounds(featureArray[0],stateConstants.AUTO_FIT_MODE_STRICT));
+           if (gazObject!=null && gazObject.length == 1 && gazObject[0] !=null) {
+              let p=turf.point([gazObject[0].x,gazObject[0].y]);
+              if (turf.inside(p,featureArray[selectionIndexWish])) {
+                dispatch(mappingActions.fitFeatureBounds(featureArray[selectionIndexWish],stateConstants.AUTO_FIT_MODE_STRICT));
+              }
+           }
+          
         });
       } else if (response.status === 401) {
            dispatch(mappingActions.setSearchProgressIndicator(false));

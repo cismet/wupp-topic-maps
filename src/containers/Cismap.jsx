@@ -18,6 +18,7 @@ import Loadable from 'react-loading-overlay'
 import { routerActions } from 'react-router-redux'
 import { modifyQueryPart } from '../utils/routingHelper'
 import * as mappingActions from '../actions/mappingActions';
+import objectAssign from 'object-assign';
 
 import {
   SERVICE,
@@ -120,28 +121,35 @@ storeBoundingBox(){
 }
 
 internalGazeteerHitTrigger(hit){
+  console.log("HIT");
+  console.log(hit);
+  
    //this.props.routingActions.push(this.props.routing.locationBeforeTransitions.pathname+"lat=51.271767290892676&lng=7.2000696125004575&zoom=14");
    if (hit!==undefined && hit.length !=undefined && hit.length>0 && hit[0].x!==undefined && hit[0].y!==undefined) {
       //console.log(JSON.stringify(hit))
       const pos=proj4(proj4crs25832def,proj4.defs('EPSG:4326'),[hit[0].x,hit[0].y])
       //console.log(pos)
       this.refs.leafletMap.leafletElement.panTo([pos[1],pos[0]], {"animate":false});
+      
+      let hitObject=objectAssign(hit[0],JSON.parse(hit[0].more))
+      this.refs.leafletMap.leafletElement.setZoom(hitObject.zoomlevel,{"animate":false});
+      
       // this.props.routingActions.push(
       //       this.props.routing.locationBeforeTransitions.pathname 
       //       + modifyQueryPart(this.props.routing.locationBeforeTransitions.query,{
       //         lat:pos[1],
       //         lng:pos[0]
       //       }));
-      this.props.mappingActions.gazetteerHit(hit[0]);
+      this.props.mappingActions.gazetteerHit(hitObject);
 
-
+      if (this.props.gazeteerHitTrigger!==undefined) {
+        this.props.gazeteerHitTrigger(hit);
+      }
   }
   else {
     //console.log(hit);
   }
-  if (this.props.gazeteerHitTrigger!==undefined) {
-    this.props.gazeteerHitTrigger(hit);
-  }
+  
   
 }
 
@@ -267,6 +275,7 @@ render() {
                   emptyLabel={'Keine Treffer gefunden'}
                   paginationText={"Mehr Treffer anzeigen"}
                   autoFocus={true}
+                  searchText={"suchen ..."}
                   renderMenuItemChildren={this.renderMenuItemChildren}
                   />
               </InputGroup>

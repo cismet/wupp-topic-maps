@@ -53,3 +53,10 @@ export function setAutoFit(autofit, bounds, mode) {
     mode
   };    
 }
+
+export function gazetteerHit(hit) {
+  return {
+    type: actionTypes.GAZETTEER_HIT,
+    hit
+  };   
+}

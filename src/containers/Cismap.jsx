@@ -4,6 +4,7 @@ import { connect } from "react-redux";
 import 'proj4leaflet';
 import { Layers } from '../components/Layers';
 import FeatureCollectionDisplay from '../components/FeatureCollectionDisplay';
+import GazetteerHitDisplay from '../components/GazetteerHitDisplay';
 import { crs25832, proj4crs25832def } from '../constants/gis';
 import proj4 from 'proj4';
 import { bindActionCreators } from 'redux';
@@ -114,7 +115,7 @@ storeBoundingBox(){
 
 internalGazeteerHitTrigger(hit){
     if (hit!==undefined && hit.length !=undefined && hit.length>0 && hit[0].x!==undefined && hit[0].y!==undefined) {
-      //console.log(hit)
+      //console.log(JSON.stringify(hit))
       const pos=proj4(proj4crs25832def,proj4.defs('EPSG:4326'),[hit[0].x,hit[0].y])
       //console.log(pos)
       this.refs.leafletMap.leafletElement.panTo([pos[1],pos[0]], {"animate":false});
@@ -225,6 +226,7 @@ render() {
           })
         }
        
+       <GazetteerHitDisplay key={"gazHit"+JSON.stringify(this.props.mapping)} mappingProps={this.props.mapping} />
        <FeatureCollectionDisplay key={JSON.stringify(this.props.mapping)} mappingProps={this.props.mapping} style={this.props.featureStyler} labeler={this.props.labeler} featureClickHandler={this.featureClick} mapRef={this.refs.leafletMap}/>
        <FullscreenControl position="topleft" />
        <Control position="bottomleft"  >

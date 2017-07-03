@@ -9,9 +9,10 @@ import * as bplanActions from '../actions/bplanActions';
 import { bindActionCreators } from 'redux';
 import { bplanFeatureStyler, bplanLabeler, getLineColorFromFeature } from '../utils/bplanHelper';
 import * as mappingActions from '../actions/mappingActions';
+import * as uiStateActions from '../actions/uiStateActions';
 import * as stateConstants from '../constants/stateConstants';
 import { downloadSingleFile,downloadMultipleFiles } from '../utils/downloadHelper';
-
+import BPlanModalHelp from '../components/BPlanModalHelpComponent';
 import BPlanInfo  from '../components/BPlanInfo'
 
 function mapStateToProps(state) {
@@ -28,6 +29,7 @@ function mapDispatchToProps(dispatch) {
   return {
     bplanActions: bindActionCreators(bplanActions,dispatch),
     mappingActions: bindActionCreators(mappingActions,dispatch),
+    uiStateActions: bindActionCreators(uiStateActions,dispatch),
   };
 }
 
@@ -44,7 +46,7 @@ export class BPlaene_ extends React.Component {
       this.downloadPlan=this.downloadPlan.bind(this);
       this.downloadEverything=this.downloadEverything.bind(this);
       this.downloadDone=this.downloadDone.bind(this);
-
+      this.openHelp=this.openHelp.bind(this);
   }
 
   bplanGazeteerhHit(selectedObject){   
@@ -112,6 +114,10 @@ export class BPlaene_ extends React.Component {
     this.props.bplanActions.setDocumentLoadingIndicator(false);
   }
 
+  openHelp() {
+    this.props.uiStateActions.showHelpComponent(true);
+  }
+
   featureClick(event){
     if (event.target.feature.selected) {
       this.props.mappingActions.fitSelectedFeatureBounds();
@@ -148,11 +154,14 @@ export class BPlaene_ extends React.Component {
                    Adresse oder POI) 
                   und aus Vorschlagsliste auswählen oder mit  <br />   
                   <Glyphicon glyph="search"/> alle Pläne im aktuellen Kartenausschnitt laden.</p>
+                  <a onClick={this.openHelp} href='#'>vollst&auml;ndige Bedienungsanleitung</a>
                </Well>)
      }
   
    return (
         <div>
+            <BPlanModalHelp key={'BPlanModalHelp.visible:'+this.props.ui.helpTextVisible}/>
+
             <Cismap layers={this.props.params.layers ||'abkIntra'} 
                     gazeteerHitTrigger={this.bplanGazeteerhHit} 
                     searchButtonTrigger={this.bplanSearchButtonHit} 

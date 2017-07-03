@@ -142,10 +142,12 @@ export class BPlaene_ extends React.Component {
      }
      else {
        info = (<Well>
-                  <h5>Es werden momentan keine Pl&auml;ne angezeigt.</h5>
-                  <p>Bebauungspl&auml;ne k&ouml;nnen entweder durch die Nummer <br />
-                  (z.B.: #4711), durch die Adresse (z.B. Johannes-Rau-Platz 1) <br />
-                  oder durch eine manuelle Suche <Glyphicon glyph="search"/> angezeigt werden.</p>
+                  <h5>Aktuell keine Bebauungspl&auml;ne  geladen.</h5>
+                  <p>Für Zugriff auf einen bestimmten Plan den Anfang (mindestens <br />
+                   2 Zeichen) eines Suchbegriffs eingeben und aus (B-Plan-Nummer <br /> 
+                   Adresse oder POI) 
+                  und aus Vorschlagsliste auswählen oder mit  <br />   
+                  <Glyphicon glyph="search"/> alle Pläne im aktuellen Kartenausschnitt laden.</p>
                </Well>)
      }
   

@@ -1,6 +1,6 @@
 import React, { PropTypes } from 'react';
 import {Link} from 'react-router';
-import { OverlayTrigger, Glyphicon, Well } from 'react-bootstrap';
+import { OverlayTrigger, Well } from 'react-bootstrap';
 import Control from 'react-leaflet-control';
 import ziputils from 'jszip-utils';
 import JSZip from 'jszip';

@@ -11,7 +11,7 @@ import { bindActionCreators } from 'redux';
 import 'react-leaflet-fullscreen/dist/styles.css';
 import FullscreenControl from 'react-leaflet-fullscreen';
 import Control from 'react-leaflet-control';
-import { Form, FormGroup, InputGroup, FormControl, Button, Glyphicon, Well} from 'react-bootstrap';
+import { Form, FormGroup, InputGroup, FormControl, Button, Well} from 'react-bootstrap';
 import { Typeahead, AsyncTypeahead } from 'react-bootstrap-typeahead';
 import * as stateConstants from '../constants/stateConstants';
 import Loadable from 'react-loading-overlay'
@@ -19,6 +19,8 @@ import { routerActions } from 'react-router-redux'
 import { modifyQueryPart } from '../utils/routingHelper'
 import * as mappingActions from '../actions/mappingActions';
 import objectAssign from 'object-assign';
+import {Icon} from 'react-fa'
+import * as uiStateActions from '../actions/uiStateActions';
 
 import {
   SERVICE,
@@ -45,6 +47,7 @@ function mapDispatchToProps(dispatch) {
   return {
     mappingActions: bindActionCreators(mappingActions, dispatch),
     routingActions: bindActionCreators(routerActions,dispatch),
+    uiStateActions: bindActionCreators(uiStateActions,dispatch),
   };
 }
 
@@ -57,6 +60,7 @@ export class Cismap_ extends React.Component {
         this.internalSearchButtonTrigger=this.internalSearchButtonTrigger.bind(this);
         this.featureClick = this.featureClick.bind(this);        
         this.handleSearch=this.handleSearch.bind(this);
+        this.showModalHelpComponent=this.showModalHelpComponent.bind(this);
 
       }
 componentDidMount() {
@@ -164,15 +168,18 @@ featureClick(event) {
     this.props.featureClickHandler(event);
 }
 
+showModalHelpComponent() {
+    this.props.uiStateActions.showHelpComponent(true);
+}
 
 
 renderMenuItemChildren(option, props, index) {
     return (
       <div key={option.id}>
-       <Glyphicon style={{
+       <Icon style={{
             marginRight: '10px',
             width: '18px',
-          }} glyph={option.glyphkey} />
+          }} name={option.glyphkey} size={'lg'} />
         <span>{option.string}</span>
       </div>
     );
@@ -218,13 +225,14 @@ render() {
 
    const layerArr=this.props.layers.split(",");
 
+//      <Icon name='search' />
 
    let searchIcon=(
-      <Glyphicon glyph="search" />
+      <Icon name='search' />
    )
    if (this.props.mapping.searchInProgress) {
      searchIcon=(
-      <Glyphicon glyph="refresh" />
+      <Icon spin name="refresh" />
      )
    }
 
@@ -279,6 +287,10 @@ render() {
             </FormGroup>
             </Form>
           </Control>
+          <Control position="topright"  >
+           <Button onClick={this.showModalHelpComponent}><Icon name='info'/></Button>
+          </Control>
+
          {this.props.children}
       </Map>
     );

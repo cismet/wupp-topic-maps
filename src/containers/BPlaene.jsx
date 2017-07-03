@@ -3,7 +3,7 @@ import Cismap from '../containers/Cismap.jsx';
 import { connect } from "react-redux";
 import Control from 'react-leaflet-control';
 import {browserHistory } from 'react-router';
-import { Form, FormGroup, InputGroup, FormControl, Button, Glyphicon, Well} from 'react-bootstrap';
+import { Form, FormGroup, InputGroup, FormControl, Button, Well} from 'react-bootstrap';
 import { getPolygonfromBBox } from '../utils/gisHelper';
 import * as bplanActions from '../actions/bplanActions';
 import { bindActionCreators } from 'redux';
@@ -14,6 +14,7 @@ import * as stateConstants from '../constants/stateConstants';
 import { downloadSingleFile,downloadMultipleFiles } from '../utils/downloadHelper';
 import BPlanModalHelp from '../components/BPlanModalHelpComponent';
 import BPlanInfo  from '../components/BPlanInfo'
+import {Icon} from 'react-fa'
 
 function mapStateToProps(state) {
   return {
@@ -153,7 +154,7 @@ export class BPlaene_ extends React.Component {
                    2 Zeichen) eines Suchbegriffs eingeben und aus (B-Plan-Nummer <br /> 
                    Adresse oder POI) 
                   und aus Vorschlagsliste auswählen oder mit  <br />   
-                  <Glyphicon glyph="search"/> alle Pläne im aktuellen Kartenausschnitt laden.</p>
+                  <Icon name="search"/> alle Pläne im aktuellen Kartenausschnitt laden.</p>
                   <a onClick={this.openHelp} href='#'>vollst&auml;ndige Bedienungsanleitung</a>
                </Well>)
      }

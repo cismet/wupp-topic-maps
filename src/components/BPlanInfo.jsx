@@ -119,11 +119,11 @@ const BPlanInfo = ({featureCollection, selectedIndex, next, previous, fitAll, lo
           <table style={{ width: '100%' }}>
             <tbody>
               <tr>
-                <td style={{ textAlign: 'left', verticalAlign: 'top' }}>
+                <td style={{ textAlign: 'left', verticalAlign: 'top', padding: '5px' }}>
                   <h4>BPlan {currentFeature.properties.nummer}{statusGlyphs}</h4>
                   <h6>{currentFeature.properties.name}</h6>
                   </td>
-                <td style={{ textAlign: 'right', verticalAlign: 'top' }}>
+                <td style={{ textAlign: 'right', verticalAlign: 'top', padding: '5px'}}>
                   <h4><Glyphicon glyph="download" /></h4>
                   <h6>
                       <OverlayTrigger placement="left" overlay={planTooltip}>

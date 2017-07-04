@@ -57,8 +57,10 @@ export function searchForPlans(gazObject) {
                   feature.twin=counter-1;
                 }
 
-                if (gazObject!=null && gazObject.length == 1 && gazObject[0] !=null && gazObject.string==feature.properties.nummer) {
+
+                if (gazObject!=null && gazObject.length == 1 && gazObject[0] !=null && gazObject[0].string==feature.properties.nummer) {
 //                  if (gazObject!=null && gazObject[0].string==feature.properties.nummer) {
+                  console.log("selectionwish="+counter)
                   selectionIndexWish=counter;
                 }
                 featureArray.push(feature);

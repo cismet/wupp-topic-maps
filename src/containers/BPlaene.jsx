@@ -94,8 +94,8 @@ export class BPlaene_ extends React.Component {
       this.props.bplanActions.setDocumentLoadingIndicator(true);
       downloadMultipleFiles(
         [
-          {"folder":"/","downloads":currentFeature.properties.plaene_rk},
-          {"folder":"/nicht rechtskräftig/","downloads":currentFeature.properties.plaene_nrk}
+          {"folder":"rechtskraeftig/","downloads":currentFeature.properties.plaene_rk},
+          {"folder":"nicht rechtskraeftig/","downloads":currentFeature.properties.plaene_nrk}
         ], "BPLAN_Plaene."+currentFeature.properties.nummer,this.downloadDone);
     }
   }
@@ -105,9 +105,9 @@ export class BPlaene_ extends React.Component {
     const currentFeature=this.props.mapping.featureCollection[this.props.mapping.selectedIndex];
     downloadMultipleFiles(
         [
-          {"folder":"/","downloads":currentFeature.properties.plaene_rk},
-          {"folder":"/nicht rechtskräftig/","downloads":currentFeature.properties.plaene_nrk},
-          {"folder":"/Zusatzdokumente/","downloads":currentFeature.properties.docs}
+          {"folder":"rechtskraeftig/","downloads":currentFeature.properties.plaene_rk},
+          {"folder":"nicht rechtskraeftig/","downloads":currentFeature.properties.plaene_nrk},
+          {"folder":"Zusatzdokumente/","downloads":currentFeature.properties.docs}
         ], "BPLAN_Plaene_und_Zusatzdokumente."+currentFeature.properties.nummer,this.downloadDone);
   }
   

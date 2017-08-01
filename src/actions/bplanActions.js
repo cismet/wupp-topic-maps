@@ -49,6 +49,11 @@ export function searchForPlans(gazObject) {
             let counter=0;
             let lastFeature=null;
             let selectionIndexWish=0;
+            let planMatch=false;
+            let gazPoint;
+            if (gazObject!=null && gazObject.length == 1 && gazObject[0] !=null) {
+              gazPoint=turf.point([gazObject[0].x,gazObject[0].y]);
+            }
             for (let objArr of result.$collection) {
                 let feature=convertPropArrayToFeature(objArr,counter);
                 
@@ -62,9 +67,15 @@ export function searchForPlans(gazObject) {
                 //should be the only feature in the resultset
                 if (gazObject!=null && gazObject.length == 1 && gazObject[0] !=null && gazObject[0].verfahrensnummer==feature.properties.nummer) {
                   featureArray=[feature];
+                  planMatch=true;
                   break;
                 }
                 
+
+                if (turf.inside(gazPoint,feature)) {
+                  selectionIndexWish=counter;
+                }
+
                 featureArray.push(feature);
                 lastFeature=feature;
                 counter++;
@@ -76,8 +87,8 @@ export function searchForPlans(gazObject) {
             dispatch(mappingActions.setSelectedFeatureIndex(selectionIndexWish));
            }
            if (gazObject!=null && gazObject.length == 1 && gazObject[0] !=null) {
-              let p=turf.point([gazObject[0].x,gazObject[0].y]);
-              if (turf.inside(p,featureArray[selectionIndexWish])) {
+              //let p=turf.point([gazObject[0].x,gazObject[0].y]);
+              if (planMatch) { //vorher turf.inside(p,featureArray[selectionIndexWish])
                 dispatch(mappingActions.fitFeatureBounds(featureArray[selectionIndexWish],stateConstants.AUTO_FIT_MODE_STRICT));
               }
            }

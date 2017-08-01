@@ -72,7 +72,7 @@ export function searchForPlans(gazObject) {
                 }
                 
 
-                if (turf.inside(gazPoint,feature)) {
+                if (gazPoint!=null && turf.inside(gazPoint,feature)) {
                   selectionIndexWish=counter;
                 }
 

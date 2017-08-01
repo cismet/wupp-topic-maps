@@ -59,6 +59,8 @@ function configureStoreDev(initialState) {
   window.addEventListener('resize', () => {
     store.dispatch(UiStateActions.screenResize(window.innerHeight, window.innerWidth));
   });
+  //Fire a first screenResize to initially fill the uiState
+  store.dispatch(UiStateActions.screenResize(window.innerHeight, window.innerWidth));
   return store;
 }
 

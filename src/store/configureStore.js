@@ -21,10 +21,17 @@ function configureStoreProd(initialState) {
     thunk,
   ];
 
-  return createStore(rootReducer, initialState, compose(
+  const store = createStore(rootReducer, initialState, compose(
     applyMiddleware(...middlewares)
     )
   );
+  window.addEventListener('resize', () => {
+    store.dispatch(UiStateActions.screenResize(window.innerHeight, window.innerWidth));
+  });
+  //Fire a first screenResize to initially fill the uiState
+  store.dispatch(UiStateActions.screenResize(window.innerHeight, window.innerWidth));
+  
+  return store;
 }
 
 function configureStoreDev(initialState) {

@@ -59,8 +59,8 @@ export class BPlanModalHelp_ extends React.Component {
            &uuml;ber Pl&auml;ne mit einem komplizierten Geltungsbereich zu verschaffen. (Probieren Sie mal die Nummer 150.) Klicken 
            Sie auf&nbsp;<Icon name="search"/>, um alle Pl&auml;ne hinzuzuladen, die im jetzt aktuellen Ausschnitt liegen. Damit 
            stellen Sie auch sicher, dass Sie keinen Plan &uuml;bersehen, der sich mit dem zuvor gesuchten &uuml;berlappt.</p>
-          <p>Um die B-Plan-Situation an einem bestimmten Punkt des Stadtgebietes zu erkunden, geben Sie den Anfang einer S
-          tra&szlig;ennamens oder eines interessanten Ortes (auch Point of Interest oder kurz POI genannt) im Eingabefeld ein 
+          <p>Um die B-Plan-Situation an einem bestimmten Punkt des Stadtgebietes zu erkunden, geben Sie den Anfang einer 
+          Stra&szlig;ennamens oder eines interessanten Ortes (auch Point of Interest oder kurz POI genannt) im Eingabefeld ein 
           (mindestens 2 Ziffern). In der inkrementellen Auswahlliste werden Ihnen passende Treffer angeboten. Durch das vorangestellte 
           Symbol erkennen Sie, ob es sich dabei um eine&nbsp;<Icon name="home"/>&nbsp;Adresse, eine&nbsp;<Icon name="road"/>
           &nbsp;Stra&szlig;e ohne zugeordnete Hausnummern, einen&nbsp;<Icon name="tag"/>&nbsp;POI oder die&nbsp;<Icon name="tags"/>

@@ -13,9 +13,14 @@ export default function uiStateReducer(state = initialState.uiState, action) {
         newState.height = action.height;
         return newState;
       }
+     case actionTypes.SHOW_HELP_COMPONENT:
+      {
+        newState = objectAssign({}, state);
+        newState.helpTextVisible = action.helpTextVisible;
+        return newState;
+      }
      default:
       return state;
 
   }
-
 }

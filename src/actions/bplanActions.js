@@ -57,10 +57,14 @@ export function searchForPlans(gazObject) {
                   feature.twin=counter-1;
                 }
 
-                if (gazObject!=null && gazObject.length == 1 && gazObject[0] !=null && gazObject.string==feature.properties.nummer) {
-//                  if (gazObject!=null && gazObject[0].string==feature.properties.nummer) {
-                  selectionIndexWish=counter;
+                //check whether the gazetteer-object has a property verfahrensnummer
+                //if this verfahrensnummer matches the nummer of the feature this
+                //should be the only feature in the resultset
+                if (gazObject!=null && gazObject.length == 1 && gazObject[0] !=null && gazObject[0].verfahrensnummer==feature.properties.nummer) {
+                  featureArray=[feature];
+                  break;
                 }
+                
                 featureArray.push(feature);
                 lastFeature=feature;
                 counter++;

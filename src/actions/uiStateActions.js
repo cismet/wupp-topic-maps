@@ -7,3 +7,9 @@ export function screenResize(height,width) {
         height: height,
     };
 }
+export function showHelpComponent(helpTextVisible) {
+    return {
+        type: actionTypes.SHOW_HELP_COMPONENT,
+        helpTextVisible
+    };
+}

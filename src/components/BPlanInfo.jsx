@@ -1,6 +1,6 @@
 import React, { PropTypes } from 'react';
 import {Link} from 'react-router';
-import { OverlayTrigger, Glyphicon, Well, Tooltip } from 'react-bootstrap';
+import { OverlayTrigger, Well, Tooltip } from 'react-bootstrap';
 import Control from 'react-leaflet-control';
 import ziputils from 'jszip-utils';
 import JSZip from 'jszip';
@@ -119,12 +119,12 @@ const BPlanInfo = ({featureCollection, selectedIndex, next, previous, fitAll, lo
           <table style={{ width: '100%' }}>
             <tbody>
               <tr>
-                <td style={{ textAlign: 'left', verticalAlign: 'top' }}>
+                <td style={{ textAlign: 'left', verticalAlign: 'top', padding: '5px' }}>
                   <h4>BPlan {currentFeature.properties.nummer}{statusGlyphs}</h4>
                   <h6>{currentFeature.properties.name}</h6>
                   </td>
-                <td style={{ textAlign: 'right', verticalAlign: 'top' }}>
-                  <h4><Glyphicon glyph="download" /></h4>
+                <td style={{ textAlign: 'right', verticalAlign: 'top', padding: '5px'}}>
+                  <h4><Icon name='arrow-circle-o-down' /></h4>
                   <h6>
                       <OverlayTrigger placement="left" overlay={planTooltip}>
                           <a href="#" onClick={downloadPlan} >{planOrPlaene}</a>
@@ -139,9 +139,15 @@ const BPlanInfo = ({featureCollection, selectedIndex, next, previous, fitAll, lo
           <table style={{ width: '100%' }}>
             <tbody>
               <tr>
-                <td style={{ textAlign: 'left', verticalAlign: 'center' }}><a onClick={previous} href="#">&lt;&lt;</a></td>
-                <td style={{ textAlign: 'center', verticalAlign: 'center' }}><a onClick={fitAll} href="#"> {featureCollection.length} insgesamt</a></td>
-                <td style={{ textAlign: 'right', verticalAlign: 'center' }}><a onClick={next} href="#">&gt;&gt;</a></td>
+                <OverlayTrigger placement="bottom" overlay={(<Tooltip id="prevtt">vorheriger Treffer</Tooltip>)}>
+                  <td style={{ textAlign: 'left', verticalAlign: 'center' }}><a onClick={previous} href="#">&lt;&lt;</a></td>
+                </OverlayTrigger>
+
+                <td style={{ textAlign: 'center', verticalAlign: 'center' }}><a onClick={fitAll} href="#">alle {featureCollection.length} Treffer anzeigen</a></td>
+                <OverlayTrigger placement="bottom" overlay={(<Tooltip id="nexttt">n&auml;chster Treffer</Tooltip>)}>
+                  <td style={{ textAlign: 'right', verticalAlign: 'center' }}><a onClick={next} href="#">&gt;&gt;</a></td>
+                </OverlayTrigger>
+                  
               </tr>
             </tbody>
           </table>

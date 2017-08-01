@@ -3,16 +3,18 @@ import Cismap from '../containers/Cismap.jsx';
 import { connect } from "react-redux";
 import Control from 'react-leaflet-control';
 import {browserHistory } from 'react-router';
-import { Form, FormGroup, InputGroup, FormControl, Button, Glyphicon, Well} from 'react-bootstrap';
+import { Form, FormGroup, InputGroup, FormControl, Button, Well} from 'react-bootstrap';
 import { getPolygonfromBBox } from '../utils/gisHelper';
 import * as bplanActions from '../actions/bplanActions';
 import { bindActionCreators } from 'redux';
 import { bplanFeatureStyler, bplanLabeler, getLineColorFromFeature } from '../utils/bplanHelper';
 import * as mappingActions from '../actions/mappingActions';
+import * as uiStateActions from '../actions/uiStateActions';
 import * as stateConstants from '../constants/stateConstants';
 import { downloadSingleFile,downloadMultipleFiles } from '../utils/downloadHelper';
-
+import BPlanModalHelp from '../components/BPlanModalHelpComponent';
 import BPlanInfo  from '../components/BPlanInfo'
+import {Icon} from 'react-fa'
 
 function mapStateToProps(state) {
   return {
@@ -28,6 +30,7 @@ function mapDispatchToProps(dispatch) {
   return {
     bplanActions: bindActionCreators(bplanActions,dispatch),
     mappingActions: bindActionCreators(mappingActions,dispatch),
+    uiStateActions: bindActionCreators(uiStateActions,dispatch),
   };
 }
 
@@ -44,7 +47,7 @@ export class BPlaene_ extends React.Component {
       this.downloadPlan=this.downloadPlan.bind(this);
       this.downloadEverything=this.downloadEverything.bind(this);
       this.downloadDone=this.downloadDone.bind(this);
-
+      this.openHelp=this.openHelp.bind(this);
   }
 
   bplanGazeteerhHit(selectedObject){   
@@ -91,8 +94,8 @@ export class BPlaene_ extends React.Component {
       this.props.bplanActions.setDocumentLoadingIndicator(true);
       downloadMultipleFiles(
         [
-          {"folder":"/","downloads":currentFeature.properties.plaene_rk},
-          {"folder":"/nicht rechtskräftig/","downloads":currentFeature.properties.plaene_nrk}
+          {"folder":"rechtskraeftig/","downloads":currentFeature.properties.plaene_rk},
+          {"folder":"nicht rechtskraeftig/","downloads":currentFeature.properties.plaene_nrk}
         ], "BPLAN_Plaene."+currentFeature.properties.nummer,this.downloadDone);
     }
   }
@@ -102,14 +105,18 @@ export class BPlaene_ extends React.Component {
     const currentFeature=this.props.mapping.featureCollection[this.props.mapping.selectedIndex];
     downloadMultipleFiles(
         [
-          {"folder":"/","downloads":currentFeature.properties.plaene_rk},
-          {"folder":"/nicht rechtskräftig/","downloads":currentFeature.properties.plaene_nrk},
-          {"folder":"/Zusatzdokumente/","downloads":currentFeature.properties.docs}
+          {"folder":"rechtskraeftig/","downloads":currentFeature.properties.plaene_rk},
+          {"folder":"nicht rechtskraeftig/","downloads":currentFeature.properties.plaene_nrk},
+          {"folder":"Zusatzdokumente/","downloads":currentFeature.properties.docs}
         ], "BPLAN_Plaene_und_Zusatzdokumente."+currentFeature.properties.nummer,this.downloadDone);
   }
   
   downloadDone() {
     this.props.bplanActions.setDocumentLoadingIndicator(false);
+  }
+
+  openHelp() {
+    this.props.uiStateActions.showHelpComponent(true);
   }
 
   featureClick(event){
@@ -142,15 +149,19 @@ export class BPlaene_ extends React.Component {
      }
      else {
        info = (<Well>
-                  <h5>Es werden momentan keine Pl&auml;ne angezeigt.</h5>
-                  <p>Bebauungspl&auml;ne k&ouml;nnen entweder durch die Nummer <br />
-                  (z.B.: #4711), durch die Adresse (z.B. Johannes-Rau-Platz 1) <br />
-                  oder durch eine manuelle Suche <Glyphicon glyph="search"/> angezeigt werden.</p>
+                  <h5>Aktuell keine Bebauungspl&auml;ne  geladen.</h5>
+                  <p>Für Zugriff auf einen bestimmten Plan den Anfang (mindestens <br />
+                   2 Zeichen) eines Suchbegriffs eingeben (B-Plan-Nummer <br /> 
+                   Adresse oder POI) und aus Vorschlagsliste auswählen oder mit  <br />   
+                  <Icon name="search"/> alle Pläne im aktuellen Kartenausschnitt laden.</p>
+                  <a onClick={this.openHelp} href='#'>vollst&auml;ndige Bedienungsanleitung</a>
                </Well>)
      }
   
    return (
         <div>
+            <BPlanModalHelp key={'BPlanModalHelp.visible:'+this.props.ui.helpTextVisible}/>
+
             <Cismap layers={this.props.params.layers ||'abkIntra'} 
                     gazeteerHitTrigger={this.bplanGazeteerhHit} 
                     searchButtonTrigger={this.bplanSearchButtonHit} 

@@ -12,7 +12,8 @@ export default {
   },
   uiState: {
     width: null,
-    height: null
+    height: null,
+    helpTextVisible: false
   },
   bplanApp: {
       documentsLoading: false

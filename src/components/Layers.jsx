@@ -39,7 +39,7 @@ Layers.set("osm", (opacity) => {
 Layers.set("abkf", (opacity) => {
   return (
     <WMSTileLayer
-      key="ABK"
+      key="abkf"
       url="https://wunda-geoportal-cache.cismet.de/geoportal"
       layers="abkf"
       format="image/png"
@@ -49,14 +49,58 @@ Layers.set("abkf", (opacity) => {
     />
   );
 });
-Layers.set("abkg", (opacity) => {
+Layers.set("bplan_abkg", (opacity) => {
   return (
     <WMSTileLayer
-      key="ABK"
+      key="bplan_abkg"
       url="https://wunda-geoportal-cache.cismet.de/geoportal"
-      layers="abkg"
+      layers="bplanreihe"
       format="image/png"
       tiled="true"
+      maxZoom={19}
+      opacity={opacity}
+    />
+  );
+});
+
+Layers.set("bplan_abkg_uncached", (opacity) => {
+  return (
+    <WMSTileLayer
+      key="bplan_abkg_uncached"
+      url="http://geoportal.wuppertal.de/deegree/wms"
+      layers="bplanreihe"
+      format="image/png"
+      tiled="true"
+      maxZoom={19}
+      opacity={opacity}
+    />
+  );
+});
+
+Layers.set("bplan_ovl", (opacity) => {
+  return (
+    <WMSTileLayer
+      key="bplan_ovl"
+      url="http://geoportal.wuppertal.de/deegree/wms"
+      layers="bplanhintergrund"
+      format="image/png"
+      tiled="true"
+      transparent="true"
+      maxZoom={19}
+      opacity={opacity}
+    />
+  );
+});
+
+Layers.set("bplan_ovl_cached", (opacity) => {
+  return (
+    <WMSTileLayer
+      key="bplan_ovl_cached"
+      url="https://wunda-geoportal-cache.cismet.de/geoportal"
+      layers="bplanhintergrund"
+      format="image/png"
+      tiled="true"
+      transparent="true"
       maxZoom={19}
       opacity={opacity}
     />
@@ -83,8 +127,22 @@ Layers.set("uwBPlan", (opacity) => {
   return (
     <WMSTileLayer
       key="BPlanreihe auf Umwis"
-      url="http://umwis.wuppertal-intra.de:80/deegreewms/wms"
-      layers="bplanreihe"
+      url="http://geoportal.wuppertal.de/deegree/wms"
+      layers="bplanreihe,bplanhintergrund"
+      format="image/png"
+      tiled="true"
+      maxZoom={19}
+      opacity={opacity}
+    />
+  );
+});
+
+Layers.set("uwBPlanCached", (opacity) => {
+  return (
+    <WMSTileLayer
+      key="BPlanreihe auf Umwis"
+      url="https://wunda-geoportal-cache.cismet.de/geoportal"
+      layers="bplanreihe,bplanhintergrund"
       format="image/png"
       tiled="true"
       maxZoom={19}

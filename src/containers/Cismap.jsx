@@ -317,7 +317,7 @@ Cismap_.propTypes = {
 };
 
 Cismap_.defaultProps = {
-  layers: "abkf",
+  layers: "bplan_abkg_uncached",
   gazeteerHitTrigger: function(){},
   searchButtonTrigger: function(){},
   featureClickHandler: function(){},

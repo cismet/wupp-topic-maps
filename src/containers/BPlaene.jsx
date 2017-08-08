@@ -162,7 +162,7 @@ export class BPlaene_ extends React.Component {
         <div>
             <BPlanModalHelp key={'BPlanModalHelp.visible:'+this.props.ui.helpTextVisible}/>
 
-            <Cismap layers={this.props.params.layers ||'abkIntra'} 
+            <Cismap layers={this.props.params.layers ||'uwBPlan'} 
                     gazeteerHitTrigger={this.bplanGazeteerhHit} 
                     searchButtonTrigger={this.bplanSearchButtonHit} 
                     featureStyler={bplanFeatureStyler}

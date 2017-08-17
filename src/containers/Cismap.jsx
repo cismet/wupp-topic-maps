@@ -11,7 +11,7 @@ import { bindActionCreators } from 'redux';
 import 'react-leaflet-fullscreen/dist/styles.css';
 import FullscreenControl from 'react-leaflet-fullscreen';
 import Control from 'react-leaflet-control';
-import { Form, FormGroup, InputGroup, FormControl, Button, Well} from 'react-bootstrap';
+import { Form, FormGroup, InputGroup, FormControl, Button, Well, OverlayTrigger,Tooltip} from 'react-bootstrap';
 import { Typeahead, AsyncTypeahead } from 'react-bootstrap-typeahead';
 import * as stateConstants from '../constants/stateConstants';
 import Loadable from 'react-loading-overlay'
@@ -235,7 +235,7 @@ render() {
       <Icon spin name="refresh" />
      )
    }
-
+console.log(this.props);
     return (
       <Map 
         ref="leafletMap"
@@ -264,7 +264,9 @@ render() {
             <FormGroup >
               <InputGroup>
                   <InputGroup.Button  disabled={this.props.mapping.searchInProgress} onClick={this.internalSearchButtonTrigger}>
-                    <Button disabled={this.props.mapping.searchInProgress} >{searchIcon}</Button>
+                    <OverlayTrigger placement="top" overlay={this.props.searchTooltipProvider()}>
+                      <Button disabled={this.props.mapping.searchInProgress} >{searchIcon}</Button>
+                    </OverlayTrigger>
                   </InputGroup.Button>
                 <AsyncTypeahead ref="typeahead" style={{ width: '300px'}}
                   {...this.state}
@@ -288,7 +290,9 @@ render() {
             </Form>
           </Control>
           <Control position="topright"  >
-           <Button onClick={this.showModalHelpComponent}><Icon name='info'/></Button>
+            <OverlayTrigger placement="left" overlay={this.props.helpTooltipProvider()}>
+              <Button onClick={this.showModalHelpComponent}><Icon name='info'/></Button>
+            </OverlayTrigger>
           </Control>
 
          {this.props.children}
@@ -313,6 +317,8 @@ Cismap_.propTypes = {
   featureStyler: PropTypes.func.isRequired,
   labeler: PropTypes.func.isRequired,
   featureClickHandler: PropTypes.func.isRequired,
+  helpTooltipProvider: PropTypes.func,
+  searchTooltipProvider: PropTypes.func,
 
 };
 
@@ -321,4 +327,11 @@ Cismap_.defaultProps = {
   gazeteerHitTrigger: function(){},
   searchButtonTrigger: function(){},
   featureClickHandler: function(){},
+  helpTooltipProvider:  function(){  
+    return (<Tooltip id="helpTooltip">Bedienungsanleitung anzeigen</Tooltip>);
+  },
+  searchTooltipProvider:  function(){  
+    return (<Tooltip id="searchTooltip">Objekte suchen</Tooltip>);
+  }
+
 }

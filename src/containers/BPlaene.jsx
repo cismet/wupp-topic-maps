@@ -3,7 +3,7 @@ import Cismap from '../containers/Cismap.jsx';
 import { connect } from "react-redux";
 import Control from 'react-leaflet-control';
 import {browserHistory } from 'react-router';
-import { Form, FormGroup, InputGroup, FormControl, Button, Well} from 'react-bootstrap';
+import { Form, FormGroup, InputGroup, FormControl, Button, Well, Tooltip} from 'react-bootstrap';
 import { getPolygonfromBBox } from '../utils/gisHelper';
 import * as bplanActions from '../actions/bplanActions';
 import { bindActionCreators } from 'redux';
@@ -131,6 +131,10 @@ export class BPlaene_ extends React.Component {
     }
   }
 
+  searchTooltip(){
+     return (<Tooltip id="searchTooltip">B-Pl&auml;ne im Kartenausschnitt laden</Tooltip>); 
+  };
+
   render() {  
    let info= null;
      if (this.props.mapping.featureCollection.length>0) {
@@ -167,7 +171,8 @@ export class BPlaene_ extends React.Component {
                     searchButtonTrigger={this.bplanSearchButtonHit} 
                     featureStyler={bplanFeatureStyler}
                     labeler={bplanLabeler}
-                    featureClickHandler={this.featureClick}>
+                    featureClickHandler={this.featureClick}
+                    searchTooltipProvider={this.searchTooltip}>
                 <Control position="bottomright" >
                   {info}                    
                 </Control>

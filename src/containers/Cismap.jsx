@@ -329,10 +329,10 @@ Cismap_.defaultProps = {
   searchButtonTrigger: function(){},
   featureClickHandler: function(){},
   helpTooltipProvider:  function(){  
-    return (<Tooltip id="helpTooltip">Bedienungsanleitung anzeigen</Tooltip>);
+    return (<Tooltip style={{zIndex: 3000000000}} id="helpTooltip">Bedienungsanleitung anzeigen</Tooltip>);
   },
   searchTooltipProvider:  function(){  
-    return (<Tooltip id="searchTooltip">Objekte suchen</Tooltip>);
+    return (<Tooltip style={{zIndex: 3000000000}} id="searchTooltip">Objekte suchen</Tooltip>);
   }
 
 }

@@ -132,7 +132,7 @@ export class BPlaene_ extends React.Component {
   }
 
   searchTooltip(){
-     return (<Tooltip id="searchTooltip">B-Pl&auml;ne im Kartenausschnitt laden</Tooltip>); 
+     return (<Tooltip style={{zIndex: 3000000000}} id="searchTooltip">B-Pl&auml;ne im Kartenausschnitt laden</Tooltip>); 
   };
 
   render() {  

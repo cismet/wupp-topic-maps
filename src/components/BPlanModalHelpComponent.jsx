@@ -28,12 +28,13 @@ export class BPlanModalHelp_ extends React.Component {
   }
   render() {
     let modalBodyStyle= {
-      "overflow-y":"auto",
-      "max-height":this.props.uiState.height-200
+      "overflowY":"auto",
+      "maxHeight":this.props.uiState.height-200
     }
+    
     console.log(this.props.uiState)
     return (
-      <Modal bsSize="large" show={this.props.uiState.helpTextVisible} onHide={this.close} keyboard={false} >
+      <Modal style={{zIndex: 3000000000}} bsSize="large" show={this.props.uiState.helpTextVisible} onHide={this.close} keyboard={false} >
         <Modal.Header  >
           <Modal.Title><Icon name="info"/>&nbsp;&nbsp;&nbsp;Kompaktanleitung B-Plan-Auskunft Wuppertal</Modal.Title>
         </Modal.Header>

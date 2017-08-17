@@ -154,10 +154,13 @@ export class BPlaene_ extends React.Component {
      else {
        info = (<Well>
                   <h5>Aktuell keine Bebauungspl&auml;ne  geladen.</h5>
-                  <p>Für Zugriff auf einen bestimmten Plan den Anfang (mindestens <br />
-                   2 Zeichen) eines Suchbegriffs eingeben (B-Plan-Nummer <br /> 
-                   Adresse oder POI) und aus Vorschlagsliste auswählen oder mit  <br />   
-                  <Icon name="search"/> alle Pläne im aktuellen Kartenausschnitt laden.</p>
+                  <p>Um B-Pl&auml;ne an einem bestimmten Ort zu laden oder direkt auf <br />
+                  einen Plan zuzugreifen, den Anfang (mindestens 2 Zeichen) <br />
+                  eines Suchbegriffs eingeben (Adresse, POI oder B-Plan-<br />
+                  Nummer)
+                  und Eintrag aus Vorschlagsliste auswählen oder mit <br />
+                  <Icon name="search"/> alle Pl&auml;ne im aktuellen Kartenausschnitt laden </p>
+                  
                   <a onClick={this.openHelp} href='#'>vollst&auml;ndige Bedienungsanleitung</a>
                </Well>)
      }

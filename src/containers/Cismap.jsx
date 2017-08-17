@@ -236,6 +236,7 @@ render() {
      )
    }
 
+    const searchAllowed=(zoomByUrl>=this.props.searchMinZoom && zoomByUrl<=this.props.searchMaxZoom);
     return (
       <Map 
         ref="leafletMap"
@@ -264,9 +265,9 @@ render() {
         <Form style={{ width: '300px'}}  action="#">
             <FormGroup >
               <InputGroup>
-                  <InputGroup.Button  disabled={this.props.mapping.searchInProgress} onClick={this.internalSearchButtonTrigger}>
+                  <InputGroup.Button  disabled={this.props.mapping.searchInProgress||!searchAllowed} onClick={this.internalSearchButtonTrigger}>
                     <OverlayTrigger placement="top" overlay={this.props.searchTooltipProvider()}>
-                      <Button disabled={this.props.mapping.searchInProgress} >{searchIcon}</Button>
+                      <Button disabled={this.props.mapping.searchInProgress||!searchAllowed} >{searchIcon}</Button>
                     </OverlayTrigger>
                   </InputGroup.Button>
                 <AsyncTypeahead ref="typeahead" style={{ width: '300px'}}
@@ -320,6 +321,8 @@ Cismap_.propTypes = {
   featureClickHandler: PropTypes.func.isRequired,
   helpTooltipProvider: PropTypes.func,
   searchTooltipProvider: PropTypes.func,
+  searchMinZoom: PropTypes.number,
+  searchMaxZoom: PropTypes.number,
 
 };
 
@@ -333,6 +336,7 @@ Cismap_.defaultProps = {
   },
   searchTooltipProvider:  function(){  
     return (<Tooltip style={{zIndex: 3000000000}} id="searchTooltip">Objekte suchen</Tooltip>);
-  }
-
+  }, 
+  searchMinZoom: 7,
+  searchMaxZoom: 18,
 }

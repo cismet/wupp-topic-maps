@@ -159,7 +159,7 @@ export class BPlaene_ extends React.Component {
                   eines Suchbegriffs eingeben (Adresse, POI oder B-Plan-<br />
                   Nummer)
                   und Eintrag aus Vorschlagsliste auswählen oder mit <br />
-                  <Icon name="search"/> alle Pl&auml;ne im aktuellen Kartenausschnitt laden </p>
+                  <Icon name="search"/> alle Pl&auml;ne im aktuellen Kartenausschnitt laden.</p>
                   
                   <a onClick={this.openHelp} href='#'>vollst&auml;ndige Bedienungsanleitung</a>
                </Well>)
@@ -175,7 +175,9 @@ export class BPlaene_ extends React.Component {
                     featureStyler={bplanFeatureStyler}
                     labeler={bplanLabeler}
                     featureClickHandler={this.featureClick}
-                    searchTooltipProvider={this.searchTooltip}>
+                    searchTooltipProvider={this.searchTooltip}
+                    searchMinZoom={12}
+                    searchMaxZoom={18}>
                 <Control position="bottomright" >
                   {info}                    
                 </Control>

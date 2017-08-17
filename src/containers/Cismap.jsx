@@ -1,5 +1,5 @@
 import React, { PropTypes } from 'react';
-import { Map, TileLayer } from 'react-leaflet';
+import { Map, TileLayer, ZoomControl } from 'react-leaflet';
 import { connect } from "react-redux";
 import 'proj4leaflet';
 import { Layers } from '../components/Layers';
@@ -235,7 +235,7 @@ render() {
       <Icon spin name="refresh" />
      )
    }
-console.log(this.props);
+
     return (
       <Map 
         ref="leafletMap"
@@ -244,10 +244,11 @@ console.log(this.props);
         style={mapStyle} 
         center={positionByUrl} 
         zoom={zoomByUrl} 
+        zoomControl={false}
         attributionControl={false} 
         doubleClickZoom={false}
         minZoom={7} 
-        maxZoom={18} 
+        maxZoom={18}
         >
         {
           layerArr.map((layerWithOpacity)=> {
@@ -255,10 +256,10 @@ console.log(this.props);
               return Layers.get(layOp[0])(parseInt(layOp[1]||'100')/100.0);
           })
         }
-       
        <GazetteerHitDisplay key={"gazHit"+JSON.stringify(this.props.mapping)} mappingProps={this.props.mapping} />
        <FeatureCollectionDisplay key={JSON.stringify(this.props.mapping)} mappingProps={this.props.mapping} style={this.props.featureStyler} labeler={this.props.labeler} featureClickHandler={this.featureClick} mapRef={this.refs.leafletMap}/>
-       <FullscreenControl position="topleft" />
+       <ZoomControl position="topleft" zoomInTitle="Vergr&ouml;ßern" zoomOutTitle="Verkleinern" />
+       <FullscreenControl title="Vollbildmodus" forceSeparateButton={true} titleCancel="Vollbildmodus beenden" position="topleft" />      
        <Control position="bottomleft"  >
         <Form style={{ width: '300px'}}  action="#">
             <FormGroup >

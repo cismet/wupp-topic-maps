@@ -3,7 +3,7 @@ import Cismap from '../containers/Cismap.jsx';
 import { connect } from "react-redux";
 import Control from 'react-leaflet-control';
 import {browserHistory } from 'react-router';
-import { Form, FormGroup, InputGroup, FormControl, Button, Well} from 'react-bootstrap';
+import { Form, FormGroup, InputGroup, FormControl, Button, Well, Tooltip} from 'react-bootstrap';
 import { getPolygonfromBBox } from '../utils/gisHelper';
 import * as bplanActions from '../actions/bplanActions';
 import { bindActionCreators } from 'redux';
@@ -131,6 +131,10 @@ export class BPlaene_ extends React.Component {
     }
   }
 
+  searchTooltip(){
+     return (<Tooltip style={{zIndex: 3000000000}} id="searchTooltip">B-Pl&auml;ne im Kartenausschnitt laden</Tooltip>); 
+  };
+
   render() {  
    let info= null;
      if (this.props.mapping.featureCollection.length>0) {
@@ -150,10 +154,13 @@ export class BPlaene_ extends React.Component {
      else {
        info = (<Well>
                   <h5>Aktuell keine Bebauungspl&auml;ne  geladen.</h5>
-                  <p>Für Zugriff auf einen bestimmten Plan den Anfang (mindestens <br />
-                   2 Zeichen) eines Suchbegriffs eingeben (B-Plan-Nummer <br /> 
-                   Adresse oder POI) und aus Vorschlagsliste auswählen oder mit  <br />   
-                  <Icon name="search"/> alle Pläne im aktuellen Kartenausschnitt laden.</p>
+                  <p>Um B-Pl&auml;ne an einem bestimmten Ort zu laden oder direkt auf <br />
+                  einen Plan zuzugreifen, den Anfang (mindestens 2 Zeichen) <br />
+                  eines Suchbegriffs eingeben (Adresse, POI oder B-Plan-<br />
+                  Nummer)
+                  und Eintrag aus Vorschlagsliste auswählen oder mit <br />
+                  <Icon name="search"/> alle Pl&auml;ne im aktuellen Kartenausschnitt laden </p>
+                  
                   <a onClick={this.openHelp} href='#'>vollst&auml;ndige Bedienungsanleitung</a>
                </Well>)
      }
@@ -167,7 +174,8 @@ export class BPlaene_ extends React.Component {
                     searchButtonTrigger={this.bplanSearchButtonHit} 
                     featureStyler={bplanFeatureStyler}
                     labeler={bplanLabeler}
-                    featureClickHandler={this.featureClick}>
+                    featureClickHandler={this.featureClick}
+                    searchTooltipProvider={this.searchTooltip}>
                 <Control position="bottomright" >
                   {info}                    
                 </Control>

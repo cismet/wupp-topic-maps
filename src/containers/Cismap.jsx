@@ -1,5 +1,5 @@
 import React, { PropTypes } from 'react';
-import { Map, TileLayer } from 'react-leaflet';
+import { Map, TileLayer, ZoomControl } from 'react-leaflet';
 import { connect } from "react-redux";
 import 'proj4leaflet';
 import { Layers } from '../components/Layers';
@@ -11,7 +11,7 @@ import { bindActionCreators } from 'redux';
 import 'react-leaflet-fullscreen/dist/styles.css';
 import FullscreenControl from 'react-leaflet-fullscreen';
 import Control from 'react-leaflet-control';
-import { Form, FormGroup, InputGroup, FormControl, Button, Well} from 'react-bootstrap';
+import { Form, FormGroup, InputGroup, FormControl, Button, Well, OverlayTrigger,Tooltip} from 'react-bootstrap';
 import { Typeahead, AsyncTypeahead } from 'react-bootstrap-typeahead';
 import * as stateConstants from '../constants/stateConstants';
 import Loadable from 'react-loading-overlay'
@@ -244,10 +244,11 @@ render() {
         style={mapStyle} 
         center={positionByUrl} 
         zoom={zoomByUrl} 
+        zoomControl={false}
         attributionControl={false} 
         doubleClickZoom={false}
         minZoom={7} 
-        maxZoom={18} 
+        maxZoom={18}
         >
         {
           layerArr.map((layerWithOpacity)=> {
@@ -255,16 +256,18 @@ render() {
               return Layers.get(layOp[0])(parseInt(layOp[1]||'100')/100.0);
           })
         }
-       
        <GazetteerHitDisplay key={"gazHit"+JSON.stringify(this.props.mapping)} mappingProps={this.props.mapping} />
        <FeatureCollectionDisplay key={JSON.stringify(this.props.mapping)} mappingProps={this.props.mapping} style={this.props.featureStyler} labeler={this.props.labeler} featureClickHandler={this.featureClick} mapRef={this.refs.leafletMap}/>
-       <FullscreenControl position="topleft" />
+       <ZoomControl position="topleft" zoomInTitle="Vergr&ouml;ßern" zoomOutTitle="Verkleinern" />
+       <FullscreenControl title="Vollbildmodus" forceSeparateButton={true} titleCancel="Vollbildmodus beenden" position="topleft" />      
        <Control position="bottomleft"  >
         <Form style={{ width: '300px'}}  action="#">
             <FormGroup >
               <InputGroup>
                   <InputGroup.Button  disabled={this.props.mapping.searchInProgress} onClick={this.internalSearchButtonTrigger}>
-                    <Button disabled={this.props.mapping.searchInProgress} >{searchIcon}</Button>
+                    <OverlayTrigger placement="top" overlay={this.props.searchTooltipProvider()}>
+                      <Button disabled={this.props.mapping.searchInProgress} >{searchIcon}</Button>
+                    </OverlayTrigger>
                   </InputGroup.Button>
                 <AsyncTypeahead ref="typeahead" style={{ width: '300px'}}
                   {...this.state}
@@ -288,7 +291,9 @@ render() {
             </Form>
           </Control>
           <Control position="topright"  >
-           <Button onClick={this.showModalHelpComponent}><Icon name='info'/></Button>
+            <OverlayTrigger placement="left" overlay={this.props.helpTooltipProvider()}>
+              <Button onClick={this.showModalHelpComponent}><Icon name='info'/></Button>
+            </OverlayTrigger>
           </Control>
 
          {this.props.children}
@@ -313,6 +318,8 @@ Cismap_.propTypes = {
   featureStyler: PropTypes.func.isRequired,
   labeler: PropTypes.func.isRequired,
   featureClickHandler: PropTypes.func.isRequired,
+  helpTooltipProvider: PropTypes.func,
+  searchTooltipProvider: PropTypes.func,
 
 };
 
@@ -321,4 +328,11 @@ Cismap_.defaultProps = {
   gazeteerHitTrigger: function(){},
   searchButtonTrigger: function(){},
   featureClickHandler: function(){},
+  helpTooltipProvider:  function(){  
+    return (<Tooltip style={{zIndex: 3000000000}} id="helpTooltip">Bedienungsanleitung anzeigen</Tooltip>);
+  },
+  searchTooltipProvider:  function(){  
+    return (<Tooltip style={{zIndex: 3000000000}} id="searchTooltip">Objekte suchen</Tooltip>);
+  }
+
 }

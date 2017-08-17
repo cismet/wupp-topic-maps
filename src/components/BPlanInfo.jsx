@@ -52,7 +52,7 @@ const BPlanInfo = ({featureCollection, selectedIndex, next, previous, fitAll, lo
   }
 
   const planTooltip = (  
-    <Tooltip id="planTooltip">{dokumentArt} mit {currentFeature.properties.plaene_rk.length + " " + planOrPlanteile_rk+nichtRK}</Tooltip>
+    <Tooltip style={{zIndex: 3000000000}} id="planTooltip">{dokumentArt} mit {currentFeature.properties.plaene_rk.length + " " + planOrPlanteile_rk+nichtRK}</Tooltip>
   );
 
   let docsEnabled;
@@ -71,7 +71,7 @@ const BPlanInfo = ({featureCollection, selectedIndex, next, previous, fitAll, lo
   }
 
   const docsTooltip = (
-    <Tooltip id="docsTooltip">ZIP Archiv mit allen Plänen und {currentFeature.properties.docs.length + " " + docOrDocs}</Tooltip>
+    <Tooltip style={{zIndex: 3000000000}} id="docsTooltip">ZIP Archiv mit allen Plänen und {currentFeature.properties.docs.length + " " + docOrDocs}</Tooltip>
   );
 
   let docDownload=null;
@@ -95,8 +95,8 @@ const BPlanInfo = ({featureCollection, selectedIndex, next, previous, fitAll, lo
   let statusGlyphs=null;
   let status=currentFeature.properties.status;
   //let rk=(<FontAwesome name='check-circle-o' />);
-  let rktt=(<Tooltip id="rktt">rechtswirksam</Tooltip>)
-  let nrktt=(<Tooltip id="nrktt">laufendes Verfahren</Tooltip>)
+  let rktt=(<Tooltip style={{zIndex: 3000000000}} id="rktt">rechtswirksam</Tooltip>)
+  let nrktt=(<Tooltip style={{zIndex: 3000000000}} id="nrktt">laufendes Verfahren</Tooltip>)
 
   let rk=(<OverlayTrigger placement="top" overlay={rktt}><Icon style={{color: 'green',opacity: .50}} name='check-circle-o' /></OverlayTrigger>);
   let nrk=(<OverlayTrigger placement="top" overlay={nrktt}><Icon style={{color: 'red',opacity: .50}} name='times-circle-o' /></OverlayTrigger>);
@@ -139,12 +139,12 @@ const BPlanInfo = ({featureCollection, selectedIndex, next, previous, fitAll, lo
           <table style={{ width: '100%' }}>
             <tbody>
               <tr>
-                <OverlayTrigger placement="bottom" overlay={(<Tooltip id="prevtt">vorheriger Treffer</Tooltip>)}>
+                <OverlayTrigger placement="bottom" overlay={(<Tooltip style={{zIndex: 3000000000}} id="prevtt">vorheriger Treffer</Tooltip>)}>
                   <td style={{ textAlign: 'left', verticalAlign: 'center' }}><a onClick={previous} href="#">&lt;&lt;</a></td>
                 </OverlayTrigger>
 
                 <td style={{ textAlign: 'center', verticalAlign: 'center' }}><a onClick={fitAll} href="#">alle {featureCollection.length} Treffer anzeigen</a></td>
-                <OverlayTrigger placement="bottom" overlay={(<Tooltip id="nexttt">n&auml;chster Treffer</Tooltip>)}>
+                <OverlayTrigger placement="bottom" overlay={(<Tooltip style={{zIndex: 3000000000}} id="nexttt">n&auml;chster Treffer</Tooltip>)}>
                   <td style={{ textAlign: 'right', verticalAlign: 'center' }}><a onClick={next} href="#">&gt;&gt;</a></td>
                 </OverlayTrigger>
                   

@@ -6,8 +6,8 @@ import * as turf from '@turf/turf';
 import * as stateConstants from '../constants/stateConstants';
 
 import {
-  SERVICE
-} from '../constants/cids';
+  WUNDAAPI
+} from '../constants/services';
 
 import 'whatwg-fetch';
 
@@ -33,8 +33,9 @@ export function searchForPlans(gazObject) {
       }
       ]
     };
+    //console.log(WUNDAAPI + '/searches/WUNDA_BLAU.BPlanAPISearch/results?role=all&limit=100&offset=0')
     //console.log(JSON.stringify(query));
-    fetch(SERVICE + '/searches/WUNDA_BLAU.BPlanAPISearch/results?role=all&limit=100&offset=0', {
+    fetch(WUNDAAPI + '/searches/WUNDA_BLAU.BPlanAPISearch/results?role=all&limit=100&offset=0', {
       method: 'post',
       headers: {
         'Content-Type': 'application/json'

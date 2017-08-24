@@ -26,7 +26,7 @@ const BPlanInfo = ({featureCollection, selectedIndex, next, previous, fitAll, lo
 
   if (currentFeature.properties.plaene_rk.length+currentFeature.properties.plaene_nrk.length>1){
     planOrPlaene="Pläne";
-    dokumentArt="ZIP Archiv"
+    dokumentArt="PDF Dokument"
   }
   else {
     planOrPlaene="Plan";  

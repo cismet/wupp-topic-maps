@@ -22,10 +22,14 @@ import objectAssign from 'object-assign';
 import {Icon} from 'react-fa'
 import * as uiStateActions from '../actions/uiStateActions';
 
+
+import { experimentalDownload } from '../utils/downloadHelper';
+
+
 import {
-  SERVICE,
+  WUNDAAPI,
   DOMAIN
-} from '../constants/cids';
+} from '../constants/services';
 
 const fallbackposition = {
   lat: 51.272399,
@@ -196,7 +200,7 @@ renderMenuItemChildren(option, props, index) {
         "value": query
       }]
     };
-    fetch(SERVICE + '/searches/WUNDA_BLAU.BPlanAPIGazeteerSearch/results?role=all&limit=100&offset=0', {
+    fetch(WUNDAAPI + '/searches/WUNDA_BLAU.BPlanAPIGazeteerSearch/results?role=all&limit=100&offset=0', {
       method: 'post',
       headers: {
         'Content-Type': 'application/json'
@@ -294,7 +298,7 @@ render() {
           <Control position="topright"  >
             <OverlayTrigger placement="left" overlay={this.props.helpTooltipProvider()}>
               <Button onClick={this.showModalHelpComponent}><Icon name='info'/></Button>
-            </OverlayTrigger>
+           </OverlayTrigger>
           </Control>
 
          {this.props.children}

@@ -11,7 +11,7 @@ import { bplanFeatureStyler, bplanLabeler, getLineColorFromFeature } from '../ut
 import * as mappingActions from '../actions/mappingActions';
 import * as uiStateActions from '../actions/uiStateActions';
 import * as stateConstants from '../constants/stateConstants';
-import { downloadSingleFile,downloadMultipleFiles } from '../utils/downloadHelper';
+import { downloadSingleFile,downloadMultipleFiles, mergeMultipleFiles } from '../utils/downloadHelper';
 import BPlanModalHelp from '../components/BPlanModalHelpComponent';
 import BPlanInfo  from '../components/BPlanInfo'
 import {Icon} from 'react-fa'
@@ -92,23 +92,66 @@ export class BPlaene_ extends React.Component {
     }
     else {
       this.props.bplanActions.setDocumentLoadingIndicator(true);
-      downloadMultipleFiles(
-        [
-          {"folder":"rechtskraeftig/","downloads":currentFeature.properties.plaene_rk},
-          {"folder":"nicht rechtskraeftig/","downloads":currentFeature.properties.plaene_nrk}
-        ], "BPLAN_Plaene."+currentFeature.properties.nummer,this.downloadDone);
-    }
+      let downloadConf= {
+        "name":"BPLAN_Plaene."+currentFeature.properties.nummer,
+        "files": []
+      };
+      for (let index = 0; index < currentFeature.properties.plaene_rk.length; ++index) {
+        let prk=currentFeature.properties.plaene_rk[index];
+        downloadConf.files.push({
+            "uri":prk.url,
+            "folder":"rechtskraeftig"
+          });
+      }
+      for (let index = 0; index < currentFeature.properties.plaene_nrk.length; ++index) {
+        let pnrk=currentFeature.properties.plaene_nrk[index];
+        downloadConf.files.push({
+            "uri":pnrk.url,
+            "folder":"nicht rechtskraeftig"
+          });
+      }
+      mergeMultipleFiles(downloadConf,this.downloadDone)
+     }
   }
 
   downloadEverything() {
     this.props.bplanActions.setDocumentLoadingIndicator(true);
     const currentFeature=this.props.mapping.featureCollection[this.props.mapping.selectedIndex];
-    downloadMultipleFiles(
-        [
-          {"folder":"rechtskraeftig/","downloads":currentFeature.properties.plaene_rk},
-          {"folder":"nicht rechtskraeftig/","downloads":currentFeature.properties.plaene_nrk},
-          {"folder":"Zusatzdokumente/","downloads":currentFeature.properties.docs}
-        ], "BPLAN_Plaene_und_Zusatzdokumente."+currentFeature.properties.nummer,this.downloadDone);
+    // downloadMultipleFiles(
+    //     [
+    //       {"folder":"rechtskraeftig/","downloads":currentFeature.properties.plaene_rk},
+    //       {"folder":"nicht rechtskraeftig/","downloads":currentFeature.properties.plaene_nrk},
+    //       {"folder":"Zusatzdokumente/","downloads":currentFeature.properties.docs}
+    //     ], "BPLAN_Plaene_und_Zusatzdokumente."+currentFeature.properties.nummer,this.downloadDone);
+
+      let downloadConf= {
+        "name":"BPLAN_Plaene_und_Zusatzdokumente."+currentFeature.properties.nummer,
+        "files": []
+      };
+      for (let index = 0; index < currentFeature.properties.plaene_rk.length; ++index) {
+        let prk=currentFeature.properties.plaene_rk[index];
+        downloadConf.files.push({
+            "uri":prk.url,
+            "folder":"rechtskraeftig"
+          });
+      }
+      for (let index = 0; index < currentFeature.properties.plaene_nrk.length; ++index) {
+        let pnrk=currentFeature.properties.plaene_nrk[index];
+        downloadConf.files.push({
+            "uri":pnrk.url,
+            "folder":"nicht rechtskraeftig"
+          });
+      }
+      for (let index = 0; index < currentFeature.properties.docs.length; ++index) {
+        let doc=currentFeature.properties.docs[index];
+        downloadConf.files.push({
+            "uri":doc.url,
+            "folder":"Zusatzdokumente"
+          });
+      }
+      
+      downloadMultipleFiles(downloadConf,this.downloadDone);
+
   }
   
   downloadDone() {

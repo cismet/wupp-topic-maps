@@ -33,7 +33,7 @@ export const mergeMultipleFiles = (mergeConf, done) => {
         response.json().then(function (result) {
             downloadSingleFile({
                 "url":DRPROCESSOR+"/api/download/pdfmerge/"+result.id+"/"+mergeConf.name,
-                "file":"Fehler"
+                "file":mergeConf.name+".pdf"
             });
             done();
         });
@@ -58,7 +58,7 @@ export const downloadMultipleFiles = (mergeConf, done) => {
         response.json().then(function (result) {
             downloadSingleFile({
                 "url":DRPROCESSOR+"/api/download/zip/"+result.id+"/"+mergeConf.name,
-                "file":"Fehler"
+                "file":mergeConf.name+".zip"
             });
             done();
         });

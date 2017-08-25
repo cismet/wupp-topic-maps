@@ -32,7 +32,6 @@ export class BPlanModalHelp_ extends React.Component {
       "maxHeight":this.props.uiState.height-200
     }
     
-    console.log(this.props.uiState)
     return (
       <Modal style={{zIndex: 3000000000}} bsSize="large" show={this.props.uiState.helpTextVisible} onHide={this.close} keyboard={false} >
         <Modal.Header  >

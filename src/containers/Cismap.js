@@ -10,7 +10,7 @@ import { crs25832, proj4crs25832def } from '../constants/gis';
 import proj4 from 'proj4';
 import { bindActionCreators } from 'redux';
 //import 'react-leaflet-fullscreen/dist/styles.css';
-//import FullscreenControl from 'react-leaflet-fullscreen';
+import FullscreenControl from '../components/FullscreenControl';
 import Control from 'react-leaflet-control';
 import { Form, FormGroup, InputGroup, FormControl, Button, Well, OverlayTrigger,Tooltip} from 'react-bootstrap';
 import { Typeahead, AsyncTypeahead } from 'react-bootstrap-typeahead';
@@ -160,14 +160,28 @@ internalGazeteerHitTrigger(hit){
   
 }
 
-internalSearchButtonTrigger(event){
-  if (this.props.mapping.searchInProgress===false && this.props.searchButtonTrigger!==undefined) {
-    this.refs.typeahead.getInstance().clear();
-    this.props.mappingActions.gazetteerHit(null);
-    this.props.searchButtonTrigger(event)
-  } else {
-    //console.log("search in progress or no searchButtonTrigger defined");
-  }
+internalSearchButtonTrigger(event) {
+    if (this.searchOverlay) {
+        this
+            .searchOverlay
+            .hide();
+    }
+    if (this.props.mapping.searchInProgress === false && this.props.searchButtonTrigger !== undefined) {
+        this
+            .refs
+            .typeahead
+            .getInstance()
+            .clear();
+        this
+            .props
+            .mappingActions
+            .gazetteerHit(null);
+        this
+            .props
+            .searchButtonTrigger(event)
+    } else {
+        //console.log("search in progress or no searchButtonTrigger defined");
+    }
 
 }
 featureClick(event) {
@@ -273,13 +287,13 @@ render() {
        <GazetteerHitDisplay key={"gazHit"+JSON.stringify(this.props.mapping)} mappingProps={this.props.mapping} />
        <FeatureCollectionDisplay key={JSON.stringify(this.props.mapping)} mappingProps={this.props.mapping} style={this.props.featureStyler} labeler={this.props.labeler} featureClickHandler={this.featureClick} mapRef={this.refs.leafletMap}/>
        <ZoomControl position="topleft" zoomInTitle="Vergr&ouml;ßern" zoomOutTitle="Verkleinern" />
-       {/*<FullscreenControl title="Vollbildmodus" forceSeparateButton={true} titleCancel="Vollbildmodus beenden" position="topleft" /> */}
+       <FullscreenControl title="Vollbildmodus" forceSeparateButton={true} titleCancel="Vollbildmodus beenden" position="topleft" /> 
        <Control position="bottomleft"  >
         <Form style={{ width: '300px'}}  action="#">
             <FormGroup >
               <InputGroup>
                   <InputGroup.Button  disabled={this.props.mapping.searchInProgress||!searchAllowed} onClick={this.internalSearchButtonTrigger}>
-                    <OverlayTrigger placement="top" overlay={this.props.searchTooltipProvider()}>
+                    <OverlayTrigger ref={c=>this.searchOverlay=c} placement="top" overlay={this.props.searchTooltipProvider()}>
                       <Button disabled={this.props.mapping.searchInProgress||!searchAllowed} >{searchIcon}</Button>
                     </OverlayTrigger>
                   </InputGroup.Button>

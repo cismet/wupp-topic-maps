@@ -111,7 +111,6 @@ const BPlanInfo = ({featureCollection, selectedIndex, next, previous, fitAll, lo
     statusGlyphs=(<span>&nbsp;{rk}&nbsp;{nrk}</span>)
   }
 
-//  console.log('#'+this.props.routing.location.pathname+this.props.routing.location.search);
   return (
     <Loadable
       active={loadingIndicator}

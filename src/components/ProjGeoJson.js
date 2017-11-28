@@ -10,9 +10,6 @@ import { bindActionCreators } from 'redux';
 import { actions as mappingActions, constants as mappingConstants } from '../redux/modules/mapping';
 import * as gisHelpers from '../utils/gisHelper';
 
-import pointOnSurface from '@turf/point-on-surface';
-import * as turf from '@turf/turf';
-
 import { Path } from 'react-leaflet';
 import polylabel from '@mapbox/polylabel'
 

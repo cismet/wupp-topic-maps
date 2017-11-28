@@ -1,6 +1,7 @@
 import objectAssign from 'object-assign';
 import { actions as mappingActions, constants as mappingConstants } from './mapping';
-import * as turf from '@turf/turf';
+import * as turfHelpers from '@turf/helpers';
+import inside from '@turf/inside';
 import * as stateConstants from '../../constants/stateConstants';
 import { getPolygonfromBBox } from '../../utils/gisHelper';
 
@@ -90,7 +91,7 @@ export function searchForPlans(gazObject) {
               let planMatch=false;
               let gazPoint;
               if (gazObject!=null && gazObject.length == 1 && gazObject[0] !=null) {
-                gazPoint=turf.point([gazObject[0].x,gazObject[0].y]);
+                gazPoint=turfHelpers.point([gazObject[0].x,gazObject[0].y]);
               }
               for (let objArr of result.$collection) {
                   let feature=convertPropArrayToFeature(objArr,counter);
@@ -110,7 +111,7 @@ export function searchForPlans(gazObject) {
                   }
                   
   
-                  if (gazPoint!=null && turf.inside(gazPoint,feature)) {
+                  if (gazPoint!=null && inside(gazPoint,feature)) {
                     selectionIndexWish=counter;
                   }
   

@@ -10,8 +10,9 @@ import Loadable from 'react-loading-overlay'
 import ProjGeoJson from '../components/ProjGeoJson';
 import { Marker, Tooltip,Polygon } from 'react-leaflet';
 import L from 'leaflet';
-
-import * as turf from '@turf/turf';
+import * as turfHelpers from '@turf/helpers';
+import bboxPolygon from '@turf/bbox-polygon';
+import intersect from '@turf/intersect';
 import polylabel from '@mapbox/polylabel'
 import proj4 from 'proj4';
 import { crs25832, proj4crs25832def } from '../constants/gis';
@@ -27,7 +28,7 @@ const FeatureCollectionDisplay = ({mappingProps, style, labeler, featureClickHan
                     mappingProps.boundingBox.right,
                     mappingProps.boundingBox.top
                      ];
-    let view=turf.bboxPolygon(bbox)
+    let view=bboxPolygon(bbox)
     let selectedMarkers=[];
     if (mappingProps.featureCollection.length>0) {
         for (let currentfeatureIdx in mappingProps.featureCollection) {
@@ -82,10 +83,8 @@ const FeatureCollectionDisplay = ({mappingProps, style, labeler, featureClickHan
 
 function createMarker(currentFeature, key, coordinates, view, markerPos, labeler) {
     //get the subfeature into a polygon                    
-    let polygon=turf.polygon(coordinates);
-
-    //intersect it with the bb
-    let newPoly=turf.intersect(view,polygon);
+    let polygon=turfHelpers.polygon(coordinates);
+    let newPoly=intersect(view,polygon);
 
     let pointOnPolygon=null
     if (newPoly) {

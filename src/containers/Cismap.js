@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Map, TileLayer, ZoomControl } from 'react-leaflet';
+import { Map, ZoomControl } from 'react-leaflet';
 import { connect } from "react-redux";
 import 'proj4leaflet';
 import { Layers } from '../components/Layers';
@@ -12,25 +12,24 @@ import { bindActionCreators } from 'redux';
 //import 'react-leaflet-fullscreen/dist/styles.css';
 import FullscreenControl from '../components/FullscreenControl';
 import Control from 'react-leaflet-control';
-import { Form, FormGroup, InputGroup, FormControl, Button, Well, OverlayTrigger,Tooltip} from 'react-bootstrap';
-import { Typeahead, AsyncTypeahead } from 'react-bootstrap-typeahead';
+import { Form, FormGroup, InputGroup, Button, OverlayTrigger,Tooltip} from 'react-bootstrap';
+import { AsyncTypeahead } from 'react-bootstrap-typeahead';
 import * as stateConstants from '../constants/stateConstants';
-import Loadable from 'react-loading-overlay'
+
 import { routerActions } from 'react-router-redux'
 import { modifyQueryPart } from '../utils/routingHelper'
-import { actions as mappingActions, constants as mappingConstants } from '../redux/modules/mapping';
+import { actions as mappingActions } from '../redux/modules/mapping';
 import objectAssign from 'object-assign';
 import {Icon} from 'react-fa'
-import { actions as uiStateActions, constants as uiStateConstants } from '../redux/modules/uiState';
+import { actions as uiStateActions } from '../redux/modules/uiState';
 import 'url-search-params-polyfill';
 
 
-import { experimentalDownload } from '../utils/downloadHelper';
+
 
 
 import {
-  WUNDAAPI,
-  DOMAIN
+  WUNDAAPI
 } from '../constants/services';
 
 const fallbackposition = {
@@ -75,7 +74,7 @@ componentDidMount() {
         const center= this.refs.leafletMap.leafletElement.getCenter();
         const latFromUrl=parseFloat(new URLSearchParams(this.props.routing.location.search).get('lat'));
         const lngFromUrl=parseFloat(new URLSearchParams(this.props.routing.location.search).get('lng'));
-        const zoomFromUrl=parseInt(new URLSearchParams(this.props.routing.location.search).get('zoom'));
+        const zoomFromUrl=parseInt(new URLSearchParams(this.props.routing.location.search).get('zoom'),10);
         var lat=center.lat
         var lng=center.lng
 
@@ -86,7 +85,7 @@ componentDidMount() {
           lng=lngFromUrl;
         }
         
-        const querypart='?lat='+lat+'&lng='+lng+'&zoom='+zoom;
+
         if (lng!==lngFromUrl || lat!==latFromUrl || zoomFromUrl!==zoom) {
           //store.dispatch(push(this.props.routing.locationBeforeTransitions.pathname + querypart))
           this.props.routingActions.push(
@@ -104,9 +103,9 @@ componentDidMount() {
 }
 
 componentDidUpdate() {
-    if ((typeof (this.refs.leafletMap) != 'undefined' && this.refs.leafletMap != null)) {
+    if ((typeof (this.refs.leafletMap) !== 'undefined' && this.refs.leafletMap != null)) {
       if (this.props.mapping.autoFitBounds) {
-        if (this.props.mapping.autoFitMode==stateConstants.AUTO_FIT_MODE_NO_ZOOM_IN) {
+        if (this.props.mapping.autoFitMode===stateConstants.AUTO_FIT_MODE_NO_ZOOM_IN) {
           if (!this.refs.leafletMap.leafletElement.getBounds().contains(this.props.mapping.autoFitBoundsTarget)) {
             this.refs.leafletMap.leafletElement.fitBounds(this.props.mapping.autoFitBoundsTarget);         
           }
@@ -132,7 +131,7 @@ storeBoundingBox(){
 
 internalGazeteerHitTrigger(hit){
    //this.props.routingActions.push(this.props.routing.locationBeforeTransitions.pathname+"lat=51.271767290892676&lng=7.2000696125004575&zoom=14");
-   if (hit!==undefined && hit.length !=undefined && hit.length>0 && hit[0].x!==undefined && hit[0].y!==undefined) {
+   if (hit!==undefined && hit.length !==undefined && hit.length>0 && hit[0].x!==undefined && hit[0].y!==undefined) {
       //console.log(JSON.stringify(hit))
       const pos=proj4(proj4crs25832def,proj4.defs('EPSG:4326'),[hit[0].x,hit[0].y])
       //console.log(pos)
@@ -281,7 +280,7 @@ render() {
         {
           layerArr.map((layerWithOpacity)=> {
             const layOp=layerWithOpacity.split('@')
-              return Layers.get(layOp[0])(parseInt(layOp[1]||'100')/100.0);
+              return Layers.get(layOp[0])(parseInt(layOp[1]||'100',10)/100.0);
           })
         }
        <GazetteerHitDisplay key={"gazHit"+JSON.stringify(this.props.mapping)} mappingProps={this.props.mapping} />

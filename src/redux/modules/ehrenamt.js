@@ -14,8 +14,6 @@ const initialState = {
 
 ///REDUCER
 export default function ehrenamtReducer(state = initialState, action) {
-    let newState;
-
     return state;
 }
 

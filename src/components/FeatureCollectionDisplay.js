@@ -1,21 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {Link} from 'react-router';
-import { OverlayTrigger, Well } from 'react-bootstrap';
-import Control from 'react-leaflet-control';
-import ziputils from 'jszip-utils';
-import JSZip from 'jszip';
-import * as FileSaver from 'file-saver';
-import Loadable from 'react-loading-overlay'
 import ProjGeoJson from '../components/ProjGeoJson';
-import { Marker, Tooltip,Polygon } from 'react-leaflet';
+import { Marker, Tooltip } from 'react-leaflet';
 import L from 'leaflet';
 import * as turfHelpers from '@turf/helpers';
 import bboxPolygon from '@turf/bbox-polygon';
 import intersect from '@turf/intersect';
 import polylabel from '@mapbox/polylabel'
 import proj4 from 'proj4';
-import { crs25832, proj4crs25832def } from '../constants/gis';
+import { proj4crs25832def } from '../constants/gis';
 
 import * as gisHelpers from '../utils/gisHelper';
 
@@ -33,7 +26,7 @@ const FeatureCollectionDisplay = ({mappingProps, style, labeler, featureClickHan
     if (mappingProps.featureCollection.length>0) {
         for (let currentfeatureIdx in mappingProps.featureCollection) {
             let currentFeature=mappingProps.featureCollection[currentfeatureIdx];
-            if (currentFeature.geometry.type==='Polygon' || currentFeature.geometry.type==='MultiPolygon' && currentFeature.geometry.coordinates.length===1) {
+            if (currentFeature.geometry.type==='Polygon' || (currentFeature.geometry.type==='MultiPolygon' && currentFeature.geometry.coordinates.length===1)) {
                 //console.log("Polygon");
                 let coordinates=null;
                 if (currentFeature.geometry.type==='Polygon' ) {
@@ -45,7 +38,7 @@ const FeatureCollectionDisplay = ({mappingProps, style, labeler, featureClickHan
                 }
                 
                 let marker=createMarker(currentFeature,"marker."+currentFeature.id,coordinates,view,markerPos, labeler);
-                if (currentFeature.selected==true) {
+                if (currentFeature.selected===true) {
                     selectedMarkers.push(marker);
                 }
                 else {
@@ -58,7 +51,7 @@ const FeatureCollectionDisplay = ({mappingProps, style, labeler, featureClickHan
                 for (let currentsubfeatureIdx in currentFeature.geometry.coordinates) {
                     let coordinates=currentFeature.geometry.coordinates[currentsubfeatureIdx]
                     let marker=createMarker(currentFeature,"marker.subfeature"+currentFeature.id+"."+currentsubfeatureIdx,coordinates,view,markerPos, labeler);
-                    if (currentFeature.selected==true) {
+                    if (currentFeature.selected===true) {
                         selectedMarkers.push(marker);
                     }
                     else {

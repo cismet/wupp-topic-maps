@@ -1,11 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {Link} from 'react-router';
 import { OverlayTrigger, Well, Tooltip } from 'react-bootstrap';
-import Control from 'react-leaflet-control';
-import ziputils from 'jszip-utils';
-import JSZip from 'jszip';
-import * as FileSaver from 'file-saver';
 import Loadable from 'react-loading-overlay';
 import {Icon} from 'react-fa'
 
@@ -34,13 +29,13 @@ const BPlanInfo = ({featureCollection, selectedIndex, next, previous, fitAll, lo
     dokumentArt="PDF Dokument"
   }
 
-  if (currentFeature.properties.plaene_rk.length>1||currentFeature.properties.plaene_rk.length==0){
+  if (currentFeature.properties.plaene_rk.length>1||currentFeature.properties.plaene_rk.length===0){
     planOrPlanteile_rk="rechtskräftigen Planteilen";
   }
   else {
     planOrPlanteile_rk="rechtskräftigem Plan";
   }  
-  if (currentFeature.properties.plaene_nrk.length>1||currentFeature.properties.plaene_nrk.length==0){
+  if (currentFeature.properties.plaene_nrk.length>1||currentFeature.properties.plaene_nrk.length===0){
     planOrPlanteile_nrk="nicht rechtskräftigen Planteilen";
   }
   else {
@@ -101,10 +96,10 @@ const BPlanInfo = ({featureCollection, selectedIndex, next, previous, fitAll, lo
 
   let rk=(<OverlayTrigger placement="top" overlay={rktt}><Icon style={{color: 'green',opacity: .50}} name='check-circle-o' /></OverlayTrigger>);
   let nrk=(<OverlayTrigger placement="top" overlay={nrktt}><Icon style={{color: 'red',opacity: .50}} name='times-circle-o' /></OverlayTrigger>);
-  if (status=="rechtskräftig") {
+  if (status==="rechtskräftig") {
     statusGlyphs=(<span>&nbsp;{rk}</span>);
   }
-  else if (status=="nicht rechtskräftig") {
+  else if (status==="nicht rechtskräftig") {
     statusGlyphs=(<span>&nbsp;{nrk}</span>);
   }
   else {

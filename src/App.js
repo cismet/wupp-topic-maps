@@ -1,14 +1,12 @@
 import React from 'react';
-import {
-  persistStore  
-} from 'redux-persist';
+//import {  persistStore  } from 'redux-persist';
 import { Route,  Switch } from 'react-router-dom';
 import NotFoundPage from './components/NotFoundPage';
 import Layout from './components/Layout';
 import DefaultPage from './containers/DefaultPage';
 import BPlaene from './containers/BPlaene';
-import store from './redux/store';
-import ReactLoading from 'react-loading';
+//import store from './redux/store';
+//import ReactLoading from 'react-loading';
 
 export default class App extends React.Component {
   constructor() {

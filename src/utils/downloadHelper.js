@@ -13,7 +13,7 @@ export const downloadFile = (url, success) => {
   xhr.open('GET', url, true);
   xhr.responseType = "blob";
   xhr.onreadystatechange = function () {
-    if (xhr.readyState == 4) {
+    if (xhr.readyState === 4) {
       if (success) success(xhr.response);
     }
   };

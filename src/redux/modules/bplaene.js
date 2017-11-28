@@ -1,5 +1,5 @@
 import objectAssign from 'object-assign';
-import { actions as mappingActions, constants as mappingConstants } from './mapping';
+import { actions as mappingActions } from './mapping';
 import * as turfHelpers from '@turf/helpers';
 import inside from '@turf/inside';
 import * as stateConstants from '../../constants/stateConstants';
@@ -90,13 +90,13 @@ export function searchForPlans(gazObject) {
               let selectionIndexWish=0;
               let planMatch=false;
               let gazPoint;
-              if (gazObject!=null && gazObject.length == 1 && gazObject[0] !=null) {
+              if (gazObject!=null && gazObject.length === 1 && gazObject[0] !=null) {
                 gazPoint=turfHelpers.point([gazObject[0].x,gazObject[0].y]);
               }
               for (let objArr of result.$collection) {
                   let feature=convertPropArrayToFeature(objArr,counter);
                   
-                  if (lastFeature!=null && JSON.stringify(feature.geometry)==JSON.stringify(lastFeature.geometry)) {
+                  if (lastFeature!=null && JSON.stringify(feature.geometry)===JSON.stringify(lastFeature.geometry)) {
                     lastFeature.twin=counter;
                     feature.twin=counter-1;
                   }
@@ -104,7 +104,7 @@ export function searchForPlans(gazObject) {
                   //check whether the gazetteer-object has a property verfahrensnummer
                   //if this verfahrensnummer matches the nummer of the feature this
                   //should be the only feature in the resultset
-                  if (gazObject!=null && gazObject.length == 1 && gazObject[0] !=null && gazObject[0].verfahrensnummer==feature.properties.nummer) {
+                  if (gazObject!=null && gazObject.length === 1 && gazObject[0] !=null && gazObject[0].verfahrensnummer===feature.properties.nummer) {
                     featureArray=[feature];
                     planMatch=true;
                     break;
@@ -125,7 +125,7 @@ export function searchForPlans(gazObject) {
              if (featureArray.length>0) {
               dispatch(mappingActions.setSelectedFeatureIndex(selectionIndexWish));
              }
-             if (gazObject!=null && gazObject.length == 1 && gazObject[0] !=null) {
+             if (gazObject!=null && gazObject.length === 1 && gazObject[0] !=null) {
                 //let p=turf.point([gazObject[0].x,gazObject[0].y]);
                 if (planMatch) { //vorher turf.inside(p,featureArray[selectionIndexWish])
                   dispatch(mappingActions.fitFeatureBounds(featureArray[selectionIndexWish],stateConstants.AUTO_FIT_MODE_STRICT));

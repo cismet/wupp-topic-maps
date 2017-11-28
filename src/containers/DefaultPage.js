@@ -11,9 +11,6 @@ function mapStateToProps(state) {
   };
 }
 export class DefaultPage_ extends React.Component {
-  constructor(props, context) {
-      super(props, context);
-  }
   render() {   
    return (
         <div>

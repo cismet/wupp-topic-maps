@@ -2,8 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { connect } from "react-redux";
-import { Modal, Button, Checkbox, Form, FormGroup, Col, ControlLabel, FormControl, ProgressBar, Fade, Popover, Tabs, Tab, Accordion, Panel, Grid, Row    } from 'react-bootstrap';
-import { actions as UiStateActions, constants as UiStateConstants } from '../redux/modules/uiState';
+import { Modal, Button, Accordion, Panel  } from 'react-bootstrap';
+import { actions as UiStateActions } from '../redux/modules/uiState';
 import {Icon} from 'react-fa'
 
 

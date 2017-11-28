@@ -3,16 +3,14 @@ import PropTypes from 'prop-types';
 import Cismap from '../containers/Cismap';
 import { connect } from "react-redux";
 import Control from 'react-leaflet-control';
-import {browserHistory } from 'react-router';
-import { Form, FormGroup, InputGroup, FormControl, Button, Well, Tooltip} from 'react-bootstrap';
-import { getPolygonfromBBox } from '../utils/gisHelper';
+import { Well, Tooltip} from 'react-bootstrap';
 
-import { actions as bplanActions, constants as bplanConstants } from '../redux/modules/bplaene';
-import { actions as mappingActions, constants as mappingConstants } from '../redux/modules/mapping';
-import { actions as uiStateActions, constants as uiStateConstants } from '../redux/modules/uiState';
+import { actions as bplanActions } from '../redux/modules/bplaene';
+import { actions as mappingActions } from '../redux/modules/mapping';
+import { actions as uiStateActions } from '../redux/modules/uiState';
 
 import { bindActionCreators } from 'redux';
-import { bplanFeatureStyler, bplanLabeler, getLineColorFromFeature } from '../utils/bplanHelper';
+import { bplanFeatureStyler, bplanLabeler } from '../utils/bplanHelper';
 //import * as stateConstants from '../constants/stateConstants';
 import { downloadSingleFile,downloadMultipleFiles, mergeMultipleFiles } from '../utils/downloadHelper';
 import BPlanModalHelp from '../components/BPlanModalHelpComponent';
@@ -86,8 +84,8 @@ export class BPlaene_ extends React.Component {
 
   downloadPlan() {
     const currentFeature=this.props.mapping.featureCollection[this.props.mapping.selectedIndex];
-    if ((currentFeature.properties.plaene_rk.length+currentFeature.properties.plaene_nrk.length)==1 ) {
-      if (currentFeature.properties.plaene_rk.length==1) {
+    if ((currentFeature.properties.plaene_rk.length+currentFeature.properties.plaene_nrk.length)===1 ) {
+      if (currentFeature.properties.plaene_rk.length===1) {
         downloadSingleFile(currentFeature.properties.plaene_rk[0]);
       }
       else {

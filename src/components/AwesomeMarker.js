@@ -1,10 +1,8 @@
 import L from 'leaflet';
-import React from 'react';
 import { connect } from "react-redux";
 import PropTypes from 'prop-types';
 
 import { Marker } from 'react-leaflet';
-import AwesomeMarkers from 'drmonty-leaflet-awesome-markers';
 import 'drmonty-leaflet-awesome-markers/css/leaflet.awesome-markers.css';
 //import *  'drmonty-leaflet-awesome-markers/css/images';
 
@@ -15,9 +13,6 @@ function mapStateToProps(state) {
 }
 
 export class AwesomeMarker_ extends Marker {
-    constructor(props) {
-      super(props);
-    }
     createLeafletElement (props: Object) {
       let marker=super.createLeafletElement(props);
       var redMarker = L.AwesomeMarkers.icon(props.markerOptions);

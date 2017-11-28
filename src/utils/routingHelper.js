@@ -23,7 +23,7 @@ export function getQueryObject(search) {
     if(search) {
         search.slice(1).split('&').map((item) => {
         const [ k, v ] = item.split('=');
-        v ? obj[k] = v : null;
+        v ? obj[k] === v : null;
       });
     }
     return obj;

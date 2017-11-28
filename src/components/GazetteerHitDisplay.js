@@ -1,8 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import AwesomeMarker from './AwesomeMarker';
-import { Marker } from 'react-leaflet';
-import { crs25832, proj4crs25832def } from '../constants/gis';
+import { proj4crs25832def } from '../constants/gis';
 import proj4 from 'proj4';
 
 const GazetteerHitDisplay = ({mappingProps, style, labeler, featureClickHandler, mapRef}) => {

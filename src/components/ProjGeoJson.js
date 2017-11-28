@@ -2,16 +2,12 @@ import L from 'leaflet';
 import { isFunction } from 'lodash';
 import PropTypes from 'prop-types';
 import 'proj4leaflet';
-import proj4 from 'proj4';
-import { crs25832, proj4crs25832def } from '../constants/gis';
 
 import { connect } from "react-redux";
 import { bindActionCreators } from 'redux';
-import { actions as mappingActions, constants as mappingConstants } from '../redux/modules/mapping';
-import * as gisHelpers from '../utils/gisHelper';
+import { actions as mappingActions } from '../redux/modules/mapping';
 
 import { Path } from 'react-leaflet';
-import polylabel from '@mapbox/polylabel'
 
 function mapStateToProps(state) {
   return {
@@ -27,9 +23,6 @@ function mapDispatchToProps(dispatch) {
 
 
 export class ProjGeoJson_ extends Path {
-  constructor(props) {
-        super(props);
-  }
   componentWillMount() {
     super.componentWillMount();
     const { mappingProps, ...props } = this.props;

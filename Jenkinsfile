@@ -1,4 +1,7 @@
 pipeline {
+
+    agent any
+
     options {
         timeout(time: 30, unit: 'MINUTES')
     }
@@ -12,7 +15,8 @@ pipeline {
             }
         }
         stage('build') {
-            def app = docker.build("cismet/wupp-geoportal3-powerboats")
+            sh 'docker build -t cismet/wupp-geoportal3-powerboats:latest'
+
 
         }
 

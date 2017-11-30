@@ -1,4 +1,4 @@
-pipeline {
+node {
     agent any
 
     options {
@@ -14,7 +14,7 @@ pipeline {
             }
         }
 
-    
+
     }
 
 

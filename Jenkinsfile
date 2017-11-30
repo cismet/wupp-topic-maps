@@ -15,8 +15,9 @@ pipeline {
             }
         }
         stage('build') {
-            sh 'docker build -t cismet/wupp-geoportal3-powerboats:latest'
-
+            steps {
+                sh 'docker build -t cismet/wupp-geoportal3-powerboats:latest'
+            }
 
         }
 

@@ -1,6 +1,12 @@
-node {
-    agent any
+pipeline {
+    agent {
+        node {
+          label 'docker'
+          def app
 
+
+        }
+      }
     options {
         timeout(time: 30, unit: 'MINUTES')
     }
@@ -13,7 +19,10 @@ node {
                             [$class: 'LocalBranch', localBranch: "${env.BRANCH_NAME}"]]])
             }
         }
+        stage('checkout') {
+            app = docker.build("cismet/wupp-geoportal3-powerboats")
 
+        }
 
     }
 

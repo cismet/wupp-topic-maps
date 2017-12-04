@@ -1,7 +1,9 @@
 pipeline {
 
     agent any
-
+    environment {
+        BRANCH = "${env.BRANCH_NAME}"
+    }
     options {
         timeout(time: 30, unit: 'MINUTES')
     }
@@ -16,8 +18,10 @@ pipeline {
         }
         stage('build') {
             steps {
-		String branch=${env.BRANCH_NAME}
-		branch.replaceFirst(/^release\//,"")
+		script {
+			String branch=${env.BRANCH_NAME}
+			branch.replaceFirst(/^release\//,"")
+		}
 		sh "echo ${env.BRANCH_NAME}"
 		sh "echo ${branch}"
 		

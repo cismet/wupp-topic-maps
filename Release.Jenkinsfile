@@ -16,8 +16,12 @@ pipeline {
         }
         stage('build') {
             steps {
+		def branch=${env.BRANCH_NAME}
+		branch.replaceFirst(/^release\//,"")
 		sh "echo ${env.BRANCH_NAME}"
-                bash "docker build -t cismet/wupp-geoportal3-powerboats:test-manually-0.0.2 ."
+		sh "echo $branch"
+		
+                shx "docker build -t cismet/wupp-geoportal3-powerboats:test-manually-0.0.2 ."
             }
 
         }

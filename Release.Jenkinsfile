@@ -3,6 +3,7 @@ pipeline {
     agent any
     environment {
         BRANCH = "${env.BRANCH_NAME}"
+	VERSION= "???"
     }
     options {
         timeout(time: 30, unit: 'MINUTES')
@@ -19,11 +20,12 @@ pipeline {
         stage('build') {
             steps {
 		script {
-			String branch=${env.BRANCH_NAME}
-			branch.replaceFirst(/^release\//,"")
+			String version=BRANCH
+			version.replaceFirst(/^release\//,"")
+			VERSION=version
 		}
 		sh "echo ${env.BRANCH_NAME}"
-		sh "echo ${branch}"
+		sh "echo ${VERSION}"
 		
                 shx "docker build -t cismet/wupp-geoportal3-powerboats:test-manually-0.0.2 ."
             }

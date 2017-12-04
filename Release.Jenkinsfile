@@ -26,8 +26,8 @@ pipeline {
 		}
 		sh "echo ${env.BRANCH_NAME}"
 		sh "echo ${VERSION}"
-		
-                shx "docker build -t cismet/wupp-geoportal3-powerboats:test-manually-0.0.2 ."
+		echo version
+                //sh "docker build -t cismet/wupp-geoportal3-powerboats:test-manually-0.0.2 ."
             }
 
         }

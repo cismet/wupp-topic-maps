@@ -16,7 +16,7 @@ pipeline {
         }
         stage('build') {
             steps {
-                sh 'docker build -t cismet/wupp-geoportal3-powerboats:${env.BRANCH_NAME} .'
+                sh 'docker build -t cismet/wupp-geoportal3-powerboats:"${env.BRANCH_NAME}" .'
             }
 
         }

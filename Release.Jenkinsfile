@@ -21,7 +21,7 @@ pipeline {
             steps {
 		script {
 			String version=BRANCH
-			version.replaceFirst(/^release\//,"")
+			version=version.replaceFirst(/^release\//,"")
 			VERSION=version
 		}
 		sh "echo ${env.BRANCH_NAME}"

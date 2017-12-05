@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 
 import { Marker } from 'react-leaflet';
 import 'drmonty-leaflet-awesome-markers/css/leaflet.awesome-markers.css';
+import AwesomeMarkers from 'drmonty-leaflet-awesome-markers';
 //import *  'drmonty-leaflet-awesome-markers/css/images';
 
 function mapStateToProps(state) {

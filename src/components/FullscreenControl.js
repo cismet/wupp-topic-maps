@@ -8,7 +8,17 @@ import 'leaflet-fullscreen';
 
 class FullscreenControl extends MapControl {
     componentWillMount() {
-    this.leafletElement = L.control.fullscreen(this.props);
+    this.leafletElement = L.control.fullscreen({
+      title: {
+        'false':this.props.title,
+        'true': this.props.titleCancel
+      },
+      position:this.props.position,
+      content:this.props.content,
+      forceSeparateButton:this.props.forceSeparateButton,
+      forcePseudoFullscreen:this.props.forcePseudoFullscreen,
+      fullscreenElement:this.props.fullscreenElement
+    });
   }
 }
 

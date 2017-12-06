@@ -56,14 +56,14 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
-export function createLeafletElement () {}    
+export function createLeafletElement () {}
 
 export class Cismap_ extends React.Component {
       constructor(props) {
         super(props);
         this.internalGazeteerHitTrigger=this.internalGazeteerHitTrigger.bind(this);
         this.internalSearchButtonTrigger=this.internalSearchButtonTrigger.bind(this);
-        this.featureClick = this.featureClick.bind(this);        
+        this.featureClick = this.featureClick.bind(this);
         this.handleSearch=this.handleSearch.bind(this);
         this.showModalHelpComponent=this.showModalHelpComponent.bind(this);
 
@@ -84,7 +84,7 @@ componentDidMount() {
         if (Math.abs(lngFromUrl-center.lng) < 0.0001) {
           lng=lngFromUrl;
         }
-        
+
 
         if (lng!==lngFromUrl || lat!==latFromUrl || zoomFromUrl!==zoom) {
           //store.dispatch(push(this.props.routing.locationBeforeTransitions.pathname + querypart))
@@ -97,7 +97,7 @@ componentDidMount() {
             }))
         }
         this.storeBoundingBox();
-        
+
     });
     this.storeBoundingBox();
 }
@@ -107,11 +107,11 @@ componentDidUpdate() {
       if (this.props.mapping.autoFitBounds) {
         if (this.props.mapping.autoFitMode===stateConstants.AUTO_FIT_MODE_NO_ZOOM_IN) {
           if (!this.refs.leafletMap.leafletElement.getBounds().contains(this.props.mapping.autoFitBoundsTarget)) {
-            this.refs.leafletMap.leafletElement.fitBounds(this.props.mapping.autoFitBoundsTarget);         
+            this.refs.leafletMap.leafletElement.fitBounds(this.props.mapping.autoFitBoundsTarget);
           }
         }
         else {
-          this.refs.leafletMap.leafletElement.fitBounds(this.props.mapping.autoFitBoundsTarget);        
+          this.refs.leafletMap.leafletElement.fitBounds(this.props.mapping.autoFitBoundsTarget);
         }
         this.props.mappingActions.setAutoFit(false);
       }
@@ -136,12 +136,12 @@ internalGazeteerHitTrigger(hit){
       const pos=proj4(proj4crs25832def,proj4.defs('EPSG:4326'),[hit[0].x,hit[0].y])
       //console.log(pos)
       this.refs.leafletMap.leafletElement.panTo([pos[1],pos[0]], {"animate":false});
-      
+
       let hitObject=objectAssign(hit[0],JSON.parse(hit[0].more))
       this.refs.leafletMap.leafletElement.setZoom(hitObject.zoomlevel,{"animate":false});
-      
+
       // this.props.routingActions.push(
-      //       this.props.routing.locationBeforeTransitions.pathname 
+      //       this.props.routing.locationBeforeTransitions.pathname
       //       + modifyQueryPart(this.props.routing.locationBeforeTransitions.query,{
       //         lat:pos[1],
       //         lng:pos[0]
@@ -155,8 +155,8 @@ internalGazeteerHitTrigger(hit){
   else {
     //console.log(hit);
   }
-  
-  
+
+
 }
 
 internalSearchButtonTrigger(event) {
@@ -238,7 +238,7 @@ render() {
       mapStyle.height=window.innerHeight
       mapStyle.width=window.innerWidth
     }
-   
+
 //    const positionByUrl=[parseFloat(this.props.routing.locationBeforeTransitions.query.lat)||fallbackposition.lat,parseFloat(this.props.routing.locationBeforeTransitions.query.lng)||fallbackposition.lng]
 //    const zoomByUrl= parseInt(this.props.routing.locationBeforeTransitions.query.zoom)||14
 
@@ -264,17 +264,17 @@ render() {
 
     const searchAllowed=(zoomByUrl>=this.props.searchMinZoom && zoomByUrl<=this.props.searchMaxZoom);
     return (
-      <Map 
+      <Map
         ref="leafletMap"
-        key="leafletMap" 
-        crs={crs25832}  
-        style={mapStyle} 
-        center={positionByUrl} 
-        zoom={zoomByUrl} 
+        key="leafletMap"
+        crs={crs25832}
+        style={mapStyle}
+        center={positionByUrl}
+        zoom={zoomByUrl}
         zoomControl={false}
-        attributionControl={false} 
+        attributionControl={false}
         doubleClickZoom={false}
-        minZoom={7} 
+        minZoom={7}
         maxZoom={18}
         >
         {
@@ -326,7 +326,7 @@ render() {
          {this.props.children}
       </Map>
     );
-    
+
   }
 }
 
@@ -357,12 +357,12 @@ Cismap_.defaultProps = {
   gazeteerHitTrigger: function(){},
   searchButtonTrigger: function(){},
   featureClickHandler: function(){},
-  helpTooltipProvider:  function(){  
+  helpTooltipProvider:  function(){
     return (<Tooltip style={{zIndex: 3000000000}} id="helpTooltip">Bedienungsanleitung anzeigen</Tooltip>);
   },
-  searchTooltipProvider:  function(){  
+  searchTooltipProvider:  function(){
     return (<Tooltip style={{zIndex: 3000000000}} id="searchTooltip">Objekte suchen</Tooltip>);
-  }, 
+  },
   searchMinZoom: 7,
   searchMaxZoom: 18,
 }

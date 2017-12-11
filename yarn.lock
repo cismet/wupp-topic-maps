@@ -5433,9 +5433,9 @@ react-leaflet-control@^1.4.0:
   dependencies:
     prop-types "^15.5.7"
 
-react-leaflet@^1.7.5:
-  version "1.7.5"
-  resolved "https://registry.yarnpkg.com/react-leaflet/-/react-leaflet-1.7.5.tgz#72325e6b229d839919b2de0f637d257836611ae1"
+react-leaflet@^1.7.8:
+  version "1.7.8"
+  resolved "https://registry.yarnpkg.com/react-leaflet/-/react-leaflet-1.7.8.tgz#5b58be948a7e2efe5c302a65746c9e8b25477c59"
   dependencies:
     lodash "^4.0.0"
     lodash-es "^4.0.0"

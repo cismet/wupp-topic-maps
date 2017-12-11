@@ -36,7 +36,7 @@ const FeatureCollectionDisplay = ({mappingProps, style, labeler, featureClickHan
                     //must currentFeature.geometry.type==='MultiPolygon' && currentFeature.geometry.coordinates.length===1
                     coordinates=currentFeature.geometry.coordinates[0];
                 }
-                
+
                 let marker=createMarker(currentFeature,"marker."+currentFeature.id,coordinates,view,markerPos, labeler);
                 if (currentFeature.selected===true) {
                     selectedMarkers.push(marker);
@@ -44,7 +44,7 @@ const FeatureCollectionDisplay = ({mappingProps, style, labeler, featureClickHan
                 else {
                     markers.push(marker);
                 }
-                
+
             }
             else {
                 //console.log("Multipolygon mit "+currentFeature.geometry.coordinates.length);
@@ -56,32 +56,32 @@ const FeatureCollectionDisplay = ({mappingProps, style, labeler, featureClickHan
                     }
                     else {
                         markers.push(marker);
-                    }                
+                    }
                 }
             }
         }
         for (let midx in selectedMarkers) {
             markers.push(selectedMarkers[midx]);
-        }        
+        }
     }
 
   return (
     <div>
          <ProjGeoJson key={JSON.stringify(mappingProps)} mappingProps={mappingProps} style={style}  featureClickHandler={featureClickHandler} mapRef={mapRef}/>
-        {markers}         
+        {markers}
 
     </div>
   );
 };
 
 function createMarker(currentFeature, key, coordinates, view, markerPos, labeler) {
-    //get the subfeature into a polygon                    
+    //get the subfeature into a polygon
     let polygon=turfHelpers.polygon(coordinates);
     let newPoly=intersect(view,polygon);
 
     let pointOnPolygon=null
     if (newPoly) {
-        pointOnPolygon =gisHelpers.getLabelPosition(newPoly) //if there is a multipolygon created from the boundingbox intersects use the first 
+        pointOnPolygon =gisHelpers.getLabelPosition(newPoly) //if there is a multipolygon created from the boundingbox intersects use the first
     }
     else {
         pointOnPolygon = polylabel(coordinates)
@@ -100,7 +100,7 @@ function createMarker(currentFeature, key, coordinates, view, markerPos, labeler
     else {
         offset=new L.point(-15,-15);
     }
-    markerPos.push(position[0]+"-"+position[1]);      
+    markerPos.push(position[0]+"-"+position[1]);
 
     return (
         <Marker key={key} position={[pointOnPolygonWGS84[1],pointOnPolygonWGS84[0]]} opacity={0.0} onClick={labelClick}>
@@ -124,4 +124,3 @@ export default FeatureCollectionDisplay;
    featureClickHandler: PropTypes.func.isRequired,
    mapRef: PropTypes.object,
  };
- 

@@ -11,7 +11,6 @@ import { actions as uiStateActions } from '../redux/modules/uiState';
 
 import { bindActionCreators } from 'redux';
 import { bplanFeatureStyler, bplanLabeler } from '../utils/bplanHelper';
-//import * as stateConstants from '../constants/stateConstants';
 import { downloadSingleFile,downloadMultipleFiles, mergeMultipleFiles } from '../utils/downloadHelper';
 import BPlanModalHelp from '../components/BPlanModalHelpComponent';
 import BPlanInfo  from '../components/BPlanInfo'
@@ -32,6 +31,7 @@ function mapDispatchToProps(dispatch) {
     bplanActions: bindActionCreators(bplanActions,dispatch),
     mappingActions: bindActionCreators(mappingActions,dispatch),
     uiStateActions: bindActionCreators(uiStateActions,dispatch),
+
   };
 }
 
@@ -51,7 +51,7 @@ export class BPlaene_ extends React.Component {
       this.openHelp=this.openHelp.bind(this);
   }
 
-  bplanGazeteerhHit(selectedObject){   
+  bplanGazeteerhHit(selectedObject){
     this.props.bplanActions.searchForPlans(selectedObject);
   }
 
@@ -151,11 +151,11 @@ export class BPlaene_ extends React.Component {
             "folder":"Zusatzdokumente"
           });
       }
-      
+
       downloadMultipleFiles(downloadConf,this.downloadDone);
 
   }
-  
+
   downloadDone() {
     this.props.bplanActions.setDocumentLoadingIndicator(false);
   }
@@ -177,15 +177,15 @@ export class BPlaene_ extends React.Component {
   }
 
   searchTooltip(){
-     return (<Tooltip style={{zIndex: 3000000000}} id="searchTooltip">B-Pl&auml;ne im Kartenausschnitt laden</Tooltip>); 
+     return (<Tooltip style={{zIndex: 3000000000}} id="searchTooltip">B-Pl&auml;ne im Kartenausschnitt laden</Tooltip>);
   };
 
-  render() {  
+  render() {
    let info= null;
      if (this.props.mapping.featureCollection.length>0) {
         info = (
-          <BPlanInfo 
-              featureCollection={this.props.mapping.featureCollection} 
+          <BPlanInfo
+              featureCollection={this.props.mapping.featureCollection}
               selectedIndex={this.props.mapping.selectedIndex||0}
               next={this.selectNextIndex}
               previous={this.selectPreviousIndex}
@@ -205,7 +205,7 @@ export class BPlaene_ extends React.Component {
                   Nummer)
                   und Eintrag aus Vorschlagsliste auswählen oder mit <br />
                   <Icon name="search"/> alle Pl&auml;ne im aktuellen Kartenausschnitt laden.</p>
-                  
+
                   <a onClick={this.openHelp}>vollst&auml;ndige Bedienungsanleitung</a>
                </Well>)
      }
@@ -213,17 +213,18 @@ export class BPlaene_ extends React.Component {
         <div>
             <BPlanModalHelp key={'BPlanModalHelp.visible:'+this.props.ui.helpTextVisible}/>
 
-            <Cismap layers={this.props.match.params.layers ||'uwBPlan'} 
-                    gazeteerHitTrigger={this.bplanGazeteerhHit} 
-                    searchButtonTrigger={this.bplanSearchButtonHit} 
+            <Cismap layers={this.props.match.params.layers ||'uwBPlan'}
+                    gazeteerHitTrigger={this.bplanGazeteerhHit}
+                    searchButtonTrigger={this.bplanSearchButtonHit}
                     featureStyler={bplanFeatureStyler}
                     labeler={bplanLabeler}
                     featureClickHandler={this.featureClick}
                     searchTooltipProvider={this.searchTooltip}
                     searchMinZoom={12}
-                    searchMaxZoom={18}>
+                    searchMaxZoom={18}
+                    gazTopics={["pois","bezirke","quartiere","bplaene","adressen"]}>
                 <Control position="bottomright" >
-                  {info}                    
+                  <div>{info}</div>
                 </Control>
             </Cismap>
         </div>

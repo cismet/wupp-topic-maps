@@ -6,19 +6,26 @@ import proj4 from 'proj4';
 
 const GazetteerHitDisplay = ({mappingProps, style, labeler, featureClickHandler, mapRef}) => {
     let gazMarker=null;
+
+
+    // if (mappingProps.gazetteerHit!=null && mappingProps.gazetteerHit.) {
+
+
+
+
     if (mappingProps.gazetteerHit!=null) {
 
         const pos=proj4(proj4crs25832def,proj4.defs('EPSG:4326'),[mappingProps.gazetteerHit.x,mappingProps.gazetteerHit.y])
         let markerOptions= {
-            icon: mappingProps.gazetteerHit.glyphkey,
+            icon: mappingProps.gazetteerHit.glyph,
             markerColor: 'blue',
             spin: false
-        }     
+        }
         gazMarker=(
-            <AwesomeMarker 
-                key={"gazmarker."+JSON.stringify(mappingProps.gazetteerHit)} 
-                markerOptions={markerOptions} 
-                position={[pos[1],pos[0]]} 
+            <AwesomeMarker
+                key={"gazmarker."+JSON.stringify(mappingProps.gazetteerHit)}
+                markerOptions={markerOptions}
+                position={[pos[1],pos[0]]}
             />
         );
     }

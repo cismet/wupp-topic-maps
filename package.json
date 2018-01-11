@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "@mapbox/polylabel": "^1.0.2",
+    "@turf/bbox": "^5.1.5",
     "@turf/bbox-polygon": "^5.0.4",
     "@turf/helpers": "^5.0.4",
     "@turf/inside": "^5.0.0",

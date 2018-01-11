@@ -222,7 +222,7 @@ export class BPlaene_ extends React.Component {
                     searchTooltipProvider={this.searchTooltip}
                     searchMinZoom={12}
                     searchMaxZoom={18}
-                    gazTopics={["pois","bezirke","quartiere","bplaene","adressen"]}>
+                    gazTopics={["pois","bplaene","adressen"]}>
                 <Control position="bottomright" >
                   <div>{info}</div>
                 </Control>

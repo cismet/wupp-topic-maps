@@ -6,9 +6,14 @@ import proj4 from 'proj4';
 
 const GazetteerHitDisplay = ({mappingProps, style, labeler, featureClickHandler, mapRef}) => {
     let gazMarker=null;
+    let gazPolygon=null;
 
-
-    // if (mappingProps.gazetteerHit!=null && mappingProps.gazetteerHit.) {
+    // if (mappingProps.gazetteerHit!=null && mappingProps.gazetteerHit.more.g) {
+    //   console.log("GEOM DA");
+    //   gazPolygon=(
+    //     <ProjGeoJson key={JSON.stringify(mappingProps.gazetteerHit.more.g)} mappingProps={mappingProps} style={style}  />
+    //   )
+    // }
 
 
 

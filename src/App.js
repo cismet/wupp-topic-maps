@@ -24,7 +24,7 @@ export default class App extends React.Component {
   }
 
   render() {
-    if (false && !this.state.rehydrated){
+    if (!this.state.rehydrated){
      return (
         <div>
           <main>

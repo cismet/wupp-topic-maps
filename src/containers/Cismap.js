@@ -70,14 +70,15 @@ export class Cismap_ extends React.Component {
 
     //Über uiStateActions anzeigen dass die Combobox nocht nicht funktionsfähig ist
 
-    //this.props.gazetteerTopicsActions.loadTopicData("pois").then(()=>console.log("fertig"));
+    this.props.uiStateActions.setGazetteerBoxEnabled(false);
+    this.props.uiStateActions.setGazetteerBoxInfoText("Ortsinformationen werden geladen ...");
 
     this.props.gazetteerTopicsActions.loadTopicsData(this.props.gazTopics).then(() => {
       let from = Date.now()
       // console.log("parse the shit ")
 
 
-      console.log("######################################################## loadTopicsData().then()")
+      //console.log("######################################################## loadTopicsData().then()")
 
 
 
@@ -174,11 +175,11 @@ export class Cismap_ extends React.Component {
       }
 
       // console.log("++++++++++++++++++++++++ done with parsing " + ( from - Date.now()))
+      this.props.uiStateActions.setGazetteerBoxEnabled(true);
+      this.props.uiStateActions.setGazetteerBoxInfoText("Geben Sie einen Suchbegriff ein.");
+
       this.forceUpdate(); //ugly winning: prevent typeahead to have shitty behaviour
-
     });
-
-    //Über uiStateActions anzeigen dass die Combobox jetzt funktionsfähig ist
 
   }
   componentDidMount() {
@@ -400,7 +401,8 @@ export class Cismap_ extends React.Component {
                 onChange={this.internalGazeteerHitTrigger}
                 paginate={true}
                 dropup={true}
-                placeholder="Geben Sie einen Suchbegriff ein."
+                disabled={!this.props.uiState.gazetteerBoxEnabled}
+                placeholder={this.props.uiState.gazeteerBoxInfoText}
                 minLength={2}
                 filterBy={(option, text) => {
                   return (option.string.toLowerCase().startsWith(text.toLowerCase()));

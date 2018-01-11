@@ -20,6 +20,6 @@ const rootReducer = combineReducers({
   uiState: uiStateReducer,
   routing: routerReducer,
   gazetteerTopics: persistReducer(config,gazetteerTopicsReducer),
-//  gazetteerTopics: gazetteerTopicsReducer, // uncomment to skip persitent gazetteer data
+ // gazetteerTopics: gazetteerTopicsReducer, // uncomment to skip persitent gazetteer data
 });
 export default rootReducer;

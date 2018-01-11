@@ -290,6 +290,8 @@ export class Cismap_ extends React.Component {
 
   }
 
+
+
   internalSearchButtonTrigger(event) {
     if (this.searchOverlay) {
       this.searchOverlay.hide();
@@ -379,7 +381,7 @@ export class Cismap_ extends React.Component {
     // DKW
 
     const searchAllowed = (zoomByUrl >= this.props.searchMinZoom && zoomByUrl <= this.props.searchMaxZoom);
-    return (<Map ref="leafletMap" key="leafletMap" crs={crs25832} style={mapStyle} center={positionByUrl} zoom={zoomByUrl} zoomControl={false} attributionControl={false} doubleClickZoom={false} minZoom={7} maxZoom={18}>
+    return (<Map ref="leafletMap" key="leafletMap" crs={crs25832} style={mapStyle} center={positionByUrl} zoom={zoomByUrl} zoomControl={false} attributionControl={false} doubleClickZoom={false} minZoom={7} ondblclick={this.props.ondblclick} maxZoom={18}>
       {
         layerArr.map((layerWithOpacity) => {
           const layOp = layerWithOpacity.split('@')
@@ -457,12 +459,14 @@ Cismap_.propTypes = {
   searchTooltipProvider: PropTypes.func,
   searchMinZoom: PropTypes.number,
   searchMaxZoom: PropTypes.number,
-  gazTopics: PropTypes.array.isRequired
+  gazTopics: PropTypes.array.isRequired,
+  ondblclick: PropTypes.func,
 
 };
 
 Cismap_.defaultProps = {
   layers: "bplan_abkg_uncached",
+  ondblclick: function () {},
   gazeteerHitTrigger: function() {},
   searchButtonTrigger: function() {},
   featureClickHandler: function() {},

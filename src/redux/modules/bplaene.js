@@ -125,8 +125,6 @@ export function searchForPlans(gazObject) {
              if (featureArray.length>0) {
               dispatch(mappingActions.setSelectedFeatureIndex(selectionIndexWish));
              }
-             console.log("gazObject")
-             console.log(gazObject)
              if (gazObject!=null && gazObject.length === 1 && gazObject[0] !=null) {
                 //let p=turf.point([gazObject[0].x,gazObject[0].y]);
                 if (planMatch) { //vorher turf.inside(p,featureArray[selectionIndexWish])

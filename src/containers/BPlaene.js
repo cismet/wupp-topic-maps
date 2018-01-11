@@ -49,6 +49,8 @@ export class BPlaene_ extends React.Component {
       this.downloadEverything=this.downloadEverything.bind(this);
       this.downloadDone=this.downloadDone.bind(this);
       this.openHelp=this.openHelp.bind(this);
+      this.doubleMapClick = this.doubleMapClick.bind(this);
+
   }
 
   bplanGazeteerhHit(selectedObject){
@@ -68,6 +70,12 @@ export class BPlaene_ extends React.Component {
     this.props.mappingActions.setSelectedFeatureIndex(potIndex);
     //this.props.mappingActions.fitSelectedFeatureBounds(stateConstants.AUTO_FIT_MODE_NO_ZOOM_IN);
   }
+
+  doubleMapClick(event) {
+    console.log("suche nach bplan");
+    console.log(event);
+  }
+
 
   selectPreviousIndex() {
     let potIndex=this.props.mapping.selectedIndex-1;
@@ -219,6 +227,7 @@ export class BPlaene_ extends React.Component {
                     featureStyler={bplanFeatureStyler}
                     labeler={bplanLabeler}
                     featureClickHandler={this.featureClick}
+                    ondblclick={this.doubleMapClick}
                     searchTooltipProvider={this.searchTooltip}
                     searchMinZoom={12}
                     searchMaxZoom={18}

@@ -4,7 +4,10 @@ import objectAssign from 'object-assign';
 ///TYPES
 export const types = {
     SCREEN_RESIZE : 'UISTATE/SCREEN_RESIZE',
-    SHOW_HELP_COMPONENT : 'UISTATE/SHOW_HELP_COMPONENT'
+    SHOW_HELP_COMPONENT : 'UISTATE/SHOW_HELP_COMPONENT',
+    SET_GAZBOX_ENABLED : 'UISTATE/SET_GAZBOX_ENABLED',
+    SET_GAZBOX_INFO_TEXT : 'UISTATE/SET_GAZBOX_INFO_TEXT',
+    SET_GAZBOX_VISIBLE : 'UISTATE/SET_GAZBOX_VISIBLE',
 }
 
 
@@ -12,7 +15,11 @@ export const types = {
 const initialState = {
     width: null,
     height: null,
-    helpTextVisible: false    
+    helpTextVisible: false,
+    gazeteerBoxInfoText: "Geben Sie einen Suchbegriff ein. XXX",
+    gazeteerBoxVisible: true,
+    gazetteerBoxEnabled: false,
+
 };
 
 
@@ -33,6 +40,24 @@ export default function uiStateReducer(state = initialState, action) {
           newState.helpTextVisible = action.helpTextVisible;
           return newState;
         }
+        case types.SET_GAZBOX_ENABLED:
+         {
+           newState = objectAssign({}, state);
+           newState.gazetteerBoxEnabled = action.enabled;
+           return newState;
+         }
+         case types.SET_GAZBOX_INFO_TEXT:
+          {
+            newState = objectAssign({}, state);
+            newState.gazeteerBoxInfoText = action.infoText;
+            return newState;
+          }
+          case types.SET_GAZBOX_VISIBLE:
+           {
+             newState = objectAssign({}, state);
+             newState.gazeteerBoxVisible = action.visible;
+             return newState;
+           }
        default:
         return state;
 
@@ -55,10 +80,35 @@ function showHelpComponent(helpTextVisible) {
         helpTextVisible
     };
 }
+
+
+function setGazetteerBoxEnabled(enabled) {
+    return {
+        type: types.SET_GAZBOX_ENABLED,
+        enabled
+    };
+}
+
+function setGazetteerBoxInfoText(infoText) {
+    return {
+        type: types.SET_GAZBOX_INFO_TEXT,
+        infoText
+    };
+}
+
+function setGazetteerBoxVisible(visible) {
+    return {
+        type: types.SET_GAZBOX_VISIBLE,
+        visible
+    };
+}
 //COMPLEXACTIONS
 
 //EXPORT ACTIONS
 export const actions = {
     screenResize,
-    showHelpComponent
+    showHelpComponent,
+    setGazetteerBoxEnabled,
+    setGazetteerBoxInfoText,
+    setGazetteerBoxVisible
 };

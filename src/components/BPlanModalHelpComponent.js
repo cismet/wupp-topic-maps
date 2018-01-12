@@ -32,7 +32,7 @@ export class BPlanModalHelp_ extends React.Component {
       "overflowY":"auto",
       "maxHeight":this.props.uiState.height-200
     }
-    
+
     return (
       <Modal style={{zIndex: 3000000000}} bsSize="large" show={this.props.uiState.helpTextVisible} onHide={this.close} keyboard={false} >
         <Modal.Header  >
@@ -40,7 +40,7 @@ export class BPlanModalHelp_ extends React.Component {
         </Modal.Header>
         <Modal.Body style={modalBodyStyle}>
 
- 				Bitte w&auml;hlen sie eine der folgenden farbigen Schaltfl&auml;chen um sich weitere Informationen zu dem entsprechenden Thema angezeigen zu lassen:<br /><br />
+ 				Bitte w&auml;hlen Sie eine der folgenden farbigen Schaltfl&auml;chen, um sich weitere Informationen zu dem entsprechenden Thema anzeigen zu lassen:<br /><br />
 
 			  <Accordion>
 			    <Panel header="Hintergrundkarte" eventKey="1" bsStyle="warning">
@@ -58,12 +58,12 @@ export class BPlanModalHelp_ extends React.Component {
 					              Den Kartenausschnitt k&ouml;nnen Sie durch Ziehen mit der Maus verschieben. Mit den Werkzeugen&nbsp;<Icon name="plus"/>&nbsp;und&nbsp;<Icon name="minus"/>&nbsp;k&ouml;nnen Sie den Kartenma&szlig;stab vergr&ouml;&szlig;ern bzw. verkleinern.
 					</Panel>
 			    <Panel header="Suche &uuml;ber B-Plan-Nummer" eventKey="4" bsStyle="success">
-					              Um ein B-Plan-Verfahren direkt anzusteuern, geben Sie den Anfang der B-Plan-Nummer im Eingabefeld rechts neben&nbsp;<Icon name="search"/>&nbsp;ein (mindestens 2 Ziffern). Alle Verfahren, die mit diesen Ziffern beginnen, werden Ihnen in einer inkrementellen Auswahlliste angeboten. (Wenn sie weitere Zeichen eingeben, wird der Inhalt der Auswahlliste angepasst.)<br />
+					              Um ein B-Plan-Verfahren direkt anzusteuern, geben Sie den Anfang der B-Plan-Nummer im Eingabefeld rechts neben&nbsp;<Icon name="search"/>&nbsp;ein (mindestens 2 Ziffern). Alle Verfahren, die mit diesen Ziffern beginnen, werden Ihnen in einer inkrementellen Auswahlliste angeboten. (Wenn Sie weitere Zeichen eingeben, wird der Inhalt der Auswahlliste angepasst.)<br />
 					              Nach Auswahl eines B-Plan-Verfahrens aus dieser Liste wird ausschlie&szlig;lich der zugeh&ouml;rige Plan geladen. Er wird vollst&auml;ndig und zentriert dargestellt. Das ist vor allem n&uuml;tzlich, um sich einen &Uuml;berblick &uuml;ber Pl&auml;ne mit einem komplizierten Geltungsbereich zu verschaffen. (Probieren Sie mal die Nummer 150.)<br />
 					              Klicken Sie auf&nbsp;<Icon name="search"/>&nbsp;, um alle Pl&auml;ne hinzuzuladen, die im jetzt aktuellen Ausschnitt liegen. Damit stellen Sie auch sicher, dass Sie keinen Plan &uuml;bersehen, der sich mit dem zuvor gesuchten &uuml;berlappt.
 					</Panel>
 			    <Panel header="Suche &uuml;ber Adresse oder POI" eventKey="5" bsStyle="success">
-					              Um die B-Plan-Situation an einem bestimmten Punkt des Stadtgebietes zu erkunden, geben Sie den Anfang einer Stra&szlig;ennamens oder eines interessanten Ortes (auch Point of Interest oder kurz POI genannt) im Eingabefeld ein (mindestens 2 Ziffern). In der inkrementellen Auswahlliste werden Ihnen passende Treffer angeboten. (Wenn sie weitere Zeichen eingeben, wird der Inhalt der Auswahlliste angepasst.)<br />
+					              Um die B-Plan-Situation an einem bestimmten Punkt des Stadtgebietes zu erkunden, geben Sie den Anfang einer Stra&szlig;ennamens oder eines interessanten Ortes (auch Point of Interest oder kurz POI genannt) im Eingabefeld ein (mindestens 2 Zeichen). In der inkrementellen Auswahlliste werden Ihnen passende Treffer angeboten. (Wenn sie weitere Zeichen eingeben, wird der Inhalt der Auswahlliste angepasst.)<br />
 					              Durch das vorangestellte Symbol erkennen Sie, ob es sich dabei um eine&nbsp;<Icon name="home"/>&nbsp;Adresse, eine&nbsp;<Icon name="road"/>&nbsp;Stra&szlig;e ohne zugeordnete Hausnummern, einen&nbsp;<Icon name="tag"/>&nbsp;POI oder die&nbsp;<Icon name="tags"/>&nbsp;alternative Bezeichnung eines POI handelt. (Probieren Sie es mal mit der Eingabe &bdquo;Sankt&ldquo;.)<br />
 					              Nach der Auswahl eines Eintrags wird die entsprechende Position in der Karte markiert. B-Plan-Verfahren werden hier allerdings in der Umgebung dieses Punktes gesucht, in einem Kartenausschnitt der Zoomstufe 14. Sie erhalten daher in der Regel mehrere Treffer.
 					</Panel>
@@ -78,15 +78,15 @@ export class BPlanModalHelp_ extends React.Component {
 			                  Ob die heruntergeladene Datei nach dem Download sofort mit einem geeigneten Programm (PDF-Viewer oder Dateimanager) ge&ouml;ffnet wird, h&auml;ngt von Ihren Betriebssystem- und/oder Browsereinstellungen ab.
 					</Panel>
 			  </Accordion>
-       
+
         </Modal.Body>
-        
+
         <Modal.Footer>
 					<table style={{ width: '100%' }}>
 						<tr>
 							<td style={{ textAlign: 'left', verticalAlign: 'top',paddingRight: "30px"  }}>
-								<span style={{ fontSize:"11px" }}><b>Hintergrundkarte</b>: in Detailma&szlig;st&auml;ben <a>Amtliche Basiskarte (ABK) der Stadt Wuppertal</a>, 
-								in &Uuml;bersichtsma&szlig;st&auml;ben <a>WebAtlasDE &copy; GeoBasis-DE / BKG 2017</a>, jeweils &uuml;berlagert mit Geltungsbereichen 
+								<span style={{ fontSize:"11px" }}><b>Hintergrundkarte</b>: in Detailma&szlig;st&auml;ben <a>Amtliche Basiskarte (ABK) der Stadt Wuppertal</a>,
+								in &Uuml;bersichtsma&szlig;st&auml;ben <a>WebAtlasDE &copy; GeoBasis-DE / BKG 2017</a>, jeweils &uuml;berlagert mit Geltungsbereichen
 								der Wuppertaler Bebauungspl&auml;ne.</span>
 							</td>
 							<td>
@@ -95,7 +95,7 @@ export class BPlanModalHelp_ extends React.Component {
 						</tr>
 					</table>
         </Modal.Footer>
-        
+
       </Modal>
     );
   }

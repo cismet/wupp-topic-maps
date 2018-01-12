@@ -11,11 +11,15 @@ import { actions as uiStateActions } from '../redux/modules/uiState';
 
 import { bindActionCreators } from 'redux';
 import { bplanFeatureStyler, bplanLabeler } from '../utils/bplanHelper';
-//import * as stateConstants from '../constants/stateConstants';
 import { downloadSingleFile,downloadMultipleFiles, mergeMultipleFiles } from '../utils/downloadHelper';
 import BPlanModalHelp from '../components/BPlanModalHelpComponent';
 import BPlanInfo  from '../components/BPlanInfo'
 import {Icon} from 'react-fa'
+
+
+import { proj4crs25832def } from '../constants/gis';
+import proj4 from 'proj4';
+
 
 function mapStateToProps(state) {
   return {
@@ -32,6 +36,7 @@ function mapDispatchToProps(dispatch) {
     bplanActions: bindActionCreators(bplanActions,dispatch),
     mappingActions: bindActionCreators(mappingActions,dispatch),
     uiStateActions: bindActionCreators(uiStateActions,dispatch),
+
   };
 }
 
@@ -49,9 +54,11 @@ export class BPlaene_ extends React.Component {
       this.downloadEverything=this.downloadEverything.bind(this);
       this.downloadDone=this.downloadDone.bind(this);
       this.openHelp=this.openHelp.bind(this);
+      this.doubleMapClick = this.doubleMapClick.bind(this);
+
   }
 
-  bplanGazeteerhHit(selectedObject){   
+  bplanGazeteerhHit(selectedObject){
     this.props.bplanActions.searchForPlans(selectedObject);
   }
 
@@ -68,6 +75,17 @@ export class BPlaene_ extends React.Component {
     this.props.mappingActions.setSelectedFeatureIndex(potIndex);
     //this.props.mappingActions.fitSelectedFeatureBounds(stateConstants.AUTO_FIT_MODE_NO_ZOOM_IN);
   }
+
+  doubleMapClick(event) {
+    console.log("suche nach bplan");
+    console.log(event.latlng);
+    const pos=proj4(proj4.defs('EPSG:4326'),proj4crs25832def,[event.latlng.lng,event.latlng.lat])
+
+    let wkt=`POINT(${pos[0]} ${pos[1]})`;
+    console.log(wkt);
+    this.props.bplanActions.searchForPlans(null,wkt);
+  }
+
 
   selectPreviousIndex() {
     let potIndex=this.props.mapping.selectedIndex-1;
@@ -151,11 +169,11 @@ export class BPlaene_ extends React.Component {
             "folder":"Zusatzdokumente"
           });
       }
-      
+
       downloadMultipleFiles(downloadConf,this.downloadDone);
 
   }
-  
+
   downloadDone() {
     this.props.bplanActions.setDocumentLoadingIndicator(false);
   }
@@ -177,15 +195,15 @@ export class BPlaene_ extends React.Component {
   }
 
   searchTooltip(){
-     return (<Tooltip style={{zIndex: 3000000000}} id="searchTooltip">B-Pl&auml;ne im Kartenausschnitt laden</Tooltip>); 
+     return (<Tooltip style={{zIndex: 3000000000}} id="searchTooltip">B-Pl&auml;ne im Kartenausschnitt laden</Tooltip>);
   };
 
-  render() {  
+  render() {
    let info= null;
      if (this.props.mapping.featureCollection.length>0) {
         info = (
-          <BPlanInfo 
-              featureCollection={this.props.mapping.featureCollection} 
+          <BPlanInfo
+              featureCollection={this.props.mapping.featureCollection}
               selectedIndex={this.props.mapping.selectedIndex||0}
               next={this.selectNextIndex}
               previous={this.selectPreviousIndex}
@@ -205,7 +223,7 @@ export class BPlaene_ extends React.Component {
                   Nummer)
                   und Eintrag aus Vorschlagsliste auswählen oder mit <br />
                   <Icon name="search"/> alle Pl&auml;ne im aktuellen Kartenausschnitt laden.</p>
-                  
+
                   <a onClick={this.openHelp}>vollst&auml;ndige Bedienungsanleitung</a>
                </Well>)
      }
@@ -213,17 +231,19 @@ export class BPlaene_ extends React.Component {
         <div>
             <BPlanModalHelp key={'BPlanModalHelp.visible:'+this.props.ui.helpTextVisible}/>
 
-            <Cismap layers={this.props.match.params.layers ||'uwBPlan'} 
-                    gazeteerHitTrigger={this.bplanGazeteerhHit} 
-                    searchButtonTrigger={this.bplanSearchButtonHit} 
+            <Cismap layers={this.props.match.params.layers ||'uwBPlan'}
+                    gazeteerHitTrigger={this.bplanGazeteerhHit}
+                    searchButtonTrigger={this.bplanSearchButtonHit}
                     featureStyler={bplanFeatureStyler}
                     labeler={bplanLabeler}
                     featureClickHandler={this.featureClick}
+                    ondblclick={this.doubleMapClick}
                     searchTooltipProvider={this.searchTooltip}
                     searchMinZoom={12}
-                    searchMaxZoom={18}>
+                    searchMaxZoom={18}
+                    gazTopics={["pois","bplaene","adressen"]}>
                 <Control position="bottomright" >
-                  {info}                    
+                  <div>{info}</div>
                 </Control>
             </Cismap>
         </div>

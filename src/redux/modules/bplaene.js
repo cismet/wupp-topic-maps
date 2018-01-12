@@ -8,11 +8,11 @@ import { getPolygonfromBBox } from '../../utils/gisHelper';
 import {
     WUNDAAPI
   } from '../../constants/services';
-  
+
 
 ///TYPES
 export const types = {
-    SET_DOCUMENT_LOADING_INDICATOR : 'BPLAENE/SET_DOCUMENT_LOADING_INDICATOR'    
+    SET_DOCUMENT_LOADING_INDICATOR : 'BPLAENE/SET_DOCUMENT_LOADING_INDICATOR'
 }
 
 
@@ -32,7 +32,7 @@ export default function bplanReducer(state = initialState, action) {
           newState.documentsLoading = action.isLoading;
           return newState;
         }
-  
+
      default:
           return state;
    }
@@ -50,14 +50,21 @@ function setDocumentLoadingIndicator(isLoading) {
 
 
 
-export function searchForPlans(gazObject) {
+export function searchForPlans(gazObject,overriddenWKT) {
     return function (dispatch, getState) {
       dispatch(mappingActions.setSearchProgressIndicator(true));
       const state = getState();
+      let wkt;
+      if (overriddenWKT){
+        wkt=overriddenWKT;
+      }
+      else {
+        wkt=getPolygonfromBBox(state.mapping.boundingBox);
+      }
       let query={
         "list": [{
           "key": "wktString",
-          "value": getPolygonfromBBox(state.mapping.boundingBox)
+          "value": wkt
         }
         ,{
           "key": "status",
@@ -79,11 +86,11 @@ export function searchForPlans(gazObject) {
           'Content-Type': 'application/json'
         },
         body: JSON.stringify(query)
-  
+
       }).then(function (response) {
         if (response.status >= 200 && response.status < 300) {
           response.json().then(function (result) {
-              
+
               let featureArray=[];
               let counter=0;
               let lastFeature=null;
@@ -95,31 +102,31 @@ export function searchForPlans(gazObject) {
               }
               for (let objArr of result.$collection) {
                   let feature=convertPropArrayToFeature(objArr,counter);
-                  
+
                   if (lastFeature!=null && JSON.stringify(feature.geometry)===JSON.stringify(lastFeature.geometry)) {
                     lastFeature.twin=counter;
                     feature.twin=counter-1;
                   }
-  
+
                   //check whether the gazetteer-object has a property verfahrensnummer
                   //if this verfahrensnummer matches the nummer of the feature this
                   //should be the only feature in the resultset
-                  if (gazObject!=null && gazObject.length === 1 && gazObject[0] !=null && gazObject[0].verfahrensnummer===feature.properties.nummer) {
+                  if (gazObject!=null && gazObject.length === 1 && gazObject[0] !=null && gazObject[0].more.v===feature.properties.nummer) {
                     featureArray=[feature];
                     planMatch=true;
                     break;
                   }
-                  
-  
+
+
                   if (gazPoint!=null && inside(gazPoint,feature)) {
                     selectionIndexWish=counter;
                   }
-  
+
                   featureArray.push(feature);
                   lastFeature=feature;
                   counter++;
               }
-  
+
              dispatch(mappingActions.setSearchProgressIndicator(false));
              dispatch(mappingActions.setFeatureCollection(featureArray));
              if (featureArray.length>0) {
@@ -131,7 +138,7 @@ export function searchForPlans(gazObject) {
                   dispatch(mappingActions.fitFeatureBounds(featureArray[selectionIndexWish],stateConstants.AUTO_FIT_MODE_STRICT));
                 }
              }
-            
+
           });
         } else if (response.status === 401) {
              dispatch(mappingActions.setSearchProgressIndicator(false));
@@ -143,7 +150,7 @@ export function searchForPlans(gazObject) {
 function convertPropArrayToFeature(propArray,counter,){
     let plaene_rk;
     let geom=JSON.parse(propArray[6]);
-    
+
     if (propArray[3]!=null) {
       plaene_rk=JSON.parse(propArray[3]);
     } else {

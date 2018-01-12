@@ -87,14 +87,10 @@ export class Cismap_ extends React.Component {
         console.log("this.props.gazetteerTopics.adressen === undefined")
       }
 
-      let adressen = JSON.parse(this.props.gazetteerTopics.adressen);
-      let pois = JSON.parse(this.props.gazetteerTopics.pois);
-      let quartiere = JSON.parse(this.props.gazetteerTopics.quartiere);
-      let bezirke = JSON.parse(this.props.gazetteerTopics.bezirke);
-      let bplaene = JSON.parse(this.props.gazetteerTopics.bplaene);
       let sorter=0;
       this.gazData = [];
       if (this.props.gazTopics.indexOf("pois")!==-1) {
+        let pois = JSON.parse(this.props.gazetteerTopics.pois);
         for (let i = 0; i < pois.length; ++i) {
           let topicItem = pois[i];
           let g = {
@@ -109,6 +105,7 @@ export class Cismap_ extends React.Component {
         }
       }
       if (this.props.gazTopics.indexOf("quartiere")!==-1) {
+        let quartiere = JSON.parse(this.props.gazetteerTopics.quartiere);
         for (let i = 0; i < quartiere.length; ++i) {
           let topicItem = quartiere[i];
           let g = {
@@ -124,6 +121,7 @@ export class Cismap_ extends React.Component {
       }
 
       if (this.props.gazTopics.indexOf("bezirke")!==-1) {
+        let bezirke = JSON.parse(this.props.gazetteerTopics.bezirke);
         for (let i = 0; i < bezirke.length; ++i) {
           let topicItem = bezirke[i];
           let g = {
@@ -139,6 +137,7 @@ export class Cismap_ extends React.Component {
       }
 
       if (this.props.gazTopics.indexOf("adressen")!==-1) {
+        let adressen = JSON.parse(this.props.gazetteerTopics.adressen);
         for (let i = 0; i < adressen.length; ++i) {
           let topicItem = adressen[i];
           let string=topicItem.s;
@@ -161,6 +160,7 @@ export class Cismap_ extends React.Component {
       }
 
       if (this.props.gazTopics.indexOf("bplaene")!==-1) {
+        let bplaene = JSON.parse(this.props.gazetteerTopics.bplaene);
         for (let i = 0; i < bplaene.length; ++i) {
           let topicItem = bplaene[i];
           let g = {

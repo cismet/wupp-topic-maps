@@ -50,14 +50,21 @@ function setDocumentLoadingIndicator(isLoading) {
 
 
 
-export function searchForPlans(gazObject) {
+export function searchForPlans(gazObject,overriddenWKT) {
     return function (dispatch, getState) {
       dispatch(mappingActions.setSearchProgressIndicator(true));
       const state = getState();
+      let wkt;
+      if (overriddenWKT){
+        wkt=overriddenWKT;
+      }
+      else {
+        wkt=getPolygonfromBBox(state.mapping.boundingBox);
+      }
       let query={
         "list": [{
           "key": "wktString",
-          "value": getPolygonfromBBox(state.mapping.boundingBox)
+          "value": wkt
         }
         ,{
           "key": "status",

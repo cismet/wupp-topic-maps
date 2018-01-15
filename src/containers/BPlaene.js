@@ -77,12 +77,8 @@ export class BPlaene_ extends React.Component {
   }
 
   doubleMapClick(event) {
-    console.log("suche nach bplan");
-    console.log(event.latlng);
     const pos=proj4(proj4.defs('EPSG:4326'),proj4crs25832def,[event.latlng.lng,event.latlng.lat])
-
     let wkt=`POINT(${pos[0]} ${pos[1]})`;
-    console.log(wkt);
     this.props.bplanActions.searchForPlans(null,wkt);
   }
 

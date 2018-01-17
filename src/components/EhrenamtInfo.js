@@ -40,7 +40,8 @@ const EhrenamtInfo = ({featureCollection, filteredOffers, selectedIndex, next, p
               <tbody>
                 <tr>
                   <td/>
-                  <td style={{ textAlign: 'center', verticalAlign: 'center' }}>{featureCollection.length} {angebotOrAngebote} angezeigt</td>
+                    <td style={{ textAlign: 'center', verticalAlign: 'center' }}><a onClick={fitAll} >{filteredOffers.length} Angebote in Wuppertal</a></td>
+
                   <td/>
                 </tr>
               </tbody>
@@ -51,8 +52,8 @@ const EhrenamtInfo = ({featureCollection, filteredOffers, selectedIndex, next, p
                   <OverlayTrigger placement="bottom" overlay={(<Tooltip style={{zIndex: 3000000000}} id="prevtt">vorheriger Treffer</Tooltip>)}>
                     <td style={{ textAlign: 'left', verticalAlign: 'center' }}><a onClick={previous}>&lt;&lt;</a></td>
                   </OverlayTrigger>
+                  <td style={{ textAlign: 'center', verticalAlign: 'center' }}>{featureCollection.length} {angebotOrAngebote} angezeigt</td>
 
-                  <td style={{ textAlign: 'center', verticalAlign: 'center' }}><a onClick={fitAll} >{filteredOffers.length} Angebote in Wuppertal</a></td>
                   <OverlayTrigger placement="bottom" overlay={(<Tooltip style={{zIndex: 3000000000}} id="nexttt">n&auml;chster Treffer</Tooltip>)}>
                     <td style={{ textAlign: 'right', verticalAlign: 'center' }}><a onClick={next} >&gt;&gt;</a></td>
                   </OverlayTrigger>

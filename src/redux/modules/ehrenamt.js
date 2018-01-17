@@ -11,9 +11,11 @@ import kdbush from 'kdbush';
 ///TYPES
 export const types = {
   SET_OFFERS: 'EHRENAMT/SET_OFFERS',
+  SET_FILTERED_OFFERS: 'EHRENAMT/SET_FILTERED_OFFERS',
   SET_GLOBALBEREICHE: 'EHRENAMT/SET_GLOBALBEREICHE',
   SET_KENNTNISSE: 'EHRENAMT/SET_KENNTNISSE',
   SET_ZIELGRUPPEN: 'EHRENAMT/SET_ZIELGRUPPEN',
+  SET_ZIELGRUPPEN_FILTER: 'EHRENAMT/SET_ZIELGRUPPEN_FILTER',
 }
 
 export const constants = {
@@ -27,13 +29,14 @@ const initialState = {
   offers: [],
   filteredOffers: [],
   offerIndex: null,
+  filteredOfferIndex: null,
   globalbereiche: [],
   kenntnisse: [],
   zielgruppen: [],
   filter: {
     globalbereiche: [],
     kenntnisse: [],
-    zielgruppen: [],
+    zielgruppen: ["Behinderte/Kranke", "Erwachsene", "Familien", "Flüchtlinge/Migranten", "Frauen", "MigrantInnen", "Männer", "SeniorInnen"],
     filtermode: constants.IGNORE_FILTER
   }
 };
@@ -50,6 +53,13 @@ export default function ehrenamtReducer(state = initialState, action) {
         newState.offerIndex = kdbush(action.offers, (p) => p.point25832[0], (p) => p.point25832[1]);
         return newState;
       }
+      case types.SET_FILTERED_OFFERS:
+        {
+          newState = objectAssign({}, state);
+          newState.filteredOffers = action.offers
+          newState.filteredOfferIndex = kdbush(action.offers, (p) => p.point25832[0], (p) => p.point25832[1]);
+          return newState;
+        }
     case types.SET_GLOBALBEREICHE:
       {
         newState = objectAssign({}, state);
@@ -71,6 +81,14 @@ export default function ehrenamtReducer(state = initialState, action) {
 
         return newState;
       }
+      case types.SET_ZIELGRUPPEN_FILTER:
+        {
+          newState = objectAssign({}, state);
+          newState.filter=JSON.parse(JSON.stringify(state.filter))
+          newState.filter.zielgruppen = action.zielgruppen
+
+          return newState;
+        }
     default:
       return state;
   }
@@ -82,6 +100,12 @@ export default function ehrenamtReducer(state = initialState, action) {
 function setOffers(offers) {
   return {
     type: types.SET_OFFERS,
+    offers
+  };
+}
+function setFilteredOffers(offers) {
+  return {
+    type: types.SET_FILTERED_OFFERS,
     offers
   };
 }
@@ -107,7 +131,56 @@ function setZielgruppen(zielgruppen) {
   };
 }
 
+function setZielgruppenFilter(zielgruppen) {
+  return {
+    type: types.SET_ZIELGRUPPEN_FILTER,
+    zielgruppen
+  };
+}
+
 //COMPLEXACTIONS
+
+function toggleZielgruppenFilter(zielgruppe) {
+  return (dispatch, getState) => {
+    let state = getState();
+    let zgFilter=JSON.parse(JSON.stringify(state.ehrenamt.filter.zielgruppen));
+    let zgFilterSet=new Set(zgFilter);
+    if (zgFilterSet.has(zielgruppe)) {
+      zgFilterSet.delete(zielgruppe);
+    }
+    else {
+      zgFilterSet.add(zielgruppe);
+    }
+    zgFilter=Array.from(zgFilterSet);
+    zgFilter.sort();
+    dispatch(setZielgruppenFilter(zgFilter));
+    dispatch(filter());
+
+  }
+}
+
+function filter() {
+
+  return (dispatch, getState) => {
+    let state = getState();
+      let fo=[];
+      for (let offer of state.ehrenamt.offers) {
+        if (offer.zielgruppen) {
+          for (let zg of offer.zielgruppen) {
+            if (state.ehrenamt.filter.zielgruppen.indexOf(zg)>-1) {
+              fo.push(offer);
+              break;
+            }
+          }
+        }
+      }
+      dispatch(setFilteredOffers(fo));
+      dispatch(createFeatureCollectionFromOffers());
+
+  }
+}
+
+
 function loadOffers() {
   return (dispatch, getState) => {
     return fetch('/ehrenamt/data.json', {
@@ -150,7 +223,7 @@ function loadOffers() {
       dispatch(setKenntnisse(Array.from(kenntnisse).sort()));
       dispatch(setZielgruppen(Array.from(zielgruppen).sort()));
       dispatch(setOffers(data));
-
+      dispatch(filter());
       dispatch(createFeatureCollectionFromOffers());
 
 
@@ -177,13 +250,13 @@ function createFeatureCollectionFromOffers(boundingBox) {
       console.log(bb)
       let featureArray = [];
 
-      let resultIds = state.ehrenamt.offerIndex.range(bb.left, bb.bottom, bb.right, bb.top);
+      let resultIds = state.ehrenamt.filteredOfferIndex.range(bb.left, bb.bottom, bb.right, bb.top);
       let resultFC = [];
       let counter = 0;
       let results=[];
 
       for (let id of resultIds) {
-        results.push(state.ehrenamt.offers[id]);
+        results.push(state.ehrenamt.filteredOffers[id]);
       }
       console.log(results[0]);
 
@@ -215,7 +288,8 @@ function createFeatureCollectionFromOffers(boundingBox) {
 export const actions = {
   setOffers,
   loadOffers,
-  createFeatureCollectionFromOffers
+  createFeatureCollectionFromOffers,
+  toggleZielgruppenFilter
 };
 
 

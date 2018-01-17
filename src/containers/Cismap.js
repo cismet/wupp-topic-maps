@@ -441,7 +441,7 @@ export class Cismap_ extends React.Component {
       </Control>
       <Control position="topright">
         <OverlayTrigger placement="left" overlay={this.props.helpTooltipProvider()}>
-          <Button onClick={this.showModalHelpComponent}><Icon name='info'/></Button>
+          <Button onClick={this.showModalHelpComponent}><Icon name='bars'/></Button>
         </OverlayTrigger>
       </Control>
 

@@ -50,6 +50,7 @@ export class Ehrenamt_ extends React.Component {
       this.selectNextIndex=this.selectNextIndex.bind(this);
       this.selectPreviousIndex=this.selectPreviousIndex.bind(this);
       this.createfeatureCollectionByBoundingBox=this.createfeatureCollectionByBoundingBox.bind(this);
+      this.zielgruppenFilterChanged=this.zielgruppenFilterChanged.bind(this);
       this.props.mappingActions.setBoundingBoxChangedTrigger(this.createfeatureCollectionByBoundingBox);
     }
 
@@ -103,7 +104,9 @@ export class Ehrenamt_ extends React.Component {
       this.props.mappingActions.setSelectedFeatureIndex(potIndex);
 
     }
-
+    zielgruppenFilterChanged(zg) {
+      this.props.ehrenamtActions.toggleZielgruppenFilter(zg);
+    }
     searchTooltip(){
         return (<Tooltip style={{zIndex: 3000000000}} id="searchTooltip">Ehrenamtsinfos im Kartenausschnitt laden</Tooltip>);
     };
@@ -113,7 +116,7 @@ export class Ehrenamt_ extends React.Component {
            info = (
              <EhrenamtInfo
              featureCollection={this.props.mapping.featureCollection}
-             filteredOffers={this.props.ehrenamt.offers}
+             filteredOffers={this.props.ehrenamt.filteredOffers}
                  selectedIndex={this.props.mapping.selectedIndex||0}
                  next={this.selectNextIndex}
                  previous={this.selectPreviousIndex}
@@ -134,7 +137,11 @@ export class Ehrenamt_ extends React.Component {
         }
       return (
            <div>
-               <EhrenamtModalHelp key={'EhrenamtModalHelp.visible:'+this.props.ui.helpTextVisible}/>
+               <EhrenamtModalHelp key={'EhrenamtModalHelp.visible:'+this.props.ui.helpTextVisible}
+                zielgruppen={this.props.ehrenamt.zielgruppen}
+                filter={this.props.ehrenamt.filter}
+                zielgruppenFilterChanged={this.zielgruppenFilterChanged}
+               />
                <Cismap ref={cismap => {this.cismapRef = cismap;}}
                        layers={this.props.match.params.layers ||'abkg'}
                        gazeteerHitTrigger={this.gazeteerhHit}
@@ -147,13 +154,19 @@ export class Ehrenamt_ extends React.Component {
                        searchMinZoom={12}
                        searchMaxZoom={18}
                        gazTopics={["pois","adressen", "bezirke", "quartiere"]}
-                       >
-                   <Control position="bottomright" >
-                    <div>{info}</div>
-                   </Control>
-                   <Control position="topright" >
-                    <div><Well style={{ width: '250px', opacity: '0.9'}}></Well></div>
-                   </Control>
+                    >
+                    <Control position="bottomright" >
+                     <div>{info}</div>
+                    </Control>
+                    <Control position="topright" >
+                     <div>
+                     <Well bsSize="small" style={{ width: '200px', opacity: '0.7'}}>
+                                <h5>Filter</h5>
+                                <p>8/10 Zielgruppen ausgewählt </p>
+                             </Well>
+                     </div>
+                    </Control>
+
                </Cismap>
            </div>
        );

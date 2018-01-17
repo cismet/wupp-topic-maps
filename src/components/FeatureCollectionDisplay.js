@@ -46,7 +46,7 @@ const FeatureCollectionDisplay = ({mappingProps, style, labeler, featureClickHan
                 }
 
             }
-            else {
+            else if (currentFeature.geometry.type==='MultiPolygon' && currentFeature.geometry.coordinates.length>1){
                 //console.log("Multipolygon mit "+currentFeature.geometry.coordinates.length);
                 for (let currentsubfeatureIdx in currentFeature.geometry.coordinates) {
                     let coordinates=currentFeature.geometry.coordinates[currentsubfeatureIdx]
@@ -58,6 +58,10 @@ const FeatureCollectionDisplay = ({mappingProps, style, labeler, featureClickHan
                         markers.push(marker);
                     }
                 }
+            }
+            else if (currentFeature.geometry.type==='Point') {
+            
+
             }
         }
         for (let midx in selectedMarkers) {
@@ -76,6 +80,7 @@ const FeatureCollectionDisplay = ({mappingProps, style, labeler, featureClickHan
 
 function createMarker(currentFeature, key, coordinates, view, markerPos, labeler) {
     //get the subfeature into a polygon
+    console.log(coordinates)
     let polygon=turfHelpers.polygon(coordinates);
     let newPoly=intersect(view,polygon);
 

@@ -13,6 +13,7 @@ export const types = {
   SET_SEARCH_PROGRESS_INDICATOR: 'MAPPING/SET_SEARCH_PROGRESS_INDICATOR',
   GAZETTEER_HIT: 'MAPPING/GAZETTEER_HIT',
   SET_GAZETTEER_TOPICS_LOADED: 'MAPPING/SET_GAZETTEER_TOPICS_LOADED',
+  SET_MAP_BOUNDING_BOX_CHANGED_TRIGGER: 'MAPPING/SET_MAP_BOUNDING_BOX_CHANGED_TRIGGER',
 
 }
 export const constants = {
@@ -52,6 +53,7 @@ const initialState = {
 
   ],
   gazetteerTopicsLoaded: false,
+  boundingBoxChangedTrigger: null
 
 };
 
@@ -65,6 +67,12 @@ export default function mappingReducer(state = initialState, action) {
         newState.boundingBox = action.bbox;
         return newState;
       }
+    case types.SET_MAP_BOUNDING_BOX_CHANGED_TRIGGER:
+      {
+        newState = objectAssign({}, state);
+        newState.boundingBoxChangedTrigger = action.trigger;
+        return newState;
+      }
     case types.FEATURE_COLLECTION_CHANGED:
       {
         newState = objectAssign({}, state);
@@ -74,12 +82,17 @@ export default function mappingReducer(state = initialState, action) {
       }
     case types.FEATURE_SELECTION_INDEX_CHANGED:
       {
-        newState = JSON.parse(JSON.stringify(state));
+        newState = objectAssign({}, state);
+        newState.featureCollection = JSON.parse(JSON.stringify(state.featureCollection));
         for (let feature of newState.featureCollection) {
           feature.selected = false;
         }
-        newState.featureCollection[action.index].selected = true;
-        newState.selectedIndex = action.index;
+        if (newState.featureCollection[action.index]) {
+          newState.featureCollection[action.index].selected = true;
+          newState.selectedIndex = action.index;
+        } else {
+          newState.selectedIndex = null;
+        }
         return newState;
       }
     case types.SET_AUTO_FIT:
@@ -114,10 +127,17 @@ export default function mappingReducer(state = initialState, action) {
 }
 
 ///SIMPLEACTIONCREATORS
-function mappingBoundsChanged(bbox) {
+function setMappingBounds(bbox) {
   return {
     type: types.MAP_BOUNDING_BOX_CHANGED,
     bbox
+  };
+}
+
+function setBoundingBoxChangedTrigger(trigger) {
+  return {
+    type: types.SET_MAP_BOUNDING_BOX_CHANGED_TRIGGER,
+    trigger
   };
 }
 
@@ -167,6 +187,21 @@ function setGazetteerTopicsLoaded(loaded) {
 
 
 //COMPLEXACTIONS
+
+function mappingBoundsChanged(bbox) {
+  return function(dispatch, getState) {
+    let state = getState().mapping;
+    console.log(state);
+    if (state.boundingBoxChangedTrigger) { //} && JSON.stringify(state.boundingBox)!==JSON.stringify(bbox)) {
+      console.log("boundingBoxChangedTrigger")
+
+      state.boundingBoxChangedTrigger(bbox);
+    }
+
+    dispatch(setMappingBounds(bbox));
+  };
+}
+
 function fitFeatureBounds(feature, mode) {
   return function(dispatch) {
     const projectedF = L
@@ -205,6 +240,7 @@ function fitFeatureCollection(features) {
 
 export const actions = {
   mappingBoundsChanged,
+  setBoundingBoxChangedTrigger,
   setFeatureCollection,
   setSelectedFeatureIndex,
   setSearchProgressIndicator,

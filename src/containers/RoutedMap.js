@@ -37,12 +37,12 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
-export function createLeafletElement () {}    
+export function createLeafletElement () {}
 
 export class RoutedMap_ extends React.Component {
       constructor(props) {
         super(props);
-        this.featureClick = this.featureClick.bind(this);        
+        this.featureClick = this.featureClick.bind(this);
       }
   componentDidMount() {
     this.leafletMap.leafletElement.on('moveend', () => {
@@ -89,12 +89,12 @@ componentDidUpdate() {
       if (this.props.mapping.autoFitBounds) {
         if (this.props.mapping.autoFitMode===MappingConstants.AUTO_FIT_MODE_NO_ZOOM_IN) {
           if (!this.leafletMap.leafletElement.getBounds().contains(this.props.mapping.autoFitBoundsTarget)) {
-            this.leafletMap.leafletElement.fitBounds(this.props.mapping.autoFitBoundsTarget);         
+            this.leafletMap.leafletElement.fitBounds(this.props.mapping.autoFitBoundsTarget);
           }
         }
         else {
             if (this.props.mapping.autoFitBoundsTarget && this.props.mapping.autoFitBoundsTarget.isValid()){
-                this.leafletMap.leafletElement.fitBounds(this.props.mapping.autoFitBoundsTarget);        
+                this.leafletMap.leafletElement.fitBounds(this.props.mapping.autoFitBoundsTarget);
             }
         }
         this.props.mappingActions.setAutoFit(false);
@@ -127,27 +127,27 @@ render() {
 
 
     return (
-      <Map 
+      <Map
         ref={leafletMap => {this.leafletMap = leafletMap;}}
-        key={"leafletMap"} 
-        crs={crs25832}  
+        key={"leafletMap"}
+        crs={crs25832}
         style={this.props.style}
-        center={positionByUrl} 
-        zoom={zoomByUrl} 
+        center={positionByUrl}
+        zoom={zoomByUrl}
         zoomControl={false}
-        attributionControl={false} 
+        attributionControl={false}
         doubleClickZoom={false}
         ondblclick={this.props.ondblclick}
-       
-        minZoom={7} 
+
+        minZoom={7}
         maxZoom={18}
         >
-        
+
        <ZoomControl position="topleft" zoomInTitle="Vergr&ouml;ßern" zoomOutTitle="Verkleinern" />
          {this.props.children}
       </Map>
     );
-    
+
   }
 }
 
@@ -164,7 +164,7 @@ RoutedMap_.propTypes = {
     style: PropTypes.object.isRequired,
     ondblclick: PropTypes.func,
     children: PropTypes.array,
-    
+
 };
 
 RoutedMap_.defaultProps = {
@@ -175,4 +175,5 @@ RoutedMap_.defaultProps = {
     ondblclick: function () {},
 };
 
-export default RoutedMap;
+// not used therefore do not export to avoid confusion
+//export default RoutedMap;

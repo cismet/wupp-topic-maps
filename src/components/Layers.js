@@ -49,6 +49,50 @@ Layers.set("abkf", (opacity) => {
     />
   );
 });
+
+Layers.set("nrs", (opacity) => {
+  return (
+    <WMSTileLayer
+      key="nrs"
+      url="https://wunda-geoportal-cache.cismet.de/geoportal"
+      layers="R102%3Astadtgrundkarte_hausnr"
+      format="image/png"
+      transparent="true"
+      tiled="true"
+      maxZoom={19}
+      opacity={opacity}
+    />
+  );
+});
+
+Layers.set("abkg", (opacity) => {
+  return (
+    <WMSTileLayer
+      key="abkf"
+      url="https://wunda-geoportal-cache.cismet.de/geoportal"
+      layers="abkg"
+      format="image/png"
+      tiled="true"
+      maxZoom={19}
+      opacity={opacity}
+    />
+  );
+});
+Layers.set("bplan_abkg", (opacity) => {
+  return (
+    <WMSTileLayer
+      key="bplan_abkg"
+      url="https://wunda-geoportal-cache.cismet.de/geoportal"
+      layers="bplanreihe"
+      format="image/png"
+      tiled="true"
+      maxZoom={19}
+      opacity={opacity}
+    />
+  );
+});
+
+
 Layers.set("bplan_abkg", (opacity) => {
   return (
     <WMSTileLayer
@@ -202,5 +246,3 @@ Layers.set("CartoLayer", (opacity) => {
     />
   );
 });
-
-

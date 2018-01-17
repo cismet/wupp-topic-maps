@@ -63,6 +63,7 @@ export class Cismap_ extends React.Component {
     this.internalSearchButtonTrigger = this.internalSearchButtonTrigger.bind(this);
     this.featureClick = this.featureClick.bind(this);
     this.handleSearch = this.handleSearch.bind(this);
+    this.gotoHomeBB = this.gotoHomeBB.bind(this);
     this.showModalHelpComponent = this.showModalHelpComponent.bind(this);
     this.gazData=[];
   }
@@ -214,6 +215,17 @@ export class Cismap_ extends React.Component {
     this.storeBoundingBox();
   }
 
+  gotoHomeBB() {
+    this.refs.leafletMap.leafletElement.fitBounds([
+      [
+        51.1094, 7.00093
+      ],
+      [
+        51.3737,7.3213
+      ]
+    ]);
+}
+
   componentDidUpdate() {
     if ((typeof(this.refs.leafletMap) !== 'undefined' && this.refs.leafletMap != null)) {
       if (this.props.mapping.autoFitBounds) {
@@ -241,7 +253,9 @@ export class Cismap_ extends React.Component {
       bottom: projectedSW[1]
     };
     //console.log(getPolygon(bbox));
-    this.props.mappingActions.mappingBoundsChanged(bbox);
+    if (JSON.stringify(this.props.mapping.boundingBox)!==JSON.stringify(bbox)) {
+      this.props.mappingActions.mappingBoundsChanged(bbox);
+    }
   }
 
   internalGazeteerHitTrigger(hit) {
@@ -376,9 +390,6 @@ export class Cismap_ extends React.Component {
     if (this.props.mapping.searchInProgress) {
       searchIcon = (<Icon spin={true} name="refresh"/>)
     }
-
-    // this was in the typeahead :    {..this.state}
-    // DKW
 
     const searchAllowed = (zoomByUrl >= this.props.searchMinZoom && zoomByUrl <= this.props.searchMaxZoom);
     return (<Map ref="leafletMap" key="leafletMap" crs={crs25832} style={mapStyle} center={positionByUrl} zoom={zoomByUrl} zoomControl={false} attributionControl={false} doubleClickZoom={false} minZoom={7} ondblclick={this.props.ondblclick} maxZoom={18}>

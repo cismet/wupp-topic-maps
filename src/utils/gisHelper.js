@@ -34,3 +34,16 @@ export function convertBBox2Bounds(bbox) {
   //return [[projectedSW[0], projectedNE[1]],[projectedNE[0], projectedSW[1]]];
   return [[projectedNE[1], projectedSW[0]],[projectedSW[1],projectedNE[0]]];
 }
+
+export function convertPoint(x,y) {
+  let xval;
+  let yval;
+  if (typeof x === "string") {
+    xval=parseFloat(x);
+  }
+  if (typeof y === "string") {
+    yval=parseFloat(y);
+  }
+  const projectedPoint=proj4(proj4.defs('EPSG:4326'),proj4crs25832def,[yval,xval])
+  return projectedPoint;
+}

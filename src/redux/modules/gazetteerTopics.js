@@ -46,9 +46,6 @@ function clearAll() {
 //COMPLEXACTIONS
 
 function loadTopicsData(topicKeys) {
-
-
-
   return function(dispatch,getState) {
      let loaderpromises=topicKeys.map(loadTopicData);
      let dispatchedloaderpromises=loaderpromises.map(dispatch);

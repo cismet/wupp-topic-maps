@@ -247,7 +247,6 @@ function createFeatureCollectionFromOffers(boundingBox) {
         bb = state.mapping.boundingBox;
       }
 
-      console.log(bb)
       let featureArray = [];
 
       let resultIds = state.ehrenamt.filteredOfferIndex.range(bb.left, bb.bottom, bb.right, bb.top);
@@ -258,7 +257,6 @@ function createFeatureCollectionFromOffers(boundingBox) {
       for (let id of resultIds) {
         results.push(state.ehrenamt.filteredOffers[id]);
       }
-      console.log(results[0]);
 
       results.sort((a,b)=> {
         if (a.point25832[1]===b.point25832[1]) {
@@ -269,7 +267,6 @@ function createFeatureCollectionFromOffers(boundingBox) {
         }
       })
 
-      console.log(results[0]);
       for (let offer of results) {
         resultFC.push(convertOfferToFeature(offer, counter++));
       }

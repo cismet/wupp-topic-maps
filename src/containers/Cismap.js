@@ -400,7 +400,7 @@ export class Cismap_ extends React.Component {
         })
       }
       <GazetteerHitDisplay key={"gazHit" + JSON.stringify(this.props.mapping)} mappingProps={this.props.mapping}/>
-      <FeatureCollectionDisplay key={JSON.stringify(this.props.mapping)} mappingProps={this.props.mapping} style={this.props.featureStyler} labeler={this.props.labeler} featureClickHandler={this.featureClick} mapRef={this.refs.leafletMap}/>
+      <FeatureCollectionDisplay key={JSON.stringify(this.props.mapping)} mappingProps={this.props.mapping} style={this.props.featureStyler} labeler={this.props.labeler} hoverer={this.props.hoverer} featureClickHandler={this.featureClick} mapRef={this.refs.leafletMap}/>
       <ZoomControl position="topleft" zoomInTitle="Vergr&ouml;ßern" zoomOutTitle="Verkleinern"/>
       <FullscreenControl title="Vollbildmodus" forceSeparateButton={true} titleCancel="Vollbildmodus beenden" position="topleft"/>
       <Control position="bottomleft">
@@ -440,8 +440,8 @@ export class Cismap_ extends React.Component {
         </Form>
       </Control>
       <Control position="topright">
-        <OverlayTrigger placement="left" overlay={this.props.helpTooltipProvider()}>
-          <Button onClick={this.showModalHelpComponent}><Icon name='bars'/></Button>
+        <OverlayTrigger placement="left" overlay={this.props.applicationMenuTooltipProvider()}>
+          <Button onClick={this.showModalHelpComponent}><Icon name={this.props.applicationMenuIcon}/></Button>
         </OverlayTrigger>
       </Control>
 
@@ -464,9 +464,10 @@ Cismap_.propTypes = {
   searchButtonTrigger: PropTypes.func.isRequired,
   mappingAction: PropTypes.object,
   featureStyler: PropTypes.func.isRequired,
-  labeler: PropTypes.func.isRequired,
+  labeler: PropTypes.func,
+  hoverer: PropTypes.func,
   featureClickHandler: PropTypes.func.isRequired,
-  helpTooltipProvider: PropTypes.func,
+  applicationMenuTooltipProvider: PropTypes.func,
   searchTooltipProvider: PropTypes.func,
   searchMinZoom: PropTypes.number,
   searchMaxZoom: PropTypes.number,
@@ -481,10 +482,10 @@ Cismap_.defaultProps = {
   gazeteerHitTrigger: function() {},
   searchButtonTrigger: function() {},
   featureClickHandler: function() {},
-  helpTooltipProvider: function() {
+  applicationMenuTooltipProvider: function() {
     return (<Tooltip style={{
         zIndex: 3000000000
-      }} id="helpTooltip">Bedienungsanleitung anzeigen</Tooltip>);
+      }} id="helpTooltip">&Ouml;ffnen für weitere Funktionen</Tooltip>);
   },
   searchTooltipProvider: function() {
     return (<Tooltip style={{
@@ -493,5 +494,6 @@ Cismap_.defaultProps = {
   },
   searchMinZoom: 7,
   searchMaxZoom: 18,
-  gazTopics: []
+  gazTopics: [],
+  applicationMenuIcon: "bars"
 }

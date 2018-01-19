@@ -191,7 +191,6 @@ function setGazetteerTopicsLoaded(loaded) {
 function mappingBoundsChanged(bbox) {
   return function(dispatch, getState) {
     let state = getState().mapping;
-    console.log(state);
     if (state.boundingBoxChangedTrigger) { //} && JSON.stringify(state.boundingBox)!==JSON.stringify(bbox)) {
       console.log("boundingBoxChangedTrigger")
 

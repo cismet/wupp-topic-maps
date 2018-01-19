@@ -5,17 +5,32 @@ body {
 }
 
 .customGeoJSONFeatureTooltipClass {
-    background: none;
-    border: none;
-    box-shadow: none;
-  }
-  .leaflet-tooltip-left.customGeoJSONFeatureTooltipClass::before {
-    border-left-color: none;
-  }
-  .leaflet-tooltip-right.customGeoJSONFeatureTooltipClass::before {
-    border-right-color: none;
-  }
-  
-  a:hover {
-    cursor:pointer;
-   }
+  background: none;
+  border: none;
+  box-shadow: none;
+}
+
+.leaflet-tooltip-left.customGeoJSONFeatureTooltipClass::before {
+  border-left-color: none;
+}
+
+.leaflet-tooltip-right.customGeoJSONFeatureTooltipClass::before {
+  border-right-color: none;
+}
+
+a:hover {
+  cursor: pointer;
+}
+
+.well {
+  margin-bottom: 15px;
+}
+
+.mydivicon{
+    width: 19px;
+    height: 12px;
+    border-radius: 10px;
+    background: #ff7800;
+    border: 1px solid #000;
+    opacity: 0.85
+}

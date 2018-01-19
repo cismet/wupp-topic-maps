@@ -65,6 +65,31 @@ export const getShadowColorFromFeatureConsideringSelection = (feature) => {
     return '#000000';
   }
 };
+
+export const getTooltipStyleFromFeatureConsideringSelection = (feature) => {
+  let base = {
+    "color":getLineColorFromFeature(feature),
+    "textShadow": "1px 1px 0px  #000000,-1px 1px 0px  #000000, 1px -1px 0px  #000000, -1px -1px 0px  #000000, 2px 2px 15px #000000",
+  };
+   if (feature.selected) {
+    const radius=10;
+    const borderDef=`${radius}px ${radius}px ${radius}px ${radius}px`;
+    return {
+      ...base,
+      "background": "rgba(67, 149, 254, 0.8)",
+      "-webkit-border-radius": borderDef,
+      "moz-border-radius": borderDef,
+      "border-radius": borderDef,
+      "padding":"5px"
+    };
+  }else {
+    return base;
+  }
+};
+
+
+
+
 export const getFeatureOpacityConsideringSelection = (feature) => {
   if (feature.selected) {
     return 0.5;
@@ -73,27 +98,16 @@ export const getFeatureOpacityConsideringSelection = (feature) => {
   }
 };
 
-// export const bplanLabeler = (feature) => {
-//   return "<h3 style='color:"+getLineColorFromFeature(feature)+";text-shadow: 1px 1px 0px  #000000,-1px 1px 0px  #000000, 1px -1px 0px  #000000, -1px -1px 0px  #000000, 0px 0px 6px #000000; '>"+feature.properties.nummer+"</h3>";  
-// }
-
 export const bplanLabeler = (feature) => {
-  //let oldStyle='color:"+getLineColorFromFeature(feature)+";text-shadow: 1px 1px 0px  #000000,-1px 1px 0px  #000000, 1px -1px 0px  #000000, -1px -1px 0px  #000000, 0px 0px 6px #000000; ''color:"+getLineColorFromFeature(feature)+";text-shadow: 1px 1px 0px  #000000,-1px 1px 0px  #000000, 1px -1px 0px  #000000, -1px -1px 0px  #000000, 0px 0px 6px #000000; ';
-  
-  let s = {
-    "color":getLineColorFromFeature(feature),
-    "textShadow": "1px 1px 0px  #000000,-1px 1px 0px  #000000, 1px -1px 0px  #000000, -1px -1px 0px  #000000, 2px 2px 15px "+getShadowColorFromFeatureConsideringSelection(feature),
-  };
   return (
-    <h3 style={s} >
+    <h3 style={getTooltipStyleFromFeatureConsideringSelection(feature)} >
       {feature.properties.nummer}
-    </h3>  
+    </h3>
   );
 };
 
 // export const bplanLabeler = (feature) => {
 //   return (
-//     <h3 style='color:"+getLineColorFromFeature(feature)+";text-shadow: 1px 1px 0px  #000000,-1px 1px 0px  #000000, 1px -1px 0px  #000000, -1px -1px 0px  #000000, 0px 0px 6px #000000; '>"+feature.properties.nummer+"</h3>";  
+//     <h3 style='color:"+getLineColorFromFeature(feature)+";text-shadow: 1px 1px 0px  #000000,-1px 1px 0px  #000000, 1px -1px 0px  #000000, -1px -1px 0px  #000000, 0px 0px 6px #000000; '>"+feature.properties.nummer+"</h3>";
 //     )
 // };
-

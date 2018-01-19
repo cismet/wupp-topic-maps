@@ -54,10 +54,32 @@ export class ProjGeoJson_ extends Path {
               layer.bindTooltip(props.labeler(feature), {className: 'customGeoJSONFeatureTooltipClass', permanent:true, direction:'center', offset: zoffset, opacity: '0.9'});
             }
         }
+        if (props.hoverer) {
+          let theStyle=props.style(feature);
+
+          layer.bindTooltip(""+props.hoverer(feature), {offset: L.point(theStyle.radius, 0), direction:'right'});
+          layer.on('mouseover', function() { layer.openPopup(); });
+          layer.on('mouseout', function() { layer.closePopup(); });
+        }
       };
 
     props.pointToLayer=(feature, latlng)=> {
+      let theStyle=props.style(feature);
+      if (theStyle.svg) {
+        var divIcon = L.divIcon({
+        	className: "leaflet-data-marker",
+          html: theStyle.svg,
+          iconAnchor  : [theStyle.svgSize/2, theStyle.svgSize/2],
+          iconSize    : [theStyle.svgSize, theStyle.svgSize],
+        });
+        return L.marker(latlng, {icon: divIcon});
+      }
+      else {
         return L.circleMarker(latlng);
+      }
+
+
+
     }
 
     this.leafletElement = L.Proj.geoJson(mappingProps.featureCollection, props);
@@ -85,6 +107,7 @@ export default ProjGeoJson;
 ProjGeoJson.propTypes = {
   mappingProps: PropTypes.object.isRequired,
   labeler: PropTypes.func,
+  hoverer: PropTypes.func,
   featureClickHandler: PropTypes.func.isRequired,
   mapRef: PropTypes.object.isRequired
 };

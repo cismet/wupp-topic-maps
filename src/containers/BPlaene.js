@@ -230,6 +230,13 @@ export class BPlaene_ extends React.Component {
             <Cismap layers={this.props.match.params.layers ||'uwBPlan'}
                     gazeteerHitTrigger={this.bplanGazeteerhHit}
                     searchButtonTrigger={this.bplanSearchButtonHit}
+                    applicationMenuTooltipProvider={()=>{
+                      return (<Tooltip style={{
+                          zIndex: 3000000000
+                        }} id="helpTooltip">Bedienungsanleitung anzeigen</Tooltip>);
+                    }}
+
+                    applicationMenuIcon="info"
                     featureStyler={bplanFeatureStyler}
                     labeler={bplanLabeler}
                     featureClickHandler={this.featureClick}

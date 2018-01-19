@@ -15,7 +15,7 @@ import { bindActionCreators } from 'redux';
 import EhrenamtModalHelp from '../components/EhrenamtModalHelpComponent';
 import EhrenamtInfo  from '../components/EhrenamtInfo'
 
-import { featureStyler, featureLabeler } from '../utils/ehrenamtHelper';
+import { featureStyler, featureHoverer, featureLabeler } from '../utils/ehrenamtHelper';
 
 import {Icon} from 'react-fa'
 
@@ -147,7 +147,7 @@ export class Ehrenamt_ extends React.Component {
                        gazeteerHitTrigger={this.gazeteerhHit}
                        searchButtonTrigger={this.searchButtonHit}
                        featureStyler={featureStyler}
-                       labeler={featureLabeler}
+                       hoverer={featureHoverer}
                        featureClickHandler={this.featureClick}
                        ondblclick={this.doubleMapClick}
                        searchTooltipProvider={this.searchTooltip}

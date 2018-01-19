@@ -31,13 +31,12 @@ export class EhrenamtModalHelp_ extends React.Component {
       "overflowY":"auto",
       "maxHeight":this.props.uiState.height-200
     }
-    console.log(this.props.filter.zielgruppen)
 
     let zgCB=[]
     for (let zg of this.props.zielgruppen) {
       let cb=(
-        <div>
-          <input onChange={ ()=>this.props.zielgruppenFilterChanged(zg)} type="checkbox" name={zg} checked={this.props.filter.zielgruppen.indexOf(zg)>-1} value={zg} /> &nbsp; {zg}
+        <div key={"zielgruppenfilter.div."+zg}>
+          <input key={"zielgruppenfilter.input."+zg} onChange={ ()=>this.props.zielgruppenFilterChanged(zg)} type="checkbox" name={zg} checked={this.props.filter.zielgruppen.indexOf(zg)>-1} value={zg} /> &nbsp; {zg}
         </div>
       );
       zgCB.push(cb);

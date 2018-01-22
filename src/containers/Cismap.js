@@ -21,11 +21,10 @@ import {
   Tooltip
 } from 'react-bootstrap';
 import {Typeahead} from 'react-bootstrap-typeahead';
-import * as stateConstants from '../constants/stateConstants';
 
 import {routerActions} from 'react-router-redux'
 import {modifyQueryPart} from '../utils/routingHelper'
-import {actions as mappingActions} from '../redux/modules/mapping';
+import {actions as mappingActions, constants as mappingConstants } from '../redux/modules/mapping';
 import objectAssign from 'object-assign';
 import {Icon} from 'react-fa'
 import {actions as uiStateActions} from '../redux/modules/uiState';
@@ -229,7 +228,7 @@ export class Cismap_ extends React.Component {
   componentDidUpdate() {
     if ((typeof(this.refs.leafletMap) !== 'undefined' && this.refs.leafletMap != null)) {
       if (this.props.mapping.autoFitBounds) {
-        if (this.props.mapping.autoFitMode === stateConstants.AUTO_FIT_MODE_NO_ZOOM_IN) {
+        if (this.props.mapping.autoFitMode === mappingConstants.AUTO_FIT_MODE_NO_ZOOM_IN) {
           if (!this.refs.leafletMap.leafletElement.getBounds().contains(this.props.mapping.autoFitBoundsTarget)) {
             this.refs.leafletMap.leafletElement.fitBounds(this.props.mapping.autoFitBoundsTarget);
           }

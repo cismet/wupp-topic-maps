@@ -2,7 +2,7 @@ import objectAssign from 'object-assign';
 import { actions as mappingActions } from './mapping';
 import * as turfHelpers from '@turf/helpers';
 import inside from '@turf/inside';
-import * as stateConstants from '../../constants/stateConstants';
+import { constants as mappingConstants } from './mapping';
 import { getPolygonfromBBox } from '../../utils/gisHelper';
 
 import {
@@ -135,7 +135,7 @@ export function searchForPlans(gazObject,overriddenWKT) {
              if (gazObject!=null && gazObject.length === 1 && gazObject[0] !=null) {
                 //let p=turf.point([gazObject[0].x,gazObject[0].y]);
                 if (planMatch) { //vorher turf.inside(p,featureArray[selectionIndexWish])
-                  dispatch(mappingActions.fitFeatureBounds(featureArray[selectionIndexWish],stateConstants.AUTO_FIT_MODE_STRICT));
+                  dispatch(mappingActions.fitFeatureBounds(featureArray[selectionIndexWish],mappingConstants.AUTO_FIT_MODE_STRICT));
                 }
              }
 

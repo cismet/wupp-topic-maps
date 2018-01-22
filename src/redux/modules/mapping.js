@@ -1,7 +1,6 @@
 import L from 'leaflet';
 import 'proj4leaflet';
 import objectAssign from 'object-assign';
-import * as stateConstants from '../../constants/stateConstants';
 
 
 ///TYPES
@@ -231,7 +230,7 @@ function fitFeatureCollection(features) {
       .Proj
       .geoJson(features);
     const bounds = projectedFC.getBounds();
-    dispatch(setAutoFit(true, bounds, stateConstants.AUTO_FIT_MODE_STRICT));
+    dispatch(setAutoFit(true, bounds, constants.AUTO_FIT_MODE_STRICT));
   };
 }
 

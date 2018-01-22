@@ -35,8 +35,6 @@ import bbox from '@turf/bbox';
 import {WUNDAAPI} from '../constants/services';
 import * as gisHelpers from '../utils/gisHelper';
 
-import markerClusterGroup from 'leaflet.markercluster';
-
 const fallbackposition = {
   lat: 51.272399,
   lng: 7.199712
@@ -186,9 +184,9 @@ export class Cismap_ extends React.Component {
 
   }
   componentDidMount() {
-    this.leafletMap.leafletElement.on('moveend', () => {
-      const zoom = this.leafletMap.leafletElement.getZoom();
-      const center = this.leafletMap.leafletElement.getCenter();
+    this.refs.leafletMap.leafletElement.on('moveend', () => {
+      const zoom = this.refs.leafletMap.leafletElement.getZoom();
+      const center = this.refs.leafletMap.leafletElement.getCenter();
       const latFromUrl = parseFloat(new URLSearchParams(this.props.routing.location.search).get('lat'));
       const lngFromUrl = parseFloat(new URLSearchParams(this.props.routing.location.search).get('lng'));
       const zoomFromUrl = parseInt(new URLSearchParams(this.props.routing.location.search).get('zoom'), 10);
@@ -217,7 +215,7 @@ export class Cismap_ extends React.Component {
   }
 
   gotoHomeBB() {
-    this.leafletMap.leafletElement.fitBounds([
+    this.refs.leafletMap.leafletElement.fitBounds([
       [
         51.1094, 7.00093
       ],
@@ -228,14 +226,14 @@ export class Cismap_ extends React.Component {
 }
 
   componentDidUpdate() {
-    if ((typeof(this.leafletMap) !== 'undefined' && this.leafletMap != null)) {
+    if ((typeof(this.refs.leafletMap) !== 'undefined' && this.refs.leafletMap != null)) {
       if (this.props.mapping.autoFitBounds) {
         if (this.props.mapping.autoFitMode === mappingConstants.AUTO_FIT_MODE_NO_ZOOM_IN) {
-          if (!this.leafletMap.leafletElement.getBounds().contains(this.props.mapping.autoFitBoundsTarget)) {
-            this.leafletMap.leafletElement.fitBounds(this.props.mapping.autoFitBoundsTarget);
+          if (!this.refs.leafletMap.leafletElement.getBounds().contains(this.props.mapping.autoFitBoundsTarget)) {
+            this.refs.leafletMap.leafletElement.fitBounds(this.props.mapping.autoFitBoundsTarget);
           }
         } else {
-          this.leafletMap.leafletElement.fitBounds(this.props.mapping.autoFitBoundsTarget);
+          this.refs.leafletMap.leafletElement.fitBounds(this.props.mapping.autoFitBoundsTarget);
         }
         this.props.mappingActions.setAutoFit(false);
       }
@@ -244,7 +242,7 @@ export class Cismap_ extends React.Component {
 
   storeBoundingBox() {
     //store the projected bounds in the store
-    const bounds = this.leafletMap.leafletElement.getBounds()
+    const bounds = this.refs.leafletMap.leafletElement.getBounds()
     const projectedNE = proj4(proj4.defs('EPSG:4326'), proj4crs25832def, [bounds._northEast.lng, bounds._northEast.lat])
     const projectedSW = proj4(proj4.defs('EPSG:4326'), proj4crs25832def, [bounds._southWest.lng, bounds._southWest.lat])
     const bbox = {
@@ -269,7 +267,7 @@ export class Cismap_ extends React.Component {
         hit[0].y
       ])
       //console.log(pos)
-      this.leafletMap.leafletElement.panTo([
+      this.refs.leafletMap.leafletElement.panTo([
         pos[1], pos[0]
       ], {"animate": false});
 
@@ -277,14 +275,14 @@ export class Cismap_ extends React.Component {
 
       //Change the Zoomlevel of the map
       if (hitObject.more.zl) {
-        this.leafletMap.leafletElement.setZoom(hitObject.more.zl, {"animate": false});
+        this.refs.leafletMap.leafletElement.setZoom(hitObject.more.zl, {"animate": false});
       } else if (hitObject.more.g) {
         var feature = turfHelpers.feature(hitObject.more.g);
         var bb = bbox(feature);
         console.log(bb)
         console.log(gisHelpers.convertBBox2Bounds(bb))
-        console.log(this.leafletMap.leafletElement.getBounds());
-        this.leafletMap.leafletElement.fitBounds(gisHelpers.convertBBox2Bounds(bb));
+        console.log(this.refs.leafletMap.leafletElement.getBounds());
+        this.refs.leafletMap.leafletElement.fitBounds(gisHelpers.convertBBox2Bounds(bb));
       }
 
 
@@ -393,7 +391,7 @@ export class Cismap_ extends React.Component {
     }
 
     const searchAllowed = (zoomByUrl >= this.props.searchMinZoom && zoomByUrl <= this.props.searchMaxZoom);
-    return (<Map ref={leafletMap => {this.leafletMap = leafletMap;}} key="leafletMap" crs={crs25832} style={mapStyle} center={positionByUrl} zoom={zoomByUrl} zoomControl={false} attributionControl={false} doubleClickZoom={false} minZoom={7} ondblclick={this.props.ondblclick} maxZoom={18}>
+    return (<Map ref="leafletMap" key="leafletMap" crs={crs25832} style={mapStyle} center={positionByUrl} zoom={zoomByUrl} zoomControl={false} attributionControl={false} doubleClickZoom={false} minZoom={7} ondblclick={this.props.ondblclick} maxZoom={18}>
       {
         layerArr.map((layerWithOpacity) => {
           const layOp = layerWithOpacity.split('@')
@@ -401,8 +399,7 @@ export class Cismap_ extends React.Component {
         })
       }
       <GazetteerHitDisplay key={"gazHit" + JSON.stringify(this.props.mapping)} mappingProps={this.props.mapping}/>
-      <FeatureCollectionDisplay key={JSON.stringify(this.props.mapping)} mappingProps={this.props.mapping} style={this.props.featureStyler} labeler={this.props.labeler} hoverer={this.props.hoverer} featureClickHandler={this.featureClick} mapRef={this.leafletMap}/>
-
+      <FeatureCollectionDisplay key={JSON.stringify(this.props.mapping)} mappingProps={this.props.mapping} style={this.props.featureStyler} labeler={this.props.labeler} hoverer={this.props.hoverer} featureClickHandler={this.featureClick} mapRef={this.refs.leafletMap}/>
       <ZoomControl position="topleft" zoomInTitle="Vergr&ouml;ßern" zoomOutTitle="Verkleinern"/>
       <FullscreenControl title="Vollbildmodus" forceSeparateButton={true} titleCancel="Vollbildmodus beenden" position="topleft"/>
       <Control position="bottomleft">
@@ -418,7 +415,7 @@ export class Cismap_ extends React.Component {
               </InputGroup.Button>
 
               <Typeahead
-                ref={c => this.typeahead = c} 
+                ref="typeahead"
                 style={{ width: '300px'}}
                 labelKey="string"
                 options={this.gazData}
@@ -446,13 +443,14 @@ export class Cismap_ extends React.Component {
           <Button onClick={this.showModalHelpComponent}><Icon name={this.props.applicationMenuIcon}/></Button>
         </OverlayTrigger>
       </Control>
+
       {this.props.children}
     </Map>);
 
   }
 }
 
-const Cismap = connect(mapStateToProps, mapDispatchToProps, null)(Cismap_);
+const Cismap = connect(mapStateToProps, mapDispatchToProps, null, {withRef: true})(Cismap_);
 export default Cismap;
 
 Cismap_.propTypes = {

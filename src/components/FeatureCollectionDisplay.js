@@ -11,9 +11,10 @@ import proj4 from 'proj4';
 import { proj4crs25832def } from '../constants/gis';
 
 import * as gisHelpers from '../utils/gisHelper';
+import MarkerClusterGroup from 'react-leaflet-markercluster';
 
 // Since this component is simple and static, there's no parent container for it.
-const FeatureCollectionDisplay = ({mappingProps, style, labeler, hoverer, featureClickHandler, mapRef}) => {
+const FeatureCollectionDisplay = ({mappingProps, clusteredMarkers, style, labeler, hoverer, featureClickHandler, mapRef}) => {
     let markers=[];
     let markerPos=[];
     let bbox=[ mappingProps.boundingBox.left,
@@ -78,7 +79,7 @@ const FeatureCollectionDisplay = ({mappingProps, style, labeler, hoverer, featur
 
   return (
     <div>
-         <ProjGeoJson key={JSON.stringify(mappingProps)} mappingProps={mappingProps} hoverer={hoverer} style={style} featureClickHandler={featureClickHandler} mapRef={mapRef}/>
+        <ProjGeoJson key={JSON.stringify(mappingProps)} mappingProps={mappingProps} clusteredMarkers={clusteredMarkers} hoverer={hoverer} style={style} featureClickHandler={featureClickHandler} mapRef={mapRef}/>
         {markers}
 
     </div>
@@ -146,6 +147,7 @@ function labelClick(event) {
 export default FeatureCollectionDisplay;
  FeatureCollectionDisplay.propTypes = {
    mappingProps: PropTypes.object.isRequired,
+   clusteredMarkers: PropTypes.object,
    style: PropTypes.func.isRequired,
    labeler: PropTypes.func,
    hoverer: PropTypes.func,

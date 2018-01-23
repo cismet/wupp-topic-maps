@@ -35,6 +35,10 @@ import bbox from '@turf/bbox';
 import {WUNDAAPI} from '../constants/services';
 import * as gisHelpers from '../utils/gisHelper';
 
+import markerClusterGroup from 'leaflet.markercluster';
+import L from 'leaflet';
+
+
 const fallbackposition = {
   lat: 51.272399,
   lng: 7.199712
@@ -184,6 +188,17 @@ export class Cismap_ extends React.Component {
 
   }
   componentDidMount() {
+
+    this.clusteredMarkers= L.markerClusterGroup({
+	spiderfyOnMaxZoom: false,
+	showCoverageOnHover: false,
+	zoomToBoundsOnClick: false,
+  disableClusteringAtZoom:18
+});
+  this.clusteredMarkers.on('clusterclick', function (a) {
+	a.layer.spiderfy();
+});
+    this.refs.leafletMap.leafletElement.addLayer(this.clusteredMarkers);
     this.refs.leafletMap.leafletElement.on('moveend', () => {
       const zoom = this.refs.leafletMap.leafletElement.getZoom();
       const center = this.refs.leafletMap.leafletElement.getCenter();
@@ -360,7 +375,6 @@ export class Cismap_ extends React.Component {
       this.setState({options: json.$collection});
     });
   }
-
   render() {
     // console.log("-------------------RENDERING CISMAP")
     const mapStyle = {
@@ -399,7 +413,7 @@ export class Cismap_ extends React.Component {
         })
       }
       <GazetteerHitDisplay key={"gazHit" + JSON.stringify(this.props.mapping)} mappingProps={this.props.mapping}/>
-      <FeatureCollectionDisplay key={JSON.stringify(this.props.mapping)} mappingProps={this.props.mapping} style={this.props.featureStyler} labeler={this.props.labeler} hoverer={this.props.hoverer} featureClickHandler={this.featureClick} mapRef={this.refs.leafletMap}/>
+      <FeatureCollectionDisplay key={JSON.stringify(this.props.mapping)} mappingProps={this.props.mapping} clusteredMarkers={this.clusteredMarkers} style={this.props.featureStyler} labeler={this.props.labeler} hoverer={this.props.hoverer} featureClickHandler={this.featureClick} mapRef={this.refs.leafletMap}/>
       <ZoomControl position="topleft" zoomInTitle="Vergr&ouml;ßern" zoomOutTitle="Verkleinern"/>
       <FullscreenControl title="Vollbildmodus" forceSeparateButton={true} titleCancel="Vollbildmodus beenden" position="topleft"/>
       <Control position="bottomleft">

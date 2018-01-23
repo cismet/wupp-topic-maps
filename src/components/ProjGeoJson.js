@@ -10,6 +10,8 @@ import React, { Component}  from 'react';
 
 import { Path, CircleMarker } from 'react-leaflet';
 
+require('react-leaflet-markercluster/dist/styles.min.css');
+
 function mapStateToProps(state) {
   return {
     mapping: state.mapping,
@@ -28,7 +30,7 @@ export class ProjGeoJson_ extends Path {
   componentWillMount() {
     super.componentWillMount();
     const { mappingProps, ...props } = this.props;
-
+    console.log(props)
     props.onEachFeature=function (feature, layer) {
         //TODO set a offset so that the Tooltip is shown in the current map
         layer._leaflet_id = feature.id;
@@ -72,7 +74,17 @@ export class ProjGeoJson_ extends Path {
           iconAnchor  : [theStyle.svgSize/2, theStyle.svgSize/2],
           iconSize    : [theStyle.svgSize, theStyle.svgSize],
         });
+
         return L.marker(latlng, {icon: divIcon});
+        // if (this.props.clusteredMarkers) {
+        //   this.props.clusteredMarkers.addLayer(L.marker(latlng, {icon: divIcon})).addTo(this.props.mapRef.leafletElement);
+        // }
+        // else {
+        //   //Could be
+        //   //return L.marker(latlng, {icon: divIcon});
+        //   //or
+        //   L.marker(latlng, {icon: divIcon}).addTo(this.props.mapRef.leafletElement);
+        // }
       }
       else {
         return L.circleMarker(latlng);
@@ -81,8 +93,14 @@ export class ProjGeoJson_ extends Path {
 
 
     }
-
-    this.leafletElement = L.Proj.geoJson(mappingProps.featureCollection, props);
+    var geojson=L.Proj.geoJson(mappingProps.featureCollection, props);
+    if (this.props.clusteredMarkers) {
+      this.leafletElement= this.props.clusteredMarkers.clearLayers();
+      this.leafletElement= this.props.clusteredMarkers.addLayer(geojson);
+    }
+    else {
+      this.leafletElement=geojson;
+    }
   }
 
   createLeafletElement () {
@@ -106,6 +124,7 @@ export default ProjGeoJson;
 
 ProjGeoJson.propTypes = {
   mappingProps: PropTypes.object.isRequired,
+  clusteredMarkers: PropTypes.object,
   labeler: PropTypes.func,
   hoverer: PropTypes.func,
   featureClickHandler: PropTypes.func.isRequired,

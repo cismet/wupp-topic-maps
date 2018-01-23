@@ -28,7 +28,7 @@ export const constants = {
 const initialState = {
   offers: [],
   filteredOffers: [],
-  offerIndex: null,
+//offerIndex: null,
   filteredOfferIndex: null,
   globalbereiche: [],
   kenntnisse: [],
@@ -50,7 +50,7 @@ export default function ehrenamtReducer(state = initialState, action) {
       {
         newState = objectAssign({}, state);
         newState.offers = action.offers
-        newState.offerIndex = kdbush(action.offers, (p) => p.point25832[0], (p) => p.point25832[1]);
+        //newState.offerIndex = kdbush(action.offers, (p) => p.point25832[0], (p) => p.point25832[1]);
         return newState;
       }
       case types.SET_FILTERED_OFFERS:
@@ -238,8 +238,15 @@ function createFeatureCollectionFromOffers(boundingBox) {
   return (dispatch, getState) => {
     let state = getState()
 
-    if (state.ehrenamt.offerIndex) {
-
+    if (state.ehrenamt.filteredOfferIndex) {id:-1
+      let currentSelectedFeature={
+      };
+      if (state.mapping.selectedIndex!==null && state.mapping.selectedIndex>=0){
+        currentSelectedFeature=state.mapping.featureCollection[state.mapping.selectedIndex];
+      }
+      else {
+          console.log("selectedIndex not set");
+      }
       let bb;
       if (boundingBox) {
         bb = boundingBox;
@@ -267,14 +274,18 @@ function createFeatureCollectionFromOffers(boundingBox) {
         }
       })
 
+      let selectionWish=0;
       for (let offer of results) {
-        resultFC.push(convertOfferToFeature(offer, counter++));
+        let offerFeature=convertOfferToFeature(offer, counter)
+        resultFC.push(offerFeature);
+        if (offerFeature.id===currentSelectedFeature.id){
+            selectionWish=counter;
+        }
+        counter++;
       }
 
-
-
       dispatch(mappingActions.setFeatureCollection(resultFC));
-      dispatch(mappingActions.setSelectedFeatureIndex(0));
+      dispatch(mappingActions.setSelectedFeatureIndex(selectionWish));
 
     }
   }

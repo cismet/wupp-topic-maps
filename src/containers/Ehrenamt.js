@@ -71,7 +71,6 @@ export class Ehrenamt_ extends React.Component {
     }
 
     featureClick(event){
-      console.log(event.target.feature)
       if (event.target.feature) {
         this.props.mappingActions.setSelectedFeatureIndex(event.target.feature.index);
       }
@@ -154,18 +153,28 @@ export class Ehrenamt_ extends React.Component {
                        searchMinZoom={12}
                        searchMaxZoom={18}
                        gazTopics={["pois","adressen", "bezirke", "quartiere"]}
+                       clustered={true}
+                       clusterOptions={{
+                            spiderfyOnMaxZoom: false,
+                            showCoverageOnHover: false,
+                            zoomToBoundsOnClick: false,
+                            maxClusterRadius:40,
+                            disableClusteringAtZoom:19,
+                            animate:false,
+                            cismapZoomTillSpiderfy:13
+                        }}
                     >
                     <Control position="bottomright" >
                      <div>{info}</div>
                     </Control>
-                    <Control position="topright" >
+                    {/* <Control position="topright" >
                      <div>
                      <Well bsSize="small" style={{ width: '200px', opacity: '0.7'}}>
                                 <h5>Filter</h5>
                                 <p>8/10 Zielgruppen ausgewählt </p>
                              </Well>
                      </div>
-                    </Control>
+                    </Control> */}
 
                </Cismap>
            </div>

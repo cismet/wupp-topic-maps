@@ -45,7 +45,13 @@ const fallbackposition = {
 };
 
 function mapStateToProps(state) {
-  return {uiState: state.uiState, mapping: state.mapping, attributionControl: false, routing: state.routing, gazetteerTopics: state.gazetteerTopics};
+  return {
+     uiState: state.uiState,
+     mapping: state.mapping,
+     attributionControl: false,
+     routing: state.routing,
+     gazetteerTopics: state.gazetteerTopics
+   };
 }
 
 function mapDispatchToProps(dispatch) {
@@ -70,6 +76,7 @@ export class Cismap_ extends React.Component {
     this.showModalHelpComponent = this.showModalHelpComponent.bind(this);
     this.gazData=[];
   }
+
 
   componentWillMount() {
 
@@ -188,17 +195,22 @@ export class Cismap_ extends React.Component {
 
   }
   componentDidMount() {
-
-    this.clusteredMarkers= L.markerClusterGroup({
-	spiderfyOnMaxZoom: false,
-	showCoverageOnHover: false,
-	zoomToBoundsOnClick: false,
-  disableClusteringAtZoom:18
-});
-  this.clusteredMarkers.on('clusterclick', function (a) {
-	a.layer.spiderfy();
-});
-    this.refs.leafletMap.leafletElement.addLayer(this.clusteredMarkers);
+    if (this.props.clustered) {  
+        this.clusteredMarkers= L.markerClusterGroup(this.props.clusterOptions);
+        let that=this;
+        this.clusteredMarkers.on('clusterclick', function (a) {
+            if (that.refs.leafletMap.leafletElement.getZoom()<(that.props.clusterOptions.cismapZoomTillSpiderfy||11)) {
+                that.refs.leafletMap.leafletElement.zoomIn();
+            }
+            else {
+                a.layer.spiderfy();
+            }
+        });
+        this.refs.leafletMap.leafletElement.addLayer(this.clusteredMarkers);
+    }
+    else {
+        this.clusteredMarkers=null; 
+    }
     this.refs.leafletMap.leafletElement.on('moveend', () => {
       const zoom = this.refs.leafletMap.leafletElement.getZoom();
       const center = this.refs.leafletMap.leafletElement.getCenter();
@@ -333,6 +345,7 @@ export class Cismap_ extends React.Component {
     }
 
   }
+
   featureClick(event) {
     this.props.featureClickHandler(event);
   }
@@ -486,7 +499,8 @@ Cismap_.propTypes = {
   searchMaxZoom: PropTypes.number,
   gazTopics: PropTypes.array.isRequired,
   ondblclick: PropTypes.func,
-
+  clustered: PropTypes.bool,
+  clusterOptions: PropTypes.object,
 };
 
 Cismap_.defaultProps = {
@@ -508,5 +522,7 @@ Cismap_.defaultProps = {
   searchMinZoom: 7,
   searchMaxZoom: 18,
   gazTopics: [],
-  applicationMenuIcon: "bars"
+  applicationMenuIcon: "bars",
+  clustered: false,
+  
 }

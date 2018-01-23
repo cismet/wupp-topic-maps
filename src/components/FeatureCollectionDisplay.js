@@ -81,7 +81,6 @@ const FeatureCollectionDisplay = ({mappingProps, clusteredMarkers, style, labele
     <div>
         <ProjGeoJson key={JSON.stringify(mappingProps)} mappingProps={mappingProps} clusteredMarkers={clusteredMarkers} hoverer={hoverer} style={style} featureClickHandler={featureClickHandler} mapRef={mapRef}/>
         {markers}
-
     </div>
   );
 };

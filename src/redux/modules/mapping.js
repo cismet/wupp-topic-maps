@@ -13,6 +13,7 @@ export const types = {
   GAZETTEER_HIT: 'MAPPING/GAZETTEER_HIT',
   SET_GAZETTEER_TOPICS_LOADED: 'MAPPING/SET_GAZETTEER_TOPICS_LOADED',
   SET_MAP_BOUNDING_BOX_CHANGED_TRIGGER: 'MAPPING/SET_MAP_BOUNDING_BOX_CHANGED_TRIGGER',
+  SET_MAP_BOUNDING_BOX_CHANGED_TRIGGER: 'MAPPING/SET_MAP_BOUNDING_BOX_CHANGED_TRIGGER',
 
 }
 export const constants = {
@@ -52,7 +53,8 @@ const initialState = {
 
   ],
   gazetteerTopicsLoaded: false,
-  boundingBoxChangedTrigger: null
+  boundingBoxChangedTrigger: null,
+  spiderfiedCluster: null,
 
 };
 
@@ -191,8 +193,6 @@ function mappingBoundsChanged(bbox) {
   return function(dispatch, getState) {
     let state = getState().mapping;
     if (state.boundingBoxChangedTrigger) { //} && JSON.stringify(state.boundingBox)!==JSON.stringify(bbox)) {
-      console.log("boundingBoxChangedTrigger")
-
       state.boundingBoxChangedTrigger(bbox);
     }
 

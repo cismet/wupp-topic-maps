@@ -30,7 +30,7 @@ export class ProjGeoJson_ extends Path {
   componentWillMount() {
     super.componentWillMount();
     const { mappingProps, ...props } = this.props;
-    console.log(props)
+
     props.onEachFeature=function (feature, layer) {
         //TODO set a offset so that the Tooltip is shown in the current map
         layer._leaflet_id = feature.id;
@@ -67,6 +67,7 @@ export class ProjGeoJson_ extends Path {
 
     props.pointToLayer=(feature, latlng)=> {
       let theStyle=props.style(feature);
+      let marker=null;
       if (theStyle.svg) {
         var divIcon = L.divIcon({
         	className: "leaflet-data-marker",
@@ -75,31 +76,37 @@ export class ProjGeoJson_ extends Path {
           iconSize    : [theStyle.svgSize, theStyle.svgSize],
         });
 
-        return L.marker(latlng, {icon: divIcon});
-        // if (this.props.clusteredMarkers) {
-        //   this.props.clusteredMarkers.addLayer(L.marker(latlng, {icon: divIcon})).addTo(this.props.mapRef.leafletElement);
-        // }
-        // else {
-        //   //Could be
-        //   //return L.marker(latlng, {icon: divIcon});
-        //   //or
-        //   L.marker(latlng, {icon: divIcon}).addTo(this.props.mapRef.leafletElement);
-        // }
+        marker=L.marker(latlng, {icon: divIcon});
       }
       else {
-        return L.circleMarker(latlng);
+        marker=L.circleMarker(latlng);
       }
-
-
-
+      return marker;
     }
     var geojson=L.Proj.geoJson(mappingProps.featureCollection, props);
     if (this.props.clusteredMarkers) {
-      this.leafletElement= this.props.clusteredMarkers.clearLayers();
-      this.leafletElement= this.props.clusteredMarkers.addLayer(geojson);
-    }
-    else {
-      this.leafletElement=geojson;
+        this.leafletElement = this.props.clusteredMarkers.clearLayers();
+        this.leafletElement = this.props.clusteredMarkers.addLayer(geojson);
+        //var visibleOne = this.clusteredMarkers.getVisibleParent(this.props.mapping.);
+        let markers = this.props.clusteredMarkers.getLayers();
+        for (let marker of markers) {
+            if (marker.feature.selected === true) {
+                let parent = this.props.clusteredMarkers.getVisibleParent(marker);
+                if (parent.spiderfy) {
+                    //   console.log("will spiderfy cluster of feature "+marker.feature.id )
+                    setTimeout(function () {
+                        try {
+                            parent.spiderfy();
+                        } catch (err) {
+                            //ugly winning
+                        }
+                    }, 1);
+                    //   console.log("have spiderfied cluster of feature "+marker.feature.id )
+                }
+            }
+        }
+    } else {
+        this.leafletElement = geojson;
     }
   }
 

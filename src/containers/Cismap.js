@@ -33,9 +33,11 @@ import * as turfHelpers from '@turf/helpers';
 import bbox from '@turf/bbox';
 import {WUNDAAPI} from '../constants/services';
 import * as gisHelpers from '../utils/gisHelper';
+
 // need to have this import 
 // eslint-disable-next-line
 import markerClusterGroup from 'leaflet.markercluster';
+
 import L from 'leaflet';
 
 

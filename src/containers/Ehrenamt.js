@@ -144,6 +144,8 @@ export class Ehrenamt_ extends React.Component {
            <div>
                <EhrenamtModalHelp key={'EhrenamtModalHelp.visible:'+this.props.ui.helpTextVisible}
                 zielgruppen={this.props.ehrenamt.zielgruppen}
+                kenntnisse={this.props.ehrenamt.kenntnisse}
+                globalbereiche={this.props.ehrenamt.globalbereiche}
                 filter={this.props.ehrenamt.filter}
                 zielgruppenFilterChanged={this.zielgruppenFilterChanged}
                />

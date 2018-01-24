@@ -541,5 +541,15 @@ Cismap_.defaultProps = {
   gazTopics: [],
   applicationMenuIcon: "bars",
   clustered: false,
+  clusterOptions:{
+    spiderfyOnMaxZoom: false,
+    showCoverageOnHover: false,
+    zoomToBoundsOnClick: false,
+    maxClusterRadius:40,
+    disableClusteringAtZoom:19,
+    animate:false,
+    cismapZoomTillSpiderfy:12,
+    selectionSpiderfyMinZoom:12
+ }
   
 }

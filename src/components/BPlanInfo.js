@@ -136,12 +136,12 @@ const BPlanInfo = ({featureCollection, selectedIndex, next, previous, fitAll, lo
           <table style={{ width: '100%' }}>
             <tbody>
               <tr>
-                <OverlayTrigger placement="bottom" overlay={(<Tooltip style={{zIndex: 3000000000}} id="prevtt">vorheriger Treffer</Tooltip>)}>
+                <OverlayTrigger placement="top" overlay={(<Tooltip style={{zIndex: 3000000000}} id="prevtt">vorheriger Treffer</Tooltip>)}>
                   <td style={{ textAlign: 'left', verticalAlign: 'center' }}><a onClick={previous}>&lt;&lt;</a></td>
                 </OverlayTrigger>
 
                 <td style={{ textAlign: 'center', verticalAlign: 'center' }}><a onClick={fitAll} >alle {featureCollection.length} Treffer anzeigen</a></td>
-                <OverlayTrigger placement="bottom" overlay={(<Tooltip style={{zIndex: 3000000000}} id="nexttt">n&auml;chster Treffer</Tooltip>)}>
+                <OverlayTrigger placement="top" overlay={(<Tooltip style={{zIndex: 3000000000}} id="nexttt">n&auml;chster Treffer</Tooltip>)}>
                   <td style={{ textAlign: 'right', verticalAlign: 'center' }}><a onClick={next} >&gt;&gt;</a></td>
                 </OverlayTrigger>
                   

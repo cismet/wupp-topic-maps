@@ -108,6 +108,7 @@ export class Ehrenamt_ extends React.Component {
     };
     render() {
       let info= null;
+        let numberOfOffers=this.props.ehrenamt.filteredOffers.length;
         if (this.props.mapping.featureCollection.length>0) {
            info = (
              <EhrenamtInfo
@@ -123,12 +124,20 @@ export class Ehrenamt_ extends React.Component {
              )
         }
         else {
+          let offerLink;
+          if (numberOfOffers>0) {
+              offerLink=(<p><a onClick={this.gotoHome} >{numberOfOffers} Angebote in Wuppertal</a></p>);
+          }
+          else {
+            offerLink=(<div/>)
+          }
           info = (<Well bsSize="small" style={{ width: '250px', opacity: '0.9'}}>
                      <h5>Aktuell werden keine Angebote angezeigt.</h5>
-                     <p>Um Angebote einem bestimmten Ort anzuzeigen, den Anfang (mindestens 2 Zeichen)
+                     <p>Um Angebote an einem bestimmten Ort anzuzeigen, den Anfang (mindestens 2 Zeichen)
                      eines Suchbegriffs eingeben und Eintrag aus Vorschlagsliste auswählen.</p>
-
-                     <a onClick={this.openHelp}>vollst&auml;ndige Bedienungsanleitung</a>
+                    <p>Um nach Zielgruppen, Interessen oder Bereichen zu filtern, das 
+                     <a onClick={this.openHelp}> Applikationsmenü öffnen.</a></p>
+                     {offerLink}
                   </Well>)
         }
       return (

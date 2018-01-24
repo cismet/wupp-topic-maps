@@ -111,7 +111,7 @@ export class Ehrenamt_ extends React.Component {
         let numberOfOffers=this.props.ehrenamt.filteredOffers.length;
         if (this.props.mapping.featureCollection.length>0) {
            info = (
-             <EhrenamtInfo
+             <EhrenamtInfo pixelwidth={250}
              featureCollection={this.props.mapping.featureCollection}
              filteredOffers={this.props.ehrenamt.filteredOffers}
                  selectedIndex={this.props.mapping.selectedIndex||0}
@@ -131,7 +131,7 @@ export class Ehrenamt_ extends React.Component {
           else {
               offerLink=(<div/>)
           }
-          info = (<Well bsSize="small" style={{ width: '250px', opacity: '0.9'}}>
+          info = (<Well pixelwidth={250} bsSize="small" style={{ width: '250px', opacity: '0.9'}}>
                      <h5>Aktuell werden keine Angebote angezeigt.</h5>
                      <p>Um Angebote an einem bestimmten Ort anzuzeigen, den Anfang (mindestens 2 Zeichen)
                      eines Suchbegriffs eingeben und Eintrag aus Vorschlagsliste auswählen.</p>
@@ -139,6 +139,7 @@ export class Ehrenamt_ extends React.Component {
                      <a onClick={this.openHelp}> Applikationsmenü öffnen.</a></p>
                      {offerLink}
                   </Well>)
+                  
         }
       return (
            <div>
@@ -173,10 +174,12 @@ export class Ehrenamt_ extends React.Component {
                             selectionSpiderfyMinZoom:12,
                             iconCreateFunction: ehrenAmtClusterIconCreator,
                         }}
+                        infoBox={info}
+
                     >
-                    <Control position="bottomright" >
+                    {/* <Control position="bottomright" >
                      <div>{info}</div>
-                    </Control>
+                    </Control> */}
                     {/* <Control position="topright" >
                      <div>
                      <Well bsSize="small" style={{ width: '200px', opacity: '0.7'}}>

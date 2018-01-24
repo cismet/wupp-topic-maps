@@ -415,6 +415,71 @@ export class Cismap_ extends React.Component {
     }
 
     const searchAllowed = (zoomByUrl >= this.props.searchMinZoom && zoomByUrl <= this.props.searchMaxZoom);
+
+    let widthRight=this.props.infoBox.props.pixelwidth;
+    let width=this.props.uiState.width;
+    let gap=25;
+
+
+    let infoBoxControlPosition="bottomright";
+    let searchControlPosition="bottomleft";
+    let searchControlWidth=300;
+    let widthLeft=searchControlWidth;
+    
+    if (width-gap-widthLeft-widthRight<=0){
+        infoBoxControlPosition="bottomleft";
+        searchControlWidth=width-gap;
+    }
+
+
+
+
+    let searchControl=(
+        <Control pixelwidth={300} position={searchControlPosition}>            
+            <Form style={{
+                width: searchControlWidth+'px'
+            }} action="#">
+            <FormGroup >
+                <InputGroup>
+                <InputGroup.Button disabled={this.props.mapping.searchInProgress || !searchAllowed} onClick={this.internalSearchButtonTrigger}>
+                    <OverlayTrigger ref={c => this.searchOverlay = c} placement="top" overlay={this.props.searchTooltipProvider()}>
+                    <Button disabled={this.props.mapping.searchInProgress || !searchAllowed}>{searchIcon}</Button>
+                    </OverlayTrigger>
+                </InputGroup.Button>
+                <Typeahead
+                    ref="typeahead"
+                    style={{ width: '300px'}}
+                    labelKey="string"
+                    options={this.gazData}
+                    onChange={this.internalGazeteerHitTrigger}
+                    paginate={true}
+                    dropup={true}
+                    disabled={!this.props.uiState.gazetteerBoxEnabled}
+                    placeholder={this.props.uiState.gazeteerBoxInfoText}
+                    minLength={2}
+                    filterBy={(option, text) => {
+                    return (option.string.toLowerCase().startsWith(text.toLowerCase()));
+                    }}
+                    align={'justify'}
+                    emptyLabel={'Keine Treffer gefunden'}
+                    paginationText={"Mehr Treffer anzeigen"}
+                    autoFocus={true} submitFormOnEnter={true}
+                    searchText={"suchen ..."}
+                    renderMenuItemChildren={this.renderMenuItemChildren}/>
+                </InputGroup>
+            </FormGroup>
+            </Form>
+        </Control>
+    );
+    let infoBoxControl=(
+        <Control position={infoBoxControlPosition} >
+            <div>{this.props.infoBox}</div>
+        </Control>
+    );
+
+
+
+
     return (
     <Map ref="leafletMap" 
          key="leafletMap" 
@@ -446,48 +511,13 @@ export class Cismap_ extends React.Component {
                                 selectionSpiderfyMinZoom={this.props.clusterOptions.selectionSpiderfyMinZoom}/>
       <ZoomControl position="topleft" zoomInTitle="Vergr&ouml;ßern" zoomOutTitle="Verkleinern"/>
       <FullscreenControl title="Vollbildmodus" forceSeparateButton={true} titleCancel="Vollbildmodus beenden" position="topleft"/>
-      <Control position="bottomleft">
-        <Form style={{
-            width: '300px'
-          }} action="#">
-          <FormGroup >
-            <InputGroup>
-              <InputGroup.Button disabled={this.props.mapping.searchInProgress || !searchAllowed} onClick={this.internalSearchButtonTrigger}>
-                <OverlayTrigger ref={c => this.searchOverlay = c} placement="top" overlay={this.props.searchTooltipProvider()}>
-                  <Button disabled={this.props.mapping.searchInProgress || !searchAllowed}>{searchIcon}</Button>
-                </OverlayTrigger>
-              </InputGroup.Button>
-
-              <Typeahead
-                ref="typeahead"
-                style={{ width: '300px'}}
-                labelKey="string"
-                options={this.gazData}
-                onChange={this.internalGazeteerHitTrigger}
-                paginate={true}
-                dropup={true}
-                disabled={!this.props.uiState.gazetteerBoxEnabled}
-                placeholder={this.props.uiState.gazeteerBoxInfoText}
-                minLength={2}
-                filterBy={(option, text) => {
-                  return (option.string.toLowerCase().startsWith(text.toLowerCase()));
-                }}
-                align={'justify'}
-                emptyLabel={'Keine Treffer gefunden'}
-                paginationText={"Mehr Treffer anzeigen"}
-                autoFocus={true} submitFormOnEnter={true}
-                searchText={"suchen ..."}
-                renderMenuItemChildren={this.renderMenuItemChildren}/>
-            </InputGroup>
-          </FormGroup>
-        </Form>
-      </Control>
+      {searchControl}
       <Control position="topright">
         <OverlayTrigger placement="left" overlay={this.props.applicationMenuTooltipProvider()}>
           <Button onClick={this.showModalHelpComponent}><Icon name={this.props.applicationMenuIcon}/></Button>
         </OverlayTrigger>
       </Control>
-
+      {infoBoxControl}
       {this.props.children}
     </Map>);
 
@@ -518,6 +548,7 @@ Cismap_.propTypes = {
   ondblclick: PropTypes.func,
   clustered: PropTypes.bool,
   clusterOptions: PropTypes.object,
+  infoBox: PropTypes.object.isRequired,
 };
 
 Cismap_.defaultProps = {

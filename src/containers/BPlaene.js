@@ -211,7 +211,7 @@ export class BPlaene_ extends React.Component {
           )
      }
      else {
-        let xinfo = (<Well>
+        let xinfo = (<Well >
                   <h5>Aktuell keine Bebauungspl&auml;ne  geladen.</h5>
                   <p>Um B-Pl&auml;ne an einem bestimmten Ort zu laden oder direkt auf <br />
                   einen Plan zuzugreifen, den Anfang (mindestens 2 Zeichen) <br />
@@ -222,7 +222,7 @@ export class BPlaene_ extends React.Component {
 
                   <a onClick={this.openHelp}>vollst&auml;ndige Bedienungsanleitung</a>
                </Well>);
-        info = (<Well style={{ width: '450px'}}>
+        info = (<Well pixelwidth={450} style={{ width: '450px'}}>
                         <h5>Aktuell keine Bebauungspl&auml;ne  geladen.</h5>
                         <ul>
                         <li><b>Einen B-Plan laden:</b> Doppelklick auf Plan in Hintergrundkarte</li>
@@ -232,8 +232,7 @@ export class BPlaene_ extends React.Component {
                         </ul>
 
                         <a onClick={this.openHelp}>vollst&auml;ndige Bedienungsanleitung</a>
-                    </Well>)
-      
+                    </Well>)      
      }
    return (
         <div>
@@ -256,10 +255,11 @@ export class BPlaene_ extends React.Component {
                     searchTooltipProvider={this.searchTooltip}
                     searchMinZoom={12}
                     searchMaxZoom={18}
-                    gazTopics={["pois","bplaene","adressen"]}>
-                <Control position="bottomright" >
+                    gazTopics={["pois","bplaene","adressen"]}
+                    infoBox={info} >
+                {/* <Control position="bottomright" >
                   <div>{info}</div>
-                </Control>
+                </Control> */}
             </Cismap>
         </div>
     );

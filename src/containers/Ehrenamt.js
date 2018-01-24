@@ -12,7 +12,7 @@ import { actions as uiStateActions } from '../redux/modules/uiState';
 import { actions as ehrenamtActions } from '../redux/modules/ehrenamt';
 
 import { bindActionCreators } from 'redux';
-import EhrenamtModalHelp from '../components/EhrenamtModalHelpComponent';
+import EhrenamtModalHelp from '../components/EhrenamtModalApplicationMenu';
 import EhrenamtInfo  from '../components/EhrenamtInfo'
 
 import { featureStyler, featureHoverer, ehrenAmtClusterIconCreator } from '../utils/ehrenamtHelper';
@@ -129,7 +129,7 @@ export class Ehrenamt_ extends React.Component {
               offerLink=(<p><a onClick={this.gotoHome} >{numberOfOffers} Angebote in Wuppertal</a></p>);
           }
           else {
-            offerLink=(<div/>)
+              offerLink=(<div/>)
           }
           info = (<Well bsSize="small" style={{ width: '250px', opacity: '0.9'}}>
                      <h5>Aktuell werden keine Angebote angezeigt.</h5>

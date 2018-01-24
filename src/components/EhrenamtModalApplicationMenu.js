@@ -17,7 +17,7 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
-export class EhrenamtModalHelp_ extends React.Component {
+export class EhrenamtModalApplicationMenu_ extends React.Component {
   constructor(props, context) {
     super(props, context);
     this.close = this.close.bind(this);
@@ -101,10 +101,10 @@ export class EhrenamtModalHelp_ extends React.Component {
 
 
 
-const EhrenamtModalHelp = connect(mapStateToProps, mapDispatchToProps)(EhrenamtModalHelp_);
-export default EhrenamtModalHelp;
+const EhrenamtModalApplicationMenu = connect(mapStateToProps, mapDispatchToProps)(EhrenamtModalApplicationMenu_);
+export default EhrenamtModalApplicationMenu;
 
-EhrenamtModalHelp_.propTypes = {
+EhrenamtModalApplicationMenu_.propTypes = {
   uiActions: PropTypes.object,
   uiState: PropTypes.object
 };

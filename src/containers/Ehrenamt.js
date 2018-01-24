@@ -163,6 +163,7 @@ export class Ehrenamt_ extends React.Component {
                             disableClusteringAtZoom:19,
                             animate:false,
                             cismapZoomTillSpiderfy:12,
+                            selectionSpiderfyMinZoom:12,
                             iconCreateFunction: ehrenAmtClusterIconCreator,
                         }}
                     >

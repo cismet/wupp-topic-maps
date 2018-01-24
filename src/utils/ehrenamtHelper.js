@@ -3,6 +3,8 @@ import ColorHash from 'color-hash';
 import Color from 'color';
 import {Icon} from 'react-fa'
 import L from 'leaflet';
+import createSVGPie from 'create-svg-pie';
+import createElement from 'svg-create-element';
 
 export const featureStyler = (feature) => {
     var color = Color(getColorForProperties(feature));
@@ -43,36 +45,78 @@ export const ehrenAmtClusterIconCreator = (cluster) => {
     let selectionBox = 30;
     let weight = 2;
     let svgSize = radius * 2 + weight * 2;
-   // var color = Color(getColorForProperties(feature));
-    // let svg = `<svg height="${svgSize}" width="${svgSize}">
-    //             <circle cx="${svgSize / 2}" cy="${svgSize / 2}" r="${radius}" stroke="${color.darken(0.5)}" stroke-width="${weight}" fill="${color}" />
-    //             </svg>  `
 
-    // var divIcon = L.divIcon({
-    //     className: "leaflet-data-marker",
-    //     html: theStyle.svg,
-    //     iconAnchor: [
-    //         theStyle.svgSize / 2,
-    //         theStyle.svgSize / 2
-    //     ],
-    //     iconSize: [theStyle.svgSize, theStyle.svgSize]
-    // });
+    const values = [];
+    const colors = [];
+    const r = 16;
+     
+    // Pie with default colors 
+    let childMarkers=cluster.getAllChildMarkers();
 
-    // marker = L.marker(latlng, {icon: divIcon});
-    var c = ' marker-cluster-';
-    if (childCount < 10) {
-        c += 'small';
-    } else if (childCount < 100) {
-        c += 'medium';
-    } else {
-        c += 'large';
+    let containsSelection=false;
+    for (let marker of childMarkers) {
+        values.push(1);
+        colors.push(Color(getColorForProperties(marker.feature)));
+        if (marker.feature.selected===true){
+            containsSelection=true;
+        }
     }
+    const pie = createSVGPie(values, r, colors);
 
-    return new L.DivIcon({
-        html: '<div><span>_' + childCount + '_</span></div>',
-        className: 'marker-cluster' + c,
-        iconSize: new L.Point(40, 40)
+    let background=createElement('svg', {
+        width:40,
+         height:40,
+         viewBox:"0 0 40 40"
     });
+
+
+    //Kleiner Kreis in der Mitte
+    // (blau wenn selektion)
+    let innerCircleColor="#ffffff88";
+    if (containsSelection) {
+        innerCircleColor="rgba(67, 149, 254, 0.8)";
+    }
+    pie.appendChild(createElement('circle', {
+        cx:r,
+        cy:r,
+        r:8,
+        "stroke-width":0,
+        fill: innerCircleColor
+    }));
+
+    background.appendChild(pie);
+
+    background.appendChild(createElement('circle', {
+        cx:20,
+        cy:20,
+        r:r,
+        "stroke-width":2,
+        stroke: "#00000088",
+        fill: "#ffffff00"
+        
+    }));
+
+    background.appendChild(createElement('text', {
+        x:"50%",
+        y:"50%",
+        "text-anchor":"middle",
+        "dy":".3em",
+    })).appendChild(document.createTextNode(childCount));
+    
+    pie.setAttribute("x",4);
+    pie.setAttribute("y",4);
+
+    var divIcon = L.divIcon({
+            className: "leaflet-data-marker",
+            html: background.outerHTML,
+            iconAnchor: [
+                20 ,
+                20
+            ],
+            iconSize: [40, 40]
+        });
+    
+        return divIcon;
 };
 
 export const getColorForProperties = (feature) => {

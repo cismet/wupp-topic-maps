@@ -14,7 +14,7 @@ import * as gisHelpers from '../utils/gisHelper';
 import MarkerClusterGroup from 'react-leaflet-markercluster';
 
 // Since this component is simple and static, there's no parent container for it.
-const FeatureCollectionDisplay = ({mappingProps, clusteredMarkers, style, labeler, hoverer, featureClickHandler, mapRef}) => {
+const FeatureCollectionDisplay = ({mappingProps, clusteredMarkers, style, labeler, hoverer, featureClickHandler, mapRef, selectionSpiderfyMinZoom}) => {
     let markers=[];
     let markerPos=[];
     let bbox=[ mappingProps.boundingBox.left,
@@ -79,7 +79,15 @@ const FeatureCollectionDisplay = ({mappingProps, clusteredMarkers, style, labele
 
   return (
     <div>
-        <ProjGeoJson key={JSON.stringify(mappingProps)} mappingProps={mappingProps} clusteredMarkers={clusteredMarkers} hoverer={hoverer} style={style} featureClickHandler={featureClickHandler} mapRef={mapRef}/>
+        <ProjGeoJson 
+            key={JSON.stringify(mappingProps)} 
+            mappingProps={mappingProps} 
+            clusteredMarkers={clusteredMarkers} 
+            hoverer={hoverer} 
+            style={style} 
+            featureClickHandler={featureClickHandler} 
+            mapRef={mapRef}
+            selectionSpiderfyMinZoom={selectionSpiderfyMinZoom}/>
         {markers}
     </div>
   );
@@ -147,6 +155,7 @@ export default FeatureCollectionDisplay;
  FeatureCollectionDisplay.propTypes = {
    mappingProps: PropTypes.object.isRequired,
    clusteredMarkers: PropTypes.object,
+   selectionSpiderfyMinZoom: PropTypes.number,
    style: PropTypes.func.isRequired,
    labeler: PropTypes.func,
    hoverer: PropTypes.func,

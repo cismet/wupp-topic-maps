@@ -245,7 +245,7 @@ function createFeatureCollectionFromOffers(boundingBox) {
         currentSelectedFeature=state.mapping.featureCollection[state.mapping.selectedIndex];
       }
       else {
-          console.log("selectedIndex not set");
+//          console.log("selectedIndex not set");
       }
       let bb;
       if (boundingBox) {

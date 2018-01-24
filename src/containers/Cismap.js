@@ -9,7 +9,6 @@ import GazetteerHitDisplay from '../components/GazetteerHitDisplay';
 import {crs25832, proj4crs25832def} from '../constants/gis';
 import proj4 from 'proj4';
 import {bindActionCreators} from 'redux';
-//import 'react-leaflet-fullscreen/dist/styles.css';
 import FullscreenControl from '../components/FullscreenControl';
 import Control from 'react-leaflet-control';
 import {
@@ -420,7 +419,19 @@ export class Cismap_ extends React.Component {
     }
 
     const searchAllowed = (zoomByUrl >= this.props.searchMinZoom && zoomByUrl <= this.props.searchMaxZoom);
-    return (<Map ref="leafletMap" key="leafletMap" crs={crs25832} style={mapStyle} center={positionByUrl} zoom={zoomByUrl} zoomControl={false} attributionControl={false} doubleClickZoom={false} minZoom={7} ondblclick={this.props.ondblclick} maxZoom={18}>
+    return (
+    <Map ref="leafletMap" 
+         key="leafletMap" 
+         crs={crs25832} 
+         style={mapStyle} 
+         center={positionByUrl} 
+         zoom={zoomByUrl} 
+         zoomControl={false} 
+         attributionControl={false} 
+         doubleClickZoom={false} 
+         minZoom={7} 
+         ondblclick={this.props.ondblclick} 
+         maxZoom={18}>
       {
         layerArr.map((layerWithOpacity) => {
           const layOp = layerWithOpacity.split('@')
@@ -428,7 +439,15 @@ export class Cismap_ extends React.Component {
         })
       }
       <GazetteerHitDisplay key={"gazHit" + JSON.stringify(this.props.mapping)} mappingProps={this.props.mapping}/>
-      <FeatureCollectionDisplay key={JSON.stringify(this.props.mapping)} mappingProps={this.props.mapping} clusteredMarkers={this.clusteredMarkers} style={this.props.featureStyler} labeler={this.props.labeler} hoverer={this.props.hoverer} featureClickHandler={this.featureClick} mapRef={this.refs.leafletMap}/>
+      <FeatureCollectionDisplay key={JSON.stringify(this.props.mapping)} 
+                                mappingProps={this.props.mapping} 
+                                clusteredMarkers={this.clusteredMarkers} 
+                                style={this.props.featureStyler} 
+                                labeler={this.props.labeler} 
+                                hoverer={this.props.hoverer} 
+                                featureClickHandler={this.featureClick} 
+                                mapRef={this.refs.leafletMap} 
+                                selectionSpiderfyMinZoom={this.props.clusterOptions.selectionSpiderfyMinZoom}/>
       <ZoomControl position="topleft" zoomInTitle="Vergr&ouml;ßern" zoomOutTitle="Verkleinern"/>
       <FullscreenControl title="Vollbildmodus" forceSeparateButton={true} titleCancel="Vollbildmodus beenden" position="topleft"/>
       <Control position="bottomleft">

@@ -94,13 +94,15 @@ export class ProjGeoJson_ extends Path {
                 let parent = this.props.clusteredMarkers.getVisibleParent(marker);
                 if (parent.spiderfy) {
                     //   console.log("will spiderfy cluster of feature "+marker.feature.id )
-                    setTimeout(function () {
-                        try {
-                            parent.spiderfy();
-                        } catch (err) {
-                            //ugly winning
-                        }
-                    }, 1);
+                    if (this.props.mapRef.leafletElement.getZoom()>=(this.props.selectionSpiderfyMinZoom||12)) {
+                        setTimeout(function () {
+                            try {
+                                parent.spiderfy();
+                            } catch (err) {
+                                //ugly winning
+                            }
+                        }, 1);
+                    }
                     //   console.log("have spiderfied cluster of feature "+marker.feature.id )
                 }
             }
@@ -132,6 +134,7 @@ export default ProjGeoJson;
 ProjGeoJson.propTypes = {
   mappingProps: PropTypes.object.isRequired,
   clusteredMarkers: PropTypes.object,
+  selectionSpiderfyMinZoom: PropTypes.number,
   labeler: PropTypes.func,
   hoverer: PropTypes.func,
   featureClickHandler: PropTypes.func.isRequired,

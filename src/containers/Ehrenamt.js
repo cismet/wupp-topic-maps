@@ -111,9 +111,10 @@ export class Ehrenamt_ extends React.Component {
         let numberOfOffers=this.props.ehrenamt.filteredOffers.length;
         if (this.props.mapping.featureCollection.length>0) {
            info = (
-             <EhrenamtInfo pixelwidth={250}
-             featureCollection={this.props.mapping.featureCollection}
-             filteredOffers={this.props.ehrenamt.filteredOffers}
+             <EhrenamtInfo 
+                 pixelwidth={250}
+                 featureCollection={this.props.mapping.featureCollection}
+                 filteredOffers={this.props.ehrenamt.filteredOffers}
                  selectedIndex={this.props.mapping.selectedIndex||0}
                  next={this.selectNextIndex}
                  previous={this.selectPreviousIndex}

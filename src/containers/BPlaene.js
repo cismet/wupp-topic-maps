@@ -198,7 +198,8 @@ export class BPlaene_ extends React.Component {
    let info= null;
      if (this.props.mapping.featureCollection.length>0) {
         info = (
-          <BPlanInfo
+          <BPlanInfo 
+              pixelwidth={250}
               featureCollection={this.props.mapping.featureCollection}
               selectedIndex={this.props.mapping.selectedIndex||0}
               next={this.selectNextIndex}

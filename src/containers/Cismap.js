@@ -199,8 +199,10 @@ export class Cismap_ extends React.Component {
         this.clusteredMarkers= L.markerClusterGroup(this.props.clusterOptions);
         let that=this;
         this.clusteredMarkers.on('clusterclick', function (a) {
-            if (that.refs.leafletMap.leafletElement.getZoom()<(that.props.clusterOptions.cismapZoomTillSpiderfy||11)) {
-                that.refs.leafletMap.leafletElement.zoomIn();
+            console.log(a);
+            let zoomLevel=that.refs.leafletMap.leafletElement.getZoom();
+            if (zoomLevel<(that.props.clusterOptions.cismapZoomTillSpiderfy||11)) {
+                that.refs.leafletMap.leafletElement.setZoomAround(a.latlng,zoomLevel+1);
             }
             else {
                 a.layer.spiderfy();

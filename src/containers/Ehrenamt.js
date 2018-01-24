@@ -15,10 +15,11 @@ import { bindActionCreators } from 'redux';
 import EhrenamtModalHelp from '../components/EhrenamtModalHelpComponent';
 import EhrenamtInfo  from '../components/EhrenamtInfo'
 
-import { featureStyler, featureHoverer, featureLabeler } from '../utils/ehrenamtHelper';
+import { featureStyler, featureHoverer, featureLabeler, ehrenAmtClusterIconCreator } from '../utils/ehrenamtHelper';
 
 import {Icon} from 'react-fa'
 
+import L from 'leaflet';
 
 function mapStateToProps(state) {
   return {
@@ -142,7 +143,7 @@ export class Ehrenamt_ extends React.Component {
                 zielgruppenFilterChanged={this.zielgruppenFilterChanged}
                />
                <Cismap ref={cismap => {this.cismapRef = cismap;}}
-                       layers={this.props.match.params.layers ||'abkg'}
+                       layers={this.props.match.params.layers ||'abkg@40,nrwDOP20@20'}
                        gazeteerHitTrigger={this.gazeteerhHit}
                        searchButtonTrigger={this.searchButtonHit}
                        featureStyler={featureStyler}
@@ -161,7 +162,8 @@ export class Ehrenamt_ extends React.Component {
                             maxClusterRadius:40,
                             disableClusteringAtZoom:19,
                             animate:false,
-                            cismapZoomTillSpiderfy:13
+                            cismapZoomTillSpiderfy:12,
+                            iconCreateFunction: ehrenAmtClusterIconCreator,
                         }}
                     >
                     <Control position="bottomright" >

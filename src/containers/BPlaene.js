@@ -211,7 +211,7 @@ export class BPlaene_ extends React.Component {
           )
      }
      else {
-       info = (<Well>
+        let xinfo = (<Well>
                   <h5>Aktuell keine Bebauungspl&auml;ne  geladen.</h5>
                   <p>Um B-Pl&auml;ne an einem bestimmten Ort zu laden oder direkt auf <br />
                   einen Plan zuzugreifen, den Anfang (mindestens 2 Zeichen) <br />
@@ -221,7 +221,19 @@ export class BPlaene_ extends React.Component {
                   <Icon name="search"/> alle Pl&auml;ne im aktuellen Kartenausschnitt laden.</p>
 
                   <a onClick={this.openHelp}>vollst&auml;ndige Bedienungsanleitung</a>
-               </Well>)
+               </Well>);
+        info = (<Well style={{ width: '450px'}}>
+                        <h5>Aktuell keine Bebauungspl&auml;ne  geladen.</h5>
+                        <ul>
+                        <li><b>Einen B-Plan laden:</b> Doppelklick auf Plan in Hintergrundkarte</li>
+                        <li><b>Alle B-Pl&auml;ne im Kartenausschnitt laden:</b> <Icon name="search"/></li>
+                        <li><b>Bekannten B-Plan laden:</b> Nummer als Suchbegriff eingeben, Auswahl aus Vorschlagsliste</li>
+                        <li><b>Suche nach B-Pl&auml;nen:</b> Adresse oder POI als Suchbegriff eingeben, Auswahl aus Liste</li>
+                        </ul>
+
+                        <a onClick={this.openHelp}>vollst&auml;ndige Bedienungsanleitung</a>
+                    </Well>)
+      
      }
    return (
         <div>

@@ -15,11 +15,7 @@ import { bindActionCreators } from 'redux';
 import EhrenamtModalHelp from '../components/EhrenamtModalHelpComponent';
 import EhrenamtInfo  from '../components/EhrenamtInfo'
 
-import { featureStyler, featureHoverer, featureLabeler, ehrenAmtClusterIconCreator } from '../utils/ehrenamtHelper';
-
-import {Icon} from 'react-fa'
-
-import L from 'leaflet';
+import { featureStyler, featureHoverer, ehrenAmtClusterIconCreator } from '../utils/ehrenamtHelper';
 
 function mapStateToProps(state) {
   return {

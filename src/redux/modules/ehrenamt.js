@@ -192,10 +192,7 @@ function loadOffers() {
         throw new Error('Server ehrenamt/data response wasn\'t OK');
       }
     }).then((data) => {
-      //console.log(data);
-
-      let counter = 0;
-
+      
       let globalbereiche = new Set();
       let kenntnisse = new Set();
       let zielgruppen = new Set();
@@ -238,8 +235,9 @@ function createFeatureCollectionFromOffers(boundingBox) {
   return (dispatch, getState) => {
     let state = getState()
 
-    if (state.ehrenamt.filteredOfferIndex) {id:-1
+    if (state.ehrenamt.filteredOfferIndex) {
       let currentSelectedFeature={
+        id:-1
       };
       if (state.mapping.selectedIndex!==null && state.mapping.selectedIndex>=0){
         currentSelectedFeature=state.mapping.featureCollection[state.mapping.selectedIndex];
@@ -253,8 +251,6 @@ function createFeatureCollectionFromOffers(boundingBox) {
       } else {
         bb = state.mapping.boundingBox;
       }
-
-      let featureArray = [];
 
       let resultIds = state.ehrenamt.filteredOfferIndex.range(bb.left, bb.bottom, bb.right, bb.top);
       let resultFC = [];

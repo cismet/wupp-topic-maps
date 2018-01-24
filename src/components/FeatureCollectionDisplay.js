@@ -11,7 +11,6 @@ import proj4 from 'proj4';
 import { proj4crs25832def } from '../constants/gis';
 
 import * as gisHelpers from '../utils/gisHelper';
-import MarkerClusterGroup from 'react-leaflet-markercluster';
 
 // Since this component is simple and static, there's no parent container for it.
 const FeatureCollectionDisplay = ({mappingProps, clusteredMarkers, style, labeler, hoverer, featureClickHandler, mapRef, selectionSpiderfyMinZoom}) => {

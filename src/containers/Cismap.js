@@ -33,7 +33,8 @@ import * as turfHelpers from '@turf/helpers';
 import bbox from '@turf/bbox';
 import {WUNDAAPI} from '../constants/services';
 import * as gisHelpers from '../utils/gisHelper';
-
+// need to have this import 
+// eslint-disable-next-line
 import markerClusterGroup from 'leaflet.markercluster';
 import L from 'leaflet';
 
@@ -85,13 +86,6 @@ export class Cismap_ extends React.Component {
     this.props.uiStateActions.setGazetteerBoxInfoText("Ortsinformationen werden geladen ...");
 
     this.props.gazetteerTopicsActions.loadTopicsData(this.props.gazTopics).then(() => {
-      let from = Date.now()
-      // console.log("parse the shit ")
-
-
-      //console.log("######################################################## loadTopicsData().then()")
-
-
 
       if (this.props.gazetteerTopics.adressen === undefined) {
         console.log("this.props.gazetteerTopics.adressen === undefined")

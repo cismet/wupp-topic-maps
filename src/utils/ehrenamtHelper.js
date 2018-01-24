@@ -1,7 +1,5 @@
-import React from 'react';
 import ColorHash from 'color-hash';
 import Color from 'color';
-import {Icon} from 'react-fa'
 import L from 'leaflet';
 import createSVGPie from 'create-svg-pie';
 import createElement from 'svg-create-element';
@@ -41,10 +39,6 @@ export const featureStyler = (feature) => {
 
 export const ehrenAmtClusterIconCreator = (cluster) => {
     var childCount = cluster.getChildCount();
-    let radius = 8;
-    let selectionBox = 30;
-    let weight = 2;
-    let svgSize = radius * 2 + weight * 2;
 
     const values = [];
     const colors = [];

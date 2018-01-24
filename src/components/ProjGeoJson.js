@@ -6,9 +6,8 @@ import 'proj4leaflet';
 import { connect } from "react-redux";
 import { bindActionCreators } from 'redux';
 import { actions as mappingActions } from '../redux/modules/mapping';
-import React, { Component}  from 'react';
 
-import { Path, CircleMarker } from 'react-leaflet';
+import { Path } from 'react-leaflet';
 
 require('react-leaflet-markercluster/dist/styles.min.css');
 

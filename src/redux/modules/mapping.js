@@ -11,10 +11,7 @@ export const types = {
   SET_AUTO_FIT: 'MAPPING/SET_AUTO_FIT',
   SET_SEARCH_PROGRESS_INDICATOR: 'MAPPING/SET_SEARCH_PROGRESS_INDICATOR',
   GAZETTEER_HIT: 'MAPPING/GAZETTEER_HIT',
-  SET_GAZETTEER_TOPICS_LOADED: 'MAPPING/SET_GAZETTEER_TOPICS_LOADED',
   SET_MAP_BOUNDING_BOX_CHANGED_TRIGGER: 'MAPPING/SET_MAP_BOUNDING_BOX_CHANGED_TRIGGER',
-  SET_MAP_BOUNDING_BOX_CHANGED_TRIGGER: 'MAPPING/SET_MAP_BOUNDING_BOX_CHANGED_TRIGGER',
-
 }
 export const constants = {
   AUTO_FIT_MODE_STRICT: 'MAPPING/AUTO_FIT_MODE_STRICT',
@@ -116,12 +113,6 @@ export default function mappingReducer(state = initialState, action) {
         newState.gazetteerHit = action.hit;
         return newState;
       }
-    case types.SET_GAZETTEER_TOPICS_LOADED:
-      {
-        newState = objectAssign({}, state);
-        newState.gazetteerTopicsLoaded = action.loaded;
-        return newState;
-      }
     default:
       return state;
   }
@@ -176,13 +167,6 @@ function gazetteerHit(hit) {
   return {
     type: types.GAZETTEER_HIT,
     hit
-  };
-}
-
-function setGazetteerTopicsLoaded(loaded) {
-  return {
-    type: types.SET_GAZETTEER_TOPICS_LOADED,
-    loaded
   };
 }
 

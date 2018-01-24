@@ -1,8 +1,7 @@
 
 import polylabel from '@mapbox/polylabel';
-import { crs25832, proj4crs25832def } from '../constants/gis';
+import { proj4crs25832def } from '../constants/gis';
 import proj4 from 'proj4';
-import L from 'leaflet';
 
 export function getPolygonfromBBox(bbox) {
   return "POLYGON(("+bbox.left+" "+ bbox.top+","+bbox.right+" "+bbox.top+","+bbox.right+" "+bbox.bottom+","+bbox.left+" "+bbox.bottom+","+bbox.left+" "+bbox.top+"))";
@@ -30,8 +29,6 @@ function getLabelPositionForPolygon(coordinates) {
 export function convertBBox2Bounds(bbox) {
   const projectedNE=proj4(proj4crs25832def,proj4.defs('EPSG:4326'),[bbox[0],bbox[1]]);
   const projectedSW=proj4(proj4crs25832def,proj4.defs('EPSG:4326'),[bbox[2],bbox[3]]);
-  const projbbox = {left: projectedSW[0], top: projectedNE[1], right: projectedNE[0], bottom: projectedSW[1]};
-  //return [[projectedSW[0], projectedNE[1]],[projectedNE[0], projectedSW[1]]];
   return [[projectedNE[1], projectedSW[0]],[projectedSW[1],projectedNE[0]]];
 }
 

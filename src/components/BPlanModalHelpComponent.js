@@ -78,7 +78,7 @@ export class BPlanModalHelp_ extends React.Component {
                                 Sie den Kartenma&szlig;stab vergr&ouml;&szlig;ern bzw. verkleinern.<br/>
                             Mit einem Doppelklick auf einen B-Plan in der Hintergrundkarte werden alle
                             B-Pl&auml;ne geladen, die an dieser Stelle liegen - meistens genau einer,
-                            manchmal 2 Pl&auml;ne. Ein Doppelklick auf die Hintergrundkarte <b>au&szlig;erhalb</b> der
+                            manchmal auch mehrere Pl&auml;ne. Ein Doppelklick auf die Hintergrundkarte <b>au&szlig;erhalb</b> der
                             angezeigten B-Pl&auml;ne entfernt alle zuvor geladenen B-Pl&auml;ne (Zur&uuml;cksetzen der
                             Suche).
                         </Panel>

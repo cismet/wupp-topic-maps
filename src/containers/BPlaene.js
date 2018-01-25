@@ -226,10 +226,10 @@ export class BPlaene_ extends React.Component {
         info = (<Well pixelwidth={450} style={{ width: '450px'}}>
                         <h5>Aktuell keine Bebauungspl&auml;ne  geladen.</h5>
                         <ul>
-                        <li><b>Einen B-Plan laden:</b> Doppelklick auf Plan in Hintergrundkarte</li>
-                        <li><b>Alle B-Pl&auml;ne im Kartenausschnitt laden:</b> <Icon name="search"/></li>
-                        <li><b>Bekannten B-Plan laden:</b> Nummer als Suchbegriff eingeben, Auswahl aus Vorschlagsliste</li>
-                        <li><b>Suche nach B-Pl&auml;nen:</b> Adresse oder POI als Suchbegriff eingeben, Auswahl aus Liste</li>
+                        <li><b>einen B-Plan laden:</b> Doppelklick auf Plan in Hintergrundkarte</li>
+                        <li><b>alle B-Pl&auml;ne im Kartenausschnitt laden:</b> <Icon name="search"/></li>
+                        <li><b>bekannten B-Plan laden:</b> Nummer als Suchbegriff eingeben, Auswahl aus Vorschlagsliste</li>
+                        <li><b>Suche nach B-Pl&auml;nen:</b> Adresse oder POI als Suchbegriff eingeben, Auswahl aus Vorschlagsliste</li>
                         </ul>
 
                         <a onClick={this.openHelp}>vollst&auml;ndige Bedienungsanleitung</a>

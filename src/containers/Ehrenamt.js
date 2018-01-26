@@ -142,6 +142,20 @@ export class Ehrenamt_ extends React.Component {
                      {offerLink}
                   </Well>)
         }
+
+        // Auflistung der ids die momentan nicht dargestllt werden
+        // let offerIds=[];
+        // let fcIds=[];
+        // for (let f of this.props.mapping.featureCollection) {
+        //     fcIds.push(f.id);
+        // }
+        // for (let o of this.props.ehrenamt.offers) {
+        //     offerIds.push(o.id);
+        // }
+        // offerIds.sort();
+        // fcIds.sort();
+        // let difference = offerIds.filter(x => !fcIds.includes(x));
+        // console.log(difference);
       return (
            <div>
                <EhrenamtModalApplicationMenu key={'EhrenamtModalApplicationMenu.visible:'+this.props.ui.applicationMenuVisible}
@@ -150,6 +164,8 @@ export class Ehrenamt_ extends React.Component {
                 globalbereiche={this.props.ehrenamt.globalbereiche}
                 filter={this.props.ehrenamt.filter}
                 filterChanged={this.filterChanged}
+                filteredOffersCount={this.props.ehrenamt.filteredOffers.length}
+                featureCollectionCount={this.props.mapping.featureCollection.length}
                />
                <Cismap ref={cismap => {this.cismapRef = cismap;}}
                        layers={this.props.match.params.layers ||'abkg@40,nrwDOP20@20'}

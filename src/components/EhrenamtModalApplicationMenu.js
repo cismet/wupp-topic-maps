@@ -187,7 +187,7 @@ export class EhrenamtModalApplicationMenu_ extends React.Component {
                         weitere Informationen zu dem entsprechenden Thema anzeigen zu lassen:<br/><br/>
                     </span>
                     <Accordion activeKey={"2"}>
-                        <Panel header="Filtern" eventKey="2" bsStyle="success">
+                        <Panel header={"Filtern ("+this.props.filteredOffersCount+" gefunden, davon "+this.props.featureCollectionCount+" in der Karte)"} eventKey="2" bsStyle="success">
                             {/* <Well > */}
                                 <Grid fluid>
                                     <Row >
@@ -286,7 +286,7 @@ export class EhrenamtModalApplicationMenu_ extends React.Component {
                                                     .props
                                                     .filter
                                                     .ignoredFilterGroups
-                                                    .indexOf(ehrenamtConstants.ZIELGRUKENTNISSE_FILTERPPEN_FILTER) !== -1}
+                                                    .indexOf(ehrenamtConstants.KENTNISSE_FILTER) !== -1}
                                                     onClick={() => this.invertSelection(ehrenamtConstants.KENTNISSE_FILTER)}>umkehren</Button>
                                                 <br/><br/>
                                                 <form>

@@ -13,7 +13,7 @@ export const types = {
     SET_ZIELGRUPPEN: 'EHRENAMT/SET_ZIELGRUPPEN',
     SET_FILTER: 'EHRENAMT/SET_FILTER',
     SET_IGNORED_FILTERGROUPS: 'EHRENAMT/SET_IGNORED_FILTERGROUPS'
-    
+
 }
 
 export const constants = {
@@ -22,7 +22,7 @@ export const constants = {
     IGNORE_FILTER: 'EHRENAMT/IGNORE_FILTER',
     KENTNISSE_FILTER: 'EHRENAMT/KENTNISSE_FILTER',
     ZIELGRUPPEN_FILTER: 'EHRENAMT/ZIELGRUPPEN_FILTER',
-    GLOBALBEREICHE_FILTER: 'EHRENAMT/GLOBALBEREICHE_FILTER',
+    GLOBALBEREICHE_FILTER: 'EHRENAMT/GLOBALBEREICHE_FILTER'
 }
 
 ///INITIAL STATE
@@ -37,18 +37,9 @@ const initialState = {
     filter: {
         globalbereiche: [],
         kenntnisse: [],
-        zielgruppen: [
-            "Behinderte/Kranke",
-            "Erwachsene",
-            "Familien",
-            "Flüchtlinge/Migranten",
-            "Frauen",
-            "MigrantInnen",
-            "Männer",
-            "SeniorInnen"
-        ],
+        zielgruppen: [],
         filtermode: constants.OR_FILTER,
-        ignoredFilterGroups: []//[constants.KENTNISSE_FILTER, constants.GLOBALBEREICHE_FILTER, constants.ZIELGRUPPEN_FILTER]
+        ignoredFilterGroups: [constants.KENTNISSE_FILTER, constants.GLOBALBEREICHE_FILTER, constants.ZIELGRUPPEN_FILTER]
     }
 };
 
@@ -99,10 +90,10 @@ export default function ehrenamtReducer(state = initialState, action) {
 
                 return newState;
             }
-            case types.SET_IGNORED_FILTERGROUPS:
+        case types.SET_IGNORED_FILTERGROUPS:
             {
                 newState = objectAssign({}, state);
-                newState.filter=JSON.parse(JSON.stringify(state.filter));
+                newState.filter = JSON.parse(JSON.stringify(state.filter));
                 newState.filter.ignoredFilterGroups = action.filtergroups;
 
                 return newState;
@@ -181,44 +172,43 @@ function applyFilter() {
 
     return (dispatch, getState) => {
         let state = getState();
-        let groups=[
-            getFilterSelectorForConstant(constants.KENTNISSE_FILTER), 
-            getFilterSelectorForConstant(constants.GLOBALBEREICHE_FILTER), 
-            getFilterSelectorForConstant(constants.ZIELGRUPPEN_FILTER)
+        let groups = [
+            constants.KENTNISSE_FILTER,
+            constants.GLOBALBEREICHE_FILTER,
+            constants.ZIELGRUPPEN_FILTER
         ];
-        let fo = [];
-
-        for (let offer of state.ehrenamt.offers) {
-            for (let fg of groups){
-                if (state.ehrenamt.filter.ignoredFilterGroups.indexOf(fg)===-1){
-                    if (offer[fg]) {
-                        for (let zg of offer[fg]) {
-                            if (state.ehrenamt.filter[fg].indexOf(zg) > -1) {
-                                fo.push(offer);
-                                break;
+        let filteredOffers=[];
+        let filteredOfferSet = new Set(); //avoid duplicates
+        if (state.ehrenamt.filter.ignoredFilterGroups.length === 3) {
+            filteredOffers = state.ehrenamt.offers;
+        } else {
+            for (let fg of groups) {
+                if (state.ehrenamt.filter.ignoredFilterGroups.indexOf(fg) === -1) {
+                    for (let offer of state.ehrenamt.offers) {
+                        if (offer[getFilterSelectorForConstant(fg)]) {
+                            for (let zg of offer[getFilterSelectorForConstant(fg)]) {
+                                if (state.ehrenamt.filter[getFilterSelectorForConstant(fg)].indexOf(zg) > -1) {
+                                    filteredOfferSet.add(offer);
+                                    break;
+                                }
                             }
                         }
                     }
                 }
             }
+            filteredOffers=Array.from(filteredOfferSet)
         }
-
-        // for (let offer of state.ehrenamt.offers) {
-            
-        //     if (offer.zielgruppen) {
-        //         for (let zg of offer.zielgruppen) {
-        //             if (state.ehrenamt.filter.zielgruppen.indexOf(zg) > -1) {
-        //                 fo.push(offer);
-        //                 break;
-        //             }
-        //         }
-        //     }
-        // }
-        dispatch(setFilteredOffers(fo));
+        
+        dispatch(setFilteredOffers(filteredOffers));
         dispatch(createFeatureCollectionFromOffers());
+      
+        // Auflisten der Angebote die der Filter herausgefiltert hat
+        // let difference = state.ehrenamt.offers.filter(x => !filteredOffers.includes(x));
+        // console.log(difference);
 
     }
 }
+
 
 function loadOffers() {
     return (dispatch, getState) => {
@@ -324,57 +314,56 @@ function createFeatureCollectionFromOffers(boundingBox) {
     }
 }
 
-
-function getFilterSelectorForConstant(constant){
+function getFilterSelectorForConstant(constant) {
     switch (constant) {
         case constants.GLOBALBEREICHE_FILTER:
-        {
-            return "globalbereiche";
-        }
+            {
+                return "globalbereiche";
+            }
         case constants.KENTNISSE_FILTER:
-        {
-            return "kenntnisse";
-        }
+            {
+                return "kenntnisse";
+            }
         case constants.ZIELGRUPPEN_FILTER:
-        {
-            return "zielgruppen";
-        }
+            {
+                return "zielgruppen";
+            }
     }
 }
 
 function selectAll(filtergroupconstant) {
     return (dispatch, getState) => {
-        let filtergroup=getFilterSelectorForConstant(filtergroupconstant);
+        let filtergroup = getFilterSelectorForConstant(filtergroupconstant);
         let state = getState();
         let filterState = JSON.parse(JSON.stringify(state.ehrenamt.filter));
         filterState[filtergroup] = JSON.parse(JSON.stringify(state.ehrenamt[filtergroup]));
         filterState[filtergroup].sort();
         dispatch(setFilter(filterState));
-        dispatch(applyFilter());    
-    }        
+        dispatch(applyFilter());
+    }
 }
 
 function selectNone(filtergroupconstant) {
     return (dispatch, getState) => {
-        let filtergroup=getFilterSelectorForConstant(filtergroupconstant);
+        let filtergroup = getFilterSelectorForConstant(filtergroupconstant);
         let state = getState();
         let filterState = JSON.parse(JSON.stringify(state.ehrenamt.filter));
         filterState[filtergroup] = [];
         filterState[filtergroup].sort();
         dispatch(setFilter(filterState));
-        dispatch(applyFilter());    
-    }        
+        dispatch(applyFilter());
+    }
 
 }
 
 function invertSelection(filtergroupconstant) {
     return (dispatch, getState) => {
-        let filtergroup=getFilterSelectorForConstant(filtergroupconstant);
+        let filtergroup = getFilterSelectorForConstant(filtergroupconstant);
         let state = getState();
         let filterState = JSON.parse(JSON.stringify(state.ehrenamt.filter));
         let filterGroupSet = new Set(filterState[filtergroup]);
-        
-        let possibilities=JSON.parse(JSON.stringify(state.ehrenamt[filtergroup]));
+
+        let possibilities = JSON.parse(JSON.stringify(state.ehrenamt[filtergroup]));
         for (let filter of possibilities) {
             if (filterGroupSet.has(filter)) {
                 filterGroupSet.delete(filter);
@@ -382,15 +371,14 @@ function invertSelection(filtergroupconstant) {
                 filterGroupSet.add(filter);
             }
         }
-        
+
         filterState[filtergroup] = Array.from(filterGroupSet);
         filterState[filtergroup].sort();
         dispatch(setFilter(filterState));
-        dispatch(applyFilter());    
-    }        
+        dispatch(applyFilter());
+    }
 
 }
-
 
 //EXPORT ACTIONS
 
@@ -402,7 +390,7 @@ export const actions = {
     toggleIgnoredFilterGroup,
     selectAll,
     selectNone,
-    invertSelection,
+    invertSelection
 };
 
 //helperFunctions

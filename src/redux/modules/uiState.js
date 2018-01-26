@@ -15,7 +15,7 @@ export const types = {
 const initialState = {
     width: null,
     height: null,
-    applicationMenuVisible: true,
+    applicationMenuVisible: false,
     gazeteerBoxInfoText: "Geben Sie einen Suchbegriff ein. XXX",
     gazeteerBoxVisible: true,
     gazetteerBoxEnabled: false,

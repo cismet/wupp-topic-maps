@@ -75,7 +75,7 @@ export class Cismap_ extends React.Component {
     this.featureClick = this.featureClick.bind(this);
     this.handleSearch = this.handleSearch.bind(this);
     this.gotoHomeBB = this.gotoHomeBB.bind(this);
-    this.showModalHelpComponent = this.showModalHelpComponent.bind(this);
+    this.showModalApplicationMenu = this.showModalApplicationMenu.bind(this);
     this.gazData=[];
   }
 
@@ -347,8 +347,8 @@ export class Cismap_ extends React.Component {
     this.props.featureClickHandler(event);
   }
 
-  showModalHelpComponent() {
-    this.props.uiStateActions.showHelpComponent(true);
+  showModalApplicationMenu() {
+    this.props.uiStateActions.showApplicationMenu(true);
   }
 
   renderMenuItemChildren(option, props, index) {
@@ -521,7 +521,7 @@ export class Cismap_ extends React.Component {
       {searchControl}
       <Control position="topright">
         <OverlayTrigger placement="left" overlay={this.props.applicationMenuTooltipProvider()}>
-          <Button onClick={this.showModalHelpComponent}><Icon name={this.props.applicationMenuIcon}/></Button>
+          <Button onClick={this.showModalApplicationMenu}><Icon name={this.props.applicationMenuIcon}/></Button>
         </OverlayTrigger>
       </Control>
       {infoBoxControl}

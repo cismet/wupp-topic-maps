@@ -4,7 +4,7 @@ import objectAssign from 'object-assign';
 ///TYPES
 export const types = {
     SCREEN_RESIZE : 'UISTATE/SCREEN_RESIZE',
-    SHOW_HELP_COMPONENT : 'UISTATE/SHOW_HELP_COMPONENT',
+    SHOW_APPLICATION_MENU : 'UISTATE/SHOW_APPLICATION_MENU',
     SET_GAZBOX_ENABLED : 'UISTATE/SET_GAZBOX_ENABLED',
     SET_GAZBOX_INFO_TEXT : 'UISTATE/SET_GAZBOX_INFO_TEXT',
     SET_GAZBOX_VISIBLE : 'UISTATE/SET_GAZBOX_VISIBLE',
@@ -15,7 +15,7 @@ export const types = {
 const initialState = {
     width: null,
     height: null,
-    helpTextVisible: true,
+    applicationMenuVisible: true,
     gazeteerBoxInfoText: "Geben Sie einen Suchbegriff ein. XXX",
     gazeteerBoxVisible: true,
     gazetteerBoxEnabled: false,
@@ -34,10 +34,10 @@ export default function uiStateReducer(state = initialState, action) {
           newState.height = action.height;
           return newState;
         }
-       case types.SHOW_HELP_COMPONENT:
+       case types.SHOW_APPLICATION_MENU:
         {
           newState = objectAssign({}, state);
-          newState.helpTextVisible = action.helpTextVisible;
+          newState.applicationMenuVisible = action.applicationMenuVisible;
           return newState;
         }
         case types.SET_GAZBOX_ENABLED:
@@ -74,10 +74,10 @@ function screenResize(height,width) {
         height: height,
     };
 }
-function showHelpComponent(helpTextVisible) {
+function showApplicationMenu(applicationMenuVisible) {
     return {
-        type: types.SHOW_HELP_COMPONENT,
-        helpTextVisible
+        type: types.SHOW_APPLICATION_MENU,
+        applicationMenuVisible
     };
 }
 
@@ -107,7 +107,7 @@ function setGazetteerBoxVisible(visible) {
 //EXPORT ACTIONS
 export const actions = {
     screenResize,
-    showHelpComponent,
+    showApplicationMenu,
     setGazetteerBoxEnabled,
     setGazetteerBoxInfoText,
     setGazetteerBoxVisible

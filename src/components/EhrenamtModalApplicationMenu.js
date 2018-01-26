@@ -42,7 +42,7 @@ export class EhrenamtModalApplicationMenu_ extends React.Component {
         this
             .props
             .uiActions
-            .showHelpComponent(false);
+            .showApplicationMenu(false);
     }
 
     handleSwitch(elem, state) {
@@ -174,7 +174,7 @@ export class EhrenamtModalApplicationMenu_ extends React.Component {
                 zIndex: 3000000000
             }}
                 bsSize="large"
-                show={this.props.uiState.helpTextVisible}
+                show={this.props.uiState.applicationMenuVisible}
                 onHide={this.close}
                 keyboard={false}>
 

@@ -53,7 +53,6 @@ export class BPlaene_ extends React.Component {
       this.downloadPlan=this.downloadPlan.bind(this);
       this.downloadEverything=this.downloadEverything.bind(this);
       this.downloadDone=this.downloadDone.bind(this);
-      this.openHelp=this.openHelp.bind(this);
       this.doubleMapClick = this.doubleMapClick.bind(this);
 
   }
@@ -174,10 +173,6 @@ export class BPlaene_ extends React.Component {
     this.props.bplanActions.setDocumentLoadingIndicator(false);
   }
 
-  openHelp() {
-    this.props.uiStateActions.showHelpComponent(true);
-  }
-
   featureClick(event){
     if (event.target.feature.selected) {
       this.props.mappingActions.fitSelectedFeatureBounds();
@@ -220,12 +215,12 @@ export class BPlaene_ extends React.Component {
                         <li><b>bekannten B-Plan laden:</b> Nummer als Suchbegriff eingeben, Auswahl aus Vorschlagsliste</li>
                         <li><b>Suche nach B-Pl&auml;nen:</b> Adresse oder POI als Suchbegriff eingeben, Auswahl aus Vorschlagsliste</li>
                         </ul>
-                        <a onClick={this.openHelp}>vollst&auml;ndige Bedienungsanleitung</a>
+                        <a onClick={()=>this.props.uiStateActions.showApplicationMenu(true)}>vollst&auml;ndige Bedienungsanleitung</a>
                     </Well>)      
      }
    return (
         <div>
-            <BPlanModalHelp key={'BPlanModalHelp.visible:'+this.props.ui.helpTextVisible}/>
+            <BPlanModalHelp key={'BPlanModalHelp.visible:'+this.props.ui.applicationMenuVisible}/>
 
             <Cismap layers={this.props.match.params.layers ||'uwBPlan'}
                     gazeteerHitTrigger={this.bplanGazeteerhHit}

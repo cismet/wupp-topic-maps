@@ -138,13 +138,13 @@ export class Ehrenamt_ extends React.Component {
                      <p>Um Angebote an einem bestimmten Ort anzuzeigen, den Anfang (mindestens 2 Zeichen)
                      eines Suchbegriffs eingeben und Eintrag aus Vorschlagsliste auswählen.</p>
                     <p>Um nach Zielgruppen, Interessen oder Bereichen zu filtern, das 
-                     <a onClick={this.openHelp}> Applikationsmenü öffnen.</a></p>
+                     <a onClick={()=>this.props.uiStateActions.showApplicationMenu(true)}> Applikationsmenü öffnen.</a></p>
                      {offerLink}
                   </Well>)
         }
       return (
            <div>
-               <EhrenamtModalApplicationMenu key={'EhrenamtModalApplicationMenu.visible:'+this.props.ui.helpTextVisible}
+               <EhrenamtModalApplicationMenu key={'EhrenamtModalApplicationMenu.visible:'+this.props.ui.applicationMenuVisible}
                 zielgruppen={this.props.ehrenamt.zielgruppen}
                 kenntnisse={this.props.ehrenamt.kenntnisse}
                 globalbereiche={this.props.ehrenamt.globalbereiche}

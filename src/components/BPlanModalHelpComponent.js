@@ -123,10 +123,10 @@ export class BPlanModalHelp_ extends React.Component {
                             B-Plan-Nummer!) erh&auml;lt dieser Plan den Fokus.<br/>
                             Mit einem weiteren Klick wird der Kartenausschnitt so angepasst, dass dieser
                             Plan vollst&auml;ndig und zentriert dargestellt wird. Alternativ k&ouml;nnen Sie
-                            die Treffermenge mit den Schaltfl&auml;chen &gt;&gt; (n&auml;chster Treffer) und
-                            &lt;&lt; (vorheriger Treffer) durchmustern. (Die Treffermenge ist geordnet nach
-                            zunehmendem Abstand des Plans vom Bezugspunkt ihrer Suche.)<br/>Mit
-                            <strong>alle Treffer anzeigen</strong>
+                            die Treffermenge mit den Schaltfl&auml;chen <a>&gt;&gt;</a> (n&auml;chster Treffer) und
+                            &nbsp;<a>&lt;&lt;</a> (vorheriger Treffer) durchmustern. (Die Treffermenge ist geordnet nach
+                            zunehmendem Abstand des Plans vom Bezugspunkt ihrer Suche.)<br/>Mit&nbsp;
+                            <a>alle Treffer anzeigen</a>&nbsp;
                             k&ouml;nnen Sie den Kartenausschnitt zuvor so anpassen, dass alle Pl&auml;ne der
                             Treffermenge vollst&auml;ndig angezeigt werden.
                         </Panel>

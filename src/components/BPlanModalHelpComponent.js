@@ -132,15 +132,14 @@ export class BPlanModalHelp_ extends React.Component {
                         </Panel>
                         <Panel header="B-Pl&auml;ne herunterladen" eventKey="7" bsStyle="info">
                             Zum Download einer PDF-Datei des Plans, der gerade den Fokus hat, klicken Sie
-                            auf den Link
-                            <strong>Plan</strong>.<br/>
+                            auf den Link&nbsp;
+                            <a>Plan</a>.<br/>
                             Umfasst der B-Plan mehrere Planteile, werden diese als mehrseitiges PDF-Dokument
-                            (multi-page PDF) bereitgestellt. (Der Link lautet dann
-                            <strong>Pl&auml;ne</strong>.)<br/>
+                            (multi-page PDF) bereitgestellt. (Der Link lautet dann&nbsp;
+                            <a>Pl&auml;ne</a>.)<br/>
                             Wenn zu einem B-Plan-Verfahren weitere verfahrensbegleitende Dokumente
-                            verf&uuml;gbar sind, wird zus&auml;tzlich der Link
-                            <strong>alles</strong>
-                            zum Download eines zip-Archivs mit allen Planteilen und allen
+                            verf&uuml;gbar sind, wird zus&auml;tzlich der Link&nbsp;
+                            <a>alles</a>&nbsp;zum Download eines zip-Archivs mit allen Planteilen und allen
                             verfahrensbegleitenden Dokumenten angeboten.<br/>
                             Ob die heruntergeladene Datei nach dem Download sofort mit einem geeigneten
                             Programm (PDF-Viewer oder Dateimanager) ge&ouml;ffnet wird, h&auml;ngt von Ihren
@@ -165,8 +164,8 @@ export class BPlanModalHelp_ extends React.Component {
                                     style={{
                                     fontSize: "11px"
                                 }}>
-                                    <b>Hintergrundkarte</b>: in Detailma&szlig;st&auml;ben
-                                    <a>Amtliche Basiskarte (ABK) der Stadt Wuppertal</a>, in &Uuml;bersichtsma&szlig;st&auml;ben
+                                    <b>Hintergrundkarte</b>: in Detailma&szlig;st&auml;ben&nbsp;
+                                    <a>Amtliche Basiskarte (ABK) der Stadt Wuppertal</a>, in &Uuml;bersichtsma&szlig;st&auml;ben&nbsp;
                                     <a>WebAtlasDE &copy; GeoBasis-DE / BKG 2017</a>, jeweils &uuml;berlagert mit
                                     Geltungsbereichen der Wuppertaler Bebauungspl&auml;ne.</span>
                             </td>

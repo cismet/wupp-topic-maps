@@ -497,7 +497,7 @@ export class Cismap_ extends React.Component {
          zoomControl={false} 
          attributionControl={false} 
          doubleClickZoom={false} 
-         minZoom={0} 
+         minZoom={7} 
          ondblclick={this.props.ondblclick} 
          maxZoom={18}>
       {

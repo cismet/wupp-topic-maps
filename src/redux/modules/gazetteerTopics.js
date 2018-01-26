@@ -73,8 +73,6 @@ function loadTopicData(topicKey) {
     return fetch('/gaz/' + topicKey + '.json.md5', {
       method: 'get'
     }).then((response)=>{
-
-
       if(response.ok) {
         return response.text();
       } else {

@@ -4,6 +4,7 @@ import * as turfHelpers from '@turf/helpers';
 import inside from '@turf/inside';
 import { constants as mappingConstants } from './mapping';
 import { getPolygonfromBBox } from '../../utils/gisHelper';
+import * as gisHelpers from '../../utils/gisHelper';
 
 import {
     WUNDAAPI
@@ -54,9 +55,13 @@ export function searchForPlans(gazObject,overriddenWKT) {
     return function (dispatch, getState) {
       dispatch(mappingActions.setSearchProgressIndicator(true));
       const state = getState();
-      let wkt;
+      let wkt;      
       if (overriddenWKT){
         wkt=overriddenWKT;
+      }
+      else if (Array.isArray(gazObject) && gazObject[0].more.v) {
+          console.log("BPLAN QUERY "+ gazObject[0].x+" ," +gazObject[0].y);
+          wkt=`POINT (${gazObject[0].x} ${gazObject[0].y} )`;
       }
       else {
         wkt=getPolygonfromBBox(state.mapping.boundingBox);

@@ -112,7 +112,7 @@ const BPlanInfo = ({featureCollection, selectedIndex, next, previous, fitAll, lo
       spinner
       text='Zusammenstellen der Dokumente ...'
     >
-        <Well bsSize="small" style={{ width: '250px', opacity: '0.9'}} onClick={logCurrentFeature}>
+        <Well bsSize="small"  onClick={logCurrentFeature}>
           <table style={{ width: '100%' }}>
             <tbody>
               <tr>

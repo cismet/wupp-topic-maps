@@ -16,7 +16,7 @@ export class DefaultPage_ extends React.Component {
         <div>
             <Cismap>
             <Control position="bottomright" >
-                <Well>
+                <Well bsSize="small">
                     <h2>Default</h2>
                     </Well>
             </Control>

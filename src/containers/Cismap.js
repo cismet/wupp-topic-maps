@@ -425,10 +425,20 @@ export class Cismap_ extends React.Component {
     let searchControlPosition="bottomleft";
     let searchControlWidth=300;
     let widthLeft=searchControlWidth;
-    
+    let infoStyle={
+        opacity: '0.9',
+        width: this.props.infoBox.props.pixelwidth
+
+    };
+
+
     if (width-gap-widthLeft-widthRight<=0){
         infoBoxControlPosition="bottomleft";
         searchControlWidth=width-gap;
+        infoStyle={ 
+            ...infoStyle,
+            width: searchControlWidth+'px'
+        };
     }
 
 
@@ -473,12 +483,9 @@ export class Cismap_ extends React.Component {
     );
     let infoBoxControl=(
         <Control position={infoBoxControlPosition} >
-            <div>{this.props.infoBox}</div>
+            <div style={infoStyle}>{this.props.infoBox}</div>
         </Control>
-    );
-
-
-
+    );    
 
     return (
     <Map ref="leafletMap" 

@@ -19,12 +19,7 @@ const EhrenamtInfo = ({featureCollection, filteredOffers, selectedIndex, next, p
     angebotOrAngebote="Angebot wird";
   }
   return (
-    <Loadable
-      active={loadingIndicator}
-      spinner
-      text='Zusammenstellen der Dokumente ...'
-    >
-        <Well bsSize="small" style={{ width: '250px', opacity: '0.9'}} onClick={logCurrentFeature}>
+        <Well bsSize="small" onClick={logCurrentFeature}>
           <table style={{ width: '100%' }}>
             <tbody>
               <tr>
@@ -61,8 +56,6 @@ const EhrenamtInfo = ({featureCollection, filteredOffers, selectedIndex, next, p
               </tbody>
             </table>
         </Well>
-</Loadable>
-
   );
 };
 

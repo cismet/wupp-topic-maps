@@ -12,10 +12,11 @@ import { actions as uiStateActions } from '../redux/modules/uiState';
 import { actions as ehrenamtActions } from '../redux/modules/ehrenamt';
 
 import { bindActionCreators } from 'redux';
-import EhrenamtModalHelp from '../components/EhrenamtModalApplicationMenu';
+import EhrenamtModalApplicationMenu from '../components/EhrenamtModalApplicationMenu';
 import EhrenamtInfo  from '../components/EhrenamtInfo'
 
 import { featureStyler, featureHoverer, ehrenAmtClusterIconCreator } from '../utils/ehrenamtHelper';
+import {Icon} from 'react-fa'
 
 function mapStateToProps(state) {
   return {
@@ -47,7 +48,7 @@ export class Ehrenamt_ extends React.Component {
       this.selectNextIndex=this.selectNextIndex.bind(this);
       this.selectPreviousIndex=this.selectPreviousIndex.bind(this);
       this.createfeatureCollectionByBoundingBox=this.createfeatureCollectionByBoundingBox.bind(this);
-      this.zielgruppenFilterChanged=this.zielgruppenFilterChanged.bind(this);
+      this.filterChanged=this.filterChanged.bind(this);
       this.props.mappingActions.setBoundingBoxChangedTrigger(this.createfeatureCollectionByBoundingBox);
     }
 
@@ -100,8 +101,8 @@ export class Ehrenamt_ extends React.Component {
       this.props.mappingActions.setSelectedFeatureIndex(potIndex);
 
     }
-    zielgruppenFilterChanged(zg) {
-      this.props.ehrenamtActions.toggleZielgruppenFilter(zg);
+    filterChanged(filtergroup,filter) {
+      this.props.ehrenamtActions.toggleFilter(filtergroup,filter);
     }
     searchTooltip(){
         return (<Tooltip style={{zIndex: 3000000000}} id="searchTooltip">Ehrenamtsinfos im Kartenausschnitt laden</Tooltip>);
@@ -132,7 +133,7 @@ export class Ehrenamt_ extends React.Component {
           else {
               offerLink=(<div/>)
           }
-          info = (<Well pixelwidth={250} bsSize="small" style={{ width: '250px', opacity: '0.9'}}>
+          info = (<Well bsSize="small" pixelwidth={250}>
                      <h5>Aktuell werden keine Angebote angezeigt.</h5>
                      <p>Um Angebote an einem bestimmten Ort anzuzeigen, den Anfang (mindestens 2 Zeichen)
                      eines Suchbegriffs eingeben und Eintrag aus Vorschlagsliste auswählen.</p>
@@ -140,16 +141,15 @@ export class Ehrenamt_ extends React.Component {
                      <a onClick={this.openHelp}> Applikationsmenü öffnen.</a></p>
                      {offerLink}
                   </Well>)
-                  
         }
       return (
            <div>
-               <EhrenamtModalHelp key={'EhrenamtModalHelp.visible:'+this.props.ui.helpTextVisible}
+               <EhrenamtModalApplicationMenu key={'EhrenamtModalApplicationMenu.visible:'+this.props.ui.helpTextVisible}
                 zielgruppen={this.props.ehrenamt.zielgruppen}
                 kenntnisse={this.props.ehrenamt.kenntnisse}
                 globalbereiche={this.props.ehrenamt.globalbereiche}
                 filter={this.props.ehrenamt.filter}
-                zielgruppenFilterChanged={this.zielgruppenFilterChanged}
+                filterChanged={this.filterChanged}
                />
                <Cismap ref={cismap => {this.cismapRef = cismap;}}
                        layers={this.props.match.params.layers ||'abkg@40,nrwDOP20@20'}
@@ -178,18 +178,6 @@ export class Ehrenamt_ extends React.Component {
                         infoBox={info}
 
                     >
-                    {/* <Control position="bottomright" >
-                     <div>{info}</div>
-                    </Control> */}
-                    {/* <Control position="topright" >
-                     <div>
-                     <Well bsSize="small" style={{ width: '200px', opacity: '0.7'}}>
-                                <h5>Filter</h5>
-                                <p>8/10 Zielgruppen ausgewählt </p>
-                             </Well>
-                     </div>
-                    </Control> */}
-
                </Cismap>
            </div>
        );

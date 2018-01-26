@@ -13,6 +13,8 @@ import {
     Well
 } from 'react-bootstrap';
 import {actions as UiStateActions} from '../redux/modules/uiState';
+import {constants as ehrenamtConstants, actions as EhrenamtActions} from '../redux/modules/ehrenamt';
+
 import {Icon} from 'react-fa'
 import Switch from 'react-bootstrap-switch';
 import 'react-bootstrap-switch/dist/css/bootstrap3/react-bootstrap-switch.min.css';
@@ -22,7 +24,8 @@ function mapStateToProps(state) {
 }
 function mapDispatchToProps(dispatch) {
     return {
-        uiActions: bindActionCreators(UiStateActions, dispatch)
+        uiActions: bindActionCreators(UiStateActions, dispatch),
+        ehrenamtActions: bindActionCreators(EhrenamtActions, dispatch)
     };
 }
 
@@ -32,6 +35,7 @@ export class EhrenamtModalApplicationMenu_ extends React.Component {
         this.close = this
             .close
             .bind(this);
+
     }
 
     close() {
@@ -41,19 +45,34 @@ export class EhrenamtModalApplicationMenu_ extends React.Component {
             .showHelpComponent(false);
     }
 
-
     handleSwitch(elem, state) {
-        console.log('handleSwitch. elem:', elem);
-        console.log('name:', elem.props.name);
-        console.log('new state:', state);
-      }
+        this
+            .props
+            .ehrenamtActions
+            .toggleIgnoredFilterGroup(elem.props.name);
+    }
 
+    selectAll(fg) {
+        this
+            .props
+            .ehrenamtActions
+            .selectAll(fg);
+    }
+    selectNone(fg) {
+        this
+            .props
+            .ehrenamtActions
+            .selectNone(fg);
+
+    }
+    invertSelection(fg) {
+        this
+            .props
+            .ehrenamtActions
+            .invertSelection(fg);
+    }
 
     render() {
-        let modalBodyStyle = {
-            "overflowY": "auto",
-            "maxHeight": this.props.uiState.height - 200
-        }
 
         let zgCB = []
         for (let zg of this.props.zielgruppen) {
@@ -64,9 +83,14 @@ export class EhrenamtModalApplicationMenu_ extends React.Component {
                         "fontWeight": 400
                     }}><input
                         key={"zielgruppenfilter.input." + zg}
-                        onChange={() => this.props.zielgruppenFilterChanged(zg)}
+                        onChange={() => this.props.filterChanged("zielgruppen", zg)}
                         type="checkbox"
                         name={zg}
+                        disabled={this
+                    .props
+                    .filter
+                    .ignoredFilterGroups
+                    .indexOf(ehrenamtConstants.ZIELGRUPPEN_FILTER) !== -1}
                         checked={this
                     .props
                     .filter
@@ -90,9 +114,14 @@ export class EhrenamtModalApplicationMenu_ extends React.Component {
                         "fontWeight": 400
                     }}><input
                         key={"kenntnissefilter.input." + k}
-                        onChange={() => this.props.zielgruppenFilterChanged(k)}
+                        onChange={() => this.props.filterChanged("kenntnisse", k)}
                         type="checkbox"
                         name={k}
+                        disabled={this
+                    .props
+                    .filter
+                    .ignoredFilterGroups
+                    .indexOf(ehrenamtConstants.KENTNISSE_FILTER) !== -1}
                         checked={this
                     .props
                     .filter
@@ -114,9 +143,14 @@ export class EhrenamtModalApplicationMenu_ extends React.Component {
                         "fontWeight": 400
                     }}><input
                         key={"bereichefilter.input." + ber}
-                        onChange={() => this.props.zielgruppenFilterChanged(ber)}
+                        onChange={() => this.props.filterChanged("globalbereiche", ber)}
                         type="checkbox"
                         name={ber}
+                        disabled={this
+                    .props
+                    .filter
+                    .ignoredFilterGroups
+                    .indexOf(ehrenamtConstants.GLOBALBEREICHE_FILTER) !== -1}
                         checked={this
                     .props
                     .filter
@@ -129,7 +163,11 @@ export class EhrenamtModalApplicationMenu_ extends React.Component {
             );
             globalbereicheCB.push(cb);
         }
-
+        let modalBodyStyle = {
+            "overflowY": "auto",
+            "overflowX": "hidden",
+            "maxHeight": this.props.uiState.height - 200
+        }
         return (
             <Modal
                 style={{
@@ -142,31 +180,63 @@ export class EhrenamtModalApplicationMenu_ extends React.Component {
 
                 <Modal.Header >
                     <Modal.Title><Icon name="info"/>&nbsp;&nbsp;&nbsp;Kompaktanleitung und Filter</Modal.Title>
-                </Modal.Header>
+                </Modal.Header >
                 <Modal.Body style={modalBodyStyle}>
-
-                    Bitte w&auml;hlen Sie eine der folgenden farbigen Schaltfl&auml;chen, um sich
-                    weitere Informationen zu dem entsprechenden Thema anzeigen zu lassen:<br/><br/>
-
+                    <span>
+                        Bitte w&auml;hlen Sie eine der folgenden farbigen Schaltfl&auml;chen, um sich
+                        weitere Informationen zu dem entsprechenden Thema anzeigen zu lassen:<br/><br/>
+                    </span>
                     <Accordion activeKey={"2"}>
                         <Panel header="Filtern" eventKey="2" bsStyle="success">
-                            <Grid>
-                                <Row >
-                                    <Col xs={12} sm={8} md={10} lg={8}>
-                                        {/* <Well> */}
+                            {/* <Well > */}
+                                <Grid fluid>
+                                    <Row >
                                         <Col xs={12} sm={12} md={4} lg={4}>
-                                            <Well>
-                                                <h4>Zielgruppen&nbsp;&nbsp;<Switch bsSize="mini" onText="an" offText="aus" onChange={(el, state) => this.handleSwitch(el, state)} name='zielgruppen' /></h4>
-                                                
+                                            <Well >
+                                                <h4>Zielgruppen&nbsp;&nbsp;
+                                                    <Switch
+                                                        bsSize="mini"
+                                                        onText="an"
+                                                        offText="aus"
+                                                        onChange={(el, state) => this.handleSwitch(el, state)}
+                                                        value={this
+                                                        .props
+                                                        .filter
+                                                        .ignoredFilterGroups
+                                                        .indexOf(ehrenamtConstants.ZIELGRUPPEN_FILTER) === -1}
+                                                        name={ehrenamtConstants.ZIELGRUPPEN_FILTER}/>
+                                                </h4>
+
                                                 <div
                                                     style={{
                                                     "border": "thin solid lightgray",
                                                     "width": "100%"
                                                 }}></div>
                                                 <br/>
-                                                <Button bsSize="xsmall">keine</Button>&nbsp;
-                                                <Button bsSize="xsmall">alle</Button>&nbsp;
-                                                <Button bsSize="xsmall">umkehren</Button>
+                                                <Button
+                                                    bsSize="xsmall"
+                                                    disabled={this
+                                                    .props
+                                                    .filter
+                                                    .ignoredFilterGroups
+                                                    .indexOf(ehrenamtConstants.ZIELGRUPPEN_FILTER) !== -1}
+                                                    onClick={() => this.selectNone(ehrenamtConstants.ZIELGRUPPEN_FILTER)}>keine</Button>&nbsp;
+                                                <Button
+                                                    bsSize="xsmall"
+                                                    disabled={this
+                                                    .props
+                                                    .filter
+                                                    .ignoredFilterGroups
+                                                    .indexOf(ehrenamtConstants.ZIELGRUPPEN_FILTER) !== -1}
+                                                    onClick={() => this.selectAll(ehrenamtConstants.ZIELGRUPPEN_FILTER)}>alle</Button>&nbsp;
+                                                <Button
+                                                    bsSize="xsmall"
+                                                    disabled={this
+                                                    .props
+                                                    .filter
+                                                    .ignoredFilterGroups
+                                                    .indexOf(ehrenamtConstants.ZIELGRUPPEN_FILTER) !== -1}
+                                                    onClick={() => this.invertSelection(ehrenamtConstants.ZIELGRUPPEN_FILTER)}>umkehren</Button>
                                                 <br/><br/>
                                                 <form>
                                                     {zgCB}
@@ -175,16 +245,49 @@ export class EhrenamtModalApplicationMenu_ extends React.Component {
                                         </Col>
                                         <Col xs={12} sm={12} md={4} lg={4}>
                                             <Well>
-                                                <h4>Kenntnisse&nbsp;&nbsp;<Switch bsSize="mini" onText="an" offText="aus" onChange={(el, state) => this.handleSwitch(el, state)} name='zielgruppen' /></h4>
+                                                <h4>Kenntnisse&nbsp;&nbsp;
+                                                    <Switch
+                                                        bsSize="mini"
+                                                        onText="an"
+                                                        offText="aus"
+                                                        onChange={(el, state) => this.handleSwitch(el, state)}
+                                                        value={this
+                                                        .props
+                                                        .filter
+                                                        .ignoredFilterGroups
+                                                        .indexOf(ehrenamtConstants.KENTNISSE_FILTER) === -1}
+                                                        name={ehrenamtConstants.KENTNISSE_FILTER}/>
+                                                </h4>
                                                 <div
                                                     style={{
                                                     "border": "thin solid lightgray",
                                                     "width": "100%"
                                                 }}></div>
                                                 <br/>
-                                                <Button bsSize="xsmall">keine</Button>&nbsp;
-                                                <Button bsSize="xsmall">alle</Button>&nbsp;
-                                                <Button bsSize="xsmall">umkehren</Button>
+                                                <Button
+                                                    bsSize="xsmall"
+                                                    disabled={this
+                                                    .props
+                                                    .filter
+                                                    .ignoredFilterGroups
+                                                    .indexOf(ehrenamtConstants.KENTNISSE_FILTER) !== -1}
+                                                    onClick={() => this.selectNone(ehrenamtConstants.KENTNISSE_FILTER)}>keine</Button>&nbsp;
+                                                <Button
+                                                    bsSize="xsmall"
+                                                    disabled={this
+                                                    .props
+                                                    .filter
+                                                    .ignoredFilterGroups
+                                                    .indexOf(ehrenamtConstants.KENTNISSE_FILTER) !== -1}
+                                                    onClick={() => this.selectAll(ehrenamtConstants.KENTNISSE_FILTER)}>alle</Button>&nbsp;
+                                                <Button
+                                                    bsSize="xsmall"
+                                                    disabled={this
+                                                    .props
+                                                    .filter
+                                                    .ignoredFilterGroups
+                                                    .indexOf(ehrenamtConstants.ZIELGRUKENTNISSE_FILTERPPEN_FILTER) !== -1}
+                                                    onClick={() => this.invertSelection(ehrenamtConstants.KENTNISSE_FILTER)}>umkehren</Button>
                                                 <br/><br/>
                                                 <form>
                                                     {kenntnisseCB}
@@ -193,26 +296,58 @@ export class EhrenamtModalApplicationMenu_ extends React.Component {
                                         </Col>
                                         <Col xs={12} sm={12} md={4} lg={4}>
                                             <Well>
-                                                <h4>Bereiche&nbsp;&nbsp;<Switch bsSize="mini" onText="an" offText="aus" onChange={(el, state) => this.handleSwitch(el, state)} name='zielgruppen' /></h4>
+                                                <h4>Bereiche&nbsp;&nbsp;
+                                                    <Switch
+                                                        bsSize="mini"
+                                                        onText="an"
+                                                        offText="aus"
+                                                        onChange={(el, state) => this.handleSwitch(el, state)}
+                                                        value={this
+                                                        .props
+                                                        .filter
+                                                        .ignoredFilterGroups
+                                                        .indexOf(ehrenamtConstants.GLOBALBEREICHE_FILTER) === -1}
+                                                        name={ehrenamtConstants.GLOBALBEREICHE_FILTER}/>
+                                                </h4>
                                                 <div
                                                     style={{
                                                     "border": "thin solid lightgray",
                                                     "width": "100%"
                                                 }}></div>
                                                 <br/>
-                                                <Button bsSize="xsmall">keine</Button>&nbsp;
-                                                <Button bsSize="xsmall">alle</Button>&nbsp;
-                                                <Button bsSize="xsmall">umkehren</Button>
+                                                <Button
+                                                    bsSize="xsmall"
+                                                    disabled={this
+                                                    .props
+                                                    .filter
+                                                    .ignoredFilterGroups
+                                                    .indexOf(ehrenamtConstants.GLOBALBEREICHE_FILTER) !== -1}
+                                                    onClick={() => this.selectNone(ehrenamtConstants.GLOBALBEREICHE_FILTER)}>keine</Button>&nbsp;
+                                                <Button
+                                                    bsSize="xsmall"
+                                                    disabled={this
+                                                    .props
+                                                    .filter
+                                                    .ignoredFilterGroups
+                                                    .indexOf(ehrenamtConstants.GLOBALBEREICHE_FILTER) !== -1}
+                                                    onClick={() => this.selectAll(ehrenamtConstants.GLOBALBEREICHE_FILTER)}>alle</Button>&nbsp;
+                                                <Button
+                                                    bsSize="xsmall"
+                                                    disabled={this
+                                                    .props
+                                                    .filter
+                                                    .ignoredFilterGroups
+                                                    .indexOf(ehrenamtConstants.GLOBALBEREICHE_FILTER) !== -1}
+                                                    onClick={() => this.invertSelection(ehrenamtConstants.GLOBALBEREICHE_FILTER)}>umkehren</Button>
                                                 <br/><br/>
                                                 <form>
                                                     {globalbereicheCB}
                                                 </form>
                                             </Well>
                                         </Col>
-                                        {/* </Well> */}
-                                    </Col>
-                                </Row>
-                            </Grid>
+                                    </Row>
+                                </Grid>
+                            {/* </Well> */}
                         </Panel>
                         <Panel header="Hintergrundkarte" eventKey="1" bsStyle="warning">
                             Die standardm&auml;&szlig;ig eingestellte Hintergrundkarte gibt eine
@@ -254,7 +389,6 @@ export class EhrenamtModalApplicationMenu_ extends React.Component {
                             Betriebssystem- und/oder Browsereinstellungen ab.
                         </Panel>
                     </Accordion>
-
                 </Modal.Body>
 
                 <Modal.Footer>

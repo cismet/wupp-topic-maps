@@ -212,18 +212,7 @@ export class BPlaene_ extends React.Component {
           )
      }
      else {
-        let xinfo = (<Well >
-                  <h5>Aktuell keine Bebauungspl&auml;ne  geladen.</h5>
-                  <p>Um B-Pl&auml;ne an einem bestimmten Ort zu laden oder direkt auf <br />
-                  einen Plan zuzugreifen, den Anfang (mindestens 2 Zeichen) <br />
-                  eines Suchbegriffs eingeben (Adresse, POI oder B-Plan-<br />
-                  Nummer)
-                  und Eintrag aus Vorschlagsliste auswählen oder mit <br />
-                  <Icon name="search"/> alle Pl&auml;ne im aktuellen Kartenausschnitt laden.</p>
-
-                  <a onClick={this.openHelp}>vollst&auml;ndige Bedienungsanleitung</a>
-               </Well>);
-        info = (<Well pixelwidth={450} style={{ width: '450px'}}>
+        info = (<Well bsSize="small" pixelwidth={350}>
                         <h5>Aktuell keine Bebauungspl&auml;ne  geladen.</h5>
                         <ul>
                         <li><b>einen B-Plan laden:</b> Doppelklick auf Plan in Hintergrundkarte</li>
@@ -231,7 +220,6 @@ export class BPlaene_ extends React.Component {
                         <li><b>bekannten B-Plan laden:</b> Nummer als Suchbegriff eingeben, Auswahl aus Vorschlagsliste</li>
                         <li><b>Suche nach B-Pl&auml;nen:</b> Adresse oder POI als Suchbegriff eingeben, Auswahl aus Vorschlagsliste</li>
                         </ul>
-
                         <a onClick={this.openHelp}>vollst&auml;ndige Bedienungsanleitung</a>
                     </Well>)      
      }
@@ -258,9 +246,6 @@ export class BPlaene_ extends React.Component {
                     searchMaxZoom={18}
                     gazTopics={["pois","bplaene","adressen"]}
                     infoBox={info} >
-                {/* <Control position="bottomright" >
-                  <div>{info}</div>
-                </Control> */}
             </Cismap>
         </div>
     );

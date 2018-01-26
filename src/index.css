@@ -1,36 +1,41 @@
 body {
-  margin: 0;
-  padding: 0;
-  font-family: sans-serif;
+    margin: 0;
+    padding: 0;
+    font-family: sans-serif;
 }
 
 .customGeoJSONFeatureTooltipClass {
-  background: none;
-  border: none;
-  box-shadow: none;
+    background: none;
+    border: none;
+    box-shadow: none;
 }
 
 .leaflet-tooltip-left.customGeoJSONFeatureTooltipClass::before {
-  border-left-color: none;
+    border-left-color: none;
 }
 
 .leaflet-tooltip-right.customGeoJSONFeatureTooltipClass::before {
-  border-right-color: none;
+    border-right-color: none;
 }
 
 a:hover {
-  cursor: pointer;
+    cursor: pointer;
 }
 
 .well {
-  margin-bottom: 15px;
+    margin-bottom: 0px;
+    border: 0px;
 }
 
-.mydivicon{
-    width: 19px;
-    height: 12px;
-    border-radius: 10px;
-    background: #ff7800;
-    border: 1px solid #000;
-    opacity: 0.85
+.form-group {
+    margin-bottom: 0px;
+}
+
+.leaflet-bottom {
+    margin-bottom: 5px !important;
+    
+}
+
+.leaflet-control {
+    margin-bottom: 5px !important;
 }

@@ -395,6 +395,7 @@ export class EhrenamtModalApplicationMenu_ extends React.Component {
                     <table style={{
                         width: '100%'
                     }}>
+                    <tbody>
                         <tr>
                             <td
                                 style={{
@@ -415,6 +416,7 @@ export class EhrenamtModalApplicationMenu_ extends React.Component {
                                 <Button bsStyle="primary" type="submit" onClick={this.close}>Ok</Button>
                             </td>
                         </tr>
+                        </tbody>
                     </table>
                 </Modal.Footer>
 

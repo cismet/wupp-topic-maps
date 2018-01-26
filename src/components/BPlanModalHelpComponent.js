@@ -153,7 +153,7 @@ export class BPlanModalHelp_ extends React.Component {
                 <Modal.Footer>
                     <table style={{
                         width: '100%'
-                    }}>
+                    }}><tbody>
                         <tr>
                             <td
                                 style={{
@@ -174,7 +174,7 @@ export class BPlanModalHelp_ extends React.Component {
                                 <Button bsStyle="primary" type="submit" onClick={this.close}>Ok</Button>
                             </td>
                         </tr>
-                    </table>
+                        </tbody></table>
                 </Modal.Footer>
 
             </Modal>

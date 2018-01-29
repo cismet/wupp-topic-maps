@@ -28,14 +28,19 @@ const logger = createLogger({
 
 const initialState = {};
 const enhancers = [];
-const middleware = [
+const devMiddleware = [
     thunk,
     logger,
     reduxImmutableStateInvariant(),
     routerMiddleware(history)
 ];
 
+const prodMiddleware = [
+    thunk,
+    routerMiddleware(history)
+];
 
+let composedEnhancers;
 
 if (process.env.NODE_ENV === 'development') {
     const devToolsExtension = window.devToolsExtension;
@@ -43,12 +48,19 @@ if (process.env.NODE_ENV === 'development') {
     if (typeof devToolsExtension === 'function') {
         enhancers.push(devToolsExtension());
     }
+
+    composedEnhancers = compose(
+        applyMiddleware(...devMiddleware),
+        ...enhancers
+    );
+}
+else {
+    composedEnhancers = compose(
+        applyMiddleware(...prodMiddleware),
+        ...enhancers
+    );
 }
 
-const composedEnhancers = compose(
-    applyMiddleware(...middleware),
-    ...enhancers
-);
 
 const store = createStore(
     rootReducer,

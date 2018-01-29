@@ -108,15 +108,14 @@ export const ehrenAmtClusterIconCreator = (cluster) => {
 
     var divIcon = L.divIcon({
             className: "leaflet-data-marker",
-            html: background.outerHTML,
-            htmlCss: '<div style="background: #f00; border-radius: 50%;width: 20px;height: 20px;" ></div>',
+            html: background.outerHTML || new XMLSerializer().serializeToString(background), //IE11 Compatibility
             iconAnchor: [
                 20 ,
                 20
             ],
             iconSize: [40, 40]
         });
-        // console.log(background.outerHTML)
+        //console.log(background.outerHtml)
         return divIcon;
 };
 

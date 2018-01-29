@@ -18,6 +18,8 @@ import EhrenamtInfo  from '../components/EhrenamtInfo'
 import { featureStyler, featureHoverer, ehrenAmtClusterIconCreator } from '../utils/ehrenamtHelper';
 import {Icon} from 'react-fa'
 
+import Loadable from 'react-loading-overlay';
+
 function mapStateToProps(state) {
   return {
     ui: state.uiState,
@@ -51,11 +53,26 @@ export class Ehrenamt_ extends React.Component {
       this.filterChanged=this.filterChanged.bind(this);
       this.props.mappingActions.setBoundingBoxChangedTrigger(this.createfeatureCollectionByBoundingBox);
     }
-
     componentWillMount() {
-      this.props.ehrenamtActions.loadOffers();
-    }
+        this.dataLoaded=false;
+        this.loadtheShit().then((data) => {
+            this.dataLoaded=true;
+        });
+      }
+   
 
+
+    loadtheShit() {
+        var promise = new Promise((resolve, reject) => {
+            setTimeout(() => {
+                console.log('This happens 5th (after 3 seconds).');
+                this.props.ehrenamtActions.loadOffers();
+                resolve('This is my data.');
+            }, 200);
+        });
+        console.log('This happens 3rd.');
+        return promise;
+    }
     createfeatureCollectionByBoundingBox(bbox) {
       this.props.ehrenamtActions.createFeatureCollectionFromOffers(bbox)
     }
@@ -166,7 +183,14 @@ export class Ehrenamt_ extends React.Component {
                 filterChanged={this.filterChanged}
                 filteredOffersCount={this.props.ehrenamt.filteredOffers.length}
                 featureCollectionCount={this.props.mapping.featureCollection.length}
+                offersMD5={this.props.ehrenamt.offersMD5}
+                
                />
+               <Loadable
+      active={!this.dataLoaded}
+      spinner
+      text='Laden der Angebote ...'
+    >
                <Cismap ref={cismap => {this.cismapRef = cismap;}}
                        layers={this.props.match.params.layers ||'abkg@40,nrwDOP20@20'}
                        gazeteerHitTrigger={this.gazeteerhHit}
@@ -193,12 +217,16 @@ export class Ehrenamt_ extends React.Component {
                         }}
                         infoBox={info}
 
-                    >
-               </Cismap>
+                    />
+               </Loadable>
+
            </div>
        );
     }
 }
+
+
+
 
 const Ehrenamt = connect(mapStateToProps,mapDispatchToProps)(Ehrenamt_);
 

@@ -28,8 +28,8 @@ export const constants = {
 ///INITIAL STATE
 const initialState = {
     offers: [],
+    offersMD5:"",
     filteredOffers: [],
-    //offerIndex: null,
     filteredOfferIndex: null,
     globalbereiche: [],
     kenntnisse: [],
@@ -50,9 +50,8 @@ export default function ehrenamtReducer(state = initialState, action) {
         case types.SET_OFFERS:
             {
                 newState = objectAssign({}, state);
-                newState.offers = action.offers
-                // newState.offerIndex = kdbush(action.offers, (p) => p.point25832[0], (p) =>
-                // p.point25832[1]);
+                newState.offers = action.offers;
+                newState.offersMD5 = action.md5;
                 return newState;
             }
         case types.SET_FILTERED_OFFERS:
@@ -104,8 +103,8 @@ export default function ehrenamtReducer(state = initialState, action) {
 }
 
 ///SIMPLEACTIONCREATORS
-function setOffers(offers) {
-    return {type: types.SET_OFFERS, offers};
+function setOffers(offers,md5) {
+    return {type: types.SET_OFFERS, offers, md5};
 }
 function setFilteredOffers(offers) {
     return {type: types.SET_FILTERED_OFFERS, offers};
@@ -172,12 +171,8 @@ function applyFilter() {
 
     return (dispatch, getState) => {
         let state = getState();
-        let groups = [
-            constants.KENTNISSE_FILTER,
-            constants.GLOBALBEREICHE_FILTER,
-            constants.ZIELGRUPPEN_FILTER
-        ];
-        let filteredOffers=[];
+        let groups = [constants.KENTNISSE_FILTER, constants.GLOBALBEREICHE_FILTER, constants.ZIELGRUPPEN_FILTER];
+        let filteredOffers = [];
         let filteredOfferSet = new Set(); //avoid duplicates
         if (state.ehrenamt.filter.ignoredFilterGroups.length === 3) {
             filteredOffers = state.ehrenamt.offers;
@@ -196,14 +191,14 @@ function applyFilter() {
                     }
                 }
             }
-            filteredOffers=Array.from(filteredOfferSet)
+            filteredOffers = Array.from(filteredOfferSet)
         }
-        
+
         dispatch(setFilteredOffers(filteredOffers));
         dispatch(createFeatureCollectionFromOffers());
-      
-        // Auflisten der Angebote die der Filter herausgefiltert hat
-        // let difference = state.ehrenamt.offers.filter(x => !filteredOffers.includes(x));
+
+        // Auflisten der Angebote die der Filter herausgefiltert hat let difference =
+        // state.ehrenamt.offers.filter(x => !filteredOffers.includes(x));
         // console.log(difference);
 
     }
@@ -212,7 +207,31 @@ function applyFilter() {
 
 function loadOffers() {
     return (dispatch, getState) => {
-        return fetch('/ehrenamt/data.json', {method: 'get'}).then((response) => {
+        let md5 = null;
+        const state = getState();
+        let noCacheHeaders = new Headers();
+        noCacheHeaders.append('pragma', 'no-cache');
+        noCacheHeaders.append('cache-control', 'no-cache');
+
+        return fetch('/ehrenamt/data.json.md5', {method: 'get', headers: noCacheHeaders}).then((response) => {
+            if (response.ok) {
+                return response.text();
+            } else {
+                throw new Error('Server md5 response wasn\'t OK');
+            }
+        }).then((md5value) => {
+            md5 = md5value.trim();
+            if (md5 === state.ehrenamt.offersMD5) {
+                dispatch(applyFilter());
+                dispatch(createFeatureCollectionFromOffers());
+    
+                throw 'CACHEHIT';
+            } else {
+                return "fetchit";
+            }
+        }).then((fetchit) => {
+            return fetch('/ehrenamt/data.json', {method: 'get', headers: noCacheHeaders});
+        }).then((response) => {
             if (response.ok) {
                 return response.json();
             } else {
@@ -246,13 +265,15 @@ function loadOffers() {
             dispatch(setGlobalbereiche(Array.from(globalbereiche).sort()));
             dispatch(setKenntnisse(Array.from(kenntnisse).sort()));
             dispatch(setZielgruppen(Array.from(zielgruppen).sort()));
-            dispatch(setOffers(data));
+            dispatch(setOffers(data,md5));
             dispatch(applyFilter());
             dispatch(createFeatureCollectionFromOffers());
 
         })
             .catch(function (err) {
-                console.log(err);
+                if (err !== 'CACHEHIT') {
+                    console.log(err);
+                }
             });
     }
 }

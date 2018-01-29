@@ -408,9 +408,10 @@ export class EhrenamtModalApplicationMenu_ extends React.Component {
                                     fontSize: "11px"
                                 }}>
                                     <b>Hintergrundkarte</b>: in Detailma&szlig;st&auml;ben
-                                    <a>Amtliche Basiskarte (ABK) der Stadt Wuppertal</a>, in &Uuml;bersichtsma&szlig;st&auml;ben
-                                    <a>WebAtlasDE &copy; GeoBasis-DE / BKG 2017</a>, jeweils &uuml;berlagert mit
-                                    Geltungsbereichen der Wuppertaler Bebauungspl&auml;ne.</span>
+                                    <a>Amtliche Basiskarte (ABK) der Stadt Wuppertal</a>, jeweils &uuml;berlagert mit
+                                    dem Wuppertaler Orthofoto.<br/>
+                                    <b>Angebotsdaten</b>: {this.props.offersMD5}</span>
+                                    
                             </td>
                             <td>
                                 <Button bsStyle="primary" type="submit" onClick={this.close}>Ok</Button>

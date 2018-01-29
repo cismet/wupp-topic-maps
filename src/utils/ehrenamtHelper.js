@@ -24,6 +24,7 @@ export const featureStyler = (feature) => {
               <circle cx="${svgSize / 2}" cy="${svgSize / 2}" r="${radius}" stroke="${color.darken(0.5)}" stroke-width="${weight}" fill="${color}" />
           </svg>  `
     }
+    // console.log(svg)
     const style = {
         radius,
         fillColor: color,
@@ -66,15 +67,16 @@ export const ehrenAmtClusterIconCreator = (cluster) => {
 
     //Kleiner Kreis in der Mitte
     // (blau wenn selektion)
-    let innerCircleColor="#ffffff88";
+    let innerCircleColor="#ffffff";
     if (containsSelection) {
-        innerCircleColor="rgba(67, 149, 254, 0.8)";
+        innerCircleColor="rgb(67, 149, 254)";
     }
     pie.appendChild(createElement('circle', {
         cx:r,
         cy:r,
         r:8,
         "stroke-width":0,
+        "opacity": "0.5",
         fill: innerCircleColor
     }));
 
@@ -85,8 +87,9 @@ export const ehrenAmtClusterIconCreator = (cluster) => {
         cy:20,
         r:r,
         "stroke-width":2,
-        stroke: "#00000088",
-        fill: "#ffffff00"
+        stroke: "#000000",
+        opacity: "0.5",
+        fill: "none"
         
     }));
 
@@ -100,16 +103,20 @@ export const ehrenAmtClusterIconCreator = (cluster) => {
     pie.setAttribute("x",4);
     pie.setAttribute("y",4);
 
+
+
+
     var divIcon = L.divIcon({
             className: "leaflet-data-marker",
             html: background.outerHTML,
+            htmlCss: '<div style="background: #f00; border-radius: 50%;width: 20px;height: 20px;" ></div>',
             iconAnchor: [
                 20 ,
                 20
             ],
             iconSize: [40, 40]
         });
-    
+        // console.log(background.outerHTML)
         return divIcon;
 };
 

@@ -374,7 +374,15 @@ function selectNone(filtergroupconstant) {
         dispatch(setFilter(filterState));
         dispatch(applyFilter());
     }
+}
 
+function resetFilter() {
+    return (dispatch, getState) => {
+        dispatch(setIgnoredFilterGroups([constants.KENTNISSE_FILTER, constants.GLOBALBEREICHE_FILTER, constants.ZIELGRUPPEN_FILTER]));
+        dispatch(selectNone(constants.GLOBALBEREICHE_FILTER));
+        dispatch(selectNone(constants.KENTNISSE_FILTER));
+        dispatch(selectNone(constants.ZIELGRUPPEN_FILTER));
+    }
 }
 
 function invertSelection(filtergroupconstant) {
@@ -411,7 +419,8 @@ export const actions = {
     toggleIgnoredFilterGroup,
     selectAll,
     selectNone,
-    invertSelection
+    invertSelection,
+    resetFilter,
 };
 
 //helperFunctions

@@ -51,26 +51,26 @@ export class Ehrenamt_ extends React.Component {
       this.selectPreviousIndex=this.selectPreviousIndex.bind(this);
       this.createfeatureCollectionByBoundingBox=this.createfeatureCollectionByBoundingBox.bind(this);
       this.filterChanged=this.filterChanged.bind(this);
+      this.resetFilter=this.resetFilter.bind(this);
       this.props.mappingActions.setBoundingBoxChangedTrigger(this.createfeatureCollectionByBoundingBox);
     }
     componentWillMount() {
         this.dataLoaded=false;
-        this.loadtheShit().then((data) => {
+        this.loadTheOffers().then((data) => {
             this.dataLoaded=true;
         });
       }
    
 
 
-    loadtheShit() {
+    loadTheOffers() {
         var promise = new Promise((resolve, reject) => {
             setTimeout(() => {
-                console.log('This happens 5th (after 3 seconds).');
                 this.props.ehrenamtActions.loadOffers();
-                resolve('This is my data.');
-            }, 200);
+                resolve('ok');
+            }, 100);
         });
-        console.log('This happens 3rd.');
+
         return promise;
     }
     createfeatureCollectionByBoundingBox(bbox) {
@@ -121,6 +121,10 @@ export class Ehrenamt_ extends React.Component {
     filterChanged(filtergroup,filter) {
       this.props.ehrenamtActions.toggleFilter(filtergroup,filter);
     }
+
+    resetFilter() {
+        this.props.ehrenamtActions.resetFilter();
+    }
     searchTooltip(){
         return (<Tooltip style={{zIndex: 3000000000}} id="searchTooltip">Ehrenamtsinfos im Kartenausschnitt laden</Tooltip>);
     };
@@ -139,6 +143,8 @@ export class Ehrenamt_ extends React.Component {
                  fitAll={this.gotoHome}
                  downloadPlan={this.downloadPlan}
                  downloadEverything={this.downloadEverything}
+                 filter={this.props.ehrenamt.filter}
+                 resetFilter={this.resetFilter}
                  />
              )
         }
@@ -217,8 +223,18 @@ export class Ehrenamt_ extends React.Component {
                         }}
                         infoBox={info}
 
-                    />
+                    >
+                        {/* <Control positio = "topright" > 
+                            <div>
+                            <Icon size='4x' style={{color: 'green',opacity: .50}} name='filter' />
+                            <Well>
+                                <h1>Test</h1>
+                            </Well> 
+                            </div>
+                        </Control> */}
+                    </Cismap>
                </Loadable>
+              
 
            </div>
        );

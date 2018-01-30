@@ -2,10 +2,10 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { OverlayTrigger, Well, Tooltip } from 'react-bootstrap';
 import Loadable from 'react-loading-overlay';
-
+import {Icon} from 'react-fa'
 
 // Since this component is simple and static, there's no parent container for it.
-const EhrenamtInfo = ({featureCollection, filteredOffers, selectedIndex, next, previous, fitAll, loadingIndicator, downloadPlan, downloadEverything}) => {
+const EhrenamtInfo = ({featureCollection, filteredOffers, selectedIndex, next, previous, fitAll, loadingIndicator, downloadPlan, downloadEverything, filter,resetFilter}) => {
 
   const currentFeature=featureCollection[selectedIndex];
 
@@ -18,8 +18,29 @@ const EhrenamtInfo = ({featureCollection, filteredOffers, selectedIndex, next, p
   if (featureCollection.length===1) {
     angebotOrAngebote="Angebot wird";
   }
+  let filterstatus=(<div/>);
+  if (filter.ignoredFilterGroups.length<3) {
+    filterstatus=(
+         <table style={{ width: '100%' }}>
+            <tbody>
+              <tr>
+              <td style={{ textAlign: 'left', verticalAlign: 'top',background:'grey', opacity:'0.9', padding: '3px' }}>
+              <Icon name='filter' /> Filter aktiviert ({filter.globalbereiche.length+filter.kenntnisse.length+filter.zielgruppen.length})
+                </td>
+                <td style={{ textAlign: 'right', verticalAlign: 'top', background:'grey',opacity:'0.9',padding: '3px' }}>
+                <a onClick={resetFilter} style={{ color: 'black'}}><Icon name='close' /></a>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+    );
+  }
+
+
+
   return (
         <Well bsSize="small" onClick={logCurrentFeature}>
+          {filterstatus}
           <table style={{ width: '100%' }}>
             <tbody>
               <tr>

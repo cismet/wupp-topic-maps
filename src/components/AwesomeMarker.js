@@ -4,8 +4,11 @@ import PropTypes from 'prop-types';
 
 import { Marker } from 'react-leaflet';
 import 'drmonty-leaflet-awesome-markers/css/leaflet.awesome-markers.css';
+
+// need to have this import because of CSS sziss
+// eslint-disable-next-line
 import AwesomeMarkers from 'drmonty-leaflet-awesome-markers';
-//import *  'drmonty-leaflet-awesome-markers/css/images';
+
 
 function mapStateToProps(state) {
   return {
@@ -14,7 +17,7 @@ function mapStateToProps(state) {
 }
 
 export class AwesomeMarker_ extends Marker {
-    createLeafletElement (props: Object) {
+    createLeafletElement (props) {
       let marker=super.createLeafletElement(props);
       var redMarker = L.AwesomeMarkers.icon(props.markerOptions);
       marker.options.icon=redMarker;
@@ -25,7 +28,7 @@ export class AwesomeMarker_ extends Marker {
       super.componentWillMount();
     }
 
-    updateLeafletElement (fromProps: Object, toProps: Object) {
+    updateLeafletElement (fromProps, toProps) {
       return super.updateLeafletElement(fromProps,toProps);
     }
     render() {

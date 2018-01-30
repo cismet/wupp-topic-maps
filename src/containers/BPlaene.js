@@ -53,7 +53,6 @@ export class BPlaene_ extends React.Component {
       this.downloadPlan=this.downloadPlan.bind(this);
       this.downloadEverything=this.downloadEverything.bind(this);
       this.downloadDone=this.downloadDone.bind(this);
-      this.openHelp=this.openHelp.bind(this);
       this.doubleMapClick = this.doubleMapClick.bind(this);
 
   }
@@ -77,12 +76,8 @@ export class BPlaene_ extends React.Component {
   }
 
   doubleMapClick(event) {
-    console.log("suche nach bplan");
-    console.log(event.latlng);
     const pos=proj4(proj4.defs('EPSG:4326'),proj4crs25832def,[event.latlng.lng,event.latlng.lat])
-
     let wkt=`POINT(${pos[0]} ${pos[1]})`;
-    console.log(wkt);
     this.props.bplanActions.searchForPlans(null,wkt);
   }
 
@@ -178,10 +173,6 @@ export class BPlaene_ extends React.Component {
     this.props.bplanActions.setDocumentLoadingIndicator(false);
   }
 
-  openHelp() {
-    this.props.uiStateActions.showHelpComponent(true);
-  }
-
   featureClick(event){
     if (event.target.feature.selected) {
       this.props.mappingActions.fitSelectedFeatureBounds();
@@ -202,7 +193,8 @@ export class BPlaene_ extends React.Component {
    let info= null;
      if (this.props.mapping.featureCollection.length>0) {
         info = (
-          <BPlanInfo
+          <BPlanInfo 
+              pixelwidth={250}
               featureCollection={this.props.mapping.featureCollection}
               selectedIndex={this.props.mapping.selectedIndex||0}
               next={this.selectNextIndex}
@@ -215,25 +207,31 @@ export class BPlaene_ extends React.Component {
           )
      }
      else {
-       info = (<Well>
-                  <h5>Aktuell keine Bebauungspl&auml;ne  geladen.</h5>
-                  <p>Um B-Pl&auml;ne an einem bestimmten Ort zu laden oder direkt auf <br />
-                  einen Plan zuzugreifen, den Anfang (mindestens 2 Zeichen) <br />
-                  eines Suchbegriffs eingeben (Adresse, POI oder B-Plan-<br />
-                  Nummer)
-                  und Eintrag aus Vorschlagsliste auswählen oder mit <br />
-                  <Icon name="search"/> alle Pl&auml;ne im aktuellen Kartenausschnitt laden.</p>
-
-                  <a onClick={this.openHelp}>vollst&auml;ndige Bedienungsanleitung</a>
-               </Well>)
+        info = (<Well bsSize="small" pixelwidth={350}>
+                        <h5>Aktuell keine Bebauungspl&auml;ne  geladen.</h5>
+                        <ul>
+                        <li><b>einen B-Plan laden:</b> Doppelklick auf Plan in Hintergrundkarte</li>
+                        <li><b>alle B-Pl&auml;ne im Kartenausschnitt laden:</b> <Icon name="search"/></li>
+                        <li><b>bekannten B-Plan laden:</b> Nummer als Suchbegriff eingeben, Auswahl aus Vorschlagsliste</li>
+                        <li><b>Suche nach B-Pl&auml;nen:</b> Adresse oder POI als Suchbegriff eingeben, Auswahl aus Vorschlagsliste</li>
+                        </ul>
+                        <a onClick={()=>this.props.uiStateActions.showApplicationMenu(true)}>vollst&auml;ndige Bedienungsanleitung</a>
+                    </Well>)      
      }
    return (
         <div>
-            <BPlanModalHelp key={'BPlanModalHelp.visible:'+this.props.ui.helpTextVisible}/>
+            <BPlanModalHelp key={'BPlanModalHelp.visible:'+this.props.ui.applicationMenuVisible}/>
 
             <Cismap layers={this.props.match.params.layers ||'uwBPlan'}
                     gazeteerHitTrigger={this.bplanGazeteerhHit}
                     searchButtonTrigger={this.bplanSearchButtonHit}
+                    applicationMenuTooltipProvider={()=>{
+                      return (<Tooltip style={{
+                          zIndex: 3000000000
+                        }} id="helpTooltip">Bedienungsanleitung anzeigen</Tooltip>);
+                    }}
+
+                    applicationMenuIcon="info"
                     featureStyler={bplanFeatureStyler}
                     labeler={bplanLabeler}
                     featureClickHandler={this.featureClick}
@@ -241,10 +239,8 @@ export class BPlaene_ extends React.Component {
                     searchTooltipProvider={this.searchTooltip}
                     searchMinZoom={12}
                     searchMaxZoom={18}
-                    gazTopics={["pois","bplaene","adressen"]}>
-                <Control position="bottomright" >
-                  <div>{info}</div>
-                </Control>
+                    gazTopics={["pois","bplaene","adressen"]}
+                    infoBox={info} >
             </Cismap>
         </div>
     );

@@ -1,7 +1,6 @@
 import L from 'leaflet';
 import 'proj4leaflet';
 import objectAssign from 'object-assign';
-import * as stateConstants from '../../constants/stateConstants';
 
 
 ///TYPES
@@ -12,8 +11,7 @@ export const types = {
   SET_AUTO_FIT: 'MAPPING/SET_AUTO_FIT',
   SET_SEARCH_PROGRESS_INDICATOR: 'MAPPING/SET_SEARCH_PROGRESS_INDICATOR',
   GAZETTEER_HIT: 'MAPPING/GAZETTEER_HIT',
-  SET_GAZETTEER_TOPICS_LOADED: 'MAPPING/SET_GAZETTEER_TOPICS_LOADED',
-
+  SET_MAP_BOUNDING_BOX_CHANGED_TRIGGER: 'MAPPING/SET_MAP_BOUNDING_BOX_CHANGED_TRIGGER',
 }
 export const constants = {
   AUTO_FIT_MODE_STRICT: 'MAPPING/AUTO_FIT_MODE_STRICT',
@@ -52,6 +50,8 @@ const initialState = {
 
   ],
   gazetteerTopicsLoaded: false,
+  boundingBoxChangedTrigger: null,
+  spiderfiedCluster: null,
 
 };
 
@@ -65,6 +65,12 @@ export default function mappingReducer(state = initialState, action) {
         newState.boundingBox = action.bbox;
         return newState;
       }
+    case types.SET_MAP_BOUNDING_BOX_CHANGED_TRIGGER:
+      {
+        newState = objectAssign({}, state);
+        newState.boundingBoxChangedTrigger = action.trigger;
+        return newState;
+      }
     case types.FEATURE_COLLECTION_CHANGED:
       {
         newState = objectAssign({}, state);
@@ -74,12 +80,17 @@ export default function mappingReducer(state = initialState, action) {
       }
     case types.FEATURE_SELECTION_INDEX_CHANGED:
       {
-        newState = JSON.parse(JSON.stringify(state));
+        newState = objectAssign({}, state);
+        newState.featureCollection = JSON.parse(JSON.stringify(state.featureCollection));
         for (let feature of newState.featureCollection) {
           feature.selected = false;
         }
-        newState.featureCollection[action.index].selected = true;
-        newState.selectedIndex = action.index;
+        if (newState.featureCollection[action.index]) {
+          newState.featureCollection[action.index].selected = true;
+          newState.selectedIndex = action.index;
+        } else {
+          newState.selectedIndex = null;
+        }
         return newState;
       }
     case types.SET_AUTO_FIT:
@@ -102,22 +113,23 @@ export default function mappingReducer(state = initialState, action) {
         newState.gazetteerHit = action.hit;
         return newState;
       }
-    case types.SET_GAZETTEER_TOPICS_LOADED:
-      {
-        newState = objectAssign({}, state);
-        newState.gazetteerTopicsLoaded = action.loaded;
-        return newState;
-      }
     default:
       return state;
   }
 }
 
 ///SIMPLEACTIONCREATORS
-function mappingBoundsChanged(bbox) {
+function setMappingBounds(bbox) {
   return {
     type: types.MAP_BOUNDING_BOX_CHANGED,
     bbox
+  };
+}
+
+function setBoundingBoxChangedTrigger(trigger) {
+  return {
+    type: types.SET_MAP_BOUNDING_BOX_CHANGED_TRIGGER,
+    trigger
   };
 }
 
@@ -158,15 +170,20 @@ function gazetteerHit(hit) {
   };
 }
 
-function setGazetteerTopicsLoaded(loaded) {
-  return {
-    type: types.SET_GAZETTEER_TOPICS_LOADED,
-    loaded
+
+//COMPLEXACTIONS
+
+function mappingBoundsChanged(bbox) {
+  return function(dispatch, getState) {
+    let state = getState().mapping;
+    if (state.boundingBoxChangedTrigger) { //} && JSON.stringify(state.boundingBox)!==JSON.stringify(bbox)) {
+      state.boundingBoxChangedTrigger(bbox);
+    }
+
+    dispatch(setMappingBounds(bbox));
   };
 }
 
-
-//COMPLEXACTIONS
 function fitFeatureBounds(feature, mode) {
   return function(dispatch) {
     const projectedF = L
@@ -197,7 +214,7 @@ function fitFeatureCollection(features) {
       .Proj
       .geoJson(features);
     const bounds = projectedFC.getBounds();
-    dispatch(setAutoFit(true, bounds, stateConstants.AUTO_FIT_MODE_STRICT));
+    dispatch(setAutoFit(true, bounds, constants.AUTO_FIT_MODE_STRICT));
   };
 }
 
@@ -205,6 +222,7 @@ function fitFeatureCollection(features) {
 
 export const actions = {
   mappingBoundsChanged,
+  setBoundingBoxChangedTrigger,
   setFeatureCollection,
   setSelectedFeatureIndex,
   setSearchProgressIndicator,

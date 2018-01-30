@@ -8,18 +8,24 @@ import uiStateReducer from './modules/uiState';
 import { persistReducer } from 'redux-persist'
 import localForage from 'localforage'
 
-const config = {
-  key: 'primary',
-  storage: localForage
- }
+const gazetteerTopicsStorageConfig = {
+    key: 'gazetteerTopics',
+    storage: localForage
+   }
+
+   const ehrenamtStorageConfig = {
+    key: 'ehrenamtOffers',
+    storage: localForage,
+    whitelist: ['offers','offersMD5', 'globalbereiche','kenntnisse', 'zielgruppen', 'filter']
+   }
 
 const rootReducer = combineReducers({
   bplaene: bplaenenReducer,
-  ehrenamt: ehrenamtReducer,
+  ehrenamt: persistReducer(ehrenamtStorageConfig,ehrenamtReducer),
   mapping: mappingReducer,
   uiState: uiStateReducer,
   routing: routerReducer,
-  gazetteerTopics: persistReducer(config,gazetteerTopicsReducer),
+  gazetteerTopics: persistReducer(gazetteerTopicsStorageConfig,gazetteerTopicsReducer),
  // gazetteerTopics: gazetteerTopicsReducer, // uncomment to skip persitent gazetteer data
 });
 export default rootReducer;

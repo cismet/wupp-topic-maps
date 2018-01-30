@@ -9,7 +9,6 @@ import GazetteerHitDisplay from '../components/GazetteerHitDisplay';
 import {crs25832, proj4crs25832def} from '../constants/gis';
 import proj4 from 'proj4';
 import {bindActionCreators} from 'redux';
-//import 'react-leaflet-fullscreen/dist/styles.css';
 import FullscreenControl from '../components/FullscreenControl';
 import Control from 'react-leaflet-control';
 import {
@@ -21,11 +20,10 @@ import {
   Tooltip
 } from 'react-bootstrap';
 import {Typeahead} from 'react-bootstrap-typeahead';
-import * as stateConstants from '../constants/stateConstants';
 
 import {routerActions} from 'react-router-redux'
 import {modifyQueryPart} from '../utils/routingHelper'
-import {actions as mappingActions} from '../redux/modules/mapping';
+import {actions as mappingActions, constants as mappingConstants } from '../redux/modules/mapping';
 import objectAssign from 'object-assign';
 import {Icon} from 'react-fa'
 import {actions as uiStateActions} from '../redux/modules/uiState';
@@ -36,13 +34,26 @@ import bbox from '@turf/bbox';
 import {WUNDAAPI} from '../constants/services';
 import * as gisHelpers from '../utils/gisHelper';
 
+// need to have this import 
+// eslint-disable-next-line
+import markerClusterGroup from 'leaflet.markercluster';
+
+import L from 'leaflet';
+
+
 const fallbackposition = {
   lat: 51.272399,
   lng: 7.199712
 };
 
 function mapStateToProps(state) {
-  return {uiState: state.uiState, mapping: state.mapping, attributionControl: false, routing: state.routing, gazetteerTopics: state.gazetteerTopics};
+  return {
+     uiState: state.uiState,
+     mapping: state.mapping,
+     attributionControl: false,
+     routing: state.routing,
+     gazetteerTopics: state.gazetteerTopics
+   };
 }
 
 function mapDispatchToProps(dispatch) {
@@ -63,9 +74,11 @@ export class Cismap_ extends React.Component {
     this.internalSearchButtonTrigger = this.internalSearchButtonTrigger.bind(this);
     this.featureClick = this.featureClick.bind(this);
     this.handleSearch = this.handleSearch.bind(this);
-    this.showModalHelpComponent = this.showModalHelpComponent.bind(this);
+    this.gotoHomeBB = this.gotoHomeBB.bind(this);
+    this.showModalApplicationMenu = this.showModalApplicationMenu.bind(this);
     this.gazData=[];
   }
+
 
   componentWillMount() {
 
@@ -75,13 +88,6 @@ export class Cismap_ extends React.Component {
     this.props.uiStateActions.setGazetteerBoxInfoText("Ortsinformationen werden geladen ...");
 
     this.props.gazetteerTopicsActions.loadTopicsData(this.props.gazTopics).then(() => {
-      let from = Date.now()
-      // console.log("parse the shit ")
-
-
-      //console.log("######################################################## loadTopicsData().then()")
-
-
 
       if (this.props.gazetteerTopics.adressen === undefined) {
         console.log("this.props.gazetteerTopics.adressen === undefined")
@@ -184,6 +190,23 @@ export class Cismap_ extends React.Component {
 
   }
   componentDidMount() {
+    if (this.props.clustered) {  
+        this.clusteredMarkers= L.markerClusterGroup(this.props.clusterOptions);
+        let that=this;
+        this.clusteredMarkers.on('clusterclick', function (a) {
+            let zoomLevel=that.refs.leafletMap.leafletElement.getZoom();
+            if (zoomLevel<(that.props.clusterOptions.cismapZoomTillSpiderfy||11)) {
+                that.refs.leafletMap.leafletElement.setZoomAround(a.latlng,zoomLevel+1);
+            }
+            else {
+                a.layer.spiderfy();
+            }
+        });
+        this.refs.leafletMap.leafletElement.addLayer(this.clusteredMarkers);
+    }
+    else {
+        this.clusteredMarkers=null; 
+    }
     this.refs.leafletMap.leafletElement.on('moveend', () => {
       const zoom = this.refs.leafletMap.leafletElement.getZoom();
       const center = this.refs.leafletMap.leafletElement.getCenter();
@@ -214,10 +237,21 @@ export class Cismap_ extends React.Component {
     this.storeBoundingBox();
   }
 
+  gotoHomeBB() {
+    this.refs.leafletMap.leafletElement.fitBounds([
+      [
+        51.1094, 7.00093
+      ],
+      [
+        51.3737,7.3213
+      ]
+    ]);
+}
+
   componentDidUpdate() {
     if ((typeof(this.refs.leafletMap) !== 'undefined' && this.refs.leafletMap != null)) {
       if (this.props.mapping.autoFitBounds) {
-        if (this.props.mapping.autoFitMode === stateConstants.AUTO_FIT_MODE_NO_ZOOM_IN) {
+        if (this.props.mapping.autoFitMode === mappingConstants.AUTO_FIT_MODE_NO_ZOOM_IN) {
           if (!this.refs.leafletMap.leafletElement.getBounds().contains(this.props.mapping.autoFitBoundsTarget)) {
             this.refs.leafletMap.leafletElement.fitBounds(this.props.mapping.autoFitBoundsTarget);
           }
@@ -241,7 +275,9 @@ export class Cismap_ extends React.Component {
       bottom: projectedSW[1]
     };
     //console.log(getPolygon(bbox));
-    this.props.mappingActions.mappingBoundsChanged(bbox);
+    if (JSON.stringify(this.props.mapping.boundingBox)!==JSON.stringify(bbox)) {
+      this.props.mappingActions.mappingBoundsChanged(bbox);
+    }
   }
 
   internalGazeteerHitTrigger(hit) {
@@ -305,12 +341,13 @@ export class Cismap_ extends React.Component {
     }
 
   }
+
   featureClick(event) {
     this.props.featureClickHandler(event);
   }
 
-  showModalHelpComponent() {
-    this.props.uiStateActions.showHelpComponent(true);
+  showModalApplicationMenu() {
+    this.props.uiStateActions.showApplicationMenu(true);
   }
 
   renderMenuItemChildren(option, props, index) {
@@ -347,7 +384,6 @@ export class Cismap_ extends React.Component {
       this.setState({options: json.$collection});
     });
   }
-
   render() {
     // console.log("-------------------RENDERING CISMAP")
     const mapStyle = {
@@ -377,11 +413,92 @@ export class Cismap_ extends React.Component {
       searchIcon = (<Icon spin={true} name="refresh"/>)
     }
 
-    // this was in the typeahead :    {..this.state}
-    // DKW
-
     const searchAllowed = (zoomByUrl >= this.props.searchMinZoom && zoomByUrl <= this.props.searchMaxZoom);
-    return (<Map ref="leafletMap" key="leafletMap" crs={crs25832} style={mapStyle} center={positionByUrl} zoom={zoomByUrl} zoomControl={false} attributionControl={false} doubleClickZoom={false} minZoom={7} ondblclick={this.props.ondblclick} maxZoom={18}>
+
+    let widthRight=this.props.infoBox.props.pixelwidth;
+    let width=this.props.uiState.width;
+    let gap=25;
+
+
+    let infoBoxControlPosition="bottomright";
+    let searchControlPosition="bottomleft";
+    let searchControlWidth=300;
+    let widthLeft=searchControlWidth;
+    let infoStyle={
+        opacity: '0.9',
+        width: this.props.infoBox.props.pixelwidth
+
+    };
+
+
+    if (width-gap-widthLeft-widthRight<=0){
+        infoBoxControlPosition="bottomleft";
+        searchControlWidth=width-gap;
+        infoStyle={ 
+            ...infoStyle,
+            width: searchControlWidth+'px'
+        };
+    }
+
+
+
+
+    let searchControl=(
+        <Control pixelwidth={300} position={searchControlPosition}>            
+            <Form style={{
+                width: searchControlWidth+'px'
+            }} action="#">
+            <FormGroup >
+                <InputGroup>
+                <InputGroup.Button disabled={this.props.mapping.searchInProgress || !searchAllowed} onClick={this.internalSearchButtonTrigger}>
+                    <OverlayTrigger ref={c => this.searchOverlay = c} placement="top" overlay={this.props.searchTooltipProvider()}>
+                    <Button disabled={this.props.mapping.searchInProgress || !searchAllowed}>{searchIcon}</Button>
+                    </OverlayTrigger>
+                </InputGroup.Button>
+                <Typeahead
+                    ref="typeahead"
+                    style={{ width: '300px'}}
+                    labelKey="string"
+                    options={this.gazData}
+                    onChange={this.internalGazeteerHitTrigger}
+                    paginate={true}
+                    dropup={true}
+                    disabled={!this.props.uiState.gazetteerBoxEnabled}
+                    placeholder={this.props.uiState.gazeteerBoxInfoText}
+                    minLength={2}
+                    filterBy={(option, text) => {
+                    return (option.string.toLowerCase().startsWith(text.toLowerCase()));
+                    }}
+                    align={'justify'}
+                    emptyLabel={'Keine Treffer gefunden'}
+                    paginationText={"Mehr Treffer anzeigen"}
+                    autoFocus={true} submitFormOnEnter={true}
+                    searchText={"suchen ..."}
+                    renderMenuItemChildren={this.renderMenuItemChildren}/>
+                </InputGroup>
+            </FormGroup>
+            </Form>
+        </Control>
+    );
+    let infoBoxControl=(
+        <Control position={infoBoxControlPosition} >
+            <div style={infoStyle}>{this.props.infoBox}</div>
+        </Control>
+    );    
+
+    return (
+    <Map ref="leafletMap" 
+         key="leafletMap" 
+         crs={crs25832} 
+         style={mapStyle} 
+         center={positionByUrl} 
+         zoom={zoomByUrl} 
+         zoomControl={false} 
+         attributionControl={false} 
+         doubleClickZoom={false} 
+         minZoom={7} 
+         ondblclick={this.props.ondblclick} 
+         maxZoom={18}>
       {
         layerArr.map((layerWithOpacity) => {
           const layOp = layerWithOpacity.split('@')
@@ -389,51 +506,24 @@ export class Cismap_ extends React.Component {
         })
       }
       <GazetteerHitDisplay key={"gazHit" + JSON.stringify(this.props.mapping)} mappingProps={this.props.mapping}/>
-      <FeatureCollectionDisplay key={JSON.stringify(this.props.mapping)} mappingProps={this.props.mapping} style={this.props.featureStyler} labeler={this.props.labeler} featureClickHandler={this.featureClick} mapRef={this.refs.leafletMap}/>
+      <FeatureCollectionDisplay key={JSON.stringify(this.props.mapping)} 
+                                mappingProps={this.props.mapping} 
+                                clusteredMarkers={this.clusteredMarkers} 
+                                style={this.props.featureStyler} 
+                                labeler={this.props.labeler} 
+                                hoverer={this.props.hoverer} 
+                                featureClickHandler={this.featureClick} 
+                                mapRef={this.refs.leafletMap} 
+                                selectionSpiderfyMinZoom={this.props.clusterOptions.selectionSpiderfyMinZoom}/>
       <ZoomControl position="topleft" zoomInTitle="Vergr&ouml;ßern" zoomOutTitle="Verkleinern"/>
       <FullscreenControl title="Vollbildmodus" forceSeparateButton={true} titleCancel="Vollbildmodus beenden" position="topleft"/>
-      <Control position="bottomleft">
-        <Form style={{
-            width: '300px'
-          }} action="#">
-          <FormGroup >
-            <InputGroup>
-              <InputGroup.Button disabled={this.props.mapping.searchInProgress || !searchAllowed} onClick={this.internalSearchButtonTrigger}>
-                <OverlayTrigger ref={c => this.searchOverlay = c} placement="top" overlay={this.props.searchTooltipProvider()}>
-                  <Button disabled={this.props.mapping.searchInProgress || !searchAllowed}>{searchIcon}</Button>
-                </OverlayTrigger>
-              </InputGroup.Button>
-
-              <Typeahead
-                ref="typeahead"
-                style={{ width: '300px'}}
-                labelKey="string"
-                options={this.gazData}
-                onChange={this.internalGazeteerHitTrigger}
-                paginate={true}
-                dropup={true}
-                disabled={!this.props.uiState.gazetteerBoxEnabled}
-                placeholder={this.props.uiState.gazeteerBoxInfoText}
-                minLength={2}
-                filterBy={(option, text) => {
-                  return (option.string.toLowerCase().startsWith(text.toLowerCase()));
-                }}
-                align={'justify'}
-                emptyLabel={'Keine Treffer gefunden'}
-                paginationText={"Mehr Treffer anzeigen"}
-                autoFocus={true} submitFormOnEnter={true}
-                searchText={"suchen ..."}
-                renderMenuItemChildren={this.renderMenuItemChildren}/>
-            </InputGroup>
-          </FormGroup>
-        </Form>
-      </Control>
+      {searchControl}
       <Control position="topright">
-        <OverlayTrigger placement="left" overlay={this.props.helpTooltipProvider()}>
-          <Button onClick={this.showModalHelpComponent}><Icon name='info'/></Button>
+        <OverlayTrigger placement="left" overlay={this.props.applicationMenuTooltipProvider()}>
+          <Button onClick={this.showModalApplicationMenu}><Icon name={this.props.applicationMenuIcon}/></Button>
         </OverlayTrigger>
       </Control>
-
+      {infoBoxControl}
       {this.props.children}
     </Map>);
 
@@ -453,15 +543,18 @@ Cismap_.propTypes = {
   searchButtonTrigger: PropTypes.func.isRequired,
   mappingAction: PropTypes.object,
   featureStyler: PropTypes.func.isRequired,
-  labeler: PropTypes.func.isRequired,
+  labeler: PropTypes.func,
+  hoverer: PropTypes.func,
   featureClickHandler: PropTypes.func.isRequired,
-  helpTooltipProvider: PropTypes.func,
+  applicationMenuTooltipProvider: PropTypes.func,
   searchTooltipProvider: PropTypes.func,
   searchMinZoom: PropTypes.number,
   searchMaxZoom: PropTypes.number,
   gazTopics: PropTypes.array.isRequired,
   ondblclick: PropTypes.func,
-
+  clustered: PropTypes.bool,
+  clusterOptions: PropTypes.object,
+  infoBox: PropTypes.object.isRequired,
 };
 
 Cismap_.defaultProps = {
@@ -470,10 +563,10 @@ Cismap_.defaultProps = {
   gazeteerHitTrigger: function() {},
   searchButtonTrigger: function() {},
   featureClickHandler: function() {},
-  helpTooltipProvider: function() {
+  applicationMenuTooltipProvider: function() {
     return (<Tooltip style={{
         zIndex: 3000000000
-      }} id="helpTooltip">Bedienungsanleitung anzeigen</Tooltip>);
+      }} id="helpTooltip">&Ouml;ffnen für weitere Funktionen</Tooltip>);
   },
   searchTooltipProvider: function() {
     return (<Tooltip style={{
@@ -482,5 +575,18 @@ Cismap_.defaultProps = {
   },
   searchMinZoom: 7,
   searchMaxZoom: 18,
-  gazTopics: []
+  gazTopics: [],
+  applicationMenuIcon: "bars",
+  clustered: false,
+  clusterOptions:{
+    spiderfyOnMaxZoom: false,
+    showCoverageOnHover: false,
+    zoomToBoundsOnClick: false,
+    maxClusterRadius:40,
+    disableClusteringAtZoom:19,
+    animate:false,
+    cismapZoomTillSpiderfy:12,
+    selectionSpiderfyMinZoom:12
+ }
+  
 }

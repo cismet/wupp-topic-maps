@@ -13,7 +13,7 @@ import { proj4crs25832def } from '../constants/gis';
 import * as gisHelpers from '../utils/gisHelper';
 
 // Since this component is simple and static, there's no parent container for it.
-const FeatureCollectionDisplay = ({mappingProps, style, labeler, featureClickHandler, mapRef}) => {
+const FeatureCollectionDisplay = ({mappingProps, clusteredMarkers, style, labeler, hoverer, featureClickHandler, mapRef, selectionSpiderfyMinZoom}) => {
     let markers=[];
     let markerPos=[];
     let bbox=[ mappingProps.boundingBox.left,
@@ -23,7 +23,8 @@ const FeatureCollectionDisplay = ({mappingProps, style, labeler, featureClickHan
                      ];
     let view=bboxPolygon(bbox)
     let selectedMarkers=[];
-    if (mappingProps.featureCollection.length>0) {
+
+    if (labeler && mappingProps.featureCollection.length>0) {
         for (let currentfeatureIdx in mappingProps.featureCollection) {
             let currentFeature=mappingProps.featureCollection[currentfeatureIdx];
             if (currentFeature.geometry.type==='Polygon' || (currentFeature.geometry.type==='MultiPolygon' && currentFeature.geometry.coordinates.length===1)) {
@@ -37,7 +38,7 @@ const FeatureCollectionDisplay = ({mappingProps, style, labeler, featureClickHan
                     coordinates=currentFeature.geometry.coordinates[0];
                 }
 
-                let marker=createMarker(currentFeature,"marker."+currentFeature.id,coordinates,view,markerPos, labeler);
+                let marker=createPolygonMarker(currentFeature,"marker."+currentFeature.id,coordinates,view,markerPos, labeler);
                 if (currentFeature.selected===true) {
                     selectedMarkers.push(marker);
                 }
@@ -46,11 +47,11 @@ const FeatureCollectionDisplay = ({mappingProps, style, labeler, featureClickHan
                 }
 
             }
-            else {
+            else if (currentFeature.geometry.type==='MultiPolygon' && currentFeature.geometry.coordinates.length>1){
                 //console.log("Multipolygon mit "+currentFeature.geometry.coordinates.length);
                 for (let currentsubfeatureIdx in currentFeature.geometry.coordinates) {
                     let coordinates=currentFeature.geometry.coordinates[currentsubfeatureIdx]
-                    let marker=createMarker(currentFeature,"marker.subfeature"+currentFeature.id+"."+currentsubfeatureIdx,coordinates,view,markerPos, labeler);
+                    let marker=createPolygonMarker(currentFeature,"marker.subfeature"+currentFeature.id+"."+currentsubfeatureIdx,coordinates,view,markerPos, labeler);
                     if (currentFeature.selected===true) {
                         selectedMarkers.push(marker);
                     }
@@ -58,6 +59,16 @@ const FeatureCollectionDisplay = ({mappingProps, style, labeler, featureClickHan
                         markers.push(marker);
                     }
                 }
+            }
+            else if (currentFeature.geometry.type==='Point') {
+              console.log("createMarker")
+              let marker=createPointMarker(currentFeature,currentFeature.geometry.coordinates,labeler);
+              if (currentFeature.selected===true) {
+                  selectedMarkers.push(marker);
+              }
+              else {
+                  markers.push(marker);
+              }
             }
         }
         for (let midx in selectedMarkers) {
@@ -67,15 +78,38 @@ const FeatureCollectionDisplay = ({mappingProps, style, labeler, featureClickHan
 
   return (
     <div>
-         <ProjGeoJson key={JSON.stringify(mappingProps)} mappingProps={mappingProps} style={style}  featureClickHandler={featureClickHandler} mapRef={mapRef}/>
+        <ProjGeoJson 
+            key={JSON.stringify(mappingProps)} 
+            mappingProps={mappingProps} 
+            clusteredMarkers={clusteredMarkers} 
+            hoverer={hoverer} 
+            style={style} 
+            featureClickHandler={featureClickHandler} 
+            mapRef={mapRef}
+            selectionSpiderfyMinZoom={selectionSpiderfyMinZoom}/>
         {markers}
-
     </div>
   );
 };
 
-function createMarker(currentFeature, key, coordinates, view, markerPos, labeler) {
+function createPointMarker(currentFeature, coordinates,labeler){
+  console.log(coordinates)
+  let pointWGS84=proj4(proj4crs25832def,proj4.defs('EPSG:4326'),[coordinates[0],coordinates[1]]);
+  return (
+      <Marker key={"marker."+currentFeature.id} position={[pointWGS84[1],pointWGS84[0]]} opacity={0.0} offset={new L.point(0,0)} >
+          <Tooltip className={'customGeoJSONFeatureTooltipClass'} permanent={true} direction={'center'} >
+              <div>{labeler(currentFeature)}</div>
+          </Tooltip>
+      </Marker>
+  )
+}
+
+
+
+function createPolygonMarker(currentFeature, key, coordinates, view, markerPos, labeler) {
+
     //get the subfeature into a polygon
+
     let polygon=turfHelpers.polygon(coordinates);
     let newPoly=intersect(view,polygon);
 
@@ -119,8 +153,11 @@ function labelClick(event) {
 export default FeatureCollectionDisplay;
  FeatureCollectionDisplay.propTypes = {
    mappingProps: PropTypes.object.isRequired,
+   clusteredMarkers: PropTypes.object,
+   selectionSpiderfyMinZoom: PropTypes.number,
    style: PropTypes.func.isRequired,
-   labeler: PropTypes.func.isRequired,
+   labeler: PropTypes.func,
+   hoverer: PropTypes.func,
    featureClickHandler: PropTypes.func.isRequired,
    mapRef: PropTypes.object,
  };

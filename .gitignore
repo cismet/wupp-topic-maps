@@ -22,3 +22,4 @@ yarn-error.log*
 
 #gazetteer data
 public/gaz/
+public/ehrenamt/

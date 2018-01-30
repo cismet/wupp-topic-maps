@@ -1,21 +1,41 @@
 body {
-  margin: 0;
-  padding: 0;
-  font-family: sans-serif;
+    margin: 0;
+    padding: 0;
+    font-family: sans-serif;
 }
 
 .customGeoJSONFeatureTooltipClass {
     background: none;
     border: none;
     box-shadow: none;
-  }
-  .leaflet-tooltip-left.customGeoJSONFeatureTooltipClass::before {
+}
+
+.leaflet-tooltip-left.customGeoJSONFeatureTooltipClass::before {
     border-left-color: none;
-  }
-  .leaflet-tooltip-right.customGeoJSONFeatureTooltipClass::before {
+}
+
+.leaflet-tooltip-right.customGeoJSONFeatureTooltipClass::before {
     border-right-color: none;
-  }
-  
-  a:hover {
-    cursor:pointer;
-   }
+}
+
+a:hover {
+    cursor: pointer;
+}
+
+.well {
+    margin-bottom: 0px;
+    border: 0px;
+}
+
+.form-group {
+    margin-bottom: 0px;
+}
+
+.leaflet-bottom {
+    margin-bottom: 5px !important;
+    
+}
+
+.leaflet-control {
+    margin-bottom: 5px !important;
+}

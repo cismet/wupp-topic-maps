@@ -70,7 +70,6 @@ export class Ehrenamt_ extends React.Component {
                 resolve('ok');
             }, 100);
         });
-
         return promise;
     }
     createfeatureCollectionByBoundingBox(bbox) {
@@ -143,7 +142,7 @@ export class Ehrenamt_ extends React.Component {
                  fitAll={this.gotoHome}
                  downloadPlan={this.downloadPlan}
                  downloadEverything={this.downloadEverything}
-                 filter={this.props.ehrenamt.filter}
+                 filter={this.props.ehrenamt.filterX}
                  resetFilter={this.resetFilter}
                  />
              )
@@ -185,7 +184,7 @@ export class Ehrenamt_ extends React.Component {
                 zielgruppen={this.props.ehrenamt.zielgruppen}
                 kenntnisse={this.props.ehrenamt.kenntnisse}
                 globalbereiche={this.props.ehrenamt.globalbereiche}
-                filter={this.props.ehrenamt.filter}
+                filterX={this.props.ehrenamt.filterX}
                 filterChanged={this.filterChanged}
                 filteredOffersCount={this.props.ehrenamt.filteredOffers.length}
                 featureCollectionCount={this.props.mapping.featureCollection.length}
@@ -228,7 +227,6 @@ export class Ehrenamt_ extends React.Component {
                             <div>
                             <Icon size='4x' style={{color: 'green',opacity: .50}} name='filter' />
                             <Well>
-                                <h1>Test</h1>
                             </Well> 
                             </div>
                         </Control> */}

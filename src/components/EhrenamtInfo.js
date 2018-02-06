@@ -19,13 +19,25 @@ const EhrenamtInfo = ({featureCollection, filteredOffers, selectedIndex, next, p
     angebotOrAngebote="Angebot wird";
   }
   let filterstatus=(<div/>);
-  if (filter.ignoredFilterGroups.length<3) {
+
+  let positiv=filter.positiv.globalbereiche.length+
+                filter.positiv.kenntnisse.length+
+                filter.positiv.zielgruppen.length;
+
+    let negativ=filter.negativ.globalbereiche.length+
+                filter.negativ.kenntnisse.length+
+                filter.negativ.zielgruppen.length;
+
+            
+
+
+  if ((positiv+negativ)>0) {
     filterstatus=(
          <table style={{ width: '100%' }}>
             <tbody>
               <tr>
               <td style={{ textAlign: 'left', verticalAlign: 'top',background:'grey', opacity:'0.9', padding: '3px' }}>
-              <Icon name='filter' /> Filter aktiviert ({filter.globalbereiche.length+filter.kenntnisse.length+filter.zielgruppen.length})
+              <Icon name='filter' /> Filter aktiviert ({positiv+negativ})
                 </td>
                 <td style={{ textAlign: 'right', verticalAlign: 'top', background:'grey',opacity:'0.9',padding: '3px' }}>
                 <a onClick={resetFilter} style={{ color: 'black'}}><Icon name='close' /></a>

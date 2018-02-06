@@ -35,12 +35,37 @@ const initialState = {
     kenntnisse: [],
     zielgruppen: [],
     filter: {
+        positiv: {
+            globalbereiche: [],
+            kenntnisse: [],
+            zielgruppen: [],
+        },
+        negativ:{
+            globalbereiche: [],
+            kenntnisse: [],
+            zielgruppen: [],
+        },
         globalbereiche: [],
         kenntnisse: [],
-        zielgruppen: [],
+        zielgruppen: [],        
         filtermode: constants.OR_FILTER,
         ignoredFilterGroups: [constants.KENTNISSE_FILTER, constants.GLOBALBEREICHE_FILTER, constants.ZIELGRUPPEN_FILTER]
+    },
+    filterX: {
+        positiv: {
+            globalbereiche: [],
+            kenntnisse: [],
+            zielgruppen: [],
+        },
+        filtermode: constants.OR_FILTER,
+        negativ:{
+            globalbereiche: [],
+            kenntnisse: [],
+            zielgruppen: [],
+        },
     }
+
+
 };
 
 ///REDUCER
@@ -85,7 +110,7 @@ export default function ehrenamtReducer(state = initialState, action) {
         case types.SET_FILTER:
             {
                 newState = objectAssign({}, state);
-                newState.filter = action.filter
+                newState.filterX = action.filter
 
                 return newState;
             }
@@ -132,18 +157,39 @@ function setIgnoredFilterGroups(filtergroups) {
 
 //COMPLEXACTIONS
 
-function toggleFilter(filtergroup, filter) {
+function setPosFilter(){
+
+}
+
+
+
+function toggleFilter(kind, filtergroup, filter) {
     return (dispatch, getState) => {
         let state = getState();
-        let filterState = JSON.parse(JSON.stringify(state.ehrenamt.filter));
-        let filterGroupSet = new Set(filterState[filtergroup]);
+        let filterState = JSON.parse(JSON.stringify(state.ehrenamt.filterX));
+        let filterGroupSet = new Set(filterState[kind][filtergroup]);
         if (filterGroupSet.has(filter)) {
             filterGroupSet.delete(filter);
         } else {
             filterGroupSet.add(filter);
+            if (kind==="positiv"){
+                if (filterState.negativ[filtergroup].indexOf(filter)!==-1){
+                    let otherFilterGroupSet = new Set(filterState["negativ"][filtergroup]);
+                    otherFilterGroupSet.delete(filter);
+                    filterState["negativ"][filtergroup] = Array.from(otherFilterGroupSet);
+                }
+            }
+            else {
+                if (filterState.positiv[filtergroup].indexOf(filter)!==-1){
+                    let otherFilterGroupSet = new Set(filterState["positiv"][filtergroup]);
+                    otherFilterGroupSet.delete(filter);
+                    filterState["positiv"][filtergroup] = Array.from(otherFilterGroupSet);
+                }
+                
+            }
         }
-        filterState[filtergroup] = Array.from(filterGroupSet);
-        filterState[filtergroup].sort();
+        filterState[kind][filtergroup] = Array.from(filterGroupSet);
+        filterState[kind][filtergroup].sort();
         dispatch(setFilter(filterState));
         dispatch(applyFilter());
 
@@ -167,7 +213,7 @@ function toggleIgnoredFilterGroup(filtergroup) {
     }
 }
 
-function applyFilter() {
+function applyFilterOld() {
 
     return (dispatch, getState) => {
         let state = getState();
@@ -193,6 +239,65 @@ function applyFilter() {
             }
             filteredOffers = Array.from(filteredOfferSet)
         }
+
+        dispatch(setFilteredOffers(filteredOffers));
+        dispatch(createFeatureCollectionFromOffers());
+
+        // Auflisten der Angebote die der Filter herausgefiltert hat let difference =
+        // state.ehrenamt.offers.filter(x => !filteredOffers.includes(x));
+        // console.log(difference);
+
+    }
+}
+function applyFilter() {
+
+    return (dispatch, getState) => {
+        let state = getState();
+        let groups = [constants.KENTNISSE_FILTER, constants.GLOBALBEREICHE_FILTER, constants.ZIELGRUPPEN_FILTER];
+        let filteredOffers = [];
+        let filteredOfferSet = new Set(); //avoid duplicates
+        if (state.ehrenamt.filterX.positiv.zielgruppen.length === 0 && 
+            state.ehrenamt.filterX.positiv.kenntnisse.length === 0 && 
+            state.ehrenamt.filterX.positiv.globalbereiche.length === 0 
+        ) {
+            filteredOffers = state.ehrenamt.offers;
+            filteredOfferSet = new Set(filteredOffers);
+        } else {
+            for (let fg of groups) {
+                for (let offer of state.ehrenamt.offers) {
+                    if (offer[getFilterSelectorForConstant(fg)]) {
+                        for (let zg of offer[getFilterSelectorForConstant(fg)]) {
+                            if (state.ehrenamt.filterX.positiv[getFilterSelectorForConstant(fg)].indexOf(zg) > -1) {
+                                filteredOfferSet.add(offer);
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
+            filteredOffers = Array.from(filteredOfferSet)
+        }
+
+        if (state.ehrenamt.filterX.negativ.zielgruppen.length !== 0 || 
+            state.ehrenamt.filterX.negativ.kenntnisse.length !== 0 || 
+            state.ehrenamt.filterX.negativ.globalbereiche.length !== 0 
+        ) {
+            for (let fg of groups) {
+                for (let offer of filteredOffers) {
+                    if (offer[getFilterSelectorForConstant(fg)]) {
+                        for (let zg of offer[getFilterSelectorForConstant(fg)]) {
+                            if (state.ehrenamt.filterX.negativ[getFilterSelectorForConstant(fg)].indexOf(zg) > -1) {
+                                filteredOfferSet.delete(offer);
+                                break;
+                            }
+                        }
+                    }
+                }
+            }  
+            filteredOffers = Array.from(filteredOfferSet)
+       
+        }
+
 
         dispatch(setFilteredOffers(filteredOffers));
         dispatch(createFeatureCollectionFromOffers());
@@ -351,6 +456,12 @@ function getFilterSelectorForConstant(constant) {
             }
     }
 }
+function setFilterAndApply(filter) {
+    return (dispatch, getState) => {
+        dispatch(setFilter(filter));
+        dispatch(applyFilter());
+    }
+}
 
 function selectAll(filtergroupconstant) {
     return (dispatch, getState) => {
@@ -378,10 +489,8 @@ function selectNone(filtergroupconstant) {
 
 function resetFilter() {
     return (dispatch, getState) => {
-        dispatch(setIgnoredFilterGroups([constants.KENTNISSE_FILTER, constants.GLOBALBEREICHE_FILTER, constants.ZIELGRUPPEN_FILTER]));
-        dispatch(selectNone(constants.GLOBALBEREICHE_FILTER));
-        dispatch(selectNone(constants.KENTNISSE_FILTER));
-        dispatch(selectNone(constants.ZIELGRUPPEN_FILTER));
+
+        dispatch(setFilterAndApply(initialState.filterX));
     }
 }
 
@@ -421,6 +530,7 @@ export const actions = {
     selectNone,
     invertSelection,
     resetFilter,
+    setFilterAndApply,
 };
 
 //helperFunctions

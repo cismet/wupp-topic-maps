@@ -39,3 +39,16 @@ a:hover {
 .leaflet-control {
     margin-bottom: 5px !important;
 }
+
+.pos-select .Select-value{
+    
+}
+
+.neg-select .Select-value{
+    color: rgba(255, 90, 0, 0.68);
+    background-color: rgba(255, 90, 0, 0.28);
+}
+
+
+/* .Select-menu { max-height: 350px;} */
+

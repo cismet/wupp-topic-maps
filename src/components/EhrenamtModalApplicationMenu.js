@@ -139,8 +139,8 @@ export class EhrenamtModalApplicationMenu_ extends React.Component {
                 buttonValue="three";
             }
             let cb = (
-                <tr>
-                    <td
+                <tr key={"tr.for.mtbutton."+section+"."+item}>
+                    <td key={"td1.for.mtbutton."+section+"."+item}
                         style={{
                         textAlign: 'left',
                         verticalAlign: 'top',
@@ -149,13 +149,13 @@ export class EhrenamtModalApplicationMenu_ extends React.Component {
                     }}>
                         {item}
                     </td>
-                    <td
+                    <td key={"td2.for.mtbutton."+section+"."+item}
                         style={{
                         textAlign: 'left',
                         verticalAlign: 'top',
                         padding: '5px'
                     }}>
-                        <MultiToggleButton value={buttonValue} valueChanged={(selectedValue)=>{
+                        <MultiToggleButton key={"mtbutton."+section+"."+item} value={buttonValue} valueChanged={(selectedValue)=>{
                             if (selectedValue==="one") {
                                 this.props.ehrenamtActions.toggleFilter("positiv",section,item)
                             }
@@ -281,7 +281,7 @@ export class EhrenamtModalApplicationMenu_ extends React.Component {
                         Bitte w&auml;hlen Sie eine der folgenden farbigen Schaltfl&auml;chen, um sich
                         weitere Informationen zu dem entsprechenden Thema anzeigen zu lassen:<br/><br/>
                     </span>
-                    <Accordion key={"Filter.ACC"}activeKey="filtertab">
+                    <Accordion key={"Filter.ACC"} activeKey="filtertab">
                         <Panel height="auto" header={"Filtern ("+this.props.filteredOffersCount+" gefunden, davon "+this.props.featureCollectionCount+" in der Karte)"} eventKey="filtertab" bsStyle="primary">
                     <h4>Neigungen</h4>
                             <Select
@@ -348,23 +348,23 @@ export class EhrenamtModalApplicationMenu_ extends React.Component {
             				/>  
                         </Panel>
                         </Accordion>        
-                    <Accordion key={"ACC"}activeKey={this.props.uiState.applicationMenuActiveKey}>
+                    <Accordion key={"ACC"} activeKey={this.props.uiState.applicationMenuActiveKey} >
                     <Panel header="Welches Aufgabenfeld interessiert Sie?" eventKey="bereiche_adv_filter" bsStyle="warning">
-                        <table border={0} styleX={{ width: '100%' }}>
+                        <table border={0}>
                         <tbody>
                         {glbRows}
                         </tbody>
                         </table>                    
                     </Panel>
                     <Panel header="Was wollen Sie beitragen?" eventKey="kenntnisse_adv_filter" bsStyle="info">
-                        <table border={0} styleX={{ width: '100%' }}>
+                        <table border={0}>
                         <tbody>
                         {kenRows}
                         </tbody>
                         </table>
                      </Panel>
                     <Panel header=" Wen wollen Sie unterstützen?" eventKey="zielgruppen_adv_filter" bsStyle="success">
-                        <table border={0} styleX={{ width: '100%' }}>
+                        <table border={0}>
                         <tbody>
                         {zgRows}
                         </tbody>

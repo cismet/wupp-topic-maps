@@ -130,7 +130,6 @@ export class Ehrenamt_ extends React.Component {
     render() {
       let info= null;
         let numberOfOffers=this.props.ehrenamt.filteredOffers.length;
-        if (this.props.mapping.featureCollection.length>0) {
            info = (
              <EhrenamtInfo 
                  pixelwidth={250}
@@ -144,26 +143,10 @@ export class Ehrenamt_ extends React.Component {
                  downloadEverything={this.downloadEverything}
                  filter={this.props.ehrenamt.filterX}
                  resetFilter={this.resetFilter}
+                 showModalMenu={()=>this.props.uiStateActions.showApplicationMenu(true)}
                  />
              )
-        }
-        else {
-          let offerLink;
-          if (numberOfOffers>0) {
-              offerLink=(<p><a onClick={this.gotoHome} >{numberOfOffers} Angebote in Wuppertal</a></p>);
-          }
-          else {
-              offerLink=(<div/>)
-          }
-          info = (<Well bsSize="small" pixelwidth={250}>
-                     <h5>Aktuell werden keine Angebote angezeigt.</h5>
-                     <p>Um Angebote an einem bestimmten Ort anzuzeigen, den Anfang (mindestens 2 Zeichen)
-                     eines Suchbegriffs eingeben und Eintrag aus Vorschlagsliste auswählen.</p>
-                    <p>Um nach Zielgruppen, Interessen oder Bereichen zu filtern, das 
-                     <a onClick={()=>this.props.uiStateActions.showApplicationMenu(true)}> Applikationsmenü öffnen.</a></p>
-                     {offerLink}
-                  </Well>)
-        }
+      
 
         // Auflistung der ids die momentan nicht dargestllt werden
         // let offerIds=[];

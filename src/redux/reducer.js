@@ -13,17 +13,24 @@ const gazetteerTopicsStorageConfig = {
     storage: localForage
    }
 
-   const ehrenamtStorageConfig = {
+const ehrenamtStorageConfig = {
     key: 'ehrenamtOffers',
     storage: localForage,
-    whitelist: ['offers','offersMD5', 'globalbereiche','kenntnisse', 'zielgruppen', 'filter']
+    whitelist: ['offers','offersMD5', 'globalbereiche','kenntnisse', 'zielgruppen', 'filterX']
    }
+
+   const uiStateStorageConfig = {
+    key: 'uiState',
+    storage: localForage,
+    whitelist: ['applicationMenuVisible','applicationMenuActiveKey']
+   }
+  
 
 const rootReducer = combineReducers({
   bplaene: bplaenenReducer,
   ehrenamt: persistReducer(ehrenamtStorageConfig,ehrenamtReducer),
   mapping: mappingReducer,
-  uiState: uiStateReducer,
+  uiState: persistReducer(uiStateStorageConfig,uiStateReducer),
   routing: routerReducer,
   gazetteerTopics: persistReducer(gazetteerTopicsStorageConfig,gazetteerTopicsReducer),
  // gazetteerTopics: gazetteerTopicsReducer, // uncomment to skip persitent gazetteer data

@@ -5,7 +5,7 @@ import Loadable from 'react-loading-overlay';
 import {Icon} from 'react-fa'
 
 // Since this component is simple and static, there's no parent container for it.
-const EhrenamtInfo = ({featureCollection, filteredOffers, selectedIndex, next, previous, fitAll, loadingIndicator, downloadPlan, downloadEverything, filter,resetFilter}) => {
+const EhrenamtInfo = ({featureCollection, filteredOffers, selectedIndex, next, previous, fitAll, loadingIndicator, downloadPlan, downloadEverything, filter,resetFilter, showModalMenu}) => {
 
   const currentFeature=featureCollection[selectedIndex];
 
@@ -37,7 +37,7 @@ const EhrenamtInfo = ({featureCollection, filteredOffers, selectedIndex, next, p
             <tbody>
               <tr>
               <td style={{ textAlign: 'left', verticalAlign: 'top',background:'grey', opacity:'0.9', padding: '3px' }}>
-              <Icon name='filter' /> Filter aktiviert ({positiv+negativ})
+                <a onClick={showModalMenu} style={{ color: 'black'}}><Icon name='filter' /> Filter aktiviert ({positiv+negativ})</a>
                 </td>
                 <td style={{ textAlign: 'right', verticalAlign: 'top', background:'grey',opacity:'0.9',padding: '3px' }}>
                 <a onClick={resetFilter} style={{ color: 'black'}}><Icon name='close' /></a>
@@ -48,48 +48,68 @@ const EhrenamtInfo = ({featureCollection, filteredOffers, selectedIndex, next, p
     );
   }
 
+  if (featureCollection.length===0) {
+    let offerLink;
+    if (filteredOffers.length>0) {
+        offerLink=(<p><a onClick={this.gotoHome} >{filteredOffers.length} Angebote in Wuppertal</a></p>);
+    }
+    else {
+        offerLink=(<div/>)
+    }
+    return (<Well bsSize="small" pixelwidth={250}>
+                {filterstatus}
 
+        <h5>Aktuell werden keine Angebote angezeigt.</h5>
+        <p>Um Angebote an einem bestimmten Ort anzuzeigen, den Anfang (mindestens 2 Zeichen)
+        eines Suchbegriffs eingeben und Eintrag aus Vorschlagsliste auswählen.</p>
+        <p>Um nach Zielgruppen, Interessen oder Bereichen zu filtern, das 
+        <a onClick={fitAll}> Applikationsmenü öffnen.</a></p>
+        {offerLink}
+    </Well>)
+  }
+  else {
 
-  return (
-        <Well bsSize="small" onClick={logCurrentFeature}>
-          {filterstatus}
-          <table style={{ width: '100%' }}>
-            <tbody>
-              <tr>
-                <td style={{ textAlign: 'left', verticalAlign: 'top', padding: '5px' }}>
-                  <h5>Angebot Nr. {currentFeature.id}</h5>
-                  <h6>{currentFeature.text}</h6>
-                </td>
-              </tr>
-            </tbody>
-          </table>
+    return (
+            <Well bsSize="small" onClick={logCurrentFeature}>
+            {filterstatus}
             <table style={{ width: '100%' }}>
-              <tbody>
+                <tbody>
                 <tr>
-                  <td/>
-                    <td style={{ textAlign: 'center', verticalAlign: 'center' }}><a onClick={fitAll} >{filteredOffers.length} Angebote in Wuppertal</a></td>
-
-                  <td/>
+                    <td style={{ textAlign: 'left', verticalAlign: 'top', padding: '5px' }}>
+                    <h5>Angebot Nr. {currentFeature.id}</h5>
+                    <h6>{currentFeature.text}</h6>
+                    </td>
                 </tr>
-              </tbody>
+                </tbody>
             </table>
-            <table style={{ width: '100%' }}>
-              <tbody>
-                <tr>
-                  <OverlayTrigger placement="top" overlay={(<Tooltip style={{zIndex: 3000000000}} id="prevtt">vorheriger Treffer</Tooltip>)}>
-                    <td style={{ textAlign: 'left', verticalAlign: 'center' }}><a onClick={previous}>&lt;&lt;</a></td>
-                  </OverlayTrigger>
-                  <td style={{ textAlign: 'center', verticalAlign: 'center' }}>{featureCollection.length} {angebotOrAngebote} angezeigt</td>
+                <table style={{ width: '100%' }}>
+                <tbody>
+                    <tr>
+                    <td/>
+                        <td style={{ textAlign: 'center', verticalAlign: 'center' }}><a onClick={fitAll} >{filteredOffers.length} Angebote in Wuppertal</a></td>
 
-                  <OverlayTrigger placement="top" overlay={(<Tooltip style={{zIndex: 3000000000}} id="nexttt">n&auml;chster Treffer</Tooltip>)}>
-                    <td style={{ textAlign: 'right', verticalAlign: 'center' }}><a onClick={next} >&gt;&gt;</a></td>
-                  </OverlayTrigger>
+                    <td/>
+                    </tr>
+                </tbody>
+                </table>
+                <table style={{ width: '100%' }}>
+                <tbody>
+                    <tr>
+                    <OverlayTrigger placement="top" overlay={(<Tooltip style={{zIndex: 3000000000}} id="prevtt">vorheriger Treffer</Tooltip>)}>
+                        <td style={{ textAlign: 'left', verticalAlign: 'center' }}><a onClick={previous}>&lt;&lt;</a></td>
+                    </OverlayTrigger>
+                    <td style={{ textAlign: 'center', verticalAlign: 'center' }}>{featureCollection.length} {angebotOrAngebote} angezeigt</td>
 
-                </tr>
-              </tbody>
-            </table>
-        </Well>
-  );
+                    <OverlayTrigger placement="top" overlay={(<Tooltip style={{zIndex: 3000000000}} id="nexttt">n&auml;chster Treffer</Tooltip>)}>
+                        <td style={{ textAlign: 'right', verticalAlign: 'center' }}><a onClick={next} >&gt;&gt;</a></td>
+                    </OverlayTrigger>
+
+                    </tr>
+                </tbody>
+                </table>
+            </Well>
+        );
+    }
 };
 
 
@@ -102,4 +122,5 @@ export default EhrenamtInfo;
    next: PropTypes.func.isRequired,
    previous: PropTypes.func.isRequired,
    fitAll: PropTypes.func.isRequired,
+   showModalMenu: PropTypes.func.isRequired,
  };

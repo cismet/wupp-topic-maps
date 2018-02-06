@@ -16,7 +16,7 @@ const MultiToggleButton = ({value, stateOptions, valueChanged}) => {
         if (value===stateOption.key) {
             c=stateOption.selectedColor;
         }
-        let b=<Button className="" onClick={()=>valueChanged(stateOption.key)} style={{color:c}} title={stateOption.title}><Icon name={stateOption.glyph}/>{stateOption.text}</Button>
+        let b=<Button key={"button."+stateOption.key} onClick={()=>valueChanged(stateOption.key)} style={{color:c}} title={stateOption.title}><Icon name={stateOption.glyph}/>{stateOption.text}</Button>
         buttons.push(b);
     }
     return (
@@ -32,8 +32,8 @@ const MultiToggleButton = ({value, stateOptions, valueChanged}) => {
 export default MultiToggleButton;
 
 MultiToggleButton.propTypes = {
-    value: PropTypes.object.isRequired,
-    stateOptions: PropTypes.object,
+    value: PropTypes.any.isRequired,
+    stateOptions: PropTypes.array,
     valueChanged: PropTypes.func.isRequired
 };
 
@@ -44,7 +44,7 @@ MultiToggleButton.defaultProps = {
             title: "Gerne",
             text: "",
             color: "grey",
-            selectedColor: "green"
+            selectedColor: "#9FE628" //green
         },{
             key: "two",
             glyph: "",
@@ -58,7 +58,7 @@ MultiToggleButton.defaultProps = {
             title: "Besser nicht",
             text: "",
             color: "grey",
-            selectedColor: "red"
+            selectedColor: "#C33D17" //red
         }
     ]
 }

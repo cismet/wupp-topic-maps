@@ -8,6 +8,7 @@ export const types = {
     SET_GAZBOX_ENABLED : 'UISTATE/SET_GAZBOX_ENABLED',
     SET_GAZBOX_INFO_TEXT : 'UISTATE/SET_GAZBOX_INFO_TEXT',
     SET_GAZBOX_VISIBLE : 'UISTATE/SET_GAZBOX_VISIBLE',
+    SET_APPLICATION_MENU_ACTIVE_KEY: 'UISTATE/SET_APPLICATION_MENU_ACTIVE_KEY',
 }
 
 
@@ -15,7 +16,7 @@ export const types = {
 const initialState = {
     width: null,
     height: null,
-    applicationMenuVisible: true,
+    applicationMenuVisible: false,
     applicationMenuActiveKey: null,
     gazeteerBoxInfoText: "Geben Sie einen Suchbegriff ein. XXX",
     gazeteerBoxVisible: true,
@@ -41,6 +42,7 @@ export default function uiStateReducer(state = initialState, action) {
           newState.applicationMenuVisible = action.applicationMenuVisible;
           return newState;
         }
+
         case types.SET_GAZBOX_ENABLED:
          {
            newState = objectAssign({}, state);
@@ -57,6 +59,17 @@ export default function uiStateReducer(state = initialState, action) {
            {
              newState = objectAssign({}, state);
              newState.gazeteerBoxVisible = action.visible;
+             return newState;
+           }
+           case types.SET_APPLICATION_MENU_ACTIVE_KEY:
+           {
+             newState = objectAssign({}, state);
+             if (state.applicationMenuActiveKey!==action.key) {
+                newState.applicationMenuActiveKey = action.key;
+             }
+             else {
+                newState.applicationMenuActiveKey = null;       
+             }
              return newState;
            }
        default:
@@ -103,6 +116,13 @@ function setGazetteerBoxVisible(visible) {
         visible
     };
 }
+function setApplicationMenuActiveKey(key) {
+    return {
+        type: types.SET_APPLICATION_MENU_ACTIVE_KEY,
+        key
+    };
+}
+
 //COMPLEXACTIONS
 
 //EXPORT ACTIONS
@@ -111,5 +131,6 @@ export const actions = {
     showApplicationMenu,
     setGazetteerBoxEnabled,
     setGazetteerBoxInfoText,
-    setGazetteerBoxVisible
+    setGazetteerBoxVisible,
+    setApplicationMenuActiveKey
 };

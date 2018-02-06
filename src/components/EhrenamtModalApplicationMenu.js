@@ -126,6 +126,60 @@ export class EhrenamtModalApplicationMenu_ extends React.Component {
    
     }
 
+
+    createSectionRows(section) {
+        let rows=[];
+        for (let item of this.props[section]) {             
+            let buttonValue="two"; // neutral state
+
+            if (this.props.filterX.positiv[section].indexOf(item)!==-1) {
+                buttonValue="one";
+            }
+            else if (this.props.filterX.negativ[section].indexOf(item)!==-1){
+                buttonValue="three";
+            }
+            let cb = (
+                <tr>
+                    <td
+                        style={{
+                        textAlign: 'left',
+                        verticalAlign: 'top',
+                        padding: '5px',
+                        
+                    }}>
+                        {item}
+                    </td>
+                    <td
+                        style={{
+                        textAlign: 'left',
+                        verticalAlign: 'top',
+                        padding: '5px'
+                    }}>
+                        <MultiToggleButton value={buttonValue} valueChanged={(selectedValue)=>{
+                            if (selectedValue==="one") {
+                                this.props.ehrenamtActions.toggleFilter("positiv",section,item)
+                            }
+                            else if (selectedValue==="three") {
+                                this.props.ehrenamtActions.toggleFilter("negativ",section,item)
+                            }
+                            else {
+                                //deselect existing selection
+                                if (buttonValue==="one") {
+                                    this.props.ehrenamtActions.toggleFilter("positiv",section,item)
+                                }
+                                else if (buttonValue==="three") {
+                                    this.props.ehrenamtActions.toggleFilter("negativ",section,item)
+                                }
+                            }
+                        }}/>
+                    </td>
+                </tr>
+            ); 
+            rows.push(cb);
+        }
+        return rows;
+    }
+
     
     render() {
         let pos=[];
@@ -203,59 +257,10 @@ export class EhrenamtModalApplicationMenu_ extends React.Component {
             options: zgOptions
         },];
 
-        let zgRows=[]
-
-        for (let zg of this.props.zielgruppen) {             
-            let buttonValue="two"; // neutral state
-
-            if (this.props.filterX.positiv.zielgruppen.indexOf(zg)!==-1) {
-                buttonValue="one";
-            }
-            else if (this.props.filterX.negativ.zielgruppen.indexOf(zg)!==-1){
-                buttonValue="three";
-            }
-
-
-
-            let cb = (
-                <tr>
-                    <td
-                        style={{
-                        textAlign: 'left',
-                        verticalAlign: 'top',
-                        padding: '5px',
-                        
-                    }}>
-                        {zg}
-                    </td>
-                    <td
-                        style={{
-                        textAlign: 'left',
-                        verticalAlign: 'top',
-                        padding: '5px'
-                    }}>
-                        <MultiToggleButton value={buttonValue} valueChanged={(selectedValue)=>{
-                            if (selectedValue==="one") {
-                                this.props.ehrenamtActions.toggleFilter("positiv","zielgruppen",zg)
-                            }
-                            else if (selectedValue==="three") {
-                                this.props.ehrenamtActions.toggleFilter("negativ","zielgruppen",zg)
-                            }
-                            else {
-                                //deselect existing selection
-                                if (buttonValue==="one") {
-                                    this.props.ehrenamtActions.toggleFilter("positiv","zielgruppen",zg)
-                                }
-                                else if (buttonValue==="three") {
-                                    this.props.ehrenamtActions.toggleFilter("negativ","zielgruppen",zg)
-                                }
-                            }
-                        }}/>
-                    </td>
-                </tr>
-            ); 
-            zgRows.push(cb);
-        }
+        let zgRows=this.createSectionRows("zielgruppen");
+        let kenRows=this.createSectionRows("kenntnisse");
+        let glbRows=this.createSectionRows("globalbereiche");
+       
 
         return (
             <Modal
@@ -345,28 +350,26 @@ export class EhrenamtModalApplicationMenu_ extends React.Component {
                         </Accordion>        
                     <Accordion key={"ACC"}activeKey={this.props.uiState.applicationMenuActiveKey}>
                     <Panel header="Welches Aufgabenfeld interessiert Sie?" eventKey="bereiche_adv_filter" bsStyle="warning">
-                    Die standardm&auml;&szlig;ig eingestellte Hintergrundkarte gibt eine
-                    &Uuml;bersicht &uuml;ber die Wuppertaler Bebauungspl&auml;ne (B-Pl&auml;ne).<br/>
-                    Gr&uuml;ne Fl&auml;chen (&Uuml;bersichtsma&szlig;stab) bzw. Umringe stehen
-                    f&uuml;r rechtswirksame B-Plan-Verfahren, rote Fl&auml;chen / Umringe f&uuml;r
-                    laufende Verfahren.
+                        <table border={0} styleX={{ width: '100%' }}>
+                        <tbody>
+                        {glbRows}
+                        </tbody>
+                        </table>                    
                     </Panel>
                     <Panel header="Was wollen Sie beitragen?" eventKey="kenntnisse_adv_filter" bsStyle="info">
-                    Die standardm&auml;&szlig;ig eingestellte Hintergrundkarte gibt eine
-                    &Uuml;bersicht &uuml;ber die Wuppertaler Bebauungspl&auml;ne (B-Pl&auml;ne).<br/>
-                    Gr&uuml;ne Fl&auml;chen (&Uuml;bersichtsma&szlig;stab) bzw. Umringe stehen
-                    f&uuml;r rechtswirksame B-Plan-Verfahren, rote Fl&auml;chen / Umringe f&uuml;r
-                    laufende Verfahren.
-                    </Panel>
+                        <table border={0} styleX={{ width: '100%' }}>
+                        <tbody>
+                        {kenRows}
+                        </tbody>
+                        </table>
+                     </Panel>
                     <Panel header=" Wen wollen Sie unterstützen?" eventKey="zielgruppen_adv_filter" bsStyle="success">
-                    <table border={0} styleX={{ width: '100%' }}>
-                    <tbody>
-                      {zgRows}
-                    </tbody>
-                    </table>
+                        <table border={0} styleX={{ width: '100%' }}>
+                        <tbody>
+                        {zgRows}
+                        </tbody>
+                        </table>
                     </Panel>
-                    
-                    
                 <Panel header="Hintergrundkarte" eventKey="1" bsStyle="default">
                             Die standardm&auml;&szlig;ig eingestellte Hintergrundkarte gibt eine
                             &Uuml;bersicht &uuml;ber die Wuppertaler Bebauungspl&auml;ne (B-Pl&auml;ne).<br/>

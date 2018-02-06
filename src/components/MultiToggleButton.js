@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import {
     Button,
     ButtonGroup,
-    ButtonToolbar
+    ButtonToolbar,
 } from 'react-bootstrap';
 
 import {Icon} from 'react-fa'
@@ -16,7 +16,7 @@ const MultiToggleButton = ({value, stateOptions, valueChanged}) => {
         if (value===stateOption.key) {
             c=stateOption.selectedColor;
         }
-        let b=<Button onClick={()=>valueChanged(stateOption.key)} style={{color:c}} title={stateOption.title}><Icon name={stateOption.glyph}/>{stateOption.text}</Button>
+        let b=<Button className="" onClick={()=>valueChanged(stateOption.key)} style={{color:c}} title={stateOption.title}><Icon name={stateOption.glyph}/>{stateOption.text}</Button>
         buttons.push(b);
     }
     return (

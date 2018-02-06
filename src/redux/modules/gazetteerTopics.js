@@ -65,13 +65,18 @@ function loadTopicsData(topicKeys) {
 
 function loadTopicData(topicKey) {
   const debugMsg=false;
+  let noCacheHeaders = new Headers();
+  noCacheHeaders.append('pragma', 'no-cache');
+  noCacheHeaders.append('cache-control', 'no-cache');
+
   let md5=null;
   if (debugMsg) console.log("loadTopicData outer "+topicKey)
   return (dispatch,getState) => {
     if (debugMsg) console.log("loadTopicData inner "+topicKey)
     const state = getState();
     return fetch('/gaz/' + topicKey + '.json.md5', {
-      method: 'get'
+        method: 'get', 
+        headers: noCacheHeaders
     }).then((response)=>{
       if(response.ok) {
         return response.text();
@@ -92,7 +97,10 @@ function loadTopicData(topicKey) {
       }
     }).then((topicKey)=>{
       if (debugMsg) console.log(topicKey + ":" + md5);
-      return fetch('/gaz/' + topicKey + '.json', { method: 'get' });
+      return fetch('/gaz/' + topicKey + '.json', {
+        method: 'get', 
+        headers: noCacheHeaders
+      });
     }).then((response)=>{
       if(response.ok) {
         return response.json();

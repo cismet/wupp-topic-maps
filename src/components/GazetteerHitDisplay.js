@@ -13,7 +13,8 @@ const GazetteerHitDisplay = ({mappingProps, style, labeler, featureClickHandler,
         let markerOptions = {
             icon: mappingProps.gazetteerHit.glyph,
             markerColor: 'blue',
-            spin: false
+            spin: false,
+            prefix: 'fa'
         }
         gazMarker = (<AwesomeMarker
             key={"gazmarker." + JSON.stringify(mappingProps.gazetteerHit)}
@@ -25,6 +26,6 @@ const GazetteerHitDisplay = ({mappingProps, style, labeler, featureClickHandler,
 
 export default GazetteerHitDisplay;
 GazetteerHitDisplay.propTypes = {
-    mappingProps: PropTypes.object.isRequired,
+    mappingProps: PropTypes.object,
     mapRef: PropTypes.object
 };

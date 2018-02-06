@@ -70,7 +70,6 @@ export class Ehrenamt_ extends React.Component {
                 resolve('ok');
             }, 100);
         });
-
         return promise;
     }
     createfeatureCollectionByBoundingBox(bbox) {
@@ -131,7 +130,6 @@ export class Ehrenamt_ extends React.Component {
     render() {
       let info= null;
         let numberOfOffers=this.props.ehrenamt.filteredOffers.length;
-        if (this.props.mapping.featureCollection.length>0) {
            info = (
              <EhrenamtInfo 
                  pixelwidth={250}
@@ -143,28 +141,12 @@ export class Ehrenamt_ extends React.Component {
                  fitAll={this.gotoHome}
                  downloadPlan={this.downloadPlan}
                  downloadEverything={this.downloadEverything}
-                 filter={this.props.ehrenamt.filter}
+                 filter={this.props.ehrenamt.filterX}
                  resetFilter={this.resetFilter}
+                 showModalMenu={()=>this.props.uiStateActions.showApplicationMenu(true)}
                  />
              )
-        }
-        else {
-          let offerLink;
-          if (numberOfOffers>0) {
-              offerLink=(<p><a onClick={this.gotoHome} >{numberOfOffers} Angebote in Wuppertal</a></p>);
-          }
-          else {
-              offerLink=(<div/>)
-          }
-          info = (<Well bsSize="small" pixelwidth={250}>
-                     <h5>Aktuell werden keine Angebote angezeigt.</h5>
-                     <p>Um Angebote an einem bestimmten Ort anzuzeigen, den Anfang (mindestens 2 Zeichen)
-                     eines Suchbegriffs eingeben und Eintrag aus Vorschlagsliste auswählen.</p>
-                    <p>Um nach Zielgruppen, Interessen oder Bereichen zu filtern, das 
-                     <a onClick={()=>this.props.uiStateActions.showApplicationMenu(true)}> Applikationsmenü öffnen.</a></p>
-                     {offerLink}
-                  </Well>)
-        }
+      
 
         // Auflistung der ids die momentan nicht dargestllt werden
         // let offerIds=[];
@@ -185,7 +167,7 @@ export class Ehrenamt_ extends React.Component {
                 zielgruppen={this.props.ehrenamt.zielgruppen}
                 kenntnisse={this.props.ehrenamt.kenntnisse}
                 globalbereiche={this.props.ehrenamt.globalbereiche}
-                filter={this.props.ehrenamt.filter}
+                filterX={this.props.ehrenamt.filterX}
                 filterChanged={this.filterChanged}
                 filteredOffersCount={this.props.ehrenamt.filteredOffers.length}
                 featureCollectionCount={this.props.mapping.featureCollection.length}
@@ -228,7 +210,6 @@ export class Ehrenamt_ extends React.Component {
                             <div>
                             <Icon size='4x' style={{color: 'green',opacity: .50}} name='filter' />
                             <Well>
-                                <h1>Test</h1>
                             </Well> 
                             </div>
                         </Control> */}

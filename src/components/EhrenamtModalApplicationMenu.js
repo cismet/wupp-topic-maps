@@ -10,7 +10,8 @@ import {
     Grid,
     Row,
     Col,
-    Well
+    Well,
+    ButtonGroup, ButtonToolbar
 } from 'react-bootstrap';
 import {actions as UiStateActions} from '../redux/modules/uiState';
 import {constants as ehrenamtConstants, actions as EhrenamtActions} from '../redux/modules/ehrenamt';
@@ -19,8 +20,17 @@ import {Icon} from 'react-fa'
 import Switch from 'react-bootstrap-switch';
 import 'react-bootstrap-switch/dist/css/bootstrap3/react-bootstrap-switch.min.css';
 
+
+import Select from 'react-select-plus';
+import 'react-select-plus/dist/react-select-plus.css';
+import MultiToggleButton from './MultiToggleButton';
+
+
 function mapStateToProps(state) {
-    return {uiState: state.uiState};
+    return {
+        uiState: state.uiState,
+        ehrenamtState: state.ehrenamt
+    };
 }
 function mapDispatchToProps(dispatch) {
     return {
@@ -32,10 +42,14 @@ function mapDispatchToProps(dispatch) {
 export class EhrenamtModalApplicationMenu_ extends React.Component {
     constructor(props, context) {
         super(props, context);
-        this.close = this
-            .close
-            .bind(this);
+        this.close = this.close.bind(this);
+        this.handlePosOnChange=this.handlePosOnChange.bind(this);
+        this.handleNegOnChange=this.handleNegOnChange.bind(this);
+        
+       
 
+       
+            
     }
 
     close() {
@@ -71,108 +85,189 @@ export class EhrenamtModalApplicationMenu_ extends React.Component {
             .ehrenamtActions
             .invertSelection(fg);
     }
+    handlePosOnChange(tags) {
+        let newState={pos:tags,neg:this.state.neg};
+        this.setState(newState);
+        let positiv={
+            globalbereiche: [],
+            kenntnisse: [],
+            zielgruppen: []
+        };
+        for (let tag of tags){
+            positiv[tag.cat].push(tag.value);
+        }
+        let filterX= {
+            filtermode: ehrenamtConstants.OR_FILTER,
+            positiv,
+            negativ: JSON.parse(JSON.stringify(this.props.ehrenamtState.filterX.negativ))
+        };
+        this.props.ehrenamtActions.setFilterAndApply(filterX);
+    }
 
+
+
+      handleNegOnChange(tags) {
+          let newState={neg:tags,pos:this.state.pos};
+        this.setState(newState);
+        let negativ={
+            globalbereiche: [],
+            kenntnisse: [],
+            zielgruppen: []
+        };
+        for (let tag of tags){
+            negativ[tag.cat].push(tag.value);
+        }
+        let filterX= {
+            filtermode: ehrenamtConstants.OR_FILTER,
+            negativ,
+            positiv: JSON.parse(JSON.stringify(this.props.ehrenamtState.filterX.positiv))
+        };
+        this.props.ehrenamtActions.setFilterAndApply(filterX);   
+   
+    }
+
+
+    createSectionRows(section) {
+        let rows=[];
+        for (let item of this.props[section]) {             
+            let buttonValue="two"; // neutral state
+
+            if (this.props.filterX.positiv[section].indexOf(item)!==-1) {
+                buttonValue="one";
+            }
+            else if (this.props.filterX.negativ[section].indexOf(item)!==-1){
+                buttonValue="three";
+            }
+            let cb = (
+                <tr key={"tr.for.mtbutton."+section+"."+item}>
+                    <td key={"td1.for.mtbutton."+section+"."+item}
+                        style={{
+                        textAlign: 'left',
+                        verticalAlign: 'top',
+                        padding: '5px',
+                        
+                    }}>
+                        {item}
+                    </td>
+                    <td key={"td2.for.mtbutton."+section+"."+item}
+                        style={{
+                        textAlign: 'left',
+                        verticalAlign: 'top',
+                        padding: '5px'
+                    }}>
+                        <MultiToggleButton key={"mtbutton."+section+"."+item} value={buttonValue} valueChanged={(selectedValue)=>{
+                            if (selectedValue==="one") {
+                                this.props.ehrenamtActions.toggleFilter("positiv",section,item)
+                            }
+                            else if (selectedValue==="three") {
+                                this.props.ehrenamtActions.toggleFilter("negativ",section,item)
+                            }
+                            else {
+                                //deselect existing selection
+                                if (buttonValue==="one") {
+                                    this.props.ehrenamtActions.toggleFilter("positiv",section,item)
+                                }
+                                else if (buttonValue==="three") {
+                                    this.props.ehrenamtActions.toggleFilter("negativ",section,item)
+                                }
+                            }
+                        }}/>
+                    </td>
+                </tr>
+            ); 
+            rows.push(cb);
+        }
+        return rows;
+    }
+
+    
     render() {
-
-        let zgCB = []
-        for (let zg of this.props.zielgruppen) {
-            let cb = (
-                <div key={"zielgruppenfilter.div." + zg}>
-                    <label
-                        style={{
-                        "fontWeight": 400
-                    }}><input
-                        key={"zielgruppenfilter.input." + zg}
-                        onChange={() => this.props.filterChanged("zielgruppen", zg)}
-                        type="checkbox"
-                        name={zg}
-                        disabled={this
-                    .props
-                    .filter
-                    .ignoredFilterGroups
-                    .indexOf(ehrenamtConstants.ZIELGRUPPEN_FILTER) !== -1}
-                        checked={this
-                    .props
-                    .filter
-                    .zielgruppen
-                    .indexOf(zg) > -1}
-                        value={zg}/>
-                        &nbsp;
-                        <span>{zg}</span>
-                    </label>
-                </div>
-            );
-            zgCB.push(cb);
+        let pos=[];
+        let neg=[];
+        
+        for (let cat in this.props.ehrenamtState.filterX.positiv){
+             for (let val of this.props.ehrenamtState.filterX.positiv[cat]){
+                pos.push({
+                     label:val,
+                     value:val,
+                     cat
+                 });
+             }
+         }
+         for (let cat in this.props.ehrenamtState.filterX.negativ){
+            for (let val of this.props.ehrenamtState.filterX.negativ[cat]){
+                neg.push({
+                    label:val,
+                    value:val,
+                    cat
+                });
+            }
         }
+        this.state = {pos,neg};
 
-        let kenntnisseCB = []
-        for (let k of this.props.kenntnisse) {
-            let cb = (
-                <div key={"kenntnissefilter.div." + k}>
-                    <label
-                        style={{
-                        "fontWeight": 400
-                    }}><input
-                        key={"kenntnissefilter.input." + k}
-                        onChange={() => this.props.filterChanged("kenntnisse", k)}
-                        type="checkbox"
-                        name={k}
-                        disabled={this
-                    .props
-                    .filter
-                    .ignoredFilterGroups
-                    .indexOf(ehrenamtConstants.KENTNISSE_FILTER) !== -1}
-                        checked={this
-                    .props
-                    .filter
-                    .kenntnisse
-                    .indexOf(k) > -1}
-                        value={k}/>
-                        &nbsp; {k}</label>
-                </div>
-            );
-            kenntnisseCB.push(cb);
-        }
-
-        let globalbereicheCB = []
-        for (let ber of this.props.globalbereiche) {
-            let cb = (
-                <div key={"bereichefilter.div." + ber}>
-                    <label
-                        style={{
-                        "fontWeight": 400
-                    }}><input
-                        key={"bereichefilter.input." + ber}
-                        onChange={() => this.props.filterChanged("globalbereiche", ber)}
-                        type="checkbox"
-                        name={ber}
-                        disabled={this
-                    .props
-                    .filter
-                    .ignoredFilterGroups
-                    .indexOf(ehrenamtConstants.GLOBALBEREICHE_FILTER) !== -1}
-                        checked={this
-                    .props
-                    .filter
-                    .globalbereiche
-                    .indexOf(ber) > -1}
-                        value={ber}/>
-                        &nbsp; {ber}
-                    </label>
-                </div>
-            );
-            globalbereicheCB.push(cb);
-        }
         let modalBodyStyle = {
             "overflowY": "auto",
             "overflowX": "hidden",
             "maxHeight": this.props.uiState.height - 200
         }
+
+        
+
+        let zgOptions=[];
+        let ktOptions=[];
+        let berOptions=[];
+
+        for (let zg of this.props.zielgruppen){
+            zgOptions.push({
+                label:  zg,
+                cat:"zielgruppen",
+                value: zg
+            });
+        }
+
+        for (let k of this.props.kenntnisse){
+            ktOptions.push({
+                label:  k,
+                cat:"kenntnisse",
+                value: k
+            });        
+        }
+
+        for (let b of this.props.globalbereiche) {
+            berOptions.push({
+                label:  b,
+                cat: "globalbereiche",
+                value: b
+            });        
+        }
+
+        let options=[{
+            label:"Aufgabenfeld",
+            cat:"group",
+            options: berOptions
+            
+        },{
+            label:"Tätigkeit",
+            cat:"group",
+            options: ktOptions
+        },
+            {
+            label:"Zielgruppen",
+            cat:"group",
+            options: zgOptions
+        },];
+
+        let zgRows=this.createSectionRows("zielgruppen");
+        let kenRows=this.createSectionRows("kenntnisse");
+        let glbRows=this.createSectionRows("globalbereiche");
+       
+
         return (
             <Modal
                 style={{
-                zIndex: 3000000000
+                zIndex: 3000000000,
             }}
+                height="100%"
                 bsSize="large"
                 show={this.props.uiState.applicationMenuVisible}
                 onHide={this.close}
@@ -186,178 +281,103 @@ export class EhrenamtModalApplicationMenu_ extends React.Component {
                         Bitte w&auml;hlen Sie eine der folgenden farbigen Schaltfl&auml;chen, um sich
                         weitere Informationen zu dem entsprechenden Thema anzeigen zu lassen:<br/><br/>
                     </span>
-                    <Accordion activeKey={"2"}>
-                        <Panel header={"Filtern ("+this.props.filteredOffersCount+" gefunden, davon "+this.props.featureCollectionCount+" in der Karte)"} eventKey="2" bsStyle="success">
-                            {/* <Well > */}
-                                <Grid fluid>
-                                    <Row >
-                                        <Col xs={12} sm={12} md={4} lg={4}>
-                                            <Well >
-                                                <h4>Zielgruppen&nbsp;&nbsp;
-                                                    <Switch
-                                                        bsSize="mini"
-                                                        onText="an"
-                                                        offText="aus"
-                                                        onChange={(el, state) => this.handleSwitch(el, state)}
-                                                        value={this
-                                                        .props
-                                                        .filter
-                                                        .ignoredFilterGroups
-                                                        .indexOf(ehrenamtConstants.ZIELGRUPPEN_FILTER) === -1}
-                                                        name={ehrenamtConstants.ZIELGRUPPEN_FILTER}/>
-                                                </h4>
+                    <Accordion key={"Filter.ACC"} activeKey="filtertab">
+                        <Panel height="auto" header={"Filtern ("+this.props.filteredOffersCount+" gefunden, davon "+this.props.featureCollectionCount+" in der Karte)"} eventKey="filtertab" bsStyle="primary">
+                    <h4>Neigungen</h4>
+                            <Select
+                                id={"pos"}
+                                key={"Filtercombo.pos."+JSON.stringify(this.props.filterX.positiv)}
+                                className="pos-select"
+                                clearAllText="alle entfernen"
+                                noResultsText="keine Kategorien gefunden"
+                                searchPromptText="Kategorien auswählen ..."
+                                placeholder="Kategorien auswählen ..."
+                                multi={true}
+                                options={options}
+                                onChange={this.handlePosOnChange}
+                                value={this.state.pos}
+                                closeOnSelect={false}
+                                searchable={true}
+                                valueRenderer={(option)=>{
+                                    return (
+                                        <div style={{}}>{option.label}</div>
+                                    )
+                                }}
+                                optionRenderer={(option)=>{
+                                    if (option.cat!=="group") {
+                                        return <div style={{}}>{option.label}</div>
+                                    }
+                                    else {
+                                        return <div>{option.label}</div>
+                                    }
+                                    
+                                }}
 
-                                                <div
-                                                    style={{
-                                                    "border": "thin solid lightgray",
-                                                    "width": "100%"
-                                                }}></div>
-                                                <br/>
-                                                <Button
-                                                    bsSize="xsmall"
-                                                    disabled={this
-                                                    .props
-                                                    .filter
-                                                    .ignoredFilterGroups
-                                                    .indexOf(ehrenamtConstants.ZIELGRUPPEN_FILTER) !== -1}
-                                                    onClick={() => this.selectNone(ehrenamtConstants.ZIELGRUPPEN_FILTER)}>keine</Button>&nbsp;
-                                                <Button
-                                                    bsSize="xsmall"
-                                                    disabled={this
-                                                    .props
-                                                    .filter
-                                                    .ignoredFilterGroups
-                                                    .indexOf(ehrenamtConstants.ZIELGRUPPEN_FILTER) !== -1}
-                                                    onClick={() => this.selectAll(ehrenamtConstants.ZIELGRUPPEN_FILTER)}>alle</Button>&nbsp;
-                                                <Button
-                                                    bsSize="xsmall"
-                                                    disabled={this
-                                                    .props
-                                                    .filter
-                                                    .ignoredFilterGroups
-                                                    .indexOf(ehrenamtConstants.ZIELGRUPPEN_FILTER) !== -1}
-                                                    onClick={() => this.invertSelection(ehrenamtConstants.ZIELGRUPPEN_FILTER)}>umkehren</Button>
-                                                <br/><br/>
-                                                <form>
-                                                    {zgCB}
-                                                </form>
-                                            </Well>
-                                        </Col>
-                                        <Col xs={12} sm={12} md={4} lg={4}>
-                                            <Well>
-                                                <h4>Kenntnisse&nbsp;&nbsp;
-                                                    <Switch
-                                                        bsSize="mini"
-                                                        onText="an"
-                                                        offText="aus"
-                                                        onChange={(el, state) => this.handleSwitch(el, state)}
-                                                        value={this
-                                                        .props
-                                                        .filter
-                                                        .ignoredFilterGroups
-                                                        .indexOf(ehrenamtConstants.KENTNISSE_FILTER) === -1}
-                                                        name={ehrenamtConstants.KENTNISSE_FILTER}/>
-                                                </h4>
-                                                <div
-                                                    style={{
-                                                    "border": "thin solid lightgray",
-                                                    "width": "100%"
-                                                }}></div>
-                                                <br/>
-                                                <Button
-                                                    bsSize="xsmall"
-                                                    disabled={this
-                                                    .props
-                                                    .filter
-                                                    .ignoredFilterGroups
-                                                    .indexOf(ehrenamtConstants.KENTNISSE_FILTER) !== -1}
-                                                    onClick={() => this.selectNone(ehrenamtConstants.KENTNISSE_FILTER)}>keine</Button>&nbsp;
-                                                <Button
-                                                    bsSize="xsmall"
-                                                    disabled={this
-                                                    .props
-                                                    .filter
-                                                    .ignoredFilterGroups
-                                                    .indexOf(ehrenamtConstants.KENTNISSE_FILTER) !== -1}
-                                                    onClick={() => this.selectAll(ehrenamtConstants.KENTNISSE_FILTER)}>alle</Button>&nbsp;
-                                                <Button
-                                                    bsSize="xsmall"
-                                                    disabled={this
-                                                    .props
-                                                    .filter
-                                                    .ignoredFilterGroups
-                                                    .indexOf(ehrenamtConstants.KENTNISSE_FILTER) !== -1}
-                                                    onClick={() => this.invertSelection(ehrenamtConstants.KENTNISSE_FILTER)}>umkehren</Button>
-                                                <br/><br/>
-                                                <form>
-                                                    {kenntnisseCB}
-                                                </form>
-                                            </Well>
-                                        </Col>
-                                        <Col xs={12} sm={12} md={4} lg={4}>
-                                            <Well>
-                                                <h4>Bereiche&nbsp;&nbsp;
-                                                    <Switch
-                                                        bsSize="mini"
-                                                        onText="an"
-                                                        offText="aus"
-                                                        onChange={(el, state) => this.handleSwitch(el, state)}
-                                                        value={this
-                                                        .props
-                                                        .filter
-                                                        .ignoredFilterGroups
-                                                        .indexOf(ehrenamtConstants.GLOBALBEREICHE_FILTER) === -1}
-                                                        name={ehrenamtConstants.GLOBALBEREICHE_FILTER}/>
-                                                </h4>
-                                                <div
-                                                    style={{
-                                                    "border": "thin solid lightgray",
-                                                    "width": "100%"
-                                                }}></div>
-                                                <br/>
-                                                <Button
-                                                    bsSize="xsmall"
-                                                    disabled={this
-                                                    .props
-                                                    .filter
-                                                    .ignoredFilterGroups
-                                                    .indexOf(ehrenamtConstants.GLOBALBEREICHE_FILTER) !== -1}
-                                                    onClick={() => this.selectNone(ehrenamtConstants.GLOBALBEREICHE_FILTER)}>keine</Button>&nbsp;
-                                                <Button
-                                                    bsSize="xsmall"
-                                                    disabled={this
-                                                    .props
-                                                    .filter
-                                                    .ignoredFilterGroups
-                                                    .indexOf(ehrenamtConstants.GLOBALBEREICHE_FILTER) !== -1}
-                                                    onClick={() => this.selectAll(ehrenamtConstants.GLOBALBEREICHE_FILTER)}>alle</Button>&nbsp;
-                                                <Button
-                                                    bsSize="xsmall"
-                                                    disabled={this
-                                                    .props
-                                                    .filter
-                                                    .ignoredFilterGroups
-                                                    .indexOf(ehrenamtConstants.GLOBALBEREICHE_FILTER) !== -1}
-                                                    onClick={() => this.invertSelection(ehrenamtConstants.GLOBALBEREICHE_FILTER)}>umkehren</Button>
-                                                <br/><br/>
-                                                <form>
-                                                    {globalbereicheCB}
-                                                </form>
-                                            </Well>
-                                        </Col>
-                                    </Row>
-                                </Grid>
-                            {/* </Well> */}
+            				/>  
+                        <h4>Abneigungen</h4>
+                        <Select
+                                id={"neg"}
+                                key={"Filtercombo.neg."+JSON.stringify(this.props.filterX.negativ)}
+                                className="neg-select"
+                                clearAllText="alle entfernen"
+                                noResultsText="keine Kategorien gefunden"
+                                searchPromptText="Kategorien auswählen ..."
+                                placeholder="Kategorien auswählen ..."
+                                multi={true}
+                                options={options}
+                                onChange={this.handleNegOnChange}
+                                value={this.state.neg}
+                                closeOnSelect={false}
+                                searchable={true}
+                                valueRenderer={(option)=>{
+                                    return (
+                                        <div>{option.label}</div>
+                                    )
+                                }}
+                                optionRenderer={(option)=>{
+                                    if (option.cat!=="group") {
+                                        return <div >{option.label}</div>
+                                    }
+                                    else {
+                                        return <div>{option.label}</div>
+                                    }
+                                    
+                                }}
+                                menuStyle={{height:"400px"}}
+
+            				/>  
                         </Panel>
-                        <Panel header="Hintergrundkarte" eventKey="1" bsStyle="warning">
+                        </Accordion>        
+                    <Accordion key={"ACC"} activeKey={this.props.uiState.applicationMenuActiveKey} >
+                    <Panel header="Welches Aufgabenfeld interessiert Sie?" eventKey="bereiche_adv_filter" bsStyle="warning">
+                        <table border={0}>
+                        <tbody>
+                        {glbRows}
+                        </tbody>
+                        </table>                    
+                    </Panel>
+                    <Panel header="Was wollen Sie beitragen?" eventKey="kenntnisse_adv_filter" bsStyle="info">
+                        <table border={0}>
+                        <tbody>
+                        {kenRows}
+                        </tbody>
+                        </table>
+                     </Panel>
+                    <Panel header=" Wen wollen Sie unterstützen?" eventKey="zielgruppen_adv_filter" bsStyle="success">
+                        <table border={0}>
+                        <tbody>
+                        {zgRows}
+                        </tbody>
+                        </table>
+                    </Panel>
+                <Panel header="Hintergrundkarte" eventKey="1" bsStyle="default">
                             Die standardm&auml;&szlig;ig eingestellte Hintergrundkarte gibt eine
                             &Uuml;bersicht &uuml;ber die Wuppertaler Bebauungspl&auml;ne (B-Pl&auml;ne).<br/>
                             Gr&uuml;ne Fl&auml;chen (&Uuml;bersichtsma&szlig;stab) bzw. Umringe stehen
                             f&uuml;r rechtswirksame B-Plan-Verfahren, rote Fl&auml;chen / Umringe f&uuml;r
                             laufende Verfahren.
                         </Panel>
-
-                        <Panel header="Treffermengen durchmustern" eventKey="6" bsStyle="info">
+                        <Panel header="Treffermengen durchmustern" eventKey="6" bsStyle="default">
                             Der beste Treffer einer Suche erh&auml;lt den Fokus (blaue Umrandung). In der
                             Info-Box werden Ihnen immer die Detailinformationen und Downloadlinks f&uuml;r
                             denjenigen B-Plan angeboten, der gerade den Fokus hat. Mit einem einfachen Klick
@@ -372,7 +392,7 @@ export class EhrenamtModalApplicationMenu_ extends React.Component {
                             k&ouml;nnen Sie den Kartenausschnitt zuvor so anpassen, dass alle Pl&auml;ne der
                             Treffermenge vollst&auml;ndig angezeigt werden.
                         </Panel>
-                        <Panel header="Angebote merken und herunterladen" eventKey="7" bsStyle="info">
+                        <Panel header="Angebote merken und herunterladen" eventKey="7" bsStyle="default">
                             Zum Download einer PDF-Datei des Plans, der gerade den Fokus hat, klicken Sie
                             auf den Link
                             <strong>Plan</strong>.<br/>
@@ -407,7 +427,7 @@ export class EhrenamtModalApplicationMenu_ extends React.Component {
                                     style={{
                                     fontSize: "11px"
                                 }}>
-                                    <b>Hintergrundkarte</b>: in Detailma&szlig;st&auml;ben
+                                    <b>Hintergrundkarte</b>: in Detailma&szlig;st&auml;ben&nbsp;
                                     <a>Amtliche Basiskarte (ABK) der Stadt Wuppertal</a>, jeweils &uuml;berlagert mit
                                     dem Wuppertaler Orthofoto.<br/>
                                     <b>Angebotsdaten</b>: {this.props.offersMD5}</span>
@@ -426,9 +446,9 @@ export class EhrenamtModalApplicationMenu_ extends React.Component {
     }
 }
 const EhrenamtModalApplicationMenu = connect(mapStateToProps, mapDispatchToProps)(EhrenamtModalApplicationMenu_);
-export default
-EhrenamtModalApplicationMenu;
+export default EhrenamtModalApplicationMenu;
 EhrenamtModalApplicationMenu_.propTypes = {
     uiActions: PropTypes.object,
-    uiState: PropTypes.object
+    uiState: PropTypes.object,
+    ehrenamtState: PropTypes.object
 }

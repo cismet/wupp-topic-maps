@@ -130,7 +130,6 @@ export default function ehrenamtReducer(state = initialState, action) {
                 newState = objectAssign({}, state);
                 newState.cart = JSON.parse(JSON.stringify(state.cart));
                 newState.cart.push(action.item);
-
                 return newState;
             }
             case types.REMOVE_FROM_CART:
@@ -182,6 +181,7 @@ function setFilter(filter) {
 function setIgnoredFilterGroups(filtergroups) {
     return {type: types.SET_IGNORED_FILTERGROUPS, filtergroups};
 }
+
 function addToCart(item) {
     return {type: types.ADD_TO_CART, item};
 }

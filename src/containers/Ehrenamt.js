@@ -127,6 +127,8 @@ export class Ehrenamt_ extends React.Component {
     searchTooltip(){
         return (<Tooltip style={{zIndex: 3000000000}} id="searchTooltip">Ehrenamtsinfos im Kartenausschnitt laden</Tooltip>);
     };
+
+    
     render() {
       let info= null;
         let numberOfOffers=this.props.ehrenamt.filteredOffers.length;
@@ -144,6 +146,8 @@ export class Ehrenamt_ extends React.Component {
                  filter={this.props.ehrenamt.filterX}
                  resetFilter={this.resetFilter}
                  showModalMenu={()=>this.props.uiStateActions.showApplicationMenu(true)}
+                 cart={this.props.ehrenamt.cart}
+                 toggleCart={this.props.ehrenamtActions.toggleCart}
                  />
              )
       

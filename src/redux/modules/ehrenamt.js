@@ -129,16 +129,19 @@ export default function ehrenamtReducer(state = initialState, action) {
             {
                 newState = objectAssign({}, state);
                 newState.cart = JSON.parse(JSON.stringify(state.cart));
-                newState.cart.push(action.offer);
+                newState.cart.push(action.item);
 
                 return newState;
             }
             case types.REMOVE_FROM_CART:
             {
                 newState = objectAssign({}, state);
-                let s=new Set(JSON.parse(JSON.stringify(state.cart)));
-                s.delete(state.cart);
-                newState.cart = Array.from(s);
+                newState.cart = [];
+                for (let testItem of state.cart){
+                    if (testItem.id!==action.item.id){
+                        newState.cart.push(testItem);
+                    }
+                }
                 return newState;
             }
         case types.CLEAR_CART:
@@ -179,8 +182,11 @@ function setFilter(filter) {
 function setIgnoredFilterGroups(filtergroups) {
     return {type: types.SET_IGNORED_FILTERGROUPS, filtergroups};
 }
-function addToCart(cart) {
-    return {type: types.ADD_TO_CART, cart};
+function addToCart(item) {
+    return {type: types.ADD_TO_CART, item};
+}
+function removeFromCart(item) {
+    return {type: types.REMOVE_FROM_CART, item};
 }
 function clearCart() {
     return {type: types.CLEAR_CART};
@@ -192,7 +198,17 @@ function setPosFilter(){
 
 }
 
-
+function toggleCart(feature) {
+    return (dispatch, getState) => {
+        let cart = getState().ehrenamt.cart;
+        if (cart.find(x => x.id === feature.properties.id)===undefined){
+            dispatch(addToCart(feature.properties));
+        }
+        else {
+            dispatch(removeFromCart(feature.properties));
+        } 
+    }
+}
 
 function toggleFilter(kind, filtergroup, filter) {
     return (dispatch, getState) => {
@@ -563,7 +579,8 @@ export const actions = {
     resetFilter,
     setFilterAndApply,
     addToCart,
-    clearCart
+    clearCart,
+    toggleCart
 };
 
 //HELPER FUNCTIONS
@@ -596,10 +613,6 @@ function convertOfferToFeature(offer, index) {
                 "name": "urn:ogc:def:crs:EPSG::25832"
             }
         },
-        properties: {
-            zielgruppen,
-            globalbereiche,
-            kenntnisse
-        }
+        properties: offer
     }
 }

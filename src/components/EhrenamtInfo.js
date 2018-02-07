@@ -5,7 +5,7 @@ import Loadable from 'react-loading-overlay';
 import {Icon} from 'react-fa'
 
 // Since this component is simple and static, there's no parent container for it.
-const EhrenamtInfo = ({featureCollection, filteredOffers, selectedIndex, next, previous, fitAll, loadingIndicator, downloadPlan, downloadEverything, filter,resetFilter, showModalMenu}) => {
+const EhrenamtInfo = ({featureCollection, filteredOffers, selectedIndex, next, previous, fitAll, loadingIndicator, downloadPlan, downloadEverything, filter,resetFilter, showModalMenu, cart, toggleCart,}) => {
 
   const currentFeature=featureCollection[selectedIndex];
 
@@ -70,6 +70,10 @@ const EhrenamtInfo = ({featureCollection, filteredOffers, selectedIndex, next, p
   }
   else {
 
+    let cartIcon="plus-square";
+    if (cart.find(x => x.id === currentFeature.id)!==undefined){
+        cartIcon="check-square";
+    }
     return (
             <div>
             <Well bsSize="small" onClick={logCurrentFeature}>
@@ -78,7 +82,18 @@ const EhrenamtInfo = ({featureCollection, filteredOffers, selectedIndex, next, p
                 <tbody>
                 <tr>
                     <td style={{ textAlign: 'left', verticalAlign: 'top', padding: '5px' }}>
-                    <h5>Angebot Nr. {currentFeature.id}</h5>
+                    <table style={{ width: '100%' }}>
+                     <tbody>
+                        <tr>
+                        <td style={{ textAlign: 'left' }}>
+                            <h5>Angebot Nr. {currentFeature.id}</h5>
+                        </td>
+                        <td style={{ textAlign: 'right'}}>
+                            <a onClick={()=>{toggleCart(currentFeature)}} style={{ color: 'black'}}><Icon size="2x" name={cartIcon} /></a>
+                        </td>
+              </tr>
+            </tbody>
+          </table>
                     <h6>{currentFeature.text}</h6>
                     </td>
                 </tr>
@@ -126,4 +141,7 @@ export default EhrenamtInfo;
    previous: PropTypes.func.isRequired,
    fitAll: PropTypes.func.isRequired,
    showModalMenu: PropTypes.func.isRequired,
+   cart: PropTypes.array.isRequired,
+   toggleCart: PropTypes.func.isRequired,
+
  };

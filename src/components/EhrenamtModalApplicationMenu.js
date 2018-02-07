@@ -262,6 +262,17 @@ export class EhrenamtModalApplicationMenu_ extends React.Component {
         let glbRows=this.createSectionRows("globalbereiche");
        
 
+        let cartOffers=[];
+        for (let cartOffer of this.props.ehrenamtState.cart){
+            let o= (
+                <li>
+                     <h5>Angebot Nr. {cartOffer.id}</h5><h6>{cartOffer.text}</h6>
+                </li>
+            );
+            cartOffers.push(o);
+        }
+
+
         return (
             <Modal
                 style={{
@@ -370,27 +381,18 @@ export class EhrenamtModalApplicationMenu_ extends React.Component {
                         </tbody>
                         </table>
                     </Panel>
-                <Panel header="Weiter Informationen zur Benutzung" eventKey="help" bsStyle="default">
+                        <Panel header="meine Merkliste" eventKey="cart" bsStyle="primary">
+                         <ul>
+                            {cartOffers}
+                        </ul>
+                        </Panel>
+
+                        <Panel header="Bedienungsanleitung" eventKey="help" bsStyle="default">
                             Die standardm&auml;&szlig;ig eingestellte Hintergrundkarte gibt eine
                             &Uuml;bersicht &uuml;ber die Wuppertaler Bebauungspl&auml;ne (B-Pl&auml;ne).<br/>
                             Gr&uuml;ne Fl&auml;chen (&Uuml;bersichtsma&szlig;stab) bzw. Umringe stehen
                             f&uuml;r rechtswirksame B-Plan-Verfahren, rote Fl&auml;chen / Umringe f&uuml;r
                             laufende Verfahren.
-                        </Panel>
-                        <Panel header="Meine Merkliste" eventKey="cart" bsStyle="default">
-                            Der beste Treffer einer Suche erh&auml;lt den Fokus (blaue Umrandung). In der
-                            Info-Box werden Ihnen immer die Detailinformationen und Downloadlinks f&uuml;r
-                            denjenigen B-Plan angeboten, der gerade den Fokus hat. Mit einem einfachen Klick
-                            auf eine andere B-Plan-Fl&auml;che aus der Treffermenge (nicht auf die
-                            B-Plan-Nummer!) erh&auml;lt dieser Plan den Fokus.<br/>
-                            Mit einem weiteren Klick wird der Kartenausschnitt so angepasst, dass dieser
-                            Plan vollst&auml;ndig und zentriert dargestellt wird. Alternativ k&ouml;nnen Sie
-                            die Treffermenge mit den Schaltfl&auml;chen &gt;&gt; (n&auml;chster Treffer) und
-                            &lt;&lt; (vorheriger Treffer) durchmustern. (Die Treffermenge ist geordnet nach
-                            zunehmendem Abstand des Plans vom Bezugspunkt ihrer Suche.)<br/>Mit
-                            <strong>alle Treffer anzeigen</strong>
-                            k&ouml;nnen Sie den Kartenausschnitt zuvor so anpassen, dass alle Pl&auml;ne der
-                            Treffermenge vollst&auml;ndig angezeigt werden.
                         </Panel>
                     </Accordion>
                 </Modal.Body>

@@ -121,7 +121,8 @@ export const ehrenAmtClusterIconCreator = (cluster) => {
 
 export const getColorForProperties = (feature) => {
     let colorHash = new ColorHash({saturation: 0.3});
-    return colorHash.hex("" + JSON.stringify(feature.properties));
+    let {kenntnisse,globalbereiche,zielgruppen}=feature.properties;
+    return colorHash.hex("" + JSON.stringify({kenntnisse,globalbereiche,zielgruppen}));
 };
 
 //

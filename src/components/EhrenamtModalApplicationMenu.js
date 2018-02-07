@@ -252,7 +252,7 @@ export class EhrenamtModalApplicationMenu_ extends React.Component {
             options: ktOptions
         },
             {
-            label:"Zielgruppen",
+            label:"Zielgruppe",
             cat:"group",
             options: zgOptions
         },];
@@ -283,7 +283,7 @@ export class EhrenamtModalApplicationMenu_ extends React.Component {
                     </span>
                     <Accordion key={"Filter.ACC"} activeKey="filtertab">
                         <Panel height="auto" header={"Filtern ("+this.props.filteredOffersCount+" gefunden, davon "+this.props.featureCollectionCount+" in der Karte)"} eventKey="filtertab" bsStyle="primary">
-                    <h4>Neigungen</h4>
+                    <h4>Ich suche nach:</h4>
                             <Select
                                 id={"pos"}
                                 key={"Filtercombo.pos."+JSON.stringify(this.props.filterX.positiv)}
@@ -314,7 +314,7 @@ export class EhrenamtModalApplicationMenu_ extends React.Component {
                                 }}
 
             				/>  
-                        <h4>Abneigungen</h4>
+                        <h4>Ich schlie&szlig;e aus:</h4>
                         <Select
                                 id={"neg"}
                                 key={"Filtercombo.neg."+JSON.stringify(this.props.filterX.negativ)}
@@ -349,35 +349,35 @@ export class EhrenamtModalApplicationMenu_ extends React.Component {
                         </Panel>
                         </Accordion>        
                     <Accordion key={"ACC"} activeKey={this.props.uiState.applicationMenuActiveKey} >
-                    <Panel header="Welches Aufgabenfeld interessiert Sie?" eventKey="bereiche_adv_filter" bsStyle="warning">
+                    <Panel header="Welches Aufgabenfeld interessiert mich?" eventKey="bereiche_adv_filter" bsStyle="warning">
                         <table border={0}>
                         <tbody>
                         {glbRows}
                         </tbody>
                         </table>                    
                     </Panel>
-                    <Panel header="Was wollen Sie beitragen?" eventKey="kenntnisse_adv_filter" bsStyle="info">
+                    <Panel header="Was will ich beitragen?" eventKey="kenntnisse_adv_filter" bsStyle="info">
                         <table border={0}>
                         <tbody>
                         {kenRows}
                         </tbody>
                         </table>
                      </Panel>
-                    <Panel header=" Wen wollen Sie unterstützen?" eventKey="zielgruppen_adv_filter" bsStyle="success">
+                    <Panel header="Wen will ich unterstützen?" eventKey="zielgruppen_adv_filter" bsStyle="success">
                         <table border={0}>
                         <tbody>
                         {zgRows}
                         </tbody>
                         </table>
                     </Panel>
-                <Panel header="Hintergrundkarte" eventKey="1" bsStyle="default">
+                <Panel header="Weiter Informationen zur Benutzung" eventKey="help" bsStyle="default">
                             Die standardm&auml;&szlig;ig eingestellte Hintergrundkarte gibt eine
                             &Uuml;bersicht &uuml;ber die Wuppertaler Bebauungspl&auml;ne (B-Pl&auml;ne).<br/>
                             Gr&uuml;ne Fl&auml;chen (&Uuml;bersichtsma&szlig;stab) bzw. Umringe stehen
                             f&uuml;r rechtswirksame B-Plan-Verfahren, rote Fl&auml;chen / Umringe f&uuml;r
                             laufende Verfahren.
                         </Panel>
-                        <Panel header="Treffermengen durchmustern" eventKey="6" bsStyle="default">
+                        <Panel header="Meine Merkliste" eventKey="cart" bsStyle="default">
                             Der beste Treffer einer Suche erh&auml;lt den Fokus (blaue Umrandung). In der
                             Info-Box werden Ihnen immer die Detailinformationen und Downloadlinks f&uuml;r
                             denjenigen B-Plan angeboten, der gerade den Fokus hat. Mit einem einfachen Klick
@@ -391,22 +391,6 @@ export class EhrenamtModalApplicationMenu_ extends React.Component {
                             <strong>alle Treffer anzeigen</strong>
                             k&ouml;nnen Sie den Kartenausschnitt zuvor so anpassen, dass alle Pl&auml;ne der
                             Treffermenge vollst&auml;ndig angezeigt werden.
-                        </Panel>
-                        <Panel header="Angebote merken und herunterladen" eventKey="7" bsStyle="default">
-                            Zum Download einer PDF-Datei des Plans, der gerade den Fokus hat, klicken Sie
-                            auf den Link
-                            <strong>Plan</strong>.<br/>
-                            Umfasst der B-Plan mehrere Planteile, werden diese als mehrseitiges PDF-Dokument
-                            (multi-page PDF) bereitgestellt. (Der Link lautet dann
-                            <strong>Pl&auml;ne</strong>.)<br/>
-                            Wenn zu einem B-Plan-Verfahren weitere verfahrensbegleitende Dokumente
-                            verf&uuml;gbar sind, wird zus&auml;tzlich der Link
-                            <strong>alles</strong>
-                            zum Download eines zip-Archivs mit allen Planteilen und allen
-                            verfahrensbegleitenden Dokumenten angeboten.<br/>
-                            Ob die heruntergeladene Datei nach dem Download sofort mit einem geeigneten
-                            Programm (PDF-Viewer oder Dateimanager) ge&ouml;ffnet wird, h&auml;ngt von Ihren
-                            Betriebssystem- und/oder Browsereinstellungen ab.
                         </Panel>
                     </Accordion>
                 </Modal.Body>

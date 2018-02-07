@@ -12,8 +12,10 @@ export const types = {
     SET_KENNTNISSE: 'EHRENAMT/SET_KENNTNISSE',
     SET_ZIELGRUPPEN: 'EHRENAMT/SET_ZIELGRUPPEN',
     SET_FILTER: 'EHRENAMT/SET_FILTER',
-    SET_IGNORED_FILTERGROUPS: 'EHRENAMT/SET_IGNORED_FILTERGROUPS'
-
+    SET_IGNORED_FILTERGROUPS: 'EHRENAMT/SET_IGNORED_FILTERGROUPS',
+    ADD_TO_CART: 'EHRENAMT/ADD_TO_CART',
+    REMOVE_FROM_CART: 'EHRENAMT/REMOVE_FROM_CART',
+    CLEAR_CART: 'EHRENAMT/CLEAR_CART',
 }
 
 export const constants = {
@@ -51,6 +53,7 @@ const initialState = {
         filtermode: constants.OR_FILTER,
         ignoredFilterGroups: [constants.KENTNISSE_FILTER, constants.GLOBALBEREICHE_FILTER, constants.ZIELGRUPPEN_FILTER]
     },
+    cart: [],
     filterX: {
         positiv: {
             globalbereiche: [],
@@ -122,6 +125,28 @@ export default function ehrenamtReducer(state = initialState, action) {
 
                 return newState;
             }
+            case types.ADD_TO_CART:
+            {
+                newState = objectAssign({}, state);
+                newState.cart = JSON.parse(JSON.stringify(state.cart));
+                newState.cart.push(action.offer);
+
+                return newState;
+            }
+            case types.REMOVE_FROM_CART:
+            {
+                newState = objectAssign({}, state);
+                let s=new Set(JSON.parse(JSON.stringify(state.cart)));
+                s.delete(state.cart);
+                newState.cart = Array.from(s);
+                return newState;
+            }
+        case types.CLEAR_CART:
+            {
+                newState = objectAssign({}, state);
+                newState.cart = [];
+                return newState;
+            }
         default:
             return state;
     }
@@ -153,6 +178,12 @@ function setFilter(filter) {
 
 function setIgnoredFilterGroups(filtergroups) {
     return {type: types.SET_IGNORED_FILTERGROUPS, filtergroups};
+}
+function addToCart(cart) {
+    return {type: types.ADD_TO_CART, cart};
+}
+function clearCart() {
+    return {type: types.CLEAR_CART};
 }
 
 //COMPLEXACTIONS
@@ -531,9 +562,11 @@ export const actions = {
     invertSelection,
     resetFilter,
     setFilterAndApply,
+    addToCart,
+    clearCart
 };
 
-//helperFunctions
+//HELPER FUNCTIONS
 function convertOfferToFeature(offer, index) {
 
     const id = offer.id;

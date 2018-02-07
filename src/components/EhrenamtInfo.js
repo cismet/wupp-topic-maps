@@ -56,9 +56,10 @@ const EhrenamtInfo = ({featureCollection, filteredOffers, selectedIndex, next, p
     else {
         offerLink=(<div/>)
     }
-    return (<Well bsSize="small" pixelwidth={250}>
-                {filterstatus}
-
+    return (
+    
+    <Well bsSize="small" pixelwidth={250}>
+        {filterstatus}
         <h5>Aktuell werden keine Angebote angezeigt.</h5>
         <p>Um Angebote an einem bestimmten Ort anzuzeigen, den Anfang (mindestens 2 Zeichen)
         eines Suchbegriffs eingeben und Eintrag aus Vorschlagsliste auswählen.</p>
@@ -70,6 +71,7 @@ const EhrenamtInfo = ({featureCollection, filteredOffers, selectedIndex, next, p
   else {
 
     return (
+            <div>
             <Well bsSize="small" onClick={logCurrentFeature}>
             {filterstatus}
             <table style={{ width: '100%' }}>
@@ -108,6 +110,7 @@ const EhrenamtInfo = ({featureCollection, filteredOffers, selectedIndex, next, p
                 </tbody>
                 </table>
             </Well>
+            </div>
         );
     }
 };

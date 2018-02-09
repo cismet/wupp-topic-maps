@@ -51,7 +51,17 @@ const EhrenamtInfo = ({featureCollection, filteredOffers, selectedIndex, next, p
   if (featureCollection.length===0) {
     let offerLink;
     if (filteredOffers.length>0) {
-        offerLink=(<p><a onClick={this.gotoHome} >{filteredOffers.length} Angebote in Wuppertal</a></p>);
+        offerLink=(
+            <table style={{ width: '100%' }}>
+            <tbody>
+              <tr>
+              <td style={{ textAlign: 'center', verticalAlign: 'top',}}>
+              <a onClick={this.gotoHome} >{filteredOffers.length} Angebote in Wuppertal</a>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        );
     }
     else {
         offerLink=(<div/>)
@@ -63,8 +73,8 @@ const EhrenamtInfo = ({featureCollection, filteredOffers, selectedIndex, next, p
         <h5>Aktuell werden keine Angebote angezeigt.</h5>
         <p>Um Angebote an einem bestimmten Ort anzuzeigen, den Anfang (mindestens 2 Zeichen)
         eines Suchbegriffs eingeben und Eintrag aus Vorschlagsliste auswählen.</p>
-        <p>Um nach Zielgruppen, Interessen oder Bereichen zu filtern, das 
-        <a onClick={fitAll}> Applikationsmenü öffnen.</a></p>
+        <p>Um nach Aufgabenfeldern, Tätigkeiten oder Zielgruppen zu filtern, das 
+        <a onClick={fitAll}> Men&uuml;&nbsp;<Icon name="bars" style={{color:"black"}}/> öffnen.</a></p>
         {offerLink}
     </Well>)
   }

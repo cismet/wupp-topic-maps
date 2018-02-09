@@ -208,15 +208,12 @@ export class Ehrenamt_ extends React.Component {
                             iconCreateFunction: ehrenAmtClusterIconCreator,
                         }}
                         infoBox={info}
+                        applicationMenuTooltipProvider={()=> (<Tooltip style={{
+                                zIndex: 3000000000
+                              }} id="helpTooltip">Filter | Merkliste | Anleitung</Tooltip>)
+                           }
 
                     >
-                        {/* <Control positio = "topright" > 
-                            <div>
-                            <Icon size='4x' style={{color: 'green',opacity: .50}} name='filter' />
-                            <Well>
-                            </Well> 
-                            </div>
-                        </Control> */}
                     </Cismap>
                </Loadable>
               

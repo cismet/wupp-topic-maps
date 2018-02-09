@@ -285,7 +285,7 @@ export class EhrenamtModalApplicationMenu_ extends React.Component {
                 keyboard={false}>
 
                 <Modal.Header >
-                    <Modal.Title><Icon name="info"/>&nbsp;&nbsp;&nbsp;Kompaktanleitung und Filter</Modal.Title>
+                    <Modal.Title><Icon name="bars"/>&nbsp;&nbsp;&nbsp;Filter, Merkliste und Kompaktanleitung</Modal.Title>
                 </Modal.Header >
                 <Modal.Body style={modalBodyStyle}>
                     <span>
@@ -387,7 +387,7 @@ export class EhrenamtModalApplicationMenu_ extends React.Component {
                         </ul>
                         </Panel>
 
-                        <Panel header="Bedienungsanleitung" eventKey="help" bsStyle="default">
+                        <Panel header="Kompaktanleitung" eventKey="help" bsStyle="default">
                             Die standardm&auml;&szlig;ig eingestellte Hintergrundkarte gibt eine
                             &Uuml;bersicht &uuml;ber die Wuppertaler Bebauungspl&auml;ne (B-Pl&auml;ne).<br/>
                             Gr&uuml;ne Fl&auml;chen (&Uuml;bersichtsma&szlig;stab) bzw. Umringe stehen

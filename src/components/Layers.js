@@ -196,14 +196,15 @@ Layers.set("uwBPlanCached", (opacity) => {
 });
 
 
-Layers.set("orthoIntra", (opacity) => {
+Layers.set("rvrWMS", (opacity) => {
   return (
     <WMSTileLayer
-      key="Ortho2014"
-      url="http://s10221:7098/orthofotos/services"
-      layers="WO2014"
+      key="stadtplan_rvr"
+      url="https://rvr.demo.omniscale.net/mapproxy/service"
+      layers="stadtplan_rvr"
       format="image/png"
-      tiled="true"
+      tiled="false"
+      version="1.3.0"
       maxZoom={19}
       opacity={opacity}
     />
@@ -211,6 +212,35 @@ Layers.set("orthoIntra", (opacity) => {
 });
 
 
+Layers.set("ruhrWMS", (opacity) => {
+    return (
+      <WMSTileLayer
+        key="ruhr_stadtplan_rvr"
+        url="https://geodaten.metropoleruhr.de/spw2/service"
+        layers="stadtplan_rvr"
+        format="image/png"
+        tiled="false"
+        version="1.3.0"
+        maxZoom={19}
+        opacity={opacity}
+      />
+    );
+  });
+
+
+Layers.set("orthoIntra", (opacity) => {
+    return (
+      <WMSTileLayer
+        key="Ortho2014"
+        url="http://s10221:7098/orthofotos/services"
+        layers="WO2014"
+        format="image/png"
+        tiled="true"
+        maxZoom={19}
+        opacity={opacity}
+      />
+    );
+  });
 
 
 
@@ -230,7 +260,6 @@ Layers.set("ESRILayer", (opacity) => {
   );
 });
 
-
 Layers.set("CartoLayer", (opacity) => {
   return (
     <TileLayer
@@ -246,3 +275,21 @@ Layers.set("CartoLayer", (opacity) => {
     />
   );
 });
+
+
+Layers.set("CartoLayer", (opacity) => {
+    return (
+      <TileLayer
+        key="CartoLayer"
+        urlBW="http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png"
+        urlE="http://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}"
+        urlH="http://{s}.tile.openstreetmap.se/hydda/full/{z}/{x}/{y}.png"
+        url="http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+        attribution='&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, &copy; <a href="https://carto.com/attributions">CARTO</a>'
+        maxNativeZoom={19}
+        maxZoom={22}
+        opacity={opacity}
+      />
+    );
+  });
+  

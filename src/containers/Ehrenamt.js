@@ -192,8 +192,8 @@ export class Ehrenamt_ extends React.Component {
                        featureClickHandler={this.featureClick}
                        ondblclick={this.doubleMapClick}
                        searchTooltipProvider={this.searchTooltip}
-                       searchMinZoom={12}
-                       searchMaxZoom={18}
+                       searchMinZoom={99}
+                       searchMaxZoom={98}
                        gazTopics={["pois","adressen", "bezirke", "quartiere"]}
                        clustered={true}
                        clusterOptions={{

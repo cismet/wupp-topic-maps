@@ -3,9 +3,10 @@ import PropTypes from 'prop-types';
 import { OverlayTrigger, Well, Tooltip } from 'react-bootstrap';
 import Loadable from 'react-loading-overlay';
 import {Icon} from 'react-fa'
+import { constants as ehrenamtConstants } from '../redux/modules/ehrenamt';
 
 // Since this component is simple and static, there's no parent container for it.
-const EhrenamtInfo = ({featureCollection, filteredOffers, selectedIndex, next, previous, fitAll, loadingIndicator, downloadPlan, downloadEverything, filter,resetFilter, showModalMenu, cart, toggleCart,}) => {
+const EhrenamtInfo = ({featureCollection, filteredOffers, selectedIndex, next, previous, fitAll, loadingIndicator, downloadPlan, downloadEverything, filter,resetFilter, showModalMenu, cart, toggleCart, filterMode}) => {
 
   const currentFeature=featureCollection[selectedIndex];
 
@@ -30,16 +31,24 @@ const EhrenamtInfo = ({featureCollection, filteredOffers, selectedIndex, next, p
 
             
 
+  let modalMenuTarget="filtertab";
+  let filterText="Filter aktiviert ("+positiv+negativ+")";
+  let filterColor="grey";
+  if (filterMode===ehrenamtConstants.CART_FILTER){
+    modalMenuTarget="cart";
+    filterText="Merklistenfilter aktiviert";
+    filterColor="#A5695A";
+  }
 
-  if ((positiv+negativ)>0) {
+  if ((positiv+negativ )>0|| filterMode===ehrenamtConstants.CART_FILTER) {
     filterstatus=(
          <table style={{ width: '100%' }}>
             <tbody>
               <tr>
-              <td style={{ textAlign: 'left', verticalAlign: 'top',background:'grey', opacity:'0.9', padding: '3px' }}>
-                <a onClick={()=>showModalMenu("filtertab")} style={{ color: 'black'}}><Icon name='filter' /> Filter aktiviert ({positiv+negativ})</a>
+              <td style={{ textAlign: 'left', verticalAlign: 'top',background:filterColor, opacity:'0.9', padding: '3px' }}>
+                <a onClick={()=>showModalMenu(modalMenuTarget)} style={{ color: 'black'}}><Icon name='filter' />&nbsp;{filterText}</a>
                 </td>
-                <td style={{ textAlign: 'right', verticalAlign: 'top', background:'grey',opacity:'0.9',padding: '3px' }}>
+                <td style={{ textAlign: 'right', verticalAlign: 'top', background:filterColor,opacity:'0.9',padding: '3px' }}>
                 <a onClick={resetFilter} style={{ color: 'black'}}><Icon name='close' /></a>
                 </td>
               </tr>

@@ -16,9 +16,14 @@ export const types = {
     ADD_TO_CART: 'EHRENAMT/ADD_TO_CART',
     REMOVE_FROM_CART: 'EHRENAMT/REMOVE_FROM_CART',
     CLEAR_CART: 'EHRENAMT/CLEAR_CART',
+    SET_MODE: 'EHRENAMT/SET_MODE',
+
+
 }
 
 export const constants = {
+    FILTER_FILTER: 'EHRENAMT/FILTER_FILTER',
+    CART_FILTER: 'EHRENAMT/CART_FILTER',
     OR_FILTER: 'EHRENAMT/OR_FILTER',
     AND_FILTER: 'EHRENAMT/AND_FILTER',
     IGNORE_FILTER: 'EHRENAMT/IGNORE_FILTER',
@@ -29,6 +34,7 @@ export const constants = {
 
 ///INITIAL STATE
 const initialState = {
+    mode: constants.FILTER_FILTER,
     offers: [],
     offersMD5:"",
     filteredOffers: [],
@@ -149,6 +155,12 @@ export default function ehrenamtReducer(state = initialState, action) {
                 newState.cart = [];
                 return newState;
             }
+        case types.SET_MODE:
+            {
+                newState = objectAssign({}, state);
+                newState.mode = action.mode;
+                return newState;
+            }
         default:
             return state;
     }
@@ -188,14 +200,20 @@ function addToCart(item) {
 function removeFromCart(item) {
     return {type: types.REMOVE_FROM_CART, item};
 }
-function clearCart() {
+function clearTheCart() {
     return {type: types.CLEAR_CART};
+}
+function setTheMode(mode) {
+    return {type: types.SET_MODE, mode};
 }
 
 //COMPLEXACTIONS
 
-function setPosFilter(){
-    
+function setMode(mode) {
+    return (dispatch) => {
+        dispatch(setTheMode(mode));
+        dispatch(applyFilter());
+    }
 }
 
 
@@ -226,6 +244,9 @@ function toggleCart(feature) {
             f.inCart=false;
             dispatch(mappingActions.changeFeatureById(f));
         } 
+        //TODO nur im CART_FILTER Mode
+        dispatch(applyFilter());
+
     }
 }
 
@@ -258,6 +279,7 @@ function toggleFilter(kind, filtergroup, filter) {
         }
         filterState[kind][filtergroup] = Array.from(filterGroupSet);
         filterState[kind][filtergroup].sort();
+        dispatch(setTheMode(constants.FILTER_FILTER));
         dispatch(setFilter(filterState));
         dispatch(applyFilter());
 
@@ -321,54 +343,61 @@ function applyFilter() {
 
     return (dispatch, getState) => {
         let state = getState();
-        let groups = [constants.KENTNISSE_FILTER, constants.GLOBALBEREICHE_FILTER, constants.ZIELGRUPPEN_FILTER];
-        let filteredOffers = [];
-        let filteredOfferSet = new Set(); //avoid duplicates
-        if (state.ehrenamt.filterX.positiv.zielgruppen.length === 0 && 
-            state.ehrenamt.filterX.positiv.kenntnisse.length === 0 && 
-            state.ehrenamt.filterX.positiv.globalbereiche.length === 0 
-        ) {
-            filteredOffers = state.ehrenamt.offers;
-            filteredOfferSet = new Set(filteredOffers);
-        } else {
-            for (let fg of groups) {
-                for (let offer of state.ehrenamt.offers) {
-                    if (offer[getFilterSelectorForConstant(fg)]) {
-                        for (let zg of offer[getFilterSelectorForConstant(fg)]) {
-                            if (state.ehrenamt.filterX.positiv[getFilterSelectorForConstant(fg)].indexOf(zg) > -1) {
-                                filteredOfferSet.add(offer);
-                                break;
+        if (state.ehrenamt.mode===constants.FILTER_FILTER) {
+            let groups = [constants.KENTNISSE_FILTER, constants.GLOBALBEREICHE_FILTER, constants.ZIELGRUPPEN_FILTER];
+            let filteredOffers = [];
+            let filteredOfferSet = new Set(); //avoid duplicates
+            if (state.ehrenamt.filterX.positiv.zielgruppen.length === 0 && 
+                state.ehrenamt.filterX.positiv.kenntnisse.length === 0 && 
+                state.ehrenamt.filterX.positiv.globalbereiche.length === 0 
+            ) {
+                filteredOffers = state.ehrenamt.offers;
+                filteredOfferSet = new Set(filteredOffers);
+            } else {
+                for (let fg of groups) {
+                    for (let offer of state.ehrenamt.offers) {
+                        if (offer[getFilterSelectorForConstant(fg)]) {
+                            for (let zg of offer[getFilterSelectorForConstant(fg)]) {
+                                if (state.ehrenamt.filterX.positiv[getFilterSelectorForConstant(fg)].indexOf(zg) > -1) {
+                                    filteredOfferSet.add(offer);
+                                    break;
+                                }
                             }
                         }
                     }
                 }
+                filteredOffers = Array.from(filteredOfferSet)
             }
-            filteredOffers = Array.from(filteredOfferSet)
-        }
 
-        if (state.ehrenamt.filterX.negativ.zielgruppen.length !== 0 || 
-            state.ehrenamt.filterX.negativ.kenntnisse.length !== 0 || 
-            state.ehrenamt.filterX.negativ.globalbereiche.length !== 0 
-        ) {
-            for (let fg of groups) {
-                for (let offer of filteredOffers) {
-                    if (offer[getFilterSelectorForConstant(fg)]) {
-                        for (let zg of offer[getFilterSelectorForConstant(fg)]) {
-                            if (state.ehrenamt.filterX.negativ[getFilterSelectorForConstant(fg)].indexOf(zg) > -1) {
-                                filteredOfferSet.delete(offer);
-                                break;
+            if (state.ehrenamt.filterX.negativ.zielgruppen.length !== 0 || 
+                state.ehrenamt.filterX.negativ.kenntnisse.length !== 0 || 
+                state.ehrenamt.filterX.negativ.globalbereiche.length !== 0 
+            ) {
+                for (let fg of groups) {
+                    for (let offer of filteredOffers) {
+                        if (offer[getFilterSelectorForConstant(fg)]) {
+                            for (let zg of offer[getFilterSelectorForConstant(fg)]) {
+                                if (state.ehrenamt.filterX.negativ[getFilterSelectorForConstant(fg)].indexOf(zg) > -1) {
+                                    filteredOfferSet.delete(offer);
+                                    break;
+                                }
                             }
                         }
                     }
-                }
-            }  
-            filteredOffers = Array.from(filteredOfferSet)
-       
+                }  
+                filteredOffers = Array.from(filteredOfferSet)
+        
+            }
+
+
+            dispatch(setFilteredOffers(filteredOffers));
+            dispatch(createFeatureCollectionFromOffers());
         }
-
-
-        dispatch(setFilteredOffers(filteredOffers));
-        dispatch(createFeatureCollectionFromOffers());
+        else {
+            //show only the cart
+            dispatch(setFilteredOffers(state.ehrenamt.cart));
+            dispatch(createFeatureCollectionFromOffers());
+        }
 
         // Auflisten der Angebote die der Filter herausgefiltert hat let difference =
         // state.ehrenamt.offers.filter(x => !filteredOffers.includes(x));
@@ -563,7 +592,6 @@ function selectNone(filtergroupconstant) {
 
 function resetFilter() {
     return (dispatch, getState) => {
-
         dispatch(setFilterAndApply(initialState.filterX));
     }
 }
@@ -589,7 +617,14 @@ function invertSelection(filtergroupconstant) {
         dispatch(setFilter(filterState));
         dispatch(applyFilter());
     }
+}
 
+function clearCart() {
+    return (dispatch, getState) => {
+        dispatch(clearTheCart());
+        //TODO nur im CART_FILTER Mode
+        dispatch(applyFilter());    
+    }
 }
 
 //EXPORT ACTIONS
@@ -608,7 +643,8 @@ export const actions = {
     addToCart,
     clearCart,
     toggleCart,
-    toggleCartFromOffer
+    toggleCartFromOffer,
+    setMode
 };
 
 //HELPER FUNCTIONS

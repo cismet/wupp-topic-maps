@@ -9,7 +9,7 @@ import { Well, Tooltip} from 'react-bootstrap';
 
 import { actions as mappingActions } from '../redux/modules/mapping';
 import { actions as uiStateActions } from '../redux/modules/uiState';
-import { actions as ehrenamtActions } from '../redux/modules/ehrenamt';
+import { actions as ehrenamtActions, constants as ehrenamtConstants } from '../redux/modules/ehrenamt';
 
 import { bindActionCreators } from 'redux';
 import EhrenamtModalApplicationMenu from '../components/EhrenamtModalApplicationMenu';
@@ -123,7 +123,13 @@ export class Ehrenamt_ extends React.Component {
     }
 
     resetFilter() {
-        this.props.ehrenamtActions.resetFilter();
+        if (this.props.ehrenamt.mode===ehrenamtConstants.FILTER_FILTER){
+            this.props.ehrenamtActions.resetFilter();
+        }
+        else {
+            this.props.ehrenamtActions.setMode(ehrenamtConstants.FILTER_FILTER);
+        }
+        
     }
     searchTooltip(){
         return (<div/>);
@@ -149,6 +155,8 @@ export class Ehrenamt_ extends React.Component {
                  showModalMenu={(section)=>this.props.uiStateActions.showApplicationMenuAndActivateSection(true,section)}
                  cart={this.props.ehrenamt.cart}
                  toggleCart={this.props.ehrenamtActions.toggleCart}
+                 filterMode={this.props.ehrenamt.mode}
+
                  />
              )
       

@@ -418,8 +418,11 @@ export class EhrenamtModalApplicationMenu_ extends React.Component {
                                 }}>
                                 <ButtonGroup bsStyle="default">
                                     <Button  onClick={this.props.ehrenamtActions.clearCart}><Icon name="trash"/></Button>
-                                    <Button  onClick={this.close}><Icon name="map"/></Button>
-                                    <Button  onClick={this.close}><Icon name="share-square"/></Button>
+                                    <Button  onClick={()=>{
+                                        this.props.ehrenamtActions.setMode(ehrenamtConstants.CART_FILTER);
+                                        this.close();
+                                    }}><Icon name="map"/></Button>
+                                    <Button  disabled={true} onClick={this.close}><Icon name="share-square"/></Button>
                                 </ButtonGroup>
                             </td>
                             </tr>

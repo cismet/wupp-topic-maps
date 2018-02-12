@@ -56,7 +56,7 @@ const EhrenamtInfo = ({featureCollection, filteredOffers, selectedIndex, next, p
             <tbody>
               <tr>
               <td style={{ textAlign: 'center', verticalAlign: 'top',}}>
-              <a onClick={this.gotoHome} >{filteredOffers.length} Angebote in Wuppertal</a>
+              <a onClick={fitAll} >{filteredOffers.length} Angebote in Wuppertal</a>
                 </td>
               </tr>
             </tbody>
@@ -74,7 +74,7 @@ const EhrenamtInfo = ({featureCollection, filteredOffers, selectedIndex, next, p
         <p>Um Angebote an einem bestimmten Ort anzuzeigen, den Anfang (mindestens 2 Zeichen)
         eines Suchbegriffs eingeben und Eintrag aus Vorschlagsliste auswählen.</p>
         <p>Um nach Aufgabenfeldern, Tätigkeiten oder Zielgruppen zu filtern, das 
-        <a onClick={fitAll}> Men&uuml;&nbsp;<Icon name="bars" style={{color:"black"}}/> öffnen.</a></p>
+        <a onClick={showModalMenu}> Men&uuml;&nbsp;<Icon name="bars" style={{color:"black"}}/> öffnen.</a></p>
         {offerLink}
     </Well>)
   }

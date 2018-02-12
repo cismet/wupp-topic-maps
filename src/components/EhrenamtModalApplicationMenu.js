@@ -286,15 +286,32 @@ export class EhrenamtModalApplicationMenu_ extends React.Component {
                 </Modal.Header >
                 <Modal.Body style={modalBodyStyle} id="myMenu">
                     <span>
-                        W&auml;hlen Sie Ihre Such- und Ausschlussbedingungen in den <Link to="filter" containerId="myMenu" smooth={true} delay={100} onClick={()=>this.props.uiActions.setApplicationMenuActiveKey("filtertab")}>Filtern-Klapplisten</Link> aus, um 
+                        W&auml;hlen Sie Ihre Such- und Ausschlussbedingungen in den <Link 
+                            to="filter" 
+                            containerId="myMenu" 
+                            smooth={true} 
+                            delay={100} 
+                            onClick={()=>this.props.uiActions.setApplicationMenuActiveKey("filtertab")}>
+                            Filtern-Klapplisten</Link> aus, um 
                         die angezeigten Angebote an Ihre Interessen anzupassen (alternativ &uuml;ber die Einstellungen 
-                        unter den darunter folgenden Leitfragen). Über  <Link to="cart" containerId="myMenu" smooth={true} delay={100} onClick={()=>this.props.uiActions.setApplicationMenuActiveKey("cart")}>Merkliste</Link> erreichen Sie die Liste der 
-                        Angebote, die Sie festgehalten haben. W&auml;hlen Sie  <Link to="help" containerId="myMenu" smooth={true} delay={100} onClick={()=>this.props.uiActions.setApplicationMenuActiveKey("help")}>Kompaktanleitung</Link> f&uuml;r detailliertere 
-                        Bedienungsinformationen.
+                        unter den darunter folgenden Leitfragen). 
+                        Über <Link 
+                            to="cart" 
+                            containerId="myMenu" 
+                            smooth={true} delay={100} 
+                            onClick={()=>this.props.uiActions.setApplicationMenuActiveKey("cart")}>
+                            Merkliste</Link> erreichen Sie die Liste der 
+                        Angebote, die Sie festgehalten haben. W&auml;hlen Sie <Link 
+                            to="help" 
+                            containerId="myMenu" 
+                            smooth={true} 
+                            delay={100} 
+                            onClick={()=>this.props.uiActions.setApplicationMenuActiveKey("help")}>
+                            Kompaktanleitung</Link> f&uuml;r detailliertere Bedienungsinformationen.
                     </span>
                     <br/>
                     <br/>
-                    <Accordion name="filter" key={"Filter.ACC"} defaultActiveKey={this.props.uiState.applicationMenuActiveKey||"filtertab"}>
+                    <Accordion name="filter" key={"acc.filter."+this.props.uiState.applicationMenuActiveKey} defaultActiveKey={this.props.uiState.applicationMenuActiveKey||"filtertab"}>
                         <Panel height="auto" header={"Filtern ("+this.props.filteredOffersCount+" gefunden, davon "+this.props.featureCollectionCount+" in der Karte)"} eventKey="filtertab" bsStyle="primary">
                     <h4>Ich suche nach:</h4>
                             <Select

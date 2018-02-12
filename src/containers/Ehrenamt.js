@@ -125,7 +125,7 @@ export class Ehrenamt_ extends React.Component {
         this.props.ehrenamtActions.resetFilter();
     }
     searchTooltip(){
-        return (<Tooltip style={{zIndex: 3000000000}} id="searchTooltip">Ehrenamtsinfos im Kartenausschnitt laden</Tooltip>);
+        return (<div/>);
     };
 
     
@@ -184,7 +184,7 @@ export class Ehrenamt_ extends React.Component {
       text='Laden der Angebote ...'
     >
                <Cismap ref={cismap => {this.cismapRef = cismap;}}
-                       layers={this.props.match.params.layers ||'abkg@40,nrwDOP20@20'}
+                       layers={this.props.match.params.layers ||'rvrWMS@75'}
                        gazeteerHitTrigger={this.gazeteerhHit}
                        searchButtonTrigger={this.searchButtonHit}
                        featureStyler={featureStyler}

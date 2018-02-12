@@ -16,7 +16,7 @@ const gazetteerTopicsStorageConfig = {
 const ehrenamtStorageConfig = {
     key: 'ehrenamtOffers',
     storage: localForage,
-    whitelist: ['offers','offersMD5', 'globalbereiche','kenntnisse', 'zielgruppen', 'filterX']
+    whitelist: ['offers','offersMD5', 'globalbereiche','kenntnisse', 'zielgruppen', 'filterX','cart']
    }
 
    const uiStateStorageConfig = {

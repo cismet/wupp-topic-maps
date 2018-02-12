@@ -195,8 +195,20 @@ function clearCart() {
 //COMPLEXACTIONS
 
 function setPosFilter(){
-
+    
 }
+
+
+function toggleCartFromOffer(offer) {
+    return (dispatch, getState) => {
+        let featureCollection = getState().mapping.featureCollection
+        let feature=featureCollection.find(x => x.id === offer.id); 
+        if (feature) {
+            dispatch(toggleCart(feature));
+        }
+    }
+}
+
 
 function toggleCart(feature) {
     return (dispatch, getState) => {
@@ -216,6 +228,8 @@ function toggleCart(feature) {
         } 
     }
 }
+
+
    
 function toggleFilter(kind, filtergroup, filter) {
     return (dispatch, getState) => {
@@ -593,7 +607,8 @@ export const actions = {
     setFilterAndApply,
     addToCart,
     clearCart,
-    toggleCart
+    toggleCart,
+    toggleCartFromOffer
 };
 
 //HELPER FUNCTIONS

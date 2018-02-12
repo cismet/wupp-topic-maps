@@ -262,7 +262,8 @@ export class EhrenamtModalApplicationMenu_ extends React.Component {
         for (let cartOffer of this.props.ehrenamtState.cart){
             let o= (
                 <li key={"cart.li."+cartOffer.id}>
-                     <h5>Angebot Nr. {cartOffer.id}</h5><h6>{cartOffer.text}</h6>
+                     <span><h5>Angebot Nr. {cartOffer.id}&nbsp;<a style={{ color: '#C33D17'}} onClick={()=>this.props.ehrenamtActions.toggleCartFromOffer(cartOffer)}><Icon name="minus-square"/></a></h5></span>
+                     <h6>{cartOffer.text}</h6>
                 </li>
             );
             cartOffers.push(o);
@@ -403,9 +404,27 @@ export class EhrenamtModalApplicationMenu_ extends React.Component {
                     </Accordion>
                     <Accordion name="cart" key={"cart"+this.props.uiState.applicationMenuActiveKey} defaultActiveKey={this.props.uiState.applicationMenuActiveKey} >
                         <Panel header="meine Merkliste" eventKey="cart" bsStyle="primary">
-                         <ul>
-                            {cartOffers}
-                        </ul>
+                        <table width="100%" border={0}>
+                        <tbody>
+                            <tr>
+                                <td >
+                                    <ul>
+                                        {cartOffers}
+                                    </ul>
+                                </td>
+                            <td style={{
+                                textAlign: 'right',
+                                verticalAlign: 'top'
+                                }}>
+                                <ButtonGroup bsStyle="default">
+                                    <Button  onClick={this.props.ehrenamtActions.clearCart}><Icon name="trash"/></Button>
+                                    <Button  onClick={this.close}><Icon name="map"/></Button>
+                                    <Button  onClick={this.close}><Icon name="share-square"/></Button>
+                                </ButtonGroup>
+                            </td>
+                            </tr>
+                        </tbody>
+                        </table>
                         </Panel>
                     </Accordion>
                     <Accordion name="help" key={"helptext"+this.props.uiState.applicationMenuActiveKey} defaultActiveKey={this.props.uiState.applicationMenuActiveKey} >

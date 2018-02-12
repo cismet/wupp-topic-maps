@@ -265,7 +265,7 @@ export class EhrenamtModalApplicationMenu_ extends React.Component {
         let cartOffers=[];
         for (let cartOffer of this.props.ehrenamtState.cart){
             let o= (
-                <li>
+                <li key={"cart.li."+cartOffer.id}>
                      <h5>Angebot Nr. {cartOffer.id}</h5><h6>{cartOffer.text}</h6>
                 </li>
             );

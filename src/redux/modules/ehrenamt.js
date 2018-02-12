@@ -201,15 +201,22 @@ function setPosFilter(){
 function toggleCart(feature) {
     return (dispatch, getState) => {
         let cart = getState().ehrenamt.cart;
+        let f=objectAssign({}, feature);
+
         if (cart.find(x => x.id === feature.properties.id)===undefined){
             dispatch(addToCart(feature.properties));
+            f.inCart=true;
+            dispatch(mappingActions.changeFeatureById(f));
+
         }
         else {
             dispatch(removeFromCart(feature.properties));
+            f.inCart=false;
+            dispatch(mappingActions.changeFeatureById(f));
         } 
     }
 }
-
+   
 function toggleFilter(kind, filtergroup, filter) {
     return (dispatch, getState) => {
         let state = getState();
@@ -474,6 +481,12 @@ function createFeatureCollectionFromOffers(boundingBox) {
             for (let offer of results) {
                 let offerFeature = convertOfferToFeature(offer, counter)
                 resultFC.push(offerFeature);
+                if (state.ehrenamt.cart.find((x => x.id === offerFeature.id))!==undefined) {
+                    offerFeature.inCart=true
+                }
+                else {
+                    offerFeature.inCart=false;
+                }
                 if (offerFeature.id === currentSelectedFeature.id) {
                     selectionWish = counter;
                 }

@@ -166,7 +166,7 @@ export class Ehrenamt_ extends React.Component {
         // let difference = offerIds.filter(x => !fcIds.includes(x));
         // console.log(difference);
       return (
-           <div>
+           <div key={'div.EhrenamtModalApplicationMenu.visible:'+this.props.ui.applicationMenuVisible}>
                <EhrenamtModalApplicationMenu key={'EhrenamtModalApplicationMenu.visible:'+this.props.ui.applicationMenuVisible}
                 zielgruppen={this.props.ehrenamt.zielgruppen}
                 kenntnisse={this.props.ehrenamt.kenntnisse}

@@ -14,14 +14,22 @@ export const featureStyler = (feature) => {
         svgSize = 36;
     }
 
+    //star: &#xf005;
+    let star="";
+    if (feature.inCart) {
+        star= `<text x="${svgSize / 2}" y="${svgSize / 2}" text-anchor="middle" alignment-baseline="central" font-family="FontAwesome" font-size="11" stroke="none" fill="${color.darken(0.5)}">&#xf005;</text>";`
+    }
+
     let svg = `<svg height="${svgSize}" width="${svgSize}">
             <circle cx="${svgSize / 2}" cy="${svgSize / 2}" r="${radius}" stroke="${color.darken(0.5)}" stroke-width="${weight}" fill="${color}" />
+            ${star}
         </svg>  `
     if (feature.selected) {
 
         svg = `<svg height="${svgSize}" width="${svgSize}">
               <rect visible="false" x="${ (svgSize - selectionBox) / 2}" y="${ (svgSize - selectionBox) / 2}" rx="8" ry="8" width="${selectionBox}" height="${selectionBox}" fill="rgba(67, 149, 254, 0.8)" stroke-width="0"/>
               <circle cx="${svgSize / 2}" cy="${svgSize / 2}" r="${radius}" stroke="${color.darken(0.5)}" stroke-width="${weight}" fill="${color}" />
+              ${star}
           </svg>  `
     }
     // console.log(svg)
@@ -49,11 +57,15 @@ export const ehrenAmtClusterIconCreator = (cluster) => {
     let childMarkers=cluster.getAllChildMarkers();
 
     let containsSelection=false;
+    let inCart=false;
     for (let marker of childMarkers) {
         values.push(1);
         colors.push(Color(getColorForProperties(marker.feature)));
         if (marker.feature.selected===true){
             containsSelection=true;
+        }
+        if (marker.feature.inCart){
+            inCart=true;
         }
     }
     const pie = createSVGPie(values, r, colors);
@@ -92,6 +104,20 @@ export const ehrenAmtClusterIconCreator = (cluster) => {
         fill: "none"
         
     }));
+
+    
+    if (inCart) {
+        background.appendChild(createElement('text', {
+            x:"50%",
+            y:"50%",
+            "text-anchor":"middle",
+            "alignment-baseline":"central",    
+            "font-family":"FontAwesome",
+            "fill":"#fff",
+            "font-size":"26",
+            opacity: "0.5",
+        })).appendChild(document.createTextNode("\uf005"));
+    }
 
     background.appendChild(createElement('text', {
         x:"50%",

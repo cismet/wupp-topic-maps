@@ -25,6 +25,7 @@ import Select from 'react-select-plus';
 import 'react-select-plus/dist/react-select-plus.css';
 import MultiToggleButton from './MultiToggleButton';
 
+import { Link } from 'react-scroll';
 
 function mapStateToProps(state) {
     return {
@@ -44,12 +45,7 @@ export class EhrenamtModalApplicationMenu_ extends React.Component {
         super(props, context);
         this.close = this.close.bind(this);
         this.handlePosOnChange=this.handlePosOnChange.bind(this);
-        this.handleNegOnChange=this.handleNegOnChange.bind(this);
-        
-       
-
-       
-            
+        this.handleNegOnChange=this.handleNegOnChange.bind(this);  
     }
 
     close() {
@@ -275,6 +271,7 @@ export class EhrenamtModalApplicationMenu_ extends React.Component {
 
         return (
             <Modal
+                
                 style={{
                 zIndex: 3000000000,
             }}
@@ -287,12 +284,17 @@ export class EhrenamtModalApplicationMenu_ extends React.Component {
                 <Modal.Header >
                     <Modal.Title><Icon name="bars"/>&nbsp;&nbsp;&nbsp;Filter, Merkliste und Kompaktanleitung</Modal.Title>
                 </Modal.Header >
-                <Modal.Body style={modalBodyStyle}>
+                <Modal.Body style={modalBodyStyle} id="myMenu">
                     <span>
-                        Bitte w&auml;hlen Sie eine der folgenden farbigen Schaltfl&auml;chen, um sich
-                        weitere Informationen zu dem entsprechenden Thema anzeigen zu lassen:<br/><br/>
+                        W&auml;hlen Sie Ihre Such- und Ausschlussbedingungen in den <Link to="filter" containerId="myMenu" smooth={true} delay={100} onClick={()=>this.props.uiActions.setApplicationMenuActiveKey("filtertab")}>Filtern-Klapplisten</Link> aus, um 
+                        die angezeigten Angebote an Ihre Interessen anzupassen (alternativ &uuml;ber die Einstellungen 
+                        unter den darunter folgenden Leitfragen). Über  <Link to="cart" containerId="myMenu" smooth={true} delay={100} onClick={()=>this.props.uiActions.setApplicationMenuActiveKey("cart")}>Merkliste</Link> erreichen Sie die Liste der 
+                        Angebote, die Sie festgehalten haben. W&auml;hlen Sie  <Link to="help" containerId="myMenu" smooth={true} delay={100} onClick={()=>this.props.uiActions.setApplicationMenuActiveKey("help")}>Kompaktanleitung</Link> f&uuml;r detailliertere 
+                        Bedienungsinformationen.
                     </span>
-                    <Accordion key={"Filter.ACC"} activeKey="filtertab">
+                    <br/>
+                    <br/>
+                    <Accordion name="filter" key={"Filter.ACC"} defaultActiveKey={this.props.uiState.applicationMenuActiveKey||"filtertab"}>
                         <Panel height="auto" header={"Filtern ("+this.props.filteredOffersCount+" gefunden, davon "+this.props.featureCollectionCount+" in der Karte)"} eventKey="filtertab" bsStyle="primary">
                     <h4>Ich suche nach:</h4>
                             <Select
@@ -359,7 +361,7 @@ export class EhrenamtModalApplicationMenu_ extends React.Component {
             				/>  
                         </Panel>
                         </Accordion>        
-                    <Accordion key={"ACC"} activeKey={this.props.uiState.applicationMenuActiveKey} >
+                    <Accordion key={"ACC"} defaultActiveKey="none" >
                     <Panel header="Welches Aufgabenfeld interessiert mich?" eventKey="bereiche_adv_filter" bsStyle="warning">
                         <table border={0}>
                         <tbody>
@@ -381,12 +383,15 @@ export class EhrenamtModalApplicationMenu_ extends React.Component {
                         </tbody>
                         </table>
                     </Panel>
+                    </Accordion>
+                    <Accordion name="cart" key={"cart"+this.props.uiState.applicationMenuActiveKey} defaultActiveKey={this.props.uiState.applicationMenuActiveKey} >
                         <Panel header="meine Merkliste" eventKey="cart" bsStyle="primary">
                          <ul>
                             {cartOffers}
                         </ul>
                         </Panel>
-
+                    </Accordion>
+                    <Accordion name="help" key={"helptext"+this.props.uiState.applicationMenuActiveKey} defaultActiveKey={this.props.uiState.applicationMenuActiveKey} >
                         <Panel header="Kompaktanleitung" eventKey="help" bsStyle="default">
                             Die standardm&auml;&szlig;ig eingestellte Hintergrundkarte gibt eine
                             &Uuml;bersicht &uuml;ber die Wuppertaler Bebauungspl&auml;ne (B-Pl&auml;ne).<br/>

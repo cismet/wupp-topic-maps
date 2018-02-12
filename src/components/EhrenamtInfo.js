@@ -37,7 +37,7 @@ const EhrenamtInfo = ({featureCollection, filteredOffers, selectedIndex, next, p
             <tbody>
               <tr>
               <td style={{ textAlign: 'left', verticalAlign: 'top',background:'grey', opacity:'0.9', padding: '3px' }}>
-                <a onClick={showModalMenu} style={{ color: 'black'}}><Icon name='filter' /> Filter aktiviert ({positiv+negativ})</a>
+                <a onClick={()=>showModalMenu("filtertab")} style={{ color: 'black'}}><Icon name='filter' /> Filter aktiviert ({positiv+negativ})</a>
                 </td>
                 <td style={{ textAlign: 'right', verticalAlign: 'top', background:'grey',opacity:'0.9',padding: '3px' }}>
                 <a onClick={resetFilter} style={{ color: 'black'}}><Icon name='close' /></a>
@@ -74,15 +74,19 @@ const EhrenamtInfo = ({featureCollection, filteredOffers, selectedIndex, next, p
         <p>Um Angebote an einem bestimmten Ort anzuzeigen, den Anfang (mindestens 2 Zeichen)
         eines Suchbegriffs eingeben und Eintrag aus Vorschlagsliste auswählen.</p>
         <p>Um nach Aufgabenfeldern, Tätigkeiten oder Zielgruppen zu filtern, das 
-        <a onClick={showModalMenu}> Men&uuml;&nbsp;<Icon name="bars" style={{color:"black"}}/> öffnen.</a></p>
+        <a onClick={()=>showModalMenu("filtertab")}> Men&uuml;&nbsp;<Icon name="bars" style={{color:"black"}}/> öffnen.</a></p>
         {offerLink}
     </Well>)
   }
   else {
 
     let cartIcon="plus-square";
+    let bookmarkColor="#DDDDDD";
     if (cart.find(x => x.id === currentFeature.id)!==undefined){
         cartIcon="check-square";
+    }
+    if (cart.length>0){
+        bookmarkColor="#666666";
     }
     return (
             <div>
@@ -99,12 +103,26 @@ const EhrenamtInfo = ({featureCollection, filteredOffers, selectedIndex, next, p
                             <h5>Angebot Nr. {currentFeature.id}</h5>
                         </td>
                         <td style={{ textAlign: 'right'}}>
+                        <OverlayTrigger placement="left" overlay={(<Tooltip style={{zIndex: 3000000000}} id="bookmarkstt">Merkliste &ouml;ffnen</Tooltip>)}>
+                            <a key={"ico.bookmark."+bookmarkColor} onClick={()=>showModalMenu("cart")} style={{ color: bookmarkColor}}><Icon size="2x" name={"bookmark"} /></a>
+                        </OverlayTrigger>
+                        </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <table style={{ width: '100%' }}>
+                     <tbody>
+                        <tr>
+                        <td style={{ textAlign: 'left' }}>
+                            <h6>{currentFeature.text}</h6>
+                        </td>
+                        <td style={{ textAlign: 'right'}}>
                             <a onClick={()=>{toggleCart(currentFeature)}} style={{ color: 'black'}}><Icon size="2x" name={cartIcon} /></a>
                         </td>
-              </tr>
-            </tbody>
-          </table>
-                    <h6>{currentFeature.text}</h6>
+                        </tr>
+                        </tbody>
+                    </table>
+                   
                     </td>
                 </tr>
                 </tbody>

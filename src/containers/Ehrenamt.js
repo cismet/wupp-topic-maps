@@ -59,6 +59,7 @@ export class Ehrenamt_ extends React.Component {
         this.loadTheOffers().then((data) => {
             this.dataLoaded=true;
         });
+        this.props.uiStateActions.setApplicationMenuActiveKey("filtertab");
       }
    
 
@@ -145,7 +146,7 @@ export class Ehrenamt_ extends React.Component {
                  downloadEverything={this.downloadEverything}
                  filter={this.props.ehrenamt.filterX}
                  resetFilter={this.resetFilter}
-                 showModalMenu={()=>this.props.uiStateActions.showApplicationMenu(true)}
+                 showModalMenu={(section)=>this.props.uiStateActions.showApplicationMenuAndActivateSection(true,section)}
                  cart={this.props.ehrenamt.cart}
                  toggleCart={this.props.ehrenamtActions.toggleCart}
                  />

@@ -237,7 +237,7 @@ export class Cismap_ extends React.Component {
     this.storeBoundingBox();
   }
 
-  gotoHomeBB() {
+gotoHomeBB() {
     this.refs.leafletMap.leafletElement.fitBounds([
       [
         51.1094, 7.00093
@@ -246,7 +246,13 @@ export class Cismap_ extends React.Component {
         51.3737,7.3213
       ]
     ]);
+    
 }
+
+centerOnPoint(x,y,z) {
+    this.refs.leafletMap.leafletElement.setView([x, y], z);
+}
+
 
   componentDidUpdate() {
     if ((typeof(this.refs.leafletMap) !== 'undefined' && this.refs.leafletMap != null)) {

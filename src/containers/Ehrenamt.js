@@ -52,7 +52,9 @@ export class Ehrenamt_ extends React.Component {
       this.createfeatureCollectionByBoundingBox=this.createfeatureCollectionByBoundingBox.bind(this);
       this.filterChanged=this.filterChanged.bind(this);
       this.resetFilter=this.resetFilter.bind(this);
+      this.centerOnPoint=this.centerOnPoint.bind(this);
       this.props.mappingActions.setBoundingBoxChangedTrigger(this.createfeatureCollectionByBoundingBox);
+
     }
     componentWillMount() {
         this.dataLoaded=false;
@@ -99,6 +101,11 @@ export class Ehrenamt_ extends React.Component {
       //x1=361332.75015625&y1=5669333.966678483&x2=382500.79703125&y2=5687261.576954328
 
       this.cismapRef.wrappedInstance.gotoHomeBB()
+    }
+
+    centerOnPoint(x,y,z) {
+        console.log(this);
+        this.cismapRef.wrappedInstance.centerOnPoint(x,y,z);
     }
 
     selectNextIndex() {
@@ -185,7 +192,7 @@ export class Ehrenamt_ extends React.Component {
                 filteredOffersCount={this.props.ehrenamt.filteredOffers.length}
                 featureCollectionCount={this.props.mapping.featureCollection.length}
                 offersMD5={this.props.ehrenamt.offersMD5}
-                
+                centerOnPoint={this.centerOnPoint}
                />
                <Loadable
       active={!this.dataLoaded}

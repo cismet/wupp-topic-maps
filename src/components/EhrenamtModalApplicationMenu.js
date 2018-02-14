@@ -261,7 +261,19 @@ export class EhrenamtModalApplicationMenu_ extends React.Component {
         let cartOffers=[];
         for (let cartOffer of this.props.ehrenamtState.cart){
             let o= (
-                <li key={"cart.li."+cartOffer.id}><h5>Angebot Nr. {cartOffer.id}&nbsp;<a style={{ color: '#C33D17'}} onClick={()=>this.props.ehrenamtActions.toggleCartFromOffer(cartOffer)}><Icon name="minus-square"/></a></h5>
+                <li key={"cart.li."+cartOffer.id}>
+                    <h5>
+                        Angebot Nr. {cartOffer.id}&nbsp;&nbsp;&nbsp;
+                        <a style={{ color: 'black'}} onClick={()=>{
+                                this.props.centerOnPoint(cartOffer.geo_x,cartOffer.geo_y,13);
+                                this.close();
+                            }}>
+                            <Icon name="map-marker"/>
+                        </a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        <a style={{ color: '#C33D17'}} onClick={()=>this.props.ehrenamtActions.toggleCartFromOffer(cartOffer)}>
+                            <Icon name="minus-square"/>
+                        </a>
+                    </h5>
                      <h6>{cartOffer.text}</h6>
                 </li>
             );
@@ -456,9 +468,7 @@ export class EhrenamtModalApplicationMenu_ extends React.Component {
                                     style={{
                                     fontSize: "11px"
                                 }}>
-                                    <b>Hintergrundkarte</b>: in Detailma&szlig;st&auml;ben&nbsp;
-                                    <a>Amtliche Basiskarte (ABK) der Stadt Wuppertal</a>, jeweils &uuml;berlagert mit
-                                    dem Wuppertaler Orthofoto.<br/>
+                                    <b>Hintergrundkarte</b>: <a>Stadtplanwerk 2.0 (Beta)</a>, <Icon name="copyright"/> Regionalverband Ruhr (RVR) und Kooperationspartner.<br/>
                                     <b>Angebotsdaten</b>: {this.props.offersMD5}</span>
                                     
                             </td>

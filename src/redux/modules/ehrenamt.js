@@ -222,13 +222,24 @@ function toggleCartFromOffer(offer) {
         let featureCollection = getState().mapping.featureCollection
         let feature=featureCollection.find(x => x.id === offer.id); 
         if (feature) {
-            dispatch(toggleCart(feature));
+            //offer is shown in the map, therefore the toggleFromFeatureMethod should be used
+            dispatch(toggleCartFromFeature(feature));
+        }
+        else {
+            //offer not shown in map
+            let cart = getState().ehrenamt.cart;
+            if (cart.find(x => x.id === offer.id)===undefined){
+                dispatch(addToCart(offer));
+            }
+            else {
+                dispatch(removeFromCart(offer));
+            }
         }
     }
 }
 
 
-function toggleCart(feature) {
+function toggleCartFromFeature(feature) {
     return (dispatch, getState) => {
         let cart = getState().ehrenamt.cart;
         let f=objectAssign({}, feature);
@@ -653,7 +664,7 @@ export const actions = {
     setFilterAndApply,
     addToCart,
     clearCart,
-    toggleCart,
+    toggleCartFromFeature,
     toggleCartFromOffer,
     setMode,
     selectOffer

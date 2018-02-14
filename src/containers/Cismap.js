@@ -59,8 +59,8 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
   return {
     mappingActions: bindActionCreators(mappingActions, dispatch),
-    routingActions: bindActionCreators(routerActions, dispatch),
     uiStateActions: bindActionCreators(uiStateActions, dispatch),
+    routingActions: bindActionCreators(routerActions, dispatch),
     gazetteerTopicsActions: bindActionCreators(gazetteerTopicsActions, dispatch)
   };
 }

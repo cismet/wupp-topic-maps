@@ -6,7 +6,7 @@ import {Icon} from 'react-fa'
 import { constants as ehrenamtConstants } from '../redux/modules/ehrenamt';
 
 // Since this component is simple and static, there's no parent container for it.
-const EhrenamtInfo = ({featureCollection, filteredOffers, selectedIndex, next, previous, fitAll, loadingIndicator, downloadPlan, downloadEverything, filter,resetFilter, showModalMenu, cart, toggleCart, filterMode}) => {
+const EhrenamtInfo = ({featureCollection, filteredOffers, selectedIndex, next, previous, fitAll, loadingIndicator, downloadPlan, downloadEverything, filter,resetFilter, showModalMenu, cart, toggleCartFromFeature, filterMode}) => {
 
   const currentFeature=featureCollection[selectedIndex];
 
@@ -135,7 +135,7 @@ const EhrenamtInfo = ({featureCollection, filteredOffers, selectedIndex, next, p
                                         else {
                                             console.log("no togglecartTooltip");
                                         }
-                                        toggleCart(currentFeature);
+                                        toggleCartFromFeature(currentFeature);
                                         
                                     }} style={{ color: 'black'}}><Icon size="2x" name={cartIcon} /></a>
                             </OverlayTrigger>
@@ -191,6 +191,6 @@ export default EhrenamtInfo;
    fitAll: PropTypes.func.isRequired,
    showModalMenu: PropTypes.func.isRequired,
    cart: PropTypes.array.isRequired,
-   toggleCart: PropTypes.func.isRequired,
+   toggleCartFromFeature: PropTypes.func.isRequired,
 
  };

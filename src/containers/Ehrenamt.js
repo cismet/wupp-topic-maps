@@ -10,6 +10,7 @@ import { Well, Tooltip} from 'react-bootstrap';
 import { actions as mappingActions } from '../redux/modules/mapping';
 import { actions as uiStateActions } from '../redux/modules/uiState';
 import { actions as ehrenamtActions, constants as ehrenamtConstants } from '../redux/modules/ehrenamt';
+import {routerActions} from 'react-router-redux'
 
 import { bindActionCreators } from 'redux';
 import EhrenamtModalApplicationMenu from '../components/EhrenamtModalApplicationMenu';
@@ -19,13 +20,15 @@ import { featureStyler, featureHoverer, ehrenAmtClusterIconCreator } from '../ut
 import {Icon} from 'react-fa'
 
 import Loadable from 'react-loading-overlay';
+import queryString from 'query-string';
 
 function mapStateToProps(state) {
   return {
     ui: state.uiState,
     mapping: state.mapping,
     routing: state.routing,
-    ehrenamt: state.ehrenamt
+    ehrenamt: state.ehrenamt,
+    routing: state.routing,
   };
 }
 
@@ -34,7 +37,7 @@ function mapDispatchToProps(dispatch) {
     mappingActions: bindActionCreators(mappingActions, dispatch),
     uiStateActions: bindActionCreators(uiStateActions, dispatch),
     ehrenamtActions: bindActionCreators(ehrenamtActions, dispatch),
-
+    routingActions: bindActionCreators(routerActions, dispatch),
   };
 }
 
@@ -64,7 +67,7 @@ export class Ehrenamt_ extends React.Component {
         this.props.uiStateActions.setApplicationMenuActiveKey("filtertab");
       }
    
-
+     
 
     loadTheOffers() {
         var promise = new Promise((resolve, reject) => {
@@ -99,12 +102,10 @@ export class Ehrenamt_ extends React.Component {
 
     gotoHome() {
       //x1=361332.75015625&y1=5669333.966678483&x2=382500.79703125&y2=5687261.576954328
-
       this.cismapRef.wrappedInstance.gotoHomeBB()
     }
 
     centerOnPoint(x,y,z) {
-        console.log(this);
         this.cismapRef.wrappedInstance.centerOnPoint(x,y,z);
     }
 
@@ -144,6 +145,11 @@ export class Ehrenamt_ extends React.Component {
 
     
     render() {
+
+    const urlCart=queryString.parse(this.props.routing.location.search).cart;
+    console.log(urlCart);
+
+
       let info= null;
         let numberOfOffers=this.props.ehrenamt.filteredOffers.length;
            info = (
@@ -161,7 +167,7 @@ export class Ehrenamt_ extends React.Component {
                  resetFilter={this.resetFilter}
                  showModalMenu={(section)=>this.props.uiStateActions.showApplicationMenuAndActivateSection(true,section)}
                  cart={this.props.ehrenamt.cart}
-                 toggleCart={this.props.ehrenamtActions.toggleCart}
+                 toggleCartFromFeature={this.props.ehrenamtActions.toggleCartFromFeature}
                  filterMode={this.props.ehrenamt.mode}
 
                  />

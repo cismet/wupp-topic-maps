@@ -271,7 +271,9 @@ export class EhrenamtModalApplicationMenu_ extends React.Component {
                             }}>
                             <Icon name="map-marker"/>
                         </a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                        <a style={{ color: '#C33D17'}} onClick={()=>this.props.ehrenamtActions.toggleCartFromOffer(cartOffer)}>
+                        <a style={{ color: '#C33D17'}} onClick={()=>{
+                            this.props.ehrenamtActions.toggleCartFromOffer(cartOffer);
+                        }}>
                             <Icon name="minus-square"/>
                         </a>
                     </h5>

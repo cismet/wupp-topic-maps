@@ -183,7 +183,7 @@ export class Cismap_ extends React.Component {
 
       // console.log("++++++++++++++++++++++++ done with parsing " + ( from - Date.now()))
       this.props.uiStateActions.setGazetteerBoxEnabled(true);
-      this.props.uiStateActions.setGazetteerBoxInfoText("Geben Sie einen Suchbegriff ein.");
+      this.props.uiStateActions.setGazetteerBoxInfoText(this.props.gazBoxInfoText);
 
       this.forceUpdate(); //ugly winning: prevent typeahead to have shitty behaviour
     });
@@ -255,12 +255,7 @@ centerOnPoint(x,y,z) {
         lng: y,
         zoom: z
       }))
-    // let thishere=this;
-    
-    //     this.refs.leafletMap.leafletElement.setView([x, y], z);
-    
-    
-}
+ }
 
 
   componentDidUpdate() {
@@ -570,6 +565,7 @@ Cismap_.propTypes = {
   clustered: PropTypes.bool,
   clusterOptions: PropTypes.object,
   infoBox: PropTypes.object.isRequired,
+  gazBoxInfoText: PropTypes.string,
 };
 
 Cismap_.defaultProps = {
@@ -591,6 +587,7 @@ Cismap_.defaultProps = {
   searchMinZoom: 7,
   searchMaxZoom: 18,
   gazTopics: [],
+  gazBoxInfoText: "Geben Sie einen Suchbegriff ein.",
   applicationMenuIcon: "bars",
   clustered: false,
   clusterOptions:{

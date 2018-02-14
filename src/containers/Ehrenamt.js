@@ -228,6 +228,7 @@ export class Ehrenamt_ extends React.Component {
                                 zIndex: 3000000000
                               }} id="helpTooltip">Filter | Merkliste | Anleitung</Tooltip>)
                            }
+                        gazBoxInfoText="Stadtteil | Adresse | POI"
 
                     >
                     </Cismap>

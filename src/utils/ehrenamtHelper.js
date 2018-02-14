@@ -17,7 +17,7 @@ export const featureStyler = (feature) => {
     //star: &#xf005;
     let star="";
     if (feature.inCart) {
-        star= `<text x="${svgSize / 2}" y="${svgSize / 2}" text-anchor="middle" alignment-baseline="central" font-family="FontAwesome" font-size="11" stroke="none" fill="${color.darken(0.5)}">&#xf005;</text>";`
+        star= `<text x="${svgSize / 2}" y="${svgSize / 2}" text-anchor="middle" dominant-baseline="middle" font-family="FontAwesome" font-size="11" stroke="none" fill="${color.darken(0.5)}">&#xf005;</text>";`
     }
 
     let svg = `<svg height="${svgSize}" width="${svgSize}">
@@ -111,10 +111,11 @@ export const ehrenAmtClusterIconCreator = (cluster) => {
             x:"50%",
             y:"50%",
             "text-anchor":"middle",
-            "alignment-baseline":"central",    
+            "dominant-baseline":"middle",    
             "font-family":"FontAwesome",
             "fill":"#fff",
             "font-size":"26",
+            "dy":".1em",
             opacity: "0.5",
         })).appendChild(document.createTextNode("\uf005"));
     }

@@ -32,7 +32,7 @@ const EhrenamtInfo = ({featureCollection, filteredOffers, selectedIndex, next, p
             
 
   let modalMenuTarget="filtertab";
-  let filterText="Filter aktiviert ("+positiv+negativ+")";
+  let filterText="Filter aktiviert ("+(positiv+negativ)+")";
   let filterColor="grey";
   if (filterMode===ehrenamtConstants.CART_FILTER){
     modalMenuTarget="cart";
@@ -88,11 +88,12 @@ const EhrenamtInfo = ({featureCollection, filteredOffers, selectedIndex, next, p
     </Well>)
   }
   else {
-
+    let toggleFilterTooltip="Angebot merken"
     let cartIcon="plus-square";
     let bookmarkColor="#DDDDDD";
     if (cart.find(x => x.id === currentFeature.id)!==undefined){
         cartIcon="check-square";
+        toggleFilterTooltip="Angebot aus Merkliste entfernen"
     }
     if (cart.length>0){
         bookmarkColor="#666666";
@@ -126,8 +127,19 @@ const EhrenamtInfo = ({featureCollection, filteredOffers, selectedIndex, next, p
                             <h6>{currentFeature.text}</h6>
                         </td>
                         <td style={{ textAlign: 'right'}}>
-                            <a onClick={()=>{toggleCart(currentFeature)}} style={{ color: 'black'}}><Icon size="2x" name={cartIcon} /></a>
-                        </td>
+                            <OverlayTrigger ref={c => this.togglecartTooltip = c} placement="left" overlay={(<Tooltip style={{zIndex: 3000000000}} id="togglecarttt">{toggleFilterTooltip}</Tooltip>)}>
+                                <a onClick={()=>{
+                                        if (this.togglecartTooltip) {
+                                            this.togglecartTooltip.hide();
+                                        }
+                                        else {
+                                            console.log("no togglecartTooltip");
+                                        }
+                                        toggleCart(currentFeature);
+                                        
+                                    }} style={{ color: 'black'}}><Icon size="2x" name={cartIcon} /></a>
+                            </OverlayTrigger>
+                            </td>
                         </tr>
                         </tbody>
                     </table>

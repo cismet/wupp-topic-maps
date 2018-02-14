@@ -293,7 +293,7 @@ export class EhrenamtModalApplicationMenu_ extends React.Component {
                             smooth={true} 
                             delay={100} 
                             onClick={()=>this.props.uiActions.setApplicationMenuActiveKey("filtertab")}>
-                            Filtern-Klapplisten</Link> aus, um 
+                            Filtern</Link> aus, um 
                         die angezeigten Angebote an Ihre Interessen anzupassen (alternativ &uuml;ber die Einstellungen 
                         unter den darunter folgenden Leitfragen). 
                         Über <Link 
@@ -301,7 +301,7 @@ export class EhrenamtModalApplicationMenu_ extends React.Component {
                             containerId="myMenu" 
                             smooth={true} delay={100} 
                             onClick={()=>this.props.uiActions.setApplicationMenuActiveKey("cart")}>
-                            Merkliste</Link> erreichen Sie die Liste der 
+                            meine Merkliste</Link> erreichen Sie die Liste der 
                         Angebote, die Sie festgehalten haben. W&auml;hlen Sie <Link 
                             to="help" 
                             containerId="myMenu" 
@@ -403,7 +403,7 @@ export class EhrenamtModalApplicationMenu_ extends React.Component {
                     </Panel>
                     </Accordion>
                     <Accordion name="cart" key={"cart"+this.props.uiState.applicationMenuActiveKey} defaultActiveKey={this.props.uiState.applicationMenuActiveKey} >
-                        <Panel header="meine Merkliste" eventKey="cart" bsStyle="primary">
+                        <Panel header={"meine Merkliste ("+this.props.ehrenamtState.cart.length+")"} eventKey="cart" bsStyle="primary">
                         <table width="100%" border={0}>
                         <tbody>
                             <tr>

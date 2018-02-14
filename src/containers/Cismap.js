@@ -250,7 +250,16 @@ gotoHomeBB() {
 }
 
 centerOnPoint(x,y,z) {
-    this.refs.leafletMap.leafletElement.setView([x, y], z);
+    this.props.routingActions.push(this.props.routing.location.pathname + modifyQueryPart(this.props.routing.location.search, {
+        lat: x,
+        lng: y,
+        zoom: z
+      }))
+    // let thishere=this;
+    
+    //     this.refs.leafletMap.leafletElement.setView([x, y], z);
+    
+    
 }
 
 

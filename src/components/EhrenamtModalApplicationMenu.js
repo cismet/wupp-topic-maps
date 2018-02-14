@@ -266,6 +266,7 @@ export class EhrenamtModalApplicationMenu_ extends React.Component {
                         Angebot Nr. {cartOffer.id}&nbsp;&nbsp;&nbsp;
                         <a style={{ color: 'black'}} onClick={()=>{
                                 this.props.centerOnPoint(cartOffer.geo_x,cartOffer.geo_y,13);
+                                this.props.ehrenamtActions.selectOffer(cartOffer);
                                 this.close();
                             }}>
                             <Icon name="map-marker"/>

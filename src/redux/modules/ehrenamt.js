@@ -627,6 +627,17 @@ function clearCart() {
     }
 }
 
+function selectOffer(offer){
+    return (dispatch, getState) => {
+        let state = getState()
+        let selectionWish=state.mapping.featureCollection.findIndex(x => x.id === offer.id)
+        if (selectionWish!==-1) {
+            dispatch(mappingActions.setSelectedFeatureIndex(selectionWish));
+        }
+        dispatch(applyFilter());    
+    }
+}
+
 //EXPORT ACTIONS
 
 export const actions = {
@@ -644,7 +655,8 @@ export const actions = {
     clearCart,
     toggleCart,
     toggleCartFromOffer,
-    setMode
+    setMode,
+    selectOffer
 };
 
 //HELPER FUNCTIONS

@@ -261,8 +261,7 @@ export class EhrenamtModalApplicationMenu_ extends React.Component {
         let cartOffers=[];
         for (let cartOffer of this.props.ehrenamtState.cart){
             let o= (
-                <li key={"cart.li."+cartOffer.id}>
-                     <span><h5>Angebot Nr. {cartOffer.id}&nbsp;<a style={{ color: '#C33D17'}} onClick={()=>this.props.ehrenamtActions.toggleCartFromOffer(cartOffer)}><Icon name="minus-square"/></a></h5></span>
+                <li key={"cart.li."+cartOffer.id}><h5>Angebot Nr. {cartOffer.id}&nbsp;<a style={{ color: '#C33D17'}} onClick={()=>this.props.ehrenamtActions.toggleCartFromOffer(cartOffer)}><Icon name="minus-square"/></a></h5>
                      <h6>{cartOffer.text}</h6>
                 </li>
             );
@@ -409,7 +408,7 @@ export class EhrenamtModalApplicationMenu_ extends React.Component {
                             <tr>
                                 <td >
                                     <ul>
-                                        {cartOffers}
+                                        <span>{cartOffers}</span>
                                     </ul>
                                 </td>
                             <td style={{

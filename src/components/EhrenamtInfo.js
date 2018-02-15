@@ -75,18 +75,33 @@ const EhrenamtInfo = ({featureCollection, filteredOffers, selectedIndex, next, p
     else {
         offerLink=(<div/>)
     }
-    return (
-    
-    <Well bsSize="small" pixelwidth={250}>
-        {filterstatus}
-        <h5>Aktuell werden keine Angebote angezeigt.</h5>
-        <p>Um Angebote an einem bestimmten Ort anzuzeigen, den Anfang (mindestens 2 Zeichen)
-        eines Suchbegriffs eingeben und Eintrag aus Vorschlagsliste auswählen.</p>
-        <p>Um nach Aufgabenfeldern, Tätigkeiten oder Zielgruppen zu filtern, das 
-        <a onClick={()=>showModalMenu("filtertab")}> Men&uuml;&nbsp;<Icon name="bars" style={{color:"black"}}/> öffnen.</a></p>
-        {offerLink}
-    </Well>)
-  }
+
+    if ((positiv+negativ)===0) {
+        return ( 
+        <Well bsSize="small" pixelwidth={250}>
+            {filterstatus}
+            <h5>Keine Angebote gefunden!</h5>
+            <p>Für mehr Angebote Ansicht mit <Icon name='minus-square' /> verkleinern.                   
+            Um nach Aufgabenfeldern, T&auml;tigkeiten oder Zielgruppen zu filtern, das 
+            <a onClick={()=>showModalMenu("filtertab")}> Men&uuml;&nbsp;
+            <Icon name="bars" style={{color:"black"}}/> &ouml;ffnen.</a></p>
+            {offerLink}
+        </Well>)
+    }
+    else {
+        return ( 
+            <Well bsSize="small" pixelwidth={250}>
+                {filterstatus}
+                <h5>Keine Angebote gefunden!</h5>
+                <p>Für mehr Angebote Ansicht mit <Icon name='minus-square' /> verkleinern
+                   oder Filter mit <Icon name='close' /> deaktivieren. 
+                   Um nach Aufgabenfeldern, T&auml;tigkeiten oder Zielgruppen zu filtern, das 
+                <a onClick={()=>showModalMenu("filtertab")}> Men&uuml;&nbsp;
+                <Icon name="bars" style={{color:"black"}}/> &ouml;ffnen.</a></p>
+                {offerLink}
+            </Well>)    
+    }
+  } 
   else {
     let toggleFilterTooltip="Angebot merken"
     let cartIcon="plus-square";

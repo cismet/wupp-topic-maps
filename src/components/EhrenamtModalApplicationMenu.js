@@ -263,7 +263,17 @@ export class EhrenamtModalApplicationMenu_ extends React.Component {
        
 
         let cartOffers=[];
+        let mailCartOffer=
+        "Sehr geehrte Damen und Herren,"+
+        "%0D%0Dich habe in einer ersten Recherche folgende, für mich interessante Angebote entdeckt:%0D";
+
+
+        
         for (let cartOffer of this.props.ehrenamtState.cart){
+            mailCartOffer+="%0D * Angebot Nr. "+ cartOffer.id;
+            mailCartOffer+="%0D   " + cartOffer.text;
+            mailCartOffer+="%0D";
+
             let o= (
                 <li key={"cart.li."+cartOffer.id}>
                     <h5>
@@ -286,6 +296,20 @@ export class EhrenamtModalApplicationMenu_ extends React.Component {
             );
             cartOffers.push(o);
         }
+  
+        mailCartOffer+="%0D";
+        mailCartOffer+="%0D";
+        mailCartOffer+="%0D";
+        mailCartOffer+="%0DMit freundlichen Grüßen";
+        mailCartOffer+="%0D";
+        mailCartOffer+="%0D";
+        mailCartOffer+="%0D";
+        mailCartOffer+="%0D";
+        mailCartOffer+="%0D";
+        mailCartOffer+="%0D";
+        mailCartOffer+="%0D";
+        mailCartOffer+="%0D";
+        mailCartOffer+="%0DLink zur Anwendung:%0D";
 
 
         return (
@@ -457,10 +481,10 @@ export class EhrenamtModalApplicationMenu_ extends React.Component {
                                             }}>
                                                 <Icon name="copy"/> Link kopieren
                                             </MenuItem>
-                                            <MenuItem eventKey="2" onClick={()=>console.log("copy")}>
+                                            <MenuItem eventKey="2" href={"mailto:post@zfgt.de?subject=Merkliste&body="+mailCartOffer+window.location.href}>
                                                 <Icon name="at"/> Merkliste per Mail senden
                                             </MenuItem>
-                                            <MenuItem eventKey="3" onClick={()=>console.log("copy")}>
+                                            <MenuItem disabled={true} eventKey="3" onClick={()=>console.log("copy")}>
                                                 <Icon name="print"/> Merkliste drucken
                                             </MenuItem>
                                             </Dropdown.Menu >

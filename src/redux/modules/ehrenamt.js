@@ -252,7 +252,6 @@ function addToCartByIds(ids) {
         }
         dispatch(setTheCart(Array.from(newCart)));
         dispatch(createFeatureCollectionFromOffers());
-
     }
 }
 

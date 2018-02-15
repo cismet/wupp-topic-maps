@@ -70,7 +70,11 @@ export class Ehrenamt_ extends React.Component {
         this.props.uiStateActions.setApplicationMenuActiveKey("filtertab");
       }
     componentWillUpdate() {
-        console.log("componentWillUpdate");
+      
+        if (this.props.ehrenamt.offers.length===0){
+            return;
+        }
+        console.log("Ehrenamt.componentWillUpdate()");
         let urlCart=queryString.parse(this.props.routing.location.search).cart;
         let urlCartIds=new Set();
         if (urlCart){
@@ -81,6 +85,7 @@ export class Ehrenamt_ extends React.Component {
         let missingIdsInUrl=new Set([...cartIds].filter(x => !urlCartIds.has(x)));
         let missingIdsInCart=new Set([...urlCartIds].filter(x => !cartIds.has(x)));
         console.log(missingIdsInCart);
+
         if (missingIdsInCart.size>0) {
             this.props.ehrenamtActions.addToCartByIds(Array.from(missingIdsInCart));
         }        

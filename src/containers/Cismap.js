@@ -516,7 +516,7 @@ centerOnPoint(x,y,z) {
         })
       }
       <GazetteerHitDisplay key={"gazHit" + JSON.stringify(this.props.mapping)} mappingProps={this.props.mapping}/>
-      <FeatureCollectionDisplay key={JSON.stringify(this.props.mapping)} 
+      <FeatureCollectionDisplay key={JSON.stringify(this.props.mapping)+this.props.featureKeySuffixCreator()} 
                                 mappingProps={this.props.mapping} 
                                 clusteredMarkers={this.clusteredMarkers} 
                                 style={this.props.featureStyler} 
@@ -566,6 +566,7 @@ Cismap_.propTypes = {
   clusterOptions: PropTypes.object,
   infoBox: PropTypes.object.isRequired,
   gazBoxInfoText: PropTypes.string,
+  featureKeySuffixCreator: PropTypes.func,
 };
 
 Cismap_.defaultProps = {
@@ -599,6 +600,8 @@ Cismap_.defaultProps = {
     animate:false,
     cismapZoomTillSpiderfy:12,
     selectionSpiderfyMinZoom:12
- }
+ },
+ featureKeySuffixCreator: ()=>"",
+
   
 }

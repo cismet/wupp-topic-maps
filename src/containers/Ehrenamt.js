@@ -22,6 +22,9 @@ import {Icon} from 'react-fa'
 import Loadable from 'react-loading-overlay';
 import queryString from 'query-string';
 
+import {modifyQueryPart} from '../utils/routingHelper'
+import {withRouter} from 'react-router'
+
 function mapStateToProps(state) {
   return {
     ui: state.uiState,
@@ -66,8 +69,40 @@ export class Ehrenamt_ extends React.Component {
         });
         this.props.uiStateActions.setApplicationMenuActiveKey("filtertab");
       }
-   
+    componentWillUpdate() {
+        console.log("componentWillUpdate");
+        let urlCart=queryString.parse(this.props.routing.location.search).cart;
+        let urlCartIds=new Set();
+        if (urlCart){
+            urlCartIds=new Set(urlCart.split(",").sort((a,b)=>parseInt(a)-parseInt(b)));
+        }
+        let cartIds=new Set(this.props.ehrenamt.cart.map(x=>x.id).sort((a,b)=>parseInt(a)-parseInt(b)));
+
+        let missingIdsInUrl=new Set([...cartIds].filter(x => !urlCartIds.has(x)));
+        let missingIdsInCart=new Set([...urlCartIds].filter(x => !cartIds.has(x)));
+        console.log(missingIdsInCart);
+        if (missingIdsInCart.size>0) {
+            this.props.ehrenamtActions.addToCartByIds(Array.from(missingIdsInCart));
+        }        
+        
+        let newUrlCartArr=Array.from(cartIds).sort((a,b)=>parseInt(a)-parseInt(b));
+        console.log(newUrlCartArr);
+    
+        let newUrlCart=newUrlCartArr.join();
+            if (urlCart!==newUrlCart){
+                console.log("urlCart:"+urlCart)
+                console.log("!==");
+                console.log("newUrlCart:"+newUrlCart)
+                this.props.routingActions.push(this.props.routing.location.pathname + modifyQueryPart(this.props.routing.location.search, {
+                    cart: newUrlCart
+                }));
+            }
+    }
      
+
+
+
+
 
     loadTheOffers() {
         var promise = new Promise((resolve, reject) => {
@@ -144,16 +179,14 @@ export class Ehrenamt_ extends React.Component {
     };
 
     
+
+
     render() {
-
-    const urlCart=queryString.parse(this.props.routing.location.search).cart;
-    console.log(urlCart);
-
-
       let info= null;
         let numberOfOffers=this.props.ehrenamt.filteredOffers.length;
            info = (
              <EhrenamtInfo 
+                key={"ehrenamtInfo."+this.props.mapping.selectedIndex||0+".cart:"+JSON.stringify(this.props.ehrenamt.cart)}
                  pixelwidth={250}
                  featureCollection={this.props.mapping.featureCollection}
                  filteredOffers={this.props.ehrenamt.filteredOffers}
@@ -235,6 +268,10 @@ export class Ehrenamt_ extends React.Component {
                               }} id="helpTooltip">Filter | Merkliste | Anleitung</Tooltip>)
                            }
                         gazBoxInfoText="Stadtteil | Adresse | POI"
+                        featureKeySuffixCreator={()=>{
+                            console.log("featureKeySuffixCreator called");
+                            return ".cart:"+JSON.stringify(this.props.ehrenamt.cart)
+                        }}
 
                     >
                     </Cismap>
@@ -249,7 +286,7 @@ export class Ehrenamt_ extends React.Component {
 
 
 
-const Ehrenamt = connect(mapStateToProps,mapDispatchToProps)(Ehrenamt_);
+const Ehrenamt = withRouter(connect(mapStateToProps,mapDispatchToProps)(Ehrenamt_));
 
 export default Ehrenamt;
 

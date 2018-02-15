@@ -1,6 +1,10 @@
 import objectAssign from 'object-assign';
 import {actions as mappingActions} from './mapping';
+import {routerActions} from 'react-router-redux'
+
 import {convertPoint} from '../../utils/gisHelper';
+import {getCartStringForAdding,getCartStringForRemoving} from '../../utils/ehrenamtHelper';
+import {modifyQueryPart} from '../../utils/routingHelper'
 
 import kdbush from 'kdbush';
 
@@ -17,6 +21,7 @@ export const types = {
     REMOVE_FROM_CART: 'EHRENAMT/REMOVE_FROM_CART',
     CLEAR_CART: 'EHRENAMT/CLEAR_CART',
     SET_MODE: 'EHRENAMT/SET_MODE',
+    SET_CART: 'EHRENAMT/SET_CART',
 
 
 }
@@ -155,6 +160,12 @@ export default function ehrenamtReducer(state = initialState, action) {
                 newState.cart = [];
                 return newState;
             }
+        case types.SET_CART:
+            {
+                newState = objectAssign({}, state);
+                newState.cart = action.cart;
+                return newState;
+            }
         case types.SET_MODE:
             {
                 newState = objectAssign({}, state);
@@ -193,11 +204,14 @@ function setFilter(filter) {
 function setIgnoredFilterGroups(filtergroups) {
     return {type: types.SET_IGNORED_FILTERGROUPS, filtergroups};
 }
+function setTheCart(cart){
+    return {type: types.SET_CART, cart};
+}
 
-function addToCart(item) {
+function addToTheCart(item) {
     return {type: types.ADD_TO_CART, item};
 }
-function removeFromCart(item) {
+function removeFromTheCart(item) {
     return {type: types.REMOVE_FROM_CART, item};
 }
 function clearTheCart() {
@@ -213,6 +227,53 @@ function setMode(mode) {
     return (dispatch) => {
         dispatch(setTheMode(mode));
         dispatch(applyFilter());
+    }
+}
+
+function addToCartById(id) {
+    return (dispatch, getState) => {
+        let state=getState();
+        let found=state.ehrenamt.offers.find(x => x.id === id);
+        if (found) {
+            dispatch(addToCart(found));
+        }
+    }
+}
+function addToCartByIds(ids) {
+    return (dispatch, getState) => {
+        let state=getState();
+        let newCart=new Set(state.ehrenamt.cart);
+
+        for (let id of ids) {
+            let found=state.ehrenamt.offers.find(x => x.id === id);
+            if (found) {
+                newCart.add(found);
+            }
+        }
+        dispatch(setTheCart(Array.from(newCart)));
+        dispatch(createFeatureCollectionFromOffers());
+
+    }
+}
+
+
+function addToCart(item) {
+    return (dispatch, getState) => {
+        let state=getState();
+        dispatch(addToTheCart(item));
+        dispatch(routerActions.push(state.routing.location.pathname + modifyQueryPart(state.routing.location.search, {
+            cart: getCartStringForAdding(state.ehrenamt.cart,item.id)
+        })));
+    }
+}
+
+function removeFromCart(item) {
+    return (dispatch, getState) => {
+        let state=getState();
+        dispatch(removeFromTheCart(item));
+        dispatch(routerActions.push(state.routing.location.pathname + modifyQueryPart(state.routing.location.search, {
+            cart: getCartStringForRemoving(state.ehrenamt.cart,item.id)
+        })));
     }
 }
 
@@ -632,7 +693,11 @@ function invertSelection(filtergroupconstant) {
 
 function clearCart() {
     return (dispatch, getState) => {
+        let state=getState();
         dispatch(clearTheCart());
+        dispatch(routerActions.push(state.routing.location.pathname + modifyQueryPart(state.routing.location.search, {
+            cart: ""
+        })));
         //TODO nur im CART_FILTER Mode
         dispatch(applyFilter());    
     }
@@ -667,7 +732,9 @@ export const actions = {
     toggleCartFromFeature,
     toggleCartFromOffer,
     setMode,
-    selectOffer
+    selectOffer,
+    addToCartById,
+    addToCartByIds
 };
 
 //HELPER FUNCTIONS

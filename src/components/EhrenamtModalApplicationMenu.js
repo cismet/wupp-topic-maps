@@ -11,7 +11,7 @@ import {
     Row,
     Col,
     Well,
-    ButtonGroup, ButtonToolbar
+    ButtonGroup, ButtonToolbar,Dropdown,MenuItem,Glyphicon
 } from 'react-bootstrap';
 import {actions as UiStateActions} from '../redux/modules/uiState';
 import {constants as ehrenamtConstants, actions as EhrenamtActions} from '../redux/modules/ehrenamt';
@@ -25,11 +25,16 @@ import Select from 'react-select-plus';
 import 'react-select-plus/dist/react-select-plus.css';
 import MultiToggleButton from './MultiToggleButton';
 
+import { Link } from 'react-scroll';
+
+import copy from 'copy-to-clipboard';
 
 function mapStateToProps(state) {
     return {
         uiState: state.uiState,
-        ehrenamtState: state.ehrenamt
+        ehrenamtState: state.ehrenamt,
+        routing: state.routing,
+
     };
 }
 function mapDispatchToProps(dispatch) {
@@ -44,12 +49,7 @@ export class EhrenamtModalApplicationMenu_ extends React.Component {
         super(props, context);
         this.close = this.close.bind(this);
         this.handlePosOnChange=this.handlePosOnChange.bind(this);
-        this.handleNegOnChange=this.handleNegOnChange.bind(this);
-        
-       
-
-       
-            
+        this.handleNegOnChange=this.handleNegOnChange.bind(this);  
     }
 
     close() {
@@ -262,8 +262,59 @@ export class EhrenamtModalApplicationMenu_ extends React.Component {
         let glbRows=this.createSectionRows("globalbereiche");
        
 
+        let cartOffers=[];
+        let mailCartOffer=
+        "Sehr geehrte Damen und Herren,"+
+        "%0D%0Dich habe in einer ersten Recherche folgende, für mich interessante Angebote entdeckt:%0D";
+
+
+        
+        for (let cartOffer of this.props.ehrenamtState.cart){
+            mailCartOffer+="%0D * Angebot Nr. "+ cartOffer.id;
+            mailCartOffer+="%0D   " + cartOffer.text;
+            mailCartOffer+="%0D";
+
+            let o= (
+                <li key={"cart.li."+cartOffer.id}>
+                    <h5>
+                        Angebot Nr. {cartOffer.id}&nbsp;&nbsp;&nbsp;
+                        <a style={{ color: 'black'}} onClick={()=>{
+                                this.props.centerOnPoint(cartOffer.geo_x,cartOffer.geo_y,13);
+                                this.props.ehrenamtActions.selectOffer(cartOffer);
+                                this.close();
+                            }}>
+                            <Icon name="map-marker"/>
+                        </a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        <a style={{ color: '#C33D17'}} onClick={()=>{
+                            this.props.ehrenamtActions.toggleCartFromOffer(cartOffer);
+                        }}>
+                            <Icon name="minus-square"/>
+                        </a>
+                    </h5>
+                     <h6>{cartOffer.text}</h6>
+                </li>
+            );
+            cartOffers.push(o);
+        }
+  
+        mailCartOffer+="%0D";
+        mailCartOffer+="%0D";
+        mailCartOffer+="%0D";
+        mailCartOffer+="%0DMit freundlichen Grüßen";
+        mailCartOffer+="%0D";
+        mailCartOffer+="%0D";
+        mailCartOffer+="%0D";
+        mailCartOffer+="%0D";
+        mailCartOffer+="%0D";
+        mailCartOffer+="%0D";
+        mailCartOffer+="%0D";
+        mailCartOffer+="%0D";
+        mailCartOffer+="%0DLink zur Anwendung:%0D";
+
+
         return (
             <Modal
+                
                 style={{
                 zIndex: 3000000000,
             }}
@@ -274,14 +325,36 @@ export class EhrenamtModalApplicationMenu_ extends React.Component {
                 keyboard={false}>
 
                 <Modal.Header >
-                    <Modal.Title><Icon name="info"/>&nbsp;&nbsp;&nbsp;Kompaktanleitung und Filter</Modal.Title>
+                    <Modal.Title><Icon name="bars"/>&nbsp;&nbsp;&nbsp;Filter, Merkliste und Kompaktanleitung</Modal.Title>
                 </Modal.Header >
-                <Modal.Body style={modalBodyStyle}>
+                <Modal.Body style={modalBodyStyle} id="myMenu">
                     <span>
-                        Bitte w&auml;hlen Sie eine der folgenden farbigen Schaltfl&auml;chen, um sich
-                        weitere Informationen zu dem entsprechenden Thema anzeigen zu lassen:<br/><br/>
+                        W&auml;hlen Sie Ihre Such- und Ausschlussbedingungen in den <Link 
+                            to="filter" 
+                            containerId="myMenu" 
+                            smooth={true} 
+                            delay={100} 
+                            onClick={()=>this.props.uiActions.setApplicationMenuActiveKey("filtertab")}>
+                            Filtern</Link> aus, um 
+                        die angezeigten Angebote an Ihre Interessen anzupassen (alternativ &uuml;ber die Einstellungen 
+                        unter den darunter folgenden Leitfragen). 
+                        Über <Link 
+                            to="cart" 
+                            containerId="myMenu" 
+                            smooth={true} delay={100} 
+                            onClick={()=>this.props.uiActions.setApplicationMenuActiveKey("cart")}>
+                            meine Merkliste</Link> erreichen Sie die Liste der 
+                        Angebote, die Sie festgehalten haben. W&auml;hlen Sie <Link 
+                            to="help" 
+                            containerId="myMenu" 
+                            smooth={true} 
+                            delay={100} 
+                            onClick={()=>this.props.uiActions.setApplicationMenuActiveKey("help")}>
+                            Kompaktanleitung</Link> f&uuml;r detailliertere Bedienungsinformationen.
                     </span>
-                    <Accordion key={"Filter.ACC"} activeKey="filtertab">
+                    <br/>
+                    <br/>
+                    <Accordion name="filter" key={"acc.filter."+this.props.uiState.applicationMenuActiveKey} defaultActiveKey={this.props.uiState.applicationMenuActiveKey||"filtertab"}>
                         <Panel height="auto" header={"Filtern ("+this.props.filteredOffersCount+" gefunden, davon "+this.props.featureCollectionCount+" in der Karte)"} eventKey="filtertab" bsStyle="primary">
                     <h4>Ich suche nach:</h4>
                             <Select
@@ -348,7 +421,7 @@ export class EhrenamtModalApplicationMenu_ extends React.Component {
             				/>  
                         </Panel>
                         </Accordion>        
-                    <Accordion key={"ACC"} activeKey={this.props.uiState.applicationMenuActiveKey} >
+                    <Accordion key={"ACC"} defaultActiveKey="none" >
                     <Panel header="Welches Aufgabenfeld interessiert mich?" eventKey="bereiche_adv_filter" bsStyle="warning">
                         <table border={0}>
                         <tbody>
@@ -370,27 +443,66 @@ export class EhrenamtModalApplicationMenu_ extends React.Component {
                         </tbody>
                         </table>
                     </Panel>
-                <Panel header="Weiter Informationen zur Benutzung" eventKey="help" bsStyle="default">
+                    </Accordion>
+                    <Accordion name="cart" key={"cart"+this.props.uiState.applicationMenuActiveKey} defaultActiveKey={this.props.uiState.applicationMenuActiveKey} >
+                        <Panel header={"meine Merkliste ("+this.props.ehrenamtState.cart.length+")"} eventKey="cart" bsStyle="primary">
+                        <table width="100%" border={0}>
+                        <tbody>
+                            <tr>
+                                <td >
+                                    <ul>
+                                        <span>{cartOffers}</span>
+                                    </ul>
+                                </td>
+                            <td style={{
+                                textAlign: 'right',
+                                verticalAlign: 'top'
+                                }}>
+                                <ButtonGroup bsStyle="default">
+                                    <Button  onClick={this.props.ehrenamtActions.clearCart}><Icon name="trash"/></Button>
+                                    <Button  onClick={()=>{
+                                        this.props.ehrenamtActions.setMode(ehrenamtConstants.CART_FILTER);
+                                        this.close();
+                                    }}><Icon name="map"/></Button>
+                                     <Dropdown
+                                        bsStyle="default"
+                                        title="title"
+                                        key="DropdownButton"
+                                        id={"DropdownButton"}
+                                        icon="share"
+                                        pullRight
+                                        >
+                                         <Dropdown.Toggle>
+                                            <Icon name="share-square"/> 
+                                        </Dropdown.Toggle>
+                                        <Dropdown.Menu >
+                                            <MenuItem eventKey="1" onClick={()=>{
+                                                copy(window.location.href);
+                                            }}>
+                                                <Icon name="copy"/> Link kopieren
+                                            </MenuItem>
+                                            <MenuItem eventKey="2" href={"mailto:post@zfgt.de?subject=Merkliste&body="+mailCartOffer+window.location.href}>
+                                                <Icon name="at"/> Merkliste per Mail senden
+                                            </MenuItem>
+                                            <MenuItem disabled={true} eventKey="3" onClick={()=>console.log("copy")}>
+                                                <Icon name="print"/> Merkliste drucken
+                                            </MenuItem>
+                                            </Dropdown.Menu >
+                                        </Dropdown>                                    
+                                </ButtonGroup>
+                            </td>
+                            </tr>
+                        </tbody>
+                        </table>
+                        </Panel>
+                    </Accordion>
+                    <Accordion name="help" key={"helptext"+this.props.uiState.applicationMenuActiveKey} defaultActiveKey={this.props.uiState.applicationMenuActiveKey} >
+                        <Panel header="Kompaktanleitung" eventKey="help" bsStyle="default">
                             Die standardm&auml;&szlig;ig eingestellte Hintergrundkarte gibt eine
                             &Uuml;bersicht &uuml;ber die Wuppertaler Bebauungspl&auml;ne (B-Pl&auml;ne).<br/>
                             Gr&uuml;ne Fl&auml;chen (&Uuml;bersichtsma&szlig;stab) bzw. Umringe stehen
                             f&uuml;r rechtswirksame B-Plan-Verfahren, rote Fl&auml;chen / Umringe f&uuml;r
                             laufende Verfahren.
-                        </Panel>
-                        <Panel header="Meine Merkliste" eventKey="cart" bsStyle="default">
-                            Der beste Treffer einer Suche erh&auml;lt den Fokus (blaue Umrandung). In der
-                            Info-Box werden Ihnen immer die Detailinformationen und Downloadlinks f&uuml;r
-                            denjenigen B-Plan angeboten, der gerade den Fokus hat. Mit einem einfachen Klick
-                            auf eine andere B-Plan-Fl&auml;che aus der Treffermenge (nicht auf die
-                            B-Plan-Nummer!) erh&auml;lt dieser Plan den Fokus.<br/>
-                            Mit einem weiteren Klick wird der Kartenausschnitt so angepasst, dass dieser
-                            Plan vollst&auml;ndig und zentriert dargestellt wird. Alternativ k&ouml;nnen Sie
-                            die Treffermenge mit den Schaltfl&auml;chen &gt;&gt; (n&auml;chster Treffer) und
-                            &lt;&lt; (vorheriger Treffer) durchmustern. (Die Treffermenge ist geordnet nach
-                            zunehmendem Abstand des Plans vom Bezugspunkt ihrer Suche.)<br/>Mit
-                            <strong>alle Treffer anzeigen</strong>
-                            k&ouml;nnen Sie den Kartenausschnitt zuvor so anpassen, dass alle Pl&auml;ne der
-                            Treffermenge vollst&auml;ndig angezeigt werden.
                         </Panel>
                     </Accordion>
                 </Modal.Body>
@@ -411,9 +523,7 @@ export class EhrenamtModalApplicationMenu_ extends React.Component {
                                     style={{
                                     fontSize: "11px"
                                 }}>
-                                    <b>Hintergrundkarte</b>: in Detailma&szlig;st&auml;ben&nbsp;
-                                    <a>Amtliche Basiskarte (ABK) der Stadt Wuppertal</a>, jeweils &uuml;berlagert mit
-                                    dem Wuppertaler Orthofoto.<br/>
+                                    <b>Hintergrundkarte</b>: <a>Stadtplanwerk 2.0 (Beta)</a>, <Icon name="copyright"/> Regionalverband Ruhr (RVR) und Kooperationspartner.<br/>
                                     <b>Angebotsdaten</b>: {this.props.offersMD5}</span>
                                     
                             </td>

@@ -12,6 +12,7 @@ export const types = {
   SET_SEARCH_PROGRESS_INDICATOR: 'MAPPING/SET_SEARCH_PROGRESS_INDICATOR',
   GAZETTEER_HIT: 'MAPPING/GAZETTEER_HIT',
   SET_MAP_BOUNDING_BOX_CHANGED_TRIGGER: 'MAPPING/SET_MAP_BOUNDING_BOX_CHANGED_TRIGGER',
+  CHANGE_FEATURE: 'MAPPING/CHANGE_FEATURE',
 }
 export const constants = {
   AUTO_FIT_MODE_STRICT: 'MAPPING/AUTO_FIT_MODE_STRICT',
@@ -113,6 +114,16 @@ export default function mappingReducer(state = initialState, action) {
         newState.gazetteerHit = action.hit;
         return newState;
       }
+    case types.CHANGE_FEATURE:
+      {
+        newState = objectAssign({}, state);
+        newState.featureCollection = JSON.parse(JSON.stringify(state.featureCollection));
+        let found=newState.featureCollection.findIndex(x => x.id === action.newFeature.id)
+        if (found!==-1) {
+            newState.featureCollection[found]=action.newFeature;
+        }
+        return newState;
+      }
     default:
       return state;
   }
@@ -170,6 +181,12 @@ function gazetteerHit(hit) {
   };
 }
 
+function changeFeatureById(newFeature) {
+    return {
+      type: types.CHANGE_FEATURE,
+      newFeature
+    };
+  }
 
 //COMPLEXACTIONS
 
@@ -232,4 +249,5 @@ export const actions = {
   fitSelectedFeatureBounds,
   fitAll,
   fitFeatureCollection,
+  changeFeatureById,
 };

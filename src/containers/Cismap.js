@@ -59,8 +59,8 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
   return {
     mappingActions: bindActionCreators(mappingActions, dispatch),
-    routingActions: bindActionCreators(routerActions, dispatch),
     uiStateActions: bindActionCreators(uiStateActions, dispatch),
+    routingActions: bindActionCreators(routerActions, dispatch),
     gazetteerTopicsActions: bindActionCreators(gazetteerTopicsActions, dispatch)
   };
 }
@@ -79,9 +79,13 @@ export class Cismap_ extends React.Component {
     this.gazData=[];
   }
 
+  componentWillUnmount() {
+    console.log("Cismap.componentWillUnMount()")
+
+  }
 
   componentWillMount() {
-
+    console.log("Cismap.componentWillMount()")
     //Über uiStateActions anzeigen dass die Combobox nocht nicht funktionsfähig ist
 
     this.props.uiStateActions.setGazetteerBoxEnabled(false);
@@ -183,7 +187,7 @@ export class Cismap_ extends React.Component {
 
       // console.log("++++++++++++++++++++++++ done with parsing " + ( from - Date.now()))
       this.props.uiStateActions.setGazetteerBoxEnabled(true);
-      this.props.uiStateActions.setGazetteerBoxInfoText("Geben Sie einen Suchbegriff ein.");
+      this.props.uiStateActions.setGazetteerBoxInfoText(this.props.gazBoxInfoText);
 
       this.forceUpdate(); //ugly winning: prevent typeahead to have shitty behaviour
     });
@@ -237,7 +241,7 @@ export class Cismap_ extends React.Component {
     this.storeBoundingBox();
   }
 
-  gotoHomeBB() {
+gotoHomeBB() {
     this.refs.leafletMap.leafletElement.fitBounds([
       [
         51.1094, 7.00093
@@ -246,7 +250,17 @@ export class Cismap_ extends React.Component {
         51.3737,7.3213
       ]
     ]);
+    
 }
+
+centerOnPoint(x,y,z) {
+    this.props.routingActions.push(this.props.routing.location.pathname + modifyQueryPart(this.props.routing.location.search, {
+        lat: x,
+        lng: y,
+        zoom: z
+      }))
+ }
+
 
   componentDidUpdate() {
     if ((typeof(this.refs.leafletMap) !== 'undefined' && this.refs.leafletMap != null)) {
@@ -506,7 +520,7 @@ export class Cismap_ extends React.Component {
         })
       }
       <GazetteerHitDisplay key={"gazHit" + JSON.stringify(this.props.mapping)} mappingProps={this.props.mapping}/>
-      <FeatureCollectionDisplay key={JSON.stringify(this.props.mapping)} 
+      <FeatureCollectionDisplay key={JSON.stringify(this.props.mapping)+this.props.featureKeySuffixCreator()} 
                                 mappingProps={this.props.mapping} 
                                 clusteredMarkers={this.clusteredMarkers} 
                                 style={this.props.featureStyler} 
@@ -555,6 +569,8 @@ Cismap_.propTypes = {
   clustered: PropTypes.bool,
   clusterOptions: PropTypes.object,
   infoBox: PropTypes.object.isRequired,
+  gazBoxInfoText: PropTypes.string,
+  featureKeySuffixCreator: PropTypes.func,
 };
 
 Cismap_.defaultProps = {
@@ -576,6 +592,7 @@ Cismap_.defaultProps = {
   searchMinZoom: 7,
   searchMaxZoom: 18,
   gazTopics: [],
+  gazBoxInfoText: "Geben Sie einen Suchbegriff ein.",
   applicationMenuIcon: "bars",
   clustered: false,
   clusterOptions:{
@@ -587,6 +604,8 @@ Cismap_.defaultProps = {
     animate:false,
     cismapZoomTillSpiderfy:12,
     selectionSpiderfyMinZoom:12
- }
+ },
+ featureKeySuffixCreator: ()=>"",
+
   
 }

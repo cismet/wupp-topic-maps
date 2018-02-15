@@ -9,7 +9,8 @@ import { Well, Tooltip} from 'react-bootstrap';
 
 import { actions as mappingActions } from '../redux/modules/mapping';
 import { actions as uiStateActions } from '../redux/modules/uiState';
-import { actions as ehrenamtActions } from '../redux/modules/ehrenamt';
+import { actions as ehrenamtActions, constants as ehrenamtConstants } from '../redux/modules/ehrenamt';
+import {routerActions} from 'react-router-redux'
 
 import { bindActionCreators } from 'redux';
 import EhrenamtModalApplicationMenu from '../components/EhrenamtModalApplicationMenu';
@@ -19,13 +20,18 @@ import { featureStyler, featureHoverer, ehrenAmtClusterIconCreator } from '../ut
 import {Icon} from 'react-fa'
 
 import Loadable from 'react-loading-overlay';
+import queryString from 'query-string';
+
+import {modifyQueryPart} from '../utils/routingHelper'
+import {withRouter} from 'react-router'
 
 function mapStateToProps(state) {
   return {
     ui: state.uiState,
     mapping: state.mapping,
     routing: state.routing,
-    ehrenamt: state.ehrenamt
+    ehrenamt: state.ehrenamt,
+    routing: state.routing,
   };
 }
 
@@ -34,7 +40,7 @@ function mapDispatchToProps(dispatch) {
     mappingActions: bindActionCreators(mappingActions, dispatch),
     uiStateActions: bindActionCreators(uiStateActions, dispatch),
     ehrenamtActions: bindActionCreators(ehrenamtActions, dispatch),
-
+    routingActions: bindActionCreators(routerActions, dispatch),
   };
 }
 
@@ -52,15 +58,52 @@ export class Ehrenamt_ extends React.Component {
       this.createfeatureCollectionByBoundingBox=this.createfeatureCollectionByBoundingBox.bind(this);
       this.filterChanged=this.filterChanged.bind(this);
       this.resetFilter=this.resetFilter.bind(this);
+      this.centerOnPoint=this.centerOnPoint.bind(this);
       this.props.mappingActions.setBoundingBoxChangedTrigger(this.createfeatureCollectionByBoundingBox);
+
     }
     componentWillMount() {
         this.dataLoaded=false;
         this.loadTheOffers().then((data) => {
             this.dataLoaded=true;
         });
+        this.props.uiStateActions.setApplicationMenuActiveKey("filtertab");
       }
-   
+    componentWillUpdate() {
+      
+        if (this.props.ehrenamt.offers.length===0){
+            return;
+        }
+        let urlCart=queryString.parse(this.props.routing.location.search).cart;
+        let urlCartIds=new Set();
+        if (urlCart){
+            urlCartIds=new Set(urlCart.split(",").sort((a,b)=>parseInt(a)-parseInt(b)));
+        }
+        let cartIds=new Set(this.props.ehrenamt.cart.map(x=>x.id).sort((a,b)=>parseInt(a)-parseInt(b)));
+
+        let missingIdsInUrl=new Set([...cartIds].filter(x => !urlCartIds.has(x)));
+        let missingIdsInCart=new Set([...urlCartIds].filter(x => !cartIds.has(x)));
+
+        if (missingIdsInCart.size>0) {
+            this.props.ehrenamtActions.addToCartByIds(Array.from(missingIdsInCart));
+        }        
+        
+        let newUrlCartArr=Array.from(cartIds).sort((a,b)=>parseInt(a)-parseInt(b));
+    
+        let newUrlCart=newUrlCartArr.join();
+            if (urlCart!==newUrlCart){
+                console.log("urlCart:"+urlCart)
+                console.log("!==");
+                console.log("newUrlCart:"+newUrlCart)
+                this.props.routingActions.push(this.props.routing.location.pathname + modifyQueryPart(this.props.routing.location.search, {
+                    cart: newUrlCart
+                }));
+            }
+    }
+     
+
+
+
 
 
     loadTheOffers() {
@@ -96,8 +139,11 @@ export class Ehrenamt_ extends React.Component {
 
     gotoHome() {
       //x1=361332.75015625&y1=5669333.966678483&x2=382500.79703125&y2=5687261.576954328
-
       this.cismapRef.wrappedInstance.gotoHomeBB()
+    }
+
+    centerOnPoint(x,y,z) {
+        this.cismapRef.wrappedInstance.centerOnPoint(x,y,z);
     }
 
     selectNextIndex() {
@@ -122,16 +168,27 @@ export class Ehrenamt_ extends React.Component {
     }
 
     resetFilter() {
-        this.props.ehrenamtActions.resetFilter();
+        if (this.props.ehrenamt.mode===ehrenamtConstants.FILTER_FILTER){
+            this.props.ehrenamtActions.resetFilter();
+        }
+        else {
+            this.props.ehrenamtActions.setMode(ehrenamtConstants.FILTER_FILTER);
+        }
+        
     }
     searchTooltip(){
-        return (<Tooltip style={{zIndex: 3000000000}} id="searchTooltip">Ehrenamtsinfos im Kartenausschnitt laden</Tooltip>);
+        return (<div/>);
     };
+
+    
+
+
     render() {
       let info= null;
         let numberOfOffers=this.props.ehrenamt.filteredOffers.length;
            info = (
              <EhrenamtInfo 
+                key={"ehrenamtInfo."+(this.props.mapping.selectedIndex||0)+".cart:+JSON.stringify(this.props.ehrenamt.cart"}
                  pixelwidth={250}
                  featureCollection={this.props.mapping.featureCollection}
                  filteredOffers={this.props.ehrenamt.filteredOffers}
@@ -143,7 +200,11 @@ export class Ehrenamt_ extends React.Component {
                  downloadEverything={this.downloadEverything}
                  filter={this.props.ehrenamt.filterX}
                  resetFilter={this.resetFilter}
-                 showModalMenu={()=>this.props.uiStateActions.showApplicationMenu(true)}
+                 showModalMenu={(section)=>this.props.uiStateActions.showApplicationMenuAndActivateSection(true,section)}
+                 cart={this.props.ehrenamt.cart}
+                 toggleCartFromFeature={this.props.ehrenamtActions.toggleCartFromFeature}
+                 filterMode={this.props.ehrenamt.mode}
+
                  />
              )
       
@@ -162,7 +223,7 @@ export class Ehrenamt_ extends React.Component {
         // let difference = offerIds.filter(x => !fcIds.includes(x));
         // console.log(difference);
       return (
-           <div>
+           <div key={'div.EhrenamtModalApplicationMenu.visible:'+this.props.ui.applicationMenuVisible}>
                <EhrenamtModalApplicationMenu key={'EhrenamtModalApplicationMenu.visible:'+this.props.ui.applicationMenuVisible}
                 zielgruppen={this.props.ehrenamt.zielgruppen}
                 kenntnisse={this.props.ehrenamt.kenntnisse}
@@ -172,7 +233,7 @@ export class Ehrenamt_ extends React.Component {
                 filteredOffersCount={this.props.ehrenamt.filteredOffers.length}
                 featureCollectionCount={this.props.mapping.featureCollection.length}
                 offersMD5={this.props.ehrenamt.offersMD5}
-                
+                centerOnPoint={this.centerOnPoint}
                />
                <Loadable
       active={!this.dataLoaded}
@@ -180,7 +241,8 @@ export class Ehrenamt_ extends React.Component {
       text='Laden der Angebote ...'
     >
                <Cismap ref={cismap => {this.cismapRef = cismap;}}
-                       layers={this.props.match.params.layers ||'abkg@40,nrwDOP20@20'}
+                    key="mainMap"
+                       layers={this.props.match.params.layers ||'rvrWMS@75'}
                        gazeteerHitTrigger={this.gazeteerhHit}
                        searchButtonTrigger={this.searchButtonHit}
                        featureStyler={featureStyler}
@@ -188,8 +250,8 @@ export class Ehrenamt_ extends React.Component {
                        featureClickHandler={this.featureClick}
                        ondblclick={this.doubleMapClick}
                        searchTooltipProvider={this.searchTooltip}
-                       searchMinZoom={12}
-                       searchMaxZoom={18}
+                       searchMinZoom={99}
+                       searchMaxZoom={98}
                        gazTopics={["pois","adressen", "bezirke", "quartiere"]}
                        clustered={true}
                        clusterOptions={{
@@ -204,15 +266,17 @@ export class Ehrenamt_ extends React.Component {
                             iconCreateFunction: ehrenAmtClusterIconCreator,
                         }}
                         infoBox={info}
+                        applicationMenuTooltipProvider={()=> (<Tooltip style={{
+                                zIndex: 3000000000
+                              }} id="helpTooltip">Filter | Merkliste | Anleitung</Tooltip>)
+                           }
+                        gazBoxInfoText="Stadtteil | Adresse | POI"
+                        // featureKeySuffixCreator={()=>{
+                        //     console.log("featureKeySuffixCreator called");
+                        //     return ".cart:"+JSON.stringify(this.props.ehrenamt.cart)
+                        // }}
 
                     >
-                        {/* <Control positio = "topright" > 
-                            <div>
-                            <Icon size='4x' style={{color: 'green',opacity: .50}} name='filter' />
-                            <Well>
-                            </Well> 
-                            </div>
-                        </Control> */}
                     </Cismap>
                </Loadable>
               

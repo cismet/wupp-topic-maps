@@ -64,12 +64,7 @@ export default function uiStateReducer(state = initialState, action) {
            case types.SET_APPLICATION_MENU_ACTIVE_KEY:
            {
              newState = objectAssign({}, state);
-             if (state.applicationMenuActiveKey!==action.key) {
-                newState.applicationMenuActiveKey = action.key;
-             }
-             else {
-                newState.applicationMenuActiveKey = null;       
-             }
+             newState.applicationMenuActiveKey = action.key;
              return newState;
            }
        default:
@@ -125,6 +120,13 @@ function setApplicationMenuActiveKey(key) {
 
 //COMPLEXACTIONS
 
+function showApplicationMenuAndActivateSection(applicationMenuVisible,section) {
+    return (dispatch, getState) => {
+            dispatch(setApplicationMenuActiveKey(section));
+            dispatch(showApplicationMenu(applicationMenuVisible));
+    }
+}
+
 //EXPORT ACTIONS
 export const actions = {
     screenResize,
@@ -132,5 +134,6 @@ export const actions = {
     setGazetteerBoxEnabled,
     setGazetteerBoxInfoText,
     setGazetteerBoxVisible,
-    setApplicationMenuActiveKey
+    setApplicationMenuActiveKey,
+    showApplicationMenuAndActivateSection
 };

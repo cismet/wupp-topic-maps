@@ -1,30 +1,36 @@
 import objectAssign from 'object-assign';
+import queryString from 'query-string';
 
 export function modifyQueryPart(search, modifiedParts) {
-    let query = getQueryObject(search)
+    let query = queryString.parse(search)
     let newQuery = objectAssign( query, modifiedParts);
-    let pNames = Object.getOwnPropertyNames(newQuery);
-    let querypart = "?";
-    let first = true;
-    for (let nidx in pNames) {
-        let connector;
-        if (first) {
-            connector = "";
-        } else {
-            connector = "&";
-        }
-        querypart = querypart.concat(connector,pNames[nidx],"=",newQuery[pNames[nidx]]);
-        first = false;
-    }
-    return querypart;
+    return  "?"+queryString.stringify(query, {sort:(m, n) => {
+        return getOrderOfQueryPart(m) >= getOrderOfQueryPart(n);
+    }});
 }
-export function getQueryObject(search) {
-    let obj = {};
-    if(search) {
-        search.slice(1).split('&').map((item) => {
-        const [ k, v ] = item.split('=');
-        v ? obj[k] === v : null;
-      });
+
+function getOrderOfQueryPart(part){
+    const order = ['lat', 'lng', 'zoom'];
+    let pos=order.indexOf(part);
+    if (pos===-1) {
+        return 1000000;
     }
-    return obj;
+    else {
+        return pos;
+    }
 }
+
+
+
+// export function getQueryObject(search) {
+//     let obj = {};
+//     if(search) {
+//         search.slice(1).split('&').map((item) => {
+//         const [ k, v ] = item.split('=');
+//         v ? obj[k] === v : null;
+//       });
+//     }
+//     return obj;
+// }
+// will be replaced through : queryString.parse(search)
+

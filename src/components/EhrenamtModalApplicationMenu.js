@@ -11,7 +11,7 @@ import {
     Row,
     Col,
     Well,
-    ButtonGroup, ButtonToolbar
+    ButtonGroup, ButtonToolbar,Dropdown,MenuItem,Glyphicon
 } from 'react-bootstrap';
 import {actions as UiStateActions} from '../redux/modules/uiState';
 import {constants as ehrenamtConstants, actions as EhrenamtActions} from '../redux/modules/ehrenamt';
@@ -27,10 +27,14 @@ import MultiToggleButton from './MultiToggleButton';
 
 import { Link } from 'react-scroll';
 
+import copy from 'copy-to-clipboard';
+
 function mapStateToProps(state) {
     return {
         uiState: state.uiState,
-        ehrenamtState: state.ehrenamt
+        ehrenamtState: state.ehrenamt,
+        routing: state.routing,
+
     };
 }
 function mapDispatchToProps(dispatch) {
@@ -436,7 +440,31 @@ export class EhrenamtModalApplicationMenu_ extends React.Component {
                                         this.props.ehrenamtActions.setMode(ehrenamtConstants.CART_FILTER);
                                         this.close();
                                     }}><Icon name="map"/></Button>
-                                    <Button  disabled={true} onClick={this.close}><Icon name="share-square"/></Button>
+                                     <Dropdown
+                                        bsStyle="default"
+                                        title="title"
+                                        key="DropdownButton"
+                                        id={"DropdownButton"}
+                                        icon="share"
+                                        pullRight
+                                        >
+                                         <Dropdown.Toggle>
+                                            <Icon name="share-square"/> 
+                                        </Dropdown.Toggle>
+                                        <Dropdown.Menu >
+                                            <MenuItem eventKey="1" onClick={()=>{
+                                                copy(window.location.href);
+                                            }}>
+                                                <Icon name="copy"/> Link kopieren
+                                            </MenuItem>
+                                            <MenuItem eventKey="2" onClick={()=>console.log("copy")}>
+                                                <Icon name="at"/> Merkliste per Mail senden
+                                            </MenuItem>
+                                            <MenuItem eventKey="3" onClick={()=>console.log("copy")}>
+                                                <Icon name="print"/> Merkliste drucken
+                                            </MenuItem>
+                                            </Dropdown.Menu >
+                                        </Dropdown>                                    
                                 </ButtonGroup>
                             </td>
                             </tr>

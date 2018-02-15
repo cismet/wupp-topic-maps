@@ -74,7 +74,6 @@ export class Ehrenamt_ extends React.Component {
         if (this.props.ehrenamt.offers.length===0){
             return;
         }
-        console.log("Ehrenamt.componentWillUpdate()");
         let urlCart=queryString.parse(this.props.routing.location.search).cart;
         let urlCartIds=new Set();
         if (urlCart){
@@ -84,14 +83,12 @@ export class Ehrenamt_ extends React.Component {
 
         let missingIdsInUrl=new Set([...cartIds].filter(x => !urlCartIds.has(x)));
         let missingIdsInCart=new Set([...urlCartIds].filter(x => !cartIds.has(x)));
-        console.log(missingIdsInCart);
 
         if (missingIdsInCart.size>0) {
             this.props.ehrenamtActions.addToCartByIds(Array.from(missingIdsInCart));
         }        
         
         let newUrlCartArr=Array.from(cartIds).sort((a,b)=>parseInt(a)-parseInt(b));
-        console.log(newUrlCartArr);
     
         let newUrlCart=newUrlCartArr.join();
             if (urlCart!==newUrlCart){
@@ -191,7 +188,7 @@ export class Ehrenamt_ extends React.Component {
         let numberOfOffers=this.props.ehrenamt.filteredOffers.length;
            info = (
              <EhrenamtInfo 
-                key={"ehrenamtInfo."+this.props.mapping.selectedIndex||0+".cart:"+JSON.stringify(this.props.ehrenamt.cart)}
+                key={"ehrenamtInfo."+(this.props.mapping.selectedIndex||0)+".cart:+JSON.stringify(this.props.ehrenamt.cart"}
                  pixelwidth={250}
                  featureCollection={this.props.mapping.featureCollection}
                  filteredOffers={this.props.ehrenamt.filteredOffers}
@@ -244,6 +241,7 @@ export class Ehrenamt_ extends React.Component {
       text='Laden der Angebote ...'
     >
                <Cismap ref={cismap => {this.cismapRef = cismap;}}
+                    key="mainMap"
                        layers={this.props.match.params.layers ||'rvrWMS@75'}
                        gazeteerHitTrigger={this.gazeteerhHit}
                        searchButtonTrigger={this.searchButtonHit}
@@ -273,10 +271,10 @@ export class Ehrenamt_ extends React.Component {
                               }} id="helpTooltip">Filter | Merkliste | Anleitung</Tooltip>)
                            }
                         gazBoxInfoText="Stadtteil | Adresse | POI"
-                        featureKeySuffixCreator={()=>{
-                            console.log("featureKeySuffixCreator called");
-                            return ".cart:"+JSON.stringify(this.props.ehrenamt.cart)
-                        }}
+                        // featureKeySuffixCreator={()=>{
+                        //     console.log("featureKeySuffixCreator called");
+                        //     return ".cart:"+JSON.stringify(this.props.ehrenamt.cart)
+                        // }}
 
                     >
                     </Cismap>
@@ -291,7 +289,7 @@ export class Ehrenamt_ extends React.Component {
 
 
 
-const Ehrenamt = withRouter(connect(mapStateToProps,mapDispatchToProps)(Ehrenamt_));
+const Ehrenamt = connect(mapStateToProps,mapDispatchToProps)(Ehrenamt_);
 
 export default Ehrenamt;
 

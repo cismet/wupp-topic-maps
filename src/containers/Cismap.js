@@ -79,9 +79,13 @@ export class Cismap_ extends React.Component {
     this.gazData=[];
   }
 
+  componentWillUnmount() {
+    console.log("Cismap.componentWillUnMount()")
+
+  }
 
   componentWillMount() {
-
+    console.log("Cismap.componentWillMount()")
     //Über uiStateActions anzeigen dass die Combobox nocht nicht funktionsfähig ist
 
     this.props.uiStateActions.setGazetteerBoxEnabled(false);

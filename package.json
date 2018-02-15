@@ -14,6 +14,7 @@
     "babel-polyfill": "^6.26.0",
     "color": "^2.0.1",
     "color-hash": "^1.0.3",
+    "copy-to-clipboard": "^3.0.8",
     "create-svg-pie": "^1.0.0",
     "drmonty-leaflet-awesome-markers": "^2.0.2",
     "es6-symbol": "^3.1.1",

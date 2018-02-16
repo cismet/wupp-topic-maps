@@ -75,17 +75,23 @@ export class Cismap_ extends React.Component {
     this.featureClick = this.featureClick.bind(this);
     this.handleSearch = this.handleSearch.bind(this);
     this.gotoHomeBB = this.gotoHomeBB.bind(this);
+    this.loadTheGazettteerTopics= this.loadTheGazettteerTopics.bind(this);
     this.showModalApplicationMenu = this.showModalApplicationMenu.bind(this);
     this.gazData=[];
   }
 
   componentWillUnmount() {
-    console.log("Cismap.componentWillUnMount()")
-
+    // console.log("Cismap.componentWillUnMount()")
+    // console.trace();
   }
 
   componentWillMount() {
-    console.log("Cismap.componentWillMount()")
+    // console.log("Cismap.componentWillMount()")
+    this.loadTheGazettteerTopics();
+  }
+
+  loadTheGazettteerTopics(){
+    ///console.log("loadTheGazettteerTopics()")
     //Über uiStateActions anzeigen dass die Combobox nocht nicht funktionsfähig ist
 
     this.props.uiStateActions.setGazetteerBoxEnabled(false);
@@ -188,11 +194,11 @@ export class Cismap_ extends React.Component {
       // console.log("++++++++++++++++++++++++ done with parsing " + ( from - Date.now()))
       this.props.uiStateActions.setGazetteerBoxEnabled(true);
       this.props.uiStateActions.setGazetteerBoxInfoText(this.props.gazBoxInfoText);
-
       this.forceUpdate(); //ugly winning: prevent typeahead to have shitty behaviour
     });
-
   }
+
+
   componentDidMount() {
     if (this.props.clustered) {  
         this.clusteredMarkers= L.markerClusterGroup(this.props.clusterOptions);

@@ -10,7 +10,7 @@ import localForage from 'localforage'
 
 const gazetteerTopicsStorageConfig = {
     key: 'gazetteerTopics',
-    storage: localForage
+    storage: localForage,
    }
 
 const ehrenamtStorageConfig = {

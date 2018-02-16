@@ -27,7 +27,7 @@ import {withRouter} from 'react-router'
 
 function mapStateToProps(state) {
   return {
-    ui: state.uiState,
+    uiState: state.uiState,
     mapping: state.mapping,
     routing: state.routing,
     ehrenamt: state.ehrenamt,
@@ -62,7 +62,12 @@ export class Ehrenamt_ extends React.Component {
       this.props.mappingActions.setBoundingBoxChangedTrigger(this.createfeatureCollectionByBoundingBox);
 
     }
+    componentWillUnmount() {
+        // console.log("Ehrenamt unmount")
+    }
+
     componentWillMount() {
+        // console.log("Ehrenamt mount")
         this.dataLoaded=false;
         this.loadTheOffers().then((data) => {
             this.dataLoaded=true;
@@ -92,9 +97,6 @@ export class Ehrenamt_ extends React.Component {
     
         let newUrlCart=newUrlCartArr.join();
             if (urlCart!==newUrlCart){
-                console.log("urlCart:"+urlCart)
-                console.log("!==");
-                console.log("newUrlCart:"+newUrlCart)
                 this.props.routingActions.push(this.props.routing.location.pathname + modifyQueryPart(this.props.routing.location.search, {
                     cart: newUrlCart
                 }));
@@ -223,8 +225,8 @@ export class Ehrenamt_ extends React.Component {
         // let difference = offerIds.filter(x => !fcIds.includes(x));
         // console.log(difference);
       return (
-           <div key={'div.EhrenamtModalApplicationMenu.visible:'+this.props.ui.applicationMenuVisible}>
-               <EhrenamtModalApplicationMenu key={'EhrenamtModalApplicationMenu.visible:'+this.props.ui.applicationMenuVisible}
+           <div>
+               <EhrenamtModalApplicationMenu key={'EhrenamtModalApplicationMenu.visible:'+this.props.uiState.applicationMenuVisible}
                 zielgruppen={this.props.ehrenamt.zielgruppen}
                 kenntnisse={this.props.ehrenamt.kenntnisse}
                 globalbereiche={this.props.ehrenamt.globalbereiche}
@@ -241,7 +243,6 @@ export class Ehrenamt_ extends React.Component {
       text='Laden der Angebote ...'
     >
                <Cismap ref={cismap => {this.cismapRef = cismap;}}
-                    key="mainMap"
                        layers={this.props.match.params.layers ||'rvrWMS@75'}
                        gazeteerHitTrigger={this.gazeteerhHit}
                        searchButtonTrigger={this.searchButtonHit}

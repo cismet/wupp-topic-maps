@@ -518,7 +518,11 @@ centerOnPoint(x,y,z) {
          doubleClickZoom={false} 
          minZoom={7} 
          ondblclick={this.props.ondblclick} 
-         maxZoom={18}>
+         maxZoom={18}
+        //  zoomDelta={0.5}
+        //  zoomSnap={0.5}
+        //  wheelPxPerZoomLevel={100}
+         scrollWheelZoom={true}>
       {
         layerArr.map((layerWithOpacity) => {
           const layOp = layerWithOpacity.split('@')

@@ -7,17 +7,12 @@ import {
     Button,
     Accordion,
     Panel,
-    Grid,
-    Row,
-    Col,
-    Well,
-    ButtonGroup, ButtonToolbar,Dropdown,MenuItem,Glyphicon, OverlayTrigger, Tooltip
+    ButtonGroup,Dropdown,MenuItem, OverlayTrigger, Tooltip
 } from 'react-bootstrap';
 import {actions as UiStateActions} from '../redux/modules/uiState';
 import {constants as ehrenamtConstants, actions as EhrenamtActions} from '../redux/modules/ehrenamt';
 
 import {Icon} from 'react-fa'
-import Switch from 'react-bootstrap-switch';
 import 'react-bootstrap-switch/dist/css/bootstrap3/react-bootstrap-switch.min.css';
 
 
@@ -180,8 +175,33 @@ export class EhrenamtModalApplicationMenu_ extends React.Component {
         return rows;
     }
 
-    
+    // componentWillMount() {
+    //     let pos=[];
+    //     let neg=[];
+        
+    //     for (let cat in this.props.ehrenamtState.filterX.positiv){
+    //          for (let val of this.props.ehrenamtState.filterX.positiv[cat]){
+    //             pos.push({
+    //                  label:val,
+    //                  value:val,
+    //                  cat
+    //              });
+    //          }
+    //      }
+    //      for (let cat in this.props.ehrenamtState.filterX.negativ){
+    //         for (let val of this.props.ehrenamtState.filterX.negativ[cat]){
+    //             neg.push({
+    //                 label:val,
+    //                 value:val,
+    //                 cat
+    //             });
+    //         }
+    //     }
+    //     let newState={pos,neg};
+    //     this.setState(newState)
+    // }
     render() {
+        //This should be in componentWillMount()
         let pos=[];
         let neg=[];
         
@@ -203,7 +223,13 @@ export class EhrenamtModalApplicationMenu_ extends React.Component {
                 });
             }
         }
-        this.state = {pos,neg};
+        let newState={pos,neg};
+        // should be done with this.setState(newState) in componentWillMount() 
+        // but then > refresh problem
+        this.state=newState;
+
+
+
 
         let modalBodyStyle = {
             "overflowY": "auto",
@@ -316,7 +342,10 @@ export class EhrenamtModalApplicationMenu_ extends React.Component {
         mailCartOffer+="%0D";
         mailCartOffer+="%0DLink zur Anwendung:%0D";
         let mailToHref="mailto:post@zfgt.de?subject=Merkliste&body="+mailCartOffer+encodeURI(window.location.href.replace(/&/g, '%26'));
-        
+        let angebotOrAngebote="Angebote";
+        if (this.props.filteredOffersCount===1){
+            angebotOrAngebote="Angebot";
+        }
         return (
             <Modal
                 
@@ -360,7 +389,7 @@ export class EhrenamtModalApplicationMenu_ extends React.Component {
                     <br/>
                     <br/>
                     <Accordion name="filter" key={"acc.filter."+this.props.uiState.applicationMenuActiveKey} defaultActiveKey={this.props.uiState.applicationMenuActiveKey||"filtertab"}>
-                        <Panel height="auto" header={"Filtern ("+this.props.filteredOffersCount+" gefunden, davon "+this.props.featureCollectionCount+" in der Karte)"} eventKey="filtertab" bsStyle="primary">
+                        <Panel height="auto" header={"Filtern ("+this.props.filteredOffersCount+" "+angebotOrAngebote+" gefunden, davon "+this.props.featureCollectionCount+" in der Karte)"} eventKey="filtertab" bsStyle="primary">
                     <h4>Ich suche nach:</h4>
                             <Select
                                 id={"pos"}

@@ -522,8 +522,9 @@ centerOnPoint(x,y,z) {
         //  zoomDelta={0.5}
         //  zoomSnap={0.5}
         //  wheelPxPerZoomLevel={100}
-         scrollWheelZoom={true}>
-      {
+        scrollWheelZoom={true}
+        >
+        {
         layerArr.map((layerWithOpacity) => {
           const layOp = layerWithOpacity.split('@')
           return Layers.get(layOp[0])(parseInt(layOp[1] || '100', 10) / 100.0);

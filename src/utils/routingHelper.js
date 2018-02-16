@@ -1,9 +1,7 @@
-import objectAssign from 'object-assign';
 import queryString from 'query-string';
 
 export function modifyQueryPart(search, modifiedParts) {
     let query = queryString.parse(search)
-    let newQuery = objectAssign( query, modifiedParts);
     return  "?"+queryString.stringify(query, {sort:(m, n) => {
         return getOrderOfQueryPart(m) >= getOrderOfQueryPart(n);
     }});

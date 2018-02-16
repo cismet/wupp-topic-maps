@@ -4,7 +4,6 @@ import * as turfHelpers from '@turf/helpers';
 import inside from '@turf/inside';
 import { constants as mappingConstants } from './mapping';
 import { getPolygonfromBBox } from '../../utils/gisHelper';
-import * as gisHelpers from '../../utils/gisHelper';
 
 import {
     WUNDAAPI

@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { OverlayTrigger, Well, Tooltip } from 'react-bootstrap';
-import Loadable from 'react-loading-overlay';
 import {Icon} from 'react-fa'
 import { constants as ehrenamtConstants } from '../redux/modules/ehrenamt';
 

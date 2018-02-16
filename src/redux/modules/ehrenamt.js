@@ -201,9 +201,6 @@ function setFilter(filter) {
     return {type: types.SET_FILTER, filter};
 }
 
-function setIgnoredFilterGroups(filtergroups) {
-    return {type: types.SET_IGNORED_FILTERGROUPS, filtergroups};
-}
 function setTheCart(cart){
     return {type: types.SET_CART, cart};
 }
@@ -357,59 +354,6 @@ function toggleFilter(kind, filtergroup, filter) {
     }
 }
 
-function toggleIgnoredFilterGroup(filtergroup) {
-    return (dispatch, getState) => {
-        let state = getState();
-        let filterState = JSON.parse(JSON.stringify(state.ehrenamt.filter));
-        let ignoredFilterGroupsSet = new Set(filterState.ignoredFilterGroups);
-        if (ignoredFilterGroupsSet.has(filtergroup)) {
-            ignoredFilterGroupsSet.delete(filtergroup);
-        } else {
-            ignoredFilterGroupsSet.add(filtergroup);
-        }
-        let result = Array.from(ignoredFilterGroupsSet);
-        result.sort();
-        dispatch(setIgnoredFilterGroups(result));
-        dispatch(applyFilter());
-    }
-}
-
-function applyFilterOld() {
-
-    return (dispatch, getState) => {
-        let state = getState();
-        let groups = [constants.KENTNISSE_FILTER, constants.GLOBALBEREICHE_FILTER, constants.ZIELGRUPPEN_FILTER];
-        let filteredOffers = [];
-        let filteredOfferSet = new Set(); //avoid duplicates
-        if (state.ehrenamt.filter.ignoredFilterGroups.length === 3) {
-            filteredOffers = state.ehrenamt.offers;
-        } else {
-            for (let fg of groups) {
-                if (state.ehrenamt.filter.ignoredFilterGroups.indexOf(fg) === -1) {
-                    for (let offer of state.ehrenamt.offers) {
-                        if (offer[getFilterSelectorForConstant(fg)]) {
-                            for (let zg of offer[getFilterSelectorForConstant(fg)]) {
-                                if (state.ehrenamt.filter[getFilterSelectorForConstant(fg)].indexOf(zg) > -1) {
-                                    filteredOfferSet.add(offer);
-                                    break;
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-            filteredOffers = Array.from(filteredOfferSet)
-        }
-
-        dispatch(setFilteredOffers(filteredOffers));
-        dispatch(createFeatureCollectionFromOffers());
-
-        // Auflisten der Angebote die der Filter herausgefiltert hat let difference =
-        // state.ehrenamt.offers.filter(x => !filteredOffers.includes(x));
-        // console.log(difference);
-
-    }
-}
 function applyFilter() {
 
     return (dispatch, getState) => {
@@ -628,64 +572,15 @@ function getFilterSelectorForConstant(constant) {
             {
                 return "zielgruppen";
             }
+        default: 
+            {
+                return undefined;
+            }
     }
 }
 function setFilterAndApply(filter) {
     return (dispatch, getState) => {
         dispatch(setFilter(filter));
-        dispatch(applyFilter());
-    }
-}
-
-function selectAll(filtergroupconstant) {
-    return (dispatch, getState) => {
-        let filtergroup = getFilterSelectorForConstant(filtergroupconstant);
-        let state = getState();
-        let filterState = JSON.parse(JSON.stringify(state.ehrenamt.filter));
-        filterState[filtergroup] = JSON.parse(JSON.stringify(state.ehrenamt[filtergroup]));
-        filterState[filtergroup].sort();
-        dispatch(setFilter(filterState));
-        dispatch(applyFilter());
-    }
-}
-
-function selectNone(filtergroupconstant) {
-    return (dispatch, getState) => {
-        let filtergroup = getFilterSelectorForConstant(filtergroupconstant);
-        let state = getState();
-        let filterState = JSON.parse(JSON.stringify(state.ehrenamt.filter));
-        filterState[filtergroup] = [];
-        filterState[filtergroup].sort();
-        dispatch(setFilter(filterState));
-        dispatch(applyFilter());
-    }
-}
-
-function resetFilter() {
-    return (dispatch, getState) => {
-        dispatch(setFilterAndApply(initialState.filterX));
-    }
-}
-
-function invertSelection(filtergroupconstant) {
-    return (dispatch, getState) => {
-        let filtergroup = getFilterSelectorForConstant(filtergroupconstant);
-        let state = getState();
-        let filterState = JSON.parse(JSON.stringify(state.ehrenamt.filter));
-        let filterGroupSet = new Set(filterState[filtergroup]);
-
-        let possibilities = JSON.parse(JSON.stringify(state.ehrenamt[filtergroup]));
-        for (let filter of possibilities) {
-            if (filterGroupSet.has(filter)) {
-                filterGroupSet.delete(filter);
-            } else {
-                filterGroupSet.add(filter);
-            }
-        }
-
-        filterState[filtergroup] = Array.from(filterGroupSet);
-        filterState[filtergroup].sort();
-        dispatch(setFilter(filterState));
         dispatch(applyFilter());
     }
 }
@@ -720,11 +615,11 @@ export const actions = {
     loadOffers,
     createFeatureCollectionFromOffers,
     toggleFilter,
-    toggleIgnoredFilterGroup,
-    selectAll,
-    selectNone,
-    invertSelection,
-    resetFilter,
+    // toggleIgnoredFilterGroup,
+    // selectAll,
+    // selectNone,
+    // invertSelection,
+    // resetFilter,
     setFilterAndApply,
     addToCart,
     clearCart,
@@ -748,10 +643,6 @@ function convertOfferToFeature(offer, index) {
         "coordinates": [point[0], point[1]]
     }
     const text = offer.text;
-
-    const globalbereiche = offer.globalbereiche;
-    const kenntnisse = offer.kenntnisse;
-    const zielgruppen = offer.zielgruppen;
 
     return {
         id,

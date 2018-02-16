@@ -164,13 +164,13 @@ export const featureHoverer = (feature) => {
 export const getCartStringForAdding = (cart,newId) => {
     let cartIds=cart.map(x=>x.id);
     cartIds.push(newId);
-    cartIds.sort((a,b)=>parseInt(a)-parseInt(b));
+    cartIds.sort((a,b)=>parseInt(a,10)-parseInt(b,10));
     return cartIds.join();
 }
 
 export const getCartStringForRemoving = (cart,removedId) => {
     let cartIds=new Set(cart.map(x=>x.id));
     cartIds.delete(removedId);
-    let arr=Array.from(cartIds).sort((a,b)=>parseInt(a)-parseInt(b));
+    let arr=Array.from(cartIds).sort((a,b)=>parseInt(a,10)-parseInt(b,10));
     return arr.join();
 }

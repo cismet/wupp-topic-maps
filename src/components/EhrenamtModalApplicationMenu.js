@@ -11,7 +11,7 @@ import {
     Row,
     Col,
     Well,
-    ButtonGroup, ButtonToolbar,Dropdown,MenuItem,Glyphicon
+    ButtonGroup, ButtonToolbar,Dropdown,MenuItem,Glyphicon, OverlayTrigger, Tooltip
 } from 'react-bootstrap';
 import {actions as UiStateActions} from '../redux/modules/uiState';
 import {constants as ehrenamtConstants, actions as EhrenamtActions} from '../redux/modules/ehrenamt';
@@ -278,18 +278,23 @@ export class EhrenamtModalApplicationMenu_ extends React.Component {
                 <li key={"cart.li."+cartOffer.id}>
                     <h5>
                         Angebot Nr. {cartOffer.id}&nbsp;&nbsp;&nbsp;
-                        <a style={{ color: 'black'}} onClick={()=>{
-                                this.props.centerOnPoint(cartOffer.geo_x,cartOffer.geo_y,13);
-                                this.props.ehrenamtActions.selectOffer(cartOffer);
-                                this.close();
+                        <OverlayTrigger placement="top" overlay={(<Tooltip style={{zIndex: 3000000000}} id="showinmaptt">in Karte anzeigen</Tooltip>)}>
+                            <a style={{ color: 'black'}} onClick={()=>{
+                                    this.props.centerOnPoint(cartOffer.geo_x,cartOffer.geo_y,13);
+                                    this.props.ehrenamtActions.selectOffer(cartOffer);
+                                    this.close();
+                                }}>
+                                <Icon name="map-marker"/>
+                            </a>
+                        </OverlayTrigger>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        <OverlayTrigger placement="top" overlay={(<Tooltip style={{zIndex: 3000000000}} id="removefromcarttt">aus Merkliste entfernen</Tooltip>)}>
+                            <a style={{ color: '#C33D17'}} onClick={()=>{
+                                this.props.ehrenamtActions.toggleCartFromOffer(cartOffer);
                             }}>
-                            <Icon name="map-marker"/>
-                        </a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                        <a style={{ color: '#C33D17'}} onClick={()=>{
-                            this.props.ehrenamtActions.toggleCartFromOffer(cartOffer);
-                        }}>
-                            <Icon name="minus-square"/>
-                        </a>
+                                <Icon name="minus-square"/>
+                            </a>
+                        </OverlayTrigger>
                     </h5>
                      <h6>{cartOffer.text}</h6>
                 </li>
@@ -310,8 +315,8 @@ export class EhrenamtModalApplicationMenu_ extends React.Component {
         mailCartOffer+="%0D";
         mailCartOffer+="%0D";
         mailCartOffer+="%0DLink zur Anwendung:%0D";
-
-
+        let mailToHref="mailto:post@zfgt.de?subject=Merkliste&body="+mailCartOffer+encodeURI(window.location.href.replace(/&/g, '%26'));
+        
         return (
             <Modal
                 
@@ -459,36 +464,43 @@ export class EhrenamtModalApplicationMenu_ extends React.Component {
                                 verticalAlign: 'top'
                                 }}>
                                 <ButtonGroup bsStyle="default">
-                                    <Button  onClick={this.props.ehrenamtActions.clearCart}><Icon name="trash"/></Button>
-                                    <Button  onClick={()=>{
-                                        this.props.ehrenamtActions.setMode(ehrenamtConstants.CART_FILTER);
-                                        this.close();
-                                    }}><Icon name="map"/></Button>
-                                     <Dropdown
-                                        bsStyle="default"
-                                        title="title"
-                                        key="DropdownButton"
-                                        id={"DropdownButton"}
-                                        icon="share"
-                                        pullRight
-                                        >
-                                         <Dropdown.Toggle>
-                                            <Icon name="share-square"/> 
-                                        </Dropdown.Toggle>
-                                        <Dropdown.Menu >
-                                            <MenuItem eventKey="1" onClick={()=>{
-                                                copy(window.location.href);
-                                            }}>
-                                                <Icon name="copy"/> Link kopieren
-                                            </MenuItem>
-                                            <MenuItem eventKey="2" href={"mailto:post@zfgt.de?subject=Merkliste&body="+mailCartOffer+window.location.href}>
-                                                <Icon name="at"/> Merkliste per Mail senden
-                                            </MenuItem>
-                                            <MenuItem disabled={true} eventKey="3" onClick={()=>console.log("copy")}>
-                                                <Icon name="print"/> Merkliste drucken
-                                            </MenuItem>
-                                            </Dropdown.Menu >
-                                        </Dropdown>                                    
+                                    <OverlayTrigger placement="top" overlay={(<Tooltip style={{zIndex: 3000000000}} id="clearcarttt">Merkliste löschen</Tooltip>)}>
+                                        <Button  onClick={this.props.ehrenamtActions.clearCart}><Icon name="trash"/></Button>
+                                    </OverlayTrigger>
+                                    <OverlayTrigger placement="top" overlay={(<Tooltip style={{zIndex: 3000000000}} id="cartfiltertt">Merklistenfilter aktivieren</Tooltip>)}>
+                                        <Button  onClick={()=>{
+                                            this.props.ehrenamtActions.setMode(ehrenamtConstants.CART_FILTER);
+                                            this.close();
+                                        }}><Icon name="map"/></Button>
+                                    </OverlayTrigger>
+                                    <OverlayTrigger placement="top" overlay={(<Tooltip style={{zIndex: 3000000000}} id="sharecarttt">Merkliste teilen</Tooltip>)}>
+                                        <Dropdown
+                                            bsStyle="default"
+                                            title="title"
+                                            key="DropdownButton"
+                                            id={"DropdownButton"}
+                                            icon="share"
+                                            pullRight
+                                            >
+                                            <Dropdown.Toggle>
+                                                <Icon name="share-square"/> 
+                                            </Dropdown.Toggle>
+                                            <Dropdown.Menu >
+                                                <MenuItem eventKey="1" onClick={()=>{
+                                                    copy(window.location.href);
+                                                }}>
+                                                    <Icon name="copy"/> Link kopieren
+                                                </MenuItem>
+                                                <MenuItem eventKey="2" href={mailToHref}>
+                                                    <Icon name="at"/> Merkliste per Mail senden
+                                                </MenuItem>
+                                                <MenuItem disabled={true} eventKey="3" onClick={()=>console.log("copy")}>
+                                                    <Icon name="print"/> Merkliste drucken
+                                                </MenuItem>
+                                                </Dropdown.Menu >
+                                            </Dropdown>      
+                                        </OverlayTrigger>
+                              
                                 </ButtonGroup>
                             </td>
                             </tr>

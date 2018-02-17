@@ -92,10 +92,13 @@ export class Ehrenamt_ extends React.Component {
         let newUrlCartArr=Array.from(cartIds).sort((a,b)=>parseInt(a,10)-parseInt(b,10));
     
         let newUrlCart=newUrlCartArr.join();
-            if (urlCart!==newUrlCart){
-                this.props.routingActions.push(this.props.routing.location.pathname + modifyQueryPart(this.props.routing.location.search, {
+
+        if (urlCart!==newUrlCart && newUrlCart.length>0){
+                let newRoute=this.props.routing.location.pathname + modifyQueryPart(this.props.routing.location.search, {
                     cart: newUrlCart
-                }));
+                });
+                console.log("push new route:"+newRoute);
+                this.props.routingActions.push(newRoute);
             }
     }
      

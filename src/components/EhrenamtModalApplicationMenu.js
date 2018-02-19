@@ -54,32 +54,6 @@ export class EhrenamtModalApplicationMenu_ extends React.Component {
             .showApplicationMenu(false);
     }
 
-    handleSwitch(elem, state) {
-        this
-            .props
-            .ehrenamtActions
-            .toggleIgnoredFilterGroup(elem.props.name);
-    }
-
-    selectAll(fg) {
-        this
-            .props
-            .ehrenamtActions
-            .selectAll(fg);
-    }
-    selectNone(fg) {
-        this
-            .props
-            .ehrenamtActions
-            .selectNone(fg);
-
-    }
-    invertSelection(fg) {
-        this
-            .props
-            .ehrenamtActions
-            .invertSelection(fg);
-    }
     handlePosOnChange(tags) {
         let newState={pos:tags,neg:this.state.neg};
         this.setState(newState);

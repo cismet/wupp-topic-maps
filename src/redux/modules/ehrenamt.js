@@ -597,6 +597,13 @@ function clearCart() {
     }
 }
 
+
+function resetFilter() {	
+    return (dispatch, getState) => {	
+        dispatch(setFilterAndApply(initialState.filterX));	
+    }	
+}
+
 function selectOffer(offer){
     return (dispatch, getState) => {
         let state = getState()
@@ -615,11 +622,7 @@ export const actions = {
     loadOffers,
     createFeatureCollectionFromOffers,
     toggleFilter,
-    // toggleIgnoredFilterGroup,
-    // selectAll,
-    // selectNone,
-    // invertSelection,
-    // resetFilter,
+    resetFilter,
     setFilterAndApply,
     addToCart,
     clearCart,

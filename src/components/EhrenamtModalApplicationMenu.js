@@ -513,11 +513,33 @@ export class EhrenamtModalApplicationMenu_ extends React.Component {
                     </Accordion>
                     <Accordion name="help" key={"helptext"+this.props.uiState.applicationMenuActiveKey} defaultActiveKey={this.props.uiState.applicationMenuActiveKey} >
                         <Panel header="Kompaktanleitung" eventKey="help" bsStyle="default">
-                            Die standardm&auml;&szlig;ig eingestellte Hintergrundkarte gibt eine
-                            &Uuml;bersicht &uuml;ber die Wuppertaler Bebauungspl&auml;ne (B-Pl&auml;ne).<br/>
-                            Gr&uuml;ne Fl&auml;chen (&Uuml;bersichtsma&szlig;stab) bzw. Umringe stehen
-                            f&uuml;r rechtswirksame B-Plan-Verfahren, rote Fl&auml;chen / Umringe f&uuml;r
-                            laufende Verfahren.
+                            <p>Diese Anwendung gibt Ihnen einen &Uuml;berblick &uuml;ber die angebotenen 
+                            Ehrenamtsstellen aus der Datenbank des <a href="http://www.zentrumfuergutetaten.de" target="_">Zentrums f&uuml;r gute Taten</a>. 
+                            Die Darstellung der Einsatzorte als Karte macht es Ihnen dabei leicht, 
+                            Ehrenamtsstellen in Ihrer N&auml;he zu finden. Einer Ehrenamtsstelle 
+                            sind im Allgemeinfall mehrere Aufgabenfelder, T&auml;tigkeiten und 
+                            Zielgruppen zugeordnet. Die in der Karte f&uuml;r die Punktdarstellungen 
+                            der Angebote verwendeten Farben stehen jeweils f&uuml;r eine bestimmte 
+                            Kombination dieser Merkmale. </p><p>Eng beieinander liegende Angebote werden 
+                            ma&szlig;stabsabh&auml;ngig zu gr&ouml;&szlig;eren Punkten zusammengefasst, 
+                            mit der Anzahl der repr&auml;sentierten Angebote im Zentrum. 
+                            Vergr&ouml;&szlig;ern Sie ein paar Mal durch direktes Anklicken eines solchen 
+                            Punktes oder mit  <Icon name="plus"/> die Darstellung: die zusammengefassten 
+                            Angebote werden Schritt f&uuml;r Schritt in die kleineren Punktdarstellungen 
+                            f&uuml;r die konkreten Einzelangebote zerlegt. Nur Angebote, die sich auf 
+                            denselben Standort beziehen, werden in jedem Ma&szlig;stab als Zusammenfassung 
+                            dargestellt. In diesen F&auml;llen f&uuml;hrt ein weiterer Klick ab einer 
+                            bestimmten Ma&szlig;stabsstufe (Zoomstufe 12) dazu, dass eine Explosionsgrafik 
+                            der zusammengefassten Angebote angezeigt wird. </p><p>Bewegen Sie den Mauszeiger auf 
+                            ein konkretes Angebot, um sich seine Bezeichnung anzeigen zu lassen. Ein Klick 
+                            auf den farbigen Punkt setzt den Fokus auf dieses Angebot. Es wird dann blau 
+                            hinterlegt und die zugeh&ouml;rigen Informationen (Angebotsnummer und Bezeichnung 
+                            werden in der Info-Box angezeigt. (Auf einem Tablet-PC wird der Fokus durch das 
+                            erste Antippen des Angebots gesetzt, das zweite Antippen blendet die Bezeichnung ein.) 
+                            Wenn Sie den Fokus noch nicht aktiv auf ein bestimmtes Angebot gesetzt haben, 
+                            wird er automatisch auf das n&ouml;rdlichste Angebot im Kartenausschnitt gesetzt. 
+                            </p><p>Mit dem Werkzeug <Icon name="plus-square"/> in der Info-Box rechts 
+                            neben der Bezeichnung k&ouml;nnen Sie ein Angebot in Ihre Merkliste aufnehmen.</p>
                         </Panel>
                     </Accordion>
                 </Modal.Body>

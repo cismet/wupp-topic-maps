@@ -19,11 +19,12 @@ export const featureStyler = (feature) => {
     let star="";
     let contrastColor;
 
-    if (color.dark()){
+    if (color.isDark()){
         contrastColor="white";
     }else {
         contrastColor="black";
     }
+     
 
     if (feature.inCart) {
         star= `<text x="${svgSize / 2}" y="${svgSize / 2}" text-anchor="middle"  dy=".4em"  font-family="FontAwesome" font-size="11" stroke="none" opacity="0.7" fill="${contrastColor}">&#xf005;</text>";`

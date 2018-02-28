@@ -332,10 +332,10 @@ export class EhrenamtModalApplicationMenu_ extends React.Component {
                 onHide={this.close}
                 keyboard={false}>
 
-                <Modal.Header >
+                <Modal.Header>
                     <Modal.Title><Icon name="bars"/>&nbsp;&nbsp;&nbsp;Filter, Merkliste und Kompaktanleitung</Modal.Title>
                 </Modal.Header >
-                <Modal.Body style={modalBodyStyle} id="myMenu">
+                <Modal.Body style={modalBodyStyle} id="myMenu" key={this.props.uiState.applicationMenuActiveKey}>
                     <span>
                         W&auml;hlen Sie Ihre Such- und Ausschlussbedingungen in den <Link 
                             to="filter" 
@@ -362,7 +362,13 @@ export class EhrenamtModalApplicationMenu_ extends React.Component {
                     </span>
                     <br/>
                     <br/>
-                    <Accordion name="filter" key={"acc.filter."+this.props.uiState.applicationMenuActiveKey} defaultActiveKey={this.props.uiState.applicationMenuActiveKey||"filtertab"}>
+                    <Accordion name="filter" key={"acc.filter."+this.props.uiState.applicationMenuActiveKey} defaultActiveKey={this.props.uiState.applicationMenuActiveKey||"filtertab"} onSelect={()=>{
+                        if (this.props.uiState.applicationMenuActiveKey==="filtertab"){
+                            this.props.uiActions.setApplicationMenuActiveKey("none")
+                        }else {
+                            this.props.uiActions.setApplicationMenuActiveKey("filtertab")
+                        }
+                    }}>
                         <Panel height="auto" header={"Filtern ("+this.props.filteredOffersCount+" "+angebotOrAngebote+" gefunden, davon "+this.props.featureCollectionCount+" in der Karte)"} eventKey="filtertab" bsStyle="primary">
                     <h4>Ich suche nach:</h4>
                             <Select
@@ -452,7 +458,13 @@ export class EhrenamtModalApplicationMenu_ extends React.Component {
                         </table>
                     </Panel>
                     </Accordion>
-                    <Accordion name="cart" key={"cart"+this.props.uiState.applicationMenuActiveKey} defaultActiveKey={this.props.uiState.applicationMenuActiveKey} >
+                    <Accordion name="cart" key={"cart"+this.props.uiState.applicationMenuActiveKey} defaultActiveKey={this.props.uiState.applicationMenuActiveKey} onSelect={()=>{
+                        if (this.props.uiState.applicationMenuActiveKey==="cart"){
+                            this.props.uiActions.setApplicationMenuActiveKey("none")
+                        }else {
+                            this.props.uiActions.setApplicationMenuActiveKey("cart")
+                        }
+                    }}>
                         <Panel header={"meine Merkliste ("+this.props.ehrenamtState.cart.length+")"} eventKey="cart" bsStyle="primary">
                         <table width="100%" border={0}>
                         <tbody>
@@ -511,7 +523,13 @@ export class EhrenamtModalApplicationMenu_ extends React.Component {
                         </table>
                         </Panel>
                     </Accordion>
-                    <Accordion name="help" key={"helptext"+this.props.uiState.applicationMenuActiveKey} defaultActiveKey={this.props.uiState.applicationMenuActiveKey} >
+                    <Accordion name="help" key={"helptext"+this.props.uiState.applicationMenuActiveKey} defaultActiveKey={this.props.uiState.applicationMenuActiveKey} onSelect={()=>{
+                        if (this.props.uiState.applicationMenuActiveKey==="help"){
+                            this.props.uiActions.setApplicationMenuActiveKey("none")
+                        }else {
+                            this.props.uiActions.setApplicationMenuActiveKey("help")
+                        }
+                    }}>
                         <Panel header="Kompaktanleitung" eventKey="help" bsStyle="default">
                             <p>Diese Anwendung gibt Ihnen einen &Uuml;berblick &uuml;ber die angebotenen 
                             Ehrenamtsstellen aus der Datenbank des <a href="http://www.zentrumfuergutetaten.de" target="_">Zentrums f&uuml;r gute Taten</a>. 

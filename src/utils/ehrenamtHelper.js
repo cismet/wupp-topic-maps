@@ -15,9 +15,19 @@ export const featureStyler = (feature) => {
     }
 
     //star: &#xf005;
+
     let star="";
+    let contrastColor;
+
+    if (color.isDark()){
+        contrastColor="white";
+    }else {
+        contrastColor="black";
+    }
+     
+
     if (feature.inCart) {
-        star= `<text x="${svgSize / 2}" y="${svgSize / 2}" text-anchor="middle"  dy=".4em"  font-family="FontAwesome" font-size="11" stroke="none" fill="${color.darken(0.5)}">&#xf005;</text>";`
+        star= `<text x="${svgSize / 2}" y="${svgSize / 2}" text-anchor="middle"  dy=".4em"  font-family="FontAwesome" font-size="11" stroke="none" opacity="0.7" fill="${contrastColor}">&#xf005;</text>";`
     }
 
     let svg = `<svg height="${svgSize}" width="${svgSize}">
@@ -164,13 +174,13 @@ export const featureHoverer = (feature) => {
 export const getCartStringForAdding = (cart,newId) => {
     let cartIds=cart.map(x=>x.id);
     cartIds.push(newId);
-    cartIds.sort((a,b)=>parseInt(a)-parseInt(b));
+    cartIds.sort((a,b)=>parseInt(a,10)-parseInt(b,10));
     return cartIds.join();
 }
 
 export const getCartStringForRemoving = (cart,removedId) => {
     let cartIds=new Set(cart.map(x=>x.id));
     cartIds.delete(removedId);
-    let arr=Array.from(cartIds).sort((a,b)=>parseInt(a)-parseInt(b));
+    let arr=Array.from(cartIds).sort((a,b)=>parseInt(a,10)-parseInt(b,10));
     return arr.join();
 }

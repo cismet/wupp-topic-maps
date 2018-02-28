@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Cismap from '../containers/Cismap';
 import { connect } from "react-redux";
-import Control from 'react-leaflet-control';
 import { Well, Tooltip} from 'react-bootstrap';
 
 import { actions as bplanActions } from '../redux/modules/bplaene';

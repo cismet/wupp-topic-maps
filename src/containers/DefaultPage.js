@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import Cismap from '../containers/Cismap';
 import {connect} from "react-redux";
 import {Well} from 'react-bootstrap';
-import Control from 'react-leaflet-control';
 
 function mapStateToProps(state) {
     return {ui: state.uiState};

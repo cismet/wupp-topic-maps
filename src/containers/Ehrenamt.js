@@ -3,8 +3,7 @@ import PropTypes from 'prop-types';
 import Cismap from '../containers/Cismap';
 
 import { connect } from "react-redux";
-import Control from 'react-leaflet-control';
-import { Well, Tooltip} from 'react-bootstrap';
+import { Tooltip} from 'react-bootstrap';
 
 
 import { actions as mappingActions } from '../redux/modules/mapping';
@@ -17,21 +16,18 @@ import EhrenamtModalApplicationMenu from '../components/EhrenamtModalApplication
 import EhrenamtInfo  from '../components/EhrenamtInfo'
 
 import { featureStyler, featureHoverer, ehrenAmtClusterIconCreator } from '../utils/ehrenamtHelper';
-import {Icon} from 'react-fa'
 
 import Loadable from 'react-loading-overlay';
 import queryString from 'query-string';
 
 import {modifyQueryPart} from '../utils/routingHelper'
-import {withRouter} from 'react-router'
 
 function mapStateToProps(state) {
   return {
-    ui: state.uiState,
+    uiState: state.uiState,
     mapping: state.mapping,
     routing: state.routing,
     ehrenamt: state.ehrenamt,
-    routing: state.routing,
   };
 }
 
@@ -62,7 +58,12 @@ export class Ehrenamt_ extends React.Component {
       this.props.mappingActions.setBoundingBoxChangedTrigger(this.createfeatureCollectionByBoundingBox);
 
     }
+    componentWillUnmount() {
+        // console.log("Ehrenamt unmount")
+    }
+
     componentWillMount() {
+        // console.log("Ehrenamt mount")
         this.dataLoaded=false;
         this.loadTheOffers().then((data) => {
             this.dataLoaded=true;
@@ -77,27 +78,27 @@ export class Ehrenamt_ extends React.Component {
         let urlCart=queryString.parse(this.props.routing.location.search).cart;
         let urlCartIds=new Set();
         if (urlCart){
-            urlCartIds=new Set(urlCart.split(",").sort((a,b)=>parseInt(a)-parseInt(b)));
+            urlCartIds=new Set(urlCart.split(",").sort((a,b)=>parseInt(a,10)-parseInt(b,10)));
         }
-        let cartIds=new Set(this.props.ehrenamt.cart.map(x=>x.id).sort((a,b)=>parseInt(a)-parseInt(b)));
+        let cartIds=new Set(this.props.ehrenamt.cart.map(x=>x.id).sort((a,b)=>parseInt(a,10)-parseInt(b,10)));
 
-        let missingIdsInUrl=new Set([...cartIds].filter(x => !urlCartIds.has(x)));
+//        let missingIdsInUrl=new Set([...cartIds].filter(x => !urlCartIds.has(x)));
         let missingIdsInCart=new Set([...urlCartIds].filter(x => !cartIds.has(x)));
 
         if (missingIdsInCart.size>0) {
             this.props.ehrenamtActions.addToCartByIds(Array.from(missingIdsInCart));
         }        
         
-        let newUrlCartArr=Array.from(cartIds).sort((a,b)=>parseInt(a)-parseInt(b));
+        let newUrlCartArr=Array.from(cartIds).sort((a,b)=>parseInt(a,10)-parseInt(b,10));
     
         let newUrlCart=newUrlCartArr.join();
-            if (urlCart!==newUrlCart){
-                console.log("urlCart:"+urlCart)
-                console.log("!==");
-                console.log("newUrlCart:"+newUrlCart)
-                this.props.routingActions.push(this.props.routing.location.pathname + modifyQueryPart(this.props.routing.location.search, {
+
+        if (urlCart!==newUrlCart && newUrlCart.length>0){
+                let newRoute=this.props.routing.location.pathname + modifyQueryPart(this.props.routing.location.search, {
                     cart: newUrlCart
-                }));
+                });
+                console.log("push new route:"+newRoute);
+                this.props.routingActions.push(newRoute);
             }
     }
      
@@ -185,7 +186,6 @@ export class Ehrenamt_ extends React.Component {
 
     render() {
       let info= null;
-        let numberOfOffers=this.props.ehrenamt.filteredOffers.length;
            info = (
              <EhrenamtInfo 
                 key={"ehrenamtInfo."+(this.props.mapping.selectedIndex||0)+".cart:+JSON.stringify(this.props.ehrenamt.cart"}
@@ -223,8 +223,8 @@ export class Ehrenamt_ extends React.Component {
         // let difference = offerIds.filter(x => !fcIds.includes(x));
         // console.log(difference);
       return (
-           <div key={'div.EhrenamtModalApplicationMenu.visible:'+this.props.ui.applicationMenuVisible}>
-               <EhrenamtModalApplicationMenu key={'EhrenamtModalApplicationMenu.visible:'+this.props.ui.applicationMenuVisible}
+           <div>
+               <EhrenamtModalApplicationMenu key={'EhrenamtModalApplicationMenu.visible:'+this.props.uiState.applicationMenuVisible}
                 zielgruppen={this.props.ehrenamt.zielgruppen}
                 kenntnisse={this.props.ehrenamt.kenntnisse}
                 globalbereiche={this.props.ehrenamt.globalbereiche}
@@ -241,7 +241,6 @@ export class Ehrenamt_ extends React.Component {
       text='Laden der Angebote ...'
     >
                <Cismap ref={cismap => {this.cismapRef = cismap;}}
-                    key="mainMap"
                        layers={this.props.match.params.layers ||'rvrWMS@75'}
                        gazeteerHitTrigger={this.gazeteerhHit}
                        searchButtonTrigger={this.searchButtonHit}

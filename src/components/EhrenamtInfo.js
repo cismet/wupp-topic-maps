@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { OverlayTrigger, Well, Tooltip } from 'react-bootstrap';
-import Loadable from 'react-loading-overlay';
 import {Icon} from 'react-fa'
 import { constants as ehrenamtConstants } from '../redux/modules/ehrenamt';
 
@@ -46,10 +45,14 @@ const EhrenamtInfo = ({featureCollection, filteredOffers, selectedIndex, next, p
             <tbody>
               <tr>
               <td style={{ textAlign: 'left', verticalAlign: 'top',background:filterColor, opacity:'0.9', padding: '3px' }}>
+              <OverlayTrigger placement="left" overlay={(<Tooltip style={{zIndex: 3000000000}} id="bookmarkstt">Filterliste &ouml;ffnen</Tooltip>)}>
                 <a onClick={()=>showModalMenu(modalMenuTarget)} style={{ color: 'black'}}><Icon name='filter' />&nbsp;{filterText}</a>
+                </OverlayTrigger>
                 </td>
                 <td style={{ textAlign: 'right', verticalAlign: 'top', background:filterColor,opacity:'0.9',padding: '3px' }}>
-                <a onClick={resetFilter} style={{ color: 'black'}}><Icon name='close' /></a>
+                <OverlayTrigger placement="left" overlay={(<Tooltip style={{zIndex: 3000000000}} id="bookmarkstt">Filter deaktivieren</Tooltip>)}>
+                 <a onClick={resetFilter} style={{ color: 'black'}}><Icon name='close' /></a>
+                 </OverlayTrigger>
                 </td>
               </tr>
             </tbody>

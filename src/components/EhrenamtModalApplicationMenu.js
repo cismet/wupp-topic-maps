@@ -7,17 +7,12 @@ import {
     Button,
     Accordion,
     Panel,
-    Grid,
-    Row,
-    Col,
-    Well,
-    ButtonGroup, ButtonToolbar,Dropdown,MenuItem,Glyphicon
+    ButtonGroup,Dropdown,MenuItem, OverlayTrigger, Tooltip
 } from 'react-bootstrap';
 import {actions as UiStateActions} from '../redux/modules/uiState';
 import {constants as ehrenamtConstants, actions as EhrenamtActions} from '../redux/modules/ehrenamt';
 
 import {Icon} from 'react-fa'
-import Switch from 'react-bootstrap-switch';
 import 'react-bootstrap-switch/dist/css/bootstrap3/react-bootstrap-switch.min.css';
 
 
@@ -59,32 +54,6 @@ export class EhrenamtModalApplicationMenu_ extends React.Component {
             .showApplicationMenu(false);
     }
 
-    handleSwitch(elem, state) {
-        this
-            .props
-            .ehrenamtActions
-            .toggleIgnoredFilterGroup(elem.props.name);
-    }
-
-    selectAll(fg) {
-        this
-            .props
-            .ehrenamtActions
-            .selectAll(fg);
-    }
-    selectNone(fg) {
-        this
-            .props
-            .ehrenamtActions
-            .selectNone(fg);
-
-    }
-    invertSelection(fg) {
-        this
-            .props
-            .ehrenamtActions
-            .invertSelection(fg);
-    }
     handlePosOnChange(tags) {
         let newState={pos:tags,neg:this.state.neg};
         this.setState(newState);
@@ -180,8 +149,33 @@ export class EhrenamtModalApplicationMenu_ extends React.Component {
         return rows;
     }
 
-    
+    // componentWillMount() {
+    //     let pos=[];
+    //     let neg=[];
+        
+    //     for (let cat in this.props.ehrenamtState.filterX.positiv){
+    //          for (let val of this.props.ehrenamtState.filterX.positiv[cat]){
+    //             pos.push({
+    //                  label:val,
+    //                  value:val,
+    //                  cat
+    //              });
+    //          }
+    //      }
+    //      for (let cat in this.props.ehrenamtState.filterX.negativ){
+    //         for (let val of this.props.ehrenamtState.filterX.negativ[cat]){
+    //             neg.push({
+    //                 label:val,
+    //                 value:val,
+    //                 cat
+    //             });
+    //         }
+    //     }
+    //     let newState={pos,neg};
+    //     this.setState(newState)
+    // }
     render() {
+        //This should be in componentWillMount()
         let pos=[];
         let neg=[];
         
@@ -203,7 +197,13 @@ export class EhrenamtModalApplicationMenu_ extends React.Component {
                 });
             }
         }
-        this.state = {pos,neg};
+        let newState={pos,neg};
+        // should be done with this.setState(newState) in componentWillMount() 
+        // but then > refresh problem
+        this.state=newState;
+
+
+
 
         let modalBodyStyle = {
             "overflowY": "auto",
@@ -278,18 +278,24 @@ export class EhrenamtModalApplicationMenu_ extends React.Component {
                 <li key={"cart.li."+cartOffer.id}>
                     <h5>
                         Angebot Nr. {cartOffer.id}&nbsp;&nbsp;&nbsp;
-                        <a style={{ color: 'black'}} onClick={()=>{
-                                this.props.centerOnPoint(cartOffer.geo_x,cartOffer.geo_y,13);
-                                this.props.ehrenamtActions.selectOffer(cartOffer);
-                                this.close();
+                        <OverlayTrigger placement="top" overlay={(<Tooltip style={{zIndex: 3000000000}} id="showinmaptt">in Karte anzeigen</Tooltip>)}>
+                            <a style={{ color: 'black'}} onClick={()=>{
+                                    this.props.centerOnPoint(cartOffer.geo_x,cartOffer.geo_y,13);
+                                    //ugly winning: select offer doenst work when the map has to be moved
+                                    setTimeout(()=>this.props.ehrenamtActions.selectOffer(cartOffer),1000);
+                                    this.close();
+                                }}>
+                                <Icon name="map-marker"/>
+                            </a>
+                        </OverlayTrigger>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        <OverlayTrigger placement="top" overlay={(<Tooltip style={{zIndex: 3000000000}} id="removefromcarttt">aus Merkliste entfernen</Tooltip>)}>
+                            <a style={{ color: '#C33D17'}} onClick={()=>{
+                                this.props.ehrenamtActions.toggleCartFromOffer(cartOffer);
                             }}>
-                            <Icon name="map-marker"/>
-                        </a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                        <a style={{ color: '#C33D17'}} onClick={()=>{
-                            this.props.ehrenamtActions.toggleCartFromOffer(cartOffer);
-                        }}>
-                            <Icon name="minus-square"/>
-                        </a>
+                                <Icon name="minus-square"/>
+                            </a>
+                        </OverlayTrigger>
                     </h5>
                      <h6>{cartOffer.text}</h6>
                 </li>
@@ -310,8 +316,11 @@ export class EhrenamtModalApplicationMenu_ extends React.Component {
         mailCartOffer+="%0D";
         mailCartOffer+="%0D";
         mailCartOffer+="%0DLink zur Anwendung:%0D";
-
-
+        let mailToHref="mailto:post@zfgt.de?subject=Merkliste&body="+mailCartOffer+encodeURI(window.location.href.replace(/&/g, '%26'));
+        let angebotOrAngebote="Angebote";
+        if (this.props.filteredOffersCount===1){
+            angebotOrAngebote="Angebot";
+        }
         return (
             <Modal
                 
@@ -324,10 +333,10 @@ export class EhrenamtModalApplicationMenu_ extends React.Component {
                 onHide={this.close}
                 keyboard={false}>
 
-                <Modal.Header >
+                <Modal.Header>
                     <Modal.Title><Icon name="bars"/>&nbsp;&nbsp;&nbsp;Filter, Merkliste und Kompaktanleitung</Modal.Title>
                 </Modal.Header >
-                <Modal.Body style={modalBodyStyle} id="myMenu">
+                <Modal.Body style={modalBodyStyle} id="myMenu" key={this.props.uiState.applicationMenuActiveKey}>
                     <span>
                         W&auml;hlen Sie Ihre Such- und Ausschlussbedingungen in den <Link 
                             to="filter" 
@@ -354,8 +363,14 @@ export class EhrenamtModalApplicationMenu_ extends React.Component {
                     </span>
                     <br/>
                     <br/>
-                    <Accordion name="filter" key={"acc.filter."+this.props.uiState.applicationMenuActiveKey} defaultActiveKey={this.props.uiState.applicationMenuActiveKey||"filtertab"}>
-                        <Panel height="auto" header={"Filtern ("+this.props.filteredOffersCount+" gefunden, davon "+this.props.featureCollectionCount+" in der Karte)"} eventKey="filtertab" bsStyle="primary">
+                    <Accordion name="filter" key={"acc.filter."+this.props.uiState.applicationMenuActiveKey} defaultActiveKey={this.props.uiState.applicationMenuActiveKey||"filtertab"} onSelect={()=>{
+                        if (this.props.uiState.applicationMenuActiveKey==="filtertab"){
+                            this.props.uiActions.setApplicationMenuActiveKey("none")
+                        }else {
+                            this.props.uiActions.setApplicationMenuActiveKey("filtertab")
+                        }
+                    }}>
+                        <Panel height="auto" header={"Filtern ("+this.props.filteredOffersCount+" "+angebotOrAngebote+" gefunden, davon "+this.props.featureCollectionCount+" in der Karte)"} eventKey="filtertab" bsStyle="primary">
                     <h4>Ich suche nach:</h4>
                             <Select
                                 id={"pos"}
@@ -444,7 +459,13 @@ export class EhrenamtModalApplicationMenu_ extends React.Component {
                         </table>
                     </Panel>
                     </Accordion>
-                    <Accordion name="cart" key={"cart"+this.props.uiState.applicationMenuActiveKey} defaultActiveKey={this.props.uiState.applicationMenuActiveKey} >
+                    <Accordion name="cart" key={"cart"+this.props.uiState.applicationMenuActiveKey} defaultActiveKey={this.props.uiState.applicationMenuActiveKey} onSelect={()=>{
+                        if (this.props.uiState.applicationMenuActiveKey==="cart"){
+                            this.props.uiActions.setApplicationMenuActiveKey("none")
+                        }else {
+                            this.props.uiActions.setApplicationMenuActiveKey("cart")
+                        }
+                    }}>
                         <Panel header={"meine Merkliste ("+this.props.ehrenamtState.cart.length+")"} eventKey="cart" bsStyle="primary">
                         <table width="100%" border={0}>
                         <tbody>
@@ -459,36 +480,43 @@ export class EhrenamtModalApplicationMenu_ extends React.Component {
                                 verticalAlign: 'top'
                                 }}>
                                 <ButtonGroup bsStyle="default">
-                                    <Button  onClick={this.props.ehrenamtActions.clearCart}><Icon name="trash"/></Button>
-                                    <Button  onClick={()=>{
-                                        this.props.ehrenamtActions.setMode(ehrenamtConstants.CART_FILTER);
-                                        this.close();
-                                    }}><Icon name="map"/></Button>
-                                     <Dropdown
-                                        bsStyle="default"
-                                        title="title"
-                                        key="DropdownButton"
-                                        id={"DropdownButton"}
-                                        icon="share"
-                                        pullRight
-                                        >
-                                         <Dropdown.Toggle>
-                                            <Icon name="share-square"/> 
-                                        </Dropdown.Toggle>
-                                        <Dropdown.Menu >
-                                            <MenuItem eventKey="1" onClick={()=>{
-                                                copy(window.location.href);
-                                            }}>
-                                                <Icon name="copy"/> Link kopieren
-                                            </MenuItem>
-                                            <MenuItem eventKey="2" href={"mailto:post@zfgt.de?subject=Merkliste&body="+mailCartOffer+window.location.href}>
-                                                <Icon name="at"/> Merkliste per Mail senden
-                                            </MenuItem>
-                                            <MenuItem disabled={true} eventKey="3" onClick={()=>console.log("copy")}>
-                                                <Icon name="print"/> Merkliste drucken
-                                            </MenuItem>
-                                            </Dropdown.Menu >
-                                        </Dropdown>                                    
+                                    <OverlayTrigger placement="top" overlay={(<Tooltip style={{zIndex: 3000000000}} id="clearcarttt">Merkliste löschen</Tooltip>)}>
+                                        <Button  onClick={this.props.ehrenamtActions.clearCart}><Icon name="trash"/></Button>
+                                    </OverlayTrigger>
+                                    <OverlayTrigger placement="top" overlay={(<Tooltip style={{zIndex: 3000000000}} id="cartfiltertt">Merklistenfilter aktivieren</Tooltip>)}>
+                                        <Button  onClick={()=>{
+                                            this.props.ehrenamtActions.setMode(ehrenamtConstants.CART_FILTER);
+                                            this.close();
+                                        }}><Icon name="map"/></Button>
+                                    </OverlayTrigger>
+                                    <OverlayTrigger placement="top" overlay={(<Tooltip style={{zIndex: 3000000000}} id="sharecarttt">Merkliste teilen</Tooltip>)}>
+                                        <Dropdown
+                                            bsStyle="default"
+                                            title="title"
+                                            key="DropdownButton"
+                                            id={"DropdownButton"}
+                                            icon="share"
+                                            pullRight
+                                            >
+                                            <Dropdown.Toggle>
+                                                <Icon name="share-square"/> 
+                                            </Dropdown.Toggle>
+                                            <Dropdown.Menu >
+                                                <MenuItem eventKey="1" onClick={()=>{
+                                                    copy(window.location.href);
+                                                }}>
+                                                    <Icon name="copy"/> Link kopieren
+                                                </MenuItem>
+                                                <MenuItem eventKey="2" href={mailToHref}>
+                                                    <Icon name="at"/> Merkliste per Mail senden
+                                                </MenuItem>
+                                                <MenuItem disabled={true} eventKey="3" onClick={()=>console.log("copy")}>
+                                                    <Icon name="print"/> Merkliste drucken
+                                                </MenuItem>
+                                                </Dropdown.Menu >
+                                            </Dropdown>      
+                                        </OverlayTrigger>
+                              
                                 </ButtonGroup>
                             </td>
                             </tr>
@@ -496,13 +524,41 @@ export class EhrenamtModalApplicationMenu_ extends React.Component {
                         </table>
                         </Panel>
                     </Accordion>
-                    <Accordion name="help" key={"helptext"+this.props.uiState.applicationMenuActiveKey} defaultActiveKey={this.props.uiState.applicationMenuActiveKey} >
+                    <Accordion name="help" key={"helptext"+this.props.uiState.applicationMenuActiveKey} defaultActiveKey={this.props.uiState.applicationMenuActiveKey} onSelect={()=>{
+                        if (this.props.uiState.applicationMenuActiveKey==="help"){
+                            this.props.uiActions.setApplicationMenuActiveKey("none")
+                        }else {
+                            this.props.uiActions.setApplicationMenuActiveKey("help")
+                        }
+                    }}>
                         <Panel header="Kompaktanleitung" eventKey="help" bsStyle="default">
-                            Die standardm&auml;&szlig;ig eingestellte Hintergrundkarte gibt eine
-                            &Uuml;bersicht &uuml;ber die Wuppertaler Bebauungspl&auml;ne (B-Pl&auml;ne).<br/>
-                            Gr&uuml;ne Fl&auml;chen (&Uuml;bersichtsma&szlig;stab) bzw. Umringe stehen
-                            f&uuml;r rechtswirksame B-Plan-Verfahren, rote Fl&auml;chen / Umringe f&uuml;r
-                            laufende Verfahren.
+                            <p>Diese Anwendung gibt Ihnen einen &Uuml;berblick &uuml;ber die angebotenen 
+                            Ehrenamtsstellen aus der Datenbank des <a href="http://www.zentrumfuergutetaten.de" target="_">Zentrums f&uuml;r gute Taten</a>. 
+                            Die Darstellung der Einsatzorte als Karte macht es Ihnen dabei leicht, 
+                            Ehrenamtsstellen in Ihrer N&auml;he zu finden. Einer Ehrenamtsstelle 
+                            sind im Allgemeinfall mehrere Aufgabenfelder, T&auml;tigkeiten und 
+                            Zielgruppen zugeordnet. Die in der Karte f&uuml;r die Punktdarstellungen 
+                            der Angebote verwendeten Farben stehen jeweils f&uuml;r eine bestimmte 
+                            Kombination dieser Merkmale. </p><p>Eng beieinander liegende Angebote werden 
+                            ma&szlig;stabsabh&auml;ngig zu gr&ouml;&szlig;eren Punkten zusammengefasst, 
+                            mit der Anzahl der repr&auml;sentierten Angebote im Zentrum. 
+                            Vergr&ouml;&szlig;ern Sie ein paar Mal durch direktes Anklicken eines solchen 
+                            Punktes oder mit  <Icon name="plus"/> die Darstellung: die zusammengefassten 
+                            Angebote werden Schritt f&uuml;r Schritt in die kleineren Punktdarstellungen 
+                            f&uuml;r die konkreten Einzelangebote zerlegt. Nur Angebote, die sich auf 
+                            denselben Standort beziehen, werden in jedem Ma&szlig;stab als Zusammenfassung 
+                            dargestellt. In diesen F&auml;llen f&uuml;hrt ein weiterer Klick ab einer 
+                            bestimmten Ma&szlig;stabsstufe (Zoomstufe 12) dazu, dass eine Explosionsgrafik 
+                            der zusammengefassten Angebote angezeigt wird. </p><p>Bewegen Sie den Mauszeiger auf 
+                            ein konkretes Angebot, um sich seine Bezeichnung anzeigen zu lassen. Ein Klick 
+                            auf den farbigen Punkt setzt den Fokus auf dieses Angebot. Es wird dann blau 
+                            hinterlegt und die zugeh&ouml;rigen Informationen (Angebotsnummer und Bezeichnung 
+                            werden in der Info-Box angezeigt. (Auf einem Tablet-PC wird der Fokus durch das 
+                            erste Antippen des Angebots gesetzt, das zweite Antippen blendet die Bezeichnung ein.) 
+                            Wenn Sie den Fokus noch nicht aktiv auf ein bestimmtes Angebot gesetzt haben, 
+                            wird er automatisch auf das n&ouml;rdlichste Angebot im Kartenausschnitt gesetzt. 
+                            </p><p>Mit dem Werkzeug <Icon name="plus-square"/> in der Info-Box rechts 
+                            neben der Bezeichnung k&ouml;nnen Sie ein Angebot in Ihre Merkliste aufnehmen.</p>
                         </Panel>
                     </Accordion>
                 </Modal.Body>

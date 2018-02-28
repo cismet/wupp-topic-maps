@@ -12,7 +12,7 @@
     "@types/polylabel": "^1.0.5",
     "@types/proj4": "^2.3.4",
     "babel-polyfill": "^6.26.0",
-    "color": "^2.0.1",
+    "color": "^3.0.0",
     "color-hash": "^1.0.3",
     "copy-to-clipboard": "^3.0.8",
     "create-svg-pie": "^1.0.0",

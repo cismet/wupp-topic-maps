@@ -281,7 +281,8 @@ export class EhrenamtModalApplicationMenu_ extends React.Component {
                         <OverlayTrigger placement="top" overlay={(<Tooltip style={{zIndex: 3000000000}} id="showinmaptt">in Karte anzeigen</Tooltip>)}>
                             <a style={{ color: 'black'}} onClick={()=>{
                                     this.props.centerOnPoint(cartOffer.geo_x,cartOffer.geo_y,13);
-                                    this.props.ehrenamtActions.selectOffer(cartOffer);
+                                    //ugly winning: select offer doenst work when the map has to be moved
+                                    setTimeout(()=>this.props.ehrenamtActions.selectOffer(cartOffer),1000);
                                     this.close();
                                 }}>
                                 <Icon name="map-marker"/>

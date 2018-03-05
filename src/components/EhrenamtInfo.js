@@ -33,10 +33,12 @@ const EhrenamtInfo = ({featureCollection, filteredOffers, selectedIndex, next, p
   let modalMenuTarget="filtertab";
   let filterText="Filter aktiviert ("+(positiv+negativ)+")";
   let filterColor="grey";
+  let bookmarksTooltip="Filterliste öffnen";
   if (filterMode===ehrenamtConstants.CART_FILTER){
     modalMenuTarget="cart";
     filterText="Merklistenfilter aktiviert";
     filterColor="#A5695A";
+    bookmarksTooltip="Merkliste öffnen";
   }
 
   if ((positiv+negativ )>0|| filterMode===ehrenamtConstants.CART_FILTER) {
@@ -45,7 +47,7 @@ const EhrenamtInfo = ({featureCollection, filteredOffers, selectedIndex, next, p
             <tbody>
               <tr>
               <td style={{ textAlign: 'left', verticalAlign: 'top',background:filterColor, opacity:'0.9', padding: '3px' }}>
-              <OverlayTrigger placement="left" overlay={(<Tooltip style={{zIndex: 3000000000}} id="bookmarkstt">Filterliste &ouml;ffnen</Tooltip>)}>
+              <OverlayTrigger placement="left" overlay={(<Tooltip style={{zIndex: 3000000000}} id="bookmarkstt">{bookmarksTooltip}</Tooltip>)}>
                 <a onClick={()=>showModalMenu(modalMenuTarget)} style={{ color: 'black'}}><Icon name='filter' />&nbsp;{filterText}</a>
                 </OverlayTrigger>
                 </td>

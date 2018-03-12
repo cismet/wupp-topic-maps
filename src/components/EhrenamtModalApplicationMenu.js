@@ -61,7 +61,7 @@ export class EhrenamtModalApplicationMenu_ extends React.Component {
         let positiv={
             globalbereiche: [],
             kenntnisse: [],
-            zielgruppen: []
+            Zielgruppen: []
         };
         for (let tag of tags){
             positiv[tag.cat].push(tag.value);
@@ -82,7 +82,7 @@ export class EhrenamtModalApplicationMenu_ extends React.Component {
         let negativ={
             globalbereiche: [],
             kenntnisse: [],
-            zielgruppen: []
+            Zielgruppen: []
         };
         for (let tag of tags){
             negativ[tag.cat].push(tag.value);
@@ -221,7 +221,7 @@ export class EhrenamtModalApplicationMenu_ extends React.Component {
         for (let zg of this.props.zielgruppen){
             zgOptions.push({
                 label:  zg,
-                cat:"zielgruppen",
+                cat:"Zielgruppen",
                 value: zg
             });
         }
@@ -452,7 +452,7 @@ export class EhrenamtModalApplicationMenu_ extends React.Component {
                         </tbody>
                         </table>
                      </Panel>
-                    <Panel header="Wen will ich unterstützen?" eventKey="zielgruppen_adv_filter" bsStyle="success">
+                    <Panel header="Wen will ich unterstützen?" eventKey="Zielgruppen_adv_filter" bsStyle="success">
                         <table border={0}>
                         <tbody>
                         {zgRows}
@@ -547,11 +547,11 @@ export class EhrenamtModalApplicationMenu_ extends React.Component {
 
                             <div name="Datengrundlage"><br /></div>
                             <h4>Datengrundlage <Link to="help" containerId="myMenu"><Icon name="arrow-circle-up"/></Link></h4>
-                             <p>Diese Anwendung gibt Ihnen einen Überblick über die angebotenen Ehrenamtsstellen aus der Datenbank des Zentrums für gute Taten. Die Darstellung der Einsatzorte als Karte macht es Ihnen dabei leicht, Ehrenamtsstellen in Ihrer Nähe zu finden. Einer Ehrenamtsstelle sind im Allgemeinfall mehrere <em>Aufgabenfelder</em>, <em>Tätigkeiten</em> und <em>Zielgruppen</em> zugeordnet.</p> 
+                             <p>Diese Anwendung gibt Ihnen einen Überblick über die angebotenen Ehrenamtsstellen aus der Datenbank des Zentrums für gute Taten. Die Darstellung der Einsatzorte als Karte macht es Ihnen dabei leicht, Ehrenamtsstellen in Ihrer Nähe zu finden. Einer Ehrenamtsstelle sind im Allgemeinfall mehrere <em>Aufgabenfelder</em>, <em><em>Tätigkeiten</em></em> und  zugeordnet.</p> 
 														
 														<div name="Kartendarstellung"><br /></div>
 														<h4>Kartendarstellung der Angebote <Link to="help" containerId="myMenu"><Icon name="arrow-circle-up"/></Link></h4>
-														 <p>Die in der Karte für die Punktdarstellungen der Angebote verwendeten Farben stehen jeweils für eine bestimmte Kombination der Kategorisierungen in den Bereichen <em>Aufgabenfelder</em>, <em>Tätigkeiten</em> und <em>Zielgruppen</em>.<br />
+														 <p>Die in der Karte für die Punktdarstellungen der Angebote verwendeten Farben stehen jeweils für eine bestimmte Kombination der Kategorisierungen in den Bereichen <em><em>Aufgabenfelder</em></em>, <em><em>Tätigkeiten</em></em> und <em></em>.<br />
 														 Eng beieinander liegende Angebote werden maßstabsabhängig zu größeren Punkten zusammengefasst, mit der Anzahl der repräsentierten Angebote im Zentrum <img src="images/colorcircle_k.jpg" />.<br />Vergrößern Sie ein paar Mal durch direktes Anklicken eines solchen Punktes oder mit <Icon name="plus"/> die Darstellung, so werden die zusammengefassten Angebote Schritt für Schritt in die kleineren Punktdarstellungen für die konkreten Einzelangebote zerlegt. Nur Angebote, die sich auf denselben Standort beziehen, werden in jedem Maßstab als Zusammenfassung dargestellt. In diesen Fällen führt ein weiterer Klick ab einer bestimmten Maßstabsstufe (Zoomstufe 12) dazu, dass eine Explosionsgrafik der zusammengefassten Angebote angezeigt wird.</p>
 														
 														<div name="positionieren"><br /></div>
@@ -600,8 +600,8 @@ export class EhrenamtModalApplicationMenu_ extends React.Component {
 														 														
 														<div name="filtern"><br /></div>
 														<h4>Angebote filtern <Link to="help" containerId="myMenu"><Icon name="arrow-circle-up"/></Link></h4>
-														 <p>Über das Anwendungsmenü <Icon name="bars"/> in der rechten oberen Ecke können Sie Filter einstellen, um die in der Karte angezeigten Angebote an Ihre Interessen anzupassen. Dazu werden Ihnen in der Auswahlliste „Ich suche nach“ alle Kategorisierungen in den Bereichen Aufgabenfelder, Tätigkeiten und Zielgruppen zur Auswahl angeboten. Es werden alle Angebote gefunden, die vom Zentrum für Gute Taten mit mindestens einem der von Ihnen ausgewählten Begriffe kategorisiert worden sind (logisches „oder“). Die Treffermenge steigt dadurch bei mehreren Suchbegriffen schnell an.<br />
-														 Als Gegengewicht dazu können Sie in der Liste „Ich schließe aus“ auch Ausschlusskriterien definieren.</p>
+														 <p>Über das Anwendungsmenü <Icon name="bars"/> in der rechten oberen Ecke können Sie Filter einstellen, um die in der Karte angezeigten Angebote an Ihre Interessen anzupassen. Dazu werden Ihnen in der Auswahlliste „<em>Ich suche nach</em>“ alle Kategorisierungen in den Bereichen <em>Aufgabenfelder</em>, <em>Tätigkeiten</em> und  zur Auswahl angeboten. Es werden alle Angebote gefunden, die vom Zentrum für Gute Taten mit mindestens einem der von Ihnen ausgewählten Begriffe kategorisiert worden sind (logisches „oder“). Die Treffermenge steigt dadurch bei mehreren Suchbegriffen schnell an.<br />
+														 Als Gegengewicht dazu können Sie in der Liste „<em>Ich schließe aus</em>“ auch Ausschlusskriterien definieren.</p>
 														 <p>Eine alternative Eingabemöglichkeit für Ihre Such- und Ausschlussbedingungen  bieten Ihnen die 3 Leitfragen unterhalb der Auswahllisten. Durch Klicken auf die jeweilige Frage erhalten Sie eine Übersicht über alle zugehörigen Kategorien und können diese mit <Icon name="thumbs-up"/> oder <Icon name="thumbs-down"/> als Such- oder Ausschlussbegriffe markieren. Die Filter-Auswahllisten und Einstellungen unter den Leitfragen sind vollständig miteinander synchronisiert. Wenn Sie Filtereinstellungen festgelegt haben, wird Ihnen dies durch ein graues Banner <img src="images/filter_akt.jpg" /> oben in der Info-Box signalisiert. Die in Klammern angezeigte Zahl ist die Anzahl der aktuell von Ihnen zur Filterung verwendeten Such- und Ausschlussbegriffe.<br />
 														 Über das Banner können Sie die Filterung durch Klicken auf <Icon name="times"/> wieder zurücksetzen.</p>
                         </Panel>

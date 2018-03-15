@@ -94,12 +94,17 @@ export class Ehrenamt_ extends React.Component {
         let newUrlCart=newUrlCartArr.join();
 
         if (urlCart!==newUrlCart && newUrlCart.length>0){
-                let newRoute=this.props.routing.location.pathname + modifyQueryPart(this.props.routing.location.search, {
-                    cart: newUrlCart
-                });
-                console.log("push new route:"+newRoute);
-                this.props.routingActions.push(newRoute);
+            
+            let pn=this.props.routing.location.pathname;
+            if (pn.indexOf("ehrenamt")===-1){ 
+                pn="/ehrenamt"; //in certain conditions the pathname does not contain ehrenamt. fix that. 
             }
+            let newRoute= pn + modifyQueryPart(this.props.routing.location.search, {
+                cart: newUrlCart
+            });
+            console.log("push new route:"+newRoute);
+            this.props.routingActions.push(newRoute);
+        }
     }
      
 

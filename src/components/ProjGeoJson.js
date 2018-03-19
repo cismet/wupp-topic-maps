@@ -64,23 +64,27 @@ export class ProjGeoJson_ extends Path {
         }
       };
 
-    props.pointToLayer=(feature, latlng)=> {
-      let theStyle=props.style(feature);
-      let marker=null;
-      if (theStyle.svg) {
-        var divIcon = L.divIcon({
-        	className: "leaflet-data-marker",
-          html: theStyle.svg,
-          iconAnchor  : [theStyle.svgSize/2, theStyle.svgSize/2],
-          iconSize    : [theStyle.svgSize, theStyle.svgSize],
-        });
+    props.pointToLayer = (feature, latlng) => {
+        if (props.style) {
+            let theStyle = props.style(feature);
+            let marker = null;
+            if (theStyle.svg) {
+                var divIcon = L.divIcon({
+                    className: "leaflet-data-marker",
+                    html: theStyle.svg,
+                    iconAnchor: [
+                        theStyle.svgSize / 2,
+                        theStyle.svgSize / 2
+                    ],
+                    iconSize: [theStyle.svgSize, theStyle.svgSize]
+                });
 
-        marker=L.marker(latlng, {icon: divIcon});
-      }
-      else {
-        marker=L.circleMarker(latlng);
-      }
-      return marker;
+                marker = L.marker(latlng, {icon: divIcon});
+            } else {
+                marker = L.circleMarker(latlng);
+            }
+            return marker;
+        }
     }
     var geojson=L.Proj.geoJson(mappingProps.featureCollection, props);
     if (this.props.clusteredMarkers) {

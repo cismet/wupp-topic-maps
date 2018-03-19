@@ -28,6 +28,7 @@
     "leaflet-easybutton": "^2.3.0",
     "leaflet-fullscreen-custom-container-fork": "^1.0.7",
     "leaflet.markercluster": "^1.3.0",
+    "leaflet.snogylop": "^0.4.0",
     "localforage": "^1.5.5",
     "mobx": "^3.4.1",
     "proj4": "^2.4.4",
@@ -60,7 +61,8 @@
     "redux-thunk": "^2.2.0",
     "svg-create-element": "^1.0.0",
     "url-search-params-polyfill": "^2.0.1",
-    "whatwg-fetch": "^2.0.3"
+    "whatwg-fetch": "^2.0.3",
+    "terraformer-wkt-parser": "^1.1.2"
   },
   "scripts": {
     "start": "react-scripts start",

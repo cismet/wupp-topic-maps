@@ -125,22 +125,24 @@ const EhrenamtInfo = ({featureCollection, filteredOffers, selectedIndex, next, p
             <table style={{ width: '100%' }}>
                 <tbody>
                 <tr>
-                    <td style={{ textAlign: 'left', verticalAlign: 'top', padding: '5px' }}>
+                    <td style={{ textAlign: 'left', verticalAlign: 'top' }}>
                     <table style={{ width: '100%' }}>
                      <tbody>
                         <tr>
                         <td style={{ textAlign: 'left' }}>
                             <h5>Angebot Nr. {currentFeature.id}</h5>
                         </td>
-                        <td style={{ textAlign: 'right'}}>
+                        <td style={{ textAlign: 'right' }}>
                         <OverlayTrigger placement="left" overlay={(<Tooltip style={{zIndex: 3000000000}} id="bookmarkstt">Merkliste &ouml;ffnen</Tooltip>)}>
-                            <a key={"ico.bookmark."+bookmarkColor} onClick={()=>showModalMenu("cart")} style={{ color: bookmarkColor}}><Icon size="2x" name={"bookmark"} /></a>
+                            <a key={"ico.bookmark."+bookmarkColor} onClick={()=>showModalMenu("cart")} style={{ color: bookmarkColor}}>
+                               <Icon style={{width: '26px', textAlign: 'center'}} size="2x" name={"bookmark"} />
+                            </a>
                         </OverlayTrigger>
                         </td>
                         </tr>
                         </tbody>
                     </table>
-                    <table style={{ width: '100%' }}>
+                    <table style={{ width: '100%'}}>
                      <tbody>
                         <tr>
                         <td style={{ textAlign: 'left' }}>
@@ -157,7 +159,9 @@ const EhrenamtInfo = ({featureCollection, filteredOffers, selectedIndex, next, p
                                         }
                                         toggleCartFromFeature(currentFeature);
                                         
-                                    }} style={{ color: 'black'}}><Icon size="2x" name={cartIcon} /></a>
+                                    }} style={{ color: 'black'}}>
+                                        <Icon style={{width: '26px', textAlign: 'center'}} size="2x" name={cartIcon} />
+                                </a>
                             </OverlayTrigger>
                             </td>
                         </tr>

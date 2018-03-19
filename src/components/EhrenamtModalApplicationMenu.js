@@ -61,7 +61,7 @@ export class EhrenamtModalApplicationMenu_ extends React.Component {
         let positiv={
             globalbereiche: [],
             kenntnisse: [],
-            Zielgruppen: []
+            zielgruppen: []
         };
         for (let tag of tags){
             positiv[tag.cat].push(tag.value);
@@ -82,7 +82,7 @@ export class EhrenamtModalApplicationMenu_ extends React.Component {
         let negativ={
             globalbereiche: [],
             kenntnisse: [],
-            Zielgruppen: []
+            zielgruppen: []
         };
         for (let tag of tags){
             negativ[tag.cat].push(tag.value);
@@ -221,7 +221,7 @@ export class EhrenamtModalApplicationMenu_ extends React.Component {
         for (let zg of this.props.zielgruppen){
             zgOptions.push({
                 label:  zg,
-                cat:"Zielgruppen",
+                cat:"zielgruppen",
                 value: zg
             });
         }

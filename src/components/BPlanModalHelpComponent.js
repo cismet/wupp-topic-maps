@@ -167,7 +167,9 @@ export class BPlanModalHelp_ extends React.Component {
                                     <b>Hintergrundkarte</b>: in Detailma&szlig;st&auml;ben&nbsp;
                                     <a>Amtliche Basiskarte (ABK) der Stadt Wuppertal</a>, in &Uuml;bersichtsma&szlig;st&auml;ben&nbsp;
                                     <a>WebAtlasDE &copy; GeoBasis-DE / BKG 2017</a>, jeweils &uuml;berlagert mit
-                                    Geltungsbereichen der Wuppertaler Bebauungspl&auml;ne.</span>
+                                    Geltungsbereichen der Wuppertaler Bebauungspl&auml;ne.<br/>
+                                    <b>Technische Realisierung</b>: <a href="https://cismet.de/" target="_cismet">cismet GmbH</a> auf Basis von <a  href="http://leafletjs.com/" target="_leaflet">Leaflet</a> und <a href="https://cismet.de/#refs" target="_cismet">cids | WuNDa</a><br/>
+                                    </span>
                             </td>
                             <td>
                                 <Button bsStyle="primary" type="submit" onClick={this.close}>Ok</Button>

@@ -13,6 +13,8 @@ export const types = {
   GAZETTEER_HIT: 'MAPPING/GAZETTEER_HIT',
   SET_MAP_BOUNDING_BOX_CHANGED_TRIGGER: 'MAPPING/SET_MAP_BOUNDING_BOX_CHANGED_TRIGGER',
   CHANGE_FEATURE: 'MAPPING/CHANGE_FEATURE',
+  SET_OVERLAY_FEATURE: 'MAPPING/SET_OVERLAY_FEATURE',
+  SET_MASKED_OVERLAY: 'MAPPING/SET_MASKED_OVERLAY',
 }
 export const constants = {
   AUTO_FIT_MODE_STRICT: 'MAPPING/AUTO_FIT_MODE_STRICT',
@@ -53,6 +55,8 @@ const initialState = {
   gazetteerTopicsLoaded: false,
   boundingBoxChangedTrigger: null,
   spiderfiedCluster: null,
+  overlayFeature: null,
+  maskedOverlay: true,
 
 };
 
@@ -124,6 +128,18 @@ export default function mappingReducer(state = initialState, action) {
         }
         return newState;
       }
+    case types.SET_OVERLAY_FEATURE:
+      {
+        newState = objectAssign({}, state);
+        newState.overlayFeature = action.overlayFeature;
+        return newState;
+      }
+    case types.SET_MASKED_OVERLAY:
+      {
+        newState = objectAssign({}, state);
+        newState.maskedOverlay = action.maskedOverlayhit;
+        return newState;
+      }
     default:
       return state;
   }
@@ -185,6 +201,22 @@ function changeFeatureById(newFeature) {
     return {
       type: types.CHANGE_FEATURE,
       newFeature
+    };
+  }
+
+
+  function setOverlayFeature(overlayFeature) {
+    return {
+      type: types.SET_OVERLAY_FEATURE,
+      overlayFeature
+    };
+  }
+
+
+  function setMaskedOverlay(maskedOverlay) {
+    return {
+      type: types.SET_MASKED_OVERLAY,
+      maskedOverlay
     };
   }
 
@@ -250,4 +282,6 @@ export const actions = {
   fitAll,
   fitFeatureCollection,
   changeFeatureById,
+  setOverlayFeature,
+  setMaskedOverlay
 };

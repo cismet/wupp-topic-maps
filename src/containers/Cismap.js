@@ -39,6 +39,7 @@ import * as gisHelpers from '../utils/gisHelper';
 import markerClusterGroup from 'leaflet.markercluster';
 
 import L from 'leaflet';
+import ProjSingleGeoJson from '../components/ProjSingleGeoJson';
 
 
 const fallbackposition = {
@@ -319,10 +320,16 @@ centerOnPoint(x,y,z) {
       //Change the Zoomlevel of the map
       if (hitObject.more.zl) {
         this.refs.leafletMap.leafletElement.setZoom(hitObject.more.zl, {"animate": false});
-      } else if (hitObject.more.g) {
+          
+        //show marker
+        this.props.mappingActions.gazetteerHit(hitObject);
+    } else if (hitObject.more.g) {
         var feature = turfHelpers.feature(hitObject.more.g);
+        if (!feature.crs) {
+            feature.crs={"type":"name","properties":{"name":"urn:ogc:def:crs:EPSG::25832"}};
+        }
         var bb = bbox(feature);
-        console.log(bb)
+        this.props.mappingActions.setOverlayFeature(feature);
         console.log(gisHelpers.convertBBox2Bounds(bb))
         console.log(this.refs.leafletMap.leafletElement.getBounds());
         this.refs.leafletMap.leafletElement.fitBounds(gisHelpers.convertBBox2Bounds(bb));
@@ -335,8 +342,8 @@ centerOnPoint(x,y,z) {
       //         lat:pos[1],
       //         lng:pos[0]
       //       }));
-      this.props.mappingActions.gazetteerHit(hitObject);
-
+      
+      
       if (this.props.gazeteerHitTrigger !== undefined) {
         this.props.gazeteerHitTrigger(hit);
       }
@@ -506,6 +513,22 @@ centerOnPoint(x,y,z) {
         </Control>
     );    
 
+
+    let overlayFeature=(
+        <div/>
+    );
+    if (this.props.mapping.overlayFeature){
+        overlayFeature=(
+            <ProjSingleGeoJson 
+                key={JSON.stringify(this.props.mapping.overlayFeature)} 
+                geoJson={this.props.mapping.overlayFeature}
+                masked= {this.props.mapping.maskedOverlay}
+                mapRef={this}
+            />
+        );
+    }
+
+
     return (
     <Map ref="leafletMap" 
          key="leafletMap" 
@@ -516,7 +539,7 @@ centerOnPoint(x,y,z) {
          zoomControl={false} 
          attributionControl={false} 
          doubleClickZoom={false} 
-         minZoom={7} 
+         minZoom={this.props.minZoom||7} 
          ondblclick={this.props.ondblclick} 
          maxZoom={18}
         //  zoomDelta={0.5}
@@ -524,6 +547,7 @@ centerOnPoint(x,y,z) {
         //  wheelPxPerZoomLevel={100}
         scrollWheelZoom={true}
         >
+        {overlayFeature}
         {
         layerArr.map((layerWithOpacity) => {
           const layOp = layerWithOpacity.split('@')

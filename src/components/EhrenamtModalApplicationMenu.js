@@ -61,7 +61,7 @@ export class EhrenamtModalApplicationMenu_ extends React.Component {
         let positiv={
             globalbereiche: [],
             kenntnisse: [],
-            Zielgruppen: []
+            zielgruppen: []
         };
         for (let tag of tags){
             positiv[tag.cat].push(tag.value);
@@ -82,7 +82,7 @@ export class EhrenamtModalApplicationMenu_ extends React.Component {
         let negativ={
             globalbereiche: [],
             kenntnisse: [],
-            Zielgruppen: []
+            zielgruppen: []
         };
         for (let tag of tags){
             negativ[tag.cat].push(tag.value);
@@ -221,7 +221,7 @@ export class EhrenamtModalApplicationMenu_ extends React.Component {
         for (let zg of this.props.zielgruppen){
             zgOptions.push({
                 label:  zg,
-                cat:"Zielgruppen",
+                cat:"zielgruppen",
                 value: zg
             });
         }
@@ -452,7 +452,7 @@ export class EhrenamtModalApplicationMenu_ extends React.Component {
                         </tbody>
                         </table>
                      </Panel>
-                    <Panel header="Wen will ich unterstützen?" eventKey="Zielgruppen_adv_filter" bsStyle="success">
+                    <Panel header="Wen will ich unterstützen?" eventKey="zielgruppen_adv_filter" bsStyle="success">
                         <table border={0}>
                         <tbody>
                         {zgRows}
@@ -600,7 +600,7 @@ export class EhrenamtModalApplicationMenu_ extends React.Component {
 														 														
 														<div name="filtern"><br /></div>
 														<h4>Angebote filtern <Link to="help" containerId="myMenu" style={{ color: '#00000044'}}><Icon name="arrow-circle-up"/></Link></h4>
-														 <p>Über das Anwendungsmenü <Icon name="bars"/> in der rechten oberen Ecke können Sie Filter einstellen, um die in der Karte angezeigten Angebote an Ihre Interessen anzupassen. Dazu werden Ihnen in der Auswahlliste „<em>Ich suche nach</em>“ alle Kategorisierungen in den Bereichen <em>Aufgabenfelder</em>, <em>Tätigkeiten</em> und  zur Auswahl angeboten. Es werden alle Angebote gefunden, die vom Zentrum für Gute Taten mit mindestens einem der von Ihnen ausgewählten Begriffe kategorisiert worden sind (logisches „oder“). Die Treffermenge steigt dadurch bei mehreren Suchbegriffen schnell an.<br />
+														 <p>Über das Anwendungsmenü <Icon name="bars"/> in der rechten oberen Ecke können Sie Filter einstellen, um die in der Karte angezeigten Angebote an Ihre Interessen anzupassen. Dazu werden Ihnen in der Auswahlliste „<em>Ich suche nach</em>“ alle Kategorisierungen in den Bereichen <em>Aufgabenfelder</em>, <em>Tätigkeiten</em> und <em>Zielgruppen</em> zur Auswahl angeboten. Es werden alle Angebote gefunden, die vom Zentrum für Gute Taten mit mindestens einem der von Ihnen ausgewählten Begriffe kategorisiert worden sind (logisches „oder“). Die Treffermenge steigt dadurch bei mehreren Suchbegriffen schnell an.<br />
 														 Als Gegengewicht dazu können Sie in der Liste „<em>Ich schließe aus</em>“ auch Ausschlusskriterien definieren.</p>
 														 <p>Eine alternative Eingabemöglichkeit für Ihre Such- und Ausschlussbedingungen  bieten Ihnen die 3 Leitfragen unterhalb der Auswahllisten. Durch Klicken auf die jeweilige Frage erhalten Sie eine Übersicht über alle zugehörigen Kategorien und können diese mit <Icon name="thumbs-up"/> oder <Icon name="thumbs-down"/> als Such- oder Ausschlussbegriffe markieren. Die Filter-Auswahllisten und Einstellungen unter den Leitfragen sind vollständig miteinander synchronisiert. Wenn Sie Filtereinstellungen festgelegt haben, wird Ihnen dies durch ein graues Banner <img src="images/filter_akt.jpg" /> oben in der Info-Box signalisiert. Die in Klammern angezeigte Zahl ist die Anzahl der aktuell von Ihnen zur Filterung verwendeten Such- und Ausschlussbegriffe.<br />
 														 Über das Banner können Sie die Filterung durch Klicken auf <Icon name="times"/> wieder zurücksetzen.</p>

@@ -452,7 +452,7 @@ export class EhrenamtModalApplicationMenu_ extends React.Component {
                         </tbody>
                         </table>
                      </Panel>
-                    <Panel header="Wen will ich unterstützen?" eventKey="Zielgruppen_adv_filter" bsStyle="success">
+                    <Panel header="Wen will ich unterstützen?" eventKey="zielgruppen_adv_filter" bsStyle="success">
                         <table border={0}>
                         <tbody>
                         {zgRows}

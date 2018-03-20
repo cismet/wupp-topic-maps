@@ -8,6 +8,7 @@ import {
     Accordion,
     Panel,
     ButtonGroup,Dropdown,MenuItem, OverlayTrigger, Tooltip,
+    Alert,
     Label
 } from 'react-bootstrap';
 import {actions as UiStateActions} from '../redux/modules/uiState';
@@ -322,7 +323,7 @@ export class EhrenamtModalApplicationMenu_ extends React.Component {
         if (this.props.filteredOffersCount===1){
             angebotOrAngebote="Angebot";
         }
-        return (
+        return (         
             <Modal
                 
                 style={{
@@ -332,8 +333,8 @@ export class EhrenamtModalApplicationMenu_ extends React.Component {
                 bsSize="large"
                 show={this.props.uiState.applicationMenuVisible}
                 onHide={this.close}
-                keyboard={false}>
-
+                keyboard={false}
+                    >
                 <Modal.Header>
                     <Modal.Title><Icon name="bars"/>&nbsp;&nbsp;&nbsp;Filter, Merkliste und Kompaktanleitung</Modal.Title>
                 </Modal.Header >
@@ -470,15 +471,15 @@ export class EhrenamtModalApplicationMenu_ extends React.Component {
                         <Panel header={"meine Merkliste ("+this.props.ehrenamtState.cart.length+")"} eventKey="cart" bsStyle="primary">
                         <table width="100%" border={0}>
                         <tbody>
-                            <tr>
-                                <td >
+                            <tr >
+                                <td>
                                     <ul>
                                         <span>{cartOffers}</span>
                                     </ul>
                                 </td>
                             <td style={{
                                 textAlign: 'right',
-                                verticalAlign: 'top'
+                                verticalAlign: 'top',
                                 }}>
                                 <ButtonGroup bsStyle="default">
                                     <OverlayTrigger placement="top" overlay={(<Tooltip style={{zIndex: 3000000000}} id="clearcarttt">Merkliste löschen</Tooltip>)}>
@@ -523,6 +524,9 @@ export class EhrenamtModalApplicationMenu_ extends React.Component {
                             </tr>
                         </tbody>
                         </table>
+                        <Alert style={{margin:0}} bsStyle="warning">
+                            <div>Haben Sie interessante Angebote gefunden? Dann rufen Sie uns unter +49-(0)202-946-20445 an. Wir werden Sie bei den weiteren Schritten beraten.</div>
+                        </Alert>
                         </Panel>
                     </Accordion>
                     <Accordion name="help" key={"helptext"+this.props.uiState.applicationMenuActiveKey} defaultActiveKey={this.props.uiState.applicationMenuActiveKey} onSelect={()=>{

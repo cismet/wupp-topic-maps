@@ -241,50 +241,48 @@ export class Ehrenamt_ extends React.Component {
                 centerOnPoint={this.centerOnPoint}
                />
                <Loadable
-      active={!this.dataLoaded}
-      spinner
-      text='Laden der Angebote ...'
-    >
-               <Cismap ref={cismap => {this.cismapRef = cismap;}}
-                       layers={this.props.match.params.layers ||'rvrWMS@75'}
-                       gazeteerHitTrigger={this.gazeteerhHit}
-                       searchButtonTrigger={this.searchButtonHit}
-                       featureStyler={featureStyler}
-                       hoverer={featureHoverer}
-                       featureClickHandler={this.featureClick}
-                       ondblclick={this.doubleMapClick}
-                       searchTooltipProvider={this.searchTooltip}
-                       searchMinZoom={99}
-                       searchMaxZoom={98}
-                       gazTopics={["pois","adressen", "bezirke", "quartiere"]}
-                       clustered={true}
-                       clusterOptions={{
-                            spiderfyOnMaxZoom: false,
-                            showCoverageOnHover: false,
-                            zoomToBoundsOnClick: false,
-                            maxClusterRadius:40,
-                            disableClusteringAtZoom:19,
-                            animate:false,
-                            cismapZoomTillSpiderfy:12,
-                            selectionSpiderfyMinZoom:12,
-                            iconCreateFunction: ehrenAmtClusterIconCreator,
-                        }}
-                        infoBox={info}
-                        applicationMenuTooltipProvider={()=> (<Tooltip style={{
-                                zIndex: 3000000000
-                              }} id="helpTooltip">Filter | Merkliste | Anleitung</Tooltip>)
-                           }
-                        gazBoxInfoText="Stadtteil | Adresse | POI"
-                        // featureKeySuffixCreator={()=>{
-                        //     console.log("featureKeySuffixCreator called");
-                        //     return ".cart:"+JSON.stringify(this.props.ehrenamt.cart)
-                        // }}
+                    active={!this.dataLoaded}
+                    spinner
+                    text='Laden der Angebote ...'>
+               
+                    <Cismap ref={cismap => {this.cismapRef = cismap;}}
+                            layers={this.props.match.params.layers ||'rvrWMS@75'}
+                            gazeteerHitTrigger={this.gazeteerhHit}
+                            searchButtonTrigger={this.searchButtonHit}
+                            featureStyler={featureStyler}
+                            hoverer={featureHoverer}
+                            featureClickHandler={this.featureClick}
+                            ondblclick={this.doubleMapClick}
+                            searchTooltipProvider={this.searchTooltip}
+                            searchMinZoom={99}
+                            searchMaxZoom={98}
+                            gazTopics={["pois","adressen", "bezirke", "quartiere"]}
+                            clustered={true}
+                            clusterOptions={{
+                                    spiderfyOnMaxZoom: false,
+                                    showCoverageOnHover: false,
+                                    zoomToBoundsOnClick: false,
+                                    maxClusterRadius:40,
+                                    disableClusteringAtZoom:19,
+                                    animate:false,
+                                    cismapZoomTillSpiderfy:12,
+                                    selectionSpiderfyMinZoom:12,
+                                    iconCreateFunction: ehrenAmtClusterIconCreator,
+                                }}
+                                infoBox={info}
+                                applicationMenuTooltipProvider={()=> (<Tooltip style={{
+                                        zIndex: 3000000000
+                                    }} id="helpTooltip">Filter | Merkliste | Anleitung</Tooltip>)
+                                }
+                                gazBoxInfoText="Stadtteil | Adresse | POI"
+                                // featureKeySuffixCreator={()=>{
+                                //     console.log("featureKeySuffixCreator called");
+                                //     return ".cart:"+JSON.stringify(this.props.ehrenamt.cart)
+                                // }}
 
-                    >
+                            >
                     </Cismap>
                </Loadable>
-              
-
            </div>
        );
     }

@@ -541,13 +541,18 @@ centerOnPoint(x,y,z) {
                                 mapRef={this.refs.leafletMap} 
                                 selectionSpiderfyMinZoom={this.props.clusterOptions.selectionSpiderfyMinZoom}/>
       <ZoomControl position="topleft" zoomInTitle="Vergr&ouml;ßern" zoomOutTitle="Verkleinern"/>
-      <FullscreenControl title="Vollbildmodus" forceSeparateButton={true} titleCancel="Vollbildmodus beenden" position="topleft"/>
+      <FullscreenControl title="Vollbildmodus" forceSeparateButton={true} titleCancel="Vollbildmodus beenden" position="topleft" container={document.documentElement}/>
       {searchControl}
       <Control position="topright">
         <OverlayTrigger placement="left" overlay={this.props.applicationMenuTooltipProvider()}>
           <Button onClick={this.showModalApplicationMenu}><Icon name={this.props.applicationMenuIcon}/></Button>
         </OverlayTrigger>
       </Control>
+      {/* <Control position="topright">
+        <OverlayTrigger placement="left" overlay={this.props.applicationMenuTooltipProvider()}>
+          <Button onClick={()=> this.toggleFullscreen()}><Icon name="check"/></Button>
+        </OverlayTrigger>
+      </Control> */}
       {infoBoxControl}
       {this.props.children}
     </Map>);

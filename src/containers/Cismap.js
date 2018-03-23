@@ -540,6 +540,7 @@ centerOnPoint(x,y,z) {
                                 featureClickHandler={this.featureClick} 
                                 mapRef={this.refs.leafletMap} 
                                 selectionSpiderfyMinZoom={this.props.clusterOptions.selectionSpiderfyMinZoom}/>
+      
       <ZoomControl position="topleft" zoomInTitle="Vergr&ouml;ßern" zoomOutTitle="Verkleinern"/>
       <FullscreenControl title="Vollbildmodus" forceSeparateButton={true} titleCancel="Vollbildmodus beenden" position="topleft" container={document.documentElement}/>
       {searchControl}
@@ -549,7 +550,7 @@ centerOnPoint(x,y,z) {
         </OverlayTrigger>
       </Control>
       {/* <Control position="topright">
-        <OverlayTrigger placement="left" overlay={this.props.applicationMenuTooltipProvider()}>
+        <OverlayTrigger placement="left" overlay={(<Tooltip>Tester this should be hidden and is for Devs only</Tooltip>)}>  
           <Button onClick={()=> this.toggleFullscreen()}><Icon name="check"/></Button>
         </OverlayTrigger>
       </Control> */}

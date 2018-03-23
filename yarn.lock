@@ -4175,9 +4175,9 @@ lcid@^1.0.0:
   dependencies:
     invert-kv "^1.0.0"
 
-leaflet-fullscreen-custom-container-fork@^1.0.4:
-  version "1.0.4"
-  resolved "https://registry.yarnpkg.com/leaflet-fullscreen-custom-container-fork/-/leaflet-fullscreen-custom-container-fork-1.0.4.tgz#55008bb3f97b05e4935bd1c4ac0e603b4b98bbf2"
+leaflet-fullscreen-custom-container-fork@^1.0.6:
+  version "1.0.6"
+  resolved "https://registry.yarnpkg.com/leaflet-fullscreen-custom-container-fork/-/leaflet-fullscreen-custom-container-fork-1.0.6.tgz#92c38f0a6c72cea4da3cc1f404dbd38db8a67d69"
 
 leaflet.markercluster@^1.3.0:
   version "1.3.0"

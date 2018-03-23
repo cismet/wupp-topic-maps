@@ -9,7 +9,7 @@
             "type": "chrome",
             "request": "launch",
             "name": "Debug Ehrenamt",
-            "url": "http://localhost:3000/#/ehrenamt/abkg@40,nrwDOP20@20?lat=51.26015942490738&lng=7.172076168384691&zoom=13",
+            "url": "http://localhost:3000/#/ehrenamt/?lat=51.26015942490738&lng=7.172076168384691&zoom=13",
             "webRoot": "${workspaceRoot}"
         }
     ]

@@ -525,7 +525,7 @@ export class EhrenamtModalApplicationMenu_ extends React.Component {
                         </tbody>
                         </table>
                         <Alert style={{margin:0}} bsStyle="warning">
-                            <div>Haben Sie interessante Angebote gefunden? Dann rufen Sie uns unter +49-(0)202-946-20445 an. Wir werden Sie bei den weiteren Schritten beraten.</div>
+                            <div>Haben Sie interessante Angebote gefunden? Dann treten Sie mit uns in Kontakt (Telefon +49-(0)202-946-20445 oder E-Mail <a href="mailto:post@zfgt.de">post@zfgt.de</a>). Wir werden Sie bei den weiteren Schritten beraten.</div>
                         </Alert>
                         </Panel>
                     </Accordion>

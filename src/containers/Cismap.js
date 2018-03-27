@@ -10,6 +10,8 @@ import {crs25832, proj4crs25832def} from '../constants/gis';
 import proj4 from 'proj4';
 import {bindActionCreators} from 'redux';
 import FullscreenControl from '../components/FullscreenControl';
+// import NewWindowControl from '../components/NewWindowControl';
+
 import Control from 'react-leaflet-control';
 import {
   Form,
@@ -543,6 +545,7 @@ centerOnPoint(x,y,z) {
       
       <ZoomControl position="topleft" zoomInTitle="Vergr&ouml;ßern" zoomOutTitle="Verkleinern"/>
       <FullscreenControl title="Vollbildmodus" forceSeparateButton={true} titleCancel="Vollbildmodus beenden" position="topleft" container={document.documentElement}/>
+      {/* <NewWindowControl/> */}
       {searchControl}
       <Control position="topright">
         <OverlayTrigger placement="left" overlay={this.props.applicationMenuTooltipProvider()}>

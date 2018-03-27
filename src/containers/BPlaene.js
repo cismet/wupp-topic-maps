@@ -138,9 +138,16 @@ export class BPlaene_ extends React.Component {
     //       {"folder":"Zusatzdokumente/","downloads":currentFeature.properties.docs}
     //     ], "BPLAN_Plaene_und_Zusatzdokumente."+currentFeature.properties.nummer,this.downloadDone);
 
+      
+      let encoding=null;
+      if (navigator.appVersion.indexOf("Win")!=-1) {
+          encoding="CP850";
+      }
+
       let downloadConf= {
         "name":"BPLAN_Plaene_und_Zusatzdokumente."+currentFeature.properties.nummer,
-        "files": []
+        "files": [],
+        "encoding": encoding
       };
       for (let index = 0; index < currentFeature.properties.plaene_rk.length; ++index) {
         let prk=currentFeature.properties.plaene_rk[index];

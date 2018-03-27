@@ -3,7 +3,7 @@ import {
   DRPROCESSOR
 } from '../constants/services';
 
-
+import 'whatwg-fetch';
 
 
 
@@ -20,7 +20,7 @@ export const downloadFile = (url, success) => {
   xhr.send(null);
 };
 
-export const mergeMultipleFiles = (mergeConf, done) => {
+export const prepareMergeMultipleFiles = (mergeConf, done) => {
     fetch(DRPROCESSOR + '/api/pdfmerge/and/wait/for/status', {
       method: 'post',
       headers: {
@@ -31,11 +31,10 @@ export const mergeMultipleFiles = (mergeConf, done) => {
     }).then(function (response) {
       if (response.status >= 200 && response.status < 300) {
         response.json().then(function (result) {
-            downloadSingleFile({
-                "url":DRPROCESSOR+"/api/download/pdfmerge/"+result.id+"/"+mergeConf.name,
-                "file":mergeConf.name+".pdf"
+            done({
+                "file":mergeConf.name+".pdf",
+                "url":DRPROCESSOR+"/api/download/pdfmerge/"+result.id+"/"+mergeConf.name
             });
-            done();
         });
       }
       else {
@@ -45,7 +44,7 @@ export const mergeMultipleFiles = (mergeConf, done) => {
     });
 };
 
-export const downloadMultipleFiles = (mergeConf, done) => {
+export const prepareDownloadMultipleFiles = (mergeConf, done) => {
     fetch(DRPROCESSOR + '/api/zip/and/wait/for/status', {
       method: 'post',
       headers: {
@@ -53,33 +52,51 @@ export const downloadMultipleFiles = (mergeConf, done) => {
       },
       body: JSON.stringify(mergeConf)
 
-    }).then(function (response) {
+    }).then((response)=>{
       if (response.status >= 200 && response.status < 300) {
-        response.json().then(function (result) {
-            downloadSingleFile({
-                "url":DRPROCESSOR+"/api/download/zip/"+result.id+"/"+mergeConf.name,
-                "file":mergeConf.name+".zip"
-            });
-            done();
-        });
+        return response.json();
       }
       else {
+          console.log("Error");
+          console.log(response);
           //TODO Error
           done();
-      }
+      }}).then((result)=> {
+         done({
+            "file":mergeConf.name+".zip",
+            "url":DRPROCESSOR+"/api/download/zip/"+result.id+"/"+mergeConf.name
+        });
     });
+    
+
+    
+    // downloadSingleFile({
+    //     "file":mergeConf.name+".zip",
+    //     "url":"https://doc-processor.cismet.de/api/download/zip/5aa1d7a18c3d220c9fb5f5e1b44814c9-196/BPLAN_Plaene_und_Zusatzdokumente.1073V"
+    //     //,
+    //     //"urlOrig":DRPROCESSOR+"/api/download/zip/"+result.id+"/"+mergeConf.name
+    // });
+    // done();
 };
 
 
-export const downloadSingleFile = (downloadOptions) => {
-  // downloadFile(urlPrefixToDisableCORSPrevention+downloadOptions.url, function(blob) {
-  //     FileSaver.saveAs(blob, downloadOptions.file);
-  // });
+export const downloadSingleFile = (downloadOptions,done) => {
+try {
+  console.log("downloadSingleFile:"+downloadOptions.url);
+  console.log(downloadOptions);
   let link = document.createElement('a');
   document.body.appendChild(link);
   link.setAttribute('type', 'hidden');
   link.href = downloadOptions.url;
-  link.download = downloadOptions.file;
+  //link.href="https://cismet.de";
+  //link.download = downloadOptions.file;
   link.target = '_blank';
   link.click();
+  if (done){
+    done();
+  }
+}catch (err) {
+    window.alert(err);
+}
+
 };

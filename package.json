@@ -25,7 +25,7 @@
     "jszip-utils": "^0.0.2",
     "kdbush": "^1.0.1",
     "leaflet": "^1.2.0",
-    "leaflet-fullscreen-custom-container-fork": "^1.0.6",
+    "leaflet-fullscreen-custom-container-fork": "^1.0.7",
     "leaflet.markercluster": "^1.3.0",
     "localforage": "^1.5.5",
     "mobx": "^3.4.1",
@@ -58,7 +58,8 @@
     "redux-persist": "^5.4.0",
     "redux-thunk": "^2.2.0",
     "svg-create-element": "^1.0.0",
-    "url-search-params-polyfill": "^2.0.1"
+    "url-search-params-polyfill": "^2.0.1",
+    "whatwg-fetch": "^2.0.3"
   },
   "scripts": {
     "start": "react-scripts start",

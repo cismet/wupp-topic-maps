@@ -10,7 +10,7 @@ import { actions as uiStateActions } from '../redux/modules/uiState';
 
 import { bindActionCreators } from 'redux';
 import { bplanFeatureStyler, bplanLabeler } from '../utils/bplanHelper';
-import { downloadSingleFile,downloadMultipleFiles, mergeMultipleFiles } from '../utils/downloadHelper';
+import { downloadSingleFile,prepareDownloadMultipleFiles, prepareMergeMultipleFiles } from '../utils/downloadHelper';
 import BPlanModalHelp from '../components/BPlanModalHelpComponent';
 import BPlanInfo  from '../components/BPlanInfo'
 import {Icon} from 'react-fa'
@@ -51,9 +51,9 @@ export class BPlaene_ extends React.Component {
       this.featureClick=this.featureClick.bind(this);
       this.downloadPlan=this.downloadPlan.bind(this);
       this.downloadEverything=this.downloadEverything.bind(this);
-      this.downloadDone=this.downloadDone.bind(this);
+      this.downloadPreparationDone=this.downloadPreparationDone.bind(this);
       this.doubleMapClick = this.doubleMapClick.bind(this);
-
+      this.resetPreparedDownload = this.resetPreparedDownload.bind(this);
   }
 
   bplanGazeteerhHit(selectedObject){
@@ -124,7 +124,7 @@ export class BPlaene_ extends React.Component {
             "folder":"nicht rechtskraeftig"
           });
       }
-      mergeMultipleFiles(downloadConf,this.downloadDone)
+      prepareMergeMultipleFiles(downloadConf,this.downloadPreparationDone)
      }
   }
 
@@ -164,12 +164,17 @@ export class BPlaene_ extends React.Component {
           });
       }
 
-      downloadMultipleFiles(downloadConf,this.downloadDone);
+      prepareDownloadMultipleFiles(downloadConf,this.downloadPreparationDone);
 
   }
+  resetPreparedDownload(){
+    this.props.bplanActions.setPreparedDownload(null);
 
-  downloadDone() {
+  }
+  downloadPreparationDone(result) {
+    console.log(result);
     this.props.bplanActions.setDocumentLoadingIndicator(false);
+    this.props.bplanActions.setPreparedDownload(result);
   }
 
   featureClick(event){
@@ -202,6 +207,8 @@ export class BPlaene_ extends React.Component {
               loadingIndicator={this.props.bplaene.documentsLoading}
               downloadPlan={this.downloadPlan}
               downloadEverything={this.downloadEverything}
+              preparedDownload={this.props.bplaene.preparedDownload}
+              resetPreparedDownload={this.resetPreparedDownload}
               />
           )
      }
@@ -219,7 +226,7 @@ export class BPlaene_ extends React.Component {
      }
    return (
         <div>
-            <BPlanModalHelp key={'BPlanModalHelp.visible:'+this.props.ui.applicationMenuVisible}/>
+                                <BPlanModalHelp key={'BPlanModalHelp.visible:'+this.props.ui.applicationMenuVisible}/>
 
             <Cismap layers={this.props.match.params.layers ||'uwBPlan'}
                     gazeteerHitTrigger={this.bplanGazeteerhHit}
@@ -240,6 +247,7 @@ export class BPlaene_ extends React.Component {
                     searchMaxZoom={18}
                     gazTopics={["pois","bplaene","adressen"]}
                     infoBox={info} >
+
             </Cismap>
         </div>
     );

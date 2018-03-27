@@ -3,10 +3,11 @@ import PropTypes from 'prop-types';
 import { OverlayTrigger, Well, Tooltip } from 'react-bootstrap';
 import Loadable from 'react-loading-overlay';
 import {Icon} from 'react-fa'
+import { downloadSingleFile} from '../utils/downloadHelper';
 
 
 // Since this component is simple and static, there's no parent container for it.
-const BPlanInfo = ({featureCollection, selectedIndex, next, previous, fitAll, loadingIndicator, downloadPlan, downloadEverything}) => {
+const BPlanInfo = ({featureCollection, selectedIndex, next, previous, fitAll, loadingIndicator, downloadPlan, downloadEverything,preparedDownload,resetPreparedDownload}) => {
 
   const currentFeature=featureCollection[selectedIndex];
 
@@ -106,13 +107,35 @@ const BPlanInfo = ({featureCollection, selectedIndex, next, previous, fitAll, lo
     statusGlyphs=(<span>&nbsp;{rk}&nbsp;{nrk}</span>)
   }
 
+  let downloaderOverlay=(<div/>);
+  if (preparedDownload){
+      let symbol=""
+      downloaderOverlay=(
+        <div style={{backgroundColor:"#333333EE",height:"100%",verticalAlign:"center",width:"100%",position:"absolute",zIndex:999,top:0, left:0}}>              
+              <div style={{"paddingTop":5,color:"#EEEEEEEE", textAlign:"center",verticalAlign:"center"}}>
+                <p>Fertig.</p>
+             </div>
+                <div style={{"position":"absolute","top":5,"right":5}}> <a onClick={()=>resetPreparedDownload()} style={{ color: 'black'}}><Icon name='close' /></a></div>
+              <a style={{textAlign:"center",verticalAlign:"center",height:"100%",width:"100%"}} onClick={()=>{
+                  //downloadSingleFile(preparedDownload);
+                  resetPreparedDownload();
+                }} href={preparedDownload.url} download = {preparedDownload.file} target="_blank" ><h1><Icon name="arrow-circle-o-down"/><Icon name="check"/></h1></a>
+                
+                <div style={{color:"#EEEEEEEE", textAlign:"center",verticalAlign:"center",height:"100%",width:"100%"}}>
+                <p>Ihr Download kann jetzt abgeholt werden. Dazu einfach auf den Link klicken oder mit <Icon name='close' /> das Fenster schließen.</p>
+                </div>
+        </div>
+      )
+  }
+
   return (
     <Loadable
       active={loadingIndicator}
       spinner
       text='Zusammenstellen der Dokumente ...'
-    >
+    >   
         <Well bsSize="small"  onClick={logCurrentFeature}>
+        <div>
           <table style={{ width: '100%' }}>
             <tbody>
               <tr>
@@ -148,12 +171,13 @@ const BPlanInfo = ({featureCollection, selectedIndex, next, previous, fitAll, lo
               </tr>
             </tbody>
           </table>
+          </div>
+          {downloaderOverlay}
         </Well>
-</Loadable>
+        </Loadable>
 
   );
 };
-
 
 
 export default BPlanInfo;

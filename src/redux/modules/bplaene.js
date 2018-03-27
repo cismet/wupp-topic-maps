@@ -12,13 +12,15 @@ import {
 
 ///TYPES
 export const types = {
-    SET_DOCUMENT_LOADING_INDICATOR : 'BPLAENE/SET_DOCUMENT_LOADING_INDICATOR'
+    SET_DOCUMENT_LOADING_INDICATOR : 'BPLAENE/SET_DOCUMENT_LOADING_INDICATOR',
+    SET_PREPARED_DOWNLOAD: 'BPLAENE/SET_PREPARED_DOWNLOAD',
 }
 
 
 ///INITIAL STATE
 const initialState = {
-    documentsLoading: false
+    documentsLoading: false,
+    preparedDownload: null
 };
 
 
@@ -32,6 +34,12 @@ export default function bplanReducer(state = initialState, action) {
           newState.documentsLoading = action.isLoading;
           return newState;
         }
+        case types.SET_PREPARED_DOWNLOAD:
+        {
+          newState = objectAssign({}, state);
+          newState.preparedDownload = action.download;
+          return newState;
+        }
 
      default:
           return state;
@@ -43,6 +51,12 @@ function setDocumentLoadingIndicator(isLoading) {
     return {
       type: types.SET_DOCUMENT_LOADING_INDICATOR,
       isLoading
+    };
+  }
+  function setPreparedDownload(download) {
+    return {
+      type: types.SET_PREPARED_DOWNLOAD,
+      download
     };
   }
 
@@ -201,5 +215,6 @@ function convertPropArrayToFeature(propArray,counter,){
 //EXPORT ACTIONS
 export const actions = {
     setDocumentLoadingIndicator,
+    setPreparedDownload,
     searchForPlans,
 };

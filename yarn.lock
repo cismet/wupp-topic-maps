@@ -4175,6 +4175,12 @@ lcid@^1.0.0:
   dependencies:
     invert-kv "^1.0.0"
 
+leaflet-easybutton@^2.3.0:
+  version "2.3.0"
+  resolved "https://registry.yarnpkg.com/leaflet-easybutton/-/leaflet-easybutton-2.3.0.tgz#135a57c3ddba8814c24b9153919a5bf5b7acfdfc"
+  dependencies:
+    leaflet "^1.0.1"
+
 leaflet-fullscreen-custom-container-fork@^1.0.7:
   version "1.0.7"
   resolved "https://registry.yarnpkg.com/leaflet-fullscreen-custom-container-fork/-/leaflet-fullscreen-custom-container-fork-1.0.7.tgz#2451ee0e1398b5d5c70b5c5da85c72a514e98715"
@@ -4182,6 +4188,10 @@ leaflet-fullscreen-custom-container-fork@^1.0.7:
 leaflet.markercluster@^1.3.0:
   version "1.3.0"
   resolved "https://registry.yarnpkg.com/leaflet.markercluster/-/leaflet.markercluster-1.3.0.tgz#58eb0654e90bd3274a660390ab0bc734212b204d"
+
+leaflet@^1.0.1:
+  version "1.3.1"
+  resolved "https://registry.yarnpkg.com/leaflet/-/leaflet-1.3.1.tgz#86f336d2fb0e2d0ff446677049a5dc34cf0ea60e"
 
 leaflet@^1.2.0:
   version "1.2.0"

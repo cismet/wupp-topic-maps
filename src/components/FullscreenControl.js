@@ -16,7 +16,7 @@ class FullscreenControl extends MapControl {
       position:this.props.position,
       content:this.props.content,
       forceSeparateButton:this.props.forceSeparateButton,
-      forcePseudoFullscreen:this.props.forcePseudoFullscreen,
+      pseudoFullscreen:this.props.forcePseudoFullscreen,
       fullscreenElement:this.props.fullscreenElement,
       container:this.props.container
     });

@@ -10,7 +10,7 @@ import {crs25832, proj4crs25832def} from '../constants/gis';
 import proj4 from 'proj4';
 import {bindActionCreators} from 'redux';
 import FullscreenControl from '../components/FullscreenControl';
-// import NewWindowControl from '../components/NewWindowControl';
+import NewWindowControl from '../components/NewWindowControl';
 
 import Control from 'react-leaflet-control';
 import {
@@ -508,6 +508,22 @@ centerOnPoint(x,y,z) {
         </Control>
     );    
 
+    let fullscreenControl=(
+        <FullscreenControl title="Vollbildmodus" forceSeparateButton={true} titleCancel="Vollbildmodus beenden" position="topleft" container={document.documentElement}/>
+    );
+    let iOS = !!navigator.platform && /iPad|iPhone|iPod/.test(navigator.platform);
+    let inIframe=(window.self !== window.top);
+
+    if (iOS) {
+        if (inIframe) {
+            fullscreenControl=(
+                <NewWindowControl position="topleft" routing={this.props.routing} title="In neuem Tab öffnen"/>
+            );
+        } else {
+            fullscreenControl= (<div/>);
+        }
+    }
+
     return (
     <Map ref="leafletMap" 
          key="leafletMap" 
@@ -544,8 +560,7 @@ centerOnPoint(x,y,z) {
                                 selectionSpiderfyMinZoom={this.props.clusterOptions.selectionSpiderfyMinZoom}/>
       
       <ZoomControl position="topleft" zoomInTitle="Vergr&ouml;ßern" zoomOutTitle="Verkleinern"/>
-      <FullscreenControl title="Vollbildmodus" forceSeparateButton={true} titleCancel="Vollbildmodus beenden" position="topleft" container={document.documentElement}/>
-      {/* <NewWindowControl/> */}
+      {fullscreenControl}
       {searchControl}
       <Control position="topright">
         <OverlayTrigger placement="left" overlay={this.props.applicationMenuTooltipProvider()}>

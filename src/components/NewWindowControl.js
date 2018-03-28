@@ -3,8 +3,8 @@ import PropTypes from 'prop-types';
 import { Button } from 'react-bootstrap';
 import Loadable from 'react-loading-overlay';
 import {Icon} from 'react-fa'
-import Control from 'react-leaflet-control';
-
+import 'leaflet-easybutton';
+import 'leaflet-easybutton/src/easy-button.css';
 
 
 // const NewWindowControl = ({url}) => {
@@ -19,38 +19,28 @@ import Control from 'react-leaflet-control';
 
 
 // import PropTypes from 'prop-types';
-// import { MapControl } from 'react-leaflet';
-// import L from 'leaflet';
+import { MapControl } from 'react-leaflet';
+import L from 'leaflet';
 
 
-// class FullscreenControl extends MapControl {
-//     componentWillMount() {
-//     this.leafletElement = L.control.fullscreen({
-//       title: {
-//         'false':this.props.title,
-//         'true': this.props.titleCancel
-//       },
-//       position:this.props.position,
-//       content:this.props.content,
-//       forceSeparateButton:this.props.forceSeparateButton,
-//       forcePseudoFullscreen:this.props.forcePseudoFullscreen,
-//       fullscreenElement:this.props.fullscreenElement,
-//       container:this.props.container
-//     });
-//   }
-// }
+class NewWindowControl extends MapControl {
+    componentWillMount() {
+        let that=this;
+        this.leafletElement = L.easyButton('fa-external-link-square', function(btn, map){
+            window.open(document.location.origin+'/#'+that.props.routing.location.pathname+that.props.routing.location.search);
+        }, 'In neuem Tab öffnen', {
+            position: this.props.position 
+        });    
+    }
+}
 
-// FullscreenControl.propTypes = {
-//   position: PropTypes.string,
-//   title: PropTypes.string,
-//   titleCancel: PropTypes.string,
-//   content: PropTypes.node,
-//   forceSeparateButton: PropTypes.bool,
-//   forcePseudoFullscreen: PropTypes.bool,
-//   fullscreenElement: PropTypes.bool
-// };
-
-// export default FullscreenControl;
+NewWindowControl.propTypes = {
+   position: PropTypes.string,
+   title: PropTypes.string,
+   routing: PropTypes.object,
+};
 
 
-// export default NewWindowControl;
+
+
+ export default NewWindowControl;

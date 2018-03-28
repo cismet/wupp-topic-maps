@@ -179,7 +179,6 @@ export class BPlaene_ extends React.Component {
 
   }
   downloadPreparationDone(result) {
-    console.log(result);
     this.props.bplanActions.setDocumentLoadingIndicator(false);
     this.props.bplanActions.setPreparedDownload(result);
   }
@@ -233,7 +232,7 @@ export class BPlaene_ extends React.Component {
      }
    return (
         <div>
-                                <BPlanModalHelp key={'BPlanModalHelp.visible:'+this.props.ui.applicationMenuVisible}/>
+            <BPlanModalHelp key={'BPlanModalHelp.visible:'+this.props.ui.applicationMenuVisible}/>
 
             <Cismap layers={this.props.match.params.layers ||'uwBPlan'}
                     gazeteerHitTrigger={this.bplanGazeteerhHit}

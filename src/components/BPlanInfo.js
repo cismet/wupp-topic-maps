@@ -113,16 +113,15 @@ const BPlanInfo = ({featureCollection, selectedIndex, next, previous, fitAll, lo
       downloaderOverlay=(
         <div style={{backgroundColor:"rgba(0, 0, 0, 0.8)", height:"100%",verticalAlign:"center",width:"100%",position:"absolute",zIndex:999,top:0, left:0}}>              
               <div style={{"paddingTop":5,color:"rgba(255, 255, 255, 0.8)", textAlign:"center",verticalAlign:"center"}}>
-                <p>Fertig.</p>
              </div>
-                <div style={{"position":"absolute","top":5,"right":5}}> <a onClick={()=>resetPreparedDownload()} style={{ color: 'black'}}><Icon name='close' /></a></div>
+                <div style={{"position":"absolute","top":5,"right":5}}> <a onClick={()=>resetPreparedDownload()} style={{ color: 'rgba(255, 255, 255, 0.8)'}}><Icon name='close' /></a></div>
               <a style={{textAlign:"center",verticalAlign:"center",height:"100%",width:"100%"}} onClick={()=>{
                   //downloadSingleFile(preparedDownload);
                   resetPreparedDownload();
                 }} href={preparedDownload.url} download = {preparedDownload.file} target="_blank" ><h1><Icon name="arrow-circle-o-down"/><Icon name="check"/></h1></a>
                 
-                <div style={{color:"rgba(255, 255, 255, 0.8)", textAlign:"center",verticalAlign:"center",height:"100%",width:"100%"}}>
-                <p>Ihr Download kann jetzt abgeholt werden. Dazu einfach auf den Link klicken oder mit <Icon name='close' /> das Fenster schließen.</p>
+                <div style={{color:"rgba(255, 255, 255, 0.8)",  textAlign:"center",height:"100%",width:"100%"}}>
+                <p style={{"paddingLeft":"8px", "paddingRight":"8px", "paddingBottom":"4px"}}>Die Zusammenstellung Ihrer Dokumente kann jetzt abgeholt werden. Dazu einfach auf das Downloadsymbol klicken oder alternativ den Prozess mit <Icon name='close' /> abbrechen.</p>
                 </div>
         </div>
       )

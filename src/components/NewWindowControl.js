@@ -5,6 +5,7 @@ import Loadable from 'react-loading-overlay';
 import {Icon} from 'react-fa'
 import 'leaflet-easybutton';
 import 'leaflet-easybutton/src/easy-button.css';
+import './EasyButtonOverrides.css';
 
 
 // const NewWindowControl = ({url}) => {
@@ -14,8 +15,8 @@ import 'leaflet-easybutton/src/easy-button.css';
 //         <Control position="topleft" >
 //             <Button  onClick={()=>{console.log("OPEN")}}><Icon name="expand"/></Button>
 //         </Control>
-//     );
-// }
+//     ); 
+// } 
 
 
 // import PropTypes from 'prop-types';
@@ -28,9 +29,9 @@ class NewWindowControl extends MapControl {
         let that=this;
         this.leafletElement = L.easyButton('fa-external-link-square', function(btn, map){
             window.open(document.location.origin+'/#'+that.props.routing.location.pathname+that.props.routing.location.search);
-        }, 'In neuem Tab öffnen', {
+        }, this.props.title, {
             position: this.props.position 
-        });    
+        }); 
     }
 }
 

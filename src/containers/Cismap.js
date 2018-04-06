@@ -513,11 +513,16 @@ centerOnPoint(x,y,z) {
     );
     let iOS = !!navigator.platform && /iPad|iPhone|iPod/.test(navigator.platform);
     let inIframe=(window.self !== window.top);
-
-    if (iOS) {
-        if (inIframe) {
+    let simulateInIframe=false;
+    let simulateInIOS=false;
+    let iosClass="no-iOS-device"
+    if (simulateInIOS || iOS) {
+        iosClass="iOS-device";
+        if (simulateInIframe || inIframe) {
             fullscreenControl=(
-                <NewWindowControl position="topleft" routing={this.props.routing} title="In neuem Tab öffnen"/>
+                // <OverlayTrigger placement="left" overlay={(<Tooltip>Maximiert in neuem Browser-Tab öffnen.</Tooltip>)}>
+                    <NewWindowControl  position="topleft" routing={this.props.routing} title="Maximiert in neuem Browser-Tab öffnen."/>
+                // </OverlayTrigger>
             );
         } else {
             fullscreenControl= (<div/>);
@@ -525,6 +530,7 @@ centerOnPoint(x,y,z) {
     }
 
     return (
+        <div className={iosClass}>
     <Map ref="leafletMap" 
          key="leafletMap" 
          crs={crs25832} 
@@ -574,7 +580,7 @@ centerOnPoint(x,y,z) {
       </Control> */}
       {infoBoxControl}
       {this.props.children}
-    </Map>);
+    </Map></div>);
 
   }
 }

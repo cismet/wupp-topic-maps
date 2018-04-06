@@ -425,6 +425,7 @@ function applyFilter() {
 function loadOffers() {
     return (dispatch, getState) => {
         let md5 = null;
+        let currentOffer=null;
         const state = getState();
         let noCacheHeaders = new Headers();
         noCacheHeaders.append('pragma', 'no-cache');
@@ -461,6 +462,7 @@ function loadOffers() {
             let zielgruppen = new Set();
 
             for (let offer of data) {
+                currentOffer=offer;
                 offer.point25832 = convertPoint(offer.geo_x, offer.geo_y)
                 if (offer.globalbereiche) {
                     for (let g of offer.globalbereiche) {
@@ -489,6 +491,8 @@ function loadOffers() {
         })
             .catch(function (err) {
                 if (err !== 'CACHEHIT') {
+                    console.log("Problem during OfferLoading");
+                    console.log(currentOffer);
                     console.log(err);
                 }
             });

@@ -304,7 +304,6 @@ centerOnPoint(x,y,z) {
   }
 
   internalGazeteerHitTrigger(hit) {
-    console.log(hit)
     //this.props.routingActions.push(this.props.routing.locationBeforeTransitions.pathname+"lat=51.271767290892676&lng=7.2000696125004575&zoom=14");
     if (hit !== undefined && hit.length !== undefined && hit.length > 0 && hit[0].x !== undefined && hit[0].y !== undefined) {
       //console.log(JSON.stringify(hit))
@@ -325,6 +324,7 @@ centerOnPoint(x,y,z) {
           
         //show marker
         this.props.mappingActions.gazetteerHit(hitObject);
+        this.props.mappingActions.setOverlayFeature(null);
     } else if (hitObject.more.g) {
         var feature = turfHelpers.feature(hitObject.more.g);
         if (!feature.crs) {
@@ -332,8 +332,6 @@ centerOnPoint(x,y,z) {
         }
         var bb = bbox(feature);
         this.props.mappingActions.setOverlayFeature(feature);
-        console.log(gisHelpers.convertBBox2Bounds(bb))
-        console.log(this.refs.leafletMap.leafletElement.getBounds());
         this.refs.leafletMap.leafletElement.fitBounds(gisHelpers.convertBBox2Bounds(bb));
       }
 

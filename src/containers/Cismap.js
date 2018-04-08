@@ -331,6 +331,7 @@ centerOnPoint(x,y,z) {
             feature.crs={"type":"name","properties":{"name":"urn:ogc:def:crs:EPSG::25832"}};
         }
         var bb = bbox(feature);
+        this.props.mappingActions.gazetteerHit(null);
         this.props.mappingActions.setOverlayFeature(feature);
         this.refs.leafletMap.leafletElement.fitBounds(gisHelpers.convertBBox2Bounds(bb));
       }

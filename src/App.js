@@ -43,7 +43,7 @@ export default class App extends React.Component {
                 <Route exact path="/" component={DefaultPage} />
                 <Route exact path="/ehrenamt/:layers?/:offerid?" component={Ehrenamt} />
                 <Route exact path="/bplaene/:layers?/:bplannummer?" component={BPlaene} />
-                <Route exact path="/stadtplan/:layers?/" component={Stadtplan} />
+                {/* <Route exact path="/stadtplan/:layers?/" component={Stadtplan} /> */}
                 <Route exact path="/default(/:layers)(/:bplannummer)" component={DefaultPage}/>
                 <Route component={NotFoundPage} />
               </Switch>

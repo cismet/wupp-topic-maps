@@ -183,6 +183,8 @@ function convertPropArrayToFeature(propArray,counter,){
     let docs;
     if (propArray[5]!=null) {
       docs=JSON.parse(propArray[5]);
+      docs.push({file: "_Info_BPlan-Zusatzdokumente_WUP_1-0.pdf", url: "https://wunda-geoportal-docs.cismet.de/bplaene_dokumente/_Info_BPlan-Zusatzdokumente_WUP_1-0.pdf"});
+      console.log(docs);
     } else {
       docs=[];
     }

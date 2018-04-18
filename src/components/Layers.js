@@ -1,13 +1,15 @@
 import React from 'react';
 import { TileLayer, WMSTileLayer } from 'react-leaflet';
-
+import StyledWMSTileLayer from './StyledWMSTileLayer'
+import PropTypes from 'prop-types';
 
 export const Layers = new Map();
 
+let defaultOptions={"opacity":1.0};
 
-Layers.set("nrwDOP20", (opacity) => {
+Layers.set("nrwDOP20", (options=defaultOptions) => {
   return (
-    <WMSTileLayer
+    <StyledWMSTileLayer
       key="nrwDOP20"
       url="https://wunda-geoportal-cache.cismet.de/nrwDOP20"
       layers="nw_dop20"
@@ -15,44 +17,50 @@ Layers.set("nrwDOP20", (opacity) => {
       tiled="true"
       //crs={L.CRS.EPSG3857}
       maxZoom={19}
-      opacity={opacity}
+      opacity={options.opacity}
+      cssFilter={options["css-filter"]}
+
     />
   );
 });
 
 
-Layers.set("osm", (opacity) => {
+Layers.set("osm", (options=defaultOptions) => {
   return (
-    <WMSTileLayer
+    <StyledWMSTileLayer
       key="Terrestris OSM"
       url="http://ows.terrestris.de/osm/service"
       layers="OSM-WMS"
       format="image/png"
       tiled="true"
       maxZoom={19}
-      opacity={opacity}
+      opacity={options.opacity}
+      cssFilter={options["css-filter"]}
+
     />
   );
 });
 
 
-Layers.set("abkf", (opacity) => {
+Layers.set("abkf", (options=defaultOptions) => {
   return (
-    <WMSTileLayer
+    <StyledWMSTileLayer
       key="abkf"
       url="https://wunda-geoportal-cache.cismet.de/geoportal"
       layers="abkf"
       format="image/png"
       tiled="true"
       maxZoom={19}
-      opacity={opacity}
+      opacity={options.opacity}
+      cssFilter={options["css-filter"]}
+
     />
   );
 });
 
-Layers.set("nrs", (opacity) => {
+Layers.set("nrs", (options=defaultOptions) => {
   return (
-    <WMSTileLayer
+    <StyledWMSTileLayer
       key="nrs"
       url="https://wunda-geoportal-cache.cismet.de/geoportal"
       layers="R102%3Astadtgrundkarte_hausnr"
@@ -60,70 +68,80 @@ Layers.set("nrs", (opacity) => {
       transparent="true"
       tiled="true"
       maxZoom={19}
-      opacity={opacity}
+      opacity={options.opacity}
+      cssFilter={options["css-filter"]}
+
     />
   );
 });
 
-Layers.set("abkg", (opacity) => {
+Layers.set("abkg", (options=defaultOptions) => {
   return (
-    <WMSTileLayer
+    <StyledWMSTileLayer
       key="abkf"
       url="https://wunda-geoportal-cache.cismet.de/geoportal"
       layers="abkg"
       format="image/png"
       tiled="true"
       maxZoom={19}
-      opacity={opacity}
+      opacity={options.opacity}
+      cssFilter={options["css-filter"]}
+
     />
   );
 });
-Layers.set("bplan_abkg", (opacity) => {
+Layers.set("bplan_abkg", (options=defaultOptions) => {
   return (
-    <WMSTileLayer
+    <StyledWMSTileLayer
       key="bplan_abkg"
       url="https://wunda-geoportal-cache.cismet.de/geoportal"
       layers="bplanreihe"
       format="image/png"
       tiled="true"
       maxZoom={19}
-      opacity={opacity}
+      opacity={options.opacity}
+      cssFilter={options["css-filter"]}
+
     />
   );
 });
 
 
-Layers.set("bplan_abkg", (opacity) => {
+Layers.set("bplan_abkg", (options=defaultOptions) => {
   return (
-    <WMSTileLayer
+    <StyledWMSTileLayer
       key="bplan_abkg"
       url="https://wunda-geoportal-cache.cismet.de/geoportal"
       layers="bplanreihe"
       format="image/png"
       tiled="true"
       maxZoom={19}
-      opacity={opacity}
+      opacity={options.opacity}
+      cssFilter={options["css-filter"]}
+
     />
   );
 });
 
-Layers.set("bplan_abkg_uncached", (opacity) => {
+Layers.set("bplan_abkg_uncached", (options=defaultOptions) => {
   return (
-    <WMSTileLayer
+    <StyledWMSTileLayer
       key="bplan_abkg_uncached"
       url="https://geoportal.wuppertal.de/deegree/wms"
       layers="bplanreihe"
       format="image/png"
       tiled="true"
       maxZoom={19}
-      opacity={opacity}
+      opacity={options.opacity}
+      cssFilter={options["css-filter"]}
+
     />
   );
 });
 
-Layers.set("bplan_ovl", (opacity) => {
+Layers.set("bplan_ovl", (options=defaultOptions) => {
   return (
-    <WMSTileLayer
+    <StyledWMSTileLayer
       key="bplan_ovl"
       url="https://geoportal.wuppertal.de/deegree/wms"
       layers="bplanhintergrund"
@@ -131,14 +149,16 @@ Layers.set("bplan_ovl", (opacity) => {
       tiled="true"
       transparent="true"
       maxZoom={19}
-      opacity={opacity}
+      opacity={options.opacity}
+      cssFilter={options["css-filter"]}
+
     />
   );
 });
 
-Layers.set("bplan_ovl_cached", (opacity) => {
+Layers.set("bplan_ovl_cached", (options=defaultOptions) => {
   return (
-    <WMSTileLayer
+    <StyledWMSTileLayer
       key="bplan_ovl_cached"
       url="https://wunda-geoportal-cache.cismet.de/geoportal"
       layers="bplanhintergrund"
@@ -146,59 +166,67 @@ Layers.set("bplan_ovl_cached", (opacity) => {
       tiled="true"
       transparent="true"
       maxZoom={19}
-      opacity={opacity}
+      opacity={options.opacity}
+      cssFilter={options["css-filter"]}
+
     />
   );
 });
 
 
 
-Layers.set("abkIntra", (opacity) => {
+Layers.set("abkIntra", (options=defaultOptions) => {
   return (
-    <WMSTileLayer
+    <StyledWMSTileLayer
       key="StadtgrundKarteABK"
       url="http://s10221:7098/alkis/services"
       layers="alkomf"
       format="image/png"
       tiled="true"
       maxZoom={19}
-      opacity={opacity}
+      opacity={options.opacity}
+      cssFilter={options["css-filter"]}
+
     />
   );
 });
 
-Layers.set("uwBPlan", (opacity) => {
+Layers.set("uwBPlan", (options=defaultOptions) => {
   return (
-    <WMSTileLayer
+    <StyledWMSTileLayer
       key="BPlanreihe auf Umwis"
       url="https://geoportal.wuppertal.de/deegree/wms"
       layers="bplanreihe,bplanhintergrund"
       format="image/png"
       tiled="true"
       maxZoom={19}
-      opacity={opacity}
+      opacity={options.opacity}
+      cssFilter={options["css-filter"]}
+
     />
   );
 });
 
-Layers.set("uwBPlanCached", (opacity) => {
+Layers.set("uwBPlanCached", (options=defaultOptions) => {
   return (
-    <WMSTileLayer
+    <StyledWMSTileLayer
       key="BPlanreihe auf Umwis"
       url="https://wunda-geoportal-cache.cismet.de/geoportal"
       layers="bplanreihe,bplanhintergrund"
       format="image/png"
       tiled="true"
       maxZoom={19}
-      opacity={opacity}
+      opacity={options.opacity}
+      cssFilter={options["css-filter"]}
+
     />
   );
 });
 
 
-Layers.set("rvrWMS", (opacity) => {
+Layers.set("rvrWMS", (options=defaultOptions) => {
   return (
-    <WMSTileLayer
+    <StyledWMSTileLayer
       key="stadtplan_rvr"
       url="https://rvr.demo.omniscale.net/mapproxy/service"
       layers="stadtplan_rvr"
@@ -206,15 +234,31 @@ Layers.set("rvrWMS", (opacity) => {
       tiled="false"
       version="1.3.0"
       maxZoom={19}
-      opacity={opacity}
+      opacity={options.opacity}
+      cssFilter={options["css-filter"]}
     />
   );
 });
 
-
-Layers.set("ruhrWMS", (opacity) => {
+Layers.set("XrvrWMS", (options=defaultOptions) => {
     return (
-      <WMSTileLayer
+      <StyledWMSTileLayer
+        key="Xstadtplan_rvr"
+        url="https://rvr.demo.omniscale.net/mapproxy/service"
+        layers="stadtplan_rvr"
+        format="image/png"
+        tiled="false"
+        version="1.3.0"
+        maxZoom={19}
+        opacity={options.opacity}
+        cssFilter={options["css-filter"]}
+      />
+    );
+  });
+
+Layers.set("ruhrWMS", (options=defaultOptions) => {
+    return (
+      <StyledWMSTileLayer
         key="ruhr_stadtplan_rvr"
         url="https://geodaten.metropoleruhr.de/spw2/service"
         layers="stadtplan_rvr"
@@ -222,29 +266,33 @@ Layers.set("ruhrWMS", (opacity) => {
         tiled="false"
         version="1.3.0"
         maxZoom={19}
-        opacity={opacity}
+        opacity={options.opacity}
+        cssFilter={options["css-filter"]}
+
       />
     );
   });
 
 
-Layers.set("orthoIntra", (opacity) => {
+Layers.set("orthoIntra", (options=defaultOptions) => {
     return (
-      <WMSTileLayer
+      <StyledWMSTileLayer
         key="Ortho2014"
         url="http://s10221:7098/orthofotos/services"
         layers="WO2014"
         format="image/png"
         tiled="true"
         maxZoom={19}
-        opacity={opacity}
+        opacity={options.opacity}
+        cssFilter={options["css-filter"]}
+
       />
     );
   });
 
 
 
-Layers.set("ESRILayer", (opacity) => {
+Layers.set("ESRILayer", (options=defaultOptions) => {
   return (
     <TileLayer
       key="ESRILayer"
@@ -255,12 +303,12 @@ Layers.set("ESRILayer", (opacity) => {
       attribution='&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, &copy; <a href="https://carto.com/attributions">CARTO</a>'
       maxZoom={22}
       maxNativeZoom={18}
-      opacity={opacity}
+      opacity={options.opacity}
     />
   );
 });
 
-Layers.set("CartoLayer", (opacity) => {
+Layers.set("CartoLayer", (options=defaultOptions) => {
   return (
     <TileLayer
       key="CartoLayer"
@@ -271,13 +319,13 @@ Layers.set("CartoLayer", (opacity) => {
       attribution='&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, &copy; <a href="https://carto.com/attributions">CARTO</a>'
       maxNativeZoom={19}
       maxZoom={22}
-      opacity={opacity}
+      opacity={options.opacity}
     />
   );
 });
 
 
-Layers.set("CartoLayer", (opacity) => {
+Layers.set("CartoLayer", (options=defaultOptions) => {
     return (
       <TileLayer
         key="CartoLayer"
@@ -288,7 +336,7 @@ Layers.set("CartoLayer", (opacity) => {
         attribution='&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, &copy; <a href="https://carto.com/attributions">CARTO</a>'
         maxNativeZoom={19}
         maxZoom={22}
-        opacity={opacity}
+        opacity={options.opacity}
       />
     );
   });

@@ -432,7 +432,7 @@ centerOnPoint(x,y,z) {
     ];
     const zoomByUrl = parseInt(new URLSearchParams(this.props.routing.location.search).get('zoom'), 10) || 14;
 
-    const layerArr = this.props.layers.split(",");
+    const layerArr = this.props.layers.split("|");
 
     //      <Icon name='search' />
 
@@ -551,6 +551,7 @@ centerOnPoint(x,y,z) {
     }
 
 
+
     return (
         <div className={iosClass}>
     <Map ref="leafletMap" 
@@ -572,9 +573,20 @@ centerOnPoint(x,y,z) {
         >
         {overlayFeature}
         {
-        layerArr.map((layerWithOpacity) => {
-          const layOp = layerWithOpacity.split('@')
-          return Layers.get(layOp[0])(parseInt(layOp[1] || '100', 10) / 100.0);
+        layerArr.map((layerWithOptions) => {
+          const layOp = layerWithOptions.split('@');
+          if (!isNaN(parseInt(layOp[1]))) {
+            return Layers.get(layOp[0])({"opacity":parseInt(layOp[1] || '100', 10) / 100.0});
+          }
+          try{
+            let options=JSON.parse(layOp[1]);
+            return Layers.get(layOp[0])(options);
+          }
+          catch (error){
+            console.error(error);
+            console.error("Problems during parsing of the layer options. Skip options. You will get the 100% Layer:"+layOp[0]);
+            return Layers.get(layOp[0])();
+          }
         })
       }
       <GazetteerHitDisplay key={"gazHit" + JSON.stringify(this.props.mapping)} mappingProps={this.props.mapping}/>

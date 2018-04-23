@@ -1,23 +1,8 @@
 import React from 'react';
 import L from 'leaflet';
 import { WMSTileLayer } from 'react-leaflet';
+// import filters from 'pleeease-filters'; /a postcss  plugin. worked only for the first expression
 
-import { connect } from "react-redux";
-import { bindActionCreators } from 'redux';
-import { actions as mappingActions } from '../redux/modules/mapping';
-
-
-function mapStateToProps(state) {
-  return {
-    mapping: state.mapping,
-  };
-}
-
-function mapDispatchToProps(dispatch) {
-  return {
-    mappingActions: bindActionCreators(mappingActions, dispatch),
-  };
-}
 
 
 export class StyledWMSTileLayer_ extends WMSTileLayer {
@@ -32,26 +17,28 @@ export class StyledWMSTileLayer_ extends WMSTileLayer {
       updateLeafletElement(fromProps, toProps) {
         super.updateLeafletElement(fromProps, toProps)
         if (this.props.cssFilter){
-            this.leafletElement._container.style.cssText+=" "+this.props.cssFilter;
+            console.log(this.props.cssFilter)
+
+            
+             this.leafletElement._container.style.cssText+=" "+this.props.cssFilter;
+
+            //  filters.process("{"+ this.props.cssFilter +"}",{}).then(result => {
+            //     let newfilter=result.css.substring(1, result.css.length-1);
+
+            //     console.log("result.css:"+newfilter);
+
+            //     this.leafletElement._container.style.cssText+=" "+newfilter;
+            //  });
         }
       }
     
       getOptions(params) {
         return super.getOptions(params);
       }
-
-//   render() {
-//     let superRet=super.render();
-
-//     return (
-//         <div id="4711" style={style}>
-//             {superRet}
-//         </div>
-//     );
-//   }
 }
 
-const StyledWMSTileLayer = connect(mapStateToProps, mapDispatchToProps)(StyledWMSTileLayer_);
+const StyledWMSTileLayer = StyledWMSTileLayer_;
+
 export default StyledWMSTileLayer;
 
 // StyledWMSTileLayer.propTypes = {

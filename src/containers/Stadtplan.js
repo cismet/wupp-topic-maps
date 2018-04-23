@@ -11,6 +11,7 @@ import {Icon} from 'react-fa'
 import { actions as mappingActions } from '../redux/modules/mapping';
 import { actions as uiStateActions } from '../redux/modules/uiState';
 import { actions as ehrenamtActions, constants as ehrenamtConstants } from '../redux/modules/ehrenamt';
+import { actions as stadtplanActions } from '../redux/modules/stadtplan';
 import {routerActions} from 'react-router-redux'
 
 import { bindActionCreators } from 'redux';
@@ -38,7 +39,7 @@ function mapDispatchToProps(dispatch) {
   return {
     mappingActions: bindActionCreators(mappingActions, dispatch),
     uiStateActions: bindActionCreators(uiStateActions, dispatch),
-    ehrenamtActions: bindActionCreators(ehrenamtActions, dispatch),
+    stadtplanActions: bindActionCreators(stadtplanActions, dispatch),
     routingActions: bindActionCreators(routerActions, dispatch),
   };
 }
@@ -73,42 +74,42 @@ export class Stadtplan_ extends React.Component {
         this.loadThePOIs().then((data) => {
             this.dataLoaded=true;
         });
-        this.props.uiStateActions.setApplicationMenuActiveKey("filtertab");
+        //this.props.uiStateActions.setApplicationMenuActiveKey("filtertab");
       }
     componentWillUpdate() {
       
         if (this.props.ehrenamt.offers.length===0){
             return;
         }
-        let urlCart=queryString.parse(this.props.routing.location.search).cart;
-        let urlCartIds=new Set();
-        if (urlCart){
-            urlCartIds=new Set(urlCart.split(",").sort((a,b)=>parseInt(a,10)-parseInt(b,10)));
-        }
-        let cartIds=new Set(this.props.ehrenamt.cart.map(x=>x.id).sort((a,b)=>parseInt(a,10)-parseInt(b,10)));
+        // let urlCart=queryString.parse(this.props.routing.location.search).cart;
+        // let urlCartIds=new Set();
+        // if (urlCart){
+        //     urlCartIds=new Set(urlCart.split(",").sort((a,b)=>parseInt(a,10)-parseInt(b,10)));
+        // }
+        // let cartIds=new Set(this.props.ehrenamt.cart.map(x=>x.id).sort((a,b)=>parseInt(a,10)-parseInt(b,10)));
 
-        let missingIdsInCart=new Set([...urlCartIds].filter(x => !cartIds.has(x)));
+        // let missingIdsInCart=new Set([...urlCartIds].filter(x => !cartIds.has(x)));
 
-        if (missingIdsInCart.size>0) {
-            this.props.ehrenamtActions.addToCartByIds(Array.from(missingIdsInCart));
-        }        
+        // if (missingIdsInCart.size>0) {
+        //     this.props.ehrenamtActions.addToCartByIds(Array.from(missingIdsInCart));
+        // }        
         
-        let newUrlCartArr=Array.from(cartIds).sort((a,b)=>parseInt(a,10)-parseInt(b,10));
+        // let newUrlCartArr=Array.from(cartIds).sort((a,b)=>parseInt(a,10)-parseInt(b,10));
     
-        let newUrlCart=newUrlCartArr.join();
+        // let newUrlCart=newUrlCartArr.join();
 
-        if (urlCart!==newUrlCart && newUrlCart.length>0){
+        // if (urlCart!==newUrlCart && newUrlCart.length>0){
             
-            let pn=this.props.routing.location.pathname;
-            if (pn.indexOf("stadtplan")===-1){ 
-                pn="/stadtplan"; //in certain conditions the pathname does not contain ehrenamt. fix that. 
-            }
-            let newRoute= pn + modifyQueryPart(this.props.routing.location.search, {
-                cart: newUrlCart
-            });
-            console.log("push new route:"+newRoute);
-            this.props.routingActions.push(newRoute);
-        }
+        //     let pn=this.props.routing.location.pathname;
+        //     if (pn.indexOf("stadtplan")===-1){ 
+        //         pn="/stadtplan"; //in certain conditions the pathname does not contain ehrenamt. fix that. 
+        //     }
+        //     let newRoute= pn + modifyQueryPart(this.props.routing.location.search, {
+        //         cart: newUrlCart
+        //     });
+        //     console.log("push new route:"+newRoute);
+        //     this.props.routingActions.push(newRoute);
+        // }
     }
      
 
@@ -119,14 +120,14 @@ export class Stadtplan_ extends React.Component {
     loadThePOIs() {
         var promise = new Promise((resolve, reject) => {
             setTimeout(() => {
-                // this.props.ehrenamtActions.loadOffers();
-                // resolve('ok');
+                this.props.stadtplanActions.loadPOIs();
+                resolve('ok');
             }, 100);
         });
         return promise;
     }
     createfeatureCollectionByBoundingBox(bbox) {
-      this.props.ehrenamtActions.createFeatureCollectionFromOffers(bbox)
+    //   this.props.ehrenamtActions.createFeatureCollectionFromOffers(bbox)
     }
 
     gazeteerhHit(selectedObject) {
@@ -290,7 +291,7 @@ export class Stadtplan_ extends React.Component {
                        searchTooltipProvider={this.searchTooltip}
                        searchMinZoom={99}
                        searchMaxZoom={98}
-                       gazTopics={["pois","adressen", "bezirke", "quartiere"]}
+                       gazTopics={["adressen", "bezirke", "quartiere","pois"]}
                        clustered={true}
                        minZoom={6}
                        clusterOptions={{

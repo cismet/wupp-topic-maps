@@ -260,7 +260,7 @@ export class Stadtplan_ extends React.Component {
                        searchMinZoom={99}
                        searchMaxZoom={98}
                        gazTopics={["adressen", "bezirke", "quartiere","pois"]}
-                       clustered={true}
+                       clustered={(queryString.parse(this.props.routing.location.search).clustered)!==undefined}
                        minZoom={6}
                        clusterOptions={{
                             spiderfyOnMaxZoom: false,

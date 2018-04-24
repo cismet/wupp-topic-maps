@@ -16,7 +16,7 @@ export const types = {
 
 
 export const constants = {
-    DEBUG_ALWAYS_LOADING: true
+    DEBUG_ALWAYS_LOADING: false
 }
 
 
@@ -99,10 +99,9 @@ function loadPOIs() {
             }
         }).then((md5value) => {
             md5 = md5value.trim();
-            if (md5 === state.stadtplan.poisMD5 && constants.DEBUG_ALWAYS_LOADING===false) {
-                // dispatch(applyFilter());
-                // dispatch(createFeatureCollectionFromOffers());
-    
+            if (md5 === state.stadtplan.poisMD5 && (constants.DEBUG_ALWAYS_LOADING===false)) {
+                dispatch(applyFilter());
+                dispatch(createFeatureCollectionFromPOIs());
                 throw 'CACHEHIT';
             } else {
                 return "fetchit";

@@ -31,11 +31,15 @@ export class ProjGeoJson_ extends Path {
     const { mappingProps, ...props } = this.props;
 
     props.onEachFeature=function (feature, layer) {
+        //This could be the problem in /stadtplan 
+        //----wait for regressions -.-
+        //layer._leaflet_id = feature.id;
+        //----
+
         //TODO set a offset so that the Tooltip is shown in the current map
-        layer._leaflet_id = feature.id;
         layer.feature=feature
         layer.on('click',props.featureClickHandler);
-         let zoffset=new L.point(0,0);
+        let zoffset=new L.point(0,0);
         if (feature.selected) {
           //ugly winning: a direct call of bringToFront has no effect -.-
           setTimeout(function () {
@@ -87,6 +91,7 @@ export class ProjGeoJson_ extends Path {
         }
     }
     var geojson=L.Proj.geoJson(mappingProps.featureCollection, props);
+
     if (this.props.clusteredMarkers) {
         this.leafletElement = this.props.clusteredMarkers.clearLayers();
         this.leafletElement = this.props.clusteredMarkers.addLayer(geojson);

@@ -2,15 +2,21 @@ import objectAssign from 'object-assign';
 import {actions as mappingActions} from './mapping';
 import {routerActions} from 'react-router-redux'
 import {predicateBy} from '../../utils/stringHelper';
+import kdbush from 'kdbush';
+
+
+
 //TYPES
 export const types = {
     SET_POIS: 'STADTPLAN/SET_POIS',
+    SET_FILTERED_POIS: 'STADTPLAN/SET_FILTERED_POIS',
     SET_TYPES: 'STADTPLAN/SET_TYPES',
     SET_LEBENSLAGEN: 'STADTPLAN/SET_LEBENSLAGEN',
 }
 
 
 export const constants = {
+    DEBUG_ALWAYS_LOADING: true
 }
 
 
@@ -19,8 +25,10 @@ const initialState = {
     pois: [],
     poisMD5: "",
     filteredPois: [],
+    filteredPoisIndex: null,
     lebenslagen: [],
     poitypes: [],
+
 }
 ///REDUCER
 export default function ehrenamtReducer(state = initialState, action) {
@@ -31,6 +39,13 @@ export default function ehrenamtReducer(state = initialState, action) {
             newState = objectAssign({}, state);
             newState.pois=action.pois;
             newState.poisMD5=action.poisMD5;
+            return newState;
+        }
+        case types.SET_FILTERED_POIS:
+        {
+            newState = objectAssign({}, state);
+            newState.filteredPois=action.filteredPois;
+            newState.filteredPoisIndex=kdbush(action.filteredPois, (p)=>p.geojson.coordinates[0], (p) => p.geojson.coordinates[1]);
             return newState;
         }
         case types.SET_TYPES:
@@ -53,6 +68,9 @@ export default function ehrenamtReducer(state = initialState, action) {
 ///SIMPLEACTIONCREATORS
 function setPOIs(pois,poisMD5) {
     return {type: types.SET_POIS, pois, poisMD5};
+}
+function setFilteredPOIs(filteredPois) {
+    return {type: types.SET_FILTERED_POIS, filteredPois};
 }
 function setTypes(poitypes) {
     return {type: types.SET_TYPES, poitypes};
@@ -81,7 +99,7 @@ function loadPOIs() {
             }
         }).then((md5value) => {
             md5 = md5value.trim();
-            if (md5 === state.stadtplan.poisMD5) {
+            if (md5 === state.stadtplan.poisMD5 && constants.DEBUG_ALWAYS_LOADING===false) {
                 // dispatch(applyFilter());
                 // dispatch(createFeatureCollectionFromOffers());
     
@@ -136,8 +154,8 @@ function loadPOIs() {
             dispatch(setTypes(Array.from(poitypes).sort(predicateBy("name"))));
             dispatch(setLebenslagen(Array.from(lebenslagen).sort()));
             dispatch(setPOIs(data,md5));
-            // dispatch(applyFilter());
-            // dispatch(createFeatureCollectionFromOffers());
+            dispatch(applyFilter());
+            dispatch(createFeatureCollectionFromPOIs());
 
         })
             .catch(function (err) {
@@ -151,10 +169,105 @@ function loadPOIs() {
 }
 
 
+
+function applyFilter() {
+    return (dispatch, getState) => {
+        let state = getState();
+        dispatch(setFilteredPOIs(state.stadtplan.pois));
+    }
+}
+function createFeatureCollectionFromPOIs(boundingBox) {
+    return (dispatch, getState) => {
+        let state = getState()
+        if (state.stadtplan.filteredPoisIndex) {
+            let currentSelectedFeature = {
+                id: -1
+            };
+            if (state.mapping.selectedIndex !== null && state.mapping.selectedIndex >= 0) {
+                currentSelectedFeature = state.mapping.featureCollection[state.mapping.selectedIndex];
+            } else {
+                //          console.log("selectedIndex not set");
+            }
+            let bb;
+            if (boundingBox) {
+                bb = boundingBox;
+            } else {
+                bb = state.mapping.boundingBox;
+            }
+
+            let resultIds = state
+                .stadtplan
+                .filteredPoisIndex
+                .range(bb.left, bb.bottom, bb.right, bb.top);
+            let resultFC = [];
+            let counter = 0;
+            let results = [];
+
+            for (let id of resultIds) {
+                results.push(state.stadtplan.filteredPois[id]);
+            }
+
+            results.sort((a, b) => {
+                if (a.geojson.coordinates[1] === b.geojson.coordinates[1]) {
+                    return a.geojson.coordinates[0] - b.geojson.coordinates[0];
+                } else {
+                    return b.geojson.coordinates[1] - a.geojson.coordinates[1];
+                }
+            })
+
+            let selectionWish = 0;
+            for (let offer of results) {
+                let offerFeature = convertPOIToFeature(offer, counter)
+                resultFC.push(offerFeature);
+                if (state.ehrenamt.cart.find((x => x.id === offerFeature.id))!==undefined) {
+                    offerFeature.inCart=true
+                }
+                else {
+                    offerFeature.inCart=false;
+                }
+                if (offerFeature.id === currentSelectedFeature.id) {
+                    selectionWish = counter;
+                }
+                counter++;
+            }
+
+            dispatch(mappingActions.setFeatureCollection(resultFC));
+            dispatch(mappingActions.setSelectedFeatureIndex(selectionWish));
+
+        }
+    }
+}
+
+
 //EXPORT ACTIONS
 export const actions = {
     loadPOIs,
     setPOIs,
+    createFeatureCollectionFromPOIs
 }
 
 //HELPER FUNCTIONS
+function convertPOIToFeature(poi, index) {
+
+    const id = poi.id;
+    const type = "Feature";
+    const selected = false;
+    const geometry = poi.geojson;
+    const text = poi.name;
+
+    return {
+        id,
+        index,
+        text,
+        type,
+        selected,
+        geometry,
+        "crs": {
+            "type": "name",
+            "properties": {
+                "name": "urn:ogc:def:crs:EPSG::25832"
+            }
+        },
+        properties: poi
+    }
+}

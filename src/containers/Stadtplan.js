@@ -22,6 +22,8 @@ import queryString from 'query-string';
 
 import {modifyQueryPart} from '../utils/routingHelper'
 import ProjSingleGeoJson from '../components/ProjSingleGeoJson';
+import StadtplanInfo from '../components/StadtplanInfo';
+
 
 function mapStateToProps(state) {
   return {
@@ -189,28 +191,18 @@ export class Stadtplan_ extends React.Component {
     render() {
       let info= null;
            info = (
-                <div/>            
-             )
-            //  <EhrenamtInfo 
-            //  key={"ehrenamtInfo."+(this.props.mapping.selectedIndex||0)+".cart:+JSON.stringify(this.props.ehrenamt.cart"}
-            //   pixelwidth={250}
-            //   featureCollection={this.props.mapping.featureCollection}
-            //   filteredOffers={this.props.ehrenamt.filteredOffers}
-            //   selectedIndex={this.props.mapping.selectedIndex||0}
-            //   next={this.selectNextIndex}
-            //   previous={this.selectPreviousIndex}
-            //   fitAll={this.gotoHome}
-            //   downloadPlan={this.downloadPlan}
-            //   downloadEverything={this.downloadEverything}
-            //   filter={this.props.ehrenamt.filterX}
-            //   resetFilter={this.resetFilter}
-            //   showModalMenu={(section)=>this.props.uiStateActions.showApplicationMenuAndActivateSection(true,section)}
-            //   cart={this.props.ehrenamt.cart}
-            //   toggleCartFromFeature={this.props.ehrenamtActions.toggleCartFromFeature}
-            //   filterMode={this.props.ehrenamt.mode}
+                
+             <StadtplanInfo 
+             key={"stadtplanInfo."+(this.props.mapping.selectedIndex||0)}
+              pixelwidth={250}
+              featureCollection={this.props.mapping.featureCollection}
+              selectedIndex={this.props.mapping.selectedIndex||0}
+              next={this.selectNextIndex}
+              previous={this.selectPreviousIndex}
+              fitAll={this.gotoHome}
 
-            //   />
-
+              />
+           );
         // Auflistung der ids die momentan nicht dargestllt werden
         // let offerIds=[];
         // let fcIds=[];
@@ -260,7 +252,7 @@ export class Stadtplan_ extends React.Component {
                        searchMinZoom={99}
                        searchMaxZoom={98}
                        gazTopics={["adressen", "bezirke", "quartiere","pois"]}
-                       clustered={(queryString.parse(this.props.routing.location.search).clustered)!==undefined}
+                       clustered={(queryString.parse(this.props.routing.location.search).unclustered)===undefined}
                        minZoom={6}
                        clusterOptions={{
                             spiderfyOnMaxZoom: false,

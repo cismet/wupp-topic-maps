@@ -3,7 +3,7 @@ import {actions as mappingActions} from './mapping';
 import {routerActions} from 'react-router-redux'
 import {predicateBy} from '../../utils/stringHelper';
 import kdbush from 'kdbush';
-
+import {addSVGToFeature} from '../../utils/stadtplanHelper';
 
 
 //TYPES
@@ -215,23 +215,23 @@ function createFeatureCollectionFromPOIs(boundingBox) {
             })
 
             let selectionWish = 0;
-            for (let offer of results) {
-                let offerFeature = convertPOIToFeature(offer, counter)
-                resultFC.push(offerFeature);
-                if (state.ehrenamt.cart.find((x => x.id === offerFeature.id))!==undefined) {
-                    offerFeature.inCart=true
-                }
-                else {
-                    offerFeature.inCart=false;
-                }
-                if (offerFeature.id === currentSelectedFeature.id) {
-                    selectionWish = counter;
-                }
+            for (let poi of results) {
+                let poiFeature = convertPOIToFeature(poi, counter)
+                resultFC.push(poiFeature);
                 counter++;
             }
+            
+            
+            let svgResolvingPromises = resultFC.map(function(feature){
+                return addSVGToFeature(feature);
+              })
 
-            dispatch(mappingActions.setFeatureCollection(resultFC));
-            dispatch(mappingActions.setSelectedFeatureIndex(selectionWish));
+              Promise.all(svgResolvingPromises).then(function(results) {
+                dispatch(mappingActions.setFeatureCollection(resultFC));
+                dispatch(mappingActions.setSelectedFeatureIndex(selectionWish));
+            })
+
+           
 
         }
     }
@@ -270,3 +270,4 @@ function convertPOIToFeature(poi, index) {
         properties: poi
     }
 }
+

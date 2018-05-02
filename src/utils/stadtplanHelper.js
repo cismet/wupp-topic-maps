@@ -3,6 +3,8 @@ import Color from 'color';
 import L from 'leaflet';
 import createSVGPie from 'create-svg-pie';
 import createElement from 'svg-create-element';
+import SVGInjector from 'svg-injector';
+import { Base64 } from 'js-base64';
 
 export const featureStyler = (feature) => {
     var color = Color(getColorForProperties(feature));
@@ -15,16 +17,60 @@ export const featureStyler = (feature) => {
     }
      
 
-    let svg = `<svg height="${svgSize}" width="${svgSize}">            
-                    <image x="${(svgSize - 20) / 2}" y="${(svgSize - 20) / 2}" width="20" height="20" xlink:href="/pois/signaturen/`+getSignatur(feature)+`" />
+    let badge=feature.svgBadge || `<image x="${(svgSize - 20) / 2}" y="${(svgSize - 20) / 2}" width="20" height="20" xlink:href="/pois/signaturen/`+getSignatur(feature)+`" />`;
+
+    
+    let svg = `<svg id="badgefor_${feature.id}" height="${svgSize}" width="${svgSize}"> 
+                <style>
+                /* <![CDATA[ */
+                    #badgefor_${feature.id} .bg-fill  {
+                        fill: `+getColorForProperties(feature)+`;
+                    }
+                    #badgefor_${feature.id} .bg-stroke  {
+                        stroke: `+getColorForProperties(feature)+`;
+                    }
+                    #badgefor_${feature.id} .fg-fill  {
+                        fill: white;
+                    }
+                    #badgefor_${feature.id} .fg-stroke  {
+                        stroke: white;
+                    }
+                /* ]]> */
+                </style>
+               <svg x="2" y="2"  width="20" height="20" viewBox="0 0 `+feature.svgBadgeDimension.width+` `+feature.svgBadgeDimension.height+`">       
+               `+badge+`
+               </svg>
                </svg>  `
 
+
     if (feature.selected) {
-        svg = `<svg height="${svgSize}" width="${svgSize}">
+        svg = `<svg id="badgefor_${feature.id}" height="${svgSize}" width="${svgSize}">
+                <style>
+                /* <![CDATA[ */
+                    #badgefor_${feature.id} .bg-fill  {
+                        fill: `+getColorForProperties(feature)+`;
+                    }
+                    #badgefor_${feature.id} .bg-stroke  {
+                        stroke: `+getColorForProperties(feature)+`;
+                    }
+                    #badgefor_${feature.id} .fg-fill  {
+                        fill: white;
+                    }
+                    #badgefor_${feature.id} .fg-stroke  {
+                        stroke: white;
+                    }
+                /* ]]> */
+                </style>
               <rect visible="false" x="${ (svgSize - selectionBox) / 2}" y="${ (svgSize - selectionBox) / 2}" rx="8" ry="8" width="${selectionBox}" height="${selectionBox}" fill="rgba(67, 149, 254, 0.8)" stroke-width="0"/>
-              <image x="${(svgSize - 20) / 2}" y="${(svgSize - 20) / 2}" width="20" height="20" xlink:href="/pois/signaturen/`+getSignatur(feature)+`"  />
-          </svg>  `
-    }
+              <svg x="8" y="8"  width="20" height="20" viewBox="0 0 `+feature.svgBadgeDimension.width+` `+feature.svgBadgeDimension.height+`">
+              `+badge+`
+              </svg>
+              </svg>  `
+            //   console.log(svg)
+            }
+
+
+    
     const style = {
         radius,
         fillColor: color,
@@ -142,8 +188,8 @@ export const getColorForProperties = (feature) => {
     let {mainlocationtype}=feature.properties;
     let ll=mainlocationtype.lebenslagen;
     //console.log(colorHash.hex("" + JSON.stringify({ll})));
-    //return colorHash.hex("" + JSON.stringify({ll}));
-    return "#A83F6A";
+    return colorHash.hex("XXX" + JSON.stringify({ll}));
+    //return "#A83F6A";
 };
 
 //
@@ -152,7 +198,7 @@ export const getColorForProperties = (feature) => {
 // style={base} name="circle" />   ); };
 
 export const featureHoverer = (feature) => {
-    return "<div>" + feature.text + "</div>";
+    return "<div>" + feature.text + "(" + getSignatur(feature) +")</div>";
 };
 
 
@@ -186,4 +232,66 @@ const getSignatur = (feature) => {
         }
     }
     return "burg.svg"; //TODO sinnvoller default
+}
+
+
+
+export const addSVGToFeature = (feature) => {
+    return new Promise(function (fulfilled,rejected) {
+        var color = Color(getColorForProperties(feature));
+        let radius = 10;
+        let selectionBox = 30;
+        let weight = 2;
+        let svgSize = radius * 2 + weight * 2;
+        if (feature.selected) {
+            svgSize = 36;
+        }
+        
+        let test=createElement('svg', {
+            width:svgSize,
+            height:svgSize,
+        });
+        test.appendChild(createElement('image', {
+            x:(svgSize - 20) / 2,
+            y:(svgSize - 20) / 2,
+            width:20,
+            height:20,
+            "xlink:href":"/pois/signaturen/"+getSignatur(feature)
+        }));
+        let d=document.createElement("div");
+        
+    
+        test= document.createElement("image");
+        test.setAttribute("data-src", "/poi-signaturen/"+getSignatur(feature));
+        test.setAttribute("height", "30");
+        test.setAttribute("width", "30");  
+        d.appendChild(test);
+
+        var mySVGsToInject=[test];
+        var injectorOptions = {
+            evalScripts: 'once',
+            each: function (xsvg) {
+                try {
+                    feature.svgBadge=xsvg.outerHTML || new XMLSerializer().serializeToString(xsvg)
+                    feature.svgBadgeDimension={
+                        width: xsvg.width.baseVal.valueAsString,
+                        height: xsvg.height.baseVal.valueAsString
+                    }
+                    fulfilled(feature);    
+                }
+                catch (error) {
+                    console.error("Problem bei "+"/pois/signaturen/"+getSignatur(feature));
+                    console.error(error);
+                    rejected(error);
+                }
+
+            }
+          };
+        SVGInjector(mySVGsToInject, injectorOptions);
+        // , function (totalSVGsInjected) {
+        //     // Callback after all SVGs are injected
+        //     console.log('We injected ' + totalSVGsInjected + ' SVG(s)!');
+        //     console.log(mySVGsToInject[0].outerHTML);
+        //   });       
+    });
 }

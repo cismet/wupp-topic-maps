@@ -82,14 +82,17 @@ export class ProjGeoJson_ extends Path {
                     ],
                     iconSize: [theStyle.svgSize, theStyle.svgSize]
                 });
-
                 marker = L.marker(latlng, {icon: divIcon});
-            } else {
+            } 
+            else {
                 marker = L.circleMarker(latlng);
             }
             return marker;
         }
     }
+
+
+    
     var geojson=L.Proj.geoJson(mappingProps.featureCollection, props);
 
     if (this.props.clusteredMarkers) {

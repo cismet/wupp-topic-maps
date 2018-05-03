@@ -194,8 +194,9 @@ export class Stadtplan_ extends React.Component {
                 
              <StadtplanInfo 
              key={"stadtplanInfo."+(this.props.mapping.selectedIndex||0)}
-              pixelwidth={250}
+              pixelwidth={300}
               featureCollection={this.props.mapping.featureCollection}
+              filteredPOIs={this.props.stadtplan.filteredPois}
               selectedIndex={this.props.mapping.selectedIndex||0}
               next={this.selectNextIndex}
               previous={this.selectPreviousIndex}

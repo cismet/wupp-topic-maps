@@ -218,6 +218,9 @@ function createFeatureCollectionFromPOIs(boundingBox) {
             for (let poi of results) {
                 let poiFeature = convertPOIToFeature(poi, counter)
                 resultFC.push(poiFeature);
+                if (poiFeature.id === currentSelectedFeature.id) {
+                    selectionWish = counter;
+                }
                 counter++;
             }
             

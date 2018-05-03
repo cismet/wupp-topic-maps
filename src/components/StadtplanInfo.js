@@ -23,10 +23,12 @@ const StadtplanInfo = ({featureCollection, filteredPOIs, selectedIndex, next, pr
   
 
     if (currentFeature){
-        console.log(currentFeature.properties);
+        //console.log(currentFeature.properties.info);
 
         t=currentFeature.text;
-        info=currentFeature.properties.info;
+        if (currentFeature.properties.info){
+            info=currentFeature.properties.info;
+        }
 
         if (currentFeature.properties.foto) {
             fotoStyle={
@@ -71,7 +73,9 @@ const StadtplanInfo = ({featureCollection, filteredPOIs, selectedIndex, next, pr
                     <tbody>
                     <tr>
                     <td style={{ textAlign: 'right', verticalAlign: 'top' }}>
+                        <a href={currentFeature.properties.fotostrecke||currentFeature.properties.foto} target="_fotos">
                         <img  style={{paddingBottom:"5px"}} src={currentFeature.properties.foto} width="150" />
+                        </a>
                     </td>
                     </tr>
                         </tbody>
@@ -103,7 +107,10 @@ const StadtplanInfo = ({featureCollection, filteredPOIs, selectedIndex, next, pr
                      <tbody>
                         <tr>
                         <td style={{ textAlign: 'left' }}>
-                            <h6>{info}</h6>
+                            <h6>
+                                {info.split('\n').map((item, key) => {
+                                return <span key={key}>{item}<br/></span>
+                                })}</h6>
                             <p>{currentFeature.properties.adresse}</p>
                         </td>
                         </tr>

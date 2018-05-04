@@ -24,6 +24,7 @@ import {modifyQueryPart} from '../utils/routingHelper'
 import ProjSingleGeoJson from '../components/ProjSingleGeoJson';
 import StadtplanInfo from '../components/StadtplanInfo';
 
+import 'react-image-lightbox/style.css';
 
 function mapStateToProps(state) {
   return {
@@ -123,11 +124,15 @@ export class Stadtplan_ extends React.Component {
         return promise;
     }
     createfeatureCollectionByBoundingBox(bbox) {
+    console.log("createfeatureCollectionByBoundingBox")
        this.props.stadtplanActions.createFeatureCollectionFromPOIs(bbox)
     }
 
     gazeteerhHit(selectedObject) {
-
+        if (selectedObject && selectedObject[0] && selectedObject[0].more && selectedObject[0].more.pid) {
+            //this.props.stadtplanActions.setPoiGazHit(selectedObject[0].more.pid);
+            this.props.stadtplanActions.setSelectedPOI(selectedObject[0].more.pid);
+        }
     }
 
     searchButtonHit(event) {
@@ -201,6 +206,8 @@ export class Stadtplan_ extends React.Component {
               next={this.selectNextIndex}
               previous={this.selectPreviousIndex}
               fitAll={this.gotoHome}
+              showModalMenu={(section)=>this.props.uiStateActions.showApplicationMenuAndActivateSection(true,section)}
+
 
               />
            );

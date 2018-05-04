@@ -42,6 +42,6 @@ export default AwesomeMarker;
 
 
 AwesomeMarker.propTypes = {
-  mappingProps: PropTypes.object.isRequired,
-  markerOptions: PropTypes.object.isRequired,
+  mappingProps: PropTypes.object,
+  markerOptions: PropTypes.object,
 };

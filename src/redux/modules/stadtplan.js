@@ -3,12 +3,14 @@ import {actions as mappingActions} from './mapping';
 import {routerActions} from 'react-router-redux'
 import {predicateBy} from '../../utils/stringHelper';
 import kdbush from 'kdbush';
-import {addSVGToFeature} from '../../utils/stadtplanHelper';
+import {addSVGToPOI} from '../../utils/stadtplanHelper';
 
 
 //TYPES
 export const types = {
     SET_POIS: 'STADTPLAN/SET_POIS',
+    SET_POI_GAZ_HIT: 'STADTPLAN/SET_POI_GAZ_HIT',
+    CLEAR_POI_GAZ_HIT: 'STADTPLAN/CLEAR_POI_GAZ_HIT',
     SET_FILTERED_POIS: 'STADTPLAN/SET_FILTERED_POIS',
     SET_TYPES: 'STADTPLAN/SET_TYPES',
     SET_LEBENSLAGEN: 'STADTPLAN/SET_LEBENSLAGEN',
@@ -23,6 +25,7 @@ export const constants = {
 ///INITIAL STATE
 const initialState = {
     pois: [],
+    poiGazHitId: null,
     poisMD5: "",
     filteredPois: [],
     filteredPoisIndex: null,
@@ -39,6 +42,18 @@ export default function ehrenamtReducer(state = initialState, action) {
             newState = objectAssign({}, state);
             newState.pois=action.pois;
             newState.poisMD5=action.poisMD5;
+            return newState;
+        }
+        case types.SET_POI_GAZ_HIT:
+        {
+            newState = objectAssign({}, state);
+            newState.poiGazHitId=action.hitId;
+            return newState;
+        }
+        case types.CLEAR_POI_GAZ_HIT:
+        {
+            newState = objectAssign({}, state);
+            newState.poiGazHitId=null;
             return newState;
         }
         case types.SET_FILTERED_POIS:
@@ -69,6 +84,12 @@ export default function ehrenamtReducer(state = initialState, action) {
 function setPOIs(pois,poisMD5) {
     return {type: types.SET_POIS, pois, poisMD5};
 }
+function setPoiGazHit(hitId) {
+    return {type: types.SET_POI_GAZ_HIT, hitId};
+}
+function clearPoiGazHit() {
+    return {type: types.CLEAR_POI_GAZ_HIT};
+}
 function setFilteredPOIs(filteredPois) {
     return {type: types.SET_FILTERED_POIS, filteredPois};
 }
@@ -81,6 +102,21 @@ function setLebenslagen(lebenslagen) {
 
 
 //COMPLEXACTIONS
+
+function setSelectedPOI(pid) {
+    return (dispatch, getState) => {
+        let state=getState();
+        let poiFeature=state.mapping.featureCollection.find(x => x.id === pid); 
+        if (poiFeature) {
+            dispatch(mappingActions.setSelectedFeatureIndex(poiFeature.index));    
+            dispatch(clearPoiGazHit());   
+        }
+        else {
+            dispatch(setPoiGazHit(poiFeature.index));   
+        }
+
+    }
+}
 
 function loadPOIs() {
     return (dispatch, getState) => {
@@ -148,16 +184,22 @@ function loadPOIs() {
                 }
             }
 
-
-
             dispatch(setTypes(Array.from(poitypes).sort(predicateBy("name"))));
             dispatch(setLebenslagen(Array.from(lebenslagen).sort()));
-            dispatch(setPOIs(data,md5));
-            dispatch(applyFilter());
-            dispatch(createFeatureCollectionFromPOIs());
 
-        })
-            .catch(function (err) {
+            let svgResolvingPromises = data.map(function(poi){
+                return addSVGToPOI(poi);
+            })
+
+            Promise.all(svgResolvingPromises).then(function(results) {
+                dispatch(setPOIs(data,md5));
+                dispatch(applyFilter());
+                dispatch(createFeatureCollectionFromPOIs());    
+            });
+
+
+
+        }).catch(function (err) {
                 if (err !== 'CACHEHIT') {
                     console.log("Problem during POILoading");
                     console.log(currentPOI);
@@ -218,24 +260,18 @@ function createFeatureCollectionFromPOIs(boundingBox) {
             for (let poi of results) {
                 let poiFeature = convertPOIToFeature(poi, counter)
                 resultFC.push(poiFeature);
+               
                 if (poiFeature.id === currentSelectedFeature.id) {
-                    selectionWish = counter;
+                    selectionWish = poiFeature.index;
+                    
                 }
                 counter++;
             }
             
-            
-            let svgResolvingPromises = resultFC.map(function(feature){
-                return addSVGToFeature(feature);
-              })
-
-              Promise.all(svgResolvingPromises).then(function(results) {
-                dispatch(mappingActions.setFeatureCollection(resultFC));
-                dispatch(mappingActions.setSelectedFeatureIndex(selectionWish));
-            })
-
-           
-
+            dispatch(mappingActions.setFeatureCollection(resultFC));
+                //console.log("setPoiGazHit(null));")
+                // dispatch(setPoiGazHit(null));
+            dispatch(mappingActions.setSelectedFeatureIndex(selectionWish));
         }
     }
 }
@@ -245,6 +281,7 @@ function createFeatureCollectionFromPOIs(boundingBox) {
 export const actions = {
     loadPOIs,
     setPOIs,
+    setSelectedPOI,
     createFeatureCollectionFromPOIs
 }
 

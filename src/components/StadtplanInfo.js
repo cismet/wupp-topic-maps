@@ -91,7 +91,7 @@ const StadtplanInfo = ({featureCollection, filteredPOIs, selectedIndex, next, pr
                      <tbody>
                         <tr>
                         <td style={{ textAlign: 'left' }}>
-                            <h5>{currentFeature.text}</h5>
+                            <h5><b>{currentFeature.text}</b></h5>
                         </td>
                         <td style={{ textAlign: 'right' }}>
                               

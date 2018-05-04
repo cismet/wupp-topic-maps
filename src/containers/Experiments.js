@@ -1,53 +1,48 @@
-import React, { Component } from 'react';
-import Lightbox from 'react-image-lightbox';
+import React from 'react';
+import PropTypes from 'prop-types';
+
+import { bindActionCreators } from 'redux';
+import { connect } from "react-redux";
+
+import {actions as uiStateActions} from '../redux/modules/uiState';
 import 'react-image-lightbox/style.css'; // This only needs to be imported once in your app
+import PhotoLightbox from './PhotoLightbox';
+ 
+function mapStateToProps(state) {
+    return {uiState: state.uiState};
+}
 
-const images = [
-  'http://www.fotokraemer-wuppertal.de/images/Schloss%20Luentenbeck-016-02-24-004%20(1).jpg',
-  'http://www.fotokraemer-wuppertal.de/images/Schloss%20Luentenbeck-016-02-24-005.jpg',
-  'http://www.fotokraemer-wuppertal.de/images/Schloss%20Luentenbeck-016-02-24-001.jpg',
-  'http://www.fotokraemer-wuppertal.de/images/Schloss%20Luentenbeck-016-02-24-003.jpg',
-  'http://www.fotokraemer-wuppertal.de/images/Schloss%20Luentenbeck-016-02-24-009%20(1).jpg',
-];
-
-export default class LightboxExample extends Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      photoIndex: 0,
-      isOpen: false,
+function mapDispatchToProps(dispatch) {
+    return {
+        uiStateActions: bindActionCreators(uiStateActions, dispatch)
     };
-  }
+}
 
-  render() {
-    const { photoIndex, isOpen } = this.state;
-
-    return (
-      <div>
-        <button type="button" onClick={() => this.setState({ isOpen: true })}>
+export class LightboxExample_ extends React.Component {
+    constructor(props, context) {
+        super(props, context);
+        this.props.uiStateActions.setLightboxCaption("Caption");
+        this.props.uiStateActions.setLightboxTitle((
+            <a href="https://cismet.de" target="_blank">cismet.de</a>
+        ));
+       
+    }
+    render() {
+        return (
+        <div>
+        <button type="button" onClick={() => this.props.uiStateActions.setLightboxVisible(true)}>
           Open Lightbox
         </button>
-
-        {isOpen && (
-          <Lightbox
-            mainSrc={images[photoIndex]}
-            nextSrc={images[(photoIndex + 1) % images.length]}
-            prevSrc={images[(photoIndex + images.length - 1) % images.length]}
-            onCloseRequest={() => this.setState({ isOpen: false })}
-            onMovePrevRequest={() =>
-              this.setState({
-                photoIndex: (photoIndex + images.length - 1) % images.length,
-              })
-            }
-            onMoveNextRequest={() =>
-              this.setState({
-                photoIndex: (photoIndex + 1) % images.length,
-              })
-            }
-          />
-        )}
+        <PhotoLightbox/>
       </div>
-    );
-  }
+        );
+    }
 }
+
+const LightboxExample = connect(mapStateToProps, mapDispatchToProps)(LightboxExample_);
+
+export default LightboxExample;
+
+LightboxExample.propTypes = {
+    ui: PropTypes.object
+};

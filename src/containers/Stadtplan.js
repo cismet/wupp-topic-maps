@@ -23,6 +23,7 @@ import queryString from 'query-string';
 import {modifyQueryPart} from '../utils/routingHelper'
 import ProjSingleGeoJson from '../components/ProjSingleGeoJson';
 import StadtplanInfo from '../components/StadtplanInfo';
+import PhotoLightbox from './PhotoLightbox';
 
 import 'react-image-lightbox/style.css';
 
@@ -207,7 +208,9 @@ export class Stadtplan_ extends React.Component {
               previous={this.selectPreviousIndex}
               fitAll={this.gotoHome}
               showModalMenu={(section)=>this.props.uiStateActions.showApplicationMenuAndActivateSection(true,section)}
-
+              uiState={this.props.uiState}
+              uiStateActions={this.props.uiStateActions}
+              
 
               />
            );
@@ -248,6 +251,8 @@ export class Stadtplan_ extends React.Component {
       spinner
       text='Laden der POIs ...'
     >
+               <PhotoLightbox/>
+
                <Cismap ref={cismap => {this.cismapRef = cismap;}}
                        layers={this.props.match.params.layers ||'rvrWMS@90'}
                        gazeteerHitTrigger={this.gazeteerhHit}

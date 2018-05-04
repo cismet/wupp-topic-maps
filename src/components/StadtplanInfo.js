@@ -3,9 +3,10 @@ import PropTypes from 'prop-types';
 import { OverlayTrigger, Well, Tooltip } from 'react-bootstrap';
 import {Icon} from 'react-fa'
 import { constants as ehrenamtConstants } from '../redux/modules/ehrenamt';
+import queryString from 'query-string';
 
 // Since this component is simple and static, there's no parent container for it.
-const StadtplanInfo = ({featureCollection, filteredPOIs, selectedIndex, next, previous, fitAll, loadingIndicator, showModalMenu, }) => {
+const StadtplanInfo = ({featureCollection, filteredPOIs, selectedIndex, next, previous, fitAll, loadingIndicator, showModalMenu, uiState, uiStateActions}) => {
 
   const currentFeature=featureCollection[selectedIndex];
 
@@ -66,14 +67,45 @@ const StadtplanInfo = ({featureCollection, filteredPOIs, selectedIndex, next, pr
         }
     }
 
+
+    
+
     if (currentFeature) {
+        let openlightbox = (e) => {
+            fetch(currentFeature.properties.fotostrecke.replace(/http:\/\/.*fotokraemer-wuppertal\.de/,"https://wunda-geoportal-fotos.cismet.de/"), {
+                    method: 'get'
+
+                }).then(function (response) {
+                    return response.text();
+                }).then(function (data) {
+                    var tmp = document.implementation.createHTMLDocument();
+                    tmp.body.innerHTML = data;
+                    let urls=[];
+                    for (let el of tmp.getElementsByClassName('bilderrahmen')) {
+                        //urls.push();
+                        let query = queryString.parse(el.getElementsByTagName("a")[0].getAttribute("href"))
+                        urls.push("https://wunda-geoportal-fotos.cismet.de/images/"+query.dateiname_bild);
+                    }
+                    uiStateActions.setLightboxUrls(urls);
+                    uiStateActions.setLightboxTitle(currentFeature.text);
+                    uiStateActions.setLightboxCaption(
+                        <a href={currentFeature.properties.fotostrecke} target="_fotos">Foto Kr&auml;mer</a>
+                    );
+                    uiStateActions.setLightboxIndex(0);
+                    uiStateActions.setLightboxVisible(true);
+
+                }).catch(function (err) {
+                    console.log(err);
+                });
+        };
+
         return (
             <div>
                     <table style={{ width: '100%' }}>
                     <tbody>
                     <tr>
                     <td style={{ textAlign: 'right', verticalAlign: 'top' }}>
-                        <a href={currentFeature.properties.fotostrecke||currentFeature.properties.foto} target="_fotos">
+                        <a onClick={openlightbox} hrefx={currentFeature.properties.fotostrecke||currentFeature.properties.foto} target="_fotos">
                         <img  style={{paddingBottom:"5px"}} src={currentFeature.properties.foto} width="150" />
                         </a>
                     </td>

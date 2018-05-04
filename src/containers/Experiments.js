@@ -1,28 +1,53 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import Cismap from '../containers/Cismap';
-import {connect} from "react-redux";
-import {Well} from 'react-bootstrap';
+import React, { Component } from 'react';
+import Lightbox from 'react-image-lightbox';
+import 'react-image-lightbox/style.css'; // This only needs to be imported once in your app
 
+const images = [
+  'http://www.fotokraemer-wuppertal.de/images/Schloss%20Luentenbeck-016-02-24-004%20(1).jpg',
+  'http://www.fotokraemer-wuppertal.de/images/Schloss%20Luentenbeck-016-02-24-005.jpg',
+  'http://www.fotokraemer-wuppertal.de/images/Schloss%20Luentenbeck-016-02-24-001.jpg',
+  'http://www.fotokraemer-wuppertal.de/images/Schloss%20Luentenbeck-016-02-24-003.jpg',
+  'http://www.fotokraemer-wuppertal.de/images/Schloss%20Luentenbeck-016-02-24-009%20(1).jpg',
+];
 
-function mapStateToProps(state) {
-    return {ui: state.uiState};
+export default class LightboxExample extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      photoIndex: 0,
+      isOpen: false,
+    };
+  }
+
+  render() {
+    const { photoIndex, isOpen } = this.state;
+
+    return (
+      <div>
+        <button type="button" onClick={() => this.setState({ isOpen: true })}>
+          Open Lightbox
+        </button>
+
+        {isOpen && (
+          <Lightbox
+            mainSrc={images[photoIndex]}
+            nextSrc={images[(photoIndex + 1) % images.length]}
+            prevSrc={images[(photoIndex + images.length - 1) % images.length]}
+            onCloseRequest={() => this.setState({ isOpen: false })}
+            onMovePrevRequest={() =>
+              this.setState({
+                photoIndex: (photoIndex + images.length - 1) % images.length,
+              })
+            }
+            onMoveNextRequest={() =>
+              this.setState({
+                photoIndex: (photoIndex + 1) % images.length,
+              })
+            }
+          />
+        )}
+      </div>
+    );
+  }
 }
-export class Experiments_ extends React.Component {
-    render() {
-        
-        return (
-            <div>
-            </div>
-        );
-    }
-}
-const Experiments = connect(mapStateToProps)(Experiments_);
-
-export default Experiments;
-
-Experiments_.propTypes = {
-    ui: PropTypes.object,
-    kassenzeichen: PropTypes.object,
-    uiState: PropTypes.object
-};

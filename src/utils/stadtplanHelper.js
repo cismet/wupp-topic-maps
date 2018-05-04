@@ -7,7 +7,7 @@ import SVGInjector from 'svg-injector';
 import { Base64 } from 'js-base64';
 
 export const featureStyler = (feature) => {
-    var color = Color(getColorForProperties(feature));
+    var color = Color(getColorForProperties(feature.properties));
     let radius = 10;
     let selectionBox = 30;
     let weight = 2;
@@ -17,17 +17,17 @@ export const featureStyler = (feature) => {
     }
      
 
-    let badge=feature.svgBadge || `<image x="${(svgSize - 20) / 2}" y="${(svgSize - 20) / 2}" width="20" height="20" xlink:href="/pois/signaturen/`+getSignatur(feature)+`" />`;
+    let badge=feature.properties.svgBadge || `<image x="${(svgSize - 20) / 2}" y="${(svgSize - 20) / 2}" width="20" height="20" xlink:href="/pois/signaturen/`+getSignatur(feature.properties)+`" />`;
 
     
     let svg = `<svg id="badgefor_${feature.id}" height="${svgSize}" width="${svgSize}"> 
                 <style>
                 /* <![CDATA[ */
                     #badgefor_${feature.id} .bg-fill  {
-                        fill: `+getColorForProperties(feature)+`;
+                        fill: `+getColorForProperties(feature.properties)+`;
                     }
                     #badgefor_${feature.id} .bg-stroke  {
-                        stroke: `+getColorForProperties(feature)+`;
+                        stroke: `+getColorForProperties(feature.properties)+`;
                     }
                     #badgefor_${feature.id} .fg-fill  {
                         fill: white;
@@ -37,7 +37,7 @@ export const featureStyler = (feature) => {
                     }
                 /* ]]> */
                 </style>
-               <svg x="2" y="2"  width="20" height="20" viewBox="0 0 `+feature.svgBadgeDimension.width+` `+feature.svgBadgeDimension.height+`">       
+               <svg x="2" y="2"  width="20" height="20" viewBox="0 0 `+feature.properties.svgBadgeDimension.width+` `+feature.properties.svgBadgeDimension.height+`">       
                `+badge+`
                </svg>
                </svg>  `
@@ -48,10 +48,10 @@ export const featureStyler = (feature) => {
                 <style>
                 /* <![CDATA[ */
                     #badgefor_${feature.id} .bg-fill  {
-                        fill: `+getColorForProperties(feature)+`;
+                        fill: `+getColorForProperties(feature.properties)+`;
                     }
                     #badgefor_${feature.id} .bg-stroke  {
-                        stroke: `+getColorForProperties(feature)+`;
+                        stroke: `+getColorForProperties(feature.properties)+`;
                     }
                     #badgefor_${feature.id} .fg-fill  {
                         fill: white;
@@ -62,7 +62,7 @@ export const featureStyler = (feature) => {
                 /* ]]> */
                 </style>
               <rect visible="false" x="${ (svgSize - selectionBox) / 2}" y="${ (svgSize - selectionBox) / 2}" rx="8" ry="8" width="${selectionBox}" height="${selectionBox}" fill="rgba(67, 149, 254, 0.8)" stroke-width="0"/>
-              <svg x="8" y="8"  width="20" height="20" viewBox="0 0 `+feature.svgBadgeDimension.width+` `+feature.svgBadgeDimension.height+`">
+              <svg x="8" y="8"  width="20" height="20" viewBox="0 0 `+feature.properties.svgBadgeDimension.width+` `+feature.properties.svgBadgeDimension.height+`">
               `+badge+`
               </svg>
               </svg>  `
@@ -98,7 +98,7 @@ export const poiClusterIconCreator = (cluster) => {
     let inCart=false;
     for (let marker of childMarkers) {
         values.push(1);
-        colors.push(Color(getColorForProperties(marker.feature)));
+        colors.push(Color(getColorForProperties(marker.feature.properties)));
         if (marker.feature.selected===true){
             containsSelection=true;
         }
@@ -183,9 +183,9 @@ export const poiClusterIconCreator = (cluster) => {
         return divIcon;
 };
 
-export const getColorForProperties = (feature) => {
+export const getColorForProperties = (properties) => {
     let colorHash = new ColorHash({saturation: 0.3});
-    let {mainlocationtype}=feature.properties;
+    let {mainlocationtype}=properties;
     let ll=mainlocationtype.lebenslagen;
     //console.log(colorHash.hex("" + JSON.stringify({ll})));
     return colorHash.hex("XXX" + JSON.stringify({ll}));
@@ -198,7 +198,7 @@ export const getColorForProperties = (feature) => {
 // style={base} name="circle" />   ); };
 
 export const featureHoverer = (feature) => {
-    return "<div>" + feature.text + "(" + getSignatur(feature) +")</div>";
+    return "<div>" + feature.text + "</div>";
 };
 
 
@@ -217,15 +217,15 @@ export const getCartStringForRemoving = (cart,removedId) => {
 }
 
 
-const getSignatur = (feature) => {
-    if (feature.properties.signatur){
-        return feature.properties.signatur;
+const getSignatur = (properties) => {
+    if (properties.signatur){
+        return properties.signatur;
     }
-    else if (feature.properties.mainlocationtype.signatur){
-        return feature.properties.mainlocationtype.signatur;
+    else if (properties.mainlocationtype.signatur){
+        return properties.mainlocationtype.signatur;
     }
     else {
-        for (let type of feature.properties.locationtypes){
+        for (let type of properties.locationtypes){
             if (type.signatur) {
                 return type.signatur;
             }
@@ -236,17 +236,14 @@ const getSignatur = (feature) => {
 
 
 
-export const addSVGToFeature = (feature) => {
+
+export const addSVGToPOI = (poi) => {
     return new Promise(function (fulfilled,rejected) {
-        var color = Color(getColorForProperties(feature));
+        var color = Color(getColorForProperties(poi));
         let radius = 10;
         let selectionBox = 30;
         let weight = 2;
         let svgSize = radius * 2 + weight * 2;
-        if (feature.selected) {
-            svgSize = 36;
-        }
-        
         let test=createElement('svg', {
             width:svgSize,
             height:svgSize,
@@ -256,13 +253,13 @@ export const addSVGToFeature = (feature) => {
             y:(svgSize - 20) / 2,
             width:20,
             height:20,
-            "xlink:href":"/pois/signaturen/"+getSignatur(feature)
+            "xlink:href":"/pois/signaturen/"+getSignatur(poi)
         }));
         let d=document.createElement("div");
         
     
         test= document.createElement("image");
-        test.setAttribute("data-src", "/poi-signaturen/"+getSignatur(feature));
+        test.setAttribute("data-src", "/poi-signaturen/"+getSignatur(poi));
         test.setAttribute("height", "30");
         test.setAttribute("width", "30");  
         d.appendChild(test);
@@ -272,15 +269,15 @@ export const addSVGToFeature = (feature) => {
             evalScripts: 'once',
             each: function (xsvg) {
                 try {
-                    feature.svgBadge=xsvg.outerHTML || new XMLSerializer().serializeToString(xsvg)
-                    feature.svgBadgeDimension={
+                    poi.svgBadge=xsvg.outerHTML || new XMLSerializer().serializeToString(xsvg)
+                    poi.svgBadgeDimension={
                         width: xsvg.width.baseVal.valueAsString,
                         height: xsvg.height.baseVal.valueAsString
                     }
-                    fulfilled(feature);    
+                    fulfilled(poi);    
                 }
                 catch (error) {
-                    console.error("Problem bei "+"/pois/signaturen/"+getSignatur(feature));
+                    console.error("Problem bei "+"/pois/signaturen/"+getSignatur(poi));
                     console.error(error);
                     rejected(error);
                 }
@@ -288,10 +285,5 @@ export const addSVGToFeature = (feature) => {
             }
           };
         SVGInjector(mySVGsToInject, injectorOptions);
-        // , function (totalSVGsInjected) {
-        //     // Callback after all SVGs are injected
-        //     console.log('We injected ' + totalSVGsInjected + ' SVG(s)!');
-        //     console.log(mySVGsToInject[0].outerHTML);
-        //   });       
     });
 }

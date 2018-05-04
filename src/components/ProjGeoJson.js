@@ -101,8 +101,8 @@ export class ProjGeoJson_ extends Path {
         //var visibleOne = this.clusteredMarkers.getVisibleParent(this.props.mapping.);
         let markers = this.props.clusteredMarkers.getLayers();
         for (let marker of markers) {
+            let parent = this.props.clusteredMarkers.getVisibleParent(marker);
             if (marker.feature.selected === true) {
-                let parent = this.props.clusteredMarkers.getVisibleParent(marker);
                 if (parent && parent.spiderfy) {
                     //   console.log("will spiderfy cluster of feature "+marker.feature.id )
                     if (this.props.mapRef.leafletElement.getZoom()>=(this.props.selectionSpiderfyMinZoom||12)) {

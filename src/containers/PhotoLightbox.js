@@ -33,7 +33,8 @@ export class PhotoLightbox_ extends React.Component {
                 onMovePrevRequest={() => this.props.uiStateActions.setLightboxIndex((this.props.uiState.lightboxindex + this.props.uiState.lightboxurls.length - 1) % this.props.uiState.lightboxurls.length)}
                 onMoveNextRequest={() => this.props.uiStateActions.setLightboxIndex((this.props.uiState.lightboxindex + 1) % this.props.uiState.lightboxurls.length)}     
                 imageTitle={this.props.uiState.lightboxtitle}
-                imageCaption={this.props.uiState.lightboxcaption}           
+                imageCaption={this.props.uiState.lightboxcaption}    
+                animationDuration={600}       
             />
             );
         }

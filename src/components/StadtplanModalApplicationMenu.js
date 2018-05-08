@@ -17,9 +17,6 @@ import {constants as ehrenamtConstants, actions as EhrenamtActions} from '../red
 import {Icon} from 'react-fa'
 import 'react-bootstrap-switch/dist/css/bootstrap3/react-bootstrap-switch.min.css';
 
-
-import Select from 'react-select-plus';
-import 'react-select-plus/dist/react-select-plus.css';
 import MultiToggleButton from './MultiToggleButton';
 
 import { Link } from 'react-scroll';
@@ -44,8 +41,6 @@ export class StadtplanModalApplicationMenu_ extends React.Component {
     constructor(props, context) {
         super(props, context);
         this.close = this.close.bind(this);
-        this.handlePosOnChange=this.handlePosOnChange.bind(this);
-        this.handleNegOnChange=this.handleNegOnChange.bind(this);  
     }
 
     close() {
@@ -53,43 +48,6 @@ export class StadtplanModalApplicationMenu_ extends React.Component {
             .props
             .uiActions
             .showApplicationMenu(false);
-    }
-
-    handlePosOnChange(tags) {
-        console.log("handlePosOnChange");
-        console.log(tags);
-
-        let newState={pos:tags,neg:this.state.neg};
-        this.setState(newState);
-        let positiv=[]
-        for (let tag of tags){
-            positiv.push(tag.value);
-        }
-        let filter= {
-            positiv,
-            negativ: JSON.parse(JSON.stringify(this.props.filter.negativ))
-        };
-        this.props.stadtplanActions.setFilterAndApply(filter);
-    }
-
-
-
-      handleNegOnChange(tags) {
-          console.log("handleNegOnChange");
-          console.log(tags);
-
-        let newState={neg:tags,pos:this.state.pos};
-        this.setState(newState);
-        let negativ=[];
-        for (let tag of tags){
-            negativ.push(tag.value);
-        }
-        let filter= {
-            negativ,
-            positiv: JSON.parse(JSON.stringify(this.props.filter.positiv))
-        };
-        this.props.stadtplanActions.setFilterAndApply(filter);   
-   
     }
 
 
@@ -146,52 +104,8 @@ export class StadtplanModalApplicationMenu_ extends React.Component {
         return rows;
     }
 
-    // componentWillMount() {
-    //     let pos=[];
-    //     let neg=[];
-        
-        
-    //     for (let val of this.props.filter.positiv){
-    //         pos.push({
-    //             label:val,
-    //             value:val
-    //         });
-    //     }
-    //     for (let val of this.props.filter.negativ){
-    //         neg.push({
-    //             label:val,
-    //             value:val
-    //         });
-    //     }
-
-    //     let newState={pos,neg};
-    //     this.setState(newState)
-    // }
+    
     render() {
-        //This should be in componentWillMount()
-        let pos=[];
-        let neg=[];
-        
-  
-        for (let val of this.props.filter.positiv){
-            pos.push({
-                label:val,
-                value:val
-            });
-        }
-        for (let val of this.props.filter.negativ){
-            neg.push({
-                label:val,
-                value:val
-            });
-        }
-        let newState={pos,neg};
-        // should be done with this.setState(newState) in componentWillMount() 
-        // but then > refresh problem
-        this.state=newState;
-
-
-
 
         let modalBodyStyle = {
             "overflowY": "auto",
@@ -258,80 +172,8 @@ export class StadtplanModalApplicationMenu_ extends React.Component {
                     </span>
                     <br/>
                     <br/>
-                    {/* <Accordion name="filter" key={"acc.filter."+this.props.uiState.applicationMenuActiveKey} defaultActiveKey={this.props.uiState.applicationMenuActiveKey||"filtertab"} onSelect={()=>{
-                        if (this.props.uiState.applicationMenuActiveKey==="filtertab"){
-                            this.props.uiActions.setApplicationMenuActiveKey("none")
-                        }else {
-                            this.props.uiActions.setApplicationMenuActiveKey("filtertab")
-                        }
-                    }}>
-                        <Panel height="auto" header={"Mein Themenstadtplan ("+this.props.filteredOffersCount+" POI gefunden, davon "+this.props.featureCollectionCount+" in der Karte)"} eventKey="filtertab" bsStyle="primary">
-                    <h4>Einblenden:</h4>
-                            <Select
-                                id={"pos"}
-                                key={"Filtercombo.pos."+JSON.stringify(this.props.filter.positiv)}
-                                className="pos-select"
-                                clearAllText="alle entfernen"
-                                noResultsText="keine Themen gefunden"
-                                searchPromptText="Themenfeld ..."
-                                placeholder="Themenfeld ..."
-                                multi={true}
-                                options={llOptions}
-                                onChange={this.handlePosOnChange}
-                                value={this.state.pos}
-                                closeOnSelect={false}
-                                searchable={true}
-                                valueRenderer={(option)=>{
-                                    return (
-                                        <div style={{}}>{option.label}</div>
-                                    )
-                                }}
-                                optionRenderer={(option)=>{
-                                    if (option.cat!=="group") {
-                                        return <div style={{}}>{option.label}</div>
-                                    }
-                                    else {
-                                        return <div>{option.label}</div>
-                                    }
-                                    
-                                }}
-
-            				/>  
-                        <h4>Ausblenden:</h4>
-                        <Select
-                                id={"neg"}
-                                key={"Filtercombo.neg."+JSON.stringify(this.props.filter.negativ)}
-                                className="neg-select"
-                                clearAllText="alle entfernen"
-                                noResultsText="keine Themen gefunden"
-                                searchPromptText="Themenfeld ..."
-                                placeholder="Themenfeld ..."
-                                multi={true}
-                                options={llOptions}
-                                onChange={this.handleNegOnChange}
-                                value={this.state.neg}
-                                closeOnSelect={false}
-                                searchable={true}
-                                valueRenderer={(option)=>{
-                                    return (
-                                        <div>{option.label}</div>
-                                    )
-                                }}
-                                optionRenderer={(option)=>{
-                                    if (option.cat!=="group") {
-                                        return <div >{option.label}</div>
-                                    }
-                                    else {
-                                        return <div>{option.label}</div>
-                                    }
-                                    
-                                }}
-                                menuStyle={{height:"400px"}}
-
-            				/>  
-                        </Panel>
-                        </Accordion>        */}
-                    <Accordion key={"overview"} defaultActiveKey={this.props.uiState.applicationMenuActiveKey} onSelect={()=>{
+                    
+                    <Accordion key={"overview"} defaultActiveKey={this.props.uiState.applicationMenuActiveKey||"overview"} onSelect={()=>{
                         if (this.props.uiState.applicationMenuActiveKey==="overview"){
                             this.props.uiActions.setApplicationMenuActiveKey("none")
                         }else {

@@ -290,12 +290,8 @@ function applyFilter() {
             filteredPois=Array.from(filteredPoiSet);
 
         }
-
-
-
-
-
         dispatch(setFilteredPOIs(filteredPois));
+        dispatch(createFeatureCollectionFromPOIs());
     }
 }
 function createFeatureCollectionFromPOIs(boundingBox) {

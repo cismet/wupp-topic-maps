@@ -296,7 +296,7 @@ function applyFilter() {
 
 
 
-    
+        //positiv
         for (let poi of state.stadtplan.pois){
             for (let ll of poi.mainlocationtype.lebenslagen){
                 if (state.stadtplan.filter.positiv.indexOf(ll)!==-1) {
@@ -305,6 +305,17 @@ function applyFilter() {
                 }
             }
         }
+        //negativ
+        for (let poi of state.stadtplan.pois){
+            for (let ll of poi.mainlocationtype.lebenslagen){
+                if (state.stadtplan.filter.negativ.indexOf(ll)!==-1) {
+                    filteredPoiSet.delete(poi);
+                }
+            }
+        }
+
+
+
         filteredPois=Array.from(filteredPoiSet);
 
       

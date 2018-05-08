@@ -258,6 +258,34 @@ function toggleFilter(kind, filter) {
     }
 }
 
+function toggleAllLebenslagenToFilter(kind) {
+    return (dispatch, getState) => {
+        let opposite="positiv";
+        if (kind==="positiv"){
+            opposite="negativ";
+        }
+        let state = getState();
+        let filterState = JSON.parse(JSON.stringify(state.stadtplan.filter));
+        let filterGroupSet = new Set(state.stadtplan.filter[kind]);
+        let lebenslagenGroupSet = new Set(state.stadtplan.lebenslagen);
+        console.log(filterGroupSet);
+        console.log(lebenslagenGroupSet);
+
+
+        let diff=new Set( [...lebenslagenGroupSet].filter(x=>!filterGroupSet.has(x)));
+        console.log(diff);
+        if (diff.size===0){
+            filterState[kind]=[];
+        }
+        else {
+            filterState[kind]=JSON.parse(JSON.stringify(state.stadtplan.lebenslagen));
+        }
+        dispatch(setFilter(filterState));
+        dispatch(applyFilter());
+    }
+}
+
+
 function setFilterAndApply(filter) {
     return (dispatch, getState) => {
         let state = getState();
@@ -358,7 +386,8 @@ export const actions = {
     setSelectedPOI,
     createFeatureCollectionFromPOIs,
     setFilterAndApply,
-    toggleFilter
+    toggleFilter,
+    toggleAllLebenslagenToFilter
 }
 
 //HELPER FUNCTIONS

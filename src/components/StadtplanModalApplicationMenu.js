@@ -127,6 +127,15 @@ export class StadtplanModalApplicationMenu_ extends React.Component {
         }
 
         let overviewRows=this.createOverviewRows();        
+
+
+        let allbuttonvalue="two"; 
+        // if (alleLebeslagen auf grün ){
+        //     allbuttonvalue="one"; 
+        // }
+        // else if (alleLebeslagen auf rot) {
+        //     allbuttonvalue="three"; 
+        // }
         return (         
             <Modal
                 
@@ -181,9 +190,49 @@ export class StadtplanModalApplicationMenu_ extends React.Component {
                         }
                     }}> 
                     <Panel header={"Mein Themenstadtplan ("+this.props.filteredOffersCount+" POI gefunden, davon "+this.props.featureCollectionCount+" in der Karte)"} eventKey="overview" bsStyle="primary">
+                        <Button bsSize="small">alle Themenfelder auswählen</Button>&nbsp;
+                        <Button bsSize="small">kein Themenfelder auswählen</Button> &nbsp;
+                        <Button bsSize="small">keine Themenfelder ausschließen</Button> 
+                        <br/>
+                        <br/>
                         <table border={0}>
                         <tbody>
-                        {overviewRows}
+                             {/* <tr key={"tr.for.all.lebenslagen"}>
+                                <td key={"td1.for.mtbutton.all.lebenslagen"}
+                                    style={{
+                                    textAlign: 'left',
+                                    verticalAlign: 'top',
+                                    padding: '5px',
+                                    
+                                }}>
+                                    <b>Alle Themenfelder</b>
+                                </td>
+                                <td key={"td2.for.mtbutton.all.lebenslagen"}
+                                    style={{
+                                    textAlign: 'left',
+                                    verticalAlign: 'top',
+                                    padding: '5px'
+                                }}>
+                                    <MultiToggleButton key={"mtbutton.all.lebenslagen"} value={allbuttonvalue} valueChanged={(selectedValue)=>{
+                                        if (selectedValue==="one") {
+                                            this.props.stadtplanActions.toggleAllLebenslagenToFilter("positiv")
+                                        }
+                                        else if (selectedValue==="three") {
+                                            this.props.stadtplanActions.toggleAllLebenslagenToFilter("negativ")
+                                        }
+                                        else {
+                                            // //deselect existing selection
+                                            // if (buttonValue==="one") {
+                                            //     this.props.stadtplanActions.toggleFilter("positiv",item)
+                                            // }
+                                            // else if (buttonValue==="three") {
+                                            //     this.props.stadtplanActions.toggleFilter("negativ",item)
+                                            // }
+                                        }
+                                    }}/>
+                                </td>
+                            </tr> */}
+                            {overviewRows}
                         </tbody>
                         </table>                    
                     </Panel>

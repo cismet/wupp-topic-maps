@@ -190,9 +190,12 @@ export class StadtplanModalApplicationMenu_ extends React.Component {
                         }
                     }}> 
                     <Panel header={"Mein Themenstadtplan ("+this.props.filteredOffersCount+" POI gefunden, davon "+this.props.featureCollectionCount+" in der Karte)"} eventKey="overview" bsStyle="primary">
-                        <Button bsSize="small">alle Themenfelder auswählen</Button>&nbsp;
-                        <Button bsSize="small">kein Themenfelder auswählen</Button> &nbsp;
-                        <Button bsSize="small">keine Themenfelder ausschließen</Button> 
+                        <Button bsSize="small" onClick={()=>{
+                                this.props.stadtplanActions.clearFilter("negativ");
+                                this.props.stadtplanActions.setAllLebenslagenToFilter("positiv");
+                            }} >alle Themenfelder auswählen</Button>&nbsp;
+                        <Button bsSize="small" onClick={()=>{this.props.stadtplanActions.clearFilter("positiv");}} >keine Themenfelder auswählen</Button> &nbsp;
+                        <Button bsSize="small" onClick={()=>{this.props.stadtplanActions.clearFilter("negativ");}} >keine Themenfelder ausschließen</Button> 
                         <br/>
                         <br/>
                         <table border={0}>

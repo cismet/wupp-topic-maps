@@ -4,6 +4,8 @@ import { OverlayTrigger, Well, Tooltip } from 'react-bootstrap';
 import {Icon} from 'react-fa'
 import { constants as ehrenamtConstants } from '../redux/modules/ehrenamt';
 import queryString from 'query-string';
+import {getColorForProperties} from '../utils/stadtplanHelper';
+import Color from 'color';
 
 // Since this component is simple and static, there's no parent container for it.
 const StadtplanInfo = ({featureCollection, filteredPOIs, selectedIndex, next, previous, fitAll, loadingIndicator, showModalMenu, uiState, uiStateActions}) => {
@@ -71,6 +73,27 @@ const StadtplanInfo = ({featureCollection, filteredPOIs, selectedIndex, next, pr
     
 
     if (currentFeature) {
+        let poiColor=Color(getColorForProperties(currentFeature.properties));
+        
+        let textColor="black";
+        if (poiColor.isDark()){
+            textColor="white";
+        }
+        let llVis=(
+            <table style={{ width: '100%' }}>
+            <tbody>
+              <tr>
+              <td style={{ textAlign: 'left', verticalAlign: 'top',background: poiColor, color: textColor, opacity:'0.9', paddingLeft: '3px',paddingTop: '0px',paddingBottom: '0px', }}>
+              {currentFeature.properties.mainlocationtype.lebenslagen.join(", ")}
+              </td>
+             
+              </tr>
+            </tbody>
+          </table>
+        );
+
+
+
         let openlightbox = (e) => {
             fetch(currentFeature.properties.fotostrecke.replace(/http:\/\/.*fotokraemer-wuppertal\.de/,"https://wunda-geoportal-fotos.cismet.de/"), {
                     method: 'get'
@@ -101,6 +124,7 @@ const StadtplanInfo = ({featureCollection, filteredPOIs, selectedIndex, next, pr
 
         return (
             <div>
+                
                     <table style={{ width: '100%' }}>
                     <tbody>
                     <tr>
@@ -112,7 +136,7 @@ const StadtplanInfo = ({featureCollection, filteredPOIs, selectedIndex, next, pr
                     </tr>
                         </tbody>
                     </table>
-            
+                    {llVis}
             <Well bsSize="small" onClick={logCurrentFeature}  >
             <div > 
             <table style={{ width: '100%' }}>

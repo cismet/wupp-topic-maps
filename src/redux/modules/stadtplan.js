@@ -275,21 +275,18 @@ function applyFilter() {
 
 
 
-        if (state.stadtplan.filter.positiv.length===0){
-            filteredPois=state.stadtplan.pois;
-            filteredPoiSet = new Set(state.stadtplan.pois);
-        } else {
-            for (let poi of state.stadtplan.pois){
-                for (let ll of poi.mainlocationtype.lebenslagen){
-                    if (state.stadtplan.filter.positiv.indexOf(ll)!==-1) {
-                        filteredPoiSet.add(poi);
-                        break;
-                    }
+    
+        for (let poi of state.stadtplan.pois){
+            for (let ll of poi.mainlocationtype.lebenslagen){
+                if (state.stadtplan.filter.positiv.indexOf(ll)!==-1) {
+                    filteredPoiSet.add(poi);
+                    break;
                 }
             }
-            filteredPois=Array.from(filteredPoiSet);
-
         }
+        filteredPois=Array.from(filteredPoiSet);
+
+      
         dispatch(setFilteredPOIs(filteredPois));
         dispatch(createFeatureCollectionFromPOIs());
     }

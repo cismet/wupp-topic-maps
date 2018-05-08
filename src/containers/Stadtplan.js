@@ -23,6 +23,7 @@ import queryString from 'query-string';
 import {modifyQueryPart} from '../utils/routingHelper'
 import ProjSingleGeoJson from '../components/ProjSingleGeoJson';
 import StadtplanInfo from '../components/StadtplanInfo';
+import StadtplanModalApplicationMenu from '../components/StadtplanModalApplicationMenu';
 import PhotoLightbox from './PhotoLightbox';
 
 import 'react-image-lightbox/style.css';
@@ -230,27 +231,26 @@ export class Stadtplan_ extends React.Component {
 
 
 
-        //        <EhrenamtModalApplicationMenu key={'EhrenamtModalApplicationMenu.visible:'+this.props.uiState.applicationMenuVisible}
-        //         zielgruppen={this.props.ehrenamt.zielgruppen}
-        //         kenntnisse={this.props.ehrenamt.kenntnisse}
-        //         globalbereiche={this.props.ehrenamt.globalbereiche}
-        //         filterX={this.props.ehrenamt.filterX}
-        //         filterChanged={this.filterChanged}
-        //         filteredOffersCount={this.props.ehrenamt.filteredOffers.length}
-        //         featureCollectionCount={this.props.mapping.featureCollection.length}
-        //         offersMD5={this.props.ehrenamt.offersMD5}
-        //         centerOnPoint={this.centerOnPoint}
-        //        />
+             
 
 
       return (
            <div>
-        
+                <StadtplanModalApplicationMenu key={'StadtplanModalApplicationMenu.visible:'+this.props.uiState.applicationMenuVisible}
+                    lebenslagen={this.props.stadtplan.lebenslagen}
+                    filter={this.props.stadtplan.filter}
+                    filterChanged={this.filterChanged}
+                    filteredOffersCount={this.props.stadtplan.filteredPois.length}
+                    featureCollectionCount={this.props.mapping.featureCollection.length}
+                    offersMD5={this.props.stadtplan.poisMD5}
+                    centerOnPoint={this.centerOnPoint}
+                    stadtplanActions={this.props.stadtplanActions}
+                />              
                <Loadable
-      active={!this.dataLoaded}
-      spinner
-      text='Laden der POIs ...'
-    >
+                active={!this.dataLoaded}
+                spinner
+                text='Laden der POIs ...'
+                >
                <PhotoLightbox/>
 
                <Cismap ref={cismap => {this.cismapRef = cismap;}}
@@ -281,7 +281,7 @@ export class Stadtplan_ extends React.Component {
                         infoBox={info}
                         applicationMenuTooltipProvider={()=> (<Tooltip style={{
                                 zIndex: 3000000000
-                              }} id="helpTooltip">Filter | Merkliste | Anleitung</Tooltip>)
+                              }} id="helpTooltip">Themenstadtplan | Einstellungen | Anleitung</Tooltip>)
                            }
                         gazBoxInfoText="Stadtteil | Adresse | POI" >   
                     </Cismap>

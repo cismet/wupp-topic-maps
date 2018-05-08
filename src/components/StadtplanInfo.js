@@ -186,12 +186,12 @@ const StadtplanInfo = ({featureCollection, filteredPOIs, selectedIndex, next, pr
     }
     else {
         return (
-                <div>
-                <Well bsSize="small" onClick={logCurrentFeature}>
-                    <h4>Kein POI slektiert</h4>
-                    <p><br/></p>
-                </Well>
-                </div>
+                <div/>
+                // <Well bsSize="small" onClick={logCurrentFeature}>
+                //     <h4>Kein POI slektiert</h4>
+                //     <p><br/></p>
+                // </Well>
+                // </div>
             );
     }    
 };
@@ -208,3 +208,14 @@ StadtplanInfo.propTypes = {
    fitAll: PropTypes.func.isRequired,
    showModalMenu: PropTypes.func.isRequired,
  };
+
+
+ StadtplanInfo.defaultProps = {
+    featureCollection: [],
+   filteredPOIs: [],
+   selectedIndex: 0,
+   next: ()=>{},
+   previous:()=>{},
+   fitAll: ()=>{},
+   showModalMenu: ()=>{}
+}

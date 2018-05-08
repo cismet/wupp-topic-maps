@@ -14,6 +14,7 @@ export const types = {
     SET_FILTERED_POIS: 'STADTPLAN/SET_FILTERED_POIS',
     SET_TYPES: 'STADTPLAN/SET_TYPES',
     SET_LEBENSLAGEN: 'STADTPLAN/SET_LEBENSLAGEN',
+    SET_FILTER: 'STADTPLAN/SET_FILTER',
 }
 
 
@@ -31,10 +32,14 @@ const initialState = {
     filteredPoisIndex: null,
     lebenslagen: [],
     poitypes: [],
+    filter: {
+        positiv: ["Freizeit","Sport","Mobilität","Religion","Erholung","Gesellschaft","Gesundheit","Kultur","öffentliche Dienstleistungen","Dienstleistungen","Orientierung","Bildung","Stadtbild","Tourismus"],
+        negativ: []
+    }
 
 }
 ///REDUCER
-export default function ehrenamtReducer(state = initialState, action) {
+export default function stadtplanReducer(state = initialState, action) {
     let newState;
     switch (action.type) {
         case types.SET_POIS:
@@ -75,6 +80,12 @@ export default function ehrenamtReducer(state = initialState, action) {
             newState.lebenslagen=action.lebenslagen;
             return newState;
         }
+        case types.SET_FILTER:
+        {
+            newState = objectAssign({}, state);
+            newState.filter=action.filter;
+            return newState;
+        }
         default:
             return state;
     }
@@ -98,6 +109,9 @@ function setTypes(poitypes) {
 }
 function setLebenslagen(lebenslagen) {
     return {type: types.SET_LEBENSLAGEN, lebenslagen};
+}
+function setFilter(filter) {
+    return {type: types.SET_FILTER, filter};
 }
 
 
@@ -187,6 +201,7 @@ function loadPOIs() {
             dispatch(setTypes(Array.from(poitypes).sort(predicateBy("name"))));
             dispatch(setLebenslagen(Array.from(lebenslagen).sort()));
 
+            console.log(JSON.stringify(lebenslagen));
             let svgResolvingPromises = data.map(function(poi){
                 return addSVGToPOI(poi);
             })
@@ -210,11 +225,77 @@ function loadPOIs() {
 }
 
 
+function toggleFilter(kind, filter) {
+    return (dispatch, getState) => {
+        let state = getState();
+        let filterState = JSON.parse(JSON.stringify(state.stadtplan.filter));
+        let filterGroupSet = new Set(filterState[kind]);
+        if (filterGroupSet.has(filter)) {
+            filterGroupSet.delete(filter);
+        } else {
+            filterGroupSet.add(filter);
+            if (kind==="positiv"){
+                if (filterState.negativ.indexOf(filter)!==-1){
+                    let otherFilterGroupSet = new Set(filterState["negativ"]);
+                    otherFilterGroupSet.delete(filter);
+                    filterState["negativ"] = Array.from(otherFilterGroupSet);
+                }
+            }
+            else {
+                if (filterState.positiv.indexOf(filter)!==-1){
+                    let otherFilterGroupSet = new Set(filterState["positiv"]);
+                    otherFilterGroupSet.delete(filter);
+                    filterState["positiv"] = Array.from(otherFilterGroupSet);
+                }
+                
+            }
+        }
+        filterState[kind] = Array.from(filterGroupSet);
+        filterState[kind].sort();
+        dispatch(setFilter(filterState));
+        dispatch(applyFilter());
+
+    }
+}
+
+function setFilterAndApply(filter) {
+    return (dispatch, getState) => {
+        let state = getState();
+        dispatch(setFilter(filter));
+        dispatch(applyFilter());
+    }
+}
+
 
 function applyFilter() {
     return (dispatch, getState) => {
         let state = getState();
-        dispatch(setFilteredPOIs(state.stadtplan.pois));
+        let filteredPois = [];
+        let filteredPoiSet = new Set(); //avoid duplicates
+
+
+
+        if (state.stadtplan.filter.positiv.length===0){
+            filteredPois=state.stadtplan.pois;
+            filteredPoiSet = new Set(state.stadtplan.pois);
+        } else {
+            for (let poi of state.stadtplan.pois){
+                for (let ll of poi.mainlocationtype.lebenslagen){
+                    if (state.stadtplan.filter.positiv.indexOf(ll)!==-1) {
+                        filteredPoiSet.add(poi);
+                        break;
+                    }
+                }
+            }
+            filteredPois=Array.from(filteredPoiSet);
+
+        }
+
+
+
+
+
+        dispatch(setFilteredPOIs(filteredPois));
     }
 }
 function createFeatureCollectionFromPOIs(boundingBox) {
@@ -282,7 +363,9 @@ export const actions = {
     loadPOIs,
     setPOIs,
     setSelectedPOI,
-    createFeatureCollectionFromPOIs
+    createFeatureCollectionFromPOIs,
+    setFilterAndApply,
+    toggleFilter
 }
 
 //HELPER FUNCTIONS

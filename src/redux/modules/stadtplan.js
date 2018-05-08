@@ -258,28 +258,21 @@ function toggleFilter(kind, filter) {
     }
 }
 
-function toggleAllLebenslagenToFilter(kind) {
+function clearFilter(kind) {
     return (dispatch, getState) => {
-        let opposite="positiv";
-        if (kind==="positiv"){
-            opposite="negativ";
-        }
         let state = getState();
         let filterState = JSON.parse(JSON.stringify(state.stadtplan.filter));
-        let filterGroupSet = new Set(state.stadtplan.filter[kind]);
+        filterState[kind]=[];
+        dispatch(setFilter(filterState));
+        dispatch(applyFilter());
+    }
+}
+function setAllLebenslagenToFilter(kind) {
+    return (dispatch, getState) => {
+        let state = getState();
+        let filterState = JSON.parse(JSON.stringify(state.stadtplan.filter));
         let lebenslagenGroupSet = new Set(state.stadtplan.lebenslagen);
-        console.log(filterGroupSet);
-        console.log(lebenslagenGroupSet);
-
-
-        let diff=new Set( [...lebenslagenGroupSet].filter(x=>!filterGroupSet.has(x)));
-        console.log(diff);
-        if (diff.size===0){
-            filterState[kind]=[];
-        }
-        else {
-            filterState[kind]=JSON.parse(JSON.stringify(state.stadtplan.lebenslagen));
-        }
+        filterState[kind]=JSON.parse(JSON.stringify(state.stadtplan.lebenslagen));
         dispatch(setFilter(filterState));
         dispatch(applyFilter());
     }
@@ -387,7 +380,9 @@ export const actions = {
     createFeatureCollectionFromPOIs,
     setFilterAndApply,
     toggleFilter,
-    toggleAllLebenslagenToFilter
+    setAllLebenslagenToFilter,
+    clearFilter
+
 }
 
 //HELPER FUNCTIONS

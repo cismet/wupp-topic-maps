@@ -216,7 +216,6 @@ export const getCartStringForRemoving = (cart,removedId) => {
     return arr.join();
 }
 
-
 const getSignatur = (properties) => {
     if (properties.signatur){
         return properties.signatur;

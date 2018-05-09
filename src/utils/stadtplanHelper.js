@@ -5,6 +5,7 @@ import createSVGPie from 'create-svg-pie';
 import createElement from 'svg-create-element';
 import SVGInjector from 'svg-injector';
 import { Base64 } from 'js-base64';
+import poiColors from '../constants/poiColors.js';
 
 export const featureStyler = (feature) => {
     var color = Color(getColorForProperties(feature.properties));
@@ -191,34 +192,24 @@ export const getColorForProperties = (properties) => {
     //return "#A83F6A";
 };
 export const getColorFromLebenslagenCombination = (combination) => {
-    let colorHash = new ColorHash({saturation: 0.3});
-    return colorHash.hex(combination);
+    const colorCandidate=poiColors[combination]
+    if (colorCandidate) {
+        return colorCandidate;
+    } else {        
+        let colorHash = new ColorHash({saturation: 0.3});
+        const c=colorHash.hex(combination);    
+        console.log("Keine vordefinierte Farbe für '"+combination+"' vorhanden. (Ersatz wird automatisch erstellt) --> "+c);
+        return c;
+    }
     //return "#A83F6A";
 };
 
-//
-// export const featureLabeler = (feature) => {   let base = {
-// "color":getColorForProperties(feature),     };   return (     <Icon
-// style={base} name="circle" />   ); };
+
 
 export const featureHoverer = (feature) => {
     return "<div>" + feature.text + "</div>";
 };
 
-
-export const getCartStringForAdding = (cart,newId) => {
-    let cartIds=cart.map(x=>x.id);
-    cartIds.push(newId);
-    cartIds.sort((a,b)=>parseInt(a,10)-parseInt(b,10));
-    return cartIds.join();
-}
-
-export const getCartStringForRemoving = (cart,removedId) => {
-    let cartIds=new Set(cart.map(x=>x.id));
-    cartIds.delete(removedId);
-    let arr=Array.from(cartIds).sort((a,b)=>parseInt(a,10)-parseInt(b,10));
-    return arr.join();
-}
 
 const getSignatur = (properties) => {
     if (properties.signatur){
@@ -236,8 +227,6 @@ const getSignatur = (properties) => {
     }
     return "burg.svg"; //TODO sinnvoller default
 }
-
-
 
 
 export const addSVGToPOI = (poi) => {

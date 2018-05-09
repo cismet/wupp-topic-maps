@@ -126,7 +126,6 @@ export class Stadtplan_ extends React.Component {
         return promise;
     }
     createfeatureCollectionByBoundingBox(bbox) {
-    console.log("createfeatureCollectionByBoundingBox")
        this.props.stadtplanActions.createFeatureCollectionFromPOIs(bbox)
     }
 
@@ -231,7 +230,64 @@ export class Stadtplan_ extends React.Component {
 
 
 
-             
+    let title=null;
+    let themenstadtplanDesc="";
+    let content;
+    let qTitle=queryString.parse(this.props.routing.location.search).title;
+    if (qTitle!==undefined){
+        if (qTitle===null) {
+            if  (this.props.stadtplan.filter.positiv.length>0) {
+                if (this.props.stadtplan.filter.positiv.length<=4) {
+                    themenstadtplanDesc+=this.props.stadtplan.filter.positiv.join(", ")
+                }
+                else {
+                    themenstadtplanDesc+=this.props.stadtplan.filter.positiv.length+" Themen"
+                }
+            }
+            if  (this.props.stadtplan.filter.negativ.length>0) {
+                themenstadtplanDesc+=" ohne ";
+                if  (this.props.stadtplan.filter.negativ.length<=3) {  
+                    themenstadtplanDesc+=this.props.stadtplan.filter.negativ.join(", ")
+                }
+            }
+            content=(
+                <div>
+                    <b>Mein Themenstadtplan: </b> {themenstadtplanDesc}
+                </div>
+            );
+        }
+        else {
+            themenstadtplanDesc=qTitle;
+            content=(
+                <div>
+                    {themenstadtplanDesc}
+                </div>
+            );
+        }
+        title=(
+            <table style={{ 
+                    width: this.props.uiState.width-54-12-38-12+'px', 
+                    height: '30px',
+                    position: 'absolute',
+                    left: 54,
+                    top: 12,
+                    zIndex: 9999999999999
+                    }}>
+                <tbody>
+                    <tr>
+                        <td style={{ textAlign: 'center', verticalAlign: 'middle',background: "#ffffff", color: "black", opacity:'0.9', paddingLeft: '10px', }}>
+                           {content} 
+                        </td>                              
+                    </tr>
+                </tbody>
+            </table>            
+
+        );
+    }
+
+    
+    
+      
 
 
       return (
@@ -240,7 +296,7 @@ export class Stadtplan_ extends React.Component {
                     lebenslagen={this.props.stadtplan.lebenslagen}
                     filter={this.props.stadtplan.filter}
                     filterChanged={this.filterChanged}
-                    filteredOffersCount={this.props.stadtplan.filteredPois.length}
+                    filteredPois={this.props.stadtplan.filteredPois||[]}
                     featureCollectionCount={this.props.mapping.featureCollection.length}
                     offersMD5={this.props.stadtplan.poisMD5}
                     centerOnPoint={this.centerOnPoint}
@@ -251,9 +307,9 @@ export class Stadtplan_ extends React.Component {
                 spinner
                 text='Laden der POIs ...'
                 >
-               <PhotoLightbox/>
-
-               <Cismap ref={cismap => {this.cismapRef = cismap;}}
+                <PhotoLightbox/>
+                {title}
+                <Cismap ref={cismap => {this.cismapRef = cismap;}}
                        layers={this.props.match.params.layers ||'rvrWMS@90'}
                        gazeteerHitTrigger={this.gazeteerhHit}
                        searchButtonTrigger={this.searchButtonHit}
@@ -285,7 +341,6 @@ export class Stadtplan_ extends React.Component {
                            }
                         gazBoxInfoText="Stadtteil | Adresse | POI" >   
                     </Cismap>
-                    
                </Loadable>
               
 

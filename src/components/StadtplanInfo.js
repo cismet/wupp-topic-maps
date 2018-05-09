@@ -69,9 +69,6 @@ const StadtplanInfo = ({featureCollection, filteredPOIs, selectedIndex, next, pr
         }
     }
 
-
-    
-
     if (currentFeature) {
         let poiColor=Color(getColorForProperties(currentFeature.properties));
         

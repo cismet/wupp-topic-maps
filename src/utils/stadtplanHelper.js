@@ -184,11 +184,15 @@ export const poiClusterIconCreator = (cluster) => {
 };
 
 export const getColorForProperties = (properties) => {
-    let colorHash = new ColorHash({saturation: 0.3});
     let {mainlocationtype}=properties;
     let ll=mainlocationtype.lebenslagen;
     //console.log(colorHash.hex("" + JSON.stringify({ll})));
-    return colorHash.hex("XXX" + JSON.stringify({ll}));
+    return getColorFromLebenslagenCombination(ll.join(", "));
+    //return "#A83F6A";
+};
+export const getColorFromLebenslagenCombination = (combination) => {
+    let colorHash = new ColorHash({saturation: 0.3});
+    return colorHash.hex(combination);
     //return "#A83F6A";
 };
 

@@ -14,6 +14,8 @@ import {
 import {actions as UiStateActions} from '../redux/modules/uiState';
 import {constants as ehrenamtConstants, actions as EhrenamtActions} from '../redux/modules/ehrenamt';
 
+import {getColorFromLebenslagenCombination} from '../utils/stadtplanHelper';
+
 import {Icon} from 'react-fa'
 import 'react-bootstrap-switch/dist/css/bootstrap3/react-bootstrap-switch.min.css';
 
@@ -22,6 +24,10 @@ import MultiToggleButton from './MultiToggleButton';
 import { Link } from 'react-scroll';
 
 import copy from 'copy-to-clipboard';
+import ReactChartkick, { LineChart, PieChart } from 'react-chartkick'
+import Chart from 'chart.js'
+
+ReactChartkick.addAdapter(Chart);
 
 function mapStateToProps(state) {
     return {
@@ -130,12 +136,24 @@ export class StadtplanModalApplicationMenu_ extends React.Component {
 
 
         let allbuttonvalue="two"; 
-        // if (alleLebeslagen auf grün ){
-        //     allbuttonvalue="one"; 
-        // }
-        // else if (alleLebeslagen auf rot) {
-        //     allbuttonvalue="three"; 
-        // }
+        
+        let stats={};
+        for (let poi of this.props.filteredPois){
+            if (stats[poi.mainlocationtype.lebenslagen.join(", ")]===undefined) {
+                stats[poi.mainlocationtype.lebenslagen.join(", ")]=1;
+            }
+            else {
+                stats[poi.mainlocationtype.lebenslagen.join(", ")]=stats[poi.mainlocationtype.lebenslagen.join(", ")]+1;
+            }   
+        }
+        let piechartData=[];
+        let piechartColor=[];
+
+        for (let key in stats){
+            piechartData.push([key,stats[key]]);
+            piechartColor.push(getColorFromLebenslagenCombination(key));
+
+        }
         return (         
             <Modal
                 
@@ -189,7 +207,7 @@ export class StadtplanModalApplicationMenu_ extends React.Component {
                             this.props.uiActions.setApplicationMenuActiveKey("overview")
                         }
                     }}> 
-                    <Panel header={"Mein Themenstadtplan ("+this.props.filteredOffersCount+" POI gefunden, davon "+this.props.featureCollectionCount+" in der Karte)"} eventKey="overview" bsStyle="primary">
+                    <Panel header={"Mein Themenstadtplan ("+this.props.filteredPois.length+" POI gefunden, davon "+this.props.featureCollectionCount+" in der Karte)"} eventKey="overview" bsStyle="primary">
                         <Button bsSize="small" onClick={()=>{
                                 this.props.stadtplanActions.clearFilter("negativ");
                                 this.props.stadtplanActions.setAllLebenslagenToFilter("positiv");
@@ -198,46 +216,23 @@ export class StadtplanModalApplicationMenu_ extends React.Component {
                         <Button bsSize="small" onClick={()=>{this.props.stadtplanActions.clearFilter("negativ");}} >keine Themenfelder ausschließen</Button> 
                         <br/>
                         <br/>
-                        <table border={0}>
+                        <table border={0} width="100%">
                         <tbody>
-                             {/* <tr key={"tr.for.all.lebenslagen"}>
-                                <td key={"td1.for.mtbutton.all.lebenslagen"}
-                                    style={{
-                                    textAlign: 'left',
-                                    verticalAlign: 'top',
-                                    padding: '5px',
-                                    
-                                }}>
-                                    <b>Alle Themenfelder</b>
+                            <tr>
+                                <td> 
+                                    <table border={0}>
+                                        <tbody>
+                                            {overviewRows}
+                                        </tbody>
+                                    </table>                    
                                 </td>
-                                <td key={"td2.for.mtbutton.all.lebenslagen"}
-                                    style={{
-                                    textAlign: 'left',
-                                    verticalAlign: 'top',
-                                    padding: '5px'
-                                }}>
-                                    <MultiToggleButton key={"mtbutton.all.lebenslagen"} value={allbuttonvalue} valueChanged={(selectedValue)=>{
-                                        if (selectedValue==="one") {
-                                            this.props.stadtplanActions.toggleAllLebenslagenToFilter("positiv")
-                                        }
-                                        else if (selectedValue==="three") {
-                                            this.props.stadtplanActions.toggleAllLebenslagenToFilter("negativ")
-                                        }
-                                        else {
-                                            // //deselect existing selection
-                                            // if (buttonValue==="one") {
-                                            //     this.props.stadtplanActions.toggleFilter("positiv",item)
-                                            // }
-                                            // else if (buttonValue==="three") {
-                                            //     this.props.stadtplanActions.toggleFilter("negativ",item)
-                                            // }
-                                        }
-                                    }}/>
+                                <td>
+                                    <PieChart  data={piechartData} donut={true} title="Verteilung" legend={false} colors={piechartColor}/>
                                 </td>
-                            </tr> */}
-                            {overviewRows}
+                            </tr>
                         </tbody>
                         </table>                    
+                        
                     </Panel>
                    
                     </Accordion>

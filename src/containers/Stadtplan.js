@@ -214,29 +214,14 @@ export class Stadtplan_ extends React.Component {
 
               />
            );
-        // Auflistung der ids die momentan nicht dargestllt werden
-        // let offerIds=[];
-        // let fcIds=[];
-        // for (let f of this.props.mapping.featureCollection) {
-        //     fcIds.push(f.id);
-        // }
-        // for (let o of this.props.ehrenamt.offers) {
-        //     offerIds.push(o.id);
-        // }
-        // offerIds.sort();
-        // fcIds.sort();
-        // let difference = offerIds.filter(x => !fcIds.includes(x));
-        // console.log(difference);
-
-
 
     let title=null;
     let themenstadtplanDesc="";
-    let content;
+    let content ;
     let qTitle=queryString.parse(this.props.routing.location.search).title;
     if (qTitle!==undefined){
-        if (qTitle===null|| qTitle==="") {
-            if  (this.props.stadtplan.filter.positiv.length>0) {
+        if (qTitle===null|| qTitle==="" ) {
+            if  (this.props.stadtplan.filter.positiv.length>0 && this.props.stadtplan.filter.positiv.length<this.props.stadtplan.lebenslagen.length) {
                 if (this.props.stadtplan.filter.positiv.length<=4) {
                     themenstadtplanDesc+=this.props.stadtplan.filter.positiv.join(", ")
                 }
@@ -257,7 +242,7 @@ export class Stadtplan_ extends React.Component {
                 <div>
                     <b>Mein Themenstadtplan: </b> {themenstadtplanDesc}
                 </div>
-            );
+            );            
         }
         else {
             themenstadtplanDesc=qTitle;
@@ -267,25 +252,27 @@ export class Stadtplan_ extends React.Component {
                 </div>
             );
         }
-        title=(
-            <table style={{ 
-                    width: this.props.uiState.width-54-12-38-12+'px', 
-                    height: '30px',
-                    position: 'absolute',
-                    left: 54,
-                    top: 12,
-                    zIndex: 9999999999999
-                    }}>
-                <tbody>
-                    <tr>
-                        <td style={{ textAlign: 'center', verticalAlign: 'middle',background: "#ffffff", color: "black", opacity:'0.9', paddingLeft: '10px', }}>
-                           {content} 
-                        </td>                              
-                    </tr>
-                </tbody>
-            </table>            
+        if (themenstadtplanDesc!==""){
+            title=(
+                <table style={{ 
+                        width: this.props.uiState.width-54-12-38-12+'px', 
+                        height: '30px',
+                        position: 'absolute',
+                        left: 54,
+                        top: 12,
+                        zIndex: 9999999999999
+                        }}>
+                    <tbody>
+                        <tr>
+                            <td style={{ textAlign: 'center', verticalAlign: 'middle',background: "#ffffff", color: "black", opacity:'0.9', paddingLeft: '10px', }}>
+                            {content} 
+                            </td>                              
+                        </tr>
+                    </tbody>
+                </table>            
 
-        );
+            );
+        }
     }
 
     

@@ -138,14 +138,19 @@ export class StadtplanModalApplicationMenu_ extends React.Component {
         let allbuttonvalue="two"; 
         
         let stats={};
+        let colormodel={};
         for (let poi of this.props.filteredPois){
             if (stats[poi.mainlocationtype.lebenslagen.join(", ")]===undefined) {
-                stats[poi.mainlocationtype.lebenslagen.join(", ")]=1;
+                const key=poi.mainlocationtype.lebenslagen.join(", ");
+                stats[key]=1;
+                colormodel[key]=getColorFromLebenslagenCombination(key);
             }
             else {
                 stats[poi.mainlocationtype.lebenslagen.join(", ")]=stats[poi.mainlocationtype.lebenslagen.join(", ")]+1;
             }   
         }
+
+        //console.log(JSON.stringify(colormodel, null, 2));
         let piechartData=[];
         let piechartColor=[];
 

@@ -235,7 +235,7 @@ export class Stadtplan_ extends React.Component {
     let content;
     let qTitle=queryString.parse(this.props.routing.location.search).title;
     if (qTitle!==undefined){
-        if (qTitle===null) {
+        if (qTitle===null|| qTitle==="") {
             if  (this.props.stadtplan.filter.positiv.length>0) {
                 if (this.props.stadtplan.filter.positiv.length<=4) {
                     themenstadtplanDesc+=this.props.stadtplan.filter.positiv.join(", ")

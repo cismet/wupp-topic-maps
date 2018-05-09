@@ -43,6 +43,7 @@ import markerClusterGroup from 'leaflet.markercluster';
 import L from 'leaflet';
 import ProjSingleGeoJson from '../components/ProjSingleGeoJson';
 
+import LocateControl from '../components/LocateControl';
 
 const fallbackposition = {
   lat: 51.272399,
@@ -614,6 +615,7 @@ centerOnPoint(x,y,z) {
         </OverlayTrigger>
       </Control> */}
       {infoBoxControl}
+      <LocateControl setView="once" flyTo={true}  />
       {this.props.children}
     </Map></div>);
 

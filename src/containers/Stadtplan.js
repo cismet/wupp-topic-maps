@@ -228,14 +228,14 @@ export class Stadtplan_ extends React.Component {
                 else {
                     themenstadtplanDesc+=this.props.stadtplan.filter.positiv.length+" Themen"
                 }
-            }
-            if  (this.props.stadtplan.filter.negativ.length>0) {
-                if  (this.props.stadtplan.filter.negativ.length<=3) {  
-                    themenstadtplanDesc+=" ohne ";
-                    themenstadtplanDesc+=this.props.stadtplan.filter.negativ.join(", ");
-                }
-                else {
-                    themenstadtplanDesc+=" ("+this.props.stadtplan.filter.negativ.length+" Themen ausgeschlossen)";
+                if  (this.props.stadtplan.filter.negativ.length>0 ) {
+                    if  (this.props.stadtplan.filter.negativ.length<=3) {  
+                        themenstadtplanDesc+=" ohne ";
+                        themenstadtplanDesc+=this.props.stadtplan.filter.negativ.join(", ");
+                    }
+                    else {
+                        themenstadtplanDesc+=" ("+this.props.stadtplan.filter.negativ.length+" Themen ausgeschlossen)";
+                    }
                 }
             }
             content=(

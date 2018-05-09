@@ -246,7 +246,7 @@ export class Ehrenamt_ extends React.Component {
                     text='Laden der Angebote ...'>
                
                     <Cismap ref={cismap => {this.cismapRef = cismap;}}
-                            layers={this.props.match.params.layers ||'rvrWMS@75'}
+                            layers={this.props.match.params.layers ||'ruhrWMS@75'}
                             gazeteerHitTrigger={this.gazeteerhHit}
                             searchButtonTrigger={this.searchButtonHit}
                             featureStyler={featureStyler}

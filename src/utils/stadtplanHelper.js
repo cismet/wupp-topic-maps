@@ -6,6 +6,8 @@ import createElement from 'svg-create-element';
 import SVGInjector from 'svg-injector';
 import { Base64 } from 'js-base64';
 import poiColors from '../constants/poiColors.js';
+import store from '../redux/store';
+import queryString from 'query-string';
 
 export const featureStyler = (feature) => {
     var color = Color(getColorForProperties(feature.properties));
@@ -192,7 +194,20 @@ export const getColorForProperties = (properties) => {
     //return "#A83F6A";
 };
 export const getColorFromLebenslagenCombination = (combination) => {
-    const colorCandidate=poiColors[combination]
+    let qColorRules=queryString.parse(store.getState().routing.location.search).colorRules;
+    let colorCandidate;
+    let lookup=null;
+    try {
+        lookup=JSON.parse(qColorRules);
+    }
+    catch (error){
+        console.error(error);
+    }
+    if (lookup===null){
+        lookup=poiColors;
+    }
+
+    colorCandidate=lookup[combination]
     if (colorCandidate) {
         return colorCandidate;
     } else {        

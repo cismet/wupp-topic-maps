@@ -205,16 +205,25 @@ const StadtplanInfo = ({featureCollection, filteredPOIs, selectedIndex, next, pr
             </div>
         );
     }
-    else {
+    else if (filteredPOIs.length>0){
         return (
-                <div/>
+            <Well bsSize="small" pixelwidth={250}>
+            <h5>Keine POI gefunden!</h5>
+            <p>Für mehr POI, Ansicht mit <Icon name='minus-square' /> verkleinern.                   
+            Um nach Themenfeldern zu filtern, das 
+            <a onClick={()=>showModalMenu("filtertab")}> Men&uuml;&nbsp;
+            <Icon name="bars" style={{color:"black"}}/> &ouml;ffnen.</a></p>
+            <div align="center"><a onClick={fitAll} >{filteredPOIs.length} POI in Wuppertal</a></div>
+        </Well>)
                 // <Well bsSize="small" onClick={logCurrentFeature}>
                 //     <h4>Kein POI slektiert</h4>
                 //     <p><br/></p>
                 // </Well>
                 // </div>
-            );
-    }    
+    }   
+    else {
+        return null;
+    } 
 };
 
 

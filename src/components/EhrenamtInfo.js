@@ -86,7 +86,7 @@ const EhrenamtInfo = ({featureCollection, filteredOffers, selectedIndex, next, p
         <Well bsSize="small" pixelwidth={250}>
             {filterstatus}
             <h5>Keine Angebote gefunden!</h5>
-            <p>Für mehr Angebote Ansicht mit <Icon name='minus-square' /> verkleinern.                   
+            <p>Für mehr Angebote, Ansicht mit <Icon name='minus-square' /> verkleinern.                   
             Um nach Aufgabenfeldern, T&auml;tigkeiten oder Zielgruppen zu filtern, das 
             <a onClick={()=>showModalMenu("filtertab")}> Men&uuml;&nbsp;
             <Icon name="bars" style={{color:"black"}}/> &ouml;ffnen.</a></p>

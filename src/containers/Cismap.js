@@ -481,7 +481,7 @@ centerOnPoint(x,y,z) {
                 <InputGroup>
                 <InputGroup.Button disabled={this.props.mapping.searchInProgress || !searchAllowed} onClick={this.internalSearchButtonTrigger}>
                     <OverlayTrigger ref={c => this.searchOverlay = c} placement="top" overlay={this.props.searchTooltipProvider()}>
-                    <Button disabled={this.props.mapping.searchInProgress || !searchAllowed}>{searchIcon}</Button>
+                    <Button  disabled={this.props.mapping.searchInProgress || !searchAllowed}>{searchIcon}</Button>
                     </OverlayTrigger>
                 </InputGroup.Button>
                 <Typeahead
@@ -504,7 +504,9 @@ centerOnPoint(x,y,z) {
                     autoFocus={true} submitFormOnEnter={true}
                     searchText={"suchen ..."}
                     renderMenuItemChildren={this.renderMenuItemChildren}/>
+                {/* <InputGroup.Button><Button><Icon name='eraser'/></Button> </InputGroup.Button> */}
                 </InputGroup>
+               
             </FormGroup>
             </Form>
         </Control>

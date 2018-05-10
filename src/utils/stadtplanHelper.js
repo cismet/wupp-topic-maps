@@ -197,11 +197,13 @@ export const getColorFromLebenslagenCombination = (combination) => {
     let qColorRules=queryString.parse(store.getState().routing.location.search).colorRules;
     let colorCandidate;
     let lookup=null;
-    try {
-        lookup=JSON.parse(qColorRules);
-    }
-    catch (error){
-        console.error(error);
+    if (qColorRules) {
+        try {
+            lookup=JSON.parse(qColorRules);
+        }
+        catch (error){
+            console.error(error);
+        }
     }
     if (lookup===null){
         lookup=poiColors;

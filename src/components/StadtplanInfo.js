@@ -119,10 +119,11 @@ const StadtplanInfo = ({featureCollection, filteredPOIs, selectedIndex, next, pr
                 });
         };
 
-        return (
-            <div>
-                
-                    <table style={{ width: '100%' }}>
+
+        let fotoDiv;
+        if (currentFeature.properties.foto) {
+            fotoDiv=(
+                <table style={{ width: '100%' }}>
                     <tbody>
                     <tr>
                     <td style={{ textAlign: 'right', verticalAlign: 'top' }}>
@@ -132,8 +133,14 @@ const StadtplanInfo = ({featureCollection, filteredPOIs, selectedIndex, next, pr
                     </td>
                     </tr>
                         </tbody>
-                    </table>
-                    {llVis}
+                </table>
+            );
+        }
+
+        return (
+            <div>
+            {fotoDiv}
+            {llVis}
             <Well bsSize="small" onClick={logCurrentFeature}  >
             <div > 
             <table style={{ width: '100%' }}>

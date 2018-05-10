@@ -127,7 +127,7 @@ const StadtplanInfo = ({featureCollection, filteredPOIs, selectedIndex, next, pr
                     <tr>
                     <td style={{ textAlign: 'right', verticalAlign: 'top' }}>
                         <a onClick={openlightbox} hrefx={currentFeature.properties.fotostrecke||currentFeature.properties.foto} target="_fotos">
-                        <img  style={{paddingBottom:"5px"}} src={currentFeature.properties.foto} width="150" />
+                        <img  style={{paddingBottom:"5px"}} src={currentFeature.properties.foto.replace(/http:\/\/.*fotokraemer-wuppertal\.de/,"https://wunda-geoportal-fotos.cismet.de/")} width="150" />
                         </a>
                     </td>
                     </tr>

@@ -300,7 +300,7 @@ export class Stadtplan_ extends React.Component {
                 <PhotoLightbox/>
                 {title}
                 <Cismap ref={cismap => {this.cismapRef = cismap;}}
-                       layers={this.props.match.params.layers ||'rvrWMS@90'}
+                       layers={this.props.match.params.layers ||'ruhrWMS@90'}
                        gazeteerHitTrigger={this.gazeteerhHit}
                        searchButtonTrigger={this.searchButtonHit}
                        featureStyler={featureStyler}

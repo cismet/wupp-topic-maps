@@ -356,6 +356,9 @@ centerOnPoint(x,y,z) {
 
   }
   internalClearButtonTrigger(event) {
+    if (this.gazClearOverlay) {
+        this.gazClearOverlay.hide();
+      }
     if (this.props.mapping.overlayFeature!==null) {
         this.props.mappingActions.setOverlayFeature(null);
       }
@@ -490,9 +493,12 @@ centerOnPoint(x,y,z) {
     if (!searchAllowed){
         firstbutton=(
             <InputGroup.Button  onClick={this.internalClearButtonTrigger}>
-                <Button disabled={this.props.mapping.overlayFeature===null&&this.props.mapping.gazetteerHit===null}>
-                    <Icon name='times'/>
-                </Button>
+                <OverlayTrigger ref={c => this.gazClearOverlay = c} placement="top" overlay={this.props.gazClearTooltipProvider()}>
+                    <Button disabled={this.props.mapping.overlayFeature===null&&this.props.mapping.gazetteerHit===null}>
+                        <Icon name='times'/>
+                    </Button>
+                    </OverlayTrigger>
+
             </InputGroup.Button>
         );
     }
@@ -663,6 +669,7 @@ Cismap_.propTypes = {
   featureClickHandler: PropTypes.func.isRequired,
   applicationMenuTooltipProvider: PropTypes.func,
   searchTooltipProvider: PropTypes.func,
+  gazClearProvider: PropTypes.func,
   searchMinZoom: PropTypes.number,
   searchMaxZoom: PropTypes.number,
   gazTopics: PropTypes.array.isRequired,
@@ -689,6 +696,11 @@ Cismap_.defaultProps = {
     return (<Tooltip style={{
         zIndex: 3000000000
       }} id="searchTooltip">Objekte suchen</Tooltip>);
+  },
+  gazClearTooltipProvider: function() {
+    return (<Tooltip style={{
+        zIndex: 3000000000
+      }} id="gazClearTooltip">Suche zurücksetzen</Tooltip>);
   },
   searchMinZoom: 7,
   searchMaxZoom: 18,

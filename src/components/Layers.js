@@ -6,6 +6,7 @@ import PropTypes from 'prop-types';
 export const Layers = new Map();
 
 let defaultOptions={"opacity":1.0};
+let defaultNightOptions={"opacity":0.9,"css-filter":"filter:grayscale(0.9)brightness(0.9)invert(1);"};
 
 Layers.set("nrwDOP20", (options=defaultOptions) => {
   return (
@@ -256,10 +257,43 @@ Layers.set("XrvrWMS", (options=defaultOptions) => {
     );
   });
 
-Layers.set("ruhrWMS", (options=defaultOptions) => {
+  Layers.set("ruhrWMS", (options=defaultOptions) => {
     return (
       <StyledWMSTileLayer
         key="ruhr_stadtplan_rvr"
+        url="https://geodaten.metropoleruhr.de/spw2/service"
+        layers="stadtplan_rvr"
+        format="image/png"
+        tiled="false"
+        version="1.3.0"
+        maxZoom={19}
+        opacity={options.opacity}
+        cssFilter={options["css-filter"]}
+
+      />
+    );
+  });
+  Layers.set("ruhrWMS.day", (options=defaultOptions) => {
+    return (
+      <StyledWMSTileLayer
+        key="ruhr_stadtplan_rvr.day"
+        url="https://geodaten.metropoleruhr.de/spw2/service"
+        layers="stadtplan_rvr"
+        format="image/png"
+        tiled="false"
+        version="1.3.0"
+        maxZoom={19}
+        opacity={options.opacity}
+        cssFilter={options["css-filter"]}
+
+      />
+    );
+  });
+
+  Layers.set("ruhrWMS.night", (options=defaultNightOptions) => {
+    return (
+      <StyledWMSTileLayer
+        key="ruhr_stadtplan_rvr.night"
         url="https://geodaten.metropoleruhr.de/spw2/service"
         layers="stadtplan_rvr"
         format="image/png"

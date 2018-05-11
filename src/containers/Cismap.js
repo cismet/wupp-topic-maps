@@ -604,19 +604,23 @@ centerOnPoint(x,y,z) {
         {overlayFeature}
         {
         layerArr.map((layerWithOptions) => {
-          const layOp = layerWithOptions.split('@');
-          if (!isNaN(parseInt(layOp[1]))) {
-            return Layers.get(layOp[0])({"opacity":parseInt(layOp[1] || '100', 10) / 100.0});
-          }
-          try{
-            let options=JSON.parse(layOp[1]);
-            return Layers.get(layOp[0])(options);
-          }
-          catch (error){
-            console.error(error);
-            console.error("Problems during parsing of the layer options. Skip options. You will get the 100% Layer:"+layOp[0]);
-            return Layers.get(layOp[0])();
-          }
+            const layOp = layerWithOptions.split('@');
+            if (!isNaN(parseInt(layOp[1]))) {
+                return Layers.get(layOp[0])({"opacity":parseInt(layOp[1] || '100', 10) / 100.0});
+            }
+            if (layOp.length===2) {
+                try{
+                    let options=JSON.parse(layOp[1]);
+                    return Layers.get(layOp[0])(options);
+                }
+                catch (error){
+                    console.error(error);
+                    console.error("Problems during parsing of the layer options. Skip options. You will get the 100% Layer:"+layOp[0]);
+                    return Layers.get(layOp[0])();
+                }
+            } else {
+                return Layers.get(layOp[0])();
+            }
         })
       }
       <GazetteerHitDisplay key={"gazHit" + JSON.stringify(this.props.mapping.gazetteerHit)} mappingProps={this.props.mapping}/>

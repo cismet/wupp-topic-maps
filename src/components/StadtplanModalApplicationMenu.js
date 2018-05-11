@@ -184,7 +184,7 @@ export class StadtplanModalApplicationMenu_ extends React.Component {
                             containerId="myMenu" 
                             smooth={true} 
                             delay={100} 
-                            onClick={()=>this.props.uiActions.setApplicationMenuActiveKey("filtertab")}>
+                            onClick={()=>this.props.uiActions.setApplicationMenuActiveKey("filter")}>
                         Mein Themenstadtplan</Link> die Themenfelder
                         aus, zu denen Sie die Points Of Interest (POI) anzeigen oder ausblenden möchten.
                         Über <Link
@@ -205,14 +205,14 @@ export class StadtplanModalApplicationMenu_ extends React.Component {
                     <br/>
                     <br/>
                     
-                    <Accordion key={"overview"} defaultActiveKey={this.props.uiState.applicationMenuActiveKey||"overview"} onSelect={()=>{
-                        if (this.props.uiState.applicationMenuActiveKey==="overview"){
+                    <Accordion key={"filter"} defaultActiveKey={this.props.uiState.applicationMenuActiveKey||"filter"} onSelect={()=>{
+                        if (this.props.uiState.applicationMenuActiveKey==="filter"){
                             this.props.uiActions.setApplicationMenuActiveKey("none")
                         }else {
-                            this.props.uiActions.setApplicationMenuActiveKey("overview")
+                            this.props.uiActions.setApplicationMenuActiveKey("filter")
                         }
                     }}> 
-                    <Panel header={"Mein Themenstadtplan ("+this.props.filteredPois.length+" POI gefunden, davon "+this.props.featureCollectionCount+" in der Karte)"} eventKey="overview" bsStyle="primary">
+                    <Panel header={"Mein Themenstadtplan ("+this.props.filteredPois.length+" POI gefunden, davon "+this.props.featureCollectionCount+" in der Karte)"} eventKey="filter" bsStyle="primary">
                         <Button bsSize="small" onClick={()=>{
                                 this.props.stadtplanActions.clearFilter("negativ");
                                 this.props.stadtplanActions.setAllLebenslagenToFilter("positiv");

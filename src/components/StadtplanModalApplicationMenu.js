@@ -19,6 +19,7 @@ import {getColorFromLebenslagenCombination} from '../utils/stadtplanHelper';
 
 import {Icon} from 'react-fa'
 import 'react-bootstrap-switch/dist/css/bootstrap3/react-bootstrap-switch.min.css';
+import queryString from 'query-string';
 
 import MultiToggleButton from './MultiToggleButton';
 
@@ -257,16 +258,25 @@ export class StadtplanModalApplicationMenu_ extends React.Component {
                                 <td> 
                                     <FormGroup>
                                         <ControlLabel>POI-Einstellungen:</ControlLabel><br/>
-                                        <Checkbox inline>Titel bei aktiviertem Filter anzeigen</Checkbox><br/>
-                                        <Checkbox inline>Objekte zusammenfassen</Checkbox><br/>
+                                        <Checkbox 
+                                            checked={queryString.parse(this.props.routing.location.search).title!==undefined} 
+                                            inline>Titel bei aktiviertem Filter anzeigen</Checkbox><br/>
+                                        <Checkbox 
+                                            checked={queryString.parse(this.props.routing.location.search).unclustered!==null}  
+                                            inline>Objekte zusammenfassen</Checkbox><br/>
                                         </FormGroup>
                                         <FormGroup>
                                         <br/>
                                         <ControlLabel>Kartendarstellung:</ControlLabel><br/>
-                                        <Radio name="mapBackground" inline>
+                                        <Radio 
+                                            checked={queryString.parse(this.props.routing.location.search).mapStyle===undefined || queryString.parse(this.props.routing.location.search).mapStyle==='default'}
+                                            name="mapBackground" inline>
                                             Tag
                                         </Radio>{' '}
-                                        <Radio name="mapBackground" inline>
+                                        <Radio 
+                                            name="mapBackground" 
+                                            checked={queryString.parse(this.props.routing.location.search).mapStyle==='night'}
+                                            inline>
                                             Nacht
                                         </Radio>{' '}
                                     </FormGroup>                         

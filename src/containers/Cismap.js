@@ -591,8 +591,7 @@ centerOnPoint(x,y,z) {
 
     console.log(namedMapStyle)
     return (
-        <div className={iosClass}          key={"leafletMap"+"Layers:"+JSON.stringify(layerArr)+ namedMapStyle}
->
+    <div className={iosClass} >
     <Map ref="leafletMap" 
          key={"leafletMap"+"Layers:"+JSON.stringify(layerArr)+ namedMapStyle}
          crs={crs25832} 

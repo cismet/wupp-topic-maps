@@ -76,6 +76,7 @@ export class Cismap_ extends React.Component {
     super(props);
     this.internalGazeteerHitTrigger = this.internalGazeteerHitTrigger.bind(this);
     this.internalSearchButtonTrigger = this.internalSearchButtonTrigger.bind(this);
+    this.internalClearButtonTrigger = this.internalClearButtonTrigger.bind(this);
     this.featureClick = this.featureClick.bind(this);
     this.handleSearch = this.handleSearch.bind(this);
     this.gotoHomeBB = this.gotoHomeBB.bind(this);
@@ -354,6 +355,13 @@ centerOnPoint(x,y,z) {
     }
 
   }
+  internalClearButtonTrigger(event) {
+    if (this.props.mapping.overlayFeature!==null) {
+        this.props.mappingActions.setOverlayFeature(null);
+      }
+      this.refs.typeahead.getInstance().clear();
+      this.props.mappingActions.gazetteerHit(null);
+  }
 
 
 
@@ -470,6 +478,25 @@ centerOnPoint(x,y,z) {
     }
 
 
+    let firstbutton=(
+        <InputGroup.Button 
+            disabled={this.props.mapping.searchInProgress || !searchAllowed} 
+            onClick={this.internalSearchButtonTrigger}>
+            <OverlayTrigger ref={c => this.searchOverlay = c} placement="top" overlay={this.props.searchTooltipProvider()}>
+                <Button  disabled={this.props.mapping.searchInProgress || !searchAllowed}>{searchIcon}</Button>
+            </OverlayTrigger>
+        </InputGroup.Button>
+    );
+    if (!searchAllowed){
+        firstbutton=(
+            <InputGroup.Button  onClick={this.internalClearButtonTrigger}>
+                <Button disabled={this.props.mapping.overlayFeature===null&&this.props.mapping.gazetteerHit===null}>
+                    <Icon name='times'/>
+                </Button>
+            </InputGroup.Button>
+        );
+    }
+    
 
 
     let searchControl=(
@@ -479,11 +506,7 @@ centerOnPoint(x,y,z) {
             }} action="#">
             <FormGroup >
                 <InputGroup>
-                <InputGroup.Button disabled={this.props.mapping.searchInProgress || !searchAllowed} onClick={this.internalSearchButtonTrigger}>
-                    <OverlayTrigger ref={c => this.searchOverlay = c} placement="top" overlay={this.props.searchTooltipProvider()}>
-                    <Button  disabled={this.props.mapping.searchInProgress || !searchAllowed}>{searchIcon}</Button>
-                    </OverlayTrigger>
-                </InputGroup.Button>
+                {firstbutton}                
                 <Typeahead
                     ref="typeahead"
                     style={{ width: '300px'}}
@@ -504,9 +527,7 @@ centerOnPoint(x,y,z) {
                     autoFocus={true} submitFormOnEnter={true}
                     searchText={"suchen ..."}
                     renderMenuItemChildren={this.renderMenuItemChildren}/>
-                {/* <InputGroup.Button><Button><Icon name='eraser'/></Button> </InputGroup.Button> */}
                 </InputGroup>
-               
             </FormGroup>
             </Form>
         </Control>

@@ -8,6 +8,7 @@ import {
     Accordion,
     Panel,
     ButtonGroup,Dropdown,MenuItem, OverlayTrigger, Tooltip,
+    FormGroup, Checkbox, Radio, ControlLabel,
     Alert,
     Label
 } from 'react-bootstrap';
@@ -252,6 +253,31 @@ export class StadtplanModalApplicationMenu_ extends React.Component {
                     <Panel header="Einstellungen" eventKey="settings" bsStyle="success">
                         <table border={0}>
                         <tbody>
+                        <tr>
+                                <td> 
+                                    <FormGroup>
+                                        <ControlLabel>POI-Einstellungen:</ControlLabel><br/>
+                                        <Checkbox inline>Titel bei aktiviertem Filter anzeigen</Checkbox><br/>
+                                        <Checkbox inline>Objekte zusammenfassen</Checkbox><br/>
+                                        </FormGroup>
+                                        <FormGroup>
+                                        <br/>
+                                        <ControlLabel>Kartendarstellung:</ControlLabel><br/>
+                                        <Radio name="mapBackground" inline>
+                                            Tag
+                                        </Radio>{' '}
+                                        <Radio name="mapBackground" inline>
+                                            Nacht
+                                        </Radio>{' '}
+                                    </FormGroup>                         
+                                </td>
+                                <td>
+
+                                </td>
+                            </tr>
+
+
+                       
                         </tbody>
                         </table>                    
                     </Panel>

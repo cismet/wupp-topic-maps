@@ -275,10 +275,6 @@ export class Stadtplan_ extends React.Component {
         }
     }
 
-    
-    
-      
-
 
       return (
            <div>

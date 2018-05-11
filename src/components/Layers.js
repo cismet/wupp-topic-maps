@@ -2,6 +2,7 @@ import React from 'react';
 import { TileLayer, WMSTileLayer } from 'react-leaflet';
 import StyledWMSTileLayer from './StyledWMSTileLayer'
 import PropTypes from 'prop-types';
+import objectAssign from 'object-assign';
 
 export const Layers = new Map();
 
@@ -273,24 +274,11 @@ Layers.set("XrvrWMS", (options=defaultOptions) => {
       />
     );
   });
-  Layers.set("ruhrWMS.day", (options=defaultOptions) => {
-    return (
-      <StyledWMSTileLayer
-        key="ruhr_stadtplan_rvr.day"
-        url="https://geodaten.metropoleruhr.de/spw2/service"
-        layers="stadtplan_rvr"
-        format="image/png"
-        tiled="false"
-        version="1.3.0"
-        maxZoom={19}
-        opacity={options.opacity}
-        cssFilter={options["css-filter"]}
-
-      />
-    );
-  });
+  
 
   Layers.set("ruhrWMS.night", (options=defaultNightOptions) => {
+    let mergedOptions=objectAssign({}, defaultNightOptions, options);
+    console.log(mergedOptions);
     return (
       <StyledWMSTileLayer
         key="ruhr_stadtplan_rvr.night"
@@ -300,8 +288,8 @@ Layers.set("XrvrWMS", (options=defaultOptions) => {
         tiled="false"
         version="1.3.0"
         maxZoom={19}
-        opacity={options.opacity}
-        cssFilter={options["css-filter"]}
+        opacity={mergedOptions.opacity}
+        cssFilter={mergedOptions["css-filter"]}
 
       />
     );

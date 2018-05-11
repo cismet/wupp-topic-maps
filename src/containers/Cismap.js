@@ -11,6 +11,7 @@ import proj4 from 'proj4';
 import {bindActionCreators} from 'redux';
 import FullscreenControl from '../components/FullscreenControl';
 import NewWindowControl from '../components/NewWindowControl';
+import queryString from 'query-string';
 
 import Control from 'react-leaflet-control';
 import {
@@ -579,13 +580,21 @@ centerOnPoint(x,y,z) {
             />
         );
     }
+    let namedMapStyle=queryString.parse(this.props.routing.location.search).mapStyle;
 
+    if (namedMapStyle===undefined || namedMapStyle==='default') {
+        namedMapStyle='';
+    }
+    else {
+        namedMapStyle='.'+namedMapStyle;
+    }
 
-
+    console.log(namedMapStyle)
     return (
-        <div className={iosClass}>
+        <div className={iosClass}          key={"leafletMap"+"Layers:"+JSON.stringify(layerArr)+ namedMapStyle}
+>
     <Map ref="leafletMap" 
-         key="leafletMap" 
+         key={"leafletMap"+"Layers:"+JSON.stringify(layerArr)+ namedMapStyle}
          crs={crs25832} 
          style={mapStyle} 
          center={positionByUrl} 
@@ -602,27 +611,28 @@ centerOnPoint(x,y,z) {
         scrollWheelZoom={true}
         >
         {overlayFeature}
-        {
-        layerArr.map((layerWithOptions) => {
-            const layOp = layerWithOptions.split('@');
-            if (!isNaN(parseInt(layOp[1]))) {
-                return Layers.get(layOp[0])({"opacity":parseInt(layOp[1] || '100', 10) / 100.0});
-            }
-            if (layOp.length===2) {
-                try{
-                    let options=JSON.parse(layOp[1]);
-                    return Layers.get(layOp[0])(options);
+            {
+            layerArr.map((layerWithOptions) => {
+                    const layOp = layerWithOptions.split('@');
+                    if (!isNaN(parseInt(layOp[1]))) {
+                        return Layers.get(layOp[0]+namedMapStyle)({"opacity":parseInt(layOp[1] || '100', 10) / 100.0});
+                    }
+                    if (layOp.length===2) {
+                        try{
+                            let options=JSON.parse(layOp[1]);
+                            return Layers.get(layOp[0]+namedMapStyle)(options);
+                        }
+                        catch (error){
+                            console.error(error);
+                            console.error("Problems during parsing of the layer options. Skip options. You will get the 100% Layer:"+layOp[0]);
+                            return Layers.get(layOp[0]+namedMapStyle)();
+                        }
+                    } else {
+                        return Layers.get(layOp[0]+namedMapStyle)();
+                    }
                 }
-                catch (error){
-                    console.error(error);
-                    console.error("Problems during parsing of the layer options. Skip options. You will get the 100% Layer:"+layOp[0]);
-                    return Layers.get(layOp[0])();
-                }
-            } else {
-                return Layers.get(layOp[0])();
-            }
-        })
-      }
+            )
+        }
       <GazetteerHitDisplay key={"gazHit" + JSON.stringify(this.props.mapping.gazetteerHit)} mappingProps={this.props.mapping}/>
       <FeatureCollectionDisplay key={JSON.stringify(this.props.mapping.featureCollection)+this.props.featureKeySuffixCreator()} 
                                 mappingProps={this.props.mapping} 

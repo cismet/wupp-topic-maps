@@ -218,7 +218,7 @@ const StadtplanInfo = ({featureCollection, filteredPOIs, selectedIndex, next, pr
             <h5>Keine POI gefunden!</h5>
             <p>Für mehr POI, Ansicht mit <Icon name='minus-square' /> verkleinern.                   
             Um nach Themenfeldern zu filtern, das 
-            <a onClick={()=>showModalMenu("filtertab")}> Men&uuml;&nbsp;
+            <a onClick={()=>showModalMenu("filter")}> Men&uuml;&nbsp;
             <Icon name="bars" style={{color:"black"}}/> &ouml;ffnen.</a></p>
             <div align="center"><a onClick={fitAll} >{filteredPOIs.length} POI in Wuppertal</a></div>
         </Well>)

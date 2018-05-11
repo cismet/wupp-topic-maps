@@ -260,7 +260,7 @@ export class Stadtplan_ extends React.Component {
                         position: 'absolute',
                         left: 54,
                         top: 12,
-                        zIndex: 9999999999999
+                        zIndex: 555
                         }}>
                     <tbody>
                         <tr>

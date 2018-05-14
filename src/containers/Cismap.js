@@ -657,7 +657,13 @@ centerOnPoint(x,y,z) {
         </OverlayTrigger>
       </Control> */}
       {infoBoxControl}
-      <LocateControl setView="once" flyTo={true}  />
+      <LocateControl setView="once" flyTo={true} strings={{
+          title: "Mein Standort",
+          metersUnit: "Metern",
+          feetUnit: "Feet",
+          popup: "Sie befinden sich im Umkreis von {distance} {unit} um diesen Punkt.",
+          outsideMapBoundsMsg: "Sie gefinden sich wahrscheinlich außerhalb der Kartengrenzen."
+      }} />
       {this.props.children}
     </Map></div>);
 

@@ -8,7 +8,7 @@ import {getColorForProperties} from '../utils/stadtplanHelper';
 import Color from 'color';
 
 // Since this component is simple and static, there's no parent container for it.
-const StadtplanInfo = ({featureCollection, filteredPOIs, selectedIndex, next, previous, fitAll, loadingIndicator, showModalMenu, uiState, uiStateActions}) => {
+const StadtplanInfo = ({featureCollection, filteredPOIs, selectedIndex, next, previous, fitAll, loadingIndicator, showModalMenu, uiState, uiStateActions, panelClick}) => {
 
   const currentFeature=featureCollection[selectedIndex];
 
@@ -141,7 +141,7 @@ const StadtplanInfo = ({featureCollection, filteredPOIs, selectedIndex, next, pr
             <div>
             {fotoDiv}
             {llVis}
-            <Well bsSize="small" onClick={logCurrentFeature}  >
+            <Well bsSize="small" onClick={panelClick}  >
             <div > 
             <table style={{ width: '100%' }}>
                 <tbody>
@@ -244,6 +244,7 @@ StadtplanInfo.propTypes = {
    previous: PropTypes.func.isRequired,
    fitAll: PropTypes.func.isRequired,
    showModalMenu: PropTypes.func.isRequired,
+   panelClick: PropTypes.func.isRequired,
  };
 
 

@@ -8,6 +8,14 @@ export function modifyQueryPart(search, modifiedParts) {
     }});
 }
 
+export function removeQueryPart(search, partTobeRemoved) {
+    let query = queryString.parse(search)
+    delete query[partTobeRemoved]
+    return  "?"+queryString.stringify(query, {sort:(m, n) => {
+        return getOrderOfQueryPart(m) >= getOrderOfQueryPart(n);
+    }});
+}
+
 function getOrderOfQueryPart(part){
     const order = ['lat', 'lng', 'zoom'];
     let pos=order.indexOf(part);

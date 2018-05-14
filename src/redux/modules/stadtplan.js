@@ -323,6 +323,12 @@ function applyFilter() {
         dispatch(createFeatureCollectionFromPOIs());
     }
 }
+function refreshFeatureCollection() {
+    return (dispatch, getState) => {
+        dispatch(applyFilter());
+    }
+}
+
 function createFeatureCollectionFromPOIs(boundingBox) {
     return (dispatch, getState) => {
         let state = getState()
@@ -392,7 +398,8 @@ export const actions = {
     setFilterAndApply,
     toggleFilter,
     setAllLebenslagenToFilter,
-    clearFilter
+    clearFilter,
+    refreshFeatureCollection
 
 }
 

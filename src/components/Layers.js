@@ -278,7 +278,7 @@ Layers.set("XrvrWMS", (options=defaultOptions) => {
 
   Layers.set("ruhrWMS.night", (options=defaultNightOptions) => {
     let mergedOptions=objectAssign({}, defaultNightOptions, options);
-    console.log(mergedOptions);
+    // console.log(mergedOptions);
     return (
       <StyledWMSTileLayer
         key="ruhr_stadtplan_rvr.night"

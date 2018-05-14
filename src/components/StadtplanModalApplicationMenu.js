@@ -29,6 +29,11 @@ import copy from 'copy-to-clipboard';
 import ReactChartkick, { LineChart, PieChart } from 'react-chartkick'
 import Chart from 'chart.js'
 
+import {removeQueryPart, modifyQueryPart} from '../utils/routingHelper'
+import {routerActions} from 'react-router-redux'
+
+
+
 ReactChartkick.addAdapter(Chart);
 
 function mapStateToProps(state) {
@@ -41,7 +46,7 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
     return {
         uiActions: bindActionCreators(UiStateActions, dispatch),        
-        uiActions: bindActionCreators(UiStateActions, dispatch),
+        routingActions: bindActionCreators(routerActions, dispatch)
     };
 }
 
@@ -218,9 +223,9 @@ export class StadtplanModalApplicationMenu_ extends React.Component {
                         <Button bsSize="small" onClick={()=>{
                                 this.props.stadtplanActions.clearFilter("negativ");
                                 this.props.stadtplanActions.setAllLebenslagenToFilter("positiv");
-                            }} >alle Themenfelder auswählen</Button>&nbsp;
-                        <Button bsSize="small" onClick={()=>{this.props.stadtplanActions.clearFilter("positiv");}} >keine Themenfelder auswählen</Button> &nbsp;
-                        <Button bsSize="small" onClick={()=>{this.props.stadtplanActions.clearFilter("negativ");}} >keine Themenfelder ausschließen</Button> 
+                            }} >alle Themen ausw&auml;hlen</Button>&nbsp;
+                        <Button bsSize="small" onClick={()=>{this.props.stadtplanActions.clearFilter("positiv");}} >keine Themen ausw&auml;hlen</Button> &nbsp;
+                        <Button bsSize="small" onClick={()=>{this.props.stadtplanActions.clearFilter("negativ");}} >keine Themen ausschlie&szlig;en</Button> 
                         <br/>
                         <br/>
                         <table border={0} width="100%">
@@ -259,21 +264,64 @@ export class StadtplanModalApplicationMenu_ extends React.Component {
                                     <FormGroup>
                                         <ControlLabel>POI-Einstellungen:</ControlLabel><br/>
                                         <Checkbox 
+                                            readOnly={true}
+                                            key={"title.checkbox"+(queryString.parse(this.props.routing.location.search).title!==undefined)}
                                             checked={queryString.parse(this.props.routing.location.search).title!==undefined} 
-                                            inline>Titel bei aktiviertem Filter anzeigen</Checkbox><br/>
+                                            onClick={(e)=>{
+                                                if (e.target.checked===false) {
+                                                    this.props.routingActions.push(this.props.routing.location.pathname 
+                                                                    + removeQueryPart(this.props.routing.location.search, "title"));
+                                                }
+                                                else {
+                                                    this.props.routingActions.push(this.props.routing.location.pathname 
+                                                        + this.props.routing.location.search+"&title");
+                                        
+                                                }
+                                            }}
+                                            inline>Titel bei individueller Themenauswahl anzeigen</Checkbox><br/>
                                         <Checkbox 
+                                            readOnly={true}
+                                            key={"clustered.checkbox"+(queryString.parse(this.props.routing.location.search).unclustered!==null)}
+                                            onClick={(e)=>{
+                                                if (e.target.checked===true) {
+                                                    this.props.routingActions.push(this.props.routing.location.pathname 
+                                                                    + removeQueryPart(this.props.routing.location.search, "unclustered"));
+                                                }
+                                                else {
+                                                    this.props.routingActions.push(this.props.routing.location.pathname 
+                                                        + this.props.routing.location.search+"&unclustered");
+                                        
+                                                }
+                                                this.props.stadtplanActions.createFeatureCollectionFromPOIs();
+                                            }}
                                             checked={queryString.parse(this.props.routing.location.search).unclustered!==null}  
-                                            inline>Objekte zusammenfassen</Checkbox><br/>
+                                            inline>POI ma&szlig;stabsabh&auml;ngig zusammenfassen</Checkbox><br/>
                                         </FormGroup>
                                         <FormGroup>
                                         <br/>
                                         <ControlLabel>Kartendarstellung:</ControlLabel><br/>
                                         <Radio 
+                                            readOnly={true}
+                                            onClick={(e)=>{
+                                                console.log(e.target.checked)
+                                                if (e.target.checked===true) {
+                                                    this.props.routingActions.push(this.props.routing.location.pathname 
+                                                                    + removeQueryPart(this.props.routing.location.search, "mapStyle"));
+                                                }
+                                            }}
                                             checked={queryString.parse(this.props.routing.location.search).mapStyle===undefined || queryString.parse(this.props.routing.location.search).mapStyle==='default'}
                                             name="mapBackground" inline>
                                             Tag
                                         </Radio>{' '}
                                         <Radio 
+                                            readOnly={true}
+                                            onClick={(e)=>{
+                                                console.log(e.target.checked)
+                                                if (e.target.checked===true) {
+                                                    this.props.routingActions.push(this.props.routing.location.pathname 
+                                                                    + modifyQueryPart(this.props.routing.location.search, {'mapStyle':'night'}));
+                                                }
+                                            }}
                                             name="mapBackground" 
                                             checked={queryString.parse(this.props.routing.location.search).mapStyle==='night'}
                                             inline>

@@ -210,7 +210,10 @@ export class Stadtplan_ extends React.Component {
               showModalMenu={(section)=>this.props.uiStateActions.showApplicationMenuAndActivateSection(true,section)}
               uiState={this.props.uiState}
               uiStateActions={this.props.uiStateActions}
-              
+              panelClick={(e)=>{
+                
+                this.props.stadtplanActions.refreshFeatureCollection();
+              }}
 
               />
            );

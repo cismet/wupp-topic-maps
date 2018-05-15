@@ -13,7 +13,7 @@ import { proj4crs25832def } from '../constants/gis';
 import * as gisHelpers from '../utils/gisHelper';
 
 // Since this component is simple and static, there's no parent container for it.
-const FeatureCollectionDisplay = ({mappingProps, clusteredMarkers, clusteringEnabled, style, labeler, hoverer, featureClickHandler, mapRef, selectionSpiderfyMinZoom}) => {
+const FeatureCollectionDisplay = ({mappingProps, clusteredMarkers, style, labeler, hoverer, featureClickHandler, mapRef, selectionSpiderfyMinZoom, clusterOptions, clusteringEnabled}) => {
     let markers=[];
     let markerPos=[];
     let bbox=[ mappingProps.boundingBox.left,
@@ -80,7 +80,8 @@ const FeatureCollectionDisplay = ({mappingProps, clusteredMarkers, clusteringEna
         <ProjGeoJson 
             key={JSON.stringify(mappingProps)} 
             mappingProps={mappingProps} 
-            clusteredMarkers={clusteredMarkers} 
+            clusteringEnabled={clusteringEnabled} 
+            clusterOptions={clusterOptions}
             hoverer={hoverer} 
             style={style} 
             featureClickHandler={featureClickHandler} 

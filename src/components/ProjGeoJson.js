@@ -91,17 +91,30 @@ export class ProjGeoJson_ extends Path {
         }
     }
 
-
-    
     var geojson=L.Proj.geoJson(mappingProps.featureCollection, props);
 
-    if (this.props.clusteredMarkers) {
-        this.leafletElement = this.props.clusteredMarkers.clearLayers();
-        this.leafletElement = this.props.clusteredMarkers.addLayer(geojson);
-        //var visibleOne = this.clusteredMarkers.getVisibleParent(this.props.mapping.);
-        let markers = this.props.clusteredMarkers.getLayers();
-        for (let marker of markers) {
-            let parent = this.props.clusteredMarkers.getVisibleParent(marker);
+    if (!this.clusteredMarkers) {
+        this.clusteredMarkers=L.markerClusterGroup(this.props.clusterOptions);
+    }
+    else {
+        this.clusteredMarkers=null;
+    }
+    if (this.clusteredMarkers && this.props.clusteringEnabled) {
+            this.leafletElement = this.clusteredMarkers.clearLayers();
+            this.leafletElement = this.clusteredMarkers.addLayer(geojson);
+            let that=this;
+            this.clusteredMarkers.on('clusterclick', function (a) {
+                let zoomLevel=that.props.mapRef.leafletElement.getZoom();
+                if (zoomLevel<(that.props.clusterOptions.cismapZoomTillSpiderfy||11)) {
+                    that.props.mapRef.leafletElement.setZoomAround(a.latlng,zoomLevel+1);
+                }
+                else {
+                    a.layer.spiderfy();
+                }
+            });
+            let markers = this.clusteredMarkers.getLayers();
+            for (let marker of markers) {
+            let parent = this.clusteredMarkers.getVisibleParent(marker);
             if (marker.feature.selected === true) {
                 if (parent && parent.spiderfy) {
                     //   console.log("will spiderfy cluster of feature "+marker.feature.id )
@@ -127,6 +140,7 @@ export class ProjGeoJson_ extends Path {
   }
 
   componentDidUpdate(prevProps) {
+      console.log(" ### componentDidUpdate @ ProjGeoJSON")
     if (isFunction(this.props.style)) {
       this.setStyle(this.props.style);
     } else {

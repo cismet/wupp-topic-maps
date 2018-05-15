@@ -258,44 +258,6 @@ centerOnPoint(x,y,z) {
 
 
   componentDidUpdate() {
-
-
-    // console.log("this.props.clustere:"+this.props.clustered);
-    // console.log("this.clusteredMarkers:"+this.clusteredMarkers);
-    // console.log(this.featureCollectionDisplayComponent);
-    // console.log(this);
-    // console.log("---------------");
-    
-    if (this.props.clustered) {
-        if (this.clusteredMarkers===undefined||this.clusteredMarkers===null) {
-            // console.log("init clustering")
-            this.clusteredMarkers= L.markerClusterGroup(this.props.clusterOptions);
-            let that=this;
-            this.clusteredMarkers.on('clusterclick', function (a) {
-                let zoomLevel=that.refs.leafletMap.leafletElement.getZoom();
-                if (zoomLevel<(that.props.clusterOptions.cismapZoomTillSpiderfy||11)) {
-                    that.refs.leafletMap.leafletElement.setZoomAround(a.latlng,zoomLevel+1);
-                }
-                else {
-                    a.layer.spiderfy();
-                }
-            });
-            this.refs.leafletMap.leafletElement.addLayer(this.clusteredMarkers);
-        }
-    }
-    else {
-        if (this.clusteredMarkers!==undefined&&this.clusteredMarkers!==null) {
-            this.clusteredMarkers=null; 
-        }
-        else {
-            this.clusteredMarkers=null; 
-        }
-        
-
-    }
-
-
-
     if ((typeof(this.refs.leafletMap) !== 'undefined' && this.refs.leafletMap != null)) {
       if (this.props.mapping.autoFitBounds) {
         if (this.props.mapping.autoFitMode === mappingConstants.AUTO_FIT_MODE_NO_ZOOM_IN) {
@@ -665,6 +627,7 @@ centerOnPoint(x,y,z) {
                                 hoverer={this.props.hoverer} 
                                 featureClickHandler={this.featureClick} 
                                 mapRef={this.refs.leafletMap} 
+                                clusterOptions={this.props.clusterOptions}
                                 selectionSpiderfyMinZoom={this.props.clusterOptions.selectionSpiderfyMinZoom}/>
       
       <ZoomControl position="topleft" zoomInTitle="Vergr&ouml;ßern" zoomOutTitle="Verkleinern"/>

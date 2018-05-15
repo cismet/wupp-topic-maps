@@ -33,7 +33,7 @@ const initialState = {
     lebenslagen: [],
     poitypes: [],
     filter: {
-        positiv: ["Freizeit","Sport","Mobilität","Religion","Erholung","Gesellschaft","Gesundheit","Kultur","öffentliche Dienstleistungen","Dienstleistungen","Orientierung","Bildung","Stadtbild","Tourismus"],
+        positiv: ["Freizeit","Sport","Mobilität","Religion","Erholung","Gesellschaft","Gesundheit","Kultur","öffentliche Dienstleistungen","Dienstleistungen","Orientierung","Bildung","Stadtbild"],
         negativ: []
     }
 
@@ -185,17 +185,17 @@ function loadPOIs() {
                     }
                 }
                 //alle anderen typen
-                if (poi.locationtypes) {
-                    for (let type of poi.locationtypes){
-                        for (let ll of type.lebenslagen) {
-                            lebenslagen.add(ll);
-                        }
-                        let found=poitypes.find(x => x.id === type.id);
-                        if (!found) {
-                            poitypes.push(type);
-                        }
-                    }
-                }
+                // if (poi.locationtypes) {
+                //     for (let type of poi.locationtypes){
+                //         for (let ll of type.lebenslagen) {
+                //             lebenslagen.add(ll);
+                //         }
+                //         let found=poitypes.find(x => x.id === type.id);
+                //         if (!found) {
+                //             poitypes.push(type);
+                //         }
+                //     }
+                // }
             }
 
             dispatch(setTypes(Array.from(poitypes).sort(predicateBy("name"))));

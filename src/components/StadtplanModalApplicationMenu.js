@@ -168,8 +168,6 @@ export class StadtplanModalApplicationMenu_ extends React.Component {
 
         let width=this.props.uiState.width;
 
-        console.log(width)
-
         let widePieChartPlaceholder=null;
         let narrowPieChartPlaceholder=null;
         let pieChart=(

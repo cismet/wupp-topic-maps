@@ -17,6 +17,7 @@ export class StyledWMSTileLayer_ extends WMSTileLayer {
       updateLeafletElement(fromProps, toProps) {
         super.updateLeafletElement(fromProps, toProps)
         if (this.props.cssFilter){
+            console.log(this.props.cssFilter)
              this.leafletElement._container.style.cssText+=" "+this.props.cssFilter;
 
             //  filters.process("{"+ this.props.cssFilter +"}",{}).then(result => {

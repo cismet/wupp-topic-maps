@@ -325,7 +325,6 @@ export class StadtplanModalApplicationMenu_ extends React.Component {
                                         <Radio 
                                             readOnly={true}
                                             onClick={(e)=>{
-                                                console.log(e.target.checked)
                                                 if (e.target.checked===true) {
                                                     this.props.routingActions.push(this.props.routing.location.pathname 
                                                                     + removeQueryPart(this.props.routing.location.search, "mapStyle"));
@@ -338,7 +337,6 @@ export class StadtplanModalApplicationMenu_ extends React.Component {
                                         <Radio 
                                             readOnly={true}
                                             onClick={(e)=>{
-                                                console.log(e.target.checked)
                                                 if (e.target.checked===true) {
                                                     this.props.routingActions.push(this.props.routing.location.pathname 
                                                                     + modifyQueryPart(this.props.routing.location.search, {'mapStyle':'night'}));

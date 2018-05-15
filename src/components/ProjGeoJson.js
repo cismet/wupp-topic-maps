@@ -140,7 +140,6 @@ export class ProjGeoJson_ extends Path {
   }
 
   componentDidUpdate(prevProps) {
-      console.log(" ### componentDidUpdate @ ProjGeoJSON")
     if (isFunction(this.props.style)) {
       this.setStyle(this.props.style);
     } else {

@@ -116,7 +116,6 @@ export class StadtplanModalApplicationMenu_ extends React.Component {
         }
         return rows;
     }
-
     
     render() {
 
@@ -166,6 +165,32 @@ export class StadtplanModalApplicationMenu_ extends React.Component {
             piechartColor.push(getColorFromLebenslagenCombination(key));
 
         }
+
+        let width=this.props.uiState.width;
+
+        console.log(width)
+
+        let widePieChartPlaceholder=null;
+        let narrowPieChartPlaceholder=null;
+        let pieChart=(
+             <PieChart  data={piechartData} donut={true} title="Verteilung" legend={false} colors={piechartColor}/>
+        );
+        if (width<995)  {
+            narrowPieChartPlaceholder=(
+                <div>
+                    <br/>
+                    {pieChart}
+                </div>    
+            );
+        }
+        else {
+            widePieChartPlaceholder=(
+                <td>
+                {pieChart}
+                 </td>  
+            );
+        }
+
         return (         
             <Modal
                 
@@ -220,31 +245,30 @@ export class StadtplanModalApplicationMenu_ extends React.Component {
                         }
                     }}> 
                     <Panel header={"Mein Themenstadtplan ("+this.props.filteredPois.length+" POI gefunden, davon "+this.props.featureCollectionCount+" in der Karte)"} eventKey="filter" bsStyle="primary">
-                        <Button bsSize="small" onClick={()=>{
+                        <div align="center">
+                        <Button style={{margin:4,marginLeft:0}} bsSize="small" onClick={()=>{
                                 this.props.stadtplanActions.clearFilter("negativ");
                                 this.props.stadtplanActions.setAllLebenslagenToFilter("positiv");
-                            }} >alle Themen ausw&auml;hlen</Button>&nbsp;
-                        <Button bsSize="small" onClick={()=>{this.props.stadtplanActions.clearFilter("positiv");}} >keine Themen ausw&auml;hlen</Button> &nbsp;
-                        <Button bsSize="small" onClick={()=>{this.props.stadtplanActions.clearFilter("negativ");}} >keine Themen ausschlie&szlig;en</Button> 
-                        <br/>
+                            }} >alle Themen ausw&auml;hlen</Button>
+                        <Button style={{margin:4}} bsSize="small" onClick={()=>{this.props.stadtplanActions.clearFilter("positiv");}} >keine Themen ausw&auml;hlen</Button>
+                        <Button style={{margin:4}} bsSize="small" onClick={()=>{this.props.stadtplanActions.clearFilter("negativ");}} >keine Themen ausschlie&szlig;en</Button> 
+                        </div>
                         <br/>
                         <table border={0} width="100%">
                         <tbody>
                             <tr>
-                                <td> 
+                                <td align="center"> 
                                     <table border={0}>
                                         <tbody>
                                             {overviewRows}
                                         </tbody>
                                     </table>                    
                                 </td>
-                                <td>
-                                    <PieChart  data={piechartData} donut={true} title="Verteilung" legend={false} colors={piechartColor}/>
-                                </td>
+                                {widePieChartPlaceholder}
                             </tr>
                         </tbody>
                         </table>                    
-                        
+                        {narrowPieChartPlaceholder}
                     </Panel>
                    
                     </Accordion>

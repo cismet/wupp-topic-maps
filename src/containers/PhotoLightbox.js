@@ -24,11 +24,18 @@ export class PhotoLightbox_ extends React.Component {
     }
     render() {
         if (this.props.uiState.lightboxvisible) {
+            let nextSrc=this.props.uiState.lightboxurls[(this.props.uiState.lightboxindex + 1) % this.props.uiState.lightboxurls.length];
+            let prevSrc=this.props.uiState.lightboxurls[(this.props.uiState.lightboxindex + this.props.uiState.lightboxurls.length - 1) % this.props.uiState.lightboxurls.length];
+
+            if (this.props.uiState.lightboxurls.length===1){
+                nextSrc=null;
+                prevSrc=null;
+            }
             return (
             <Lightbox
                 mainSrc={this.props.uiState.lightboxurls[this.props.uiState.lightboxindex]}
-                nextSrc={this.props.uiState.lightboxurls[(this.props.uiState.lightboxindex + 1) % this.props.uiState.lightboxurls.length]}
-                prevSrc={this.props.uiState.lightboxurls[(this.props.uiState.lightboxindex + this.props.uiState.lightboxurls.length - 1) % this.props.uiState.lightboxurls.length]}
+                nextSrc={nextSrc}
+                prevSrc={prevSrc}
                 onCloseRequest={() => this.props.uiStateActions.setLightboxVisible(false)}
                 onMovePrevRequest={() => this.props.uiStateActions.setLightboxIndex((this.props.uiState.lightboxindex + this.props.uiState.lightboxurls.length - 1) % this.props.uiState.lightboxurls.length)}
                 onMoveNextRequest={() => this.props.uiStateActions.setLightboxIndex((this.props.uiState.lightboxindex + 1) % this.props.uiState.lightboxurls.length)}     

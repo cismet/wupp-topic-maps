@@ -125,8 +125,11 @@ export class StadtplanModalApplicationMenu_ extends React.Component {
             "maxHeight": this.props.uiState.height - 200
         }
 
+        let clusteredPOIs=queryString.parse(this.props.routing.location.search).unclustered!==null;
+        let titleDisplay=queryString.parse(this.props.routing.location.search).title!==undefined;
+        let customTitle=queryString.parse(this.props.routing.location.search).title;
+        let namedMapStyle=queryString.parse(this.props.routing.location.search).mapStyle||"default";
         
-
         let llOptions=[];
      
 
@@ -170,9 +173,66 @@ export class StadtplanModalApplicationMenu_ extends React.Component {
 
         let widePieChartPlaceholder=null;
         let narrowPieChartPlaceholder=null;
+        let widePreviewPlaceholder=null;
+        let narrowPreviewPlaceholder=null;
+
+
+
         let pieChart=(
              <PieChart  data={piechartData} donut={true} title="Verteilung" legend={false} colors={piechartColor}/>
         );
+
+
+        let poiPreviewName="poi.preview.unclustered.png";
+        if (clusteredPOIs){
+            poiPreviewName="poi.preview.clustered.png";
+        }
+
+        let titlePreview=null;
+        if (titleDisplay){
+        titlePreview=(       
+                <div style={{align:"center", width:"100%"}}>
+                        <div style={{height:'10px'}}/>
+                        <table style={{ 
+                            // width: this.props.uiState.width-54-12-38-12+'px', 
+                            width: '96%',
+                            height: '30px',
+                            margin: '0 auto',
+                            //position: 'absolute',
+                            // left: 54,
+                            top: 12,
+                            // zIndex: 999655
+                            }}>
+                        <tbody>
+                            <tr>
+                                <td style={{ textAlign: 'center', verticalAlign: 'middle',background: "#ffffff", color: "black", opacity:'0.9', paddingleft: '10px', }}>
+                                    <b>Mein Themenstadtplan: </b> Religion ohne Erholung
+                                </td>                              
+                            </tr>
+                        </tbody>
+                    </table>   
+                    </div> 
+            );
+        }
+
+        let preview= (
+            <div>
+           <FormGroup>
+                <ControlLabel>Vorschau:</ControlLabel><br/>
+                <div style={
+                    {
+                        backgroundImage: "url('/images/"+poiPreviewName+"')"+
+                                        ",url('/images/map.preview."+namedMapStyle+".png')" ,
+                        width: "100%",
+                        height:"250px",
+                        backgroundPosition: "center",
+                    }}>
+                    {titlePreview}
+                    </div>
+            </FormGroup>
+                </div>
+        );
+
         if (width<995)  {
             narrowPieChartPlaceholder=(
                 <div>
@@ -180,11 +240,23 @@ export class StadtplanModalApplicationMenu_ extends React.Component {
                     {pieChart}
                 </div>    
             );
+            narrowPreviewPlaceholder=(
+                <div>
+                    <br/>
+                    {preview}
+                </div>    
+            );
+
         }
         else {
             widePieChartPlaceholder=(
                 <td>
                 {pieChart}
+                 </td>  
+            );
+            widePreviewPlaceholder=(
+                <td>
+                {preview}
                  </td>  
             );
         }
@@ -279,16 +351,16 @@ export class StadtplanModalApplicationMenu_ extends React.Component {
                         }
                     }}>
                     <Panel header="Einstellungen" eventKey="settings" bsStyle="success">
-                        <table border={0}>
+                        <table border={0} width="100%">
                         <tbody>
                         <tr>
-                                <td> 
+                                <td valign="top" style={{width:"330px"}}> 
                                     <FormGroup>
                                         <ControlLabel>POI-Einstellungen:</ControlLabel><br/>
                                         <Checkbox 
                                             readOnly={true}
-                                            key={"title.checkbox"+(queryString.parse(this.props.routing.location.search).title!==undefined)}
-                                            checked={queryString.parse(this.props.routing.location.search).title!==undefined} 
+                                            key={"title.checkbox"+titleDisplay}
+                                            checked={titleDisplay} 
                                             onClick={(e)=>{
                                                 if (e.target.checked===false) {
                                                     this.props.routingActions.push(this.props.routing.location.pathname 
@@ -303,7 +375,7 @@ export class StadtplanModalApplicationMenu_ extends React.Component {
                                             inline>Titel bei individueller Themenauswahl anzeigen</Checkbox><br/>
                                         <Checkbox 
                                             readOnly={true}
-                                            key={"clustered.checkbox"+(queryString.parse(this.props.routing.location.search).unclustered!==null)}
+                                            key={"clustered.checkbox"+clusteredPOIs}
                                             onClick={(e)=>{
                                                 if (e.target.checked===true) {
                                                     this.props.routingActions.push(this.props.routing.location.pathname 
@@ -316,7 +388,7 @@ export class StadtplanModalApplicationMenu_ extends React.Component {
                                                 }
                                                 this.props.stadtplanActions.createFeatureCollectionFromPOIs();
                                             }}
-                                            checked={queryString.parse(this.props.routing.location.search).unclustered!==null}  
+                                            checked={clusteredPOIs}  
                                             inline>POI ma&szlig;stabsabh&auml;ngig zusammenfassen</Checkbox><br/>
                                         </FormGroup>
                                         <FormGroup>
@@ -330,7 +402,7 @@ export class StadtplanModalApplicationMenu_ extends React.Component {
                                                                     + removeQueryPart(this.props.routing.location.search, "mapStyle"));
                                                 }
                                             }}
-                                            checked={queryString.parse(this.props.routing.location.search).mapStyle===undefined || queryString.parse(this.props.routing.location.search).mapStyle==='default'}
+                                            checked={namedMapStyle==='default'}
                                             name="mapBackground" inline>
                                             Tag
                                         </Radio>{' '}
@@ -345,21 +417,18 @@ export class StadtplanModalApplicationMenu_ extends React.Component {
                                                 }
                                             }}
                                             name="mapBackground" 
-                                            checked={queryString.parse(this.props.routing.location.search).mapStyle==='night'}
+                                            checked={namedMapStyle==='night'}
                                             inline>
                                             Nacht
                                         </Radio>{' '}
                                     </FormGroup>                         
                                 </td>
-                                <td>
-
-                                </td>
+                                {widePreviewPlaceholder}
                             </tr>
-
-
-                       
+  
                         </tbody>
-                        </table>                    
+                        </table>    
+                        {narrowPreviewPlaceholder}                
                     </Panel>
 
 

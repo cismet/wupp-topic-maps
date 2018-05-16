@@ -220,7 +220,7 @@ export class Stadtplan_ extends React.Component {
 
     let title=null;
     let themenstadtplanDesc="";
-    let content ;
+    let titleContent ;
     let qTitle=queryString.parse(this.props.routing.location.search).title;
     if (qTitle!==undefined){
         if (qTitle===null|| qTitle==="" ) {
@@ -241,7 +241,7 @@ export class Stadtplan_ extends React.Component {
                     }
                 }
             }
-            content=(
+            titleContent=(
                 <div>
                     <b>Mein Themenstadtplan: </b> {themenstadtplanDesc}
                 </div>
@@ -249,7 +249,7 @@ export class Stadtplan_ extends React.Component {
         }
         else {
             themenstadtplanDesc=qTitle;
-            content=(
+            titleContent=(
                 <div>
                     {themenstadtplanDesc}
                 </div>
@@ -268,7 +268,7 @@ export class Stadtplan_ extends React.Component {
                     <tbody>
                         <tr>
                             <td style={{ textAlign: 'center', verticalAlign: 'middle',background: "#ffffff", color: "black", opacity:'0.9', paddingLeft: '10px', }}>
-                            {content} 
+                            {titleContent} 
                             </td>                              
                         </tr>
                     </tbody>

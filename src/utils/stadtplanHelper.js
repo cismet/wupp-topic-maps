@@ -215,7 +215,7 @@ export const getColorFromLebenslagenCombination = (combination) => {
     } else {        
         let colorHash = new ColorHash({saturation: 0.3});
         const c=colorHash.hex(combination);    
-        console.log("Keine vordefinierte Farbe für '"+combination+"' vorhanden. (Ersatz wird automatisch erstellt) --> "+c);
+        console.debug("Keine vordefinierte Farbe für '"+combination+"' vorhanden. (Ersatz wird automatisch erstellt) --> "+c);
         return c;
     }
     //return "#A83F6A";

@@ -595,30 +595,52 @@ centerOnPoint(x,y,z) {
         scrollWheelZoom={true}
         >
         {overlayFeature}
-        {/* <div key={"layers.in."+namedMapStyle}> */}
             {
             layerArr.map((layerWithOptions) => {
                     const layOp = layerWithOptions.split('@');
                     if (!isNaN(parseInt(layOp[1]))) {
-                        return Layers.get(layOp[0]+namedMapStyle)({"opacity":parseInt(layOp[1] || '100', 10) / 100.0});
+                        const layerGetter=Layers.get(layOp[0]+namedMapStyle);
+                            if (layerGetter) {
+                                return layerGetter({"opacity":parseInt(layOp[1] || '100', 10) / 100.0});
+                            }
+                            else {
+                                return null;
+                            }
                     }
                     if (layOp.length===2) {
                         try{
                             let options=JSON.parse(layOp[1]);
-                            return Layers.get(layOp[0]+namedMapStyle)(options);
+                            const layerGetter=Layers.get(layOp[0]+namedMapStyle);
+                            if (layerGetter) {
+                                return layerGetter(options);
+                            }
+                            else {
+                                return null;
+                            }
                         }
                         catch (error){
                             console.error(error);
                             console.error("Problems during parsing of the layer options. Skip options. You will get the 100% Layer:"+layOp[0]);
-                            return Layers.get(layOp[0]+namedMapStyle)();
+                            const layerGetter=Layers.get(layOp[0]+namedMapStyle);
+                            if (layerGetter) {
+                                return layerGetter();
+                            }
+                            else {
+                                return null;
+                            }
                         }
                     } else {
-                        return Layers.get(layOp[0]+namedMapStyle)();
+                        const layerGetter=Layers.get(layOp[0]+namedMapStyle);
+                        if (layerGetter) {
+                            return layerGetter();
+                        }
+                        else {
+                            return null;
+                        }
                     }
                 }
             )
         }
-        {/* </div> */}
       <GazetteerHitDisplay key={"gazHit" + JSON.stringify(this.props.mapping.gazetteerHit)} mappingProps={this.props.mapping}/>
       <FeatureCollectionDisplay key={JSON.stringify(this.props.mapping.featureCollection)+this.props.featureKeySuffixCreator()+"clustered:"+this.props.clustered} 
                                 mappingProps={this.props.mapping} 

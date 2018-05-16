@@ -2,24 +2,49 @@ import React from 'react';
 import L from 'leaflet';
 import { WMSTileLayer } from 'react-leaflet';
 // import filters from 'pleeease-filters'; /a postcss  plugin. worked only for the first expression
+import PropTypes from 'prop-types';
 
 
 
 export class StyledWMSTileLayer_ extends WMSTileLayer {
     constructor(props){
+        console.debug("constructor")
+
         super(props);
+        this.setFilter=this.setFilter.bind(this);
     }
   
     createLeafletElement(props) {
         return super.createLeafletElement(props);
       }
-    
+      componentDidMount() {
+        super.componentDidMount();
+        this.setFilter();
+      }
       updateLeafletElement(fromProps, toProps) {
-        super.updateLeafletElement(fromProps, toProps)
+        super.updateLeafletElement(fromProps, toProps);
+        this.setFilter();
+      }
+    
+      setFilter(){
         if (this.props.cssFilter){
-            console.log(this.props.cssFilter)
-             this.leafletElement._container.style.cssText+=" "+this.props.cssFilter;
-
+            if (this.leafletElement){
+                if (this.leafletElement._container){
+                    if (this.leafletElement._container.style) {
+                        this.leafletElement._container.style.cssText+=" "+this.props.cssFilter;
+                    }
+                    else {
+                        console.debug("this.leafletElement._container not set")
+                    }
+                }
+                else{
+                    console.debug("this.leafletElement._container not set")
+                }
+            }
+            else {
+                console.debug("this.leafletElemen not set")
+            }
+   
             //  filters.process("{"+ this.props.cssFilter +"}",{}).then(result => {
             //     let newfilter=result.css.substring(1, result.css.length-1);
 
@@ -28,8 +53,12 @@ export class StyledWMSTileLayer_ extends WMSTileLayer {
             //     this.leafletElement._container.style.cssText+=" "+newfilter;
             //  });
         }
+        else{
+            console.debug("no cssFilter set")
+ 
+        }
       }
-    
+
       getOptions(params) {
         return super.getOptions(params);
       }
@@ -39,24 +68,13 @@ const StyledWMSTileLayer = StyledWMSTileLayer_;
 
 export default StyledWMSTileLayer;
 
-// StyledWMSTileLayer.propTypes = {
-//   style: PropTypes.string.isRequired,
-//   masked: PropTypes.bool,
-//   maskingPolygon: PropTypes.string,
-//   style: PropTypes.func,
-//   mapRef: PropTypes.object.isRequired
-// };
-// ProjSingleGeoJson.defaultProps = {
-//   masked: false,
-//   maskingPolygon: "POLYGON((292872.70820260537 5734812.567828996,454766.33411074313 5734812.567828996,454766.33411074313 5622450.136249692,292872.70820260537 5622450.136249692,292872.70820260537 5734812.567828996))",
-//   style: (feature) => {
-//         const style = {
-//           "color": "black",
-//           "weight": 3,
-//           "opacity": 0.6,
-//           "fillColor": "black",
-//           "fillOpacity": 0.2
-//         };
-//         return style;
-//       }
-//   }
+StyledWMSTileLayer.propTypes = {
+    url: PropTypes.string,
+    layers: PropTypes.string,
+    format: PropTypes.string,
+    tiled: PropTypes.string,
+    version: PropTypes.string,
+    maxZoom: PropTypes.number,
+    opacity: PropTypes.number,
+    cssFilter: PropTypes.string
+};

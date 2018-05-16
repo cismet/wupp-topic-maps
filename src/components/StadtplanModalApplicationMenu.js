@@ -339,7 +339,9 @@ export class StadtplanModalApplicationMenu_ extends React.Component {
                                             onClick={(e)=>{
                                                 if (e.target.checked===true) {
                                                     this.props.routingActions.push(this.props.routing.location.pathname 
-                                                                    + modifyQueryPart(this.props.routing.location.search, {'mapStyle':'night'}));
+                                                        + modifyQueryPart(this.props.routing.location.search, {'mapStyle':'night'}));
+                                                        
+
                                                 }
                                             }}
                                             name="mapBackground" 

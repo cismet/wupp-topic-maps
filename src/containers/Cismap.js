@@ -572,9 +572,9 @@ centerOnPoint(x,y,z) {
         namedMapStyle='.'+namedMapStyle;
     }
 
+    
 
-    const mykey="leafletMap"+".Layers:"+JSON.stringify(layerArr)+ namedMapStyle;//+"clustered:"+this.props.clustered;
-   // console.log(mykey);
+    const mykey="leafletMap"+".Layers:"+JSON.stringify(layerArr);
     return (
     <div className={iosClass} >
     <Map ref="leafletMap" 
@@ -595,6 +595,7 @@ centerOnPoint(x,y,z) {
         scrollWheelZoom={true}
         >
         {overlayFeature}
+        {/* <div key={"layers.in."+namedMapStyle}> */}
             {
             layerArr.map((layerWithOptions) => {
                     const layOp = layerWithOptions.split('@');
@@ -617,6 +618,7 @@ centerOnPoint(x,y,z) {
                 }
             )
         }
+        {/* </div> */}
       <GazetteerHitDisplay key={"gazHit" + JSON.stringify(this.props.mapping.gazetteerHit)} mappingProps={this.props.mapping}/>
       <FeatureCollectionDisplay key={JSON.stringify(this.props.mapping.featureCollection)+this.props.featureKeySuffixCreator()+"clustered:"+this.props.clustered} 
                                 mappingProps={this.props.mapping} 

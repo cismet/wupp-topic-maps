@@ -7,13 +7,10 @@ import {
     Button,
     Accordion,
     Panel,
-    ButtonGroup,Dropdown,MenuItem, OverlayTrigger, Tooltip,
     FormGroup, Checkbox, Radio, ControlLabel,
-    Alert,
     Label
 } from 'react-bootstrap';
 import {actions as UiStateActions} from '../redux/modules/uiState';
-import {constants as ehrenamtConstants, actions as EhrenamtActions} from '../redux/modules/ehrenamt';
 
 import {getColorFromLebenslagenCombination} from '../utils/stadtplanHelper';
 
@@ -25,8 +22,7 @@ import MultiToggleButton from './MultiToggleButton';
 
 import { Link } from 'react-scroll';
 
-import copy from 'copy-to-clipboard';
-import ReactChartkick, { LineChart, PieChart } from 'react-chartkick'
+import ReactChartkick, { PieChart } from 'react-chartkick'
 import Chart from 'chart.js'
 
 import {removeQueryPart, modifyQueryPart} from '../utils/routingHelper'
@@ -126,8 +122,8 @@ export class StadtplanModalApplicationMenu_ extends React.Component {
         }
 
         let clusteredPOIs=queryString.parse(this.props.routing.location.search).unclustered!==null;
-        let titleDisplay=queryString.parse(this.props.routing.location.search).title!==undefined;
         let customTitle=queryString.parse(this.props.routing.location.search).title;
+        let titleDisplay=customTitle!==undefined;
         let namedMapStyle=queryString.parse(this.props.routing.location.search).mapStyle||"default";
         
         let llOptions=[];
@@ -143,8 +139,6 @@ export class StadtplanModalApplicationMenu_ extends React.Component {
 
         let overviewRows=this.createOverviewRows();        
 
-
-        let allbuttonvalue="two"; 
         
         let stats={};
         let colormodel={};
@@ -461,7 +455,7 @@ export class StadtplanModalApplicationMenu_ extends React.Component {
 														<div name="Kartendarstellung"><br /></div>
 														<h4>Kartendarstellung der Angebote <Link to="help" containerId="myMenu" style={{ color: '#00000044'}}><Icon name="arrow-circle-up"/></Link></h4>
 														 <p>Die in der Karte für die Punktdarstellungen der Angebote verwendeten Farben stehen jeweils für eine bestimmte Kombination der Kategorisierungen in den Bereichen <em>Aufgabenfelder</em>, <em>Tätigkeiten</em> und <em>Zielgruppen</em>.<br />
-														 Eng beieinander liegende Angebote werden maßstabsabhängig zu größeren Punkten zusammengefasst, mit der Anzahl der repräsentierten Angebote im Zentrum <img src="images/colorcircle_k.jpg" />.<br />Vergrößern Sie ein paar Mal durch direktes Anklicken eines solchen Punktes oder mit <Icon name="plus"/> die Darstellung, so werden die zusammengefassten Angebote Schritt für Schritt in die kleineren Punktdarstellungen für die konkreten Einzelangebote zerlegt. Nur Angebote, die sich auf denselben Standort beziehen, werden in jedem Maßstab als Zusammenfassung dargestellt. In diesen Fällen führt ein weiterer Klick ab einer bestimmten Maßstabsstufe (Zoomstufe 12) dazu, dass eine Explosionsgrafik der zusammengefassten Angebote angezeigt wird.</p>
+														 Eng beieinander liegende Angebote werden maßstabsabhängig zu größeren Punkten zusammengefasst, mit der Anzahl der repräsentierten Angebote im Zentrum <img alt="" src="images/colorcircle_k.jpg" />.<br />Vergrößern Sie ein paar Mal durch direktes Anklicken eines solchen Punktes oder mit <Icon name="plus"/> die Darstellung, so werden die zusammengefassten Angebote Schritt für Schritt in die kleineren Punktdarstellungen für die konkreten Einzelangebote zerlegt. Nur Angebote, die sich auf denselben Standort beziehen, werden in jedem Maßstab als Zusammenfassung dargestellt. In diesen Fällen führt ein weiterer Klick ab einer bestimmten Maßstabsstufe (Zoomstufe 12) dazu, dass eine Explosionsgrafik der zusammengefassten Angebote angezeigt wird.</p>
 														
 														<div name="positionieren"><br /></div>
 														<h4>In Karte positionieren <Link to="help" containerId="myMenu" style={{ color: '#00000044'}}><Icon name="arrow-circle-up"/></Link></h4>
@@ -496,7 +490,7 @@ export class StadtplanModalApplicationMenu_ extends React.Component {
 														 <ul>
 															 <li>Mit  <Icon name="trash"/> können Sie Ihre Merkliste komplett löschen.</li>
 															 
-															 <li>Mit <Icon name="map"/> aktivieren Sie einen Modus, in dem Ihnen in der Karte nur die Angebote aus Ihrer Merkliste angezeigt werden. Dieser Modus wird Ihnen durch ein rotes Banner <img src="images/merkliste_akt.jpg" /> oben in der Info-Box signalisiert. Dort können Sie den Merklistenfilter durch Klicken auf <Icon name="times"/> auch wieder ausschalten.</li>
+															 <li>Mit <Icon name="map"/> aktivieren Sie einen Modus, in dem Ihnen in der Karte nur die Angebote aus Ihrer Merkliste angezeigt werden. Dieser Modus wird Ihnen durch ein rotes Banner <img alt="Merkliste" rc="images/merkliste_akt.jpg" /> oben in der Info-Box signalisiert. Dort können Sie den Merklistenfilter durch Klicken auf <Icon name="times"/> auch wieder ausschalten.</li>
 															 
 															 <li>Im Menü <Icon name="share-square"/> finden Sie Möglichkeiten, den Inhalt der Merkliste mit anderen zu teilen.
 															 <ul>
@@ -511,7 +505,7 @@ export class StadtplanModalApplicationMenu_ extends React.Component {
 														<h4>Angebote filtern <Link to="help" containerId="myMenu" style={{ color: '#00000044'}}><Icon name="arrow-circle-up"/></Link></h4>
 														 <p>Über das Anwendungsmenü <Icon name="bars"/> in der rechten oberen Ecke können Sie Filter einstellen, um die in der Karte angezeigten Angebote an Ihre Interessen anzupassen. Dazu werden Ihnen in der Auswahlliste „<em>Ich suche nach</em>“ alle Kategorisierungen in den Bereichen <em>Aufgabenfelder</em>, <em>Tätigkeiten</em> und <em>Zielgruppen</em> zur Auswahl angeboten. Es werden alle Angebote gefunden, die vom Zentrum für Gute Taten mit mindestens einem der von Ihnen ausgewählten Begriffe kategorisiert worden sind (logisches „oder“). Die Treffermenge steigt dadurch bei mehreren Suchbegriffen schnell an.<br />
 														 Als Gegengewicht dazu können Sie in der Liste „<em>Ich schließe aus</em>“ auch Ausschlusskriterien definieren.</p>
-														 <p>Eine alternative Eingabemöglichkeit für Ihre Such- und Ausschlussbedingungen  bieten Ihnen die 3 Leitfragen unterhalb der Auswahllisten. Durch Klicken auf die jeweilige Frage erhalten Sie eine Übersicht über alle zugehörigen Kategorien und können diese mit <Icon name="thumbs-up"/> oder <Icon name="thumbs-down"/> als Such- oder Ausschlussbegriffe markieren. Die Filter-Auswahllisten und Einstellungen unter den Leitfragen sind vollständig miteinander synchronisiert. Wenn Sie Filtereinstellungen festgelegt haben, wird Ihnen dies durch ein graues Banner <img src="images/filter_akt.jpg" /> oben in der Info-Box signalisiert. Die in Klammern angezeigte Zahl ist die Anzahl der aktuell von Ihnen zur Filterung verwendeten Such- und Ausschlussbegriffe.<br />
+														 <p>Eine alternative Eingabemöglichkeit für Ihre Such- und Ausschlussbedingungen  bieten Ihnen die 3 Leitfragen unterhalb der Auswahllisten. Durch Klicken auf die jeweilige Frage erhalten Sie eine Übersicht über alle zugehörigen Kategorien und können diese mit <Icon name="thumbs-up"/> oder <Icon name="thumbs-down"/> als Such- oder Ausschlussbegriffe markieren. Die Filter-Auswahllisten und Einstellungen unter den Leitfragen sind vollständig miteinander synchronisiert. Wenn Sie Filtereinstellungen festgelegt haben, wird Ihnen dies durch ein graues Banner <img alt="Filter-Banner" src="images/filter_akt.jpg" /> oben in der Info-Box signalisiert. Die in Klammern angezeigte Zahl ist die Anzahl der aktuell von Ihnen zur Filterung verwendeten Such- und Ausschlussbegriffe.<br />
 														 Über das Banner können Sie die Filterung durch Klicken auf <Icon name="times"/> wieder zurücksetzen.</p>
                         </Panel>
                     </Accordion>

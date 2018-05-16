@@ -1,7 +1,6 @@
 import React from 'react';
-import { TileLayer, WMSTileLayer } from 'react-leaflet';
+import { TileLayer } from 'react-leaflet';
 import StyledWMSTileLayer from './StyledWMSTileLayer'
-import PropTypes from 'prop-types';
 import objectAssign from 'object-assign';
 
 export const Layers = new Map();

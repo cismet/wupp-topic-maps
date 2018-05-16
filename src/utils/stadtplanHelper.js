@@ -4,7 +4,6 @@ import L from 'leaflet';
 import createSVGPie from 'create-svg-pie';
 import createElement from 'svg-create-element';
 import SVGInjector from 'svg-injector';
-import { Base64 } from 'js-base64';
 import poiColors from '../constants/poiColors.js';
 import store from '../redux/store';
 import queryString from 'query-string';
@@ -89,7 +88,6 @@ export const featureStyler = (feature) => {
 
 export const poiClusterIconCreator = (cluster) => {
     var childCount = cluster.getChildCount();
-    const color="#A83F6A";
     const values = [];
     const colors = [];
     const r = 16;
@@ -241,9 +239,7 @@ const getSignatur = (properties) => {
 
 export const addSVGToPOI = (poi) => {
     return new Promise(function (fulfilled,rejected) {
-        var color = Color(getColorForProperties(poi));
         let radius = 10;
-        let selectionBox = 30;
         let weight = 2;
         let svgSize = radius * 2 + weight * 2;
         let test=createElement('svg', {
@@ -279,7 +275,7 @@ export const addSVGToPOI = (poi) => {
                     fulfilled(poi);    
                 }
                 catch (error) {
-                    console.error("Problem bei "+"/pois/signaturen/"+getSignatur(poi));
+                    console.error("Problem bei /pois/signaturen/"+getSignatur(poi));
                     console.error(error);
                     rejected(error);
                 }

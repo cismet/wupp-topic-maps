@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { OverlayTrigger, Well, Tooltip } from 'react-bootstrap';
 import {Icon} from 'react-fa'
-import { constants as ehrenamtConstants } from '../redux/modules/ehrenamt';
 import queryString from 'query-string';
 import {getColorForProperties} from '../utils/stadtplanHelper';
 import Color from 'color';
@@ -12,14 +11,11 @@ const StadtplanInfo = ({featureCollection, filteredPOIs, selectedIndex, next, pr
 
   const currentFeature=featureCollection[selectedIndex];
 
-
-  let logCurrentFeature=function() {
-    console.log(currentFeature.properties.mainlocationtype.signatur);
-  }
   let info="";
+
   let t="Kein POI selektiert.";
   let fotoStyle={};
-  
+
   let maillink=null;
   let urllink=null;
   let phonelink=null;
@@ -153,7 +149,7 @@ const StadtplanInfo = ({featureCollection, filteredPOIs, selectedIndex, next, pr
                     <tr>
                     <td style={{ textAlign: 'right', verticalAlign: 'top' }}>
                         <a onClick={openlightbox} hrefx={currentFeature.properties.fotostrecke||currentFeature.properties.foto} target="_fotos">
-                        <img style={{paddingBottom:"5px"}} src={currentFeature.properties.foto.replace(/http:\/\/.*fotokraemer-wuppertal\.de/,"https://wunda-geoportal-fotos.cismet.de/")} width="150" />
+                        <img alt="Bild" style={{paddingBottom:"5px"}} src={currentFeature.properties.foto.replace(/http:\/\/.*fotokraemer-wuppertal\.de/,"https://wunda-geoportal-fotos.cismet.de/")} width="150" />
                         </a>
                     </td>
                     </tr>

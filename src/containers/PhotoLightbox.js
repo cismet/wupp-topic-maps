@@ -19,9 +19,6 @@ function mapDispatchToProps(dispatch) {
 }
 
 export class PhotoLightbox_ extends React.Component {
-    constructor(props, context) {
-        super(props, context);
-    }
     render() {
         if (this.props.uiState.lightboxvisible) {
             let nextSrc=this.props.uiState.lightboxurls[(this.props.uiState.lightboxindex + 1) % this.props.uiState.lightboxurls.length];

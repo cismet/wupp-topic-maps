@@ -23,7 +23,7 @@ export class LightboxExample_ extends React.Component {
         super(props, context);
         this.props.uiStateActions.setLightboxCaption("Caption");
         this.props.uiStateActions.setLightboxTitle((
-            <a href="https://cismet.de" target="_blank">cismet.de</a>
+            <a href="https://cismet.de" target="_blank" rel="noopener noreferrer">cismet.de</a>
         ));
        
     }

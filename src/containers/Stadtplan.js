@@ -3,10 +3,7 @@ import PropTypes from 'prop-types';
 import Cismap from '../containers/Cismap';
 
 import { connect } from "react-redux";
-import { Tooltip, Button} from 'react-bootstrap';
-import Control from 'react-leaflet-control';
-import {Icon} from 'react-fa'
-
+import { Tooltip } from 'react-bootstrap';
 
 import { actions as mappingActions } from '../redux/modules/mapping';
 import { actions as uiStateActions } from '../redux/modules/uiState';
@@ -20,8 +17,6 @@ import { featureStyler, featureHoverer, poiClusterIconCreator } from '../utils/s
 import Loadable from 'react-loading-overlay';
 import queryString from 'query-string';
 
-import {modifyQueryPart} from '../utils/routingHelper'
-import ProjSingleGeoJson from '../components/ProjSingleGeoJson';
 import StadtplanInfo from '../components/StadtplanInfo';
 import StadtplanModalApplicationMenu from '../components/StadtplanModalApplicationMenu';
 import PhotoLightbox from './PhotoLightbox';

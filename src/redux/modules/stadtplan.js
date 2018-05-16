@@ -1,6 +1,5 @@
 import objectAssign from 'object-assign';
 import {actions as mappingActions} from './mapping';
-import {routerActions} from 'react-router-redux'
 import {predicateBy} from '../../utils/stringHelper';
 import kdbush from 'kdbush';
 import {addSVGToPOI} from '../../utils/stadtplanHelper';
@@ -271,7 +270,6 @@ function setAllLebenslagenToFilter(kind) {
     return (dispatch, getState) => {
         let state = getState();
         let filterState = JSON.parse(JSON.stringify(state.stadtplan.filter));
-        let lebenslagenGroupSet = new Set(state.stadtplan.lebenslagen);
         filterState[kind]=JSON.parse(JSON.stringify(state.stadtplan.lebenslagen));
         dispatch(setFilter(filterState));
         dispatch(applyFilter());

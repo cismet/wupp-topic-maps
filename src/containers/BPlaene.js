@@ -140,7 +140,7 @@ export class BPlaene_ extends React.Component {
 
       
       let encoding=null;
-      if (navigator.appVersion.indexOf("Win")!=-1) {
+      if (navigator.appVersion.indexOf("Win")!==-1) {
           encoding="CP850";
       }
 

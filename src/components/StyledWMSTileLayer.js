@@ -1,5 +1,3 @@
-import React from 'react';
-import L from 'leaflet';
 import { WMSTileLayer } from 'react-leaflet';
 // import filters from 'pleeease-filters'; /a postcss  plugin. worked only for the first expression
 import PropTypes from 'prop-types';

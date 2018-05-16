@@ -41,7 +41,6 @@ import * as gisHelpers from '../utils/gisHelper';
 // eslint-disable-next-line
 import markerClusterGroup from 'leaflet.markercluster';
 
-import L from 'leaflet';
 import ProjSingleGeoJson from '../components/ProjSingleGeoJson';
 
 import LocateControl from '../components/LocateControl';
@@ -574,7 +573,7 @@ centerOnPoint(x,y,z) {
 
     
 
-    const mykey="leafletMap"+".Layers:"+JSON.stringify(layerArr);
+    const mykey="leafletMap.Layers:"+JSON.stringify(layerArr);
     return (
     <div className={iosClass} >
     <Map ref="leafletMap" 
@@ -598,7 +597,7 @@ centerOnPoint(x,y,z) {
             {
             layerArr.map((layerWithOptions) => {
                     const layOp = layerWithOptions.split('@');
-                    if (!isNaN(parseInt(layOp[1]))) {
+                    if (!isNaN(parseInt(layOp[1],10))) {
                         const layerGetter=Layers.get(layOp[0]+namedMapStyle);
                             if (layerGetter) {
                                 return layerGetter({"opacity":parseInt(layOp[1] || '100', 10) / 100.0});

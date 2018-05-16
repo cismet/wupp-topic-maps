@@ -137,6 +137,13 @@ const StadtplanInfo = ({featureCollection, filteredPOIs, selectedIndex, next, pr
             );
         }
 
+
+        let adresse= currentFeature.properties.adresse;
+            
+        if (currentFeature.properties.stadt!=='Wuppertal'){
+            adresse += ", "+currentFeature.properties.stadt;
+        }
+
         return (
             <div>
             {fotoDiv}
@@ -171,7 +178,7 @@ const StadtplanInfo = ({featureCollection, filteredPOIs, selectedIndex, next, pr
                                 {info.split('\n').map((item, key) => {
                                 return <span key={key}>{item}<br/></span>
                                 })}</h6>
-                            <p>{currentFeature.properties.adresse}</p>
+                            <p>{adresse}</p>
                         </td>
                         </tr>
                         </tbody>

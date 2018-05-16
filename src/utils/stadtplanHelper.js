@@ -235,14 +235,7 @@ const getSignatur = (properties) => {
     else if (properties.mainlocationtype.signatur){
         return properties.mainlocationtype.signatur;
     }
-    else {
-        for (let type of properties.locationtypes){
-            if (type.signatur) {
-                return type.signatur;
-            }
-        }
-    }
-    return "burg.svg"; //TODO sinnvoller default
+    return "Platz.svg"; //TODO sinnvoller default
 }
 
 

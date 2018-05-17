@@ -241,10 +241,10 @@ Layers.set("rvrWMS", (options=defaultOptions) => {
   );
 });
 
-Layers.set("XrvrWMS", (options=defaultOptions) => {
+Layers.set("rvrWMS.night", (options=defaultNightOptions) => {
     return (
       <StyledWMSTileLayer
-        key="Xstadtplan_rvr"
+        key="stadtplan_rvr.night"
         url="https://rvr.demo.omniscale.net/mapproxy/service"
         layers="stadtplan_rvr"
         format="image/png"
@@ -256,6 +256,8 @@ Layers.set("XrvrWMS", (options=defaultOptions) => {
       />
     );
   });
+  
+  
 
   Layers.set("ruhrWMS", (options=defaultOptions) => {
     return (
@@ -273,7 +275,6 @@ Layers.set("XrvrWMS", (options=defaultOptions) => {
       />
     );
   });
-  
 
   Layers.set("ruhrWMS.night", (options=defaultNightOptions) => {
     let mergedOptions=objectAssign({}, defaultNightOptions, options);
@@ -282,6 +283,44 @@ Layers.set("XrvrWMS", (options=defaultOptions) => {
       <StyledWMSTileLayer
         key="ruhr_stadtplan_rvr.night"
         url="https://geodaten.metropoleruhr.de/spw2/service"
+        layers="stadtplan_rvr"
+        format="image/png"
+        tiled="false"
+        version="1.3.0"
+        maxZoom={19}
+        opacity={mergedOptions.opacity}
+        cssFilter={mergedOptions["css-filter"]}
+
+      />
+    );
+  });
+
+
+  Layers.set("wupp-plan-live", (options=defaultOptions) => {
+    return (
+      <StyledWMSTileLayer
+        key="wupp-plan-live"
+        url="https://wupp-plan-live.cismet.de"
+        layers="stadtplan_rvr"
+        format="image/png"
+        tiled="false"
+        version="1.3.0"
+        maxZoom={19}
+        opacity={options.opacity}
+        cssFilter={options["css-filter"]}
+
+      />
+    );
+  });
+  
+
+  Layers.set("wupp-plan-live.night", (options=defaultNightOptions) => {
+    let mergedOptions=objectAssign({}, defaultNightOptions, options);
+    // console.log(mergedOptions);
+    return (
+      <StyledWMSTileLayer
+        key="wupp-plan-live.night"
+        url="https://wupp-plan-live.cismet.de"
         layers="stadtplan_rvr"
         format="image/png"
         tiled="false"

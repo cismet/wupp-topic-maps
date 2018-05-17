@@ -149,8 +149,8 @@ function loadPOIs() {
             }
         }).then((md5value) => {
             md5 = md5value.trim();
-            if (queryString.parse(state.routing.location.search).alwaysRefreshOnReload!==undefined) {
-                console.log("Fetch POIs because of alwaysRefreshOnReload Parameter")
+            if (queryString.parse(state.routing.location.search).alwaysRefreshPOIsOnReload!==undefined) {
+                console.log("Fetch POIs because of alwaysRefreshPOIsOnReload Parameter")
                 return "fetchit";
             }
 

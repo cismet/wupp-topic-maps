@@ -3,6 +3,7 @@ import {actions as mappingActions} from './mapping';
 import {predicateBy} from '../../utils/stringHelper';
 import kdbush from 'kdbush';
 import {addSVGToPOI} from '../../utils/stadtplanHelper';
+import queryString from 'query-string';
 
 
 //TYPES
@@ -148,6 +149,11 @@ function loadPOIs() {
             }
         }).then((md5value) => {
             md5 = md5value.trim();
+            if (queryString.parse(state.routing.location.search).alwaysRefreshOnReload!==undefined) {
+                console.log("Fetch POIs because of alwaysRefreshOnReload Parameter")
+                return "fetchit";
+            }
+
             if (md5 === state.stadtplan.poisMD5 && (constants.DEBUG_ALWAYS_LOADING===false)) {
                 dispatch(applyFilter());
                 dispatch(createFeatureCollectionFromPOIs());
@@ -199,8 +205,6 @@ function loadPOIs() {
 
             dispatch(setTypes(Array.from(poitypes).sort(predicateBy("name"))));
             dispatch(setLebenslagen(Array.from(lebenslagen).sort()));
-
-            console.log(JSON.stringify(lebenslagen));
             let svgResolvingPromises = data.map(function(poi){
                 return addSVGToPOI(poi);
             })

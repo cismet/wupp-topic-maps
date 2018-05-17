@@ -228,6 +228,23 @@ Layers.set("ruhrWMS", (opacity) => {
   });
 
 
+  Layers.set("wupp-plan-live", (opacity) => {
+    return (
+      <WMSTileLayer
+        key="stadtplan_rvr"
+        url="https://wupp-plan-live.cismet.de"
+        layers="stadtplan_rvr"
+        format="image/png"
+        tiled="false"
+        version="1.3.0"
+        maxZoom={19}
+        opacity={opacity}
+      />
+    );
+  });
+  
+
+
 Layers.set("orthoIntra", (opacity) => {
     return (
       <WMSTileLayer

@@ -16,7 +16,9 @@ export class DefaultPage_ extends React.Component {
         );
         return (
             <div>
-                <Cismap infoBox={info}/>                
+                <Cismap infoBox={info}/>   
+                <a target="_blank" href="https://cismet.de/datenschutzerklaerung.html">Datenschutzerklärung (Privacy Policy)</a>
+             
             </div>
         );
     }

@@ -631,7 +631,8 @@ export class EhrenamtModalApplicationMenu_ extends React.Component {
                                     <b>Hintergrundkarte</b>: <a>Stadtplanwerk 2.0 (Beta)</a>, <Icon name="copyright"/> Regionalverband Ruhr (RVR) und Kooperationspartner.<br/>
                                     <b>Technische Realisierung</b>: <a href="https://cismet.de/" target="_cismet">cismet GmbH</a> auf Basis von <a  href="http://leafletjs.com/" target="_leaflet">Leaflet</a> und <a href="https://cismet.de/#refs" target="_cismet">cids | WuNDa</a><br/>
                                     <b>Angebotsdaten</b>: {this.props.offersMD5}</span>
-                                    
+                                    <a target="_blank" href="https://cismet.de/datenschutzerklaerung.html">Datenschutzerklärung (Privacy Policy)</a>
+
                             </td>
                             <td>
                                 <Button bsStyle="primary" type="submit" onClick={this.close}>Ok</Button>

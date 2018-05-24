@@ -169,6 +169,7 @@ export class BPlanModalHelp_ extends React.Component {
                                     <a>WebAtlasDE &copy; GeoBasis-DE / BKG 2017</a>, jeweils &uuml;berlagert mit
                                     Geltungsbereichen der Wuppertaler Bebauungspl&auml;ne.<br/>
                                     <b>Technische Realisierung</b>: <a href="https://cismet.de/" target="_cismet">cismet GmbH</a> auf Basis von <a  href="http://leafletjs.com/" target="_leaflet">Leaflet</a> und <a href="https://cismet.de/#refs" target="_cismet">cids | WuNDa</a><br/>
+                                    <a target="_blank" href="https://cismet.de/datenschutzerklaerung.html">Datenschutzerklärung (Privacy Policy)</a>
                                     </span>
                             </td>
                             <td>

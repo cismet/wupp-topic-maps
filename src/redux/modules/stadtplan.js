@@ -141,6 +141,9 @@ function loadPOIs() {
         noCacheHeaders.append('pragma', 'no-cache');
         noCacheHeaders.append('cache-control', 'no-cache');
 
+
+        const manualReloadRequested=(queryString.parse(state.routing.location.search).alwaysRefreshPOIsOnReload!==undefined);
+
         return fetch('/pois/poi.data.json.md5', {method: 'get', headers: noCacheHeaders}).then((response) => {
             if (response.ok) {
                 return response.text();
@@ -149,7 +152,7 @@ function loadPOIs() {
             }
         }).then((md5value) => {
             md5 = md5value.trim();
-            if (queryString.parse(state.routing.location.search).alwaysRefreshPOIsOnReload!==undefined) {
+            if (manualReloadRequested){
                 console.log("Fetch POIs because of alwaysRefreshPOIsOnReload Parameter")
                 return "fetchit";
             }
@@ -206,7 +209,7 @@ function loadPOIs() {
             dispatch(setTypes(Array.from(poitypes).sort(predicateBy("name"))));
             dispatch(setLebenslagen(Array.from(lebenslagen).sort()));
             let svgResolvingPromises = data.map(function(poi){
-                return addSVGToPOI(poi);
+                return addSVGToPOI(poi,manualReloadRequested);
             })
 
             Promise.all(svgResolvingPromises).then(function(results) {

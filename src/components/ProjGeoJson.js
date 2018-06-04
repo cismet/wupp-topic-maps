@@ -26,7 +26,7 @@ function mapDispatchToProps(dispatch) {
 
 
 export class ProjGeoJson_ extends Path {
-  componentWillMount() {
+   componentWillMount() {
     super.componentWillMount();
     const { mappingProps, ...props } = this.props;
 
@@ -98,11 +98,21 @@ export class ProjGeoJson_ extends Path {
     }
     else {
         this.clusteredMarkers=null;
+        if (this.props.mapRef.leafletElement.hasLayer(this.leafletElement)){
+            this.props.mapRef.leafletElement.removeLayer(this.leafletElement)
+        }
     }
+
     if (this.clusteredMarkers && this.props.clusteringEnabled) {
             this.leafletElement = this.clusteredMarkers.clearLayers();
             this.leafletElement = this.clusteredMarkers.addLayer(geojson);
             let that=this;
+            
+            // need to add it to the map now, because of the spiderfy functionality 
+            // (ensure spidefication when object is selected)
+            // the test needs an already mounted layer
+            this.props.mapRef.leafletElement.addLayer(this.leafletElement) 
+            
             this.clusteredMarkers.on('clusterclick', function (a) {
                 let zoomLevel=that.props.mapRef.leafletElement.getZoom();
                 if (zoomLevel<(that.props.clusterOptions.cismapZoomTillSpiderfy||11)) {
@@ -114,23 +124,23 @@ export class ProjGeoJson_ extends Path {
             });
             let markers = this.clusteredMarkers.getLayers();
             for (let marker of markers) {
-            let parent = this.clusteredMarkers.getVisibleParent(marker);
-            if (marker.feature.selected === true) {
-                if (parent && parent.spiderfy) {
-                    //   console.log("will spiderfy cluster of feature "+marker.feature.id )
-                    if (this.props.mapRef.leafletElement.getZoom()>=(this.props.selectionSpiderfyMinZoom||12)) {
-                        setTimeout(function () {
-                            try {
-                                parent.spiderfy();
-                            } catch (err) {
-                                //ugly winning
-                            }
-                        }, 1);
+                if (marker.feature.selected === true) {
+                    let parent = this.clusteredMarkers.getVisibleParent(marker);
+                    if (parent && parent.spiderfy) {
+                        //   console.log("will spiderfy cluster of feature "+marker.feature.id )
+                        if (this.props.mapRef.leafletElement.getZoom()>=(this.props.selectionSpiderfyMinZoom||12)) {
+                            setTimeout(function () {
+                                try {
+                                    parent.spiderfy();
+                                } catch (err) {
+                                    //ugly winning
+                                }
+                            }, 1);
+                        }
+                        //   console.log("have spiderfied cluster of feature "+marker.feature.id )
                     }
-                    //   console.log("have spiderfied cluster of feature "+marker.feature.id )
                 }
             }
-        }
     } else {
         this.leafletElement = geojson;
     }

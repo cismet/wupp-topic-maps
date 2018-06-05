@@ -15,29 +15,31 @@ const fallbackSVG=`
     </svg>
 `
 
+const svgSize=28;
 
 export const featureStyler = (feature) => {
     var color = Color(getColorForProperties(feature.properties));
-    let radius = 10;
-    let selectionBox = 30;
-    let weight = 2;
-    let svgSize = radius * 2 + weight * 2;
+  //let selectionBox = 30;
+    //let weight = 2;
+    //let svgSize = radius * 2 + weight * 2;
+    
+    let canvasSize=svgSize;
     if (feature.selected) {
-        svgSize = 36;
+        canvasSize = svgSize+12;
     }
      
+     let selectionBox=canvasSize-6;
+     let badge=feature.properties.svgBadge || fallbackSVG ;//|| `<image x="${(svgSize - 20) / 2}" y="${(svgSize - 20) / 2}" width="20" height="20" xlink:href="/pois/signaturen/`+getSignatur(feature.properties)+`" />`;
 
-    let badge=feature.properties.svgBadge || `<image x="${(svgSize - 20) / 2}" y="${(svgSize - 20) / 2}" width="20" height="20" xlink:href="/pois/signaturen/`+getSignatur(feature.properties)+`" />`;
 
-    
-    let svg = `<svg id="badgefor_${feature.id}" height="${svgSize}" width="${svgSize}"> 
+    let svg = `<svg id="badgefor_${feature.id}" height="${canvasSize}" width="${canvasSize}"> 
                 <style>
                 /* <![CDATA[ */
                     #badgefor_${feature.id} .bg-fill  {
-                        fill: `+getColorForProperties(feature.properties)+`;
+                        fill: ${getColorForProperties(feature.properties)};
                     }
                     #badgefor_${feature.id} .bg-stroke  {
-                        stroke: `+getColorForProperties(feature.properties)+`;
+                        stroke: ${getColorForProperties(feature.properties)};
                     }
                     #badgefor_${feature.id} .fg-fill  {
                         fill: white;
@@ -47,21 +49,27 @@ export const featureStyler = (feature) => {
                     }
                 /* ]]> */
                 </style>
-               <svg x="2" y="2"  width="20" height="20" viewBox="0 0 `+feature.properties.svgBadgeDimension.width+` `+feature.properties.svgBadgeDimension.height+`">       
-               `+badge+`
+               <svg x="${svgSize/12}" y="${svgSize/12}"  width="${svgSize-(2*svgSize/12)}" height="${svgSize-(2*svgSize/12)}" viewBox="0 0 ${feature.properties.svgBadgeDimension.width} ${feature.properties.svgBadgeDimension.height}">       
+                ${badge}
                </svg>
                </svg>  `
 
 
     if (feature.selected) {
-        svg = `<svg id="badgefor_${feature.id}" height="${svgSize}" width="${svgSize}">
+        let selectionOffset=(canvasSize - selectionBox) / 2;
+  
+        let badgeDimension=svgSize-(2*svgSize/12);
+        let innerBadgeOffset=(selectionBox - badgeDimension) /2;
+
+
+        svg = `<svg id="badgefor_${feature.id}" height="${canvasSize}" width="${canvasSize}">
                 <style>
                 /* <![CDATA[ */
                     #badgefor_${feature.id} .bg-fill  {
-                        fill: `+getColorForProperties(feature.properties)+`;
+                        fill: ${getColorForProperties(feature.properties)};
                     }
                     #badgefor_${feature.id} .bg-stroke  {
-                        stroke: `+getColorForProperties(feature.properties)+`;
+                        stroke: ${getColorForProperties(feature.properties)};
                     }
                     #badgefor_${feature.id} .fg-fill  {
                         fill: white;
@@ -71,25 +79,24 @@ export const featureStyler = (feature) => {
                     }
                 /* ]]> */
                 </style>
-              <rect visible="false" x="${ (svgSize - selectionBox) / 2}" y="${ (svgSize - selectionBox) / 2}" rx="8" ry="8" width="${selectionBox}" height="${selectionBox}" fill="rgba(67, 149, 254, 0.8)" stroke-width="0"/>
-              <svg x="8" y="8"  width="20" height="20" viewBox="0 0 `+feature.properties.svgBadgeDimension.width+` `+feature.properties.svgBadgeDimension.height+`">
-              `+badge+`
+              <rect x="${selectionOffset}" y="${selectionOffset}" rx="8" ry="8" width="${selectionBox}" height="${selectionBox}" fill="rgba(67, 149, 254, 0.8)" stroke-width="0"/>
+              <svg x="${selectionOffset+innerBadgeOffset}" y="${selectionOffset+innerBadgeOffset}" width="${badgeDimension}" height="${badgeDimension}" viewBox="0 0 `+feature.properties.svgBadgeDimension.width+` `+feature.properties.svgBadgeDimension.height+`">
+              ${badge}
+
               </svg>
-              </svg>  `
-            //   console.log(svg)
+              </svg>`
             }
 
 
     
     const style = {
-        radius,
+        radius: 100, //not used,
         fillColor: color,
         color: color.darken(0.5),
-        weight,
         opacity: 1,
         fillOpacity: 0.8,
         svg,
-        svgSize
+        svgSize: canvasSize
     };
     return style;
 };

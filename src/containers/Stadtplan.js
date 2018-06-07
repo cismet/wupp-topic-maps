@@ -285,6 +285,7 @@ export class Stadtplan_ extends React.Component {
                     offersMD5={this.props.stadtplan.poisMD5}
                     centerOnPoint={this.centerOnPoint}
                     stadtplanActions={this.props.stadtplanActions}
+                    mappingActions={this.props.mappingActions}
                     poiSvgSize={this.props.stadtplan.poiSvgSize}
                 />              
                <Loadable

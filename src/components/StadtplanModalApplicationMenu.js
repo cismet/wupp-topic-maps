@@ -49,6 +49,7 @@ export class StadtplanModalApplicationMenu_ extends React.Component {
     constructor(props, context) {
         super(props, context);
         this.close = this.close.bind(this);
+        this.changePoiSymbolSize=this.changePoiSymbolSize.bind(this);
     }
 
     close() {
@@ -112,6 +113,12 @@ export class StadtplanModalApplicationMenu_ extends React.Component {
         return rows;
     }
     
+    changePoiSymbolSize(size) {
+        this.props.stadtplanActions.setPoiSvgSize(size);
+        this.props.mappingActions.setFeatureCollectionKeyPostfix("PoiSvgSize:"+size);
+    }
+
+
     render() {
 
         let modalBodyStyle = {
@@ -417,16 +424,47 @@ export class StadtplanModalApplicationMenu_ extends React.Component {
                                     </FormGroup>    
                                     <FormGroup>
                                         <br/>
-                                        <ControlLabel>Größe der Symbole:</ControlLabel><br/>  
-                                        <div class="form-row">
-                                        <div class="col">
-                                        <input type="text" width="5" placeholder="Wert" value={this.props.poiSvgSize} onChange={(event)=>{
-                                                this.props.stadtplanActions.setPoiSvgSize(parseInt(event.target.value, 10));
-                                                this.props.stadtplanActions.refreshFeatureCollection();
-
-                                            }}/>   
-                                        </div>      
-                                        </div>          
+                                        <ControlLabel>Symbolgr&ouml;&szlig;e</ControlLabel><br/>  
+                                        
+                                        <table border={0} >
+                                        <tbody>
+                                        <tr>
+                                        <td style={{"padding-left":"6px","padding-right":"15px"}}><a onClick={()=>this.changePoiSymbolSize(25)}><img alt="minimal" src="images/poi.25.png" /></a></td>
+                                        <td style={{"padding-left":"2px","padding-right":"15px"}}><a onClick={()=>this.changePoiSymbolSize(35)}><img alt="minimal" src="images/poi.35.png" /></a></td>
+                                        <td                                                      ><a onClick={()=>this.changePoiSymbolSize(45)}><img alt="minimal" src="images/poi.45.png" /></a></td>
+                                        </tr>
+                                        <tr border={1} style={{"vertical-align": "top"}}>
+                                        <td style={{"text-align":"center"}}>
+                                            <Radio 
+                                                style={{"margin-top":"0px"}}
+                                                readOnly={true}
+                                                onClick={()=>this.changePoiSymbolSize(25)}
+                                                name="poiSize25" 
+                                                checked={this.props.poiSvgSize===25}
+                                             />
+                                            
+                                        </td>
+                                        <td style={{"text-align":"center"}}>
+                                            <Radio 
+                                                style={{"margin-top":"0px","margin-left":"0px"}}
+                                                readOnly={true}
+                                                onClick={()=>this.changePoiSymbolSize(35)}
+                                                name="poiSize35" 
+                                                checked={this.props.poiSvgSize===35}
+                                             />                                            
+                                        </td>
+                                        <td style={{"text-align":"center"}}>
+                                            <Radio 
+                                                style={{"margin-top":"0px","margin-left":"7px"}}
+                                                readOnly={true}
+                                                onClick={()=>this.changePoiSymbolSize(45)}
+                                                name="poiSize45" 
+                                                checked={this.props.poiSvgSize===45}
+                                             />
+                                        </td>
+                                        </tr>
+                                        </tbody>
+                                        </table>                                            
                                     </FormGroup>    
 
                                 </td>

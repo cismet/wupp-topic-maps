@@ -641,7 +641,7 @@ centerOnPoint(x,y,z) {
             )
         }
       <GazetteerHitDisplay key={"gazHit" + JSON.stringify(this.props.mapping.gazetteerHit)} mappingProps={this.props.mapping}/>
-      <FeatureCollectionDisplay key={JSON.stringify(this.props.mapping.featureCollection)+this.props.featureKeySuffixCreator()+"clustered:"+this.props.clustered} 
+      <FeatureCollectionDisplay key={JSON.stringify(this.props.mapping.featureCollection)+this.props.featureKeySuffixCreator()+"clustered:"+this.props.clustered+".customPostfix:"+this.props.mapping.featureCollectionKeyPostfix} 
                                 mappingProps={this.props.mapping} 
                                 clusteredMarkers={this.clusteredMarkers} 
                                 clusteringEnabled={this.props.clustered}

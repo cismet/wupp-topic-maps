@@ -15,6 +15,7 @@ export const types = {
   CHANGE_FEATURE: 'MAPPING/CHANGE_FEATURE',
   SET_OVERLAY_FEATURE: 'MAPPING/SET_OVERLAY_FEATURE',
   SET_MASKED_OVERLAY: 'MAPPING/SET_MASKED_OVERLAY',
+  SET_FEATURE_COLLECTION_KEY_POSTFIX: 'MAPPING/SET_FEATURE_COLLECTION_KEY_POSTFIX',
 }
 export const constants = {
   AUTO_FIT_MODE_STRICT: 'MAPPING/AUTO_FIT_MODE_STRICT',
@@ -58,6 +59,7 @@ const initialState = {
   overlayFeature: null,
   maskedOverlay: true,
   featureStylerScalableImageSize: 24,
+  featureCollectionKeyPostfix:""
 
 };
 
@@ -135,10 +137,16 @@ export default function mappingReducer(state = initialState, action) {
         newState.overlayFeature = action.overlayFeature;
         return newState;
       }
-    case types.SET_MASKED_OVERLAY:
+      case types.SET_MASKED_OVERLAY:
       {
         newState = objectAssign({}, state);
         newState.maskedOverlay = action.maskedOverlayhit;
+        return newState;
+      }
+      case types.SET_FEATURE_COLLECTION_KEY_POSTFIX:
+      {
+        newState = objectAssign({}, state);
+        newState.featureCollectionKeyPostfix = action.featureCollectionKeyPostfix;
         return newState;
       }
     default:
@@ -221,6 +229,13 @@ function changeFeatureById(newFeature) {
     };
   }
 
+  function setFeatureCollectionKeyPostfix(featureCollectionKeyPostfix) {
+    return {
+      type: types.SET_FEATURE_COLLECTION_KEY_POSTFIX,
+      featureCollectionKeyPostfix
+    };
+  }
+
 //COMPLEXACTIONS
 
 function mappingBoundsChanged(bbox) {
@@ -284,5 +299,6 @@ export const actions = {
   fitFeatureCollection,
   changeFeatureById,
   setOverlayFeature,
-  setMaskedOverlay
+  setMaskedOverlay,
+  setFeatureCollectionKeyPostfix
 };

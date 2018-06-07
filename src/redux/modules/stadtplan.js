@@ -37,7 +37,7 @@ const initialState = {
         positiv: ["Freizeit","Sport","Mobilität","Religion","Erholung","Gesellschaft","Gesundheit","Kultur","öffentliche Dienstleistungen","Dienstleistungen","Orientierung","Bildung","Stadtbild"],
         negativ: []
     },
-    poiSvgSize:24
+    poiSvgSize:35
 
 }
 ///REDUCER

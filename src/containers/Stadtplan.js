@@ -12,7 +12,7 @@ import {routerActions} from 'react-router-redux'
 
 import { bindActionCreators } from 'redux';
 
-import { featureStyler, featureHoverer, poiClusterIconCreator } from '../utils/stadtplanHelper';
+import { getFeatureStyler, featureHoverer, getPoiClusterIconCreatorFunction } from '../utils/stadtplanHelper';
 
 import Loadable from 'react-loading-overlay';
 import queryString from 'query-string';
@@ -285,6 +285,7 @@ export class Stadtplan_ extends React.Component {
                     offersMD5={this.props.stadtplan.poisMD5}
                     centerOnPoint={this.centerOnPoint}
                     stadtplanActions={this.props.stadtplanActions}
+                    poiSvgSize={this.props.stadtplan.poiSvgSize}
                 />              
                <Loadable
                 active={!this.dataLoaded}
@@ -297,7 +298,7 @@ export class Stadtplan_ extends React.Component {
                        layers={this.props.match.params.layers ||'wupp-plan-live@90'}
                        gazeteerHitTrigger={this.gazeteerhHit}
                        searchButtonTrigger={this.searchButtonHit}
-                       featureStyler={featureStyler}
+                       featureStyler={getFeatureStyler(this.props.stadtplan.poiSvgSize)}
                        hoverer={featureHoverer}
                        featureClickHandler={this.featureClick}
                        ondblclick={this.doubleMapClick}
@@ -309,6 +310,7 @@ export class Stadtplan_ extends React.Component {
                        minZoom={6}
                        clusterOptions={{
                             spiderfyOnMaxZoom: false,
+                            spiderfyDistanceMultiplier: this.props.stadtplan.poiSvgSize/24,
                             showCoverageOnHover: false,
                             zoomToBoundsOnClick: false,
                             maxClusterRadius:40,
@@ -316,7 +318,7 @@ export class Stadtplan_ extends React.Component {
                             animate:false,
                             cismapZoomTillSpiderfy:12,
                             selectionSpiderfyMinZoom:12,
-                            iconCreateFunction: poiClusterIconCreator,
+                            iconCreateFunction: getPoiClusterIconCreatorFunction(this.props.stadtplan.poiSvgSize),
                         }}
                         infoBox={info}
                         applicationMenuTooltipProvider={()=> (<Tooltip style={{

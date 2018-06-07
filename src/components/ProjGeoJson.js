@@ -60,7 +60,7 @@ export class ProjGeoJson_ extends Path {
             }
         }
         if (props.hoverer) {
-          let theStyle=props.style(feature);
+          let theStyle=props.style(feature,mappingProps.featureStylerScalableImageSize);
 
           layer.bindTooltip(""+props.hoverer(feature), {offset: L.point(theStyle.radius, 0), direction:'right'});
           layer.on('mouseover', function() { layer.openPopup(); });
@@ -93,6 +93,8 @@ export class ProjGeoJson_ extends Path {
 
     var geojson=L.Proj.geoJson(mappingProps.featureCollection, props);
 
+    this.props.clusterOptions.customSize=36;
+    
     if (!this.clusteredMarkers) {
         this.clusteredMarkers=L.markerClusterGroup(this.props.clusterOptions);
     }

@@ -8,7 +8,7 @@ import {
     Accordion,
     Panel,
     FormGroup, Checkbox, Radio, ControlLabel,
-    Label
+    Label,
 } from 'react-bootstrap';
 import {actions as UiStateActions} from '../redux/modules/uiState';
 
@@ -27,7 +27,6 @@ import Chart from 'chart.js'
 
 import {removeQueryPart, modifyQueryPart} from '../utils/routingHelper'
 import {routerActions} from 'react-router-redux'
-
 
 
 ReactChartkick.addAdapter(Chart);
@@ -415,7 +414,21 @@ export class StadtplanModalApplicationMenu_ extends React.Component {
                                             inline>
                                             Nacht
                                         </Radio>{' '}
-                                    </FormGroup>                         
+                                    </FormGroup>    
+                                    <FormGroup>
+                                        <br/>
+                                        <ControlLabel>Größe der Symbole:</ControlLabel><br/>  
+                                        <div class="form-row">
+                                        <div class="col">
+                                        <input type="text" width="5" placeholder="Wert" value={this.props.poiSvgSize} onChange={(event)=>{
+                                                this.props.stadtplanActions.setPoiSvgSize(parseInt(event.target.value, 10));
+                                                this.props.stadtplanActions.refreshFeatureCollection();
+
+                                            }}/>   
+                                        </div>      
+                                        </div>          
+                                    </FormGroup>    
+
                                 </td>
                                 {widePreviewPlaceholder}
                             </tr>

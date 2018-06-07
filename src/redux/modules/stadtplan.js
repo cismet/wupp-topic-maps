@@ -15,6 +15,7 @@ export const types = {
     SET_TYPES: 'STADTPLAN/SET_TYPES',
     SET_LEBENSLAGEN: 'STADTPLAN/SET_LEBENSLAGEN',
     SET_FILTER: 'STADTPLAN/SET_FILTER',
+    SET_POI_SVG_SIZE: 'STADTPLAN/SET_POI_SVG_SIZE',
 }
 
 
@@ -35,7 +36,8 @@ const initialState = {
     filter: {
         positiv: ["Freizeit","Sport","Mobilität","Religion","Erholung","Gesellschaft","Gesundheit","Kultur","öffentliche Dienstleistungen","Dienstleistungen","Orientierung","Bildung","Stadtbild"],
         negativ: []
-    }
+    },
+    poiSvgSize:24
 
 }
 ///REDUCER
@@ -86,6 +88,12 @@ export default function stadtplanReducer(state = initialState, action) {
             newState.filter=action.filter;
             return newState;
         }
+        case types.SET_POI_SVG_SIZE:
+        {
+            newState = objectAssign({}, state);
+            newState.poiSvgSize=action.poiSvgSize;
+            return newState;
+        }
         default:
             return state;
     }
@@ -112,6 +120,9 @@ function setLebenslagen(lebenslagen) {
 }
 function setFilter(filter) {
     return {type: types.SET_FILTER, filter};
+}
+function setPoiSvgSize(poiSvgSize) {
+    return {type: types.SET_POI_SVG_SIZE, poiSvgSize};
 }
 
 
@@ -404,8 +415,8 @@ export const actions = {
     toggleFilter,
     setAllLebenslagenToFilter,
     clearFilter,
-    refreshFeatureCollection
-
+    refreshFeatureCollection,
+    setPoiSvgSize
 }
 
 //HELPER FUNCTIONS

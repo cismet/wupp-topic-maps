@@ -23,7 +23,7 @@ const ehrenamtStorageConfig = {
    const stadtplanStorageConfig = {
     key: 'stadtplanPOIs',
     storage: localForage,
-    whitelist: ['pois','poisMD5','filter', 'poitypes','lebenslagen']
+    whitelist: ['pois','poisMD5','filter', 'poitypes','lebenslagen','poiSvgSize']
    }
 
    const uiStateStorageConfig = {

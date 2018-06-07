@@ -57,6 +57,7 @@ const initialState = {
   spiderfiedCluster: null,
   overlayFeature: null,
   maskedOverlay: true,
+  featureStylerScalableImageSize: 24,
 
 };
 

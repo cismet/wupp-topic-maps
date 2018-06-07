@@ -105,9 +105,6 @@ export const getPoiClusterIconCreatorFunction = (svgSize=24) => {
         const colors = [];
 
         const r = svgSize/1.5;
-        
-        console.log(cluster);
-
         // Pie with default colors 
         let childMarkers=cluster.getAllChildMarkers();
 

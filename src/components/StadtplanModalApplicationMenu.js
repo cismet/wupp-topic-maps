@@ -424,13 +424,13 @@ export class StadtplanModalApplicationMenu_ extends React.Component {
                                     </FormGroup>    
                                     <FormGroup>
                                         <br/>
-                                        <ControlLabel>Symbolgr&ouml;&szlig;e</ControlLabel><br/>  
+                                        <ControlLabel>Symbolgr&ouml;&szlig;e:</ControlLabel><br/>  
                                         
                                         <table border={0} >
                                         <tbody>
                                         <tr>
                                         <td style={{"padding-left":"6px","padding-right":"15px"}}><a onClick={()=>this.changePoiSymbolSize(25)}><img alt="minimal" src="images/poi.25.png" /></a></td>
-                                        <td style={{"padding-left":"2px","padding-right":"15px"}}><a onClick={()=>this.changePoiSymbolSize(35)}><img alt="minimal" src="images/poi.35.png" /></a></td>
+                                        <td style={{"padding-left":"3px","padding-right":"15px"}}><a onClick={()=>this.changePoiSymbolSize(35)}><img alt="minimal" src="images/poi.35.png" /></a></td>
                                         <td                                                      ><a onClick={()=>this.changePoiSymbolSize(45)}><img alt="minimal" src="images/poi.45.png" /></a></td>
                                         </tr>
                                         <tr border={1} style={{"vertical-align": "top"}}>

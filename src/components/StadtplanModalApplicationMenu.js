@@ -489,75 +489,67 @@ export class StadtplanModalApplicationMenu_ extends React.Component {
                         <Panel header="Kompaktanleitung" eventKey="help" bsStyle="default">
                         
 														<div>
-														  <Link to="Datengrundlage" containerId="myMenu" style={{textDecoration: 'none'}}>     <Label bsStyle="default">Datengrundlage</Label>{' '}</Link>
-														  <Link to="Kartendarstellung" containerId="myMenu" style={{textDecoration: 'none'}}>  <Label bsStyle="success">Kartendarstellung der Angebote</Label>{' '}</Link>
-														  <Link to="positionieren" containerId="myMenu" style={{textDecoration: 'none'}}>      <Label bsStyle="success">In Karte positionieren</Label>{' '}</Link>
-														  <Link to="selektieren" containerId="myMenu" style={{textDecoration: 'none'}}>        <Label bsStyle="info">Angebote selektieren</Label>{' '}</Link>
-														  <Link to="merken" containerId="myMenu" style={{textDecoration: 'none'}}>             <Label bsStyle="info">Angebote merken</Label>{' '}</Link>
-														  <Link to="Merkliste" containerId="myMenu" style={{textDecoration: 'none'}}>          <Label bsStyle="primary">Merkliste öffnen</Label>{' '}</Link>
-														  <Link to="FunktionenMerkliste" containerId="myMenu" style={{textDecoration: 'none'}}><Label bsStyle="primary">Funktionen der Merkliste</Label>{' '}</Link>
-														  <Link to="filtern" containerId="myMenu" style={{textDecoration: 'none'}}>            <Label bsStyle="warning">Angebote filtern</Label>{' '}</Link>
+														  <Link to="InKartePositionieren" containerId="myMenu" style={{textDecoration: 'none'}}>     <Label bsStyle="default">In Karte positionieren</Label>{' '}</Link>
+														  <Link to="MeinStandort" containerId="myMenu" style={{textDecoration: 'none'}}>     <Label bsStyle="default">Mein Standort</Label>{' '}</Link>
+														  <Link to="MeinThemenstadtplan" containerId="myMenu" style={{textDecoration: 'none'}}>  <Label bsStyle="primary">Mein Themenstadtplan</Label>{' '}</Link>
+														  <Link to="Einstellungen" containerId="myMenu" style={{textDecoration: 'none'}}>      <Label bsStyle="success">Einstellungen</Label>{' '}</Link>
+														  <Link to="Personalisierung" containerId="myMenu" style={{textDecoration: 'none'}}>        <Label bsStyle="success">Personalisierung</Label>{' '}</Link>
 														</div>														
 
-                            <div name="Datengrundlage"><br /></div>
-                            <h4>Datengrundlage <Link to="help" containerId="myMenu" style={{ color: '#00000044'}}><Icon name="arrow-circle-up"/></Link></h4>
-                             <p>Diese Anwendung gibt Ihnen einen Überblick über die angebotenen Ehrenamtsstellen aus der Datenbank des Zentrums für gute Taten. Die Darstellung der Einsatzorte als Karte macht es Ihnen dabei leicht, Ehrenamtsstellen in Ihrer Nähe zu finden. Einer Ehrenamtsstelle sind im Allgemeinfall mehrere <em>Aufgabenfelder</em>, <em>Tätigkeiten</em> und <em>Zielgruppen</em> zugeordnet.</p> 
+                            <div name="InKartePositionieren"><br /></div>
+                            <h4>In Karte positionieren <Link to="help" containerId="myMenu" style={{ color: '#00000044'}}><Icon name="arrow-circle-up"/></Link></h4>
+                             <p>Um eine bestimmte Stelle des Stadtgebietes zu erkunden, geben Sie den Anfang eines Stadtteils (Stadtbezirk oder Quartier), einer Adresse, eines Straßennamens oder eines POI im Eingabefeld links unten ein (mindestens 2 Zeichen). In der inkrementellen Auswahlliste werden Ihnen passende Treffer angeboten. (Wenn sie weitere Zeichen eingeben, wird der Inhalt der Auswahlliste angepasst.) Durch das vorangestellte Symbol erkennen Sie, ob es sich dabei um einen <Icon name="circle"/> Stadtbezirk, ein <Icon name="pie-chart"/> Quartier, eine <Icon name="home"/> Adresse, eine <Icon name="road"/> Straße ohne zugeordnete Hausnummern, einen <Icon name="tag"/> POI oder die <Icon name="tags"/> alternative Bezeichnung eines POI handelt.</p>
+                             <p>Nach der Auswahl eines Treffers aus der Liste wird die Karte auf die zugehörige Position zentriert. Bei Suchbegriffen mit Punktgeometrie (Adresse, Straße, POI) wird außerdem ein großer Maßstab (Zoomstufe 14) eingestellt und ein Marker <img alt="Cluster" src="images/AdressMarker.jpg" /> auf der Zielposition platziert. Bei Suchbegriffen mit Flächengeometrie (Stadtbezirk, Quartier) wird der Maßstab so eingestellt, dass die Fläche vollständig dargestellt werden kann. Zusätzlich wird der Bereich außerhalb dieser Fläche abgedunkelt (Spotlight-Effekt).</p>
+                             <p>Durch Anklicken des Werkzeugs <Icon name="times"/> links neben dem Eingabefeld können Sie die Suche zurücksetzen (Entfernung von Marker bzw. Abdunkelung, Löschen des Textes im Eingabefeld).</p> 
 														
-														<div name="Kartendarstellung"><br /></div>
-														<h4>Kartendarstellung der Angebote <Link to="help" containerId="myMenu" style={{ color: '#00000044'}}><Icon name="arrow-circle-up"/></Link></h4>
-														 <p>Die in der Karte für die Punktdarstellungen der Angebote verwendeten Farben stehen jeweils für eine bestimmte Kombination der Kategorisierungen in den Bereichen <em>Aufgabenfelder</em>, <em>Tätigkeiten</em> und <em>Zielgruppen</em>.<br />
-														 Eng beieinander liegende Angebote werden maßstabsabhängig zu größeren Punkten zusammengefasst, mit der Anzahl der repräsentierten Angebote im Zentrum <img alt="" src="images/colorcircle_k.jpg" />.<br />Vergrößern Sie ein paar Mal durch direktes Anklicken eines solchen Punktes oder mit <Icon name="plus"/> die Darstellung, so werden die zusammengefassten Angebote Schritt für Schritt in die kleineren Punktdarstellungen für die konkreten Einzelangebote zerlegt. Nur Angebote, die sich auf denselben Standort beziehen, werden in jedem Maßstab als Zusammenfassung dargestellt. In diesen Fällen führt ein weiterer Klick ab einer bestimmten Maßstabsstufe (Zoomstufe 12) dazu, dass eine Explosionsgrafik der zusammengefassten Angebote angezeigt wird.</p>
+														<div name="MeinStandort"><br /></div>
+														<h4>Mein Standort <Link to="help" containerId="myMenu" style={{ color: '#00000044'}}><Icon name="arrow-circle-up"/></Link></h4>
+														 <p>Mit der Funktion „<em>Mein Standort</em>“ <img alt="Cluster" src="images/MeinStandpunkt.jpg" /> können Sie ihren aktuellen Standort mit einem blauen Kreissymbol <img alt="Cluster" src="images/MeinStandpunktMarker.jpg" /> in der Karte anzeigen. Das Standortsymbol ist umgeben von einem zweiten Kreis mit transparenter, blauer Füllung, dessen Radius die Unsicherheit der Positionsbestimmung angibt <img alt="Cluster" src="images/MeinStandpunktMarkerDoppel.jpg" />. Die Richtigkeit der Positionsanzeige ist dabei nicht garantiert, ihre Genauigkeit hängt davon ab, mit welcher Methode Ihr Endgerät und der von Ihnen verwendete Browser die Position bestimmen. Smartphones und Tablet-PC's sind i. d. R. mit einer GPS-Antenne ausgestattet, so dass Sie bei diesen Geräten eine Positionsgenauigkeit in der Größenordnung von 10 Metern erwarten können. Die Markierung ihrer Position wird laufend automatisch aktualisiert. Ein weiterer Klick auf „<em>Mein Standort</em>“ schaltet die Anzeige Ihrer Position wieder ab.</p>
+
+                            <div name="MeinThemenstadtplan"><br /></div>
+														<h4>Mein Themenstadtplan <Link to="help" containerId="myMenu" style={{ color: '#00000044'}}><Icon name="arrow-circle-up"/></Link></h4>
+														 <p>Unter „<em>Mein Themenstadtplan</em>“ können Sie im Anwendungsmenü <Icon name="bars"/> auswählen, welche POI-Kategorien in der Karte dargestellt werden. Über die Schaltfläche <img alt="Cluster" src="images/sf_keinethemenausw.png" /> können sie die POI vollständig ausblenden - auch die Info-Box wird dann nicht mehr angezeigt.</p>
+                             <p>Jeder POI ist einer oder mehreren übergeordneten Aspekten („Lebenslagen“) zugeordnet, die wir Ihnen zur Auswahl der POI-Kategorien anbieten. Wählen Sie z. B. mit <Icon name="thumbs-up"/> ausschließlich die Lebenslage „Kultur“ aus. Als Vorschau wird Ihnen ein Tortendiagramm angezeigt, das die Anzahl der zugehörigen POI und deren Verteilung auf die Lebenslagen-Kombinationen (hier „Kultur, Gesellschaft“ und „Kultur, Freizeit“) anzeigt. Bewegen Sie dazu den Mauszeiger auf eines der farbigen Segmente des Tortendiagramms. (Bei einem Gerät mit Touchscreen tippen Sie auf eines der farbigen Segmente.)</p>
+														 <p>Mit <Icon name="thumbs-down"/> können Sie die POI, die der entsprechenden Lebenslage zugeordnet sind, ausblenden und dadurch die Treffermenge reduzieren. Schließen Sie jetzt z. B. das Thema „<em>Gesellschaft</em>“ aus. Im Tortendiagramm werden Ihnen dann nur noch die POI mit der Lebenslagen-Kombination „Kultur,Freizeit“ angezeigt (Theater, Museen etc.). Die POI mit der Kombination „<em>Kultur</em>, <em>Gesellschaft</em>“ (Standorte von Verlagen und anderen Medienunternehmungen) wurden dagegen entfernt.</p>
 														
-														<div name="positionieren"><br /></div>
-														<h4>In Karte positionieren <Link to="help" containerId="myMenu" style={{ color: '#00000044'}}><Icon name="arrow-circle-up"/></Link></h4>
-														 <p>Um die angebotenen Ehrenamtsstellen an einer bestimmten Stelle des Stadtgebietes zu erkunden, geben Sie den Anfang eines Stadtteils (Stadtbezirk oder Quartier), einer Adresse, eines Straßennamens oder eines interessanten Ortes (auch Point of Interest oder kurz POI genannt) im Eingabefeld ein (mindestens 2 Zeichen). In der inkrementellen Auswahlliste werden Ihnen passende Treffer angeboten. (Wenn sie weitere Zeichen eingeben, wird der Inhalt der Auswahlliste angepasst.) Durch das vorangestellte Symbol erkennen Sie, ob es sich dabei um einen <Icon name="circle"/> Stadtbezirk, ein <Icon name="pie-chart"/> Quartier, eine  <Icon name="home"/> Adresse, eine  <Icon name="road"/> Straße ohne zugeordnete Hausnummern, einen  <Icon name="tag"/> POI oder die  <Icon name="tags"/> alternative Bezeichnung eines POI handelt.</p>
+														<div name="Einstellungen"><br /></div>
+														<h4>Einstellungen <Link to="help" containerId="myMenu" style={{ color: '#00000044'}}><Icon name="arrow-circle-up"/></Link></h4>
+														 <p>Unter Einstellungen können Sie im Anwendungsmenü <Icon name="bars"/> festlegen, wie die POI und die Hintergrundkarte angezeigt werden sollen. Zu den POI können Sie auswählen, ob Ihre unter „<em>Mein Themenstadtplan</em>“ festgelegte Lebenslagen-Filterung in einer Titelzeile ausgeprägt wird oder nicht. Weiter können Sie festlegen, ob räumlich nah beieinander liegende POI maßstabsabhängig zu einem Punktsymbol zusammengefasst werden oder nicht. Unter Symbolgröße können Sie in Abhängigkeit von Ihrer Bildschirmauflösung und Ihrem Sehvermögen auswählen, ob die POI mit kleinen (25 Pixel), mittleren (35 Pixel) oder großen (45 Pixel) Symbolen angezeigt werden.</p>
+                             <p>Unter Kartendarstellung können Sie auswählen, ob sie die standardmäßig aktivierte farbige Hintergrundkarte verwenden möchten („Tag“) oder lieber eine invertierte Graustufenkarte („Nacht“), zu der uns die von vielen PKW-Navis bei Dunkelheit eingesetzte Darstellungsweise inspiriert hat.</p>
+                             <p>Die Nacht-Karte erzeugt einen deutlicheren Kontrast mit den farbigen POI-Symbolen, die unterschiedlichen Flächennutzungen lassen sich aber nicht so gut unterscheiden wie in der Tag-Karte.</p>
+                             <p>Im Vorschaubild sehen Sie (mit Ausnahme der Symbolgröße) direkt die prinzipielle Wirkung ihrer Einstellungen.</p>
+                             														
+														<div name="Personalisierung"><br /></div>
+														<h4>Personalisierung <Link to="help" containerId="myMenu" style={{ color: '#00000044'}}><Icon name="arrow-circle-up"/></Link></h4>
+														 <p>Ihre Themenauswahl und Einstellungen bleiben auch nach einem Neustart der Anwendung erhalten. (Es sei denn, Sie löschen den Browser-Verlauf einschließlich der gehosteten App-Daten.) Damit können Sie mit wenigen Klicks aus unserem Online-Stadtplan einen dauerhaft für Sie optimierten Themenstadtplan machen.</p>
 														
-														<div name="selektieren"><br /></div>
-														<h4>Angebote selektieren <Link to="help" containerId="myMenu" style={{ color: '#00000044'}}><Icon name="arrow-circle-up"/></Link></h4>
-														 <p>Bewegen Sie den Mauszeiger auf ein konkretes Angebot, um sich seine Bezeichnung anzeigen zu lassen. Ein Klick auf den farbigen Punkt setzt den Fokus auf dieses Angebot. Es wird dann blau hinterlegt und die zugehörigen Informationen (Angebotsnummer und Bezeichnung) werden in der Info-Box angezeigt. (Auf einem Tablet-PC wird der Fokus durch das erste Antippen des Angebots gesetzt, das zweite Antippen blendet die Bezeichnung ein.)<br />
-														 Wenn Sie den Fokus noch nicht aktiv auf ein bestimmtes Angebot im aktuellen Kartenausschnitt gesetzt haben, wird er automatisch auf das nördlichste Angebot gesetzt.</p>
-														
-														<div name="merken"><br /></div>
-														<h4>Angebote merken <Link to="help" containerId="myMenu" style={{ color: '#00000044'}}><Icon name="arrow-circle-up"/></Link></h4>
-														 <p>Mit dem Werkzeug <Icon name="plus-square"/> in der Info-Box rechts neben der Bezeichnung können Sie das Angebot, das gerade den Fokus hat, in Ihre Merkliste aufnehmen. Es wird dann in der Karte durch einen überlagerten Stern gekennzeichnet.<br />
-														 Auch die Zusammenfassungen werden mit einem überlagerten Stern gekennzeichnet, wenn sie mindestens ein Angebot umfassen, das Sie in Ihre Merkliste aufgenommen haben.<br />
-														 Wenn Sie den Fokus auf ein Angebot setzen, das sich bereits in Ihrer Merkliste befindet, verwandelt sind das Werkzeug <Icon name="plus-square"/> in <Icon name="check-square"/>. Mit einem Klick hierauf entfernen Sie das Angebot aus Ihrer Merkliste.</p>
-														
-														<div name="Merkliste"><br /></div>
-														<h4>Merkliste öffnen <Link to="help" containerId="myMenu" style={{ color: '#00000044'}}><Icon name="arrow-circle-up"/></Link></h4>
-														 <p>Mit dem Werkzeug <Icon name="bookmark"/> in der Info-Box rechts neben der Angebotsnummer können Sie Ihre Merkliste öffnen. Es wird hellgrau ausgeprägt, wenn Ihre Merkliste leer ist und dunkelgrau, sobald sich mindestens ein Angebot in Ihrer Merkliste befindet. Alternativ erreichen Sie Ihre Merkliste auch durch Öffnen des Anwendungsmenüs mit dem Werkzeug <Icon name="bars"/> in der rechten oberen Ecke.<br />
-														 In Ihrer Merkliste finden Sie eine Auflistung aller Angebote, die Sie in die Merkliste eingestellt haben. Der Inhalt Ihrer Merkliste bleibt auch nach einem Neustart der Anwendung erhalten. (Es sei denn, Sie löschen den Browser-Verlauf einschließlich der gehosteten App-Daten.) </p>
-														
-														<div name="FunktionenMerkliste"><br /></div>
-														<h4>Funktionen der Merkliste <Link to="help" containerId="myMenu" style={{ color: '#00000044'}}><Icon name="arrow-circle-up"/></Link></h4>
-														 <p>Rechts neben jedem Listeneintrag in der Merkliste finden Sie zwei Werkzeuge:</p>
-														 <ul>
-															 <li>Mit <Icon name="map-marker"/> können Sie das zugehörige Angebot in der Karte anzeigen. Es wird dann zentriert in einem großen Maßstab (Zoomstufe 13) dargestellt, zusätzlich wird der Fokus auf dieses Angebot gesetzt. Wenn das Angebot Bestandteil einer Zusammenfassung ist, wird dazu die Explosionsgraphik angezeigt.</li>
-															 
-															 <li>Mit <font color="#C33D17"><Icon name="minus-square"/></font> können Sie das zugehörige Angebot aus Ihrer Merkliste entfernen.</li>
-															 
-														 </ul>
-														 <p>In der rechten oberen Ecke Ihrer Merkliste finden Sie drei Werkzeuge, die sich auf den gesamten Inhalt der Merkliste auswirken:</p>
-														 <ul>
-															 <li>Mit  <Icon name="trash"/> können Sie Ihre Merkliste komplett löschen.</li>
-															 
-															 <li>Mit <Icon name="map"/> aktivieren Sie einen Modus, in dem Ihnen in der Karte nur die Angebote aus Ihrer Merkliste angezeigt werden. Dieser Modus wird Ihnen durch ein rotes Banner <img alt="Merkliste" rc="images/merkliste_akt.jpg" /> oben in der Info-Box signalisiert. Dort können Sie den Merklistenfilter durch Klicken auf <Icon name="times"/> auch wieder ausschalten.</li>
-															 
-															 <li>Im Menü <Icon name="share-square"/> finden Sie Möglichkeiten, den Inhalt der Merkliste mit anderen zu teilen.
-															 <ul>
-															 <li>Zentrale Funktion ist dabei <Icon name="copy"/> Link kopieren: hiermit kopieren sie einen Link in die Zwischenablage, der das Infoportal Ehrenamt mit dem Inhalt Ihrer Merkliste öffnet. Der Inhalt Ihrer Merkliste wird als Liste über den Parameter „cart“ übergeben. Wenn ein Nutzer, der bereits eigene Angebote in seiner Merkliste hat, diesen Link anklickt, werden die übergebenen Angebote an seine Merkliste angehängt.</li>
-															 <li>Mit <Icon name="at"/> Merkliste per Mail senden schicken Sie diesen Link zur Vereinbarung eines Beratungstermins per E-Mail an das Zentrum für Gute Taten.</li>
-															 <li>(Weitere Möglichkeiten zum Teilen Ihrer Merkliste sind in Vorbereitung.)</li>
-															 </ul>
-															 </li>
-														</ul>
-														 														
-														<div name="filtern"><br /></div>
-														<h4>Angebote filtern <Link to="help" containerId="myMenu" style={{ color: '#00000044'}}><Icon name="arrow-circle-up"/></Link></h4>
-														 <p>Über das Anwendungsmenü <Icon name="bars"/> in der rechten oberen Ecke können Sie Filter einstellen, um die in der Karte angezeigten Angebote an Ihre Interessen anzupassen. Dazu werden Ihnen in der Auswahlliste „<em>Ich suche nach</em>“ alle Kategorisierungen in den Bereichen <em>Aufgabenfelder</em>, <em>Tätigkeiten</em> und <em>Zielgruppen</em> zur Auswahl angeboten. Es werden alle Angebote gefunden, die vom Zentrum für Gute Taten mit mindestens einem der von Ihnen ausgewählten Begriffe kategorisiert worden sind (logisches „oder“). Die Treffermenge steigt dadurch bei mehreren Suchbegriffen schnell an.<br />
-														 Als Gegengewicht dazu können Sie in der Liste „<em>Ich schließe aus</em>“ auch Ausschlusskriterien definieren.</p>
-														 <p>Eine alternative Eingabemöglichkeit für Ihre Such- und Ausschlussbedingungen  bieten Ihnen die 3 Leitfragen unterhalb der Auswahllisten. Durch Klicken auf die jeweilige Frage erhalten Sie eine Übersicht über alle zugehörigen Kategorien und können diese mit <Icon name="thumbs-up"/> oder <Icon name="thumbs-down"/> als Such- oder Ausschlussbegriffe markieren. Die Filter-Auswahllisten und Einstellungen unter den Leitfragen sind vollständig miteinander synchronisiert. Wenn Sie Filtereinstellungen festgelegt haben, wird Ihnen dies durch ein graues Banner <img alt="Filter-Banner" src="images/filter_akt.jpg" /> oben in der Info-Box signalisiert. Die in Klammern angezeigte Zahl ist die Anzahl der aktuell von Ihnen zur Filterung verwendeten Such- und Ausschlussbegriffe.<br />
-														 Über das Banner können Sie die Filterung durch Klicken auf <Icon name="times"/> wieder zurücksetzen.</p>
+														 <table>
+														 <tr><td>road</td><td><Icon name="road"/></td></tr>
+														 <tr><td>at</td><td><Icon name="at"/></td></tr>
+														 <tr><td>print</td><td><Icon name="print"/></td></tr>
+														 <tr><td>arrow-circle-up</td><td><Icon name="arrow-circle-up"/></td></tr>
+														 <tr><td>circle</td><td><Icon name="circle"/></td></tr>
+														 <tr><td>pie-chart</td><td><Icon name="pie-chart"/></td></tr>
+														 <tr><td>home</td><td><Icon name="home"/></td></tr>
+														 <tr><td>tag</td><td><Icon name="tag"/></td></tr>
+														 <tr><td>tags</td><td><Icon name="tags"/></td></tr>
+														 <tr><td>plus-square</td><td><Icon name="plus-square"/></td></tr>
+														 <tr><td>check-square</td><td><Icon name="check-square"/></td></tr>
+														 <tr><td>bars</td><td><Icon name="bars"/></td></tr>
+														 <tr><td>map-marker</td><td><Icon name="map-marker"/></td></tr>
+														 <tr><td>minus-square</td><td><Icon name="minus-square"/></td></tr>
+														 <tr><td>trash</td><td><Icon name="trash"/></td></tr>
+														 <tr><td>map</td><td><Icon name="map"/></td></tr>
+														 <tr><td>times</td><td><Icon name="times"/></td></tr>
+														 <tr><td>share-square</td><td><Icon name="share-square"/></td></tr>
+														 <tr><td>copy</td><td><Icon name="copy"/></td></tr>
+														 <tr><td>thumbs-up</td><td><Icon name="thumbs-up"/></td></tr>
+														 <tr><td>thumbs-down</td><td><Icon name="thumbs-down"/></td></tr>
+														 <tr><td>copyright</td><td><Icon name="copyright"/></td></tr>
+														 <tr><td>bookmark</td><td><Icon name="bookmark"/></td></tr>
+														 <tr><td>bookmark</td><td><Icon name="bookmark"/></td></tr>
+													 </table>
+														 
                         </Panel>
                     </Accordion>
                 </Modal.Body>

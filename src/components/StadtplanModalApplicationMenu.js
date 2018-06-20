@@ -507,7 +507,7 @@ export class StadtplanModalApplicationMenu_ extends React.Component {
                             <div name="KartendarstellungPOI"><br /></div>
                             <h4>Kartendarstellung der POI <Link to="help" containerId="myMenu" style={{ color: '#00000044'}}><Icon name="arrow-circle-up"/></Link></h4>
                              <p>Jeder POI (Point of Interest, „Interessanter Ort“) ist einem oder mehreren übergeordneten Themenfeldern wie z. B. „<em>Freizeit</em>“ oder „<em>Erholung</em>“ zugeordnet. Die Hintergrundfarben der POI-Symbole stehen jeweils für eine eindeutige Kombination dieser Themenfelder, z. B. Hellgrün für „<em>Freizeit, Erholung</em>“.</p>
-                             <p>Räumlich nah beieinander liegende Angebote werden standardmäßig maßstabsabhängig zu größeren Punkten zusammengefasst, mit der Anzahl der repräsentierten POI im Zentrum <img alt="Cluster" src="images/poi_zusammen.png" />. Vergrößern Sie ein paar Mal durch direktes Anklicken eines solchen Punktes oder mit <img alt="Cluster" src="images/sf_vergroessern.png" /> die Darstellung, so werden die zusammengefassten POI Schritt für Schritt in die kleineren Symbole für die konkreten Einzel-POI zerlegt. Ab einer bestimmten Maßstabsstufe (Zoomstufe 12) führt ein weiterer Klick dazu, dass eine Explosionsgraphik der zusammengefassten POI angezeigt wird.</p> 
+                             <p>Räumlich nah beieinander liegende Angebote werden standardmäßig maßstabsabhängig zu größeren Punkten zusammengefasst, mit der Anzahl der repräsentierten POI im Zentrum <img alt="Cluster" src="images/poi_zusammen.png" />. Vergrößern Sie ein paar Mal durch direktes Anklicken eines solchen Punktes oder mit <Icon name="plus"/> die Darstellung, so werden die zusammengefassten POI Schritt für Schritt in die kleineren Symbole für die konkreten Einzel-POI zerlegt. Ab einer bestimmten Maßstabsstufe (Zoomstufe 12) führt ein weiterer Klick dazu, dass eine Explosionsgraphik der zusammengefassten POI angezeigt wird.</p> 
 
                             <div name="POIauswahluabfragen"><br /></div>
                             <h4>POI auswählen und abfragen<Link to="help" containerId="myMenu" style={{ color: '#00000044'}}><Icon name="arrow-circle-up"/></Link></h4>
@@ -523,7 +523,7 @@ export class StadtplanModalApplicationMenu_ extends React.Component {
 														
 														<div name="MeinStandort"><br /></div>
 														<h4>Mein Standort <Link to="help" containerId="myMenu" style={{ color: '#00000044'}}><Icon name="arrow-circle-up"/></Link></h4>
-														 <p>Mit der Funktion „<em>Mein Standort</em>“ <img alt="Cluster" src="images/MeinStandpunkt.jpg" /> können Sie ihren aktuellen Standort mit einem blauen Kreissymbol <img alt="Cluster" src="images/MeinStandpunktMarker.jpg" /> in der Karte anzeigen. Das Standortsymbol ist umgeben von einem zweiten Kreis mit transparenter, blauer Füllung, dessen Radius die Unsicherheit der Positionsbestimmung angibt <img alt="Cluster" src="images/MeinStandpunktMarkerDoppel.jpg" />. Die Richtigkeit der Positionsanzeige ist dabei nicht garantiert, ihre Genauigkeit hängt davon ab, mit welcher Methode Ihr Endgerät und der von Ihnen verwendete Browser die Position bestimmen. Smartphones und Tablet-PC's sind i. d. R. mit einer GPS-Antenne ausgestattet, so dass Sie bei diesen Geräten eine Positionsgenauigkeit in der Größenordnung von 10 Metern erwarten können. Die Markierung ihrer Position wird laufend automatisch aktualisiert. Ein weiterer Klick auf „<em>Mein Standort</em>“ schaltet die Anzeige Ihrer Position wieder ab.</p>
+														 <p>Mit der Funktion „<em>Mein Standort</em>“ <Icon name="map-marker"/> können Sie ihren aktuellen Standort mit einem blauen Kreissymbol <img alt="Cluster" src="images/MeinStandpunktMarker.jpg" /> in der Karte anzeigen. Das Standortsymbol ist umgeben von einem zweiten Kreis mit transparenter, blauer Füllung, dessen Radius die Unsicherheit der Positionsbestimmung angibt <img alt="Cluster" src="images/MeinStandpunktMarkerDoppel.jpg" />. Die Richtigkeit der Positionsanzeige ist dabei nicht garantiert, ihre Genauigkeit hängt davon ab, mit welcher Methode Ihr Endgerät und der von Ihnen verwendete Browser die Position bestimmen. Smartphones und Tablet-PC's sind i. d. R. mit einer GPS-Antenne ausgestattet, so dass Sie bei diesen Geräten eine Positionsgenauigkeit in der Größenordnung von 10 Metern erwarten können. Die Markierung ihrer Position wird laufend automatisch aktualisiert. Ein weiterer Klick auf „<em>Mein Standort</em>“ schaltet die Anzeige Ihrer Position wieder ab.</p>
 
                             <div name="MeinThemenstadtplan"><br /></div>
 														<h4>Mein Themenstadtplan <Link to="help" containerId="myMenu" style={{ color: '#00000044'}}><Icon name="arrow-circle-up"/></Link></h4>
@@ -542,36 +542,6 @@ export class StadtplanModalApplicationMenu_ extends React.Component {
 														<h4>Personalisierung <Link to="help" containerId="myMenu" style={{ color: '#00000044'}}><Icon name="arrow-circle-up"/></Link></h4>
 														 <p>Ihre Themenauswahl und Einstellungen bleiben auch nach einem Neustart der Anwendung erhalten. (Es sei denn, Sie löschen den Browser-Verlauf einschließlich der gehosteten App-Daten.) Damit können Sie mit wenigen Klicks aus unserem Online-Stadtplan einen dauerhaft für Sie optimierten Themenstadtplan machen.</p>
 														
-														 <table>
-														 <tr><td>road</td><td><Icon name="road"/></td></tr>
-														 <tr><td>at</td><td><Icon name="at"/></td></tr>
-														 <tr><td>print</td><td><Icon name="print"/></td></tr>
-														 <tr><td>arrow-circle-up</td><td><Icon name="arrow-circle-up"/></td></tr>
-														 <tr><td>circle</td><td><Icon name="circle"/></td></tr>
-														 <tr><td>pie-chart</td><td><Icon name="pie-chart"/></td></tr>
-														 <tr><td>home</td><td><Icon name="home"/></td></tr>
-														 <tr><td>tag</td><td><Icon name="tag"/></td></tr>
-														 <tr><td>tags</td><td><Icon name="tags"/></td></tr>
-														 <tr><td>plus-square</td><td><Icon name="plus-square"/></td></tr>
-														 <tr><td>check-square</td><td><Icon name="check-square"/></td></tr>
-														 <tr><td>bars</td><td><Icon name="bars"/></td></tr>
-														 <tr><td>map-marker</td><td><Icon name="map-marker"/></td></tr>
-														 <tr><td>minus-square</td><td><Icon name="minus-square"/></td></tr>
-														 <tr><td>trash</td><td><Icon name="trash"/></td></tr>
-														 <tr><td>map</td><td><Icon name="map"/></td></tr>
-														 <tr><td>times</td><td><Icon name="times"/></td></tr>
-														 <tr><td>share-square</td><td><Icon name="share-square"/></td></tr>
-														 <tr><td>copy</td><td><Icon name="copy"/></td></tr>
-														 <tr><td>thumbs-up</td><td><Icon name="thumbs-up"/></td></tr>
-														 <tr><td>thumbs-down</td><td><Icon name="thumbs-down"/></td></tr>
-														 <tr><td>copyright</td><td><Icon name="copyright"/></td></tr>
-														 <tr><td>bookmark</td><td><Icon name="bookmark"/></td></tr>
-														 <tr><td>link</td><td><Icon name="link"/></td></tr>
-														 <tr><td>envelope-square</td><td><Icon name="envelope-square"/></td></tr>
-														 <tr><td>phone</td><td><Icon name="phone"/></td></tr>
-														 
-													 </table>
-														 
                         </Panel>
                     </Accordion>
                 </Modal.Body>

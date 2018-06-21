@@ -183,9 +183,28 @@ export class StadtplanModalApplicationMenu_ extends React.Component {
         );
 
 
-        let poiPreviewName="poi.preview.unclustered.png";
+        let poiPreviewName;
         if (clusteredPOIs){
-            poiPreviewName="poi.preview.clustered.png";
+            if (this.props.poiSvgSize===45){
+                poiPreviewName="poi.preview.clustered.l.png";
+            }
+            else if (this.props.poiSvgSize===35) {
+                poiPreviewName="poi.preview.clustered.m.png";
+            }
+            else {
+                poiPreviewName="poi.preview.clustered.s.png";
+            }
+        }
+        else {
+            if (this.props.poiSvgSize===45){
+                poiPreviewName="poi.preview.unclustered.l.png";
+            }
+            else if(this.props.poiSvgSize===35) {
+                poiPreviewName="poi.preview.unclustered.m.png";
+            }
+            else {
+                poiPreviewName="poi.preview.unclustered.s.png";
+            }
         }
 
         let titlePreview=null;
@@ -568,7 +587,8 @@ export class StadtplanModalApplicationMenu_ extends React.Component {
                                     
                                     <b>Technische Realisierung</b>: <a href="https://cismet.de/" target="_cismet">cismet GmbH</a> auf Basis von <a  href="http://leafletjs.com/" target="_leaflet">Leaflet</a> und <a href="https://cismet.de/#refs" target="_cismet">cids | WuNDa</a>
                                     <br/>
-                                    <a target="_blank" href="https://cismet.de/datenschutzerklaerung.html">Datenschutzerklärung (Privacy Policy)</a>, <a onClick={()=>{
+                                    <a target="_blank" href="https://cismet.de/datenschutzerklaerung.html">Datenschutzerklärung (Privacy Policy)</a>
+                                    {/* , <a onClick={()=>{
                                         let json=prompt("Benutzerdefinierte Farbcodierung der POI (JSON-Format)","");
                                         try {
                                             JSON.parse(json);
@@ -582,7 +602,7 @@ export class StadtplanModalApplicationMenu_ extends React.Component {
                                                 + removeQueryPart(this.props.routing.location.search, "colorRules"));
                                             alert("konnte die Farbregeln nicht verarbeiten")
                                         }
-                                        }}>Farbanpassung</a>
+                                        }}>Farbanpassung</a> */}
                                     {/* <b>POI-Daten</b>: {this.props.offersMD5} */}
                                 </span>
                                     

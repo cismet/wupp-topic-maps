@@ -225,7 +225,7 @@ export class StadtplanModalApplicationMenu_ extends React.Component {
                         <tbody>
                             <tr>
                                 <td style={{ textAlign: 'center', verticalAlign: 'middle',background: "#ffffff", color: "black", opacity:'0.9', paddingleft: '10px', }}>
-                                    <b>Mein Themenstadtplan: </b> Religion ohne Erholung
+                                    <b>Mein Themenstadtplan: </b> Kultur ohne Gesellschaft
                                 </td>                              
                             </tr>
                         </tbody>

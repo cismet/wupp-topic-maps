@@ -1,8 +1,4 @@
-import React from 'react';
 import PropTypes from 'prop-types';
-import { Button } from 'react-bootstrap';
-import Loadable from 'react-loading-overlay';
-import {Icon} from 'react-fa'
 import 'leaflet-easybutton';
 import 'leaflet-easybutton/src/easy-button.css';
 import './EasyButtonOverrides.css';

@@ -11,6 +11,7 @@ import proj4 from 'proj4';
 import {bindActionCreators} from 'redux';
 import FullscreenControl from '../components/FullscreenControl';
 import NewWindowControl from '../components/NewWindowControl';
+import queryString from 'query-string';
 
 import Control from 'react-leaflet-control';
 import {
@@ -40,9 +41,9 @@ import * as gisHelpers from '../utils/gisHelper';
 // eslint-disable-next-line
 import markerClusterGroup from 'leaflet.markercluster';
 
-import L from 'leaflet';
 import ProjSingleGeoJson from '../components/ProjSingleGeoJson';
 
+import LocateControl from '../components/LocateControl';
 
 const fallbackposition = {
   lat: 51.272399,
@@ -75,6 +76,7 @@ export class Cismap_ extends React.Component {
     super(props);
     this.internalGazeteerHitTrigger = this.internalGazeteerHitTrigger.bind(this);
     this.internalSearchButtonTrigger = this.internalSearchButtonTrigger.bind(this);
+    this.internalClearButtonTrigger = this.internalClearButtonTrigger.bind(this);
     this.featureClick = this.featureClick.bind(this);
     this.handleSearch = this.handleSearch.bind(this);
     this.gotoHomeBB = this.gotoHomeBB.bind(this);
@@ -203,23 +205,6 @@ export class Cismap_ extends React.Component {
 
 
   componentDidMount() {
-    if (this.props.clustered) {  
-        this.clusteredMarkers= L.markerClusterGroup(this.props.clusterOptions);
-        let that=this;
-        this.clusteredMarkers.on('clusterclick', function (a) {
-            let zoomLevel=that.refs.leafletMap.leafletElement.getZoom();
-            if (zoomLevel<(that.props.clusterOptions.cismapZoomTillSpiderfy||11)) {
-                that.refs.leafletMap.leafletElement.setZoomAround(a.latlng,zoomLevel+1);
-            }
-            else {
-                a.layer.spiderfy();
-            }
-        });
-        this.refs.leafletMap.leafletElement.addLayer(this.clusteredMarkers);
-    }
-    else {
-        this.clusteredMarkers=null; 
-    }
     this.refs.leafletMap.leafletElement.on('moveend', () => {
       const zoom = this.refs.leafletMap.leafletElement.getZoom();
       const center = this.refs.leafletMap.leafletElement.getCenter();
@@ -229,10 +214,10 @@ export class Cismap_ extends React.Component {
       var lat = center.lat
       var lng = center.lng
 
-      if (Math.abs(latFromUrl - center.lat) < 0.0001) {
+      if (Math.abs(latFromUrl - center.lat) < 0.001) {
         lat = latFromUrl;
       }
-      if (Math.abs(lngFromUrl - center.lng) < 0.0001) {
+      if (Math.abs(lngFromUrl - center.lng) < 0.001) {
         lng = lngFromUrl;
       }
 
@@ -353,6 +338,16 @@ centerOnPoint(x,y,z) {
     }
 
   }
+  internalClearButtonTrigger(event) {
+    if (this.gazClearOverlay) {
+        this.gazClearOverlay.hide();
+      }
+    if (this.props.mapping.overlayFeature!==null) {
+        this.props.mappingActions.setOverlayFeature(null);
+      }
+      this.refs.typeahead.getInstance().clear();
+      this.props.mappingActions.gazetteerHit(null);
+  }
 
 
 
@@ -432,7 +427,7 @@ centerOnPoint(x,y,z) {
     ];
     const zoomByUrl = parseInt(new URLSearchParams(this.props.routing.location.search).get('zoom'), 10) || 14;
 
-    const layerArr = this.props.layers.split(",");
+    const layerArr = this.props.layers.split("|");
 
     //      <Icon name='search' />
 
@@ -469,6 +464,28 @@ centerOnPoint(x,y,z) {
     }
 
 
+    let firstbutton=(
+        <InputGroup.Button 
+            disabled={this.props.mapping.searchInProgress || !searchAllowed} 
+            onClick={this.internalSearchButtonTrigger}>
+            <OverlayTrigger ref={c => this.searchOverlay = c} placement="top" overlay={this.props.searchTooltipProvider()}>
+                <Button  disabled={this.props.mapping.searchInProgress || !searchAllowed}>{searchIcon}</Button>
+            </OverlayTrigger>
+        </InputGroup.Button>
+    );
+    if (!searchAllowed){
+        firstbutton=(
+            <InputGroup.Button  onClick={this.internalClearButtonTrigger}>
+                <OverlayTrigger ref={c => this.gazClearOverlay = c} placement="top" overlay={this.props.gazClearTooltipProvider()}>
+                    <Button disabled={this.props.mapping.overlayFeature===null&&this.props.mapping.gazetteerHit===null}>
+                        <Icon name='times'/>
+                    </Button>
+                    </OverlayTrigger>
+
+            </InputGroup.Button>
+        );
+    }
+    
 
 
     let searchControl=(
@@ -478,11 +495,7 @@ centerOnPoint(x,y,z) {
             }} action="#">
             <FormGroup >
                 <InputGroup>
-                <InputGroup.Button disabled={this.props.mapping.searchInProgress || !searchAllowed} onClick={this.internalSearchButtonTrigger}>
-                    <OverlayTrigger ref={c => this.searchOverlay = c} placement="top" overlay={this.props.searchTooltipProvider()}>
-                    <Button disabled={this.props.mapping.searchInProgress || !searchAllowed}>{searchIcon}</Button>
-                    </OverlayTrigger>
-                </InputGroup.Button>
+                {firstbutton}                
                 <Typeahead
                     ref="typeahead"
                     style={{ width: '300px'}}
@@ -549,12 +562,22 @@ centerOnPoint(x,y,z) {
             />
         );
     }
+    let namedMapStyle=queryString.parse(this.props.routing.location.search).mapStyle;
 
+    if (namedMapStyle===undefined || namedMapStyle==='default') {
+        namedMapStyle='';
+    }
+    else {
+        namedMapStyle='.'+namedMapStyle;
+    }
 
+    
+
+    const mykey="leafletMap.Layers:"+JSON.stringify(layerArr);
     return (
-        <div className={iosClass}>
+    <div className={iosClass} >
     <Map ref="leafletMap" 
-         key="leafletMap" 
+         key={mykey}
          crs={crs25832} 
          style={mapStyle} 
          center={positionByUrl} 
@@ -571,21 +594,63 @@ centerOnPoint(x,y,z) {
         scrollWheelZoom={true}
         >
         {overlayFeature}
-        {
-        layerArr.map((layerWithOpacity) => {
-          const layOp = layerWithOpacity.split('@')
-          return Layers.get(layOp[0])(parseInt(layOp[1] || '100', 10) / 100.0);
-        })
-      }
-      <GazetteerHitDisplay key={"gazHit" + JSON.stringify(this.props.mapping)} mappingProps={this.props.mapping}/>
-      <FeatureCollectionDisplay key={JSON.stringify(this.props.mapping)+this.props.featureKeySuffixCreator()} 
+            {
+            layerArr.map((layerWithOptions) => {
+                    const layOp = layerWithOptions.split('@');
+                    if (!isNaN(parseInt(layOp[1],10))) {
+                        const layerGetter=Layers.get(layOp[0]+namedMapStyle);
+                            if (layerGetter) {
+                                return layerGetter({"opacity":parseInt(layOp[1] || '100', 10) / 100.0});
+                            }
+                            else {
+                                return null;
+                            }
+                    }
+                    if (layOp.length===2) {
+                        try{
+                            let options=JSON.parse(layOp[1]);
+                            const layerGetter=Layers.get(layOp[0]+namedMapStyle);
+                            if (layerGetter) {
+                                return layerGetter(options);
+                            }
+                            else {
+                                return null;
+                            }
+                        }
+                        catch (error){
+                            console.error(error);
+                            console.error("Problems during parsing of the layer options. Skip options. You will get the 100% Layer:"+layOp[0]);
+                            const layerGetter=Layers.get(layOp[0]+namedMapStyle);
+                            if (layerGetter) {
+                                return layerGetter();
+                            }
+                            else {
+                                return null;
+                            }
+                        }
+                    } else {
+                        const layerGetter=Layers.get(layOp[0]+namedMapStyle);
+                        if (layerGetter) {
+                            return layerGetter();
+                        }
+                        else {
+                            return null;
+                        }
+                    }
+                }
+            )
+        }
+      <GazetteerHitDisplay key={"gazHit" + JSON.stringify(this.props.mapping.gazetteerHit)} mappingProps={this.props.mapping}/>
+      <FeatureCollectionDisplay key={JSON.stringify(this.props.mapping.featureCollection)+this.props.featureKeySuffixCreator()+"clustered:"+this.props.clustered+".customPostfix:"+this.props.mapping.featureCollectionKeyPostfix} 
                                 mappingProps={this.props.mapping} 
                                 clusteredMarkers={this.clusteredMarkers} 
+                                clusteringEnabled={this.props.clustered}
                                 style={this.props.featureStyler} 
                                 labeler={this.props.labeler} 
                                 hoverer={this.props.hoverer} 
                                 featureClickHandler={this.featureClick} 
                                 mapRef={this.refs.leafletMap} 
+                                clusterOptions={this.props.clusterOptions}
                                 selectionSpiderfyMinZoom={this.props.clusterOptions.selectionSpiderfyMinZoom}/>
       
       <ZoomControl position="topleft" zoomInTitle="Vergr&ouml;ßern" zoomOutTitle="Verkleinern"/>
@@ -602,6 +667,13 @@ centerOnPoint(x,y,z) {
         </OverlayTrigger>
       </Control> */}
       {infoBoxControl}
+      <LocateControl setView="once" flyTo={true} strings={{
+          title: "Mein Standort",
+          metersUnit: "Metern",
+          feetUnit: "Feet",
+          popup: "Sie befinden sich im Umkreis von {distance} {unit} um diesen Punkt.",
+          outsideMapBoundsMsg: "Sie gefinden sich wahrscheinlich außerhalb der Kartengrenzen."
+      }} />
       {this.props.children}
     </Map></div>);
 
@@ -626,6 +698,7 @@ Cismap_.propTypes = {
   featureClickHandler: PropTypes.func.isRequired,
   applicationMenuTooltipProvider: PropTypes.func,
   searchTooltipProvider: PropTypes.func,
+  gazClearProvider: PropTypes.func,
   searchMinZoom: PropTypes.number,
   searchMaxZoom: PropTypes.number,
   gazTopics: PropTypes.array.isRequired,
@@ -652,6 +725,11 @@ Cismap_.defaultProps = {
     return (<Tooltip style={{
         zIndex: 3000000000
       }} id="searchTooltip">Objekte suchen</Tooltip>);
+  },
+  gazClearTooltipProvider: function() {
+    return (<Tooltip style={{
+        zIndex: 3000000000
+      }} id="gazClearTooltip">Suche zurücksetzen</Tooltip>);
   },
   searchMinZoom: 7,
   searchMaxZoom: 18,

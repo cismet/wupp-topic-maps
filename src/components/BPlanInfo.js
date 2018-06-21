@@ -3,8 +3,6 @@ import PropTypes from 'prop-types';
 import { OverlayTrigger, Well, Tooltip } from 'react-bootstrap';
 import Loadable from 'react-loading-overlay';
 import {Icon} from 'react-fa'
-import { downloadSingleFile} from '../utils/downloadHelper';
-
 
 // Since this component is simple and static, there's no parent container for it.
 const BPlanInfo = ({featureCollection, selectedIndex, next, previous, fitAll, loadingIndicator, downloadPlan, downloadEverything,preparedDownload,resetPreparedDownload}) => {
@@ -109,7 +107,6 @@ const BPlanInfo = ({featureCollection, selectedIndex, next, previous, fitAll, lo
 
   let downloaderOverlay=(<div/>);
   if (preparedDownload){
-      let symbol=""
       downloaderOverlay=(
         <div style={{backgroundColor:"rgba(0, 0, 0, 0.8)", height:"100%",verticalAlign:"center",width:"100%",position:"absolute",zIndex:999,top:0, left:0}}>              
               <div style={{"paddingTop":5,color:"rgba(255, 255, 255, 0.8)", textAlign:"center",verticalAlign:"center"}}>

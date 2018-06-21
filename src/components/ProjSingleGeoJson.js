@@ -6,7 +6,6 @@ import 'proj4leaflet';
 import { connect } from "react-redux";
 import { bindActionCreators } from 'redux';
 import { actions as mappingActions } from '../redux/modules/mapping';
-import {getPolygonfromBBox} from  '../utils/gisHelper.js';
 import { Path } from 'react-leaflet';
 
 import Terraformer from 'terraformer-wkt-parser';

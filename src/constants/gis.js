@@ -18,4 +18,3 @@ export const crs25832 = new L.Proj.CRS(
         })
     }
 );
-

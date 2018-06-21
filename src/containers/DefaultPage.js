@@ -12,13 +12,12 @@ export class DefaultPage_ extends React.Component {
         let info = (
             <Well pixelwidth={150} bsSize="small">
                 <h2>Default</h2>
+                <a target="_blank" href="https://cismet.de/datenschutzerklaerung.html">Datenschutzerklärung (Privacy Policy)</a>
             </Well>
         );
         return (
             <div>
-                <Cismap infoBox={info}/>   
-                <a target="_blank" href="https://cismet.de/datenschutzerklaerung.html">Datenschutzerklärung (Privacy Policy)</a>
-             
+                <Cismap infoBox={info}/>                
             </div>
         );
     }

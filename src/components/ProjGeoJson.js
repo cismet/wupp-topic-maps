@@ -113,7 +113,17 @@ export class ProjGeoJson_ extends Path {
             // need to add it to the map now, because of the spiderfy functionality 
             // (ensure spidefication when object is selected)
             // the test needs an already mounted layer
-            this.props.mapRef.leafletElement.addLayer(this.leafletElement) 
+            
+
+            //ugly winning
+            // don't know exactly why there is an error when a new wms background is set
+            // TypeError: Cannot read property '_leaflet_pos' of undefined
+            try {
+                this.props.mapRef.leafletElement.addLayer(this.leafletElement) 
+            }
+            catch (e) {
+                //console.log(e);
+            }
             
             this.clusteredMarkers.on('clusterclick', function (a) {
                 let zoomLevel=that.props.mapRef.leafletElement.getZoom();

@@ -60,6 +60,10 @@ export class BPlanModalHelp_ extends React.Component {
                             f&uuml;r rechtswirksame B-Plan-Verfahren, rote Fl&auml;chen / Umringe f&uuml;r
                             laufende Verfahren.
                         </Panel>
+                        <Panel header="Mein Standort" eventKey="1a" bsStyle="warning">
+                            <p>Mit der Funktion „<em>Mein Standort</em>“ <Icon name="map-marker"/> können Sie ihren aktuellen Standort mit einem blauen Kreissymbol <img alt="Cluster" src="images/MeinStandpunktMarker.jpg" /> in der Karte anzeigen. Das Standortsymbol ist umgeben von einem zweiten Kreis mit transparenter, blauer Füllung, dessen Radius die Unsicherheit der Positionsbestimmung angibt <img alt="Cluster" src="images/MeinStandpunktMarkerDoppel.jpg" />. Die Richtigkeit der Positionsanzeige ist dabei nicht garantiert, ihre Genauigkeit hängt davon ab, mit welcher Methode Ihr Endgerät und der von Ihnen verwendete Browser die Position bestimmen. Smartphones und Tablet-PC's sind i. d. R. mit einer GPS-Antenne ausgestattet, so dass Sie bei diesen Geräten eine Positionsgenauigkeit in der Größenordnung von 10 Metern erwarten können. Die Markierung Ihrer Position wird laufend automatisch aktualisiert. Ein weiterer Klick auf „<em>Mein Standort</em>“ schaltet die Anzeige Ihrer Position wieder ab.</p>
+                        </Panel>
+
                         <Panel header="B-Pl&auml;ne suchen" eventKey="2" bsStyle="success">
                             F&uuml;r Detailinformation und Download m&uuml;ssen Sie zun&auml;chst nach
                             B-Pl&auml;nen suchen. Die Treffer werden automatisch geladen und in der Karte

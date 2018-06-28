@@ -132,10 +132,10 @@ const BPlanInfo = ({featureCollection, selectedIndex, next, previous, fitAll, lo
     >   
         <Well bsSize="small"  onClick={logCurrentFeature}>
         <div>
-          <table style={{ width: '100%' }}>
+          <table border={0} style={{ width: '100%' }}>
             <tbody>
               <tr>
-                <td style={{ textAlign: 'left', verticalAlign: 'top', padding: '5px' }}>
+                <td style={{ textAlign: 'left', verticalAlign: 'top', padding: '5px', maxWidth: '190px' ,overflowWrap: 'break-word'}}>
                   <h4>BPlan {currentFeature.properties.nummer}{statusGlyphs}</h4>
                   <h6>{currentFeature.properties.name}</h6>
                   </td>

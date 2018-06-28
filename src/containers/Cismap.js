@@ -464,28 +464,39 @@ centerOnPoint(x,y,z) {
     }
 
 
-    let firstbutton=(
-        <InputGroup.Button 
-            disabled={this.props.mapping.searchInProgress || !searchAllowed} 
-            onClick={this.internalSearchButtonTrigger}>
-            <OverlayTrigger ref={c => this.searchOverlay = c} placement="top" overlay={this.props.searchTooltipProvider()}>
-                <Button  disabled={this.props.mapping.searchInProgress || !searchAllowed}>{searchIcon}</Button>
-            </OverlayTrigger>
-        </InputGroup.Button>
-    );
-    if (!searchAllowed){
+    let firstbutton;
+    if (this.props.searchAfterGazetteer===true) {
         firstbutton=(
-            <InputGroup.Button  onClick={this.internalClearButtonTrigger}>
-                <OverlayTrigger ref={c => this.gazClearOverlay = c} placement="top" overlay={this.props.gazClearTooltipProvider()}>
-                    <Button disabled={this.props.mapping.overlayFeature===null&&this.props.mapping.gazetteerHit===null}>
-                        <Icon name='times'/>
-                    </Button>
-                    </OverlayTrigger>
-
+            <InputGroup.Button 
+                disabled={this.props.mapping.searchInProgress || !searchAllowed} 
+                onClick={(e)=>{
+                    if (searchAllowed) {
+                        this.internalSearchButtonTrigger(e);
+                    }
+                    else {
+                        // Hier kann noch eine Meldung angezeigt werden.
+                    }
+                    }}>
+                <OverlayTrigger ref={c => this.searchOverlay = c} placement="top" overlay={this.props.searchTooltipProvider()}>
+                    <Button  disabled={this.props.mapping.searchInProgress || !searchAllowed}>{searchIcon}</Button>
+                </OverlayTrigger>
             </InputGroup.Button>
         );
     }
-    
+    else {
+        if (!searchAllowed){
+            firstbutton=(
+                <InputGroup.Button  onClick={this.internalClearButtonTrigger}>
+                    <OverlayTrigger ref={c => this.gazClearOverlay = c} placement="top" overlay={this.props.gazClearTooltipProvider()}>
+                        <Button disabled={this.props.mapping.overlayFeature===null&&this.props.mapping.gazetteerHit===null}>
+                            <Icon name='times'/>
+                        </Button>
+                        </OverlayTrigger>
+
+                </InputGroup.Button>
+            );
+        }
+    }
 
 
     let searchControl=(
@@ -701,6 +712,7 @@ Cismap_.propTypes = {
   gazClearProvider: PropTypes.func,
   searchMinZoom: PropTypes.number,
   searchMaxZoom: PropTypes.number,
+  searchAfterGazetteer: PropTypes.bool,
   gazTopics: PropTypes.array.isRequired,
   ondblclick: PropTypes.func,
   clustered: PropTypes.bool,
@@ -734,6 +746,7 @@ Cismap_.defaultProps = {
   searchMinZoom: 7,
   searchMaxZoom: 18,
   gazTopics: [],
+  searchAfterGazetteer: false,
   gazBoxInfoText: "Geben Sie einen Suchbegriff ein.",
   applicationMenuIcon: "bars",
   clustered: false,

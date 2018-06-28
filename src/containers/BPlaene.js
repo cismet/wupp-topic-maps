@@ -251,6 +251,7 @@ export class BPlaene_ extends React.Component {
                     searchTooltipProvider={this.searchTooltip}
                     searchMinZoom={12}
                     searchMaxZoom={18}
+                    searchAfterGazetteer={true}
                     gazTopics={["pois","bplaene","adressen"]}
                     infoBox={info} >
 

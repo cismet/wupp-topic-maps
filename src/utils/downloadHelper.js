@@ -38,7 +38,6 @@ export const prepareMergeMultipleFiles = (mergeConf, done) => {
         });
       }
       else {
-
           //TODO Error
           done({
             "error":":-(",
@@ -67,8 +66,6 @@ export const prepareDownloadMultipleFiles = (mergeConf, done) => {
       }
       else {
           console.log("Error:" +response.status+ " -> "+response.statusText);
-          response.text().then((t)=>{console.log(t);});
-          //TODO Error
           done({
             "error":response.status+ " -> "+response.statusText,
           });

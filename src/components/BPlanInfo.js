@@ -5,7 +5,7 @@ import Loadable from 'react-loading-overlay';
 import {Icon} from 'react-fa'
 
 // Since this component is simple and static, there's no parent container for it.
-const BPlanInfo = ({featureCollection, selectedIndex, next, previous, fitAll, loadingIndicator, downloadPlan, downloadEverything,preparedDownload,resetPreparedDownload}) => {
+const BPlanInfo = ({featureCollection, selectedIndex, next, previous, fitAll, loadingIndicator,loadingError, downloadPlan, downloadEverything,preparedDownload,resetPreparedDownload}) => {
 
   const currentFeature=featureCollection[selectedIndex];
 
@@ -123,12 +123,21 @@ const BPlanInfo = ({featureCollection, selectedIndex, next, previous, fitAll, lo
         </div>
       )
   }
+  let LoadableBackground='rgba(0, 0, 0, 0.7)';
+  let loadableText='Zusammenstellen der Dokumente ...';
+  let loadableSpinner=true;
+  if (loadingError===true) {
+    LoadableBackground='rgba(164, 10, 0, 0.7)';
+    loadableText='Fehler beim Laden';
+    loadableSpinner=false;
 
+  }
   return (
     <Loadable
       active={loadingIndicator}
-      spinner
-      text='Zusammenstellen der Dokumente ...'
+      spinner={loadableSpinner}
+      text={loadableText}
+      background={LoadableBackground}
     >   
         <Well bsSize="small"  onClick={logCurrentFeature}>
         <div>
@@ -181,6 +190,7 @@ export default BPlanInfo;
    featureCollection: PropTypes.array.isRequired,
    selectedIndex: PropTypes.number.isRequired,
    loadingIndicator: PropTypes.bool.isRequired,
+   loadingError: PropTypes.bool.isRequired,
    next: PropTypes.func.isRequired,
    previous: PropTypes.func.isRequired,
    fitAll: PropTypes.func.isRequired,

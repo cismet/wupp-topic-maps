@@ -13,6 +13,7 @@ import {
 ///TYPES
 export const types = {
     SET_DOCUMENT_LOADING_INDICATOR : 'BPLAENE/SET_DOCUMENT_LOADING_INDICATOR',
+    SET_DOCUMENT_HAS_LOADING_ERROR : 'BPLAENE/SET_DOCUMENT_HAS_LOADING_ERROR',
     SET_PREPARED_DOWNLOAD: 'BPLAENE/SET_PREPARED_DOWNLOAD',
 }
 
@@ -20,6 +21,7 @@ export const types = {
 ///INITIAL STATE
 const initialState = {
     documentsLoading: false,
+    documentsLoadingError: false,
     preparedDownload: null
 };
 
@@ -32,6 +34,15 @@ export default function bplanReducer(state = initialState, action) {
         {
           newState = objectAssign({}, state);
           newState.documentsLoading = action.isLoading;
+          if (newState.documentsLoading===false) {
+            newState.documentsLoadingError = false;
+          }
+          return newState;
+        }
+        case types.SET_DOCUMENT_HAS_LOADING_ERROR:
+        {
+          newState = objectAssign({}, state);
+          newState.documentsLoadingError = action.hasError;
           return newState;
         }
         case types.SET_PREPARED_DOWNLOAD:
@@ -51,6 +62,12 @@ function setDocumentLoadingIndicator(isLoading) {
     return {
       type: types.SET_DOCUMENT_LOADING_INDICATOR,
       isLoading
+    };
+  }
+  function setDocumentHasLoadingError(hasError) {
+    return {
+      type: types.SET_DOCUMENT_HAS_LOADING_ERROR,
+      hasError
     };
   }
   function setPreparedDownload(download) {
@@ -183,8 +200,7 @@ function convertPropArrayToFeature(propArray,counter,){
     let docs;
     if (propArray[5]!=null) {
       docs=JSON.parse(propArray[5]);
-      docs.push({file: "_Info_BPlan-Zusatzdokumente_WUP_1-0.pdf", url: "https://wunda-geoportal-docs.cismet.de/bplaene_dokumente/_Info_BPlan-Zusatzdokumente_WUP_1-0.pdf"});
-      console.log(docs);
+      docs.push({file: "_Info_BPlan-Zusatzdokumente_WUP_1-0.pdf", url: "https://wunda-geoportal-docs.cismet.de/bplaene_dokumente/Info_BPlan-Zusatzdokumente_WUP_1-0.pdf"});
     } else {
       docs=[];
     }
@@ -217,6 +233,7 @@ function convertPropArrayToFeature(propArray,counter,){
 //EXPORT ACTIONS
 export const actions = {
     setDocumentLoadingIndicator,
+    setDocumentHasLoadingError,
     setPreparedDownload,
     searchForPlans,
 };

@@ -38,13 +38,22 @@ export const prepareMergeMultipleFiles = (mergeConf, done) => {
         });
       }
       else {
+
           //TODO Error
-          done();
+          done({
+            "error":":-(",
+          });
       }
-    });
+    }).catch((e)=>{
+          console.log(e);
+        done({
+            "error":":-(",
+          });
+      });
 };
 
 export const prepareDownloadMultipleFiles = (mergeConf, done) => {
+    console.log("prepareDownloadMultipleFiles");
     fetch(DRPROCESSOR + '/api/zip/and/wait/for/status', {
       method: 'post',
       headers: {
@@ -57,15 +66,25 @@ export const prepareDownloadMultipleFiles = (mergeConf, done) => {
         return response.json();
       }
       else {
-          console.log("Error");
-          console.log(response);
+          console.log("Error:" +response.status+ " -> "+response.statusText);
+          response.text().then((t)=>{console.log(t);});
           //TODO Error
-          done();
-      }}).then((result)=> {
-         done({
-            "file":mergeConf.name+".zip",
-            "url":DRPROCESSOR+"/api/download/zip/"+result.id+"/"+mergeConf.name
-        });
+          done({
+            "error":response.status+ " -> "+response.statusText,
+          });
+      }}).catch((e)=>{
+          console.log(e);
+        done({
+            "error":":-(",
+          });
+      }).then((result)=> {
+        if (result && !result.error) { 
+            done({
+                "file":mergeConf.name+".zip",
+                "url":DRPROCESSOR+"/api/download/zip/"+result.id+"/"+mergeConf.name
+            });
+        }
+        
     });
     
 

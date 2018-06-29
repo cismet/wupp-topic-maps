@@ -170,7 +170,6 @@ export class BPlaene_ extends React.Component {
             "folder":"Zusatzdokumente"
           });
       }
-
       prepareDownloadMultipleFiles(downloadConf,this.downloadPreparationDone);
 
   }
@@ -179,8 +178,16 @@ export class BPlaene_ extends React.Component {
 
   }
   downloadPreparationDone(result) {
-    this.props.bplanActions.setDocumentLoadingIndicator(false);
-    this.props.bplanActions.setPreparedDownload(result);
+    if (result.error) {
+        this.props.bplanActions.setDocumentHasLoadingError(true);
+        setTimeout(()=>{
+            this.props.bplanActions.setDocumentLoadingIndicator(false);
+        }, 2000);
+    }
+    else {
+        this.props.bplanActions.setDocumentLoadingIndicator(false);
+        this.props.bplanActions.setPreparedDownload(result);
+    }
   }
 
   featureClick(event){
@@ -215,6 +222,7 @@ export class BPlaene_ extends React.Component {
               downloadEverything={this.downloadEverything}
               preparedDownload={this.props.bplaene.preparedDownload}
               resetPreparedDownload={this.resetPreparedDownload}
+              loadingError={this.props.bplaene.documentsLoadingError}
               />
           )
      }

@@ -77,9 +77,9 @@ export const getTooltipStyleFromFeatureConsideringSelection = (feature) => {
     return {
       ...base,
       "background": "rgba(67, 149, 254, 0.8)",
-      "-webkit-border-radius": borderDef,
-      "moz-border-radius": borderDef,
-      "border-radius": borderDef,
+      "WebkitBorderRadius": borderDef,
+      "MozBorderRadius": borderDef,
+      "borderRadius": borderDef,
       "padding":"5px"
     };
   }else {

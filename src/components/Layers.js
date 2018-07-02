@@ -27,20 +27,63 @@ Layers.set("nrwDOP20", (options=defaultOptions) => {
 
 
 Layers.set("osm", (options=defaultOptions) => {
-  return (
-    <StyledWMSTileLayer
-      key="Terrestris OSM"
-      url="http://ows.terrestris.de/osm/service"
-      layers="OSM-WMS"
-      format="image/png"
-      tiled="true"
-      maxZoom={19}
-      opacity={options.opacity}
-      cssFilter={options["css-filter"]}
+    return (
+      <StyledWMSTileLayer
+        key="Mundialis OSM"
+        url="https://ows.mundialis.de/services/service?"
+        layers="OSM-WMS"
+        format="image/png"
+        maxZoom={19}
+        opacity={options.opacity}
+        cssFilter={options["css-filter"]}
+        version="1.1.1"
+      />
+    );
+  });
+  Layers.set("osm.night", (options=defaultNightOptions) => {
+    return (
+      <StyledWMSTileLayer
+        key="Mundialis OSM.night"
+        url="https://ows.mundialis.de/services/service?"
+        layers="OSM-WMS"
+        format="image/png"
+        maxZoom={19}
+        opacity={options.opacity}
+        cssFilter={options["css-filter"]}
+        version="1.1.1"
+      />
+    );
+  });
 
-    />
-  );
-});
+
+Layers.set("osm2", (options=defaultOptions) => {
+    return (
+      <StyledWMSTileLayer
+        key="terrestris OSM"
+        url="https://ows.terrestris.de/osm/service?"
+        layers="OSM-WMS"
+        format="image/png"
+        maxZoom={19}
+        opacity={options.opacity}
+        cssFilter={options["css-filter"]}
+        version="1.1.1"
+      />
+    );
+  });
+  Layers.set("osm2.night", (options=defaultNightOptions) => {
+    return (
+      <StyledWMSTileLayer
+        key="terrestris OSM.night"
+        url="https://ows.terrestris.de/osm/service?"
+        layers="OSM-WMS"
+        format="image/png"
+        maxZoom={19}
+        opacity={options.opacity}
+        cssFilter={options["css-filter"]}
+        version="1.1.1"
+      />
+    );
+  });
 
 
 Layers.set("abkf", (options=defaultOptions) => {

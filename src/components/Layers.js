@@ -224,6 +224,38 @@ Layers.set("uwBPlanCached", (options=defaultOptions) => {
   );
 });
 
+Layers.set("webatlas", (options=defaultOptions) => {
+    return (
+      <StyledWMSTileLayer
+        key="webatlas"
+        url="https://sg.geodatenzentrum.de/wms_webatlasde__60d825c3-a2c2-2133-79c0-48721caab5c3?"
+        layers="webatlasde"
+        format="image/png"
+        tiled="false"
+        version="1.1.1"
+        maxZoom={19}
+        opacity={options.opacity}
+        cssFilter={options["css-filter"]}
+      />
+    );
+  });
+
+  Layers.set("webatlas.night", (options=defaultNightOptions) => {
+    return (
+      <StyledWMSTileLayer
+        key="webatlas"
+        url="https://sg.geodatenzentrum.de/wms_webatlasde__60d825c3-a2c2-2133-79c0-48721caab5c3?"
+        layers="webatlasde"
+        format="image/png"
+        tiled="false"
+        version="1.1.1"
+        maxZoom={19}
+        opacity={options.opacity}
+        cssFilter={options["css-filter"]}
+      />
+    );
+  });
+
 
 Layers.set("rvrWMS", (options=defaultOptions) => {
   return (

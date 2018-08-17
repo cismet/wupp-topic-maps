@@ -156,7 +156,22 @@ export class Cismap_ extends React.Component {
           this.gazData.push(g);
         }
       }
-
+      if (this.props.gazTopics.indexOf("kitas")!==-1) {
+        let kitas = JSON.parse(this.props.gazetteerTopics.kitas);
+        for (let i = 0; i < kitas.length; ++i) {
+          let topicItem = kitas[i];
+          let g = {
+            sorter: sorter++,
+            string: topicItem.s,
+            glyph: topicItem.g,
+            x: topicItem.x,
+            y: topicItem.y,
+            more: topicItem.m
+          };
+          this.gazData.push(g);
+        }
+      }
+      
       if (this.props.gazTopics.indexOf("adressen")!==-1) {
         let adressen = JSON.parse(this.props.gazetteerTopics.adressen);
         for (let i = 0; i < adressen.length; ++i) {

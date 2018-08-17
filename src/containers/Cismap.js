@@ -45,10 +45,6 @@ import ProjSingleGeoJson from '../components/ProjSingleGeoJson';
 
 import LocateControl from '../components/LocateControl';
 
-const fallbackposition = {
-  lat: 51.272399,
-  lng: 7.199712
-};
 
 function mapStateToProps(state) {
   return {
@@ -171,7 +167,7 @@ export class Cismap_ extends React.Component {
           this.gazData.push(g);
         }
       }
-      
+
       if (this.props.gazTopics.indexOf("adressen")!==-1) {
         let adressen = JSON.parse(this.props.gazetteerTopics.adressen);
         for (let i = 0; i < adressen.length; ++i) {
@@ -437,10 +433,10 @@ centerOnPoint(x,y,z) {
     //    const zoomByUrl= parseInt(this.props.routing.locationBeforeTransitions.query.zoom)||14
 
     const positionByUrl = [
-      parseFloat(new URLSearchParams(this.props.routing.location.search).get('lat')) || fallbackposition.lat,
-      parseFloat(new URLSearchParams(this.props.routing.location.search).get('lng')) || fallbackposition.lng
+      parseFloat(new URLSearchParams(this.props.routing.location.search).get('lat')) || this.props.fallbackposition.lat,
+      parseFloat(new URLSearchParams(this.props.routing.location.search).get('lng')) || this.props.fallbackposition.lng
     ];
-    const zoomByUrl = parseInt(new URLSearchParams(this.props.routing.location.search).get('zoom'), 10) || 14;
+    const zoomByUrl = parseInt(new URLSearchParams(this.props.routing.location.search).get('zoom'), 10) || this.props.initialZoom;
 
     const layerArr = this.props.layers.split("|");
 
@@ -735,6 +731,8 @@ Cismap_.propTypes = {
   infoBox: PropTypes.object.isRequired,
   gazBoxInfoText: PropTypes.string,
   featureKeySuffixCreator: PropTypes.func,
+  fallbackposition: PropTypes.object,
+  initialZoom: PropTypes.number
 };
 
 Cismap_.defaultProps = {
@@ -776,6 +774,12 @@ Cismap_.defaultProps = {
     selectionSpiderfyMinZoom:12
  },
  featureKeySuffixCreator: ()=>"",
+ fallbackposition: {
+     lat: 51.272399,
+    lng: 7.199712
+ },
+ initialZoom: 14
+
 
   
 }

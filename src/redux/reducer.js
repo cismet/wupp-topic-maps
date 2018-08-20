@@ -3,6 +3,7 @@ import {  routerReducer} from 'react-router-redux';
 import bplaenenReducer from './modules/bplaene';
 import ehrenamtReducer from './modules/ehrenamt';
 import stadtplanReducer from './modules/stadtplan';
+import kitasReducer from './modules/kitas';
 import mappingReducer from './modules/mapping';
 import gazetteerTopicsReducer from './modules/gazetteerTopics';
 import uiStateReducer from './modules/uiState';
@@ -25,6 +26,11 @@ const ehrenamtStorageConfig = {
     storage: localForage,
     whitelist: ['pois','poisMD5','filter', 'poitypes','lebenslagen','poiSvgSize']
    }
+   const kitasStorageConfig = {
+    key: 'kitas',
+    storage: localForage,
+    whitelist: ['filter'] // ['kitas','kitasMD5','filter']
+   }
 
    const uiStateStorageConfig = {
     key: 'uiState',
@@ -37,6 +43,7 @@ const rootReducer = combineReducers({
   bplaene: bplaenenReducer,
   ehrenamt: persistReducer(ehrenamtStorageConfig,ehrenamtReducer),
   stadtplan: persistReducer(stadtplanStorageConfig,stadtplanReducer),
+  kitas: persistReducer(kitasStorageConfig,kitasReducer),
   mapping: mappingReducer,
   uiState: persistReducer(uiStateStorageConfig,uiStateReducer),
   routing: routerReducer,

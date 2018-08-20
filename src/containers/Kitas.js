@@ -123,7 +123,6 @@ export class Kitas_ extends React.Component {
     }
 
     gazeteerhHit(selectedObject) {
-        console.log(selectedObject)
         if (selectedObject && selectedObject[0] && selectedObject[0].more && selectedObject[0].more.kid) {
             //this.props.stadtplanActions.setPoiGazHit(selectedObject[0].more.pid);
             this.props.kitasActions.setSelectedKita(selectedObject[0].more.kid);

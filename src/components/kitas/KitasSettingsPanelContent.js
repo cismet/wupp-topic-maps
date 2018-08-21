@@ -75,7 +75,8 @@ const KitasSettingsPanel = ({
                   paddingleft: "10px"
                 }}
               >
-                <b>Mein Kita-Stadtplan: </b> alle Kitas | unter 2 + ab 2 Jahre | 35h pro Woche
+                <b>Mein Kita-Stadtplan: </b> alle Kitas | unter 2 + ab 2 Jahre |
+                35h pro Woche
               </td>
             </tr>
           </tbody>

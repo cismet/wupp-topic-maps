@@ -289,8 +289,8 @@ function applyFilter() {
         filter.alter.indexOf(constants.ALTER_UNTER2) !== -1 &&
         !isAlterUnter2(kita)
       ) {
-         filteredKitaSet.delete(kita);
-         continue;
+        filteredKitaSet.delete(kita);
+        continue;
       }
       if (
         filter.alter.indexOf(constants.ALTER_AB2) !== -1 &&
@@ -308,25 +308,21 @@ function applyFilter() {
       }
 
       //umfang
-      let stundenCheck35=true;
-      let stundenCheck45=true
+      let stundenCheck35 = true;
+      let stundenCheck45 = true;
 
-      const chk45h=(filter.umfang.indexOf(constants.STUNDEN_FILTER_45) !== -1);
-      const chk35h=(filter.umfang.indexOf(constants.STUNDEN_FILTER_35) !== -1);
-      
-      if (chk45h && chk35h){
-          continue;
-      }
-      else if (chk45h && !isAvailableFor45h(kita)){
+      const chk45h = filter.umfang.indexOf(constants.STUNDEN_FILTER_45) !== -1;
+      const chk35h = filter.umfang.indexOf(constants.STUNDEN_FILTER_35) !== -1;
+
+      if (chk45h && chk35h) {
+        continue;
+      } else if (chk45h && !isAvailableFor45h(kita)) {
         filteredKitaSet.delete(kita);
         continue;
-      }
-      else if (chk35h && !isAvailableFor35h(kita)){
+      } else if (chk35h && !isAvailableFor35h(kita)) {
         filteredKitaSet.delete(kita);
         continue;
-
-      }
-      else if (!chk35h && !chk45h) {
+      } else if (!chk35h && !chk45h) {
         filteredKitaSet.delete(kita);
         continue;
       }
@@ -458,7 +454,8 @@ const isAlterUnter2 = kita => {
 };
 const isAlterAb2 = kita => {
   return (
-    kita.alter === constants.ALTER.indexOf(constants.ALTER_AB2) || isAlterUnter2(kita)
+    kita.alter === constants.ALTER.indexOf(constants.ALTER_AB2) ||
+    isAlterUnter2(kita)
   );
 };
 const isAlterAb3 = kita => {
@@ -470,12 +467,15 @@ const isAlterAb3 = kita => {
 };
 
 const isAvailableFor35h = kita => {
-    return (kita.stunden === constants.STUNDEN.indexOf(constants.STUNDEN_NUR_35)) ||(kita.stunden === constants.STUNDEN.indexOf(constants.STUNDEN_NUR_35_u_45));
-}
+  return (
+    kita.stunden === constants.STUNDEN.indexOf(constants.STUNDEN_NUR_35) ||
+    kita.stunden === constants.STUNDEN.indexOf(constants.STUNDEN_NUR_35_u_45)
+  );
+};
 
 const isAvailableFor45h = kita => {
-    return (kita.stunden === constants.STUNDEN.indexOf(constants.STUNDEN_NUR_45)) ||(kita.stunden === constants.STUNDEN.indexOf(constants.STUNDEN_NUR_35_u_45));
-}
-
-
-
+  return (
+    kita.stunden === constants.STUNDEN.indexOf(constants.STUNDEN_NUR_45) ||
+    kita.stunden === constants.STUNDEN.indexOf(constants.STUNDEN_NUR_35_u_45)
+  );
+};

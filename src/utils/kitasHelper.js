@@ -324,56 +324,52 @@ export const featureHoverer = feature => {
 };
 
 export const getFilterDescription = filter => {
-    let profileDesc;
-    let ageDesc;
-    let umfangDesc;
+  let profileDesc;
+  let ageDesc;
+  let umfangDesc;
 
-    const chkProfilInklusion=(filter.profil.indexOf(kitasConstants.PROFIL_INKLUSION) !== -1);
-    const chkProfilNormal=(filter.profil.indexOf(kitasConstants.PROFIL_NORMAL) !== -1);
+  const chkProfilInklusion =
+    filter.profil.indexOf(kitasConstants.PROFIL_INKLUSION) !== -1;
+  const chkProfilNormal =
+    filter.profil.indexOf(kitasConstants.PROFIL_NORMAL) !== -1;
 
-    if (chkProfilInklusion&&chkProfilNormal){
-        profileDesc="alle Kitas";
-    }
-    else if (chkProfilInklusion){
-        profileDesc="Kitas mit Schwerpunkt Inklusion";
-    }
-    else if (chkProfilNormal){
-        profileDesc="Kitas ohne Schwerpunkt Inklusion";
-    }
-    else {
-        return "Kein Kita-Profil ausgewählt."
-    }
+  if (chkProfilInklusion && chkProfilNormal) {
+    profileDesc = "alle Kitas";
+  } else if (chkProfilInklusion) {
+    profileDesc = "Kitas mit Schwerpunkt Inklusion";
+  } else if (chkProfilNormal) {
+    profileDesc = "Kitas ohne Schwerpunkt Inklusion";
+  } else {
+    return "Kein Kita-Profil ausgewählt.";
+  }
 
-    const radioAgeUnter2=(filter.alter.indexOf(kitasConstants.ALTER_UNTER2) !== -1);
-    const radioAgeAb2=(filter.alter.indexOf(kitasConstants.ALTER_AB2) !== -1);
-    //onst radioAgeAb3=(filter.profil.indexOf(kitasConstants.ALTER_AB3) !== -1);
+  const radioAgeUnter2 =
+    filter.alter.indexOf(kitasConstants.ALTER_UNTER2) !== -1;
+  const radioAgeAb2 = filter.alter.indexOf(kitasConstants.ALTER_AB2) !== -1;
+  //onst radioAgeAb3=(filter.profil.indexOf(kitasConstants.ALTER_AB3) !== -1);
 
-    if (radioAgeUnter2) {
-        ageDesc="unter 2 Jahre"
-    }
-    else if (radioAgeAb2) {
-        ageDesc="ab 2 Jahre"
-    }
-    else {
-        ageDesc="ab 3 Jahre"
-    }
+  if (radioAgeUnter2) {
+    ageDesc = "unter 2 Jahre";
+  } else if (radioAgeAb2) {
+    ageDesc = "ab 2 Jahre";
+  } else {
+    ageDesc = "ab 3 Jahre";
+  }
 
-    const chkUmfang35h=(filter.umfang.indexOf(kitasConstants.STUNDEN_FILTER_35) !== -1);
-    const chkUmfang45h=(filter.umfang.indexOf(kitasConstants.STUNDEN_FILTER_45) !== -1);
+  const chkUmfang35h =
+    filter.umfang.indexOf(kitasConstants.STUNDEN_FILTER_35) !== -1;
+  const chkUmfang45h =
+    filter.umfang.indexOf(kitasConstants.STUNDEN_FILTER_45) !== -1;
 
-    if (chkUmfang35h && chkUmfang45h){
-        umfangDesc="35 oder 45 Stunden pro Woche"
-    }
-    else if (chkUmfang35h){
-        umfangDesc="35 Stunden pro Woche"
-    }
-    else if (chkUmfang45h){
-        umfangDesc="45 Stunden pro Woche"
-    }
-    else {
-        return "Kein Stundenumfang ausgewählt."
-    }
+  if (chkUmfang35h && chkUmfang45h) {
+    umfangDesc = "35 oder 45 Stunden pro Woche";
+  } else if (chkUmfang35h) {
+    umfangDesc = "35 Stunden pro Woche";
+  } else if (chkUmfang45h) {
+    umfangDesc = "45 Stunden pro Woche";
+  } else {
+    return "Kein Stundenumfang ausgewählt.";
+  }
 
-    return `${profileDesc} | ${ageDesc} | ${umfangDesc}`
-    
-}
+  return `${profileDesc} | ${ageDesc} | ${umfangDesc}`;
+};

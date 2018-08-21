@@ -194,10 +194,6 @@ export class Kitas_ extends React.Component {
     let qTitle = queryString.parse(this.props.routing.location.search).title;
     if (qTitle !== undefined) {
       if (qTitle === null || qTitle === "") {
-       
-        
-
-
         filterDesc = getFilterDescription(this.props.kitas.filter);
         titleContent = (
           <div>
@@ -208,7 +204,14 @@ export class Kitas_ extends React.Component {
         filterDesc = qTitle;
         titleContent = <div>{filterDesc}</div>;
       }
-      if (filterDesc !== "" &&  !(this.props.kitas.filteredKitas.length===this.props.kitas.kitas.length) &&  this.props.kitas.filteredKitas.length>0) {
+      if (
+        filterDesc !== "" &&
+        !(
+          this.props.kitas.filteredKitas.length ===
+          this.props.kitas.kitas.length
+        ) &&
+        this.props.kitas.filteredKitas.length > 0
+      ) {
         title = (
           <table
             style={{

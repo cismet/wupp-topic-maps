@@ -61,15 +61,17 @@ const KitasModalApplicationMenu = ({
     maxHeight: uiState.height - 200
   };
 
-
   let kitaOrKitas;
-  if (kitasState.filteredKitas.length===1){
-      kitaOrKitas="Kita";
+  if (kitasState.filteredKitas.length === 1) {
+    kitaOrKitas = "Kita";
+  } else {
+    kitaOrKitas = "Kitas";
   }
-  else {
-    kitaOrKitas="Kitas";
-  }
-  let filterString=`(${kitasState.filteredKitas.length} ${kitaOrKitas} gefunden, davon ${mappingState.featureCollection.length} in der Karte)`;
+  let filterString = `(${
+    kitasState.filteredKitas.length
+  } ${kitaOrKitas} gefunden, davon ${
+    mappingState.featureCollection.length
+  } in der Karte)`;
 
   let customTitle = queryString.parse(routingState.location.search).title;
   return (
@@ -143,12 +145,16 @@ const KitasModalApplicationMenu = ({
             }
           }}
         >
-          <Panel header={"Filtern "+filterString} eventKey="filter" bsStyle="primary">
-            <KitasFilterPanelContent 
-                width={uiState.width}
-                filter={kitasState.filter}
-                addFilterFor={kitasActions.addFilterFor}
-                removeFilterFor={kitasActions.removeFilterFor}
+          <Panel
+            header={"Filtern " + filterString}
+            eventKey="filter"
+            bsStyle="primary"
+          >
+            <KitasFilterPanelContent
+              width={uiState.width}
+              filter={kitasState.filter}
+              addFilterFor={kitasActions.addFilterFor}
+              removeFilterFor={kitasActions.removeFilterFor}
             />
           </Panel>
         </Accordion>

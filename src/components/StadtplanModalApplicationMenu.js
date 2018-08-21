@@ -213,7 +213,6 @@ export class StadtplanModalApplicationMenu_ extends React.Component {
                 <div style={{align:"center", width:"100%"}}>
                         <div style={{height:'10px'}}/>
                         <table style={{ 
-                            // width: this.props.uiState.width-54-12-38-12+'px', 
                             width: '96%',
                             height: '30px',
                             margin: '0 auto',

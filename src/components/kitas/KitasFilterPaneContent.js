@@ -110,10 +110,10 @@ const KitasFilterPanel = ({ width, filter, addFilterFor, removeFilterFor }) => {
                   key={"filter.kita.alter.ab2"}
                   onClick={e => {
                     if (e.target.checked === true) {
-                        addFilterFor("alter", kitasConstants.ALTER_AB2);
-                        removeFilterFor("alter", kitasConstants.ALTER_UNTER2);
-                        removeFilterFor("alter", kitasConstants.ALTER_AB3);
-                      }
+                      addFilterFor("alter", kitasConstants.ALTER_AB2);
+                      removeFilterFor("alter", kitasConstants.ALTER_UNTER2);
+                      removeFilterFor("alter", kitasConstants.ALTER_AB3);
+                    }
                   }}
                   checked={
                     filter.alter.indexOf(kitasConstants.ALTER_AB2) !== -1
@@ -128,10 +128,10 @@ const KitasFilterPanel = ({ width, filter, addFilterFor, removeFilterFor }) => {
                   key={"filter.kita.alter.ab3"}
                   onClick={e => {
                     if (e.target.checked === true) {
-                        addFilterFor("alter", kitasConstants.ALTER_AB3);
-                        removeFilterFor("alter", kitasConstants.ALTER_AB2);
-                        removeFilterFor("alter", kitasConstants.ALTER_UNTER2);
-                      }
+                      addFilterFor("alter", kitasConstants.ALTER_AB3);
+                      removeFilterFor("alter", kitasConstants.ALTER_AB2);
+                      removeFilterFor("alter", kitasConstants.ALTER_UNTER2);
+                    }
                   }}
                   checked={
                     filter.alter.indexOf(kitasConstants.ALTER_AB3) !== -1

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { OverlayTrigger, Well, Tooltip } from 'react-bootstrap';
 import {Icon} from 'react-fa'
 import queryString from 'query-string';
-import {getColorForProperties, getAgeString, getHoursString, getDescription} from '../utils/kitasHelper';
+import {getColorForProperties, getAgeString, getHoursString, getDescription} from '../../utils/kitasHelper';
 import Color from 'color';
 
 // Since this component is simple and static, there's no parent container for it.

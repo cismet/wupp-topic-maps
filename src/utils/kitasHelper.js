@@ -314,7 +314,7 @@ export const getDescription = properties => {
 };
 
 export const featureHoverer = feature => {
-  return "<div>" + feature.text + "</div>";
+  return "<div>" + feature.properties.kurzname + "</div>";
 };
 
 export const getFilterDescription = filter => {

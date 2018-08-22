@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { OverlayTrigger, Well, Tooltip } from 'react-bootstrap';
 import {Icon} from 'react-fa'
-import queryString from 'query-string';
 import {getColorForProperties, getAgeString, getHoursString, getDescription} from '../../utils/kitasHelper';
 import Color from 'color';
 
@@ -11,24 +10,11 @@ const KitaInfo = ({featureCollection, filteredKitas, selectedIndex, next, previo
 
   const currentFeature=featureCollection[selectedIndex];
 
-  let info="";
-
-  let t="Keine Kita selektiert.";
-  let fotoStyle={};
-
-  let maillink=null;
   let urllink=null;
   let phonelink=null;
   
 
     if (currentFeature){
-        //console.log(currentFeature.properties.info);
-
-        t=currentFeature.text;
-        if (currentFeature.properties.info){
-            info=currentFeature.properties.info;
-        }
-
         if (currentFeature.properties.tel){
             phonelink=(
                 <a key={"kitas.phone.action."} href={"tel:"+currentFeature.properties.tel}>

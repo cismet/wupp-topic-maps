@@ -29,7 +29,7 @@ const ehrenamtStorageConfig = {
    const kitasStorageConfig = {
     key: 'kitas',
     storage: localForage,
-    whitelist: ['kitas','kitasMD5','filter'] //['kitas','kitasMD5'] 
+    whitelist: ['kitas','kitasMD5','filter','kitaSvgSize'] //['kitas','kitasMD5'] 
    }
 
    const uiStateStorageConfig = {

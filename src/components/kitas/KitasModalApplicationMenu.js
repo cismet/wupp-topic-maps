@@ -1,40 +1,22 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { bindActionCreators } from "redux";
-import { connect } from "react-redux";
 import {
   Modal,
   Button,
   Accordion,
-  Panel,
-  FormGroup,
-  Checkbox,
-  Radio,
-  ControlLabel,
-  Label
+  Panel
 } from "react-bootstrap";
-import { actions as UiStateActions } from "../../redux/modules/uiState";
 
 import { Icon } from "react-fa";
 import "react-bootstrap-switch/dist/css/bootstrap3/react-bootstrap-switch.min.css";
 import queryString from "query-string";
 
-import MultiToggleButton from "../MultiToggleButton";
-
 import { Link } from "react-scroll";
-
-import ReactChartkick, { PieChart } from "react-chartkick";
-import Chart from "chart.js";
-
-import { removeQueryPart, modifyQueryPart } from "../../utils/routingHelper";
-import { routerActions } from "react-router-redux";
 
 import KitasFilterPanelContent from "./KitasFilterPaneContent";
 import KitasSettingsPanelContent from "./KitasSettingsPanelContent";
 import KitasHelpTextPanelContent from "./KitasHelpTextPanelContent";
 import KitasModalFooterContent from "./KitasModalFooterContent";
-
-ReactChartkick.addAdapter(Chart);
 
 const KitasModalApplicationMenu = ({
   uiState,

@@ -1,6 +1,5 @@
 import objectAssign from "object-assign";
 import { actions as mappingActions } from "./mapping";
-import { predicateBy } from "../../utils/stringHelper";
 import kdbush from "kdbush";
 import queryString from "query-string";
 
@@ -205,9 +204,6 @@ function loadKitas() {
         }
       })
       .then(data => {
-        let lebenslagen = new Set();
-        let poitypes = [];
-
         dispatch(setKitas(data, md5));
         dispatch(applyFilter());
         dispatch(createFeatureCollectionFromKitas());
@@ -255,8 +251,7 @@ function removeFilterFor(kind, item) {
 }
 
 function setFilterAndApply(filter) {
-  return (dispatch, getState) => {
-    let state = getState();
+  return (dispatch) => {
     dispatch(setFilter(filter));
     dispatch(applyFilter());
   };
@@ -308,9 +303,6 @@ function applyFilter() {
       }
 
       //umfang
-      let stundenCheck35 = true;
-      let stundenCheck45 = true;
-
       const chk45h = filter.umfang.indexOf(constants.STUNDEN_FILTER_45) !== -1;
       const chk35h = filter.umfang.indexOf(constants.STUNDEN_FILTER_35) !== -1;
 

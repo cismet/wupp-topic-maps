@@ -386,7 +386,7 @@ export class StadtplanModalApplicationMenu_ extends React.Component {
                                                 }
                                                 else {
                                                     this.props.routingActions.push(this.props.routing.location.pathname 
-                                                        + this.props.routing.location.search+"&title");
+                                                        + ((this.props.routing.location.search!=="") ? this.props.routing.location.search : "?") + "&title");
                                         
                                                 }
                                             }}
@@ -401,7 +401,7 @@ export class StadtplanModalApplicationMenu_ extends React.Component {
                                                 }
                                                 else {
                                                     this.props.routingActions.push(this.props.routing.location.pathname 
-                                                        + this.props.routing.location.search+"&unclustered");
+                                                        + ((this.props.routing.location.search!=="") ? this.props.routing.location.search : "?") + "&unclustered");
                                         
                                                 }
                                                 this.props.stadtplanActions.createFeatureCollectionFromPOIs();

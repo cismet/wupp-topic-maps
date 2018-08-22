@@ -3,7 +3,6 @@ import Color from 'color';
 import L from 'leaflet';
 import createSVGPie from 'create-svg-pie';
 import createElement from 'svg-create-element';
-import SVGInjector from 'svg-injector';
 import poiColors from '../constants/poiColors.js';
 import store from '../redux/store';
 import queryString from 'query-string';

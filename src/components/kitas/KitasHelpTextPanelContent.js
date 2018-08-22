@@ -1,17 +1,7 @@
 import React from "react";
 import { Link } from "react-scroll";
 import { Icon } from "react-fa";
-import {
-  Modal,
-  Button,
-  Accordion,
-  Panel,
-  FormGroup,
-  Checkbox,
-  Radio,
-  ControlLabel,
-  Label
-} from "react-bootstrap";
+import { Label } from "react-bootstrap";
 
 // Since this component is simple and static, there's no parent container for it.
 const KitasHelpTextPanel = () => {

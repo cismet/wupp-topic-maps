@@ -586,7 +586,7 @@ export class StadtplanModalApplicationMenu_ extends React.Component {
                                     
                                     <b>Technische Realisierung</b>: <a href="https://cismet.de/" target="_cismet">cismet GmbH</a> auf Basis von <a  href="http://leafletjs.com/" target="_leaflet">Leaflet</a> und <a href="https://cismet.de/#refs" target="_cismet">cids | WuNDa</a>
                                     <br/>
-                                    <a target="_blank" href="https://cismet.de/datenschutzerklaerung.html">Datenschutzerklärung (Privacy Policy)</a>
+                                    <a target="_blank" rel="noopener noreferrer" href="https://cismet.de/datenschutzerklaerung.html">Datenschutzerklärung (Privacy Policy)</a>
                                     {/* , <a onClick={()=>{
                                         let json=prompt("Benutzerdefinierte Farbcodierung der POI (JSON-Format)","");
                                         try {

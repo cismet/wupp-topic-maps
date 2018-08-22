@@ -33,7 +33,11 @@ const KitasModalFooter = () => {
           cids | WuNDa
         </a>
         <br />
-        <a target="_blank" href="https://cismet.de/datenschutzerklaerung.html">
+        <a
+          target="_blank"
+          rel="noopener noreferrer"
+          href="https://cismet.de/datenschutzerklaerung.html"
+        >
           Datenschutzerklärung (Privacy Policy)
         </a>
       </span>

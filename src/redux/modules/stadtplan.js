@@ -297,7 +297,6 @@ function setAllLebenslagenToFilter(kind) {
 
 function setFilterAndApply(filter) {
     return (dispatch, getState) => {
-        let state = getState();
         dispatch(setFilter(filter));
         dispatch(applyFilter());
     }

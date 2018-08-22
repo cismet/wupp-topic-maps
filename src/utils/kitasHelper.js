@@ -1,15 +1,9 @@
-import ColorHash from "color-hash";
 import Color from "color";
 import L from "leaflet";
 import createSVGPie from "create-svg-pie";
 import createElement from "svg-create-element";
-import SVGInjector from "svg-injector";
-import poiColors from "../constants/poiColors.js";
-import store from "../redux/store";
-import queryString from "query-string";
 import { constants as kitasConstants } from "../redux/modules/kitas";
 
-//<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512">
 
 const childSVG = `
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 600">

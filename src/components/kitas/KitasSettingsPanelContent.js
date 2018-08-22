@@ -1,14 +1,9 @@
 import React from "react";
 import {
-  Modal,
-  Button,
-  Accordion,
-  Panel,
   FormGroup,
   Checkbox,
   Radio,
-  ControlLabel,
-  Label
+  ControlLabel
 } from "react-bootstrap";
 import { removeQueryPart, modifyQueryPart } from "../../utils/routingHelper";
 

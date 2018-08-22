@@ -64,7 +64,7 @@ const initialState = {
     alter: [constants.ALTER_AB3],
     umfang: [constants.STUNDEN_FILTER_35, constants.STUNDEN_FILTER_45]
   },
-  kitaSvgSize: 34
+  kitaSvgSize: 35
 };
 ///REDUCER
 export default function kitaReducer(state = initialState, action) {

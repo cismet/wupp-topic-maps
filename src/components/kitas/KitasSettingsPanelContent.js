@@ -133,6 +133,9 @@ const KitasSettingsPanel = ({
                   key={"title.checkbox" + titleDisplay}
                   checked={titleDisplay}
                   onClick={e => {
+                    console.log("routing.location.search");
+                    console.log(routing.location.search);
+
                     if (e.target.checked === false) {
                       routingActions.push(
                         routing.location.pathname +
@@ -141,7 +144,9 @@ const KitasSettingsPanel = ({
                     } else {
                       routingActions.push(
                         routing.location.pathname +
-                          routing.location.search +
+                          (routing.location.search !== ""
+                            ? routing.location.search
+                            : "?") +
                           "&title"
                       );
                     }
@@ -166,7 +171,9 @@ const KitasSettingsPanel = ({
                     } else {
                       routingActions.push(
                         routing.location.pathname +
-                          routing.location.search +
+                          (routing.location.search !== ""
+                            ? routing.location.search
+                            : "?") +
                           "&unclustered"
                       );
                     }

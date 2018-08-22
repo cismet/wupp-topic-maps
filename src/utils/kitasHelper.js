@@ -349,11 +349,11 @@ export const getFilterDescription = filter => {
   //onst radioAgeAb3=(filter.profil.indexOf(kitasConstants.ALTER_AB3) !== -1);
 
   if (radioAgeUnter2) {
-    ageDesc = "unter 2 Jahre";
+    ageDesc = "Kinder unter 2 Jahre";
   } else if (radioAgeAb2) {
-    ageDesc = "ab 2 Jahre";
+    ageDesc = "Kinder ab 2 Jahre";
   } else {
-    ageDesc = "ab 3 Jahre";
+    ageDesc = "Kinder ab 3 Jahre";
   }
 
   const chkUmfang35h =

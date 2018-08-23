@@ -3,15 +3,70 @@ import React from "react";
 import { Icon } from "react-fa";
 import { FormGroup, Checkbox, Radio, ControlLabel } from "react-bootstrap";
 import { constants as kitasConstants } from "../../redux/modules/kitas";
+import KitasProfileMapVisSymbol from "./KitasProfileMapVisSymbol";
+import KitasTraegertypMapVisSymbol from "./KitasTraegertypMapVisSymbol";
 
 // Since this component is simple and static, there's no parent container for it.
-const KitasFilterPanel = ({ width, filter, addFilterFor, removeFilterFor }) => {
+const KitasFilterPanel = ({ width, filter, addFilterFor, removeFilterFor, resetFilter }) => {
+  const traegertypMap = [
+    { text: "städtisch", c: kitasConstants.TRAEGERTYP_STAEDTISCH },
+    { text: "evangelisch", c: kitasConstants.TRAEGERTYP_EVANGELISCH },
+    { text: "katholisch", c: kitasConstants.TRAEGERTYP_KATHOLISCH },
+    { text: "Elterninitiative", c: kitasConstants.TRAEGERTYP_ELTERNINITIATIVE },
+    { text: "Betrieb", c: kitasConstants.TRAEGERTYP_BETRIEBSKITA },
+    { text: "freier Träger", c: kitasConstants.TRAEGERTYP_ANDERE }
+  ];
   return (
     <div>
+      <p>
+        Schränken Sie die Anzeige auf die für Sie relevanten Kitas durch die
+        Auswahl der auf Sie passenden Kriterien ein oder setzen Sie die
+        Filterung mit <a onClick={()=>resetFilter()}>Alle anzeigen</a> zurück.
+      </p>
       <table border={0} width="100%">
         <tbody>
           <tr>
             <td valign="center" style={{ width: "330px" }}>
+              <FormGroup>
+                <ControlLabel>
+                  Trägertyp
+                  {"  "}
+                  <Icon
+                    style={{
+                      color: "grey",
+                      width: "30px",
+                      textAlign: "center"
+                    }}
+                    size="2x"
+                    name={"home"}
+                  />
+                </ControlLabel>
+                {traegertypMap.map(item => {
+                  return (
+                    <div key={"filter.kita.traeger.div." + item.c}>
+                      <Checkbox
+                        readOnly={true}
+                        key={"filter.kita.traeger." + item.c}
+                        onClick={e => {
+                          if (e.target.checked === false) {
+                            removeFilterFor("traeger", item.c);
+                          } else {
+                            addFilterFor("traeger", item.c);
+                          }
+                        }}
+                        checked={filter.traeger.indexOf(item.c) !== -1}
+                        inline
+                      >
+                        {item.text}{" "}
+                        <KitasTraegertypMapVisSymbol
+                          traegertyp={kitasConstants.TRAEGERTYP.indexOf(item.c)}
+                        />
+                      </Checkbox>
+                    </div>
+                  );
+                })}
+              </FormGroup>
+              <br />
               <FormGroup>
                 <ControlLabel>
                   Profil
@@ -49,7 +104,7 @@ const KitasFilterPanel = ({ width, filter, addFilterFor, removeFilterFor }) => {
                   Schwerpunkt Inklusion
                 </Checkbox>
                 {"  "}
-                <img alt="minimal" src="images/kita.35.inklusion.png" />
+                <KitasProfileMapVisSymbol inklusion={true} />
                 <br />
                 <Checkbox
                   readOnly={true}
@@ -69,8 +124,7 @@ const KitasFilterPanel = ({ width, filter, addFilterFor, removeFilterFor }) => {
                   ohne Schwerpunkt Inklusion
                 </Checkbox>
                 {"  "}
-                <img alt="minimal" src="images/kita.35.png" />
-                <br />
+                <KitasProfileMapVisSymbol inklusion={false} />
               </FormGroup>
               <FormGroup>
                 <br />

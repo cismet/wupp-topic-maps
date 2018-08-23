@@ -137,6 +137,7 @@ const KitasModalApplicationMenu = ({
               filter={kitasState.filter}
               addFilterFor={kitasActions.addFilterFor}
               removeFilterFor={kitasActions.removeFilterFor}
+              resetFilter={kitasActions.resetFilter}
             />
           </Panel>
         </Accordion>

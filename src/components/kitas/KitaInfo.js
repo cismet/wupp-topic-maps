@@ -6,7 +6,7 @@ import {getColorForProperties, getAgeString, getHoursString, getDescription} fro
 import Color from 'color';
 
 // Since this component is simple and static, there's no parent container for it.
-const KitaInfo = ({featureCollection, filteredKitas, selectedIndex, next, previous, fitAll, loadingIndicator, showModalMenu, uiState, uiStateActions, panelClick}) => {
+const KitaInfo = ({featureCollection, filteredKitas, selectedIndex, next, previous, fitAll, loadingIndicator, showModalMenu, uiState, uiStateActions, panelClick, featureRendering}) => {
 
   const currentFeature=featureCollection[selectedIndex];
 
@@ -33,7 +33,7 @@ const KitaInfo = ({featureCollection, filteredKitas, selectedIndex, next, previo
     }
 
     if (currentFeature) {
-        let poiColor=Color(getColorForProperties(currentFeature.properties));
+        let poiColor=Color(getColorForProperties(currentFeature.properties,featureRendering ));
        
         
         let category;

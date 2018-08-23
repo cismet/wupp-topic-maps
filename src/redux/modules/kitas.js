@@ -10,7 +10,8 @@ export const types = {
   CLEAR_KITA_GAZ_HIT: "KITAS/CLEAR_KITA_GAZ_HIT",
   SET_FILTERED_KITAS: "KITAS/SET_FILTERED_KITAS",
   SET_FILTER: "KITAS/SET_FILTER",
-  SET_SVG_SIZE: "KITAS/SET_SVG_SIZE"
+  SET_SVG_SIZE: "KITAS/SET_SVG_SIZE",
+  SET_FEATURE_RENDERING: "KITAS/SET_FEATURE_RENDERING"
 };
 
 export const constants = {
@@ -29,7 +30,9 @@ export const constants = {
   PROFIL_INKLUSION: "KITAS/CONSTS/PROFIL_INKLUSION",
   PROFIL_NORMAL: "KITAS/CONSTS/PROFIL_NORMAL",
   STUNDEN_FILTER_35: "KITAS/CONSTS/STUNDEN_FILTER_35",
-  STUNDEN_FILTER_45: "KITAS/CONSTS/STUNDEN_FILTER_45"
+  STUNDEN_FILTER_45: "KITAS/CONSTS/STUNDEN_FILTER_45",
+  FEATURE_RENDERING_BY_PROFIL: "KITAS/CONSTS/FEATURE_RENDERING_BY_PROFIL",
+  FEATURE_RENDERING_BY_TRAEGERTYP: "KITAS/CONSTS/FEATURE_RENDERING_BY_TRAEGERTYP",
 };
 
 constants.TRAEGERTYP = [
@@ -61,9 +64,18 @@ const initialState = {
   filter: {
     profil: [constants.PROFIL_NORMAL, constants.PROFIL_INKLUSION],
     alter: [constants.ALTER_AB3],
-    umfang: [constants.STUNDEN_FILTER_35, constants.STUNDEN_FILTER_45]
+    umfang: [constants.STUNDEN_FILTER_35, constants.STUNDEN_FILTER_45],
+    traeger: [
+      constants.TRAEGERTYP_ANDERE,
+      constants.TRAEGERTYP_BETRIEBSKITA,
+      constants.TRAEGERTYP_STAEDTISCH,
+      constants.TRAEGERTYP_ELTERNINITIATIVE,
+      constants.TRAEGERTYP_EVANGELISCH,
+      constants.TRAEGERTYP_KATHOLISCH
+    ]
   },
-  kitaSvgSize: 35
+  kitaSvgSize: 35,
+  featureRendering: constants.FEATURE_RENDERING_BY_PROFIL
 };
 ///REDUCER
 export default function kitaReducer(state = initialState, action) {
@@ -218,13 +230,10 @@ function loadKitas() {
   };
 }
 
-function clearFilter(kind) {
-  return (dispatch, getState) => {
-    // let state = getState();
-    // let filterState = JSON.parse(JSON.stringify(state.stadtplan.filter));
-    // filterState[kind]=[];
-    // dispatch(setFilter(filterState));
-    // dispatch(applyFilter());
+function resetFilter(kind) {
+  return (dispatch) => {
+    let filterState = JSON.parse(JSON.stringify(initialState.filter));
+    dispatch(setFilterAndApply(filterState));
   };
 }
 
@@ -251,7 +260,7 @@ function removeFilterFor(kind, item) {
 }
 
 function setFilterAndApply(filter) {
-  return (dispatch) => {
+  return dispatch => {
     dispatch(setFilter(filter));
     dispatch(applyFilter());
   };
@@ -279,6 +288,12 @@ function applyFilter() {
         filteredKitaSet.add(kita);
       }
 
+
+      //traeger
+      const kitaTraeger=constants.TRAEGERTYP[kita.traegertyp];
+      if (filter.traeger.indexOf(kitaTraeger)===-1) {
+        filteredKitaSet.delete(kita);
+      }
       //alter
       if (
         filter.alter.indexOf(constants.ALTER_UNTER2) !== -1 &&
@@ -406,7 +421,7 @@ export const actions = {
   setSelectedKita,
   createFeatureCollectionFromKitas,
   setFilterAndApply,
-  clearFilter,
+  resetFilter,
   refreshFeatureCollection,
   addFilterFor,
   removeFilterFor

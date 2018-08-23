@@ -4,7 +4,6 @@ import createSVGPie from "create-svg-pie";
 import createElement from "svg-create-element";
 import { constants as kitasConstants } from "../redux/modules/kitas";
 
-
 const childSVG = `
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 600">
     <rect class="bg-fill" x="0" y="0" rx="100" ry="100" width="600" height="600"/>
@@ -238,11 +237,45 @@ export const getKitaClusterIconCreatorFunction = (svgSize = 24) => {
   };
 };
 
-export const getColorForProperties = properties => {
-  if (properties.plaetze_fuer_behinderte === true) {
-    return "#00B4CC";
-  } else {
-    return "#A83F6A";
+
+export const getColorForProperties = (
+  properties,
+  featureRendering = kitasConstants.FEATURE_RENDERING_BY_TRAEGERTYP
+) => {
+   
+  if (featureRendering === kitasConstants.FEATURE_RENDERING_BY_PROFIL) {
+    if (properties.plaetze_fuer_behinderte === true) {
+      return "#00B4CC";
+    } else {
+      return "#A83F6A";
+    }
+  }
+  else {
+    if (properties.traegertyp === kitasConstants.TRAEGERTYP.indexOf(kitasConstants.TRAEGERTYP_STAEDTISCH)) {
+        return "#FFC000"//"#0000c0"//"#547980";
+    }
+    else if (properties.traegertyp === kitasConstants.TRAEGERTYP.indexOf(kitasConstants.TRAEGERTYP_ANDERE)) {
+        return "#26978F"//"#6d006d"//"#00A0B0";
+
+    }
+    else if (properties.traegertyp === kitasConstants.TRAEGERTYP.indexOf(kitasConstants.TRAEGERTYP_BETRIEBSKITA)) {
+        return "#E26B0A"//"#24b435"//"#594F4F"
+
+    }
+    else if (properties.traegertyp === kitasConstants.TRAEGERTYP.indexOf(kitasConstants.TRAEGERTYP_ELTERNINITIATIVE)) {
+        return "#CB0D0D"//"#e81c3f"//"#45ADA8"
+
+    }
+    else if (properties.traegertyp === kitasConstants.TRAEGERTYP.indexOf(kitasConstants.TRAEGERTYP_KATHOLISCH)) {
+        return "#538DD5"//"#fb9504"//"#9DE0AD"
+
+    }
+    else if (properties.traegertyp === kitasConstants.TRAEGERTYP.indexOf(kitasConstants.TRAEGERTYP_EVANGELISCH)) {
+        return "#6BB6D7"//"#dd24ca"//"#7FBCB5"
+    }
+    else {
+        return "#AAAAAA"; 
+    }
   }
 };
 

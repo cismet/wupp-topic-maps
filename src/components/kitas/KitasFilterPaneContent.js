@@ -1,13 +1,21 @@
 import React from "react";
 
 import { Icon } from "react-fa";
-import { FormGroup, Checkbox, Radio, ControlLabel } from "react-bootstrap";
+import { FormGroup, Checkbox, Radio, ControlLabel, Button } from "react-bootstrap";
 import { constants as kitasConstants } from "../../redux/modules/kitas";
 import KitasProfileMapVisSymbol from "./KitasProfileMapVisSymbol";
 import KitasTraegertypMapVisSymbol from "./KitasTraegertypMapVisSymbol";
 
 // Since this component is simple and static, there's no parent container for it.
-const KitasFilterPanel = ({ width, filter, addFilterFor, removeFilterFor, resetFilter }) => {
+const KitasFilterPanel = ({
+  width,
+  filter,
+  addFilterFor,
+  removeFilterFor,
+  resetFilter,
+  featureRenderingOption,
+  pieChart
+}) => {
   const traegertypMap = [
     { text: "städtisch", c: kitasConstants.TRAEGERTYP_STAEDTISCH },
     { text: "evangelisch", c: kitasConstants.TRAEGERTYP_EVANGELISCH },
@@ -16,13 +24,22 @@ const KitasFilterPanel = ({ width, filter, addFilterFor, removeFilterFor, resetF
     { text: "Betrieb", c: kitasConstants.TRAEGERTYP_BETRIEBSKITA },
     { text: "freier Träger", c: kitasConstants.TRAEGERTYP_ANDERE }
   ];
+  let widePieChartPlaceholder = null;
+  let narrowPieChartPlaceholder = null;
+
+  if (width < 995) {
+    narrowPieChartPlaceholder = (
+      <div>
+        <br />
+        {pieChart}
+      </div>
+    );
+  } else {
+    widePieChartPlaceholder = <td>{pieChart}</td>;
+  }
+
   return (
     <div>
-      <p>
-        Schränken Sie die Anzeige auf die für Sie relevanten Kitas durch die
-        Auswahl der auf Sie passenden Kriterien ein oder setzen Sie die
-        Filterung mit <a onClick={()=>resetFilter()}>Alle anzeigen</a> zurück.
-      </p>
       <table border={0} width="100%">
         <tbody>
           <tr>
@@ -59,6 +76,10 @@ const KitasFilterPanel = ({ width, filter, addFilterFor, removeFilterFor, resetF
                       >
                         {item.text}{" "}
                         <KitasTraegertypMapVisSymbol
+                          visible={
+                            featureRenderingOption ===
+                            kitasConstants.FEATURE_RENDERING_BY_TRAEGERTYP
+                          }
                           traegertyp={kitasConstants.TRAEGERTYP.indexOf(item.c)}
                         />
                       </Checkbox>
@@ -87,24 +108,21 @@ const KitasFilterPanel = ({ width, filter, addFilterFor, removeFilterFor, resetF
                   key={"filter.kita.inklusion.checkbox"}
                   onClick={e => {
                     if (e.target.checked === false) {
-                      removeFilterFor(
-                        "profil",
-                        kitasConstants.PROFIL_INKLUSION
-                      );
+                      removeFilterFor("profil", kitasConstants.PROFIL_INKLUSION);
                     } else {
                       addFilterFor("profil", kitasConstants.PROFIL_INKLUSION);
                     }
                   }}
-                  checked={
-                    filter.profil.indexOf(kitasConstants.PROFIL_INKLUSION) !==
-                    -1
-                  }
+                  checked={filter.profil.indexOf(kitasConstants.PROFIL_INKLUSION) !== -1}
                   inline
                 >
                   Schwerpunkt Inklusion
                 </Checkbox>
                 {"  "}
-                <KitasProfileMapVisSymbol inklusion={true} />
+                <KitasProfileMapVisSymbol
+                  inklusion={true}
+                  visible={featureRenderingOption === kitasConstants.FEATURE_RENDERING_BY_PROFIL}
+                />
                 <br />
                 <Checkbox
                   readOnly={true}
@@ -116,15 +134,16 @@ const KitasFilterPanel = ({ width, filter, addFilterFor, removeFilterFor, resetF
                       addFilterFor("profil", kitasConstants.PROFIL_NORMAL);
                     }
                   }}
-                  checked={
-                    filter.profil.indexOf(kitasConstants.PROFIL_NORMAL) !== -1
-                  }
+                  checked={filter.profil.indexOf(kitasConstants.PROFIL_NORMAL) !== -1}
                   inline
                 >
                   ohne Schwerpunkt Inklusion
                 </Checkbox>
                 {"  "}
-                <KitasProfileMapVisSymbol inklusion={false} />
+                <KitasProfileMapVisSymbol
+                  inklusion={false}
+                  visible={featureRenderingOption === kitasConstants.FEATURE_RENDERING_BY_PROFIL}
+                />
               </FormGroup>
               <FormGroup>
                 <br />
@@ -151,9 +170,7 @@ const KitasFilterPanel = ({ width, filter, addFilterFor, removeFilterFor, resetF
                       removeFilterFor("alter", kitasConstants.ALTER_AB3);
                     }
                   }}
-                  checked={
-                    filter.alter.indexOf(kitasConstants.ALTER_UNTER2) !== -1
-                  }
+                  checked={filter.alter.indexOf(kitasConstants.ALTER_UNTER2) !== -1}
                   inline
                 >
                   unter 2 Jahre
@@ -169,9 +186,7 @@ const KitasFilterPanel = ({ width, filter, addFilterFor, removeFilterFor, resetF
                       removeFilterFor("alter", kitasConstants.ALTER_AB3);
                     }
                   }}
-                  checked={
-                    filter.alter.indexOf(kitasConstants.ALTER_AB2) !== -1
-                  }
+                  checked={filter.alter.indexOf(kitasConstants.ALTER_AB2) !== -1}
                   inline
                 >
                   ab 2 Jahre
@@ -187,9 +202,7 @@ const KitasFilterPanel = ({ width, filter, addFilterFor, removeFilterFor, resetF
                       removeFilterFor("alter", kitasConstants.ALTER_UNTER2);
                     }
                   }}
-                  checked={
-                    filter.alter.indexOf(kitasConstants.ALTER_AB3) !== -1
-                  }
+                  checked={filter.alter.indexOf(kitasConstants.ALTER_AB3) !== -1}
                   inline
                 >
                   ab 3 Jahre
@@ -215,18 +228,12 @@ const KitasFilterPanel = ({ width, filter, addFilterFor, removeFilterFor, resetF
                   readOnly={true}
                   onClick={e => {
                     if (e.target.checked === false) {
-                      removeFilterFor(
-                        "umfang",
-                        kitasConstants.STUNDEN_FILTER_35
-                      );
+                      removeFilterFor("umfang", kitasConstants.STUNDEN_FILTER_35);
                     } else {
                       addFilterFor("umfang", kitasConstants.STUNDEN_FILTER_35);
                     }
                   }}
-                  checked={
-                    filter.umfang.indexOf(kitasConstants.STUNDEN_FILTER_35) !==
-                    -1
-                  }
+                  checked={filter.umfang.indexOf(kitasConstants.STUNDEN_FILTER_35) !== -1}
                   name="mapBackground"
                   inline
                 >
@@ -238,28 +245,31 @@ const KitasFilterPanel = ({ width, filter, addFilterFor, removeFilterFor, resetF
                   readOnly={true}
                   onClick={e => {
                     if (e.target.checked === false) {
-                      removeFilterFor(
-                        "umfang",
-                        kitasConstants.STUNDEN_FILTER_45
-                      );
+                      removeFilterFor("umfang", kitasConstants.STUNDEN_FILTER_45);
                     } else {
                       addFilterFor("umfang", kitasConstants.STUNDEN_FILTER_45);
                     }
                   }}
                   name="mapBackground"
-                  checked={
-                    filter.umfang.indexOf(kitasConstants.STUNDEN_FILTER_45) !==
-                    -1
-                  }
+                  checked={filter.umfang.indexOf(kitasConstants.STUNDEN_FILTER_45) !== -1}
                   inline
                 >
                   45 Stunden pro Woche
                 </Checkbox>
               </FormGroup>
+              <br />
+              <br />
+              <p>
+                <Button bsSize="small" onClick={() => resetFilter()}>
+                  Filter zurücksetzen (Alle Kitas anzeigen)
+                </Button>
+              </p>
             </td>
+            {widePieChartPlaceholder}
           </tr>
         </tbody>
       </table>
+      {narrowPieChartPlaceholder}
     </div>
   );
 };

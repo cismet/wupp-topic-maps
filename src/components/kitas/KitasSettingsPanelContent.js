@@ -6,6 +6,7 @@ import {
   ControlLabel
 } from "react-bootstrap";
 import { removeQueryPart, modifyQueryPart } from "../../utils/routingHelper";
+import { constants as kitasConstants } from "../../redux/modules/kitas";
 
 // Since this component is simple and static, there's no parent container for it.
 const KitasSettingsPanel = ({
@@ -17,7 +18,9 @@ const KitasSettingsPanel = ({
   changeMarkerSymbolSize,
   routing,
   routingActions,
-  refreshFeatureCollection
+  refreshFeatureCollection,
+  featureRendering,
+  setFeatureRendering
 }) => {
   let widePreviewPlaceholder = null;
   let narrowPreviewPlaceholder = null;
@@ -181,6 +184,66 @@ const KitasSettingsPanel = ({
                 </Checkbox>
                 <br />
               </FormGroup>
+              <br/>
+              <FormGroup key={"featureRenderingCombos."+featureRendering}>                
+                <ControlLabel>Zeichenvorschrift:</ControlLabel>
+                <br />
+                <Radio
+                  readOnly={true}
+                  onClick={e => {
+                    if (e.target.checked === true) {
+                      setFeatureRendering(kitasConstants.FEATURE_RENDERING_BY_TRAEGERTYP);
+                    }
+                  }}
+                  checked={featureRendering===kitasConstants.FEATURE_RENDERING_BY_TRAEGERTYP}
+                  name="featureRendering"
+                  inline
+                >
+                  nach Trägertyp
+                </Radio>{" "}
+                <br/>
+                <Radio
+                  readOnly={true}
+                  onClick={e => {
+                    if (e.target.checked === true) {
+                      setFeatureRendering(kitasConstants.FEATURE_RENDERING_BY_TRAEGERTYP2);
+                    }
+                  }}
+                  checked={featureRendering===kitasConstants.FEATURE_RENDERING_BY_TRAEGERTYP2}
+                  name="featureRendering"
+                  inline
+                >
+                  nach Trägertyp-2
+                </Radio>{" "}
+                <br/>
+                <Radio
+                  readOnly={true}
+                  onClick={e => {
+                    if (e.target.checked === true) {
+                      setFeatureRendering(kitasConstants.FEATURE_RENDERING_BY_TRAEGERTYP3);
+                    }
+                  }}
+                  checked={featureRendering===kitasConstants.FEATURE_RENDERING_BY_TRAEGERTYP3}
+                  name="featureRendering"
+                  inline
+                >
+                  nach Trägertyp-3
+                </Radio>{" "}
+                <br/>
+                <Radio
+                  readOnly={true}
+                  onClick={e => {
+                    if (e.target.checked === true) {
+                      setFeatureRendering(kitasConstants.FEATURE_RENDERING_BY_PROFIL);
+                    }
+                  }}
+                  name="featureRendering"
+                  checked={featureRendering===kitasConstants.FEATURE_RENDERING_BY_PROFIL}
+                  inline
+                >
+                  nach Profil (Inklusionsschwerpunkt j/n)
+                </Radio>{" "}
+                </FormGroup>
               <FormGroup>
                 <br />
                 <ControlLabel>Kartendarstellung:</ControlLabel>
@@ -254,7 +317,7 @@ const KitasSettingsPanel = ({
                         </a>
                       </td>
                     </tr>
-                    <tr border={1} style={{ verticalAlign: "top" }}>
+                    <tr border={0} style={{ verticalAlign: "top" }}>
                       <td style={{ textAlign: "center" }}>
                         <Radio
                           style={{ marginTop: "0px" }}
@@ -286,6 +349,7 @@ const KitasSettingsPanel = ({
                   </tbody>
                 </table>
               </FormGroup>
+             
             </td>
             {widePreviewPlaceholder}
           </tr>

@@ -1,11 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import {
-  Modal,
-  Button,
-  Accordion,
-  Panel
-} from "react-bootstrap";
+import { Modal, Button, Accordion, Panel } from "react-bootstrap";
 
 import { Icon } from "react-fa";
 import "react-bootstrap-switch/dist/css/bootstrap3/react-bootstrap-switch.min.css";
@@ -17,6 +12,7 @@ import KitasFilterPanelContent from "./KitasFilterPaneContent";
 import KitasSettingsPanelContent from "./KitasSettingsPanelContent";
 import KitasHelpTextPanelContent from "./KitasHelpTextPanelContent";
 import KitasModalFooterContent from "./KitasModalFooterContent";
+import KitasPieChart from "./KitasPieChart";
 
 const KitasModalApplicationMenu = ({
   uiState,
@@ -49,9 +45,7 @@ const KitasModalApplicationMenu = ({
   } else {
     kitaOrKitas = "Kitas";
   }
-  let filterString = `(${
-    kitasState.filteredKitas.length
-  } ${kitaOrKitas} gefunden, davon ${
+  let filterString = `(${kitasState.filteredKitas.length} ${kitaOrKitas} gefunden, davon ${
     mappingState.featureCollection.length
   } in der Karte)`;
 
@@ -73,11 +67,7 @@ const KitasModalApplicationMenu = ({
           &nbsp;&nbsp;&nbsp;Filter, Einstellungen und Kompaktanleitung
         </Modal.Title>
       </Modal.Header>
-      <Modal.Body
-        style={modalBodyStyle}
-        id="myMenu"
-        key={uiState.applicationMenuActiveKey}
-      >
+      <Modal.Body style={modalBodyStyle} id="myMenu" key={uiState.applicationMenuActiveKey}>
         <span>
           Benutzen Sie die Auswahlmöglichkeiten unter{" "}
           <Link
@@ -89,8 +79,8 @@ const KitasModalApplicationMenu = ({
           >
             Filtern
           </Link>
-          , um die in der Karte angezeigten Kindertageseinrichtungen (Kitas) auf
-          die für Sie relevanten Kitas zu beschränken. Über{" "}
+          , um die in der Karte angezeigten Kindertageseinrichtungen (Kitas) auf die für Sie
+          relevanten Kitas zu beschränken. Über{" "}
           <Link
             to="settings"
             containerId="myMenu"
@@ -100,8 +90,8 @@ const KitasModalApplicationMenu = ({
           >
             Einstellungen
           </Link>{" "}
-          können Sie die Darstellung der Hintergrundkarte und der Kitas an Ihre
-          Vorlieben anpassen. Wählen Sie{" "}
+          können Sie die Darstellung der Hintergrundkarte und der Kitas an Ihre Vorlieben anpassen.
+          Wählen Sie{" "}
           <Link
             to="help"
             containerId="myMenu"
@@ -127,17 +117,20 @@ const KitasModalApplicationMenu = ({
             }
           }}
         >
-          <Panel
-            header={"Filtern " + filterString}
-            eventKey="filter"
-            bsStyle="primary"
-          >
+          <Panel header={"Filtern " + filterString} eventKey="filter" bsStyle="primary">
             <KitasFilterPanelContent
               width={uiState.width}
               filter={kitasState.filter}
               addFilterFor={kitasActions.addFilterFor}
               removeFilterFor={kitasActions.removeFilterFor}
               resetFilter={kitasActions.resetFilter}
+              featureRenderingOption={kitasState.featureRendering}
+              pieChart={
+                <KitasPieChart
+                  filteredKitas={kitasState.filteredKitas}
+                  renderingOption={kitasState.featureRendering}
+                />
+              }
             />
           </Panel>
         </Accordion>
@@ -158,20 +151,16 @@ const KitasModalApplicationMenu = ({
               width={uiState.width}
               titleDisplay={customTitle !== undefined}
               clusteredMarkers={
-                queryString.parse(routingState.location.search).unclustered !==
-                null
+                queryString.parse(routingState.location.search).unclustered !== null
               }
               markerSize={kitasState.kitaSvgSize}
-              namedMapStyle={
-                queryString.parse(routingState.location.search).mapStyle ||
-                "default"
-              }
+              namedMapStyle={queryString.parse(routingState.location.search).mapStyle || "default"}
               changeMarkerSymbolSize={changeMarkerSymbolSize}
               routing={routingState}
               routingActions={routingActions}
-              refreshFeatureCollection={
-                kitasActions.createFeatureCollectionFromKitas
-              }
+              refreshFeatureCollection={kitasActions.createFeatureCollectionFromKitas}
+              featureRendering={kitasState.featureRendering}
+              setFeatureRendering={kitasActions.setFeatureRendering}
             />
           </Panel>
         </Accordion>

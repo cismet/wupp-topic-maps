@@ -14,9 +14,9 @@ const childSVG = `
 
 `;
 
-export const getFeatureStyler = (svgSize = 30) => {
+export const getFeatureStyler = (svgSize = 30, featureRenderingOptions) => {
   return feature => {
-    var color = Color(getColorForProperties(feature.properties));
+    var color = Color(getColorForProperties(feature.properties, featureRenderingOptions));
     let radius = svgSize / 2; //needed for the Tooltip Positioning
     let canvasSize = svgSize;
     if (feature.selected) {
@@ -31,17 +31,19 @@ export const getFeatureStyler = (svgSize = 30) => {
       height: 24
     };
 
-    let svg = `<svg id="badgefor_${
-      feature.id
-    }" height="${canvasSize}" width="${canvasSize}"> 
+    let svg = `<svg id="badgefor_${feature.id}" height="${canvasSize}" width="${canvasSize}"> 
                     <style>
                     /* <![CDATA[ */
                         #badgefor_${feature.id} .bg-fill  {
-                            fill: ${getColorForProperties(feature.properties)};
+                            fill: ${getColorForProperties(
+                              feature.properties,
+                              featureRenderingOptions
+                            )};
                         }
                         #badgefor_${feature.id} .bg-stroke  {
                             stroke: ${getColorForProperties(
-                              feature.properties
+                              feature.properties,
+                              featureRenderingOptions
                             )};
                         }
                         #badgefor_${feature.id} .fg-fill  {
@@ -53,9 +55,9 @@ export const getFeatureStyler = (svgSize = 30) => {
                     /* ]]> */
                     </style>
                 <svg x="${svgSize / 12}" y="${svgSize / 12}"  width="${svgSize -
-      (2 * svgSize) / 12}" height="${svgSize -
-      (2 * svgSize) / 12}" viewBox="0 0 ${bdim.width} ${bdim.height ||
-      24}">       
+      (2 * svgSize) / 12}" height="${svgSize - (2 * svgSize) / 12}" viewBox="0 0 ${
+      bdim.width
+    } ${bdim.height || 24}">       
                     ${badge}
                 </svg>
                 </svg>  `;
@@ -67,17 +69,19 @@ export const getFeatureStyler = (svgSize = 30) => {
       let innerBadgeOffset = (selectionBox - badgeDimension) / 2;
 
       svg =
-        `<svg id="badgefor_${
-          feature.id
-        }" height="${canvasSize}" width="${canvasSize}">
+        `<svg id="badgefor_${feature.id}" height="${canvasSize}" width="${canvasSize}">
                     <style>
                     /* <![CDATA[ */
                         #badgefor_${feature.id} .bg-fill  {
-                            fill: ${getColorForProperties(feature.properties)};
+                            fill: ${getColorForProperties(
+                              feature.properties,
+                              featureRenderingOptions
+                            )};
                         }
                         #badgefor_${feature.id} .bg-stroke  {
                             stroke: ${getColorForProperties(
-                              feature.properties
+                              feature.properties,
+                              featureRenderingOptions
                             )};
                         }
                         #badgefor_${feature.id} .fg-fill  {
@@ -89,8 +93,7 @@ export const getFeatureStyler = (svgSize = 30) => {
                     /* ]]> */
                     </style>
                 <rect x="${selectionOffset}" y="${selectionOffset}" rx="8" ry="8" width="${selectionBox}" height="${selectionBox}" fill="rgba(67, 149, 254, 0.8)" stroke-width="0"/>
-                <svg x="${selectionOffset +
-                  innerBadgeOffset}" y="${selectionOffset +
+                <svg x="${selectionOffset + innerBadgeOffset}" y="${selectionOffset +
           innerBadgeOffset}" width="${badgeDimension}" height="${badgeDimension}" viewBox="0 0 ` +
         bdim.width +
         ` ` +
@@ -114,7 +117,7 @@ export const getFeatureStyler = (svgSize = 30) => {
     return style;
   };
 };
-export const getKitaClusterIconCreatorFunction = (svgSize = 24) => {
+export const getKitaClusterIconCreatorFunction = (svgSize = 24, featureRenderingOptions) => {
   //return a function because the functionCall of the iconCreateFunction cannot be manipulated
   return cluster => {
     var childCount = cluster.getChildCount();
@@ -129,7 +132,7 @@ export const getKitaClusterIconCreatorFunction = (svgSize = 24) => {
     let inCart = false;
     for (let marker of childMarkers) {
       values.push(1);
-      colors.push(Color(getColorForProperties(marker.feature.properties)));
+      colors.push(Color(getColorForProperties(marker.feature.properties, featureRenderingOptions)));
       if (marker.feature.selected === true) {
         containsSelection = true;
       }
@@ -226,9 +229,7 @@ export const getKitaClusterIconCreatorFunction = (svgSize = 24) => {
 
     var divIcon = L.divIcon({
       className: "leaflet-data-marker",
-      html:
-        background.outerHTML ||
-        new XMLSerializer().serializeToString(background), //IE11 Compatibility
+      html: background.outerHTML || new XMLSerializer().serializeToString(background), //IE11 Compatibility
       iconAnchor: [canvasSize / 2.0, canvasSize / 2.0],
       iconSize: [canvasSize, canvasSize]
     });
@@ -237,45 +238,64 @@ export const getKitaClusterIconCreatorFunction = (svgSize = 24) => {
   };
 };
 
+const stefan = {};
+stefan[kitasConstants.TRAEGERTYP.indexOf(kitasConstants.TRAEGERTYP_STAEDTISCH)] = "#FFC000";
+stefan[kitasConstants.TRAEGERTYP.indexOf(kitasConstants.TRAEGERTYP_ANDERE)] = "#26978F";
+stefan[kitasConstants.TRAEGERTYP.indexOf(kitasConstants.TRAEGERTYP_BETRIEBSKITA)] = "#E26B0A";
+stefan[kitasConstants.TRAEGERTYP.indexOf(kitasConstants.TRAEGERTYP_ELTERNINITIATIVE)] = "#CB0D0D";
+stefan[kitasConstants.TRAEGERTYP.indexOf(kitasConstants.TRAEGERTYP_KATHOLISCH)] = "#538DD5";
+stefan[kitasConstants.TRAEGERTYP.indexOf(kitasConstants.TRAEGERTYP_EVANGELISCH)] = "#6BB6D7";
 
-export const getColorForProperties = (
-  properties,
-  featureRendering = kitasConstants.FEATURE_RENDERING_BY_TRAEGERTYP
-) => {
-   
+
+const stefan2={};
+stefan2[kitasConstants.TRAEGERTYP.indexOf(kitasConstants.TRAEGERTYP_STAEDTISCH)] = "#B0CBEC";
+stefan2[kitasConstants.TRAEGERTYP.indexOf(kitasConstants.TRAEGERTYP_ANDERE)] = "#3C70BB";
+stefan2[kitasConstants.TRAEGERTYP.indexOf(kitasConstants.TRAEGERTYP_BETRIEBSKITA)] = "#337F99";
+stefan2[kitasConstants.TRAEGERTYP.indexOf(kitasConstants.TRAEGERTYP_ELTERNINITIATIVE)] = "#9CD3CD";
+stefan2[kitasConstants.TRAEGERTYP.indexOf(kitasConstants.TRAEGERTYP_KATHOLISCH)] = "#6998DC";
+stefan2[kitasConstants.TRAEGERTYP.indexOf(kitasConstants.TRAEGERTYP_EVANGELISCH)] = "#96C1EB";
+
+const thorsten={};
+thorsten[kitasConstants.TRAEGERTYP.indexOf(kitasConstants.TRAEGERTYP_STAEDTISCH)] = "#547980";
+thorsten[kitasConstants.TRAEGERTYP.indexOf(kitasConstants.TRAEGERTYP_ANDERE)] = "#00A0B0";
+thorsten[kitasConstants.TRAEGERTYP.indexOf(kitasConstants.TRAEGERTYP_BETRIEBSKITA)] = "#594F4F";
+thorsten[kitasConstants.TRAEGERTYP.indexOf(kitasConstants.TRAEGERTYP_ELTERNINITIATIVE)] = "#45ADA8";
+thorsten[kitasConstants.TRAEGERTYP.indexOf(kitasConstants.TRAEGERTYP_KATHOLISCH)] = "#9DE0AD";
+thorsten[kitasConstants.TRAEGERTYP.indexOf(kitasConstants.TRAEGERTYP_EVANGELISCH)] = "#7FBCB5";
+
+export const getColorForProperties = (properties, featureRendering) => {
   if (featureRendering === kitasConstants.FEATURE_RENDERING_BY_PROFIL) {
     if (properties.plaetze_fuer_behinderte === true) {
       return "#00B4CC";
     } else {
       return "#A83F6A";
     }
-  }
-  else {
-    if (properties.traegertyp === kitasConstants.TRAEGERTYP.indexOf(kitasConstants.TRAEGERTYP_STAEDTISCH)) {
-        return "#FFC000"//"#0000c0"//"#547980";
+  } else if (featureRendering === kitasConstants.FEATURE_RENDERING_BY_TRAEGERTYP) {
+    const lookup = stefan;
+    const color = lookup[properties.traegertyp];
+    if (color) {
+      return color;
+    } else {
+      return "#AAAAAA";
     }
-    else if (properties.traegertyp === kitasConstants.TRAEGERTYP.indexOf(kitasConstants.TRAEGERTYP_ANDERE)) {
-        return "#26978F"//"#6d006d"//"#00A0B0";
-
+  } else if (featureRendering === kitasConstants.FEATURE_RENDERING_BY_TRAEGERTYP2) {
+    const lookup = stefan2;
+    const color = lookup[properties.traegertyp];
+    if (color) {
+      return color;
+    } else {
+      return "#AAAAAA";
     }
-    else if (properties.traegertyp === kitasConstants.TRAEGERTYP.indexOf(kitasConstants.TRAEGERTYP_BETRIEBSKITA)) {
-        return "#E26B0A"//"#24b435"//"#594F4F"
-
+  } else if (featureRendering === kitasConstants.FEATURE_RENDERING_BY_TRAEGERTYP3) {
+    const lookup = thorsten;
+    const color = lookup[properties.traegertyp];
+    if (color) {
+      return color;
+    } else {
+      return "#AAAAAA";
     }
-    else if (properties.traegertyp === kitasConstants.TRAEGERTYP.indexOf(kitasConstants.TRAEGERTYP_ELTERNINITIATIVE)) {
-        return "#CB0D0D"//"#e81c3f"//"#45ADA8"
-
-    }
-    else if (properties.traegertyp === kitasConstants.TRAEGERTYP.indexOf(kitasConstants.TRAEGERTYP_KATHOLISCH)) {
-        return "#538DD5"//"#fb9504"//"#9DE0AD"
-
-    }
-    else if (properties.traegertyp === kitasConstants.TRAEGERTYP.indexOf(kitasConstants.TRAEGERTYP_EVANGELISCH)) {
-        return "#6BB6D7"//"#dd24ca"//"#7FBCB5"
-    }
-    else {
-        return "#AAAAAA"; 
-    }
+  } else {
+    return "#333333";
   }
 };
 
@@ -309,9 +329,7 @@ export const getDescription = properties => {
   switch (kitasConstants.TRAEGERTYP[properties.traegertyp]) {
     case kitasConstants.TRAEGERTYP_STAEDTISCH:
       return (
-        "Kindertageseinrichtung mit " +
-        properties.plaetze +
-        " Plätzen in städtischer Trägerschaft"
+        "Kindertageseinrichtung mit " + properties.plaetze + " Plätzen in städtischer Trägerschaft"
       );
     case kitasConstants.TRAEGERTYP_EVANGELISCH:
       return (
@@ -332,15 +350,9 @@ export const getDescription = properties => {
         " Plätzen in Trägerschaft einer Elterninitiative"
       );
     case kitasConstants.TRAEGERTYP_ANDERE:
-      return (
-        "Kindertageseinrichtung mit " +
-        properties.plaetze +
-        " Plätzen in freier Trägerschaft"
-      );
+      return "Kindertageseinrichtung mit " + properties.plaetze + " Plätzen in freier Trägerschaft";
     case kitasConstants.TRAEGERTYP_BETRIEBSKITA:
-      return (
-        "Betriebskindertageseinrichtung mit " + properties.plaetze + " Plätzen"
-      );
+      return "Betriebskindertageseinrichtung mit " + properties.plaetze + " Plätzen";
     default:
       return "keine Angabe";
   }
@@ -355,10 +367,8 @@ export const getFilterDescription = filter => {
   let ageDesc;
   let umfangDesc;
 
-  const chkProfilInklusion =
-    filter.profil.indexOf(kitasConstants.PROFIL_INKLUSION) !== -1;
-  const chkProfilNormal =
-    filter.profil.indexOf(kitasConstants.PROFIL_NORMAL) !== -1;
+  const chkProfilInklusion = filter.profil.indexOf(kitasConstants.PROFIL_INKLUSION) !== -1;
+  const chkProfilNormal = filter.profil.indexOf(kitasConstants.PROFIL_NORMAL) !== -1;
 
   if (chkProfilInklusion && chkProfilNormal) {
     profileDesc = "alle Kitas";
@@ -370,8 +380,7 @@ export const getFilterDescription = filter => {
     return "Kein Kita-Profil ausgewählt.";
   }
 
-  const radioAgeUnter2 =
-    filter.alter.indexOf(kitasConstants.ALTER_UNTER2) !== -1;
+  const radioAgeUnter2 = filter.alter.indexOf(kitasConstants.ALTER_UNTER2) !== -1;
   const radioAgeAb2 = filter.alter.indexOf(kitasConstants.ALTER_AB2) !== -1;
   //onst radioAgeAb3=(filter.profil.indexOf(kitasConstants.ALTER_AB3) !== -1);
 
@@ -383,10 +392,8 @@ export const getFilterDescription = filter => {
     ageDesc = "Kinder ab 3 Jahre";
   }
 
-  const chkUmfang35h =
-    filter.umfang.indexOf(kitasConstants.STUNDEN_FILTER_35) !== -1;
-  const chkUmfang45h =
-    filter.umfang.indexOf(kitasConstants.STUNDEN_FILTER_45) !== -1;
+  const chkUmfang35h = filter.umfang.indexOf(kitasConstants.STUNDEN_FILTER_35) !== -1;
+  const chkUmfang45h = filter.umfang.indexOf(kitasConstants.STUNDEN_FILTER_45) !== -1;
 
   if (chkUmfang35h && chkUmfang45h) {
     umfangDesc = "35 oder 45 Stunden pro Woche";

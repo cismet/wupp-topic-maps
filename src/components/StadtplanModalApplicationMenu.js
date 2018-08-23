@@ -22,12 +22,12 @@ import MultiToggleButton from './MultiToggleButton';
 
 import { Link } from 'react-scroll';
 
-import ReactChartkick, { PieChart } from 'react-chartkick'
 import Chart from 'chart.js'
 
 import {removeQueryPart, modifyQueryPart} from '../utils/routingHelper'
 import {routerActions} from 'react-router-redux'
 
+import ReactChartkick, { PieChart } from 'react-chartkick'
 
 ReactChartkick.addAdapter(Chart);
 

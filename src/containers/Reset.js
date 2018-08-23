@@ -8,24 +8,25 @@ import { bindActionCreators } from "redux";
 import { routerActions } from "react-router-redux";
 import { resetAll } from "../redux/reducer";
 import queryString from "query-string";
+import {actions as UiStateActions} from '../redux/modules/uiState';
 
 function mapStateToProps(state) {
   return {
-    routing: state.routing
+    routing: state.routing,
+    allState: state
   };
 }
 
 function mapDispatchToProps(dispatch) {
   return {
     routingActions: bindActionCreators(routerActions, dispatch),
+    uiStateActions: bindActionCreators(UiStateActions, dispatch),
     rootActions: bindActionCreators({ resetAll }, dispatch)
   };
 }
 
 export class Reset_ extends React.Component {
   render() {
-    console.log(this.props);
-
     return (
       <div>
         <main>
@@ -45,17 +46,27 @@ export class Reset_ extends React.Component {
     );
   }
   componentDidMount() {
-    let redirectingTo = queryString.parse(this.props.routing.location.search)
+    console.log(this.props.allState)
+    let redirectingTo = queryString.parse(this.props.location.search)
       .to;
       
+    const allState=this.props.allState;
     
+
+    const uiActions=this.props.uiStateActions
     let pushRoute=this.props.routingActions.push;
     setTimeout(() => {
       console.log("RESETTING");
       this.props.rootActions.resetAll();
       setTimeout(() => {
         console.log("Redirecting to " + redirectingTo);
-        pushRoute("kitas")
+        uiActions.screenResize(window.innerHeight, window.innerWidth);
+        if (redirectingTo){
+            pushRoute(redirectingTo)
+        }
+        else {
+            console.log("no redirect set");
+        }
       }, 1000);
     }, 2000);
   }

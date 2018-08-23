@@ -5,9 +5,9 @@ import Cismap from "../containers/Cismap";
 import { connect } from "react-redux";
 import { Tooltip, Well } from "react-bootstrap";
 
-import { actions as mappingActions } from "../redux/modules/mapping";
-import { actions as uiStateActions } from "../redux/modules/uiState";
-import { actions as kitasActions } from "../redux/modules/kitas";
+import { actions as MappingActions } from "../redux/modules/mapping";
+import { actions as UIStateActions } from "../redux/modules/uiState";
+import { actions as KitasActions } from "../redux/modules/kitas";
 import { routerActions } from "react-router-redux";
 
 import { bindActionCreators } from "redux";
@@ -38,9 +38,9 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    mappingActions: bindActionCreators(mappingActions, dispatch),
-    uiStateActions: bindActionCreators(uiStateActions, dispatch),
-    kitasActions: bindActionCreators(kitasActions, dispatch),
+    mappingActions: bindActionCreators(MappingActions, dispatch),
+    uiStateActions: bindActionCreators(UIStateActions, dispatch),
+    kitasActions: bindActionCreators(KitasActions, dispatch),
     routingActions: bindActionCreators(routerActions, dispatch)
   };
 }
@@ -185,6 +185,7 @@ export class Kitas_ extends React.Component {
         panelClick={e => {
           //this.props.kitasActions.refreshFeatureCollection();
         }}
+        featureRendering={this.props.kitas.featureRendering}
       />
     );
 
@@ -276,7 +277,7 @@ export class Kitas_ extends React.Component {
             layers={this.props.match.params.layers || "wupp-plan-live@90"}
             gazeteerHitTrigger={this.gazeteerhHit}
             searchButtonTrigger={this.searchButtonHit}
-            featureStyler={getFeatureStyler(this.props.kitas.kitaSvgSize)}
+            featureStyler={getFeatureStyler(this.props.kitas.kitaSvgSize, this.props.kitas.featureRendering)}
             hoverer={featureHoverer}
             featureClickHandler={this.featureClick}
             ondblclick={this.doubleMapClick}
@@ -300,7 +301,7 @@ export class Kitas_ extends React.Component {
               cismapZoomTillSpiderfy: 12,
               selectionSpiderfyMinZoom: 12,
               iconCreateFunction: getKitaClusterIconCreatorFunction(
-                this.props.kitas.kitaSvgSize
+                this.props.kitas.kitaSvgSize,  this.props.kitas.featureRendering
               )
             }}
             infoBox={info}
@@ -315,6 +316,7 @@ export class Kitas_ extends React.Component {
               </Tooltip>
             )}
             gazBoxInfoText="Stadtteil | Adresse | Kita"
+            featureKeySuffixCreator={()=>this.props.kitas.featureRendering}
           />
         </Loadable>
       </div>

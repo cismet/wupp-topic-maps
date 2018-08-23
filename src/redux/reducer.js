@@ -44,7 +44,7 @@ const stadtplanStorageConfig = {
 const kitasStorageConfig = {
   key: "kitas",
   storage: localForage,
-  whitelist: ["kitas", "kitasMD5", "filter", "kitaSvgSize"] //['kitas','kitasMD5']
+  whitelist: ["kitas", "kitasMD5", "filter", "kitaSvgSize",'featureRendering'] //['kitas','kitasMD5']
 };
 
 const uiStateStorageConfig = {
@@ -73,7 +73,10 @@ const rootReducer = (state, action) => {
     Object.keys(state).forEach(key => {
       localForage.removeItem(`persist:${key}`);
     });
+
+    return appReducer(undefined, action);
   }
+  
   return appReducer(state, action);
 };
 

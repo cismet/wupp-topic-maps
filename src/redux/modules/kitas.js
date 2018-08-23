@@ -33,6 +33,9 @@ export const constants = {
   STUNDEN_FILTER_45: "KITAS/CONSTS/STUNDEN_FILTER_45",
   FEATURE_RENDERING_BY_PROFIL: "KITAS/CONSTS/FEATURE_RENDERING_BY_PROFIL",
   FEATURE_RENDERING_BY_TRAEGERTYP: "KITAS/CONSTS/FEATURE_RENDERING_BY_TRAEGERTYP",
+  FEATURE_RENDERING_BY_TRAEGERTYP2: "KITAS/CONSTS/FEATURE_RENDERING_BY_TRAEGERTYP2",
+  FEATURE_RENDERING_BY_TRAEGERTYP2: "KITAS/CONSTS/FEATURE_RENDERING_BY_TRAEGERTYP3",
+  TRAEGERTEXT: {}
 };
 
 constants.TRAEGERTYP = [
@@ -43,16 +46,19 @@ constants.TRAEGERTYP = [
   constants.TRAEGERTYP_EVANGELISCH,
   constants.TRAEGERTYP_KATHOLISCH
 ];
-constants.ALTER = [
-  constants.ALTER_UNTER2,
-  constants.ALTER_AB2,
-  constants.ALTER_AB3
-];
+constants.ALTER = [constants.ALTER_UNTER2, constants.ALTER_AB2, constants.ALTER_AB3];
 constants.STUNDEN = [
   constants.STUNDEN_NUR_35,
   constants.STUNDEN_NUR_35_u_45,
   constants.STUNDEN_NUR_45
 ];
+
+constants.TRAEGERTEXT[constants.TRAEGERTYP_ANDERE]="freier Träger";
+constants.TRAEGERTEXT[constants.TRAEGERTYP_BETRIEBSKITA]="Betrieb";
+constants.TRAEGERTEXT[constants.TRAEGERTYP_STAEDTISCH]="städtisch";
+constants.TRAEGERTEXT[constants.TRAEGERTYP_ELTERNINITIATIVE]="Elterninitiative";
+constants.TRAEGERTEXT[constants.TRAEGERTYP_EVANGELISCH]="evangelisch";
+constants.TRAEGERTEXT[constants.TRAEGERTYP_KATHOLISCH]="katholisch";
 
 ///INITIAL STATE
 const initialState = {
@@ -75,7 +81,7 @@ const initialState = {
     ]
   },
   kitaSvgSize: 35,
-  featureRendering: constants.FEATURE_RENDERING_BY_PROFIL
+  featureRendering: constants.FEATURE_RENDERING_BY_TRAEGERTYP
 };
 ///REDUCER
 export default function kitaReducer(state = initialState, action) {
@@ -117,6 +123,11 @@ export default function kitaReducer(state = initialState, action) {
       newState.kitaSvgSize = action.size;
       return newState;
     }
+    case types.SET_FEATURE_RENDERING: {
+      newState = objectAssign({}, state);
+      newState.featureRendering = action.rendering;
+      return newState;
+    }
     default:
       return state;
   }
@@ -142,7 +153,9 @@ function setFilter(filter) {
 function setSvgSize(size) {
   return { type: types.SET_SVG_SIZE, size };
 }
-
+function setFeatureRendering(rendering) {
+  return { type: types.SET_FEATURE_RENDERING, rendering };
+}
 //COMPLEXACTIONS
 
 function setSelectedKita(kid) {
@@ -168,8 +181,7 @@ function loadKitas() {
     noCacheHeaders.append("cache-control", "no-cache");
 
     const manualReloadRequested =
-      queryString.parse(state.routing.location.search)
-        .alwaysRefreshKitasOnReload !== undefined;
+      queryString.parse(state.routing.location.search).alwaysRefreshKitasOnReload !== undefined;
 
     return fetch("/kitas/kitas.data.json.md5", {
       method: "get",
@@ -185,16 +197,11 @@ function loadKitas() {
       .then(md5value => {
         md5 = md5value.trim();
         if (manualReloadRequested) {
-          console.log(
-            "Fetch Kitas because of alwaysRefreshKitasOnReload Parameter"
-          );
+          console.log("Fetch Kitas because of alwaysRefreshKitasOnReload Parameter");
           return "fetchit";
         }
 
-        if (
-          md5 === state.kitas.kitasMD5 &&
-          constants.DEBUG_ALWAYS_LOADING === false
-        ) {
+        if (md5 === state.kitas.kitasMD5 && constants.DEBUG_ALWAYS_LOADING === false) {
           dispatch(applyFilter());
           dispatch(createFeatureCollectionFromKitas());
           throw "CACHEHIT";
@@ -231,7 +238,7 @@ function loadKitas() {
 }
 
 function resetFilter(kind) {
-  return (dispatch) => {
+  return dispatch => {
     let filterState = JSON.parse(JSON.stringify(initialState.filter));
     dispatch(setFilterAndApply(filterState));
   };
@@ -288,31 +295,21 @@ function applyFilter() {
         filteredKitaSet.add(kita);
       }
 
-
       //traeger
-      const kitaTraeger=constants.TRAEGERTYP[kita.traegertyp];
-      if (filter.traeger.indexOf(kitaTraeger)===-1) {
+      const kitaTraeger = constants.TRAEGERTYP[kita.traegertyp];
+      if (filter.traeger.indexOf(kitaTraeger) === -1) {
         filteredKitaSet.delete(kita);
       }
       //alter
-      if (
-        filter.alter.indexOf(constants.ALTER_UNTER2) !== -1 &&
-        !isAlterUnter2(kita)
-      ) {
+      if (filter.alter.indexOf(constants.ALTER_UNTER2) !== -1 && !isAlterUnter2(kita)) {
         filteredKitaSet.delete(kita);
         continue;
       }
-      if (
-        filter.alter.indexOf(constants.ALTER_AB2) !== -1 &&
-        !isAlterAb2(kita)
-      ) {
+      if (filter.alter.indexOf(constants.ALTER_AB2) !== -1 && !isAlterAb2(kita)) {
         filteredKitaSet.delete(kita);
         continue;
       }
-      if (
-        filter.alter.indexOf(constants.ALTER_AB3) !== -1 &&
-        !isAlterAb3(kita)
-      ) {
+      if (filter.alter.indexOf(constants.ALTER_AB3) !== -1 && !isAlterAb3(kita)) {
         filteredKitaSet.delete(kita);
         continue;
       }
@@ -353,12 +350,8 @@ function createFeatureCollectionFromKitas(boundingBox) {
       let currentSelectedFeature = {
         id: -1
       };
-      if (
-        state.mapping.selectedIndex !== null &&
-        state.mapping.selectedIndex >= 0
-      ) {
-        currentSelectedFeature =
-          state.mapping.featureCollection[state.mapping.selectedIndex];
+      if (state.mapping.selectedIndex !== null && state.mapping.selectedIndex >= 0) {
+        currentSelectedFeature = state.mapping.featureCollection[state.mapping.selectedIndex];
       } else {
         //          console.log("selectedIndex not set");
       }
@@ -369,12 +362,7 @@ function createFeatureCollectionFromKitas(boundingBox) {
         bb = state.mapping.boundingBox;
       }
 
-      let resultIds = state.kitas.filteredKitasIndex.range(
-        bb.left,
-        bb.bottom,
-        bb.right,
-        bb.top
-      );
+      let resultIds = state.kitas.filteredKitasIndex.range(bb.left, bb.bottom, bb.right, bb.top);
       let resultFC = [];
       let counter = 0;
       let results = [];
@@ -416,6 +404,7 @@ export const actions = {
   setFilteredKitas,
   setFilter,
   setSvgSize,
+  setFeatureRendering,
 
   loadKitas,
   setSelectedKita,
@@ -460,10 +449,7 @@ const isAlterUnter2 = kita => {
   return kita.alter === constants.ALTER.indexOf(constants.ALTER_UNTER2);
 };
 const isAlterAb2 = kita => {
-  return (
-    kita.alter === constants.ALTER.indexOf(constants.ALTER_AB2) ||
-    isAlterUnter2(kita)
-  );
+  return kita.alter === constants.ALTER.indexOf(constants.ALTER_AB2) || isAlterUnter2(kita);
 };
 const isAlterAb3 = kita => {
   return (

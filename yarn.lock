@@ -6480,7 +6480,7 @@ react-bootstrap-switch@^15.5.3:
   version "15.5.3"
   resolved "https://registry.yarnpkg.com/react-bootstrap-switch/-/react-bootstrap-switch-15.5.3.tgz#97287791d4ec0d1892d142542e7e5248002b1251"
 
-react-bootstrap-typeahead@^2.0.0:
+react-bootstrap-typeahead@^2.6.0:
   version "2.6.0"
   resolved "https://registry.yarnpkg.com/react-bootstrap-typeahead/-/react-bootstrap-typeahead-2.6.0.tgz#d18fd808df2b2f339bd137ff36d7f4b0e6c2cb26"
   dependencies:

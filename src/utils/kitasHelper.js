@@ -238,30 +238,31 @@ export const getKitaClusterIconCreatorFunction = (svgSize = 24, featureRendering
   };
 };
 
-const stefan = {};
-stefan[kitasConstants.TRAEGERTYP.indexOf(kitasConstants.TRAEGERTYP_STAEDTISCH)] = "#FFC000";
-stefan[kitasConstants.TRAEGERTYP.indexOf(kitasConstants.TRAEGERTYP_ANDERE)] = "#26978F";
-stefan[kitasConstants.TRAEGERTYP.indexOf(kitasConstants.TRAEGERTYP_BETRIEBSKITA)] = "#E26B0A";
-stefan[kitasConstants.TRAEGERTYP.indexOf(kitasConstants.TRAEGERTYP_ELTERNINITIATIVE)] = "#CB0D0D";
-stefan[kitasConstants.TRAEGERTYP.indexOf(kitasConstants.TRAEGERTYP_KATHOLISCH)] = "#538DD5";
-stefan[kitasConstants.TRAEGERTYP.indexOf(kitasConstants.TRAEGERTYP_EVANGELISCH)] = "#6BB6D7";
+const opts = [];
+const kC = kitasConstants;
+opts.push({});
+opts[opts.length - 1][kC.TRAEGERTYP.indexOf(kC.TRAEGERTYP_STAEDTISCH)] = "#FFC000";
+opts[opts.length - 1][kC.TRAEGERTYP.indexOf(kC.TRAEGERTYP_ANDERE)] = "#26978F";
+opts[opts.length - 1][kC.TRAEGERTYP.indexOf(kC.TRAEGERTYP_BETRIEBSKITA)] = "#E26B0A";
+opts[opts.length - 1][kC.TRAEGERTYP.indexOf(kC.TRAEGERTYP_ELTERNINITIATIVE)] = "#CB0D0D";
+opts[opts.length - 1][kC.TRAEGERTYP.indexOf(kC.TRAEGERTYP_KATHOLISCH)] = "#538DD5";
+opts[opts.length - 1][kC.TRAEGERTYP.indexOf(kC.TRAEGERTYP_EVANGELISCH)] = "#6BB6D7";
 
+opts.push({});
+opts[opts.length - 1][kC.TRAEGERTYP.indexOf(kC.TRAEGERTYP_STAEDTISCH)] = "#B0CBEC";
+opts[opts.length - 1][kC.TRAEGERTYP.indexOf(kC.TRAEGERTYP_ANDERE)] = "#3C70BB";
+opts[opts.length - 1][kC.TRAEGERTYP.indexOf(kC.TRAEGERTYP_BETRIEBSKITA)] = "#337F99";
+opts[opts.length - 1][kC.TRAEGERTYP.indexOf(kC.TRAEGERTYP_ELTERNINITIATIVE)] = "#9CD3CD";
+opts[opts.length - 1][kC.TRAEGERTYP.indexOf(kC.TRAEGERTYP_KATHOLISCH)] = "#6998DC";
+opts[opts.length - 1][kC.TRAEGERTYP.indexOf(kC.TRAEGERTYP_EVANGELISCH)] = "#96C1EB";
 
-const stefan2={};
-stefan2[kitasConstants.TRAEGERTYP.indexOf(kitasConstants.TRAEGERTYP_STAEDTISCH)] = "#B0CBEC";
-stefan2[kitasConstants.TRAEGERTYP.indexOf(kitasConstants.TRAEGERTYP_ANDERE)] = "#3C70BB";
-stefan2[kitasConstants.TRAEGERTYP.indexOf(kitasConstants.TRAEGERTYP_BETRIEBSKITA)] = "#337F99";
-stefan2[kitasConstants.TRAEGERTYP.indexOf(kitasConstants.TRAEGERTYP_ELTERNINITIATIVE)] = "#9CD3CD";
-stefan2[kitasConstants.TRAEGERTYP.indexOf(kitasConstants.TRAEGERTYP_KATHOLISCH)] = "#6998DC";
-stefan2[kitasConstants.TRAEGERTYP.indexOf(kitasConstants.TRAEGERTYP_EVANGELISCH)] = "#96C1EB";
-
-const thorsten={};
-thorsten[kitasConstants.TRAEGERTYP.indexOf(kitasConstants.TRAEGERTYP_STAEDTISCH)] = "#547980";
-thorsten[kitasConstants.TRAEGERTYP.indexOf(kitasConstants.TRAEGERTYP_ANDERE)] = "#00A0B0";
-thorsten[kitasConstants.TRAEGERTYP.indexOf(kitasConstants.TRAEGERTYP_BETRIEBSKITA)] = "#594F4F";
-thorsten[kitasConstants.TRAEGERTYP.indexOf(kitasConstants.TRAEGERTYP_ELTERNINITIATIVE)] = "#45ADA8";
-thorsten[kitasConstants.TRAEGERTYP.indexOf(kitasConstants.TRAEGERTYP_KATHOLISCH)] = "#9DE0AD";
-thorsten[kitasConstants.TRAEGERTYP.indexOf(kitasConstants.TRAEGERTYP_EVANGELISCH)] = "#7FBCB5";
+opts.push({});
+opts[opts.length - 1][kC.TRAEGERTYP.indexOf(kC.TRAEGERTYP_STAEDTISCH)] = "#547980";
+opts[opts.length - 1][kC.TRAEGERTYP.indexOf(kC.TRAEGERTYP_ANDERE)] = "#00A0B0";
+opts[opts.length - 1][kC.TRAEGERTYP.indexOf(kC.TRAEGERTYP_BETRIEBSKITA)] = "#594F4F";
+opts[opts.length - 1][kC.TRAEGERTYP.indexOf(kC.TRAEGERTYP_ELTERNINITIATIVE)] = "#45ADA8";
+opts[opts.length - 1][kC.TRAEGERTYP.indexOf(kC.TRAEGERTYP_KATHOLISCH)] = "#9DE0AD";
+opts[opts.length - 1][kC.TRAEGERTYP.indexOf(kC.TRAEGERTYP_EVANGELISCH)] = "#7FBCB5";
 
 export const getColorForProperties = (properties, featureRendering) => {
   if (featureRendering === kitasConstants.FEATURE_RENDERING_BY_PROFIL) {
@@ -271,7 +272,7 @@ export const getColorForProperties = (properties, featureRendering) => {
       return "#A83F6A";
     }
   } else if (featureRendering === kitasConstants.FEATURE_RENDERING_BY_TRAEGERTYP) {
-    const lookup = stefan;
+    const lookup = opts[0];
     const color = lookup[properties.traegertyp];
     if (color) {
       return color;
@@ -279,7 +280,7 @@ export const getColorForProperties = (properties, featureRendering) => {
       return "#AAAAAA";
     }
   } else if (featureRendering === kitasConstants.FEATURE_RENDERING_BY_TRAEGERTYP2) {
-    const lookup = stefan2;
+    const lookup = opts[1];
     const color = lookup[properties.traegertyp];
     if (color) {
       return color;
@@ -287,7 +288,7 @@ export const getColorForProperties = (properties, featureRendering) => {
       return "#AAAAAA";
     }
   } else if (featureRendering === kitasConstants.FEATURE_RENDERING_BY_TRAEGERTYP3) {
-    const lookup = thorsten;
+    const lookup = opts[2];
     const color = lookup[properties.traegertyp];
     if (color) {
       return color;
@@ -366,6 +367,7 @@ export const getFilterDescription = filter => {
   let profileDesc;
   let ageDesc;
   let umfangDesc;
+  let traegerDesc = "";
 
   const chkProfilInklusion = filter.profil.indexOf(kitasConstants.PROFIL_INKLUSION) !== -1;
   const chkProfilNormal = filter.profil.indexOf(kitasConstants.PROFIL_NORMAL) !== -1;
@@ -379,6 +381,40 @@ export const getFilterDescription = filter => {
   } else {
     return "Kein Kita-Profil ausgewählt.";
   }
+
+  if (filter.traeger.length < kitasConstants.TRAEGERTYP.length) {
+    const remainingTraeger = new Set(kitasConstants.TRAEGERTYP);
+    const filteredTraeger = new Set();
+
+    for (let traeger of filter.traeger) {
+      if (filter.traeger.length > 3) {
+        remainingTraeger.delete(traeger);
+      } else {
+        filteredTraeger.add(traeger);
+      }
+    }
+
+    if (filter.traeger.length > 3) {
+      traegerDesc =
+        "| ohne " +
+        Array.from(remainingTraeger)
+          .map(t => kitasConstants.TRAEGERTEXT_FOR_DESCRIPTION[t])
+          .join(" und ");
+    } else {
+      let joiner;
+      if (filteredTraeger.size === 2) {
+        joiner = " und ";
+      } else {
+        joiner = ", ";
+      }
+      traegerDesc =
+        "| nur " +
+        Array.from(filteredTraeger)
+          .map(t => kitasConstants.TRAEGERTEXT_FOR_DESCRIPTION[t])
+          .join(joiner);
+    }
+  }
+  console.log(traegerDesc);
 
   const radioAgeUnter2 = filter.alter.indexOf(kitasConstants.ALTER_UNTER2) !== -1;
   const radioAgeAb2 = filter.alter.indexOf(kitasConstants.ALTER_AB2) !== -1;
@@ -396,14 +432,14 @@ export const getFilterDescription = filter => {
   const chkUmfang45h = filter.umfang.indexOf(kitasConstants.STUNDEN_FILTER_45) !== -1;
 
   if (chkUmfang35h && chkUmfang45h) {
-    umfangDesc = "35 oder 45 Stunden pro Woche";
+    umfangDesc = "35h oder 45h pro Woche";
   } else if (chkUmfang35h) {
-    umfangDesc = "35 Stunden pro Woche";
+    umfangDesc = "35h pro Woche";
   } else if (chkUmfang45h) {
-    umfangDesc = "45 Stunden pro Woche";
+    umfangDesc = "45h pro Woche";
   } else {
     return "Kein Stundenumfang ausgewählt.";
   }
 
-  return `${profileDesc} | ${ageDesc} | ${umfangDesc}`;
+  return `${profileDesc} ${traegerDesc} | ${ageDesc} | ${umfangDesc}`;
 };

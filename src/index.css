@@ -81,3 +81,15 @@ a:hover {
     background-color: #fff; 
     border-radius: 8px; 
 } 
+
+
+/* 
+fix for https://github.com/cismet/wupp/issues/1477
+*/
+
+.rbt-input-wrapper>div>div {
+    width: 100% !important;
+}
+.rbt-input-hint {
+    width: 100% !important;
+}

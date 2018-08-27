@@ -198,7 +198,7 @@ export class Kitas_ extends React.Component {
         filterDesc = getFilterDescription(this.props.kitas.filter);
         titleContent = (
           <div>
-            <b>Mein Kita-Stadtplan: </b> {filterDesc}
+            <b>Mein Kita-Finder: </b> {filterDesc}
           </div>
         );
       } else {

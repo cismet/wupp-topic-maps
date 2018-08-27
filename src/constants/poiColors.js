@@ -16,5 +16,6 @@ export default {
     "öffentliche Dienstleistungen, Gesellschaft": "#569AD6",
     "Freizeit, Dienstleistungen": "#26978F",
     "Dienstleistungen": "#538DD5",
-    "Freizeit, Bildung": "#BBAA1E"
+    "Freizeit, Bildung": "#BBAA1E",
+    "Kinderbetreuung": "#00A0B0"
 }

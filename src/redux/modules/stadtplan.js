@@ -34,7 +34,7 @@ const initialState = {
     lebenslagen: [],
     poitypes: [],
     filter: {
-        positiv: ["Freizeit","Sport","Mobilität","Religion","Erholung","Gesellschaft","Gesundheit","Kultur","öffentliche Dienstleistungen","Dienstleistungen","Orientierung","Bildung","Stadtbild"],
+        positiv: ["Freizeit","Sport","Mobilität","Religion","Erholung","Gesellschaft","Gesundheit","Kultur","öffentliche Dienstleistungen","Dienstleistungen","Orientierung","Bildung","Stadtbild","Kinderbetreuung"],
         negativ: []
     },
     poiSvgSize:35

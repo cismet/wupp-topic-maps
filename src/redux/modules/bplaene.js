@@ -146,10 +146,21 @@ export function searchForPlans(gazObject,overriddenWKT) {
                   //check whether the gazetteer-object has a property verfahrensnummer
                   //if this verfahrensnummer matches the nummer of the feature this
                   //should be the only feature in the resultset
-                  if (gazObject!=null && gazObject.length === 1 && gazObject[0] !=null && gazObject[0].more.v===feature.properties.nummer) {
-                    featureArray=[feature];
-                    planMatch=true;
-                    break;
+                  
+                  if (gazObject!=null && gazObject.length === 1 && gazObject[0] !=null) {
+                    const gazHitWithStatus=gazObject[0].string.indexOf('(')!==-1;
+                    const gazHitMatchesObjectVerfahrensnummer=gazObject[0].more.v===feature.properties.nummer;
+                    const embeddedStatusInGazHit=gazObject[0].string.substring(gazObject[0].string.indexOf('(')+1,gazObject[0].string.indexOf(')'))
+                    const gazHitMatchesEmbeddedStatus=embeddedStatusInGazHit===feature.properties.status;
+                    if (    
+                            (!gazHitWithStatus && gazHitMatchesObjectVerfahrensnummer) ||
+                            (gazHitWithStatus && gazHitMatchesObjectVerfahrensnummer && gazHitMatchesEmbeddedStatus)
+                        )
+                    {
+                        featureArray=[feature];
+                        planMatch=true;
+                        break;
+                    }
                   }
 
 

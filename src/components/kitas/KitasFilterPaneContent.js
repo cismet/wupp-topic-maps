@@ -189,7 +189,7 @@ const KitasFilterPanel = ({
                   checked={filter.alter.indexOf(kitasConstants.ALTER_AB2) !== -1}
                   inline
                 >
-                  ab 2 Jahre
+                  2 bis 3 Jahre
                 </Radio>
                 <br />
                 <Radio

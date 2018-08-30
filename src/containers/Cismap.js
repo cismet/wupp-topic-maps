@@ -1,63 +1,51 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import {Map, ZoomControl} from 'react-leaflet';
-import {connect} from "react-redux";
-import 'proj4leaflet';
-import {Layers} from '../components/Layers';
-import FeatureCollectionDisplay from '../components/FeatureCollectionDisplay';
-import GazetteerHitDisplay from '../components/GazetteerHitDisplay';
-import {crs25832, proj4crs25832def} from '../constants/gis';
-import proj4 from 'proj4';
-import {bindActionCreators} from 'redux';
-import FullscreenControl from '../components/FullscreenControl';
-import NewWindowControl from '../components/NewWindowControl';
-import queryString from 'query-string';
+import React from "react";
+import PropTypes from "prop-types";
+import { Map, ZoomControl } from "react-leaflet";
+import { connect } from "react-redux";
+import "proj4leaflet";
+import { Layers } from "../components/Layers";
+import FeatureCollectionDisplay from "../components/FeatureCollectionDisplay";
+import GazetteerHitDisplay from "../components/GazetteerHitDisplay";
+import { crs25832, proj4crs25832def } from "../constants/gis";
+import proj4 from "proj4";
+import { bindActionCreators } from "redux";
+import FullscreenControl from "../components/FullscreenControl";
+import NewWindowControl from "../components/NewWindowControl";
+import queryString from "query-string";
 
-import Control from 'react-leaflet-control';
-import {
-  Form,
-  FormGroup,
-  InputGroup,
-  Button,
-  OverlayTrigger,
-  Tooltip
-} from 'react-bootstrap';
-import {Typeahead} from 'react-bootstrap-typeahead';
+import Control from "react-leaflet-control";
+import { Form, FormGroup, InputGroup, Button, OverlayTrigger, Tooltip } from "react-bootstrap";
+import { Typeahead } from "react-bootstrap-typeahead";
 
-import {routerActions} from 'react-router-redux'
-import {modifyQueryPart} from '../utils/routingHelper'
-import {actions as mappingActions, constants as mappingConstants } from '../redux/modules/mapping';
-import objectAssign from 'object-assign';
-import {Icon} from 'react-fa'
-import {actions as uiStateActions} from '../redux/modules/uiState';
-import {actions as gazetteerTopicsActions} from '../redux/modules/gazetteerTopics';
-import 'url-search-params-polyfill';
-import * as turfHelpers from '@turf/helpers';
-import bbox from '@turf/bbox';
-import {WUNDAAPI} from '../constants/services';
-import * as gisHelpers from '../utils/gisHelper';
+import { routerActions } from "react-router-redux";
+import { modifyQueryPart } from "../utils/routingHelper";
+import { actions as mappingActions, constants as mappingConstants } from "../redux/modules/mapping";
+import objectAssign from "object-assign";
+import { Icon } from "react-fa";
+import { actions as uiStateActions } from "../redux/modules/uiState";
+import { actions as gazetteerTopicsActions } from "../redux/modules/gazetteerTopics";
+import "url-search-params-polyfill";
+import * as turfHelpers from "@turf/helpers";
+import bbox from "@turf/bbox";
+import { WUNDAAPI } from "../constants/services";
+import * as gisHelpers from "../utils/gisHelper";
 
-// need to have this import 
+// need to have this import
 // eslint-disable-next-line
-import markerClusterGroup from 'leaflet.markercluster';
+import markerClusterGroup from "leaflet.markercluster";
 
-import ProjSingleGeoJson from '../components/ProjSingleGeoJson';
+import ProjSingleGeoJson from "../components/ProjSingleGeoJson";
 
-import LocateControl from '../components/LocateControl';
-
-const fallbackposition = {
-  lat: 51.272399,
-  lng: 7.199712
-};
+import LocateControl from "../components/LocateControl";
 
 function mapStateToProps(state) {
   return {
-     uiState: state.uiState,
-     mapping: state.mapping,
-     attributionControl: false,
-     routing: state.routing,
-     gazetteerTopics: state.gazetteerTopics
-   };
+    uiState: state.uiState,
+    mapping: state.mapping,
+    attributionControl: false,
+    routing: state.routing,
+    gazetteerTopics: state.gazetteerTopics
+  };
 }
 
 function mapDispatchToProps(dispatch) {
@@ -80,9 +68,9 @@ export class Cismap_ extends React.Component {
     this.featureClick = this.featureClick.bind(this);
     this.handleSearch = this.handleSearch.bind(this);
     this.gotoHomeBB = this.gotoHomeBB.bind(this);
-    this.loadTheGazettteerTopics= this.loadTheGazettteerTopics.bind(this);
+    this.loadTheGazettteerTopics = this.loadTheGazettteerTopics.bind(this);
     this.showModalApplicationMenu = this.showModalApplicationMenu.bind(this);
-    this.gazData=[];
+    this.gazData = [];
   }
 
   componentWillUnmount() {
@@ -95,7 +83,7 @@ export class Cismap_ extends React.Component {
     this.loadTheGazettteerTopics();
   }
 
-  loadTheGazettteerTopics(){
+  loadTheGazettteerTopics() {
     ///console.log("loadTheGazettteerTopics()")
     //Über uiStateActions anzeigen dass die Combobox nocht nicht funktionsfähig ist
 
@@ -103,14 +91,13 @@ export class Cismap_ extends React.Component {
     this.props.uiStateActions.setGazetteerBoxInfoText("Ortsinformationen werden geladen ...");
 
     this.props.gazetteerTopicsActions.loadTopicsData(this.props.gazTopics).then(() => {
-
       if (this.props.gazetteerTopics.adressen === undefined) {
-        console.log("this.props.gazetteerTopics.adressen === undefined")
+        console.log("this.props.gazetteerTopics.adressen === undefined");
       }
 
-      let sorter=0;
+      let sorter = 0;
       this.gazData = [];
-      if (this.props.gazTopics.indexOf("pois")!==-1) {
+      if (this.props.gazTopics.indexOf("pois") !== -1) {
         let pois = JSON.parse(this.props.gazetteerTopics.pois);
         for (let i = 0; i < pois.length; ++i) {
           let topicItem = pois[i];
@@ -125,7 +112,7 @@ export class Cismap_ extends React.Component {
           this.gazData.push(g);
         }
       }
-      if (this.props.gazTopics.indexOf("quartiere")!==-1) {
+      if (this.props.gazTopics.indexOf("quartiere") !== -1) {
         let quartiere = JSON.parse(this.props.gazetteerTopics.quartiere);
         for (let i = 0; i < quartiere.length; ++i) {
           let topicItem = quartiere[i];
@@ -141,7 +128,7 @@ export class Cismap_ extends React.Component {
         }
       }
 
-      if (this.props.gazTopics.indexOf("bezirke")!==-1) {
+      if (this.props.gazTopics.indexOf("bezirke") !== -1) {
         let bezirke = JSON.parse(this.props.gazetteerTopics.bezirke);
         for (let i = 0; i < bezirke.length; ++i) {
           let topicItem = bezirke[i];
@@ -156,17 +143,32 @@ export class Cismap_ extends React.Component {
           this.gazData.push(g);
         }
       }
+      if (this.props.gazTopics.indexOf("kitas") !== -1) {
+        let kitas = JSON.parse(this.props.gazetteerTopics.kitas);
+        for (let i = 0; i < kitas.length; ++i) {
+          let topicItem = kitas[i];
+          let g = {
+            sorter: sorter++,
+            string: topicItem.s,
+            glyph: topicItem.g,
+            x: topicItem.x,
+            y: topicItem.y,
+            more: topicItem.m
+          };
+          this.gazData.push(g);
+        }
+      }
 
-      if (this.props.gazTopics.indexOf("adressen")!==-1) {
+      if (this.props.gazTopics.indexOf("adressen") !== -1) {
         let adressen = JSON.parse(this.props.gazetteerTopics.adressen);
         for (let i = 0; i < adressen.length; ++i) {
           let topicItem = adressen[i];
-          let string=topicItem.s;
-          if (topicItem.nr!=="" && topicItem.nr!==0) {
-            string=string +" "+topicItem.nr;
+          let string = topicItem.s;
+          if (topicItem.nr !== "" && topicItem.nr !== 0) {
+            string = string + " " + topicItem.nr;
           }
-          if (topicItem.z!=="") {
-            string=string +" "+topicItem.z;
+          if (topicItem.z !== "") {
+            string = string + " " + topicItem.z;
           }
           let g = {
             sorter: sorter++,
@@ -180,7 +182,7 @@ export class Cismap_ extends React.Component {
         }
       }
 
-      if (this.props.gazTopics.indexOf("bplaene")!==-1) {
+      if (this.props.gazTopics.indexOf("bplaene") !== -1) {
         let bplaene = JSON.parse(this.props.gazetteerTopics.bplaene);
         for (let i = 0; i < bplaene.length; ++i) {
           let topicItem = bplaene[i];
@@ -203,16 +205,22 @@ export class Cismap_ extends React.Component {
     });
   }
 
-
   componentDidMount() {
-    this.refs.leafletMap.leafletElement.on('moveend', () => {
+    this.refs.leafletMap.leafletElement.on("moveend", () => {
       const zoom = this.refs.leafletMap.leafletElement.getZoom();
       const center = this.refs.leafletMap.leafletElement.getCenter();
-      const latFromUrl = parseFloat(new URLSearchParams(this.props.routing.location.search).get('lat'));
-      const lngFromUrl = parseFloat(new URLSearchParams(this.props.routing.location.search).get('lng'));
-      const zoomFromUrl = parseInt(new URLSearchParams(this.props.routing.location.search).get('zoom'), 10);
-      var lat = center.lat
-      var lng = center.lng
+      const latFromUrl = parseFloat(
+        new URLSearchParams(this.props.routing.location.search).get("lat")
+      );
+      const lngFromUrl = parseFloat(
+        new URLSearchParams(this.props.routing.location.search).get("lng")
+      );
+      const zoomFromUrl = parseInt(
+        new URLSearchParams(this.props.routing.location.search).get("zoom"),
+        10
+      );
+      var lat = center.lat;
+      var lng = center.lng;
 
       if (Math.abs(latFromUrl - center.lat) < 0.001) {
         lat = latFromUrl;
@@ -223,44 +231,44 @@ export class Cismap_ extends React.Component {
 
       if (lng !== lngFromUrl || lat !== latFromUrl || zoomFromUrl !== zoom) {
         //store.dispatch(push(this.props.routing.locationBeforeTransitions.pathname + querypart))
-        this.props.routingActions.push(this.props.routing.location.pathname + modifyQueryPart(this.props.routing.location.search, {
-          lat: lat,
-          lng: lng,
-          zoom: zoom
-        }))
+        this.props.routingActions.push(
+          this.props.routing.location.pathname +
+            modifyQueryPart(this.props.routing.location.search, {
+              lat: lat,
+              lng: lng,
+              zoom: zoom
+            })
+        );
       }
       this.storeBoundingBox();
-
     });
     this.storeBoundingBox();
   }
 
-gotoHomeBB() {
-    this.refs.leafletMap.leafletElement.fitBounds([
-      [
-        51.1094, 7.00093
-      ],
-      [
-        51.3737,7.3213
-      ]
-    ]);
-    
-}
+  gotoHomeBB() {
+    this.refs.leafletMap.leafletElement.fitBounds([[51.1094, 7.00093], [51.3737, 7.3213]]);
+  }
 
-centerOnPoint(x,y,z) {
-    this.props.routingActions.push(this.props.routing.location.pathname + modifyQueryPart(this.props.routing.location.search, {
-        lat: x,
-        lng: y,
-        zoom: z
-      }))
- }
-
+  centerOnPoint(x, y, z) {
+    this.props.routingActions.push(
+      this.props.routing.location.pathname +
+        modifyQueryPart(this.props.routing.location.search, {
+          lat: x,
+          lng: y,
+          zoom: z
+        })
+    );
+  }
 
   componentDidUpdate() {
-    if ((typeof(this.refs.leafletMap) !== 'undefined' && this.refs.leafletMap != null)) {
+    if (typeof this.refs.leafletMap !== "undefined" && this.refs.leafletMap != null) {
       if (this.props.mapping.autoFitBounds) {
         if (this.props.mapping.autoFitMode === mappingConstants.AUTO_FIT_MODE_NO_ZOOM_IN) {
-          if (!this.refs.leafletMap.leafletElement.getBounds().contains(this.props.mapping.autoFitBoundsTarget)) {
+          if (
+            !this.refs.leafletMap.leafletElement
+              .getBounds()
+              .contains(this.props.mapping.autoFitBoundsTarget)
+          ) {
             this.refs.leafletMap.leafletElement.fitBounds(this.props.mapping.autoFitBoundsTarget);
           }
         } else {
@@ -273,9 +281,15 @@ centerOnPoint(x,y,z) {
 
   storeBoundingBox() {
     //store the projected bounds in the store
-    const bounds = this.refs.leafletMap.leafletElement.getBounds()
-    const projectedNE = proj4(proj4.defs('EPSG:4326'), proj4crs25832def, [bounds._northEast.lng, bounds._northEast.lat])
-    const projectedSW = proj4(proj4.defs('EPSG:4326'), proj4crs25832def, [bounds._southWest.lng, bounds._southWest.lat])
+    const bounds = this.refs.leafletMap.leafletElement.getBounds();
+    const projectedNE = proj4(proj4.defs("EPSG:4326"), proj4crs25832def, [
+      bounds._northEast.lng,
+      bounds._northEast.lat
+    ]);
+    const projectedSW = proj4(proj4.defs("EPSG:4326"), proj4crs25832def, [
+      bounds._southWest.lng,
+      bounds._southWest.lat
+    ]);
     const bbox = {
       left: projectedSW[0],
       top: projectedNE[1],
@@ -283,37 +297,45 @@ centerOnPoint(x,y,z) {
       bottom: projectedSW[1]
     };
     //console.log(getPolygon(bbox));
-    if (JSON.stringify(this.props.mapping.boundingBox)!==JSON.stringify(bbox)) {
+    if (JSON.stringify(this.props.mapping.boundingBox) !== JSON.stringify(bbox)) {
       this.props.mappingActions.mappingBoundsChanged(bbox);
     }
   }
 
   internalGazeteerHitTrigger(hit) {
     //this.props.routingActions.push(this.props.routing.locationBeforeTransitions.pathname+"lat=51.271767290892676&lng=7.2000696125004575&zoom=14");
-    if (hit !== undefined && hit.length !== undefined && hit.length > 0 && hit[0].x !== undefined && hit[0].y !== undefined) {
+    if (
+      hit !== undefined &&
+      hit.length !== undefined &&
+      hit.length > 0 &&
+      hit[0].x !== undefined &&
+      hit[0].y !== undefined
+    ) {
       //console.log(JSON.stringify(hit))
-      const pos = proj4(proj4crs25832def, proj4.defs('EPSG:4326'), [
-        hit[0].x,
-        hit[0].y
-      ])
+      const pos = proj4(proj4crs25832def, proj4.defs("EPSG:4326"), [hit[0].x, hit[0].y]);
       //console.log(pos)
-      this.refs.leafletMap.leafletElement.panTo([
-        pos[1], pos[0]
-      ], {"animate": false});
+      this.refs.leafletMap.leafletElement.panTo([pos[1], pos[0]], {
+        animate: false
+      });
 
       let hitObject = objectAssign({}, hit[0]);
 
       //Change the Zoomlevel of the map
       if (hitObject.more.zl) {
-        this.refs.leafletMap.leafletElement.setZoom(hitObject.more.zl, {"animate": false});
-          
+        this.refs.leafletMap.leafletElement.setZoom(hitObject.more.zl, {
+          animate: false
+        });
+
         //show marker
         this.props.mappingActions.gazetteerHit(hitObject);
         this.props.mappingActions.setOverlayFeature(null);
-    } else if (hitObject.more.g) {
+      } else if (hitObject.more.g) {
         var feature = turfHelpers.feature(hitObject.more.g);
         if (!feature.crs) {
-            feature.crs={"type":"name","properties":{"name":"urn:ogc:def:crs:EPSG::25832"}};
+          feature.crs = {
+            type: "name",
+            properties: { name: "urn:ogc:def:crs:EPSG::25832" }
+          };
         }
         var bb = bbox(feature);
         this.props.mappingActions.gazetteerHit(null);
@@ -321,48 +343,45 @@ centerOnPoint(x,y,z) {
         this.refs.leafletMap.leafletElement.fitBounds(gisHelpers.convertBBox2Bounds(bb));
       }
 
-
       // this.props.routingActions.push(
       //       this.props.routing.locationBeforeTransitions.pathname
       //       + modifyQueryPart(this.props.routing.locationBeforeTransitions.query,{
       //         lat:pos[1],
       //         lng:pos[0]
       //       }));
-      
-      
+
       if (this.props.gazeteerHitTrigger !== undefined) {
         this.props.gazeteerHitTrigger(hit);
       }
     } else {
       //console.log(hit);
     }
-
   }
   internalClearButtonTrigger(event) {
     if (this.gazClearOverlay) {
-        this.gazClearOverlay.hide();
-      }
-    if (this.props.mapping.overlayFeature!==null) {
-        this.props.mappingActions.setOverlayFeature(null);
-      }
-      this.refs.typeahead.getInstance().clear();
-      this.props.mappingActions.gazetteerHit(null);
+      this.gazClearOverlay.hide();
+    }
+    if (this.props.mapping.overlayFeature !== null) {
+      this.props.mappingActions.setOverlayFeature(null);
+    }
+    this.refs.typeahead.getInstance().clear();
+    this.props.mappingActions.gazetteerHit(null);
   }
-
-
 
   internalSearchButtonTrigger(event) {
     if (this.searchOverlay) {
       this.searchOverlay.hide();
     }
-    if (this.props.mapping.searchInProgress === false && this.props.searchButtonTrigger !== undefined) {
+    if (
+      this.props.mapping.searchInProgress === false &&
+      this.props.searchButtonTrigger !== undefined
+    ) {
       this.refs.typeahead.getInstance().clear();
       this.props.mappingActions.gazetteerHit(null);
-      this.props.searchButtonTrigger(event)
+      this.props.searchButtonTrigger(event);
     } else {
       //console.log("search in progress or no searchButtonTrigger defined");
     }
-
   }
 
   featureClick(event) {
@@ -374,13 +393,19 @@ centerOnPoint(x,y,z) {
   }
 
   renderMenuItemChildren(option, props, index) {
-    return (<div key={option.sorter}>
-      <Icon style={{
-          marginRight: '10px',
-          width: '18px'
-        }} name={option.glyph} size={'lg'}/>
-      <span>{option.string}</span>
-    </div>);
+    return (
+      <div key={option.sorter}>
+        <Icon
+          style={{
+            marginRight: "10px",
+            width: "18px"
+          }}
+          name={option.glyph}
+          size={"lg"}
+        />
+        <span>{option.string}</span>
+      </div>
+    );
   }
 
   handleSearch(query) {
@@ -389,23 +414,27 @@ centerOnPoint(x,y,z) {
     }
 
     let queryO = {
-      "list": [
+      list: [
         {
-          "key": "input",
-          "value": query
+          key: "input",
+          value: query
         }
       ]
     };
-    fetch(WUNDAAPI + '/searches/WUNDA_BLAU.BPlanAPIGazeteerSearch/results?role=all&limit=100&offset=0', {
-      method: 'post',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(queryO)
-
-    }).then(resp => resp.json()).then(json => {
-      this.setState({options: json.$collection});
-    });
+    fetch(
+      WUNDAAPI + "/searches/WUNDA_BLAU.BPlanAPIGazeteerSearch/results?role=all&limit=100&offset=0",
+      {
+        method: "post",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(queryO)
+      }
+    )
+      .then(resp => resp.json())
+      .then(json => {
+        this.setState({ options: json.$collection });
+      });
   }
   render() {
     // console.log("-------------------RENDERING CISMAP")
@@ -414,284 +443,332 @@ centerOnPoint(x,y,z) {
       width: this.props.uiState.width
     };
     if (mapStyle.height == null || mapStyle.width == null) {
-      mapStyle.height = window.innerHeight
-      mapStyle.width = window.innerWidth
+      mapStyle.height = window.innerHeight;
+      mapStyle.width = window.innerWidth;
     }
 
     //    const positionByUrl=[parseFloat(this.props.routing.locationBeforeTransitions.query.lat)||fallbackposition.lat,parseFloat(this.props.routing.locationBeforeTransitions.query.lng)||fallbackposition.lng]
     //    const zoomByUrl= parseInt(this.props.routing.locationBeforeTransitions.query.zoom)||14
 
     const positionByUrl = [
-      parseFloat(new URLSearchParams(this.props.routing.location.search).get('lat')) || fallbackposition.lat,
-      parseFloat(new URLSearchParams(this.props.routing.location.search).get('lng')) || fallbackposition.lng
+      parseFloat(new URLSearchParams(this.props.routing.location.search).get("lat")) ||
+        this.props.fallbackposition.lat,
+      parseFloat(new URLSearchParams(this.props.routing.location.search).get("lng")) ||
+        this.props.fallbackposition.lng
     ];
-    const zoomByUrl = parseInt(new URLSearchParams(this.props.routing.location.search).get('zoom'), 10) || 14;
+    const zoomByUrl =
+      parseInt(new URLSearchParams(this.props.routing.location.search).get("zoom"), 10) ||
+      this.props.initialZoom;
 
     const layerArr = this.props.layers.split("|");
 
     //      <Icon name='search' />
 
-    let searchIcon = (<Icon name='search'/>)
+    let searchIcon = <Icon name="search" />;
     if (this.props.mapping.searchInProgress) {
-      searchIcon = (<Icon spin={true} name="refresh"/>)
+      searchIcon = <Icon spin={true} name="refresh" />;
     }
 
-    const searchAllowed = (zoomByUrl >= this.props.searchMinZoom && zoomByUrl <= this.props.searchMaxZoom);
+    const searchAllowed =
+      zoomByUrl >= this.props.searchMinZoom && zoomByUrl <= this.props.searchMaxZoom;
 
-    let widthRight=this.props.infoBox.props.pixelwidth;
-    let width=this.props.uiState.width;
-    let gap=25;
+    let widthRight = this.props.infoBox.props.pixelwidth;
+    let width = this.props.uiState.width;
+    let gap = 25;
 
-
-    let infoBoxControlPosition="bottomright";
-    let searchControlPosition="bottomleft";
-    let searchControlWidth=300;
-    let widthLeft=searchControlWidth;
-    let infoStyle={
-        opacity: '0.9',
-        width: this.props.infoBox.props.pixelwidth
-
+    let infoBoxControlPosition = "bottomright";
+    let searchControlPosition = "bottomleft";
+    let searchControlWidth = 300;
+    let widthLeft = searchControlWidth;
+    let infoStyle = {
+      opacity: "0.9",
+      width: this.props.infoBox.props.pixelwidth
     };
 
-
-    if (width-gap-widthLeft-widthRight<=0){
-        infoBoxControlPosition="bottomleft";
-        searchControlWidth=width-gap;
-        infoStyle={ 
-            ...infoStyle,
-            width: searchControlWidth+'px'
-        };
+    if (width - gap - widthLeft - widthRight <= 0) {
+      infoBoxControlPosition = "bottomleft";
+      searchControlWidth = width - gap;
+      infoStyle = {
+        ...infoStyle,
+        width: searchControlWidth + "px"
+      };
     }
-
 
     let firstbutton;
-    if (this.props.searchAfterGazetteer===true) {
-        firstbutton=(
-            <InputGroup.Button 
-                disabled={this.props.mapping.searchInProgress || !searchAllowed} 
-                onClick={(e)=>{
-                    if (searchAllowed) {
-                        this.internalSearchButtonTrigger(e);
-                    }
-                    else {
-                        // Hier kann noch eine Meldung angezeigt werden.
-                    }
-                    }}>
-                <OverlayTrigger ref={c => this.searchOverlay = c} placement="top" overlay={this.props.searchTooltipProvider()}>
-                    <Button  disabled={this.props.mapping.searchInProgress || !searchAllowed}>{searchIcon}</Button>
-                </OverlayTrigger>
-            </InputGroup.Button>
+    if (this.props.searchAfterGazetteer === true) {
+      firstbutton = (
+        <InputGroup.Button
+          disabled={this.props.mapping.searchInProgress || !searchAllowed}
+          onClick={e => {
+            if (searchAllowed) {
+              this.internalSearchButtonTrigger(e);
+            } else {
+              // Hier kann noch eine Meldung angezeigt werden.
+            }
+          }}
+        >
+          <OverlayTrigger
+            ref={c => (this.searchOverlay = c)}
+            placement="top"
+            overlay={this.props.searchTooltipProvider()}
+          >
+            <Button disabled={this.props.mapping.searchInProgress || !searchAllowed}>
+              {searchIcon}
+            </Button>
+          </OverlayTrigger>
+        </InputGroup.Button>
+      );
+    } else {
+      if (!searchAllowed) {
+        firstbutton = (
+          <InputGroup.Button onClick={this.internalClearButtonTrigger}>
+            <OverlayTrigger
+              ref={c => (this.gazClearOverlay = c)}
+              placement="top"
+              overlay={this.props.gazClearTooltipProvider()}
+            >
+              <Button
+                disabled={
+                  this.props.mapping.overlayFeature === null &&
+                  this.props.mapping.gazetteerHit === null
+                }
+              >
+                <Icon name="times" />
+              </Button>
+            </OverlayTrigger>
+          </InputGroup.Button>
         );
-    }
-    else {
-        if (!searchAllowed){
-            firstbutton=(
-                <InputGroup.Button  onClick={this.internalClearButtonTrigger}>
-                    <OverlayTrigger ref={c => this.gazClearOverlay = c} placement="top" overlay={this.props.gazClearTooltipProvider()}>
-                        <Button disabled={this.props.mapping.overlayFeature===null&&this.props.mapping.gazetteerHit===null}>
-                            <Icon name='times'/>
-                        </Button>
-                        </OverlayTrigger>
-
-                </InputGroup.Button>
-            );
-        }
+      }
     }
 
-
-    let searchControl=(
-        <Control pixelwidth={300} position={searchControlPosition}>            
-            <Form style={{
-                width: searchControlWidth+'px'
-            }} action="#">
-            <FormGroup >
-                <InputGroup>
-                {firstbutton}                
-                <Typeahead
-                    ref="typeahead"
-                    style={{ width: '300px'}}
-                    labelKey="string"
-                    options={this.gazData}
-                    onChange={this.internalGazeteerHitTrigger}
-                    paginate={true}
-                    dropup={true}
-                    disabled={!this.props.uiState.gazetteerBoxEnabled}
-                    placeholder={this.props.uiState.gazeteerBoxInfoText}
-                    minLength={2}
-                    filterBy={(option, text) => {
-                    return (option.string.toLowerCase().startsWith(text.toLowerCase()));
-                    }}
-                    align={'justify'}
-                    emptyLabel={'Keine Treffer gefunden'}
-                    paginationText={"Mehr Treffer anzeigen"}
-                    autoFocus={true} submitFormOnEnter={true}
-                    searchText={"suchen ..."}
-                    renderMenuItemChildren={this.renderMenuItemChildren}/>
-                </InputGroup>
-            </FormGroup>
-            </Form>
-        </Control>
+    let searchControl = (
+      <Control pixelwidth={300} position={searchControlPosition}>
+        <Form
+          style={{
+            width: searchControlWidth + "px"
+          }}
+          action="#"
+        >
+          <FormGroup>
+            <InputGroup>
+              {firstbutton}
+              <Typeahead
+                ref="typeahead"
+                style={{ width: "300px" }}
+                labelKey="string"
+                options={this.gazData}
+                onChange={this.internalGazeteerHitTrigger}
+                paginate={true}
+                dropup={true}
+                disabled={!this.props.uiState.gazetteerBoxEnabled}
+                placeholder={this.props.uiState.gazeteerBoxInfoText}
+                minLength={2}
+                filterBy={(option, text) => {
+                  return option.string.toLowerCase().startsWith(text.toLowerCase());
+                }}
+                align={"justify"}
+                emptyLabel={"Keine Treffer gefunden"}
+                paginationText={"Mehr Treffer anzeigen"}
+                autoFocus={true}
+                submitFormOnEnter={true}
+                searchText={"suchen ..."}
+                renderMenuItemChildren={this.renderMenuItemChildren}
+              />
+            </InputGroup>
+          </FormGroup>
+        </Form>
+      </Control>
     );
-    let infoBoxControl=(
-        <Control position={infoBoxControlPosition} >
-            <div style={infoStyle}>{this.props.infoBox}</div>
-        </Control>
-    );    
+    let infoBoxControl = (
+      <Control position={infoBoxControlPosition}>
+        <div style={infoStyle}>{this.props.infoBox}</div>
+      </Control>
+    );
 
-    let fullscreenControl=(
-        <FullscreenControl title="Vollbildmodus" forceSeparateButton={true} titleCancel="Vollbildmodus beenden" position="topleft" container={document.documentElement}/>
+    let fullscreenControl = (
+      <FullscreenControl
+        title="Vollbildmodus"
+        forceSeparateButton={true}
+        titleCancel="Vollbildmodus beenden"
+        position="topleft"
+        container={document.documentElement}
+      />
     );
     let iOS = !!navigator.platform && /iPad|iPhone|iPod/.test(navigator.platform);
-    let inIframe=(window.self !== window.top);
-    let simulateInIframe=false;
-    let simulateInIOS=false;
-    let iosClass="no-iOS-device"
+    let inIframe = window.self !== window.top;
+    let simulateInIframe = false;
+    let simulateInIOS = false;
+    let iosClass = "no-iOS-device";
     if (simulateInIOS || iOS) {
-        iosClass="iOS-device";
-        if (simulateInIframe || inIframe) {
-            fullscreenControl=(
-                // <OverlayTrigger placement="left" overlay={(<Tooltip>Maximiert in neuem Browser-Tab öffnen.</Tooltip>)}>
-                    <NewWindowControl  position="topleft" routing={this.props.routing} title="Maximiert in neuem Browser-Tab öffnen."/>
-                // </OverlayTrigger>
-            );
-        } else {
-            fullscreenControl= (<div/>);
-        }
-    }
-
-
-    let overlayFeature=(
-        <div/>
-    );
-    if (this.props.mapping.overlayFeature){
-        overlayFeature=(
-            <ProjSingleGeoJson 
-                key={JSON.stringify(this.props.mapping.overlayFeature)} 
-                geoJson={this.props.mapping.overlayFeature}
-                masked= {this.props.mapping.maskedOverlay}
-                mapRef={this}
-            />
+      iosClass = "iOS-device";
+      if (simulateInIframe || inIframe) {
+        fullscreenControl = (
+          // <OverlayTrigger placement="left" overlay={(<Tooltip>Maximiert in neuem Browser-Tab öffnen.</Tooltip>)}>
+          <NewWindowControl
+            position="topleft"
+            routing={this.props.routing}
+            title="Maximiert in neuem Browser-Tab öffnen."
+          />
         );
-    }
-    let namedMapStyle=queryString.parse(this.props.routing.location.search).mapStyle;
-
-    if (namedMapStyle===undefined || namedMapStyle==='default') {
-        namedMapStyle='';
-    }
-    else {
-        namedMapStyle='.'+namedMapStyle;
+        // </OverlayTrigger>
+      } else {
+        fullscreenControl = <div />;
+      }
     }
 
-    
+    let overlayFeature = <div />;
+    if (this.props.mapping.overlayFeature) {
+      overlayFeature = (
+        <ProjSingleGeoJson
+          key={JSON.stringify(this.props.mapping.overlayFeature)}
+          geoJson={this.props.mapping.overlayFeature}
+          masked={this.props.mapping.maskedOverlay}
+          mapRef={this}
+        />
+      );
+    }
+    let namedMapStyle = queryString.parse(this.props.routing.location.search).mapStyle;
 
-    const mykey="leafletMap.Layers:"+JSON.stringify(layerArr);
+    if (namedMapStyle === undefined || namedMapStyle === "default") {
+      namedMapStyle = "";
+    } else {
+      namedMapStyle = "." + namedMapStyle;
+    }
+
+    const mykey = "leafletMap.Layers:" + JSON.stringify(layerArr);
     return (
-    <div className={iosClass} >
-    <Map ref="leafletMap" 
-         key={mykey}
-         crs={crs25832} 
-         style={mapStyle} 
-         center={positionByUrl} 
-         zoom={zoomByUrl} 
-         zoomControl={false} 
-         attributionControl={false} 
-         doubleClickZoom={false} 
-         minZoom={this.props.minZoom||7} 
-         ondblclick={this.props.ondblclick} 
-         maxZoom={18}
-        //  zoomDelta={0.5}
-        //  zoomSnap={0.5}
-        //  wheelPxPerZoomLevel={100}
-        scrollWheelZoom={true}
+      <div className={iosClass}>
+        <Map
+          ref="leafletMap"
+          key={mykey}
+          crs={crs25832}
+          style={mapStyle}
+          center={positionByUrl}
+          zoom={zoomByUrl}
+          zoomControl={false}
+          attributionControl={false}
+          doubleClickZoom={false}
+          minZoom={this.props.minZoom || 7}
+          ondblclick={this.props.ondblclick}
+          maxZoom={18}
+          //  zoomDelta={0.5}
+          //  zoomSnap={0.5}
+          //  wheelPxPerZoomLevel={100}
+          scrollWheelZoom={true}
         >
-        {overlayFeature}
-            {
-            layerArr.map((layerWithOptions) => {
-                    const layOp = layerWithOptions.split('@');
-                    if (!isNaN(parseInt(layOp[1],10))) {
-                        const layerGetter=Layers.get(layOp[0]+namedMapStyle);
-                            if (layerGetter) {
-                                return layerGetter({"opacity":parseInt(layOp[1] || '100', 10) / 100.0});
-                            }
-                            else {
-                                return null;
-                            }
-                    }
-                    if (layOp.length===2) {
-                        try{
-                            let options=JSON.parse(layOp[1]);
-                            const layerGetter=Layers.get(layOp[0]+namedMapStyle);
-                            if (layerGetter) {
-                                return layerGetter(options);
-                            }
-                            else {
-                                return null;
-                            }
-                        }
-                        catch (error){
-                            console.error(error);
-                            console.error("Problems during parsing of the layer options. Skip options. You will get the 100% Layer:"+layOp[0]);
-                            const layerGetter=Layers.get(layOp[0]+namedMapStyle);
-                            if (layerGetter) {
-                                return layerGetter();
-                            }
-                            else {
-                                return null;
-                            }
-                        }
-                    } else {
-                        const layerGetter=Layers.get(layOp[0]+namedMapStyle);
-                        if (layerGetter) {
-                            return layerGetter();
-                        }
-                        else {
-                            return null;
-                        }
-                    }
+          {overlayFeature}
+          {layerArr.map(layerWithOptions => {
+            const layOp = layerWithOptions.split("@");
+            if (!isNaN(parseInt(layOp[1], 10))) {
+              const layerGetter = Layers.get(layOp[0] + namedMapStyle);
+              if (layerGetter) {
+                return layerGetter({
+                  opacity: parseInt(layOp[1] || "100", 10) / 100.0
+                });
+              } else {
+                return null;
+              }
+            }
+            if (layOp.length === 2) {
+              try {
+                let options = JSON.parse(layOp[1]);
+                const layerGetter = Layers.get(layOp[0] + namedMapStyle);
+                if (layerGetter) {
+                  return layerGetter(options);
+                } else {
+                  return null;
                 }
-            )
-        }
-      <GazetteerHitDisplay key={"gazHit" + JSON.stringify(this.props.mapping.gazetteerHit)} mappingProps={this.props.mapping}/>
-      <FeatureCollectionDisplay key={JSON.stringify(this.props.mapping.featureCollection)+this.props.featureKeySuffixCreator()+"clustered:"+this.props.clustered+".customPostfix:"+this.props.mapping.featureCollectionKeyPostfix} 
-                                mappingProps={this.props.mapping} 
-                                clusteredMarkers={this.clusteredMarkers} 
-                                clusteringEnabled={this.props.clustered}
-                                style={this.props.featureStyler} 
-                                labeler={this.props.labeler} 
-                                hoverer={this.props.hoverer} 
-                                featureClickHandler={this.featureClick} 
-                                mapRef={this.refs.leafletMap} 
-                                clusterOptions={this.props.clusterOptions}
-                                selectionSpiderfyMinZoom={this.props.clusterOptions.selectionSpiderfyMinZoom}/>
-      
-      <ZoomControl position="topleft" zoomInTitle="Vergr&ouml;ßern" zoomOutTitle="Verkleinern"/>
-      {fullscreenControl}
-      {searchControl}
-      <Control position="topright">
-        <OverlayTrigger placement="left" overlay={this.props.applicationMenuTooltipProvider()}>
-          <Button onClick={this.showModalApplicationMenu}><Icon name={this.props.applicationMenuIcon}/></Button>
-        </OverlayTrigger>
-      </Control>
-      {/* <Control position="topright">
+              } catch (error) {
+                console.error(error);
+                console.error(
+                  "Problems during parsing of the layer options. Skip options. You will get the 100% Layer:" +
+                    layOp[0]
+                );
+                const layerGetter = Layers.get(layOp[0] + namedMapStyle);
+                if (layerGetter) {
+                  return layerGetter();
+                } else {
+                  return null;
+                }
+              }
+            } else {
+              const layerGetter = Layers.get(layOp[0] + namedMapStyle);
+              if (layerGetter) {
+                return layerGetter();
+              } else {
+                return null;
+              }
+            }
+          })}
+          <GazetteerHitDisplay
+            key={"gazHit" + JSON.stringify(this.props.mapping.gazetteerHit)}
+            mappingProps={this.props.mapping}
+          />
+          <FeatureCollectionDisplay
+            key={
+              JSON.stringify(this.props.mapping.featureCollection) +
+              this.props.featureKeySuffixCreator() +
+              "clustered:" +
+              this.props.clustered +
+              ".customPostfix:" +
+              this.props.mapping.featureCollectionKeyPostfix
+            }
+            mappingProps={this.props.mapping}
+            clusteredMarkers={this.clusteredMarkers}
+            clusteringEnabled={this.props.clustered}
+            style={this.props.featureStyler}
+            labeler={this.props.labeler}
+            hoverer={this.props.hoverer}
+            featureClickHandler={this.featureClick}
+            mapRef={this.refs.leafletMap}
+            clusterOptions={this.props.clusterOptions}
+            selectionSpiderfyMinZoom={this.props.clusterOptions.selectionSpiderfyMinZoom}
+          />
+
+          <ZoomControl
+            position="topleft"
+            zoomInTitle="Vergr&ouml;ßern"
+            zoomOutTitle="Verkleinern"
+          />
+          {fullscreenControl}
+          {searchControl}
+          <Control position="topright">
+            <OverlayTrigger placement="left" overlay={this.props.applicationMenuTooltipProvider()}>
+              <Button onClick={this.showModalApplicationMenu}>
+                <Icon name={this.props.applicationMenuIcon} />
+              </Button>
+            </OverlayTrigger>
+          </Control>
+          {/* <Control position="topright">
         <OverlayTrigger placement="left" overlay={(<Tooltip>Tester this should be hidden and is for Devs only</Tooltip>)}>  
           <Button onClick={()=> this.toggleFullscreen()}><Icon name="check"/></Button>
         </OverlayTrigger>
       </Control> */}
-      {infoBoxControl}
-      <LocateControl setView="once" flyTo={true} strings={{
-          title: "Mein Standort",
-          metersUnit: "Metern",
-          feetUnit: "Feet",
-          popup: "Sie befinden sich im Umkreis von {distance} {unit} um diesen Punkt.",
-          outsideMapBoundsMsg: "Sie gefinden sich wahrscheinlich außerhalb der Kartengrenzen."
-      }} />
-      {this.props.children}
-    </Map></div>);
-
+          {infoBoxControl}
+          <LocateControl
+            setView="once"
+            flyTo={true}
+            strings={{
+              title: "Mein Standort",
+              metersUnit: "Metern",
+              feetUnit: "Feet",
+              popup: "Sie befinden sich im Umkreis von {distance} {unit} um diesen Punkt.",
+              outsideMapBoundsMsg: "Sie gefinden sich wahrscheinlich außerhalb der Kartengrenzen."
+            }}
+          />
+          {this.props.children}
+        </Map>
+      </div>
+    );
   }
 }
 
-const Cismap = connect(mapStateToProps, mapDispatchToProps, null, {withRef: true})(Cismap_);
+const Cismap = connect(
+  mapStateToProps,
+  mapDispatchToProps,
+  null,
+  { withRef: true }
+)(Cismap_);
 export default Cismap;
 
 Cismap_.propTypes = {
@@ -720,28 +797,51 @@ Cismap_.propTypes = {
   infoBox: PropTypes.object.isRequired,
   gazBoxInfoText: PropTypes.string,
   featureKeySuffixCreator: PropTypes.func,
+  fallbackposition: PropTypes.object,
+  initialZoom: PropTypes.number
 };
 
 Cismap_.defaultProps = {
   layers: "bplan_abkg_uncached",
-  ondblclick: function () {},
+  ondblclick: function() {},
   gazeteerHitTrigger: function() {},
   searchButtonTrigger: function() {},
   featureClickHandler: function() {},
   applicationMenuTooltipProvider: function() {
-    return (<Tooltip style={{
-        zIndex: 3000000000
-      }} id="helpTooltip">&Ouml;ffnen für weitere Funktionen</Tooltip>);
+    return (
+      <Tooltip
+        style={{
+          zIndex: 3000000000
+        }}
+        id="helpTooltip"
+      >
+        &Ouml;ffnen für weitere Funktionen
+      </Tooltip>
+    );
   },
   searchTooltipProvider: function() {
-    return (<Tooltip style={{
-        zIndex: 3000000000
-      }} id="searchTooltip">Objekte suchen</Tooltip>);
+    return (
+      <Tooltip
+        style={{
+          zIndex: 3000000000
+        }}
+        id="searchTooltip"
+      >
+        Objekte suchen
+      </Tooltip>
+    );
   },
   gazClearTooltipProvider: function() {
-    return (<Tooltip style={{
-        zIndex: 3000000000
-      }} id="gazClearTooltip">Suche zurücksetzen</Tooltip>);
+    return (
+      <Tooltip
+        style={{
+          zIndex: 3000000000
+        }}
+        id="gazClearTooltip"
+      >
+        Suche zurücksetzen
+      </Tooltip>
+    );
   },
   searchMinZoom: 7,
   searchMaxZoom: 18,
@@ -750,17 +850,20 @@ Cismap_.defaultProps = {
   gazBoxInfoText: "Geben Sie einen Suchbegriff ein.",
   applicationMenuIcon: "bars",
   clustered: false,
-  clusterOptions:{
+  clusterOptions: {
     spiderfyOnMaxZoom: false,
     showCoverageOnHover: false,
     zoomToBoundsOnClick: false,
-    maxClusterRadius:40,
-    disableClusteringAtZoom:19,
-    animate:false,
-    cismapZoomTillSpiderfy:12,
-    selectionSpiderfyMinZoom:12
- },
- featureKeySuffixCreator: ()=>"",
-
-  
-}
+    maxClusterRadius: 40,
+    disableClusteringAtZoom: 19,
+    animate: false,
+    cismapZoomTillSpiderfy: 12,
+    selectionSpiderfyMinZoom: 12
+  },
+  featureKeySuffixCreator: () => "",
+  fallbackposition: {
+    lat: 51.272399,
+    lng: 7.199712
+  },
+  initialZoom: 14
+};

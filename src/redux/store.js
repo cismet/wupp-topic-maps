@@ -73,6 +73,4 @@ window.addEventListener('resize', () => {
 });
 //Fire a first screenResize to initially fill the uiState
 store.dispatch(UiStateActions.screenResize(window.innerHeight, window.innerWidth));
-
-
 export default store;

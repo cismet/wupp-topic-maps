@@ -13,35 +13,17 @@ const StadtplanInfo = ({featureCollection, filteredPOIs, selectedIndex, next, pr
 
   let info="";
 
-  let t="Kein POI selektiert.";
-  let fotoStyle={};
-
   let maillink=null;
   let urllink=null;
   let phonelink=null;
   
 
     if (currentFeature){
-        //console.log(currentFeature.properties.info);
-
-        t=currentFeature.text;
         if (currentFeature.properties.info){
             info=currentFeature.properties.info;
         }
 
-        if (currentFeature.properties.foto) {
-            fotoStyle={
-                backgroundImage: "url("+currentFeature.properties.foto+")",
-                backgroundSize: "cover",
-                width: "150px",
-                height: "150px",
-                backgroundPosition: "right center",
-                backgroundOrigin: "content-box",
-                paddingRight: "5px"
 
-            
-            }
-        }
         if (currentFeature.properties.tel){
             phonelink=(
                 <a key={"stadtplan.poi.phone.action."} href={"tel:"+currentFeature.properties.tel}>

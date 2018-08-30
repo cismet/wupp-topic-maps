@@ -94,7 +94,7 @@ const KitasHelpTextPanel = () => {
         >
           Kindertageseinrichtungen Wuppertal
         </a>{" "}
-        des Stadtbetriebs 'Tageseinrichtungen für Kinder - Jugendamt' aus dem Open-Data-Angebot der Stadt Wuppertal.
+        des Stadtbetriebs "Tageseinrichtungen für Kinder - Jugendamt" aus dem Open-Data-Angebot der Stadt Wuppertal.
       </p>
 
       <div name="KartendarstellungPOI">
@@ -107,7 +107,7 @@ const KitasHelpTextPanel = () => {
         </Link>
       </h4>
       <p>
-        Für die Darstellung der Kitas in der Karte stehen Ihnen 2 Zeichenvorschriften zur Verfügung, zwischen denen Sie unter "<em><strong>Einstellungen</strong></em>" umschalten können.
+        Für die Darstellung der Kitas in der Karte stehen Ihnen 2 Zeichenvorschriften zur Verfügung, zwischen denen Sie unter "<strong>Einstellungen</strong>" umschalten können.
         Standardmäßig wird die Vorschrift "<em>nach Trägertyp</em>" verwendet, bei der die Kitas in 6 unterschiedlichen Farben für die 6 unterschiedenen Trägertypen
         (städtisch, evangelisch, katholisch, Elterninitiative, Betrieb, freier Träger) ausgeprägt werden. Die Zeichenvorschrift
         "<em>nach Profil (Inklusionsschwerpunkt j/n)</em>" benutzt nur 2 Farben für die Unterscheidung zwischen Einrichtungen mit Schwerpunkt
@@ -135,8 +135,8 @@ const KitasHelpTextPanel = () => {
         setzt den Fokus auf diese Einrichtung. Sie wird dann blau hinterlegt und die zugehörigen Informationen (Name, Straße und Hausnummer, Info-Text mit Angabe
         der Kapazität und des Trägertyps, Mindestaufnahmealter und angebotener Betreuungsumfang) werden unten rechts in der Info-Box angezeigt.
         (Auf einem Tablet-PC wird der Fokus durch das erste Antippen des Angebots gesetzt, das zweite Antippen blendet die Bezeichnung ein.)
-        Außerdem werden Ihnen in der Info-Box weiterführende (Kommunikations-) Links zur Kita angezeigt: <Icon name="link" /> Internet,{" "}
-        <Icon name="envelope-square" /> E-Mail und <Icon name="phone" />{" "}
+        Außerdem werden Ihnen in der Info-Box weiterführende (Kommunikations-) Links zur Kita angezeigt: <Icon name="link" /> Internet{" "}
+        und <Icon name="phone" />{" "}
         Telefon.
       </p>
       <p>
@@ -188,7 +188,7 @@ const KitasHelpTextPanel = () => {
         </Link>
       </h4>
       <p>
-        Mit der Funktion 'Mein Standort' <Icon name="map-marker" />{" "}
+        Mit der Funktion Mein Standort <Icon name="map-marker" />{" "}
         können Sie ihren aktuellen Standort mit einem blauen Kreissymbol{" "}
         <img alt="Cluster" src="images/MeinStandpunktMarker.jpg" /> in der Karte
         anzeigen. Das Standortsymbol ist umgeben von einem zweiten Kreis mit
@@ -201,7 +201,7 @@ const KitasHelpTextPanel = () => {
         Tablet-PC's sind i. d. R. mit einer GPS-Antenne ausgestattet, so dass
         Sie bei diesen Geräten eine Positionsgenauigkeit in der Größenordnung
         von 10 Metern erwarten können. Die Markierung Ihrer Position wird
-        laufend automatisch aktualisiert. Ein weiterer Klick auf 'Mein Standort' schaltet die Anzeige Ihrer Position wieder ab.
+        laufend automatisch aktualisiert. Ein weiterer Klick auf "Mein Standort" schaltet die Anzeige Ihrer Position wieder ab.
       </p>
 
       <div name="MeinThemenstadtplan">
@@ -220,7 +220,7 @@ const KitasHelpTextPanel = () => {
         für Sie in Frage kommenden Kita-Träger auswählen und unter "<em><strong>Profil</strong></em>" einstellen, ob Einrichtungen mit oder ohne Schwerpunkt Inklusion
         (oder beide Typen) angezeigt werden sollen. Die beiden Zeichenvorschriften "<em>nach Träger</em>" und "<em>nach Profil</em>", die Ihnen unter "<strong>Einstellungen</strong>"
         zur Auswahl angeboten werden, beziehen sich auf diese beiden Merkmale. Welche Zeichenvorschrift gerade aktiv ist, erkennen Sie an den
-        farbigen Punkten, die als Legende entweder hinter den Auswahlmöglichkeiten für "<em><strong>Trägertyp</strong></em>" oder denen für "<em>Profil</em>" erscheinen.
+        farbigen Punkten, die als Legende entweder hinter den Auswahlmöglichkeiten für "<em><strong>Trägertyp</strong></em>" oder denen für "<em><strong>Profil</strong></em>" erscheinen.
       </p>
 			<p>
 				Unter "<em><strong>Kindesalter</strong></em>" sollten Sie das Alter des Kindes, für das Sie eine Unterbringung suchen, angeben.
@@ -249,7 +249,7 @@ const KitasHelpTextPanel = () => {
         </Link>
       </h4>
       <p>
-        Unter "<strong>Einstellungen</strong>" können Sie im Anwendungsmenüv <Icon name="bars" />{" "}
+        Unter "<strong>Einstellungen</strong>" können Sie im Anwendungsmenü <Icon name="bars" />{" "}
         festlegen, wie die Kitas und die Hintergrundkarte angezeigt werden sollen. Zu den Kitas können Sie auswählen, ob Ihre unter "<strong>Filtern</strong>" festgelegten
         Filterbedingungen in einer Titelzeile ausgeprägt werden oder nicht. Weiter können Sie festlegen, ob räumlich nah beieinander liegende Kitas
         maßstabsabhängig zu einem Punktsymbol zusammengefasst werden oder nicht. "<em><strong>Zeichenvorschrift</strong></em>" erlaubt es Ihnen, zwischen der standardmäßig

@@ -14,7 +14,7 @@ const KitasHelpTextPanel = () => {
           style={{ textDecoration: "none" }}
         >
           {" "}
-          <Label bsStyle="warning">Datengrundlage</Label>{" "}
+          <Label bsStyle="default">Datengrundlage</Label>{" "}
         </Link>
         <Link
           to="KartendarstellungPOI"
@@ -22,7 +22,7 @@ const KitasHelpTextPanel = () => {
           style={{ textDecoration: "none" }}
         >
           {" "}
-          <Label bsStyle="warning">Kartendarstellung der POI</Label>{" "}
+          <Label bsStyle="warning">Kartendarstellung der Kitas</Label>{" "}
         </Link>
         <Link
           to="POIauswahluabfragen"
@@ -30,7 +30,7 @@ const KitasHelpTextPanel = () => {
           style={{ textDecoration: "none" }}
         >
           {" "}
-          <Label bsStyle="default">POI auswählen und abfragen</Label>{" "}
+          <Label bsStyle="warning">Kitas auswählen und abfragen</Label>{" "}
         </Link>
         <Link
           to="InKartePositionieren"
@@ -38,7 +38,7 @@ const KitasHelpTextPanel = () => {
           style={{ textDecoration: "none" }}
         >
           {" "}
-          <Label bsStyle="default">In Karte positionieren</Label>{" "}
+          <Label bsStyle="warning">In Karte positionieren</Label>{" "}
         </Link>
         <Link
           to="MeinStandort"
@@ -46,7 +46,7 @@ const KitasHelpTextPanel = () => {
           style={{ textDecoration: "none" }}
         >
           {" "}
-          <Label bsStyle="default">Mein Standort</Label>{" "}
+          <Label bsStyle="warning">Mein Standort</Label>{" "}
         </Link>
         <Link
           to="MeinThemenstadtplan"
@@ -54,7 +54,7 @@ const KitasHelpTextPanel = () => {
           style={{ textDecoration: "none" }}
         >
           {" "}
-          <Label bsStyle="primary">Mein Themenstadtplan</Label>{" "}
+          <Label bsStyle="primary">Filtern</Label>{" "}
         </Link>
         <Link
           to="Einstellungen"
@@ -84,89 +84,67 @@ const KitasHelpTextPanel = () => {
         </Link>
       </h4>
       <p>
-        Der Online-Stadtplan der Stadt Wuppertal basiert auf dem Stadtplanwerk
-        2.0 des Regionalverbandes Ruhrgebiet. Dieses innovative Kartenwerk
-        kombiniert das Straßennetz der OpenStreetMap mit den Gebäuden und
-        Flächennutzungen aus dem Fachverfahren ALKIS des Liegenschaftskatasters.
-        Das Stadtplanwerk 2.0 wird wöchentlich in einem automatischen Prozess
-        aktualisiert. Zusätzlich nutzt der Online-Stadtplan den Datensatz{" "}
+        Der <strong>Kita-Finder Wuppertal</strong> benutzt als Kartengrundlage das Stadtplanwerk 2.0 des Regionalverbandes Ruhrgebiet.
+        Dieses innovative Kartenwerk kombiniert das Straßennetz der OpenStreetMap mit den Gebäuden und Flächennutzungen
+        aus dem Fachverfahren ALKIS des Liegenschaftskatasters. Das Stadtplanwerk 2.0 wird wöchentlich in einem automatischen
+        Prozess aktualisiert. Zusätzlich nutzt der Kita-Finder den Datensatz{" "}
         <a
-          href="https://offenedaten-wuppertal.de/dataset/interessante-orte-wuppertal-poi"
+          href="https://offenedaten-wuppertal.de/dataset/kindertageseinrichtungen-wuppertal"
           target="_opendata"
         >
-          Interessante Orte Wuppertal (POI)
+          Kindertageseinrichtungen Wuppertal
         </a>{" "}
-        aus dem Open-Data-Angebot der Stadt Wuppertal.
+        des Stadtbetriebs 'Tageseinrichtungen für Kinder - Jugendamt' aus dem Open-Data-Angebot der Stadt Wuppertal.
       </p>
 
       <div name="KartendarstellungPOI">
         <br />
       </div>
       <h4>
-        Kartendarstellung der POI{" "}
+        Kartendarstellung der Kitas{" "}
         <Link to="help" containerId="myMenu" style={{ color: "#00000044" }}>
           <Icon name="arrow-circle-up" />
         </Link>
       </h4>
       <p>
-        Jeder POI (Point of Interest, „Interessanter Ort“) ist einem oder
-        mehreren übergeordneten Themenfeldern wie z. B. „<em>Freizeit</em>“ oder
-        „<em>Erholung</em>“ zugeordnet. Die Hintergrundfarben der POI-Symbole
-        stehen jeweils für eine eindeutige Kombination dieser Themenfelder, z.
-        B. Hellgrün für „<em>Freizeit, Erholung</em>
-        “.
+        Für die Darstellung der Kitas in der Karte stehen Ihnen 2 Zeichenvorschriften zur Verfügung, zwischen denen Sie unter "<em><strong>Einstellungen</strong></em>" umschalten können.
+        Standardmäßig wird die Vorschrift "<em>nach Trägertyp</em>" verwendet, bei der die Kitas in 6 unterschiedlichen Farben für die 6 unterschiedenen Trägertypen
+        (städtisch, evangelisch, katholisch, Elterninitiative, Betrieb, freier Träger) ausgeprägt werden. Die Zeichenvorschrift
+        "<em>nach Profil (Inklusionsschwerpunkt j/n)</em>" benutzt nur 2 Farben für die Unterscheidung zwischen Einrichtungen mit Schwerpunkt
+        Inklusion und solchen ohne Inklusionsschwerpunkt.
       </p>
       <p>
-        Räumlich nah beieinander liegende Angebote werden standardmäßig
-        maßstabsabhängig zu größeren Punkten zusammengefasst, mit der Anzahl der
-        repräsentierten POI im Zentrum{" "}
-        <img alt="Cluster" src="images/poi_zusammen.png" />. Vergrößern Sie ein
-        paar Mal durch direktes Anklicken eines solchen Punktes oder mit{" "}
-        <Icon name="plus" /> die Darstellung, so werden die zusammengefassten
-        POI Schritt für Schritt in die kleineren Symbole für die konkreten
-        Einzel-POI zerlegt. Ab einer bestimmten Maßstabsstufe (Zoomstufe 12)
-        führt ein weiterer Klick dazu, dass eine Explosionsgraphik der
-        zusammengefassten POI angezeigt wird.
+        Räumlich nah beieinander liegende Einrichtungen werden standardmäßig maßstabsabhängig zu größeren Kreis-Symbolen zusammengefasst,
+        jeweils mit der Anzahl der repräsentierten Kitas im Zentrum {" "}
+        <img alt="Cluster" src="images/kita_zusammen.png" />. Vergrößern Sie ein paar Mal durch direktes Anklicken eines solchen Punktes oder mit{" "}
+        <Icon name="plus" /> die Darstellung, so werden die zusammengefassten Kitas Schritt für Schritt in die kleineren Piktogramm-Symbole für die Einzel-Kitas zerlegt.
       </p>
 
       <div name="POIauswahluabfragen">
         <br />
       </div>
       <h4>
-        POI auswählen und abfragen{" "}
+        Kitas auswählen und abfragen{" "}
         <Link to="help" containerId="myMenu" style={{ color: "#00000044" }}>
           <Icon name="arrow-circle-up" />
         </Link>
       </h4>
       <p>
-        Bewegen Sie den Mauszeiger im Kartenfenster auf einen konkreten
-        Einzel-POI, um sich seine Bezeichnung anzeigen zu lassen. Ein Klick auf
-        das zugehörige POI-Symbol setzt den Fokus auf diesen POI. Er wird dann
-        blau hinterlegt und die zugehörigen Informationen (Bezeichnung,
-        Info-Text und ggf. Adresse) werden in der Info-Box (unten rechts)
-        angezeigt. (Auf einem Tablet-PC wird der Fokus durch das erste Antippen
-        des Angebots gesetzt, das zweite Antippen blendet die Bezeichnung ein.)
-        Außerdem werden Ihnen in der Info-Box weiterführende (Kommunikations-)
-        Links zum POI angezeigt: <Icon name="link" /> Internet,{" "}
+        Bewegen Sie den Mauszeiger im Kartenfenster auf eine konkrete Einzel-Kita, um sich ihre strukturierte, eindeutige Kurzbezeichnung anzeigen zu lassen.
+        Diese Bezeichnung besteht - sofern vorhanden - aus dem individuellen Namen der Kita, der Straße und dem Trägertyp. Ein Klick auf das zugehörige Kita-Symbol
+        setzt den Fokus auf diese Einrichtung. Sie wird dann blau hinterlegt und die zugehörigen Informationen (Name, Straße und Hausnummer, Info-Text mit Angabe
+        der Kapazität und des Trägertyps, Mindestaufnahmealter und angebotener Betreuungsumfang) werden unten rechts in der Info-Box angezeigt.
+        (Auf einem Tablet-PC wird der Fokus durch das erste Antippen des Angebots gesetzt, das zweite Antippen blendet die Bezeichnung ein.)
+        Außerdem werden Ihnen in der Info-Box weiterführende (Kommunikations-) Links zur Kita angezeigt: <Icon name="link" /> Internet,{" "}
         <Icon name="envelope-square" /> E-Mail und <Icon name="phone" />{" "}
         Telefon.
       </p>
       <p>
-        Wenn Sie noch nicht aktiv einen bestimmten POI im aktuellen
-        Kartenausschnitt selektiert haben, wird der Fokus automatisch auf den
-        nördlichsten POI gesetzt. Mit den Funktionen{" "}
+        Wenn Sie noch nicht aktiv eine bestimmte Kita im aktuellen Kartenausschnitt selektiert haben, wird der Fokus automatisch auf die nördlichste Einrichtung gesetzt.
+        Mit den Funktionen{" "}
         <img alt="Cluster" src="images/vorher_treffer.png" /> vorheriger Treffer
-        und <img alt="Cluster" src="images/nachher_treffer.png" /> nächster
-        Treffer können Sie in nördlicher bzw. südlicher Richtung alle aktuell im
-        Kartenfenster angezeigten POI durchmustern.
-      </p>
-      <p>
-        Zu einigen POI bieten wir Ihnen Fotos oder Fotoserien des bekannten
-        Wuppertaler Fotographen Peter Krämer an. Sie finden dann ein
-        Vorschaubild direkt über der Info-Box. Klicken Sie auf das Vorschaubild,
-        um einen Bildbetrachter ("Leuchtkasten") mit dem Foto&nbsp;/&nbsp;der
-        Fotoserie zu öffnen. Aus dem Bildbetrachter gelangen Sie über einen Link
-        im Fußbereich auch zur Foto-Anwendung von Peter Krämer.
+        und <img alt="Cluster" src="images/nachher_treffer.png" /> nächster Treffer können Sie ausgehend von der Kita, auf der gerade der Fokus liegt,
+        in nördlicher bzw. südlicher Richtung alle aktuell im Kartenfenster angezeigten Kitas durchmustern.
       </p>
 
       <div name="InKartePositionieren">
@@ -179,33 +157,25 @@ const KitasHelpTextPanel = () => {
         </Link>
       </h4>
       <p>
-        Um eine bestimmte Stelle des Stadtgebietes zu erkunden, geben Sie den
-        Anfang eines Stadtteils (Stadtbezirk oder Quartier), einer Adresse,
-        eines Straßennamens oder eines POI im Eingabefeld links unten ein
-        (mindestens 2 Zeichen). In der inkrementellen Auswahlliste werden Ihnen
-        passende Treffer angeboten. (Wenn Sie weitere Zeichen eingeben, wird der
-        Inhalt der Auswahlliste angepasst.) Durch das vorangestellte Symbol
-        erkennen Sie, ob es sich dabei um einen <Icon name="circle" />{" "}
+        Um die Kitas in einem bestimmten Bereich des Stadtgebietes zu erkunden, geben Sie den Anfang eines Stadtteils (Stadtbezirk oder Quartier),
+        einer Adresse, eines Straßennamens oder eines Kita-Namens im Eingabefeld links unten ein (mindestens 2 Zeichen). In der inkrementellen
+        Auswahlliste werden Ihnen passende Treffer angeboten. (Wenn Sie weitere Zeichen eingeben, wird der Inhalt der Auswahlliste angepasst.)
+        Durch das vorangestellte Symbol erkennen Sie, ob es sich dabei um einen <Icon name="circle" />{" "}
         Stadtbezirk, ein <Icon name="pie-chart" /> Quartier, eine{" "}
         <Icon name="home" /> Adresse, eine <Icon name="road" /> Straße ohne
-        zugeordnete Hausnummern, einen <Icon name="tag" /> POI oder die{" "}
-        <Icon name="tags" /> alternative Bezeichnung eines POI handelt.
+        zugeordnete Hausnummern, einen <Icon name="tag" /> POI oder eine{" "}
+        <Icon name="child" /> Kita handelt.
       </p>
       <p>
-        Nach der Auswahl eines Treffers aus der Liste wird die Karte auf die
-        zugehörige Position zentriert. Bei Suchbegriffen mit Punktgeometrie
-        (Adresse, Straße, POI) wird außerdem ein großer Maßstab (Zoomstufe 14)
-        eingestellt und ein Marker{" "}
-        <img alt="Cluster" src="images/AdressMarker.jpg" /> auf der Zielposition
-        platziert. Bei Suchbegriffen mit Flächengeometrie (Stadtbezirk,
-        Quartier) wird der Maßstab so eingestellt, dass die Fläche vollständig
-        dargestellt werden kann. Zusätzlich wird der Bereich außerhalb dieser
-        Fläche abgedunkelt (Spotlight-Effekt).
+        Nach der Auswahl eines Treffers aus der Liste wird die Karte auf die zugehörige Position zentriert. Bei Suchbegriffen mit Punktgeometrie
+        (Adresse, Straße, Kita) wird außerdem ein großer Maßstab (Zoomstufe 14) eingestellt und ein Marker{" "}
+        <img alt="Cluster" src="images/AdressMarker.jpg" />  auf der Zielposition platziert. Bei Suchbegriffen mit Flächengeometrie (Stadtbezirk, Quartier)
+        wird der Maßstab so eingestellt, dass die Fläche vollständig dargestellt werden kann.
+        Zusätzlich wird der Bereich außerhalb dieser Fläche abgedunkelt (Spotlight-Effekt).
       </p>
       <p>
-        Durch Anklicken des Werkzeugs <Icon name="times" /> links neben dem
-        Eingabefeld können Sie die Suche zurücksetzen (Entfernung von Marker
-        bzw. Abdunklung, Löschen des Textes im Eingabefeld).
+        Durch Anklicken des Werkzeugs <Icon name="times" /> links neben dem Eingabefeld können Sie die Suche zurücksetzen
+        (Entfernung von Marker bzw. Abdunklung, Löschen des Textes im Eingabefeld).
       </p>
 
       <div name="MeinStandort">
@@ -218,7 +188,7 @@ const KitasHelpTextPanel = () => {
         </Link>
       </h4>
       <p>
-        Mit der Funktion „<em>Mein Standort</em>“ <Icon name="map-marker" />{" "}
+        Mit der Funktion 'Mein Standort' <Icon name="map-marker" />{" "}
         können Sie ihren aktuellen Standort mit einem blauen Kreissymbol{" "}
         <img alt="Cluster" src="images/MeinStandpunktMarker.jpg" /> in der Karte
         anzeigen. Das Standortsymbol ist umgeben von einem zweiten Kreis mit
@@ -231,47 +201,42 @@ const KitasHelpTextPanel = () => {
         Tablet-PC's sind i. d. R. mit einer GPS-Antenne ausgestattet, so dass
         Sie bei diesen Geräten eine Positionsgenauigkeit in der Größenordnung
         von 10 Metern erwarten können. Die Markierung Ihrer Position wird
-        laufend automatisch aktualisiert. Ein weiterer Klick auf „
-        <em>Mein Standort</em>“ schaltet die Anzeige Ihrer Position wieder ab.
+        laufend automatisch aktualisiert. Ein weiterer Klick auf 'Mein Standort' schaltet die Anzeige Ihrer Position wieder ab.
       </p>
 
       <div name="MeinThemenstadtplan">
         <br />
       </div>
       <h4>
-        Mein Themenstadtplan{" "}
+        Filtern{" "}
         <Link to="help" containerId="myMenu" style={{ color: "#00000044" }}>
           <Icon name="arrow-circle-up" />
         </Link>
       </h4>
       <p>
-        Unter „<em>Mein Themenstadtplan</em>“ können Sie im Anwendungsmenü{" "}
-        <Icon name="bars" /> auswählen, welche POI-Kategorien in der Karte
-        dargestellt werden. Über die Schaltfläche{" "}
-        <img alt="Cluster" src="images/sf_keinethemenausw.png" /> können Sie die
-        POI vollständig ausblenden - auch die Info-Box wird dann nicht mehr
-        angezeigt.
+        Im Bereich "<strong>Filtern</strong>" können Sie im Anwendungsmenü{" "}
+        <Icon name="bars" /> die in der Karte angezeigten Kitas so ausdünnen, dass nur die für Sie interessanten Einrichtungen übrig bleiben.
+        Standardmäßig sind die Einstellungen hier so gesetzt, dass alle Kitas angezeigt werden. Zunächst können Sie hier unter "<em><strong>Trägertyp</strong></em>" die
+        für Sie in Frage kommenden Kita-Träger auswählen und unter "<em><strong>Profil</strong></em>" einstellen, ob Einrichtungen mit oder ohne Schwerpunkt Inklusion
+        (oder beide Typen) angezeigt werden sollen. Die beiden Zeichenvorschriften "<em>nach Träger</em>" und "<em>nach Profil</em>", die Ihnen unter "<strong>Einstellungen</strong>"
+        zur Auswahl angeboten werden, beziehen sich auf diese beiden Merkmale. Welche Zeichenvorschrift gerade aktiv ist, erkennen Sie an den
+        farbigen Punkten, die als Legende entweder hinter den Auswahlmöglichkeiten für "<em><strong>Trägertyp</strong></em>" oder denen für "<em>Profil</em>" erscheinen.
       </p>
-      <p>
-        Zur Filterung der POI-Kategorien bieten wir Ihnen die oben beschriebenen
-        Themenfelder an. Wählen Sie z. B. mit <Icon name="thumbs-up" />{" "}
-        ausschließlich das Thema „Kultur“ aus. Als Vorschau wird Ihnen ein
-        Tortendiagramm angezeigt, das die Anzahl der zugehörigen POI und deren
-        Verteilung auf die Themen-Kombinationen (hier „
-        <em>Kultur, Gesellschaft</em>“ und „<em>Kultur, Freizeit</em>
-        “) anzeigt. Bewegen Sie dazu den Mauszeiger auf eines der farbigen
-        Segmente des Tortendiagramms. (Bei einem Gerät mit Touchscreen tippen
-        Sie auf eines der farbigen Segmente.)
-      </p>
-      <p>
-        Mit <Icon name="thumbs-down" /> können Sie die POI, die dem
-        entsprechenden Thema zugeordnet sind, ausblenden und dadurch die
-        Treffermenge reduzieren. Schließen Sie jetzt z. B. das Thema „
-        <em>Gesellschaft</em>“ aus. Im Tortendiagramm werden Ihnen dann nur noch
-        die POI mit der Themen-Kombination „<em>Kultur, Freizeit</em>“ angezeigt
-        (Theater, Museen etc.). Die POI mit der Kombination „
-        <em>Kultur, Gesellschaft</em>“ (Standorte von Verlagen und anderen
-        Medienunternehmungen) wurden dagegen entfernt.
+			<p>
+				Unter "<em><strong>Kindesalter</strong></em>" sollten Sie das Alter des Kindes, für das Sie eine Unterbringung suchen, angeben.
+				Dann werden alle Kitas, die ein höheres Mindestalter der Kinder fordern, ausgeblendet.
+			</p>
+			<p>
+				Beim gewünschten "<em><strong>Betreuungsumfang</strong></em>" gilt es zu berücksichtigen, dass viele Kitas sowohl 35 wie auch 45 Stunden als Betreuungsdauer anbieten.
+				Diese werden angezeigt, sobald Sie eine der beiden Möglichkeiten (35 oder 45 Stunden pro Woche) ausgewählt haben. Bei einigen Einrichtungen
+				hängt die angebotene Betreuungsdauer auch vom Alter des Kindes ab. Das geht aus den Daten, auf die der Kita-Finder Wuppertal zugreift, nicht hervor.
+				Bitte erfragen Sie diesen Zusammenhang daher ggf. direkt bei der jeweiligen Einrichtung.
+			</p>
+			<p>
+				Ihre Einstellungen werden direkt in der blauen Titelzeile des Bereichs "<strong>Filtern</strong>" und in dem Tortendiagramm, das Sie rechts neben oder unter den
+				Filteroptionen finden, ausgewertet. Die Titelzeile zeigt die Gesamtanzahl der Kitas, die den von Ihnen gesetzten Filterbedingungen entsprechen.
+				Das Tortendiagramm zeigt zusätzlich die Verteilung auf die Kategorien der aktuell gewählten Zeichenvorschrift.
+				Bewegen Sie dazu den Mauszeiger auf eines der farbigen Segmente des Diagramms.
       </p>
 
       <div name="Einstellungen">
@@ -284,33 +249,25 @@ const KitasHelpTextPanel = () => {
         </Link>
       </h4>
       <p>
-        Unter Einstellungen können Sie im Anwendungsmenü <Icon name="bars" />{" "}
-        festlegen, wie die POI und die Hintergrundkarte angezeigt werden sollen.
-        Zu den POI können Sie auswählen, ob Ihre unter „
-        <em>Mein Themenstadtplan</em>“ festgelegte Lebenslagen-Filterung in
-        einer Titelzeile ausgeprägt wird oder nicht. Weiter können Sie
-        festlegen, ob räumlich nah beieinander liegende POI maßstabsabhängig zu
-        einem Punktsymbol zusammengefasst werden oder nicht. Unter Symbolgröße
-        können Sie in Abhängigkeit von Ihrer Bildschirmauflösung und Ihrem
-        Sehvermögen auswählen, ob die POI mit kleinen (25 Pixel), mittleren (35
-        Pixel) oder großen (45 Pixel) Symbolen angezeigt werden.
-      </p>
-      <p>
-        Unter Kartendarstellung können Sie auswählen, ob Sie die standardmäßig
-        aktivierte farbige Hintergrundkarte verwenden möchten („Tag“) oder
-        lieber eine invertierte Graustufenkarte („Nacht“), zu der uns die von
-        vielen PKW-Navis bei Dunkelheit eingesetzte Darstellungsweise inspiriert
-        hat.
-      </p>
-      <p>
-        Die Nacht-Karte erzeugt einen deutlicheren Kontrast mit den farbigen
-        POI-Symbolen, die unterschiedlichen Flächennutzungen lassen sich aber
-        nicht so gut unterscheiden wie in der Tag-Karte.
-      </p>
-      <p>
-        Im Vorschaubild sehen Sie (mit Ausnahme der Symbolgröße) direkt die
-        prinzipielle Wirkung ihrer Einstellungen.
-      </p>
+        Unter "<strong>Einstellungen</strong>" können Sie im Anwendungsmenüv <Icon name="bars" />{" "}
+        festlegen, wie die Kitas und die Hintergrundkarte angezeigt werden sollen. Zu den Kitas können Sie auswählen, ob Ihre unter "<strong>Filtern</strong>" festgelegten
+        Filterbedingungen in einer Titelzeile ausgeprägt werden oder nicht. Weiter können Sie festlegen, ob räumlich nah beieinander liegende Kitas
+        maßstabsabhängig zu einem Punktsymbol zusammengefasst werden oder nicht. "<em><strong>Zeichenvorschrift</strong></em>" erlaubt es Ihnen, zwischen der standardmäßig
+        aktivierten Zeichenvorschrift "<em>nach Trägertyp</em>" und der Alternative "<em>nach Profil (Inklusionsschwerpunkt j/n)</em>" zu wechseln. Unter "<em><strong>Symbolgröße</strong></em>"
+        können Sie in Abhängigkeit von Ihrer Bildschirmauflösung und Ihrem Sehvermögen auswählen, ob die Kitas mit kleinen (25 Pixel), mittleren (35 Pixel)
+        oder großen (45 Pixel) Symbolen angezeigt werden.
+			</p>
+			<p>
+				Unter "<em><strong>Kartendarstellung</strong></em>" können Sie auswählen, ob Sie die standardmäßig aktivierte farbige Hintergrundkarte verwenden möchten ("<em>Tag</em>") oder lieber
+				eine invertierte Graustufenkarte ("<em>Nacht</em>"), zu der uns die von vielen PKW-Navis bei Dunkelheit eingesetzte Darstellungsweise inspiriert hat.
+			</p>
+			<p>
+				Die Nacht-Karte erzeugt einen deutlicheren Kontrast mit den farbigen Kita-Symbolen, die unterschiedlichen Flächennutzungen in der Hintergrundkarte
+				lassen sich aber nicht mehr so gut unterscheiden wie in der Tag-Karte.
+			</p>
+			<p>
+				Im Vorschaubild sehen Sie direkt die prinzipielle Wirkung ihrer Einstellungen.
+			</p>
 
       <div name="Personalisierung">
         <br />
@@ -322,11 +279,9 @@ const KitasHelpTextPanel = () => {
         </Link>
       </h4>
       <p>
-        Ihre Themenauswahl und Einstellungen bleiben auch nach einem Neustart
-        der Anwendung erhalten. (Es sei denn, Sie löschen den Browser-Verlauf
-        einschließlich der gehosteten App-Daten.) Damit können Sie mit wenigen
-        Klicks aus unserem Online-Stadtplan einen dauerhaft für Sie optimierten
-        Themenstadtplan machen.
+        Ihre Filterbedingungen und Einstellungen bleiben auch nach einem Neustart der Anwendung erhalten.
+        (Es sei denn, Sie löschen den Browser-Verlauf einschließlich der gehosteten App-Daten.)
+        Damit können Sie mit wenigen Klicks aus dem Kita-Finder Wuppertal einen dauerhaft für Sie optimierten Kita-Finder machen.
       </p>
     </div>
   );

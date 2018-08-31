@@ -7,7 +7,7 @@ import {
 } from "react-bootstrap";
 import { removeQueryPart, modifyQueryPart } from "../../utils/routingHelper";
 import { constants as kitasConstants } from "../../redux/modules/kitas";
-
+import {getChildSVG} from '../../utils/kitasHelper';
 // Since this component is simple and static, there's no parent container for it.
 const KitasSettingsPanel = ({
   width,
@@ -25,26 +25,33 @@ const KitasSettingsPanel = ({
   let widePreviewPlaceholder = null;
   let narrowPreviewPlaceholder = null;
 
-  let markerPreviewPrefix = "kitas";
+  let markerPreviewPrefix = "kitas.preview";
   let markerPreviewName;
+  let markerPreviewRendering;
+  let markerPreviewClustering;
+  let markerPreviewSize;
+  if (featureRendering===kitasConstants.FEATURE_RENDERING_BY_TRAEGERTYP){
+    markerPreviewRendering="typ";
+  }else {
+      markerPreviewRendering="profil";
+  }
   if (clusteredMarkers) {
-    if (markerSize >= 45) {
-      markerPreviewName = markerPreviewPrefix + ".preview.clustered.l.png";
-    } else if (markerSize <= 25) {
-      markerPreviewName = markerPreviewPrefix + ".preview.clustered.s.png";
-    } else {
-      markerPreviewName = markerPreviewPrefix + ".preview.clustered.m.png";
-    }
-  } else {
-    if (markerSize >= 45) {
-      markerPreviewName = markerPreviewPrefix + ".preview.unclustered.l.png";
-    } else if (markerSize <= 25) {
-      markerPreviewName = markerPreviewPrefix + ".preview.unclustered.s.png";
-    } else {
-      markerPreviewName = markerPreviewPrefix + ".preview.unclustered.m.png";
-    }
+    markerPreviewClustering="clustered";
+}
+  else {
+    markerPreviewClustering="unclustered"
+  }
+  if (markerSize >= 45) {
+    markerPreviewSize="l";
+  }else if (markerSize <= 25) {
+    markerPreviewSize="s";
+  }
+  else {
+    markerPreviewSize="m";
   }
 
+  markerPreviewName = markerPreviewPrefix + "." + markerPreviewRendering+"."+markerPreviewClustering+"."+markerPreviewSize+".png";
+  console.log("markerPreviewName:"+markerPreviewName);
   let titlePreview = null;
   if (titleDisplay) {
     titlePreview = (
@@ -270,7 +277,7 @@ const KitasSettingsPanel = ({
                         }}
                       >
                         <a onClick={() => changeMarkerSymbolSize(25)}>
-                          <img alt="minimal" src="images/kita.25.png" />
+                         {getChildSVG(25,"#00A0B0")}
                         </a>
                       </td>
                       <td
@@ -280,12 +287,12 @@ const KitasSettingsPanel = ({
                         }}
                       >
                         <a onClick={() => changeMarkerSymbolSize(35)}>
-                          <img alt="minimal" src="images/kita.35.png" />
+                        {getChildSVG(35,"#00A0B0")}
                         </a>
                       </td>
                       <td>
                         <a onClick={() => changeMarkerSymbolSize(45)}>
-                          <img alt="minimal" src="images/kita.45.png" />
+                        {getChildSVG(45,"#00A0B0")}
                         </a>
                       </td>
                     </tr>

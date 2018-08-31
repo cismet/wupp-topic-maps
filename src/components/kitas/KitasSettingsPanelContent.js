@@ -206,34 +206,6 @@ const KitasSettingsPanel = ({
                   readOnly={true}
                   onClick={e => {
                     if (e.target.checked === true) {
-                      setFeatureRendering(kitasConstants.FEATURE_RENDERING_BY_TRAEGERTYP2);
-                    }
-                  }}
-                  checked={featureRendering===kitasConstants.FEATURE_RENDERING_BY_TRAEGERTYP2}
-                  name="featureRendering"
-                  inline
-                >
-                  nach Trägertyp-2
-                </Radio>{" "}
-                <br/>
-                <Radio
-                  readOnly={true}
-                  onClick={e => {
-                    if (e.target.checked === true) {
-                      setFeatureRendering(kitasConstants.FEATURE_RENDERING_BY_TRAEGERTYP3);
-                    }
-                  }}
-                  checked={featureRendering===kitasConstants.FEATURE_RENDERING_BY_TRAEGERTYP3}
-                  name="featureRendering"
-                  inline
-                >
-                  nach Trägertyp-3
-                </Radio>{" "}
-                <br/>
-                <Radio
-                  readOnly={true}
-                  onClick={e => {
-                    if (e.target.checked === true) {
                       setFeatureRendering(kitasConstants.FEATURE_RENDERING_BY_PROFIL);
                     }
                   }}

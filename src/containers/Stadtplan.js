@@ -125,9 +125,9 @@ export class Stadtplan_ extends React.Component {
     }
 
     gazeteerhHit(selectedObject) {
-        if (selectedObject && selectedObject[0] && selectedObject[0].more && selectedObject[0].more.pid) {
+        if (selectedObject && selectedObject[0] && selectedObject[0].more && (selectedObject[0].more.pid||selectedObject[0].more.kid)) {
             //this.props.stadtplanActions.setPoiGazHit(selectedObject[0].more.pid);
-            this.props.stadtplanActions.setSelectedPOI(selectedObject[0].more.pid);
+            this.props.stadtplanActions.setSelectedPOI(selectedObject[0].more.pid||selectedObject[0].more.kid);
         }
     }
 

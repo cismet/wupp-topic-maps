@@ -22,7 +22,7 @@ const KitasFilterPanel = ({
     { text: "katholisch", c: kitasConstants.TRAEGERTYP_KATHOLISCH },
     { text: "Elterninitiative", c: kitasConstants.TRAEGERTYP_ELTERNINITIATIVE },
     { text: "Betrieb", c: kitasConstants.TRAEGERTYP_BETRIEBSKITA },
-    { text: "freier Träger", c: kitasConstants.TRAEGERTYP_ANDERE }
+    { text: "andere freie Träger", c: kitasConstants.TRAEGERTYP_ANDERE }
   ];
   let widePieChartPlaceholder = null;
   let narrowPieChartPlaceholder = null;

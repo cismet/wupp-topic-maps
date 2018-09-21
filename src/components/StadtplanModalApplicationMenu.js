@@ -357,6 +357,14 @@ export class StadtplanModalApplicationMenu_ extends React.Component {
                         </tbody>
                         </table>                    
                         {narrowPieChartPlaceholder}
+                        <hr/>
+                        <strong>* Themenspezifische Karten:</strong>{'  '}
+                        <h4>
+                        <a style={{"textDecoration": "none"}} href="/#/kitas" target="_kitas" rel="noopener noreferrer"><Label bsStyle="warning">Kita-Finder</Label></a>{' '}
+                        {/* <a style={{"textDecoration": "none"}}><Label bsStyle="default">Kita Finder</Label></a>{' '} */}
+                        <a style={{"textDecoration": "none"}}><Label bsStyle="success">Sporthallen</Label></a>{' '}
+                        <a style={{"textDecoration": "none"}}><Label bsStyle="primary">Schwimmbäder</Label></a>
+                        </h4>
                     </Panel>
                    
                     </Accordion>
@@ -447,14 +455,14 @@ export class StadtplanModalApplicationMenu_ extends React.Component {
                                         <table border={0} >
                                         <tbody>
                                         <tr>
-                                        <td style={{"padding-left":"6px","padding-right":"15px"}}><a onClick={()=>this.changePoiSymbolSize(25)}><img alt="minimal" src="images/poi.25.png" /></a></td>
-                                        <td style={{"padding-left":"3px","padding-right":"15px"}}><a onClick={()=>this.changePoiSymbolSize(35)}><img alt="minimal" src="images/poi.35.png" /></a></td>
+                                        <td style={{"paddingLeft":"6px","paddingRight":"15px"}}><a onClick={()=>this.changePoiSymbolSize(25)}><img alt="minimal" src="images/poi.25.png" /></a></td>
+                                        <td style={{"paddingLeft":"3px","paddingRight":"15px"}}><a onClick={()=>this.changePoiSymbolSize(35)}><img alt="minimal" src="images/poi.35.png" /></a></td>
                                         <td                                                      ><a onClick={()=>this.changePoiSymbolSize(45)}><img alt="minimal" src="images/poi.45.png" /></a></td>
                                         </tr>
-                                        <tr border={1} style={{"vertical-align": "top"}}>
-                                        <td style={{"text-align":"center"}}>
+                                        <tr border={1} style={{"verticalAlign": "top"}}>
+                                        <td style={{"textAlign":"center"}}>
                                             <Radio 
-                                                style={{"margin-top":"0px"}}
+                                                style={{"marginTop":"0px"}}
                                                 readOnly={true}
                                                 onClick={()=>this.changePoiSymbolSize(25)}
                                                 name="poiSize25" 
@@ -462,18 +470,18 @@ export class StadtplanModalApplicationMenu_ extends React.Component {
                                              />
                                             
                                         </td>
-                                        <td style={{"text-align":"center"}}>
+                                        <td style={{"textAlign":"center"}}>
                                             <Radio 
-                                                style={{"margin-top":"0px","margin-left":"0px"}}
+                                                style={{"marginTop":"0px","marginLeft":"0px"}}
                                                 readOnly={true}
                                                 onClick={()=>this.changePoiSymbolSize(35)}
                                                 name="poiSize35" 
                                                 checked={this.props.poiSvgSize===35}
                                              />                                            
                                         </td>
-                                        <td style={{"text-align":"center"}}>
+                                        <td style={{"textAlign":"center"}}>
                                             <Radio 
-                                                style={{"margin-top":"0px","margin-left":"7px"}}
+                                                style={{"marginTop":"0px","marginLeft":"7px"}}
                                                 readOnly={true}
                                                 onClick={()=>this.changePoiSymbolSize(45)}
                                                 name="poiSize45" 

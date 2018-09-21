@@ -37,7 +37,11 @@ const initialState = {
         positiv: ["Freizeit","Sport","Mobilität","Religion","Erholung","Gesellschaft","Gesundheit","Kultur","öffentliche Dienstleistungen","Dienstleistungen","Orientierung","Bildung","Stadtbild","Kinderbetreuung"],
         negativ: []
     },
-    poiSvgSize:35
+    poiSvgSize:35,
+    lebenslagenApps: {
+        a: ""
+    }
+
 
 }
 ///REDUCER

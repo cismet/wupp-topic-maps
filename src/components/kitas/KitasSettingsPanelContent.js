@@ -1,13 +1,9 @@
 import React from "react";
-import {
-  FormGroup,
-  Checkbox,
-  Radio,
-  ControlLabel
-} from "react-bootstrap";
+import { FormGroup, Checkbox, Radio, ControlLabel } from "react-bootstrap";
 import { removeQueryPart, modifyQueryPart } from "../../utils/routingHelper";
+import { getInternetExplorerVersion } from "../../utils/browserHelper";
 import { constants as kitasConstants } from "../../redux/modules/kitas";
-import {getChildSVG} from '../../utils/kitasHelper';
+import { getChildSVG } from "../../utils/kitasHelper";
 // Since this component is simple and static, there's no parent container for it.
 const KitasSettingsPanel = ({
   width,
@@ -30,28 +26,34 @@ const KitasSettingsPanel = ({
   let markerPreviewRendering;
   let markerPreviewClustering;
   let markerPreviewSize;
-  if (featureRendering===kitasConstants.FEATURE_RENDERING_BY_TRAEGERTYP){
-    markerPreviewRendering="typ";
-  }else {
-      markerPreviewRendering="profil";
+  if (featureRendering === kitasConstants.FEATURE_RENDERING_BY_TRAEGERTYP) {
+    markerPreviewRendering = "typ";
+  } else {
+    markerPreviewRendering = "profil";
   }
   if (clusteredMarkers) {
-    markerPreviewClustering="clustered";
-}
-  else {
-    markerPreviewClustering="unclustered"
+    markerPreviewClustering = "clustered";
+  } else {
+    markerPreviewClustering = "unclustered";
   }
   if (markerSize >= 45) {
-    markerPreviewSize="l";
-  }else if (markerSize <= 25) {
-    markerPreviewSize="s";
-  }
-  else {
-    markerPreviewSize="m";
+    markerPreviewSize = "l";
+  } else if (markerSize <= 25) {
+    markerPreviewSize = "s";
+  } else {
+    markerPreviewSize = "m";
   }
 
-  markerPreviewName = markerPreviewPrefix + "." + markerPreviewRendering+"."+markerPreviewClustering+"."+markerPreviewSize+".png";
-  console.log("markerPreviewName:"+markerPreviewName);
+  markerPreviewName =
+    markerPreviewPrefix +
+    "." +
+    markerPreviewRendering +
+    "." +
+    markerPreviewClustering +
+    "." +
+    markerPreviewSize +
+    ".png";
+  console.log("markerPreviewName:" + markerPreviewName);
   let titlePreview = null;
   if (titleDisplay) {
     titlePreview = (
@@ -80,8 +82,7 @@ const KitasSettingsPanel = ({
                   paddingleft: "10px"
                 }}
               >
-                <b>Mein Kita-Finder: </b> alle Kitas | unter 2 + ab 2 Jahre |
-                35h pro Woche
+                <b>Mein Kita-Finder: </b> alle Kitas | unter 2 + ab 2 Jahre | 35h pro Woche
               </td>
             </tr>
           </tbody>
@@ -149,9 +150,7 @@ const KitasSettingsPanel = ({
                     } else {
                       routingActions.push(
                         routing.location.pathname +
-                          (routing.location.search !== ""
-                            ? routing.location.search
-                            : "?") +
+                          (routing.location.search !== "" ? routing.location.search : "?") +
                           "&title"
                       );
                     }
@@ -168,17 +167,12 @@ const KitasSettingsPanel = ({
                     if (e.target.checked === true) {
                       routingActions.push(
                         routing.location.pathname +
-                          removeQueryPart(
-                            routing.location.search,
-                            "unclustered"
-                          )
+                          removeQueryPart(routing.location.search, "unclustered")
                       );
                     } else {
                       routingActions.push(
                         routing.location.pathname +
-                          (routing.location.search !== ""
-                            ? routing.location.search
-                            : "?") +
+                          (routing.location.search !== "" ? routing.location.search : "?") +
                           "&unclustered"
                       );
                     }
@@ -191,8 +185,8 @@ const KitasSettingsPanel = ({
                 </Checkbox>
                 <br />
               </FormGroup>
-              <br/>
-              <FormGroup key={"featureRenderingCombos."+featureRendering}>                
+              <br />
+              <FormGroup key={"featureRenderingCombos." + featureRendering}>
                 <ControlLabel>Zeichenvorschrift:</ControlLabel>
                 <br />
                 <Radio
@@ -202,13 +196,13 @@ const KitasSettingsPanel = ({
                       setFeatureRendering(kitasConstants.FEATURE_RENDERING_BY_TRAEGERTYP);
                     }
                   }}
-                  checked={featureRendering===kitasConstants.FEATURE_RENDERING_BY_TRAEGERTYP}
+                  checked={featureRendering === kitasConstants.FEATURE_RENDERING_BY_TRAEGERTYP}
                   name="featureRendering"
                   inline
                 >
                   nach Trägertyp
                 </Radio>{" "}
-                <br/>
+                <br />
                 <Radio
                   readOnly={true}
                   onClick={e => {
@@ -217,51 +211,54 @@ const KitasSettingsPanel = ({
                     }
                   }}
                   name="featureRendering"
-                  checked={featureRendering===kitasConstants.FEATURE_RENDERING_BY_PROFIL}
+                  checked={featureRendering === kitasConstants.FEATURE_RENDERING_BY_PROFIL}
                   inline
                 >
                   nach Profil (Inklusionsschwerpunkt j/n)
                 </Radio>{" "}
-                </FormGroup>
-              <FormGroup>
-                <br />
-                <ControlLabel>Kartendarstellung:</ControlLabel>
-                <br />
-                <Radio
-                  readOnly={true}
-                  onClick={e => {
-                    if (e.target.checked === true) {
-                      routingActions.push(
-                        routing.location.pathname +
-                          removeQueryPart(routing.location.search, "mapStyle")
-                      );
-                    }
-                  }}
-                  checked={namedMapStyle === "default"}
-                  name="mapBackground"
-                  inline
-                >
-                  Tag
-                </Radio>{" "}
-                <Radio
-                  readOnly={true}
-                  onClick={e => {
-                    if (e.target.checked === true) {
-                      routingActions.push(
-                        routing.location.pathname +
-                          modifyQueryPart(routing.location.search, {
-                            mapStyle: "night"
-                          })
-                      );
-                    }
-                  }}
-                  name="mapBackground"
-                  checked={namedMapStyle === "night"}
-                  inline
-                >
-                  Nacht
-                </Radio>{" "}
               </FormGroup>
+
+              { getInternetExplorerVersion()===-1 && (
+                <FormGroup>
+                  <br />
+                  <ControlLabel>Kartendarstellung:</ControlLabel>
+                  <br />
+                  <Radio
+                    readOnly={true}
+                    onClick={e => {
+                      if (e.target.checked === true) {
+                        routingActions.push(
+                          routing.location.pathname +
+                            removeQueryPart(routing.location.search, "mapStyle")
+                        );
+                      }
+                    }}
+                    checked={namedMapStyle === "default"}
+                    name="mapBackground"
+                    inline
+                  >
+                    Tag
+                  </Radio>{" "}
+                  <Radio
+                    readOnly={true}
+                    onClick={e => {
+                      if (e.target.checked === true) {
+                        routingActions.push(
+                          routing.location.pathname +
+                            modifyQueryPart(routing.location.search, {
+                              mapStyle: "night"
+                            })
+                        );
+                      }
+                    }}
+                    name="mapBackground"
+                    checked={namedMapStyle === "night"}
+                    inline
+                  >
+                    Nacht
+                  </Radio>{" "}
+                </FormGroup>
+              )}
               <FormGroup>
                 <br />
                 <ControlLabel>Symbolgr&ouml;&szlig;e:</ControlLabel>
@@ -277,7 +274,7 @@ const KitasSettingsPanel = ({
                         }}
                       >
                         <a onClick={() => changeMarkerSymbolSize(25)}>
-                         {getChildSVG(25,"#00A0B0")}
+                          {getChildSVG(25, "#00A0B0")}
                         </a>
                       </td>
                       <td
@@ -287,12 +284,12 @@ const KitasSettingsPanel = ({
                         }}
                       >
                         <a onClick={() => changeMarkerSymbolSize(35)}>
-                        {getChildSVG(35,"#00A0B0")}
+                          {getChildSVG(35, "#00A0B0")}
                         </a>
                       </td>
                       <td>
                         <a onClick={() => changeMarkerSymbolSize(45)}>
-                        {getChildSVG(45,"#00A0B0")}
+                          {getChildSVG(45, "#00A0B0")}
                         </a>
                       </td>
                     </tr>
@@ -328,7 +325,6 @@ const KitasSettingsPanel = ({
                   </tbody>
                 </table>
               </FormGroup>
-             
             </td>
             {widePreviewPlaceholder}
           </tr>

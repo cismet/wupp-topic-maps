@@ -20,27 +20,28 @@ const KitasPieChart = ({ filteredKitas, renderingOption, visible = true }) => {
         if (kita.plaetze_fuer_behinderte === true) {
           stats["Kita mit Inklusionsschwerpunkt"] += 1;
           if (stats["Kita mit Inklusionsschwerpunkt"] === 1) {
-            colormodel["Kita mit Inklusionsschwerpunkt"] = getColorForProperties(kita,renderingOption );
+            colormodel["Kita mit Inklusionsschwerpunkt"] = getColorForProperties(
+              kita,
+              renderingOption
+            );
           }
         } else {
           stats["Kita"] += 1;
           if (stats["Kita"] === 1) {
-            colormodel["Kita"] = getColorForProperties(kita,renderingOption);
+            colormodel["Kita"] = getColorForProperties(kita, renderingOption);
           }
         }
       }
-    }
-    else {
-        for (let kita of filteredKitas) {
-            const text=kitasConstants.TRAEGERTEXT[kitasConstants.TRAEGERTYP[kita.traegertyp]];
-            if (stats[text]===undefined) {
-                stats[text]=1;
-                colormodel[text]=getColorForProperties(kita,renderingOption);
-            }
-            else {
-                stats[text]+=1;
-            }
+    } else {
+      for (let kita of filteredKitas) {
+        const text = kitasConstants.TRAEGERTEXT[kitasConstants.TRAEGERTYP[kita.traegertyp]];
+        if (stats[text] === undefined) {
+          stats[text] = 1;
+          colormodel[text] = getColorForProperties(kita, renderingOption);
+        } else {
+          stats[text] += 1;
         }
+      }
     }
     for (let key in stats) {
       piechartData.push([key, stats[key]]);

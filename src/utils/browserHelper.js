@@ -8,7 +8,7 @@ export const getInternetExplorerVersion = () => {
     if (rE.exec(uA) !== null) {
       rV = parseFloat(RegExp.$1);
     } else if (!!navigator.userAgent.match(/Trident.*rv:11\./)) {
-    /*check for IE 11*/
+      /*check for IE 11*/
       rV = 11;
     }
   }

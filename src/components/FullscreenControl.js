@@ -1,24 +1,23 @@
-import PropTypes from 'prop-types';
-import { MapControl } from 'react-leaflet';
-import L from 'leaflet';
+import PropTypes from "prop-types";
+import { MapControl } from "react-leaflet";
+import L from "leaflet";
 
-import 'leaflet-fullscreen-custom-container-fork/dist/leaflet.fullscreen.css';
-import 'leaflet-fullscreen-custom-container-fork';
-
+import "leaflet-fullscreen-custom-container-fork/dist/leaflet.fullscreen.css";
+import "leaflet-fullscreen-custom-container-fork";
 
 class FullscreenControl extends MapControl {
-    componentWillMount() {
+  componentWillMount() {
     this.leafletElement = L.control.fullscreen({
       title: {
-        'false':this.props.title,
-        'true': this.props.titleCancel
+        false: this.props.title,
+        true: this.props.titleCancel
       },
-      position:this.props.position,
-      content:this.props.content,
-      forceSeparateButton:this.props.forceSeparateButton,
-      pseudoFullscreen:this.props.forcePseudoFullscreen,
-      fullscreenElement:this.props.fullscreenElement,
-      container:this.props.container
+      position: this.props.position,
+      content: this.props.content,
+      forceSeparateButton: this.props.forceSeparateButton,
+      pseudoFullscreen: this.props.forcePseudoFullscreen,
+      fullscreenElement: this.props.fullscreenElement,
+      container: this.props.container
     });
   }
 }

@@ -3,7 +3,7 @@ import { Icon } from "react-fa";
 import { getColorForProperties } from "../../utils/kitasHelper";
 import { constants as kitasConstants } from "../../redux/modules/kitas";
 
-const KitasTraegertypMapVisSymbol = ({ traegertyp, visible=true }) => {
+const KitasTraegertypMapVisSymbol = ({ traegertyp, visible = true }) => {
   if (visible) {
     return (
       <Icon

@@ -58,7 +58,7 @@ const initialState = {
       backgroundColor: null,
       link: "/#/kitas",
       target: "_kitas"
-    },
+    }
     // {
     //   on: ["Sport", "Freizeit"],
     //   name: "Schwimmbäder",

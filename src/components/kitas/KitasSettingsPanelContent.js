@@ -218,7 +218,7 @@ const KitasSettingsPanel = ({
                 </Radio>{" "}
               </FormGroup>
 
-              { getInternetExplorerVersion()===-1 && (
+              {getInternetExplorerVersion() === -1 && (
                 <FormGroup>
                   <br />
                   <ControlLabel>Kartendarstellung:</ControlLabel>

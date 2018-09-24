@@ -113,9 +113,7 @@ export class Kitas_ extends React.Component {
 
   featureClick(event) {
     if (event.target.feature) {
-      this.props.mappingActions.setSelectedFeatureIndex(
-        event.target.feature.index
-      );
+      this.props.mappingActions.setSelectedFeatureIndex(event.target.feature.index);
     }
   }
 
@@ -175,10 +173,7 @@ export class Kitas_ extends React.Component {
         previous={this.selectPreviousIndex}
         fitAll={this.gotoHome}
         showModalMenu={section =>
-          this.props.uiStateActions.showApplicationMenuAndActivateSection(
-            true,
-            section
-          )
+          this.props.uiStateActions.showApplicationMenuAndActivateSection(true, section)
         }
         uiState={this.props.uiState}
         uiStateActions={this.props.uiStateActions}
@@ -207,10 +202,7 @@ export class Kitas_ extends React.Component {
       }
       if (
         filterDesc !== "" &&
-        !(
-          this.props.kitas.filteredKitas.length ===
-          this.props.kitas.kitas.length
-        ) &&
+        !(this.props.kitas.filteredKitas.length === this.props.kitas.kitas.length) &&
         this.props.kitas.filteredKitas.length > 0
       ) {
         title = (
@@ -248,10 +240,7 @@ export class Kitas_ extends React.Component {
     return (
       <div>
         <KitasModalApplicationMenu
-          key={
-            "StadtplanModalApplicationMenu.visible:" +
-            this.props.uiState.applicationMenuVisible
-          }
+          key={"StadtplanModalApplicationMenu.visible:" + this.props.uiState.applicationMenuVisible}
           uiState={this.props.uiState}
           uiActions={this.props.uiStateActions}
           kitasState={this.props.kitas}
@@ -277,7 +266,10 @@ export class Kitas_ extends React.Component {
             layers={this.props.match.params.layers || "wupp-plan-live@90"}
             gazeteerHitTrigger={this.gazeteerhHit}
             searchButtonTrigger={this.searchButtonHit}
-            featureStyler={getFeatureStyler(this.props.kitas.kitaSvgSize, this.props.kitas.featureRendering)}
+            featureStyler={getFeatureStyler(
+              this.props.kitas.kitaSvgSize,
+              this.props.kitas.featureRendering
+            )}
             hoverer={featureHoverer}
             featureClickHandler={this.featureClick}
             ondblclick={this.doubleMapClick}
@@ -286,8 +278,7 @@ export class Kitas_ extends React.Component {
             searchMaxZoom={98}
             gazTopics={["adressen", "bezirke", "quartiere", "kitas"]}
             clustered={
-              queryString.parse(this.props.routing.location.search)
-                .unclustered === undefined
+              queryString.parse(this.props.routing.location.search).unclustered === undefined
             }
             minZoom={6}
             clusterOptions={{
@@ -301,7 +292,8 @@ export class Kitas_ extends React.Component {
               cismapZoomTillSpiderfy: 12,
               selectionSpiderfyMinZoom: 12,
               iconCreateFunction: getKitaClusterIconCreatorFunction(
-                this.props.kitas.kitaSvgSize,  this.props.kitas.featureRendering
+                this.props.kitas.kitaSvgSize,
+                this.props.kitas.featureRendering
               )
             }}
             infoBox={info}
@@ -316,7 +308,7 @@ export class Kitas_ extends React.Component {
               </Tooltip>
             )}
             gazBoxInfoText="Stadtteil | Adresse | Kita"
-            featureKeySuffixCreator={()=>this.props.kitas.featureRendering}
+            featureKeySuffixCreator={() => this.props.kitas.featureRendering}
           />
         </Loadable>
       </div>

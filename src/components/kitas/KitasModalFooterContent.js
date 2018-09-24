@@ -5,14 +5,10 @@ const KitasModalFooter = () => {
   return (
     <div>
       <span style={{ fontSize: "11px" }}>
-        <b>Hintergrundkarte</b>: <a>Stadtplanwerk 2.0 (Beta)</a>,{" "}
-        <Icon name="copyright" /> Regionalverband Ruhr (RVR) und
-        Kooperationspartner, Datengrundlagen <Icon name="copyright" />{" "}
-        OpenStreetMap contributors (
-        <a
-          href="http://www.opendatacommons.org/licenses/odbl/1.0/"
-          target="_licensing"
-        >
+        <b>Hintergrundkarte</b>: <a>Stadtplanwerk 2.0 (Beta)</a>, <Icon name="copyright" />{" "}
+        Regionalverband Ruhr (RVR) und Kooperationspartner, Datengrundlagen{" "}
+        <Icon name="copyright" /> OpenStreetMap contributors (
+        <a href="http://www.opendatacommons.org/licenses/odbl/1.0/" target="_licensing">
           ODbL
         </a>
         ) und <Icon name="copyright" /> Land NRW (2018) ,{" "}

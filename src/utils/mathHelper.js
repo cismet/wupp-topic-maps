@@ -5,14 +5,21 @@ class MathHelper {
     }
 
     if (!numberToRound) {
-      return '';
+      return "";
     }
 
-    const scrubbedNumber = numberToRound.toString().replace('$', '').replace(',', '');
-    return Math.round(scrubbedNumber * Math.pow(10, numberOfDecimalPlaces)) / Math.pow(10, numberOfDecimalPlaces);
+    const scrubbedNumber = numberToRound
+      .toString()
+      .replace("$", "")
+      .replace(",", "");
+    return (
+      Math.round(scrubbedNumber * Math.pow(10, numberOfDecimalPlaces)) /
+      Math.pow(10, numberOfDecimalPlaces)
+    );
   }
 
-  static addArray(values) { // adds array of values passed.
+  static addArray(values) {
+    // adds array of values passed.
     const total = values.reduce((previousValue, currentValue) => {
       return previousValue + parseInt(this.convertToPennies(currentValue), 10); // do math in pennies to assure accuracy.
     }, 0);
@@ -27,8 +34,10 @@ class MathHelper {
 
     let dollarValue = parseFloat(value);
     dollarValue = this.roundNumber(dollarValue, 2); // round to 2 decimal places.
-    const dollarValueContainsDecimal = (dollarValue.toString().indexOf('.') !== -1);
-    return (dollarValueContainsDecimal) ? parseInt(dollarValue.toString().replace('.', ''), 10) : parseInt(dollarValue, 10) * 100;
+    const dollarValueContainsDecimal = dollarValue.toString().indexOf(".") !== -1;
+    return dollarValueContainsDecimal
+      ? parseInt(dollarValue.toString().replace(".", ""), 10)
+      : parseInt(dollarValue, 10) * 100;
   }
 }
 

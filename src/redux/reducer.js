@@ -32,19 +32,12 @@ const ehrenamtStorageConfig = {
 const stadtplanStorageConfig = {
   key: "stadtplanPOIs",
   storage: localForage,
-  whitelist: [
-    "pois",
-    "poisMD5",
-    "filter",
-    "poitypes",
-    "lebenslagen",
-    "poiSvgSize"
-  ]
+  whitelist: ["pois", "poisMD5", "filter", "poitypes", "lebenslagen", "poiSvgSize"]
 };
 const kitasStorageConfig = {
   key: "kitas",
   storage: localForage,
-  whitelist: ["kitas", "kitasMD5", "filter", "kitaSvgSize",'featureRendering'] //['kitas','kitasMD5']
+  whitelist: ["kitas", "kitasMD5", "filter", "kitaSvgSize", "featureRendering"] //['kitas','kitasMD5']
 };
 
 const uiStateStorageConfig = {
@@ -61,10 +54,7 @@ const appReducer = combineReducers({
   mapping: mappingReducer,
   uiState: persistReducer(uiStateStorageConfig, uiStateReducer),
   routing: routerReducer,
-  gazetteerTopics: persistReducer(
-    gazetteerTopicsStorageConfig,
-    gazetteerTopicsReducer
-  )
+  gazetteerTopics: persistReducer(gazetteerTopicsStorageConfig, gazetteerTopicsReducer)
   // gazetteerTopics: gazetteerTopicsReducer, // uncomment to skip persitent gazetteer data
 });
 
@@ -76,7 +66,7 @@ const rootReducer = (state, action) => {
 
     return appReducer(undefined, action);
   }
-  
+
   return appReducer(state, action);
 };
 

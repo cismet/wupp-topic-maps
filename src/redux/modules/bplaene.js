@@ -106,17 +106,13 @@ export function searchForPlans(gazObject, overriddenWKT) {
     };
     //console.log(WUNDAAPI + '/searches/WUNDA_BLAU.BPlanAPISearch/results?role=all&limit=100&offset=0')
     //console.log(JSON.stringify(query));
-    fetch(
-      WUNDAAPI +
-        "/searches/WUNDA_BLAU.BPlanAPISearch/results?role=all&limit=100&offset=0",
-      {
-        method: "post",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify(query)
-      }
-    ).then(function(response) {
+    fetch(WUNDAAPI + "/searches/WUNDA_BLAU.BPlanAPISearch/results?role=all&limit=100&offset=0", {
+      method: "post",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(query)
+    }).then(function(response) {
       if (response.status >= 200 && response.status < 300) {
         response.json().then(function(result) {
           let featureArray = [];
@@ -125,11 +121,7 @@ export function searchForPlans(gazObject, overriddenWKT) {
           let selectionIndexWish = 0;
           let planMatch = false;
           let gazPoint;
-          if (
-            gazObject != null &&
-            gazObject.length === 1 &&
-            gazObject[0] != null
-          ) {
+          if (gazObject != null && gazObject.length === 1 && gazObject[0] != null) {
             gazPoint = turfHelpers.point([gazObject[0].x, gazObject[0].y]);
           }
           for (let objArr of result.$collection) {
@@ -137,8 +129,7 @@ export function searchForPlans(gazObject, overriddenWKT) {
 
             if (
               lastFeature != null &&
-              JSON.stringify(feature.geometry) ===
-                JSON.stringify(lastFeature.geometry)
+              JSON.stringify(feature.geometry) === JSON.stringify(lastFeature.geometry)
             ) {
               lastFeature.twin = counter;
               feature.twin = counter - 1;
@@ -148,11 +139,7 @@ export function searchForPlans(gazObject, overriddenWKT) {
             //if this verfahrensnummer matches the nummer of the feature this
             //should be the only feature in the resultset
 
-            if (
-              gazObject != null &&
-              gazObject.length === 1 &&
-              gazObject[0] != null
-            ) {
+            if (gazObject != null && gazObject.length === 1 && gazObject[0] != null) {
               const gazHitWithStatus = gazObject[0].string.indexOf("(") !== -1;
               const gazHitMatchesObjectVerfahrensnummer =
                 gazObject[0].more.v === feature.properties.nummer;
@@ -186,15 +173,9 @@ export function searchForPlans(gazObject, overriddenWKT) {
           dispatch(mappingActions.setSearchProgressIndicator(false));
           dispatch(mappingActions.setFeatureCollection(featureArray));
           if (featureArray.length > 0) {
-            dispatch(
-              mappingActions.setSelectedFeatureIndex(selectionIndexWish)
-            );
+            dispatch(mappingActions.setSelectedFeatureIndex(selectionIndexWish));
           }
-          if (
-            gazObject != null &&
-            gazObject.length === 1 &&
-            gazObject[0] != null
-          ) {
+          if (gazObject != null && gazObject.length === 1 && gazObject[0] != null) {
             //let p=turf.point([gazObject[0].x,gazObject[0].y]);
             if (planMatch) {
               //vorher turf.inside(p,featureArray[selectionIndexWish])

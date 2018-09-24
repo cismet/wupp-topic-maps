@@ -52,19 +52,22 @@ constants.STUNDEN = [
   constants.STUNDEN_NUR_45
 ];
 
-constants.TRAEGERTEXT[constants.TRAEGERTYP_ANDERE]="andere freie Träger";
-constants.TRAEGERTEXT[constants.TRAEGERTYP_BETRIEBSKITA]="Betrieb";
-constants.TRAEGERTEXT[constants.TRAEGERTYP_STAEDTISCH]="städtisch";
-constants.TRAEGERTEXT[constants.TRAEGERTYP_ELTERNINITIATIVE]="Elterninitiative";
-constants.TRAEGERTEXT[constants.TRAEGERTYP_EVANGELISCH]="evangelisch";
-constants.TRAEGERTEXT[constants.TRAEGERTYP_KATHOLISCH]="katholisch";
+constants.TRAEGERTEXT[constants.TRAEGERTYP_ANDERE] = "andere freie Träger";
+constants.TRAEGERTEXT[constants.TRAEGERTYP_BETRIEBSKITA] = "Betrieb";
+constants.TRAEGERTEXT[constants.TRAEGERTYP_STAEDTISCH] = "städtisch";
+constants.TRAEGERTEXT[constants.TRAEGERTYP_ELTERNINITIATIVE] = "Elterninitiative";
+constants.TRAEGERTEXT[constants.TRAEGERTYP_EVANGELISCH] = "evangelisch";
+constants.TRAEGERTEXT[constants.TRAEGERTYP_KATHOLISCH] = "katholisch";
 
-constants.TRAEGERTEXT_FOR_DESCRIPTION[constants.TRAEGERTYP_ANDERE]="andere Einrichtungen in freier Trägerschaft";
-constants.TRAEGERTEXT_FOR_DESCRIPTION[constants.TRAEGERTYP_BETRIEBSKITA]="Betriebskitas";
-constants.TRAEGERTEXT_FOR_DESCRIPTION[constants.TRAEGERTYP_STAEDTISCH]="städtische Einrichtungen";
-constants.TRAEGERTEXT_FOR_DESCRIPTION[constants.TRAEGERTYP_ELTERNINITIATIVE]="Elterninitiativen";
-constants.TRAEGERTEXT_FOR_DESCRIPTION[constants.TRAEGERTYP_EVANGELISCH]="evangelische Einrichtungen";
-constants.TRAEGERTEXT_FOR_DESCRIPTION[constants.TRAEGERTYP_KATHOLISCH]="katholische Einrichtungen";
+constants.TRAEGERTEXT_FOR_DESCRIPTION[constants.TRAEGERTYP_ANDERE] =
+  "andere Einrichtungen in freier Trägerschaft";
+constants.TRAEGERTEXT_FOR_DESCRIPTION[constants.TRAEGERTYP_BETRIEBSKITA] = "Betriebskitas";
+constants.TRAEGERTEXT_FOR_DESCRIPTION[constants.TRAEGERTYP_STAEDTISCH] = "städtische Einrichtungen";
+constants.TRAEGERTEXT_FOR_DESCRIPTION[constants.TRAEGERTYP_ELTERNINITIATIVE] = "Elterninitiativen";
+constants.TRAEGERTEXT_FOR_DESCRIPTION[constants.TRAEGERTYP_EVANGELISCH] =
+  "evangelische Einrichtungen";
+constants.TRAEGERTEXT_FOR_DESCRIPTION[constants.TRAEGERTYP_KATHOLISCH] =
+  "katholische Einrichtungen";
 
 ///INITIAL STATE
 const initialState = {
@@ -266,9 +269,9 @@ function removeFilterFor(kind, item) {
     let state = getState();
     let filterState = JSON.parse(JSON.stringify(state.kitas.filter));
     if (filterState[kind].indexOf(item) !== -1) {
-        let filterStateSet = new Set(filterState[kind]);
-        filterStateSet.delete(item);
-        filterState[kind] = Array.from(filterStateSet);
+      let filterStateSet = new Set(filterState[kind]);
+      filterStateSet.delete(item);
+      filterState[kind] = Array.from(filterStateSet);
     }
     dispatch(setFilterAndApply(filterState));
   };

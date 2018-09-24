@@ -60,7 +60,7 @@ export class StadtplanModalApplicationMenu_ extends React.Component {
     }
 
 
-    createOverviewRows() {
+    createOverviewRows(apps) {
         let rows=[];
         for (let item of this.props.lebenslagen) {             
             let buttonValue="two"; // neutral state
@@ -71,6 +71,11 @@ export class StadtplanModalApplicationMenu_ extends React.Component {
             else if (this.props.filter.negativ.indexOf(item)!==-1){
                 buttonValue="three";
             }
+
+            let footnote;
+            if (apps.has(item)){
+                footnote=" *";//(<div title="Themenspezifische Karte verfügbar"> *</div>);
+            }
             let cb = (
                 <tr key={"tr.for.mtbutton.lebenslagen."+item}>
                     <td key={"td1.for.mtbutton.lebenslagen."+item}
@@ -80,7 +85,7 @@ export class StadtplanModalApplicationMenu_ extends React.Component {
                         padding: '5px',
                         
                     }}>
-                        {item}
+                        <span style={{whiteSpace:"nowrap"}}>{item}{footnote}</span>
                     </td>
                     <td key={"td2.for.mtbutton.lebenslagen."+item}
                         style={{
@@ -133,7 +138,8 @@ export class StadtplanModalApplicationMenu_ extends React.Component {
         let namedMapStyle=queryString.parse(this.props.routing.location.search).mapStyle||"default";
         
         let llOptions=[];
-     
+        let apps=new Map();
+
 
         for (let ll of this.props.lebenslagen){
             llOptions.push({
@@ -141,11 +147,14 @@ export class StadtplanModalApplicationMenu_ extends React.Component {
                 cat: "lebenslage",
                 value: ll
             }); 
+            for (const app of this.props.apps) {
+                if (app.on.indexOf(ll)!==-1){
+                    apps.set(ll,app);
+                }
+            }
         }
 
-        let overviewRows=this.createOverviewRows();        
-
-        
+        let overviewRows=this.createOverviewRows(apps);        
         let stats={};
         let colormodel={};
         for (let poi of this.props.filteredPois){
@@ -163,10 +172,11 @@ export class StadtplanModalApplicationMenu_ extends React.Component {
         let piechartData=[];
         let piechartColor=[];
 
+
+
         for (let key in stats){
             piechartData.push([key,stats[key]]);
             piechartColor.push(getColorFromLebenslagenCombination(key));
-
         }
 
         let width=this.props.uiState.width;
@@ -279,6 +289,40 @@ export class StadtplanModalApplicationMenu_ extends React.Component {
             );
         }
 
+
+        //additional Apps
+        let additionalApps;
+        let additionalAppArray=[];
+        let usedApps=[];
+
+        for (const app of this.props.apps) {
+            for (const appLebenslage of app.on) {
+                if (this.props.filter.positiv.indexOf(appLebenslage)!==-1 && usedApps.indexOf(app.name)===-1){
+                    usedApps.push(app.name);
+                    additionalAppArray.push(
+                        (
+                            <a key={"appLink_"+app.name} style={{ "textDecoration": "none" }} href={app.link} target={app.target} rel="noopener noreferrer"><Label bsStyle={app.bsStyle} style={{backgroundColor:app.backgroundColor, marginRight: "5px"}}>{app.name}</Label></a>
+                        )
+                    )
+                }
+            }
+        }
+
+        console.log('additionalAppArray',additionalAppArray);
+        
+        if (usedApps.length>0){
+            additionalApps = (
+                <div>
+                    <hr />
+                    <strong>* Themenspezifische Karten:</strong>{ '  ' }
+                    <h4>
+                        {additionalAppArray}
+                        
+                    </h4>
+                </div>
+            );    
+        }
+
         return (         
             <Modal
                 
@@ -357,14 +401,7 @@ export class StadtplanModalApplicationMenu_ extends React.Component {
                         </tbody>
                         </table>                    
                         {narrowPieChartPlaceholder}
-                        <hr/>
-                        <strong>* Themenspezifische Karten:</strong>{'  '}
-                        <h4>
-                        <a style={{"textDecoration": "none"}} href="/#/kitas" target="_kitas" rel="noopener noreferrer"><Label bsStyle="warning">Kita-Finder</Label></a>{' '}
-                        {/* <a style={{"textDecoration": "none"}}><Label bsStyle="default">Kita Finder</Label></a>{' '} */}
-                        <a style={{"textDecoration": "none"}}><Label bsStyle="success">Sporthallen</Label></a>{' '}
-                        <a style={{"textDecoration": "none"}}><Label bsStyle="primary">Schwimmbäder</Label></a>
-                        </h4>
+                        {additionalApps}
                     </Panel>
                    
                     </Accordion>

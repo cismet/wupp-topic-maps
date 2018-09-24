@@ -278,6 +278,7 @@ export class Stadtplan_ extends React.Component {
            <div>
                 <StadtplanModalApplicationMenu key={'StadtplanModalApplicationMenu.visible:'+this.props.uiState.applicationMenuVisible}
                     lebenslagen={this.props.stadtplan.lebenslagen}
+                    apps={this.props.stadtplan.apps}
                     filter={this.props.stadtplan.filter}
                     filterChanged={this.filterChanged}
                     filteredPois={this.props.stadtplan.filteredPois||[]}

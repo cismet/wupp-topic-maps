@@ -1,8 +1,10 @@
+import React from "react";
 import Color from "color";
 import L from "leaflet";
 import createSVGPie from "create-svg-pie";
 import createElement from "svg-create-element";
 import { constants as kitasConstants } from "../redux/modules/kitas";
+import SVGInline from "react-svg-inline";
 
 const childSVG = `
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 600">
@@ -13,6 +15,40 @@ const childSVG = `
     </svg>
 
 `;
+
+export const getChildSVG = (svgSize = 30, bg = "#FF0000") => {
+  let bdim = {
+    width: 24,
+    height: 24
+  };
+
+  let svg = `<svg  height="${svgSize}" width="${svgSize}"> 
+                    <style>
+                    /* <![CDATA[ */
+                        .bg-fill  {
+                            fill: ${bg};
+                        }
+                        .bg-stroke  {
+                            stroke: ${bg};
+                        }
+                        .fg-fill  {
+                            fill: white;
+                        }
+                        .fg-stroke  {
+                            stroke: white;
+                        }
+                    /* ]]> */
+                    </style>
+                <svg x="${svgSize / 12}" y="${svgSize / 12}"  width="${svgSize -
+    (2 * svgSize) / 12}" height="${svgSize - (2 * svgSize) / 12}" viewBox="0 0 ${
+    bdim.width
+  } ${bdim.height || 24}">       
+                    ${childSVG}
+                </svg>
+                </svg>  `;
+
+  return <SVGInline svg={svg} />;
+};
 
 export const getFeatureStyler = (svgSize = 30, featureRenderingOptions) => {
   return feature => {
@@ -248,30 +284,6 @@ opts[opts.length - 1][kC.TRAEGERTYP.indexOf(kC.TRAEGERTYP_BETRIEBSKITA)] = "#594
 opts[opts.length - 1][kC.TRAEGERTYP.indexOf(kC.TRAEGERTYP_ELTERNINITIATIVE)] = "#9DE0AD";
 opts[opts.length - 1][kC.TRAEGERTYP.indexOf(kC.TRAEGERTYP_KATHOLISCH)] = "#7FBCB5";
 opts[opts.length - 1][kC.TRAEGERTYP.indexOf(kC.TRAEGERTYP_EVANGELISCH)] = "#547980";
-
-// opts[opts.length - 1][kC.TRAEGERTYP.indexOf(kC.TRAEGERTYP_STAEDTISCH)] = "#547980";
-// opts[opts.length - 1][kC.TRAEGERTYP.indexOf(kC.TRAEGERTYP_ANDERE)] = "#00A0B0";
-// opts[opts.length - 1][kC.TRAEGERTYP.indexOf(kC.TRAEGERTYP_BETRIEBSKITA)] = "#594F4F";
-// opts[opts.length - 1][kC.TRAEGERTYP.indexOf(kC.TRAEGERTYP_ELTERNINITIATIVE)] = "#45ADA8";
-// opts[opts.length - 1][kC.TRAEGERTYP.indexOf(kC.TRAEGERTYP_KATHOLISCH)] = "#9DE0AD";
-// opts[opts.length - 1][kC.TRAEGERTYP.indexOf(kC.TRAEGERTYP_EVANGELISCH)] = "#7FBCB5";
-
-opts.push({});
-opts[opts.length - 1][kC.TRAEGERTYP.indexOf(kC.TRAEGERTYP_STAEDTISCH)] = "#FFC000";
-opts[opts.length - 1][kC.TRAEGERTYP.indexOf(kC.TRAEGERTYP_ANDERE)] = "#26978F";
-opts[opts.length - 1][kC.TRAEGERTYP.indexOf(kC.TRAEGERTYP_BETRIEBSKITA)] = "#E26B0A";
-opts[opts.length - 1][kC.TRAEGERTYP.indexOf(kC.TRAEGERTYP_ELTERNINITIATIVE)] = "#CB0D0D";
-opts[opts.length - 1][kC.TRAEGERTYP.indexOf(kC.TRAEGERTYP_KATHOLISCH)] = "#538DD5";
-opts[opts.length - 1][kC.TRAEGERTYP.indexOf(kC.TRAEGERTYP_EVANGELISCH)] = "#6BB6D7";
-
-opts.push({});
-opts[opts.length - 1][kC.TRAEGERTYP.indexOf(kC.TRAEGERTYP_STAEDTISCH)] = "#B0CBEC";
-opts[opts.length - 1][kC.TRAEGERTYP.indexOf(kC.TRAEGERTYP_ANDERE)] = "#3C70BB";
-opts[opts.length - 1][kC.TRAEGERTYP.indexOf(kC.TRAEGERTYP_BETRIEBSKITA)] = "#337F99";
-opts[opts.length - 1][kC.TRAEGERTYP.indexOf(kC.TRAEGERTYP_ELTERNINITIATIVE)] = "#9CD3CD";
-opts[opts.length - 1][kC.TRAEGERTYP.indexOf(kC.TRAEGERTYP_KATHOLISCH)] = "#6998DC";
-opts[opts.length - 1][kC.TRAEGERTYP.indexOf(kC.TRAEGERTYP_EVANGELISCH)] = "#96C1EB";
-
 
 export const getColorForProperties = (properties, featureRendering) => {
   if (featureRendering === kitasConstants.FEATURE_RENDERING_BY_PROFIL) {

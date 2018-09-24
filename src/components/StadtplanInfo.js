@@ -26,21 +26,21 @@ const StadtplanInfo = ({featureCollection, filteredPOIs, selectedIndex, next, pr
 
         if (currentFeature.properties.tel){
             phonelink=(
-                <a key={"stadtplan.poi.phone.action."} href={"tel:"+currentFeature.properties.tel}>
+                <a title="Anrufen" key={"stadtplan.poi.phone.action."} href={"tel:"+currentFeature.properties.tel}>
                     <Icon style={{color: "grey", width: '26px', textAlign: 'center'}} size="2x" name={"phone"} />
                 </a>
             );
         }
         if (currentFeature.properties.email){
             maillink=(
-                <a key={"stadtplan.poi.mail.action."} href={"mailto:"+currentFeature.properties.email}>
+                <a title="E-Mail schreiben" key={"stadtplan.poi.mail.action."} href={"mailto:"+currentFeature.properties.email}>
                     <Icon style={{color: "grey", width: '26px', textAlign: 'center'}} size="2x" name={"envelope-square"} />
                 </a>
             );
         }
         if (currentFeature.properties.url){
             urllink=(
-                <a key={"stadtplan.poi.url.action."} href={currentFeature.properties.url} target="_blank">
+                <a title="Zur Homepage" key={"stadtplan.poi.url.action."} href={currentFeature.properties.url} target="_blank">
                     <Icon style={{color: "grey", width: '26px', textAlign: 'center'}} size="2x" name={"link"} />
                 </a>
             );
@@ -204,14 +204,10 @@ const StadtplanInfo = ({featureCollection, filteredPOIs, selectedIndex, next, pr
                 <table style={{ width: '100%' }}>
                 <tbody>
                     <tr>
-                    <OverlayTrigger placement="top" overlay={(<Tooltip style={{zIndex: 3000000000}} id="prevtt">vorheriger Treffer</Tooltip>)}>
-                        <td style={{ textAlign: 'left', verticalAlign: 'center' }}><a onClick={previous}>&lt;&lt;</a></td>
-                    </OverlayTrigger>
+                        <td title="vorheriger Treffer" style={{ textAlign: 'left', verticalAlign: 'center' }}><a onClick={previous}>&lt;&lt;</a></td>
                     <td style={{ textAlign: 'center', verticalAlign: 'center' }}>{featureCollection.length} POI angezeigt</td>
 
-                    <OverlayTrigger placement="top" overlay={(<Tooltip style={{zIndex: 3000000000}} id="nexttt">n&auml;chster Treffer</Tooltip>)}>
-                        <td style={{ textAlign: 'right', verticalAlign: 'center' }}><a onClick={next} >&gt;&gt;</a></td>
-                    </OverlayTrigger>
+                        <td title="nächster Treffer" style={{ textAlign: 'right', verticalAlign: 'center' }}><a onClick={next} >&gt;&gt;</a></td>
 
                     </tr>
                 </tbody>

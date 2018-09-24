@@ -38,7 +38,7 @@ const initialState = {
     lightboxvisible: false,
     lightboxcaption: null,
     lightboxtitle: null
-
+    
 
 };
 

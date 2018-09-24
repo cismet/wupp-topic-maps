@@ -5,7 +5,6 @@ import { FormGroup, Checkbox, Radio, ControlLabel, Button } from "react-bootstra
 import { constants as kitasConstants } from "../../redux/modules/kitas";
 import KitasProfileMapVisSymbol from "./KitasProfileMapVisSymbol";
 import KitasTraegertypMapVisSymbol from "./KitasTraegertypMapVisSymbol";
-
 // Since this component is simple and static, there's no parent container for it.
 const KitasFilterPanel = ({
   width,
@@ -22,7 +21,7 @@ const KitasFilterPanel = ({
     { text: "katholisch", c: kitasConstants.TRAEGERTYP_KATHOLISCH },
     { text: "Elterninitiative", c: kitasConstants.TRAEGERTYP_ELTERNINITIATIVE },
     { text: "Betrieb", c: kitasConstants.TRAEGERTYP_BETRIEBSKITA },
-    { text: "freier Träger", c: kitasConstants.TRAEGERTYP_ANDERE }
+    { text: "andere freie Träger", c: kitasConstants.TRAEGERTYP_ANDERE }
   ];
   let widePieChartPlaceholder = null;
   let narrowPieChartPlaceholder = null;

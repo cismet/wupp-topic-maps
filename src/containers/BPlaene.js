@@ -18,6 +18,7 @@ import {Icon} from 'react-fa'
 
 import { proj4crs25832def } from '../constants/gis';
 import proj4 from 'proj4';
+import { convertLength } from '@turf/helpers';
 
 
 function mapStateToProps(state) {
@@ -238,6 +239,9 @@ export class BPlaene_ extends React.Component {
                         <a onClick={()=>this.props.uiStateActions.showApplicationMenu(true)}>vollst&auml;ndige Bedienungsanleitung</a>
                     </Well>)      
      }
+
+    
+
    return (
         <div>
             <BPlanModalHelp key={'BPlanModalHelp.visible:'+this.props.ui.applicationMenuVisible}/>

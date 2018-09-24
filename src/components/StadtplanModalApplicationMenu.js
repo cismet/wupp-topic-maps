@@ -25,6 +25,8 @@ import { Link } from 'react-scroll';
 import Chart from 'chart.js'
 
 import {removeQueryPart, modifyQueryPart} from '../utils/routingHelper'
+import { getInternetExplorerVersion } from "../utils/browserHelper";
+
 import {routerActions} from 'react-router-redux'
 
 import ReactChartkick, { PieChart } from 'react-chartkick'
@@ -60,7 +62,7 @@ export class StadtplanModalApplicationMenu_ extends React.Component {
     }
 
 
-    createOverviewRows() {
+    createOverviewRows(apps) {
         let rows=[];
         for (let item of this.props.lebenslagen) {             
             let buttonValue="two"; // neutral state
@@ -71,6 +73,11 @@ export class StadtplanModalApplicationMenu_ extends React.Component {
             else if (this.props.filter.negativ.indexOf(item)!==-1){
                 buttonValue="three";
             }
+
+            let footnote;
+            if (apps.has(item)){
+                footnote=" *";//(<div title="Themenspezifische Karte verfügbar"> *</div>);
+            }
             let cb = (
                 <tr key={"tr.for.mtbutton.lebenslagen."+item}>
                     <td key={"td1.for.mtbutton.lebenslagen."+item}
@@ -80,7 +87,7 @@ export class StadtplanModalApplicationMenu_ extends React.Component {
                         padding: '5px',
                         
                     }}>
-                        {item}
+                        <span style={{whiteSpace:"nowrap"}}>{item}{footnote}</span>
                     </td>
                     <td key={"td2.for.mtbutton.lebenslagen."+item}
                         style={{
@@ -133,7 +140,8 @@ export class StadtplanModalApplicationMenu_ extends React.Component {
         let namedMapStyle=queryString.parse(this.props.routing.location.search).mapStyle||"default";
         
         let llOptions=[];
-     
+        let apps=new Map();
+
 
         for (let ll of this.props.lebenslagen){
             llOptions.push({
@@ -141,11 +149,14 @@ export class StadtplanModalApplicationMenu_ extends React.Component {
                 cat: "lebenslage",
                 value: ll
             }); 
+            for (const app of this.props.apps) {
+                if (app.on.indexOf(ll)!==-1){
+                    apps.set(ll,app);
+                }
+            }
         }
 
-        let overviewRows=this.createOverviewRows();        
-
-        
+        let overviewRows=this.createOverviewRows(apps);        
         let stats={};
         let colormodel={};
         for (let poi of this.props.filteredPois){
@@ -163,10 +174,11 @@ export class StadtplanModalApplicationMenu_ extends React.Component {
         let piechartData=[];
         let piechartColor=[];
 
+
+
         for (let key in stats){
             piechartData.push([key,stats[key]]);
             piechartColor.push(getColorFromLebenslagenCombination(key));
-
         }
 
         let width=this.props.uiState.width;
@@ -279,6 +291,40 @@ export class StadtplanModalApplicationMenu_ extends React.Component {
             );
         }
 
+
+        //additional Apps
+        let additionalApps;
+        let additionalAppArray=[];
+        let usedApps=[];
+
+        for (const app of this.props.apps) {
+            for (const appLebenslage of app.on) {
+                if (this.props.filter.positiv.indexOf(appLebenslage)!==-1 && usedApps.indexOf(app.name)===-1){
+                    usedApps.push(app.name);
+                    additionalAppArray.push(
+                        (
+                            <a key={"appLink_"+app.name} style={{ "textDecoration": "none" }} href={app.link} target={app.target} rel="noopener noreferrer"><Label bsStyle={app.bsStyle} style={{backgroundColor:app.backgroundColor, marginRight: "5px"}}>{app.name}</Label></a>
+                        )
+                    )
+                }
+            }
+        }
+
+        console.log('additionalAppArray',additionalAppArray);
+        
+        if (usedApps.length>0){
+            additionalApps = (
+                <div>
+                    <hr />
+                    <strong>* Themenspezifische Karten:</strong>{ '  ' }
+                    <h4>
+                        {additionalAppArray}
+                        
+                    </h4>
+                </div>
+            );    
+        }
+
         return (         
             <Modal
                 
@@ -357,6 +403,7 @@ export class StadtplanModalApplicationMenu_ extends React.Component {
                         </tbody>
                         </table>                    
                         {narrowPieChartPlaceholder}
+                        {additionalApps}
                     </Panel>
                    
                     </Accordion>
@@ -409,6 +456,7 @@ export class StadtplanModalApplicationMenu_ extends React.Component {
                                             checked={clusteredPOIs}  
                                             inline>POI ma&szlig;stabsabh&auml;ngig zusammenfassen</Checkbox><br/>
                                         </FormGroup>
+                                        { getInternetExplorerVersion()===-1 && (
                                         <FormGroup>
                                         <br/>
                                         <ControlLabel>Kartendarstellung:</ControlLabel><br/>
@@ -439,7 +487,9 @@ export class StadtplanModalApplicationMenu_ extends React.Component {
                                             inline>
                                             Nacht
                                         </Radio>{' '}
-                                    </FormGroup>    
+                                    </FormGroup>  
+                                    )
+                                    }  
                                     <FormGroup>
                                         <br/>
                                         <ControlLabel>Symbolgr&ouml;&szlig;e:</ControlLabel><br/>  
@@ -447,14 +497,14 @@ export class StadtplanModalApplicationMenu_ extends React.Component {
                                         <table border={0} >
                                         <tbody>
                                         <tr>
-                                        <td style={{"padding-left":"6px","padding-right":"15px"}}><a onClick={()=>this.changePoiSymbolSize(25)}><img alt="minimal" src="images/poi.25.png" /></a></td>
-                                        <td style={{"padding-left":"3px","padding-right":"15px"}}><a onClick={()=>this.changePoiSymbolSize(35)}><img alt="minimal" src="images/poi.35.png" /></a></td>
+                                        <td style={{"paddingLeft":"6px","paddingRight":"15px"}}><a onClick={()=>this.changePoiSymbolSize(25)}><img alt="minimal" src="images/poi.25.png" /></a></td>
+                                        <td style={{"paddingLeft":"3px","paddingRight":"15px"}}><a onClick={()=>this.changePoiSymbolSize(35)}><img alt="minimal" src="images/poi.35.png" /></a></td>
                                         <td                                                      ><a onClick={()=>this.changePoiSymbolSize(45)}><img alt="minimal" src="images/poi.45.png" /></a></td>
                                         </tr>
-                                        <tr border={1} style={{"vertical-align": "top"}}>
-                                        <td style={{"text-align":"center"}}>
+                                        <tr border={1} style={{"verticalAlign": "top"}}>
+                                        <td style={{"textAlign":"center"}}>
                                             <Radio 
-                                                style={{"margin-top":"0px"}}
+                                                style={{"marginTop":"0px"}}
                                                 readOnly={true}
                                                 onClick={()=>this.changePoiSymbolSize(25)}
                                                 name="poiSize25" 
@@ -462,18 +512,18 @@ export class StadtplanModalApplicationMenu_ extends React.Component {
                                              />
                                             
                                         </td>
-                                        <td style={{"text-align":"center"}}>
+                                        <td style={{"textAlign":"center"}}>
                                             <Radio 
-                                                style={{"margin-top":"0px","margin-left":"0px"}}
+                                                style={{"marginTop":"0px","marginLeft":"0px"}}
                                                 readOnly={true}
                                                 onClick={()=>this.changePoiSymbolSize(35)}
                                                 name="poiSize35" 
                                                 checked={this.props.poiSvgSize===35}
                                              />                                            
                                         </td>
-                                        <td style={{"text-align":"center"}}>
+                                        <td style={{"textAlign":"center"}}>
                                             <Radio 
-                                                style={{"margin-top":"0px","margin-left":"7px"}}
+                                                style={{"marginTop":"0px","marginLeft":"7px"}}
                                                 readOnly={true}
                                                 onClick={()=>this.changePoiSymbolSize(45)}
                                                 name="poiSize45" 
@@ -555,6 +605,7 @@ export class StadtplanModalApplicationMenu_ extends React.Component {
                              <p>Unter "<em><strong>Kartendarstellung</strong></em>" können Sie auswählen, ob Sie die standardmäßig aktivierte farbige Hintergrundkarte verwenden möchten ("<em>Tag</em>") oder lieber eine invertierte Graustufenkarte ("<em>Nacht</em>"), zu der uns die von vielen PKW-Navis bei Dunkelheit eingesetzte Darstellungsweise inspiriert hat.</p>
                              <p>Die Nacht-Karte erzeugt einen deutlicheren Kontrast mit den farbigen POI-Symbolen, die unterschiedlichen Flächennutzungen lassen sich aber nicht so gut unterscheiden wie in der Tag-Karte.</p>
                              <p>Im Vorschaubild sehen Sie direkt die prinzipielle Wirkung ihrer Einstellungen.</p>
+                             <p>Hinweis: Diese Auswahl wird Ihnen nur angeboten, wenn Ihr Browser CSS3-Filtereffekte unterstützt, also z. B. nicht beim Microsoft Internet Explorer.</p>
                              														
 														<div name="Personalisierung"><br /></div>
 														<h4>Personalisierung <Link to="help" containerId="myMenu" style={{ color: '#00000044'}}><Icon name="arrow-circle-up"/></Link></h4>

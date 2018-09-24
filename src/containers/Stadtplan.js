@@ -125,9 +125,9 @@ export class Stadtplan_ extends React.Component {
     }
 
     gazeteerhHit(selectedObject) {
-        if (selectedObject && selectedObject[0] && selectedObject[0].more && selectedObject[0].more.pid) {
+        if (selectedObject && selectedObject[0] && selectedObject[0].more && (selectedObject[0].more.pid||selectedObject[0].more.kid)) {
             //this.props.stadtplanActions.setPoiGazHit(selectedObject[0].more.pid);
-            this.props.stadtplanActions.setSelectedPOI(selectedObject[0].more.pid);
+            this.props.stadtplanActions.setSelectedPOI(selectedObject[0].more.pid||selectedObject[0].more.kid);
         }
     }
 
@@ -278,6 +278,7 @@ export class Stadtplan_ extends React.Component {
            <div>
                 <StadtplanModalApplicationMenu key={'StadtplanModalApplicationMenu.visible:'+this.props.uiState.applicationMenuVisible}
                     lebenslagen={this.props.stadtplan.lebenslagen}
+                    apps={this.props.stadtplan.apps}
                     filter={this.props.stadtplan.filter}
                     filterChanged={this.filterChanged}
                     filteredPois={this.props.stadtplan.filteredPois||[]}

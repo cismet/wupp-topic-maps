@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import Cismap from "../containers/Cismap";
 
 import { connect } from "react-redux";
-import { Tooltip, Well } from "react-bootstrap";
+import { Tooltip } from "react-bootstrap";
 
 import { actions as MappingActions } from "../redux/modules/mapping";
 import { actions as UIStateActions } from "../redux/modules/uiState";

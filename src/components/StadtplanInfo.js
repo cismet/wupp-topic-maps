@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { OverlayTrigger, Well, Tooltip } from 'react-bootstrap';
+import {  Well } from 'react-bootstrap';
 import {Icon} from 'react-fa'
 import queryString from 'query-string';
 import {getColorForProperties} from '../utils/stadtplanHelper';

@@ -1,8 +1,5 @@
 import React from "react";
-import PropTypes from "prop-types";
-import Cismap from "../containers/Cismap";
 import { connect } from "react-redux";
-import { Well } from "react-bootstrap";
 import ReactLoading from "react-loading";
 import { bindActionCreators } from "redux";
 import { routerActions } from "react-router-redux";
@@ -49,10 +46,6 @@ export class Reset_ extends React.Component {
     console.log(this.props.allState)
     let redirectingTo = queryString.parse(this.props.location.search)
       .to;
-      
-    const allState=this.props.allState;
-    
-
     const uiActions=this.props.uiStateActions
     let pushRoute=this.props.routingActions.push;
     setTimeout(() => {

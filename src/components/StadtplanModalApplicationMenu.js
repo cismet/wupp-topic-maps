@@ -25,6 +25,8 @@ import { Link } from 'react-scroll';
 import Chart from 'chart.js'
 
 import {removeQueryPart, modifyQueryPart} from '../utils/routingHelper'
+import { getInternetExplorerVersion } from "../utils/browserHelper";
+
 import {routerActions} from 'react-router-redux'
 
 import ReactChartkick, { PieChart } from 'react-chartkick'
@@ -454,6 +456,7 @@ export class StadtplanModalApplicationMenu_ extends React.Component {
                                             checked={clusteredPOIs}  
                                             inline>POI ma&szlig;stabsabh&auml;ngig zusammenfassen</Checkbox><br/>
                                         </FormGroup>
+                                        { getInternetExplorerVersion()===-1 && (
                                         <FormGroup>
                                         <br/>
                                         <ControlLabel>Kartendarstellung:</ControlLabel><br/>
@@ -484,7 +487,9 @@ export class StadtplanModalApplicationMenu_ extends React.Component {
                                             inline>
                                             Nacht
                                         </Radio>{' '}
-                                    </FormGroup>    
+                                    </FormGroup>  
+                                    )
+                                    }  
                                     <FormGroup>
                                         <br/>
                                         <ControlLabel>Symbolgr&ouml;&szlig;e:</ControlLabel><br/>  
@@ -600,6 +605,7 @@ export class StadtplanModalApplicationMenu_ extends React.Component {
                              <p>Unter "<em><strong>Kartendarstellung</strong></em>" können Sie auswählen, ob Sie die standardmäßig aktivierte farbige Hintergrundkarte verwenden möchten ("<em>Tag</em>") oder lieber eine invertierte Graustufenkarte ("<em>Nacht</em>"), zu der uns die von vielen PKW-Navis bei Dunkelheit eingesetzte Darstellungsweise inspiriert hat.</p>
                              <p>Die Nacht-Karte erzeugt einen deutlicheren Kontrast mit den farbigen POI-Symbolen, die unterschiedlichen Flächennutzungen lassen sich aber nicht so gut unterscheiden wie in der Tag-Karte.</p>
                              <p>Im Vorschaubild sehen Sie direkt die prinzipielle Wirkung ihrer Einstellungen.</p>
+                             <p>Hinweis: Diese Auswahl wird Ihnen nur angeboten, wenn Ihr Browser CSS3-Filtereffekte unterstützt, also z. B. nicht beim Microsoft Internet Explorer.</p>
                              														
 														<div name="Personalisierung"><br /></div>
 														<h4>Personalisierung <Link to="help" containerId="myMenu" style={{ color: '#00000044'}}><Icon name="arrow-circle-up"/></Link></h4>

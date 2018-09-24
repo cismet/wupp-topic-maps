@@ -268,6 +268,7 @@ const KitasHelpTextPanel = () => {
 			<p>
 				Im Vorschaubild sehen Sie direkt die prinzipielle Wirkung ihrer Einstellungen.
 			</p>
+            <p>Hinweis: Diese Auswahl wird Ihnen nur angeboten, wenn Ihr Browser CSS3-Filtereffekte unterstützt, also z. B. nicht beim Microsoft Internet Explorer.</p>
 
       <div name="Personalisierung">
         <br />

@@ -15,11 +15,12 @@ ENV API_URL $API_URL
 WORKDIR /app
 
 # Install dependencies
-COPY . .
-RUN rm -rf node_modules
+COPY package.json yarn.lock ./
 RUN yarn install
 RUN yarn cache clean
 COPY .docker-files/turf-jsts-package.json ./node_modules/turf-jsts/package.json
+COPY . .
+RUN ls
 RUN yarn run build
 
 

@@ -932,18 +932,14 @@ export class StadtplanModalApplicationMenu_ extends React.Component {
                 ") oder lieber eine invertierte Graustufenkarte ("
                 <em>Nacht</em>
                 "), zu der uns die von vielen PKW-Navis bei Dunkelheit eingesetzte Darstellungsweise
-                inspiriert hat.
-              </p>
-              <p>
-                Die Nacht-Karte erzeugt einen deutlicheren Kontrast mit den farbigen POI-Symbolen,
-                die unterschiedlichen Flächennutzungen lassen sich aber nicht so gut unterscheiden
-                wie in der Tag-Karte.
+                inspiriert hat. <strong>Hinweis:</strong> Diese Auswahl wird Ihnen nur angeboten,
+                wenn Ihr Browser CSS3-Filtereffekte unterstützt, also z. B. nicht beim Microsoft
+                Internet Explorer. Die Nacht-Karte erzeugt einen deutlicheren Kontrast mit den
+                farbigen Kita-Symbolen, die unterschiedlichen Flächennutzungen in der
+                Hintergrundkarte lassen sich aber nicht mehr so gut unterscheiden wie in der
+                Tag-Karte.
               </p>
               <p>Im Vorschaubild sehen Sie direkt die prinzipielle Wirkung ihrer Einstellungen.</p>
-              <p>
-                Hinweis: Diese Auswahl wird Ihnen nur angeboten, wenn Ihr Browser CSS3-Filtereffekte
-                unterstützt, also z. B. nicht beim Microsoft Internet Explorer.
-              </p>
 
               <div name="Personalisierung">
                 <br />

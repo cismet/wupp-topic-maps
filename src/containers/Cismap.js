@@ -42,6 +42,8 @@ import ProjSingleGeoJson from "../components/ProjSingleGeoJson";
 import LocateControl from "../components/LocateControl";
 import GazetteerSearchControl from "../components/commons/GazetteerSearchControl";
 
+import { builtInGazetteerHitTrigger } from "../utils/gazetteerHelper";
+
 function mapStateToProps(state) {
   return {
     uiState: state.uiState,
@@ -66,7 +68,6 @@ export function createLeafletElement() {}
 export class Cismap_ extends React.Component {
   constructor(props) {
     super(props);
-    this.internalGazeteerHitTrigger = this.internalGazeteerHitTrigger.bind(this);
     this.internalSearchButtonTrigger = this.internalSearchButtonTrigger.bind(this);
     this.internalClearButtonTrigger = this.internalClearButtonTrigger.bind(this);
     this.featureClick = this.featureClick.bind(this);
@@ -205,61 +206,6 @@ export class Cismap_ extends React.Component {
     }
   }
 
-  internalGazeteerHitTrigger(hit) {
-    //this.props.routingActions.push(this.props.routing.locationBeforeTransitions.pathname+"lat=51.271767290892676&lng=7.2000696125004575&zoom=14");
-    if (
-      hit !== undefined &&
-      hit.length !== undefined &&
-      hit.length > 0 &&
-      hit[0].x !== undefined &&
-      hit[0].y !== undefined
-    ) {
-      //console.log(JSON.stringify(hit))
-      const pos = proj4(proj4crs25832def, proj4.defs("EPSG:4326"), [hit[0].x, hit[0].y]);
-      //console.log(pos)
-      this.refs.leafletMap.leafletElement.panTo([pos[1], pos[0]], {
-        animate: false
-      });
-
-      let hitObject = objectAssign({}, hit[0]);
-
-      //Change the Zoomlevel of the map
-      if (hitObject.more.zl) {
-        this.refs.leafletMap.leafletElement.setZoom(hitObject.more.zl, {
-          animate: false
-        });
-
-        //show marker
-        this.props.mappingActions.gazetteerHit(hitObject);
-        this.props.mappingActions.setOverlayFeature(null);
-      } else if (hitObject.more.g) {
-        var feature = turfHelpers.feature(hitObject.more.g);
-        if (!feature.crs) {
-          feature.crs = {
-            type: "name",
-            properties: { name: "urn:ogc:def:crs:EPSG::25832" }
-          };
-        }
-        var bb = bbox(feature);
-        this.props.mappingActions.gazetteerHit(null);
-        this.props.mappingActions.setOverlayFeature(feature);
-        this.refs.leafletMap.leafletElement.fitBounds(gisHelpers.convertBBox2Bounds(bb));
-      }
-
-      // this.props.routingActions.push(
-      //       this.props.routing.locationBeforeTransitions.pathname
-      //       + modifyQueryPart(this.props.routing.locationBeforeTransitions.query,{
-      //         lat:pos[1],
-      //         lng:pos[0]
-      //       }));
-
-      if (this.props.gazeteerHitTrigger !== undefined) {
-        this.props.gazeteerHitTrigger(hit);
-      }
-    } else {
-      //console.log(hit);
-    }
-  }
   internalClearButtonTrigger(event) {
     if (this.gazClearOverlay) {
       this.gazClearOverlay.hide();
@@ -398,91 +344,54 @@ export class Cismap_ extends React.Component {
       };
     }
 
-    let firstbutton;
-    if (this.props.searchAfterGazetteer === true) {
-      firstbutton = (
-        <InputGroup.Button
-          disabled={this.props.mapping.searchInProgress || !searchAllowed}
-          onClick={e => {
-            if (searchAllowed) {
-              this.internalSearchButtonTrigger(e);
-            } else {
-              // Hier kann noch eine Meldung angezeigt werden.
-            }
-          }}
-        >
-          <OverlayTrigger
-            ref={c => (this.searchOverlay = c)}
-            placement="top"
-            overlay={this.props.searchTooltipProvider()}
-          >
-            <Button disabled={this.props.mapping.searchInProgress || !searchAllowed}>
-              {searchIcon}
-            </Button>
-          </OverlayTrigger>
-        </InputGroup.Button>
-      );
-    } else {
-      if (!searchAllowed) {
-        firstbutton = (
-          <InputGroup.Button onClick={this.internalClearButtonTrigger}>
-            <OverlayTrigger
-              ref={c => (this.gazClearOverlay = c)}
-              placement="top"
-              overlay={this.props.gazClearTooltipProvider()}
-            >
-              <Button
-                disabled={
-                  this.props.mapping.overlayFeature === null &&
-                  this.props.mapping.gazetteerHit === null
-                }
-              >
-                <Icon name="times" />
-              </Button>
-            </OverlayTrigger>
-          </InputGroup.Button>
-        );
-      }
-    }
-
-    // let searchControl = (
-    //   <Control pixelwidth={300} position={searchControlPosition}>
-    //     <Form
-    //       style={{
-    //         width: searchControlWidth + "px"
+    // let firstbutton;
+    // if (this.props.searchAfterGazetteer === true) {
+    //   firstbutton = (
+    //     <InputGroup.Button
+    //       disabled={this.props.mapping.searchInProgress || !searchAllowed}
+    //       onClick={e => {
+    //         if (searchAllowed) {
+    //           this.internalSearchButtonTrigger(e);
+    //         } else {
+    //           // Hier kann noch eine Meldung angezeigt werden.
+    //         }
     //       }}
-    //       action="#"
     //     >
-    //       <FormGroup>
-    //         <InputGroup>
-    //           {firstbutton}
-    //           <Typeahead
-    //             ref="typeahead"
-    //             style={{ width: "300px" }}
-    //             labelKey="string"
-    //             options={this.gazData}
-    //             onChange={this.internalGazeteerHitTrigger}
-    //             paginate={true}
-    //             dropup={true}
-    //             disabled={!this.props.uiState.gazetteerBoxEnabled}
-    //             placeholder={this.props.uiState.gazeteerBoxInfoText}
-    //             minLength={2}
-    //             filterBy={(option, text) => {
-    //               return option.string.toLowerCase().startsWith(text.toLowerCase());
-    //             }}
-    //             align={"justify"}
-    //             emptyLabel={"Keine Treffer gefunden"}
-    //             paginationText={"Mehr Treffer anzeigen"}
-    //             autoFocus={true}
-    //             submitFormOnEnter={true}
-    //             searchText={"suchen ..."}
-    //             renderMenuItemChildren={this.renderMenuItemChildren}
-    //           />
-    //         </InputGroup>
-    //       </FormGroup>
-    //     </Form>
-    //   </Control>
-    // );
+    //       <OverlayTrigger
+    //         ref={c => (this.searchOverlay = c)}
+    //         placement="top"
+    //         overlay={this.props.searchTooltipProvider()}
+    //       >
+    //         <Button disabled={this.props.mapping.searchInProgress || !searchAllowed}>
+    //           {searchIcon}
+    //         </Button>
+    //       </OverlayTrigger>
+    //     </InputGroup.Button>
+    //   );
+    // } else {
+    //   if (!searchAllowed) {
+    //     firstbutton = (
+    //       <InputGroup.Button onClick={this.internalClearButtonTrigger}>
+    //         <OverlayTrigger
+    //           ref={c => (this.gazClearOverlay = c)}
+    //           placement="top"
+    //           overlay={this.props.gazClearTooltipProvider()}
+    //         >
+    //           <Button
+    //             disabled={
+    //               this.props.mapping.overlayFeature === null &&
+    //               this.props.mapping.gazetteerHit === null
+    //             }
+    //           >
+    //             <Icon name="times" />
+    //           </Button>
+    //         </OverlayTrigger>
+    //       </InputGroup.Button>
+    //     );
+    //   }
+    // }
+
+  
 
     let searchControl = (
       <GazetteerSearchControl
@@ -493,10 +402,27 @@ export class Cismap_ extends React.Component {
         placeholder={this.props.uiState.gazeteerBoxInfoText}
         pixelwidth={300}
         searchControlPosition={searchControlPosition}
-        firstbutton={firstbutton}
         gazData={this.gazData}
-        gazeteerHitTrigger={this.internalGazeteerHitTrigger}
+        gazeteerHitTrigger={hit => {
+          builtInGazetteerHitTrigger(
+            hit,
+            this.refs.leafletMap.leafletElement,
+            this.props.mappingActions,
+            this.props.gazeteerHitTrigger
+          );
+        }}
         renderMenuItemChildren={this.renderMenuItemChildren}
+        
+        
+        searchAfterGazetteer={this.props.searchAfterGazetteer}
+        searchInProgress={this.props.mapping.searchInProgress}
+        searchAllowed={searchAllowed}
+        searchTooltipProvider={this.props.searchTooltipProvider}
+        gazClearTooltipProvider={this.props.gazClearTooltipProvider}
+        searchIcon={searchIcon}
+        overlayFeature={this.props.mapping.overlayFeature}
+        gazetteerHit={this.props.mapping.gazetteerHit}
+        searchButtonTrigger={this.props.searchButtonTrigger}
       />
     );
     let infoBoxControl = (

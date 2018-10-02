@@ -195,7 +195,7 @@ const StadtplanInfo = ({
                   onClick={openlightbox}
                   hrefx={currentFeature.properties.fotostrecke || currentFeature.properties.foto}
                   target="_fotos"
-                >sdfdfs
+                >
                   <img
                     alt="Bild"
                     style={{ paddingBottom: "5px" }}

@@ -69,6 +69,7 @@ export class Baeder_ extends React.Component {
     super(props, context);
     this.loadBaeder = this.loadBaeder.bind(this);
     this.featureClick = this.featureClick.bind(this);
+    this.gotoHome = this.gotoHome.bind(this);
     this.props.mappingActions.setBoundingBoxChangedTrigger(bbox =>
       this.props.baederActions.refreshFeatureCollection(bbox)
     );
@@ -118,7 +119,17 @@ export class Baeder_ extends React.Component {
     });
     return promise;
   }
-
+  gotoHome() {
+    //x1=361332.75015625&y1=5669333.966678483&x2=382500.79703125&y2=5687261.576954328
+    this.props.routingActions.push(
+        this.props.routing.location.pathname +
+          modifyQueryPart(this.props.routing.location.search, {
+            lat: 51.25861849982617,
+            lng:7.151010223705116,
+            zoom:8
+          })
+      );
+  }
   render() {
     const mapStyle = {
       height: this.props.uiState.height

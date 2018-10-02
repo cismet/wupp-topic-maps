@@ -39,6 +39,7 @@ import GazetteerSearchControl from "../components/commons/GazetteerSearchControl
 import { Icon } from "react-fa";
 
 import { builtInGazetteerHitTrigger } from "../utils/gazetteerHelper";
+import Loadable from "react-loading-overlay";
 
 const position = {
   lat: 51.25533692525824,
@@ -122,13 +123,13 @@ export class Baeder_ extends React.Component {
   gotoHome() {
     //x1=361332.75015625&y1=5669333.966678483&x2=382500.79703125&y2=5687261.576954328
     this.props.routingActions.push(
-        this.props.routing.location.pathname +
-          modifyQueryPart(this.props.routing.location.search, {
-            lat: 51.25861849982617,
-            lng:7.151010223705116,
-            zoom:8
-          })
-      );
+      this.props.routing.location.pathname +
+        modifyQueryPart(this.props.routing.location.search, {
+          lat: 51.25861849982617,
+          lng: 7.151010223705116,
+          zoom: 8
+        })
+    );
   }
   render() {
     const mapStyle = {
@@ -240,63 +241,82 @@ export class Baeder_ extends React.Component {
     );
 
     return (
-      <div>
-        <PhotoLightbox />
-        <RoutedMap
-          key={"leafletRoutedMap"}
-          referenceSystem={MappingConstants.crs25832}
-          referenceSystemDefinition={MappingConstants.proj4crs25832def}
-          ref={leafletMap => {
-            this.leafletRoutedMap = leafletMap;
-          }}
-          layers=""
-          style={mapStyle}
-          fallbackPosition={position}
-          ondblclick={this.mapDblClick}
-          doubleClickZoom={false}
-          locationChangedHandler={location => {
-            this.props.routingActions.push(
-              this.props.routing.location.pathname +
-                modifyQueryPart(this.props.routing.location.search, location)
-            );
-          }}
-          autoFitConfiguration={{
-            autoFitBounds: this.props.mapping.autoFitBounds,
-            autoFitMode: this.props.mapping.autoFitMode,
-            autoFitBoundsTarget: this.props.mapping.autoFitBoundsTarget
-          }}
-          autoFitProcessedHandler={() => this.props.mappingActions.setAutoFit(false)}
-          urlSearchParams={urlSearchParams}
-          boundingBoxChangedHandler={bbox => this.props.mappingActions.mappingBoundsChanged(bbox)}
-          backgroundlayers={
-            this.props.match.params.layers ||
-            "rvrWMS@70" ||
-            'rvrWMS@{"opacity":1.0,"css-filter":"filter:sepia(1.0) hue-rotate(150deg) contrast(0.9) opacity(1) invert(0) saturate(1);"}'
-          }
-          fallbackZoom={8}
-          fullScreenControlEnabled={true}
-          locateControlEnabled={true}
-        >
-          {overlayFeature}
-          <GazetteerHitDisplay
-            key={"gazHit" + JSON.stringify(this.props.mapping.gazetteerHit)}
-            mappingProps={this.props.mapping}
-          />
-          <FeatureCollectionDisplay
-            key={JSON.stringify(getBaederFeatureCollection(this.props.baeder))}
-            featureCollection={getBaederFeatureCollection(this.props.baeder)}
-            boundingBox={this.props.mapping.boundingBox}
-            clusteringEnabled={false}
-            style={getFeatureStyler(getBadSvgSize(this.props.baeder) || 30, getColorForProperties)}
-            hoverer={this.props.hoverer}
-            featureClickHandler={this.featureClick}
-            mapRef={this.leafletRoutedMap}
-            showMarkerCollection={false}
-          />
-          {searchControl}
-          <Control position="bottomright">{info}</Control>
-        </RoutedMap>
-      </div>
+      <Loadable active={!this.dataLoaded} spinner text="Laden der Schwimmbäder ...">
+        <div>
+          <PhotoLightbox />
+          <RoutedMap
+            key={"leafletRoutedMap"}
+            referenceSystem={MappingConstants.crs25832}
+            referenceSystemDefinition={MappingConstants.proj4crs25832def}
+            ref={leafletMap => {
+              this.leafletRoutedMap = leafletMap;
+            }}
+            layers=""
+            style={mapStyle}
+            fallbackPosition={position}
+            ondblclick={this.mapDblClick}
+            doubleClickZoom={false}
+            locationChangedHandler={location => {
+              this.props.routingActions.push(
+                this.props.routing.location.pathname +
+                  modifyQueryPart(this.props.routing.location.search, location)
+              );
+            }}
+            autoFitConfiguration={{
+              autoFitBounds: this.props.mapping.autoFitBounds,
+              autoFitMode: this.props.mapping.autoFitMode,
+              autoFitBoundsTarget: this.props.mapping.autoFitBoundsTarget
+            }}
+            autoFitProcessedHandler={() => this.props.mappingActions.setAutoFit(false)}
+            urlSearchParams={urlSearchParams}
+            boundingBoxChangedHandler={bbox => this.props.mappingActions.mappingBoundsChanged(bbox)}
+            backgroundlayers={
+              this.props.match.params.layers ||
+              "rvrWMS@70" ||
+              'rvrWMS@{"opacity":1.0,"css-filter":"filter:sepia(1.0) hue-rotate(150deg) contrast(0.9) opacity(1) invert(0) saturate(1);"}'
+            }
+            fallbackZoom={8}
+            fullScreenControlEnabled={true}
+            locateControlEnabled={true}
+          >
+            {overlayFeature}
+            <GazetteerHitDisplay
+              key={"gazHit" + JSON.stringify(this.props.mapping.gazetteerHit)}
+              mappingProps={this.props.mapping}
+            />
+            <FeatureCollectionDisplay
+              key={JSON.stringify(getBaederFeatureCollection(this.props.baeder))}
+              featureCollection={getBaederFeatureCollection(this.props.baeder)}
+              boundingBox={this.props.mapping.boundingBox}
+              clusteringEnabled={false}
+              style={getFeatureStyler(
+                getBadSvgSize(this.props.baeder) || 30,
+                getColorForProperties
+              )}
+              hoverer={this.props.hoverer}
+              featureClickHandler={this.featureClick}
+              mapRef={this.leafletRoutedMap}
+              showMarkerCollection={false}
+            />
+            {searchControl}
+            <Control position="bottomright">{info}</Control>
+            <Control position="topright">
+              <OverlayTrigger
+                placement="left"
+                overlay={
+                  <Tooltip style={{ zIndex: 3000000000 }} id="helpTooltip">
+                    Einstellungen | Anleitung
+                  </Tooltip>
+                }
+              >
+                <Button onClick={this.showModalApplicationMenu}>
+                  <Icon name="bars" />
+                </Button>
+              </OverlayTrigger>
+            </Control>
+          </RoutedMap>
+        </div>
+      </Loadable>
     );
   }
 }

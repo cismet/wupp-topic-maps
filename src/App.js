@@ -7,6 +7,7 @@ import DefaultPage from "./containers/DefaultPage";
 import BPlaene from "./containers/BPlaene";
 import Ehrenamt from "./containers/Ehrenamt";
 import Stadtplan from "./containers/Stadtplan";
+import Baeder from "./containers/Baeder";
 import Kitas from "./containers/Kitas";
 import Experiments from "./containers/Experiments";
 import Reset from "./containers/Reset";
@@ -52,6 +53,7 @@ export default class App extends React.Component {
               <Route exact path="/ehrenamt/:layers?/:offerid?" component={Ehrenamt} />
               <Route exact path="/bplaene/:layers?/:bplannummer?" component={BPlaene} />
               <Route exact path="/stadtplan/:layers?/" component={Stadtplan} />
+              <Route exact path="/baeder/:layers?/" component={Baeder} />
               <Route exact path="/kitas/:layers?/" component={Kitas} />
               <Route exact path="/experiments" component={Experiments} />
               <Route exact path="/default(/:layers)(/:bplannummer)" component={DefaultPage} />

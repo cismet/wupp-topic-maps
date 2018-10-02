@@ -328,8 +328,6 @@ export class StadtplanModalApplicationMenu_ extends React.Component {
       }
     }
 
-    console.log("additionalAppArray", additionalAppArray);
-
     if (usedApps.length > 0) {
       additionalApps = (
         <div>

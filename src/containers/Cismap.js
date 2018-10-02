@@ -23,7 +23,10 @@ import { actions as mappingActions, constants as mappingConstants } from "../red
 import objectAssign from "object-assign";
 import { Icon } from "react-fa";
 import { actions as uiStateActions } from "../redux/modules/uiState";
-import { actions as gazetteerTopicsActions } from "../redux/modules/gazetteerTopics";
+import {
+  actions as gazetteerTopicsActions,
+  getGazDataForTopicIds
+} from "../redux/modules/gazetteerTopics";
 import "url-search-params-polyfill";
 import * as turfHelpers from "@turf/helpers";
 import bbox from "@turf/bbox";
@@ -37,6 +40,7 @@ import markerClusterGroup from "leaflet.markercluster";
 import ProjSingleGeoJson from "../components/ProjSingleGeoJson";
 
 import LocateControl from "../components/LocateControl";
+import GazetteerSearchControl from "../components/commons/GazetteerSearchControl";
 
 function mapStateToProps(state) {
   return {
@@ -95,108 +99,7 @@ export class Cismap_ extends React.Component {
         console.log("this.props.gazetteerTopics.adressen === undefined");
       }
 
-      let sorter = 0;
-      this.gazData = [];
-      if (this.props.gazTopics.indexOf("pois") !== -1) {
-        let pois = JSON.parse(this.props.gazetteerTopics.pois);
-        for (let i = 0; i < pois.length; ++i) {
-          let topicItem = pois[i];
-          let g = {
-            sorter: sorter++,
-            string: topicItem.s,
-            glyph: topicItem.g,
-            x: topicItem.x,
-            y: topicItem.y,
-            more: topicItem.m
-          };
-          this.gazData.push(g);
-        }
-      }
-      if (this.props.gazTopics.indexOf("quartiere") !== -1) {
-        let quartiere = JSON.parse(this.props.gazetteerTopics.quartiere);
-        for (let i = 0; i < quartiere.length; ++i) {
-          let topicItem = quartiere[i];
-          let g = {
-            sorter: sorter++,
-            string: topicItem.s,
-            glyph: topicItem.g,
-            x: topicItem.x,
-            y: topicItem.y,
-            more: topicItem.m
-          };
-          this.gazData.push(g);
-        }
-      }
-
-      if (this.props.gazTopics.indexOf("bezirke") !== -1) {
-        let bezirke = JSON.parse(this.props.gazetteerTopics.bezirke);
-        for (let i = 0; i < bezirke.length; ++i) {
-          let topicItem = bezirke[i];
-          let g = {
-            sorter: sorter++,
-            string: topicItem.s,
-            glyph: topicItem.g,
-            x: topicItem.x,
-            y: topicItem.y,
-            more: topicItem.m
-          };
-          this.gazData.push(g);
-        }
-      }
-      if (this.props.gazTopics.indexOf("kitas") !== -1) {
-        let kitas = JSON.parse(this.props.gazetteerTopics.kitas);
-        for (let i = 0; i < kitas.length; ++i) {
-          let topicItem = kitas[i];
-          let g = {
-            sorter: sorter++,
-            string: topicItem.s,
-            glyph: topicItem.g,
-            x: topicItem.x,
-            y: topicItem.y,
-            more: topicItem.m
-          };
-          this.gazData.push(g);
-        }
-      }
-
-      if (this.props.gazTopics.indexOf("adressen") !== -1) {
-        let adressen = JSON.parse(this.props.gazetteerTopics.adressen);
-        for (let i = 0; i < adressen.length; ++i) {
-          let topicItem = adressen[i];
-          let string = topicItem.s;
-          if (topicItem.nr !== "" && topicItem.nr !== 0) {
-            string = string + " " + topicItem.nr;
-          }
-          if (topicItem.z !== "") {
-            string = string + " " + topicItem.z;
-          }
-          let g = {
-            sorter: sorter++,
-            string: string,
-            glyph: topicItem.g,
-            x: topicItem.x,
-            y: topicItem.y,
-            more: topicItem.m
-          };
-          this.gazData.push(g);
-        }
-      }
-
-      if (this.props.gazTopics.indexOf("bplaene") !== -1) {
-        let bplaene = JSON.parse(this.props.gazetteerTopics.bplaene);
-        for (let i = 0; i < bplaene.length; ++i) {
-          let topicItem = bplaene[i];
-          let g = {
-            sorter: sorter++,
-            string: topicItem.s,
-            glyph: topicItem.g,
-            x: topicItem.x,
-            y: topicItem.y,
-            more: topicItem.m
-          };
-          this.gazData.push(g);
-        }
-      }
+      this.gazData = getGazDataForTopicIds(this.props.gazetteerTopics, this.props.gazTopics);
 
       // console.log("++++++++++++++++++++++++ done with parsing " + ( from - Date.now()))
       this.props.uiStateActions.setGazetteerBoxEnabled(true);
@@ -364,7 +267,8 @@ export class Cismap_ extends React.Component {
     if (this.props.mapping.overlayFeature !== null) {
       this.props.mappingActions.setOverlayFeature(null);
     }
-    this.refs.typeahead.getInstance().clear();
+
+    this.searchControl.wrappedInstance.clear();
     this.props.mappingActions.gazetteerHit(null);
   }
 
@@ -376,7 +280,7 @@ export class Cismap_ extends React.Component {
       this.props.mapping.searchInProgress === false &&
       this.props.searchButtonTrigger !== undefined
     ) {
-      this.refs.typeahead.getInstance().clear();
+      this.searchControl.wrappedInstance.clear();
       this.props.mappingActions.gazetteerHit(null);
       this.props.searchButtonTrigger(event);
     } else {
@@ -541,43 +445,59 @@ export class Cismap_ extends React.Component {
       }
     }
 
+    // let searchControl = (
+    //   <Control pixelwidth={300} position={searchControlPosition}>
+    //     <Form
+    //       style={{
+    //         width: searchControlWidth + "px"
+    //       }}
+    //       action="#"
+    //     >
+    //       <FormGroup>
+    //         <InputGroup>
+    //           {firstbutton}
+    //           <Typeahead
+    //             ref="typeahead"
+    //             style={{ width: "300px" }}
+    //             labelKey="string"
+    //             options={this.gazData}
+    //             onChange={this.internalGazeteerHitTrigger}
+    //             paginate={true}
+    //             dropup={true}
+    //             disabled={!this.props.uiState.gazetteerBoxEnabled}
+    //             placeholder={this.props.uiState.gazeteerBoxInfoText}
+    //             minLength={2}
+    //             filterBy={(option, text) => {
+    //               return option.string.toLowerCase().startsWith(text.toLowerCase());
+    //             }}
+    //             align={"justify"}
+    //             emptyLabel={"Keine Treffer gefunden"}
+    //             paginationText={"Mehr Treffer anzeigen"}
+    //             autoFocus={true}
+    //             submitFormOnEnter={true}
+    //             searchText={"suchen ..."}
+    //             renderMenuItemChildren={this.renderMenuItemChildren}
+    //           />
+    //         </InputGroup>
+    //       </FormGroup>
+    //     </Form>
+    //   </Control>
+    // );
+
     let searchControl = (
-      <Control pixelwidth={300} position={searchControlPosition}>
-        <Form
-          style={{
-            width: searchControlWidth + "px"
-          }}
-          action="#"
-        >
-          <FormGroup>
-            <InputGroup>
-              {firstbutton}
-              <Typeahead
-                ref="typeahead"
-                style={{ width: "300px" }}
-                labelKey="string"
-                options={this.gazData}
-                onChange={this.internalGazeteerHitTrigger}
-                paginate={true}
-                dropup={true}
-                disabled={!this.props.uiState.gazetteerBoxEnabled}
-                placeholder={this.props.uiState.gazeteerBoxInfoText}
-                minLength={2}
-                filterBy={(option, text) => {
-                  return option.string.toLowerCase().startsWith(text.toLowerCase());
-                }}
-                align={"justify"}
-                emptyLabel={"Keine Treffer gefunden"}
-                paginationText={"Mehr Treffer anzeigen"}
-                autoFocus={true}
-                submitFormOnEnter={true}
-                searchText={"suchen ..."}
-                renderMenuItemChildren={this.renderMenuItemChildren}
-              />
-            </InputGroup>
-          </FormGroup>
-        </Form>
-      </Control>
+      <GazetteerSearchControl
+        ref={comp => {
+          this.searchControl = comp;
+        }}
+        enabled={this.props.uiState.gazetteerBoxEnabled}
+        placeholder={this.props.uiState.gazeteerBoxInfoText}
+        pixelwidth={300}
+        searchControlPosition={searchControlPosition}
+        firstbutton={firstbutton}
+        gazData={this.gazData}
+        gazeteerHitTrigger={this.internalGazeteerHitTrigger}
+        renderMenuItemChildren={this.renderMenuItemChildren}
+      />
     );
     let infoBoxControl = (
       <Control position={infoBoxControlPosition}>

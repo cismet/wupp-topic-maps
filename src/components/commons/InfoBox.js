@@ -3,13 +3,13 @@ import PropTypes from "prop-types";
 import { Well } from "react-bootstrap";
 import { Icon } from "react-fa";
 import queryString from "query-string";
-import { getColorForProperties } from "../utils/stadtplanHelper";
 import Color from "color";
+import Control from "react-leaflet-control";
 
 // Since this component is simple and static, there's no parent container for it.
-const StadtplanInfo = ({
+const InfoBox = ({
   featureCollection,
-  filteredPOIs,
+  items,
   selectedIndex,
   next,
   previous,
@@ -18,74 +18,35 @@ const StadtplanInfo = ({
   showModalMenu,
   uiState,
   uiStateActions,
-  panelClick
+  linksAndActions,
+  panelClick,
+  colorize,
+  pixelwidth,
+
+  header,
+  headerColor,
+  links,
+  title,
+  subtitle,
+  additionalInfo,
+  zoomToAllLabel,
+  currentlyShownCountLabel,
+  fotoPreview
 }) => {
   const currentFeature = featureCollection[selectedIndex];
 
-  let info = "";
 
   let maillink = null;
   let urllink = null;
   let phonelink = null;
 
-  if (currentFeature) {
-    if (currentFeature.properties.info) {
-      info = currentFeature.properties.info;
-    }
 
-    if (currentFeature.properties.tel) {
-      phonelink = (
-        <a
-          title="Anrufen"
-          key={"stadtplan.poi.phone.action."}
-          href={"tel:" + currentFeature.properties.tel}
-        >
-          <Icon
-            style={{ color: "grey", width: "26px", textAlign: "center" }}
-            size="2x"
-            name={"phone"}
-          />
-        </a>
-      );
-    }
-    if (currentFeature.properties.email) {   
-      maillink = (
-        <a
-          title="E-Mail schreiben"
-          key={"stadtplan.poi.mail.action."}
-          href={"mailto:" + currentFeature.properties.email}
-        >
-          <Icon
-            style={{ color: "grey", width: "26px", textAlign: "center" }}
-            size="2x"
-            name={"envelope-square"}
-          />
-        </a>
-      );
-    }
-    if (currentFeature.properties.url) {
-      urllink = (
-        <a
-          title="Zur Homepage"
-          key={"stadtplan.poi.url.action."}
-          href={currentFeature.properties.url}
-          target="_blank"
-        >
-          <Icon
-            style={{ color: "grey", width: "26px", textAlign: "center" }}
-            size="2x"
-            name={"link"}
-          />
-        </a>
-      );
-    }
-  }
 
-  if (currentFeature) {
-    let poiColor = Color(getColorForProperties(currentFeature.properties));
+  if (currentFeature) {      
+    let headerBackgroundColor = Color(headerColor);
 
     let textColor = "black";
-    if (poiColor.isDark()) {
+    if (headerBackgroundColor.isDark()) {
       textColor = "white";
     }
     let llVis = (
@@ -96,7 +57,7 @@ const StadtplanInfo = ({
               style={{
                 textAlign: "left",
                 verticalAlign: "top",
-                background: poiColor,
+                background: headerBackgroundColor,
                 color: textColor,
                 opacity: "0.9",
                 paddingLeft: "3px",
@@ -104,14 +65,14 @@ const StadtplanInfo = ({
                 paddingBottom: "0px"
               }}
             >
-              {currentFeature.properties.mainlocationtype.lebenslagen.join(", ")}
+              {header}
             </td>
           </tr>
         </tbody>
       </table>
     );
 
-    let openlightbox = e => {
+    let openlightbox = clickEvent => {
       if (
         currentFeature.properties.fotostrecke === undefined ||
         currentFeature.properties.fotostrecke === null ||
@@ -184,44 +145,16 @@ const StadtplanInfo = ({
       }
     };
 
-    let fotoDiv;
-    if (currentFeature.properties.foto) {
-      fotoDiv = (
-        <table style={{ width: "100%" }}>
-          <tbody>
-            <tr>
-              <td style={{ textAlign: "right", verticalAlign: "top" }}>
-                <a
-                  onClick={openlightbox}
-                  hrefx={currentFeature.properties.fotostrecke || currentFeature.properties.foto}
-                  target="_fotos"
-                >sdfdfs
-                  <img
-                    alt="Bild"
-                    style={{ paddingBottom: "5px" }}
-                    src={currentFeature.properties.foto.replace(
-                      /http:\/\/.*fotokraemer-wuppertal\.de/,
-                      "https://wunda-geoportal-fotos.cismet.de/"
-                    )}
-                    width="150"
-                  />
-                </a>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      );
-    }
 
-    let adresse = currentFeature.properties.adresse;
-
-    if (currentFeature.properties.stadt !== "Wuppertal") {
-      adresse += ", " + currentFeature.properties.stadt;
-    }
+   
+    let infoStyle = {
+        opacity: "0.9",
+        width: pixelwidth
+      };
 
     return (
-      <div>
-        {fotoDiv}
+        <div style={infoStyle}>
+        {fotoPreview}
         {llVis}
         <Well bsSize="small" onClick={panelClick}>
           <div>
@@ -229,18 +162,20 @@ const StadtplanInfo = ({
               <tbody>
                 <tr>
                   <td style={{ textAlign: "left", verticalAlign: "top" }}>
-                    <table style={{ width: "100%" }}>
+                    <table border={0} style={{ width: "100%" }}>
                       <tbody>
                         <tr>
-                          <td style={{ textAlign: "left" }}>
+                          <td style={{ textAlign: "left",
+                           padding: "5px",
+                              maxWidth: "160px",
+                              overflowWrap: "break-word"
+                            }}>
                             <h5>
-                              <b>{currentFeature.text}</b>
+                              <b>{title}</b>
                             </h5>
                           </td>
                           <td style={{ textAlign: "right" }}>
-                            {urllink}
-                            {maillink}
-                            {phonelink}
+                           {[links]}
                           </td>
                         </tr>
                       </tbody>
@@ -250,7 +185,7 @@ const StadtplanInfo = ({
                         <tr>
                           <td style={{ textAlign: "left" }}>
                             <h6>
-                              {info.split("\n").map((item, key) => {
+                              {additionalInfo.split("\n").map((item, key) => {
                                 return (
                                   <span key={key}>
                                     {item}
@@ -259,7 +194,7 @@ const StadtplanInfo = ({
                                 );
                               })}
                             </h6>
-                            <p>{adresse}</p>
+                            <p>{subtitle}</p>
                           </td>
                         </tr>
                       </tbody>
@@ -274,7 +209,7 @@ const StadtplanInfo = ({
                 <tr>
                   <td />
                   <td style={{ textAlign: "center", verticalAlign: "center" }}>
-                    <a onClick={fitAll}>{filteredPOIs.length} POI in Wuppertal</a>
+                    <a onClick={fitAll}>{zoomToAllLabel}</a>
                   </td>
                   <td />
                 </tr>
@@ -290,7 +225,7 @@ const StadtplanInfo = ({
                     <a onClick={previous}>&lt;&lt;</a>
                   </td>
                   <td style={{ textAlign: "center", verticalAlign: "center" }}>
-                    {featureCollection.length} POI angezeigt
+                    {currentlyShownCountLabel}
                   </td>
 
                   <td
@@ -304,11 +239,11 @@ const StadtplanInfo = ({
             </table>
           </div>
         </Well>
-      </div>
+        </div>
     );
-  } else if (filteredPOIs.length > 0) {
+  } else if (items.length > 0) {
     return (
-      <Well bsSize="small" pixelwidth={250}>
+      <Well bsSize="small" pixelwidth={pixelwidth}>
         <h5>Keine POI gefunden!</h5>
         <p>
           Für mehr POI, Ansicht mit <Icon name="minus-square" /> verkleinern. Um nach Themenfeldern
@@ -320,7 +255,7 @@ const StadtplanInfo = ({
           </a>
         </p>
         <div align="center">
-          <a onClick={fitAll}>{filteredPOIs.length} POI in Wuppertal</a>
+          <a onClick={fitAll}>{items.length} POI in Wuppertal</a>
         </div>
       </Well>
     );
@@ -329,8 +264,8 @@ const StadtplanInfo = ({
   }
 };
 
-export default StadtplanInfo;
-StadtplanInfo.propTypes = {
+export default InfoBox;
+InfoBox.propTypes = {
   featureCollection: PropTypes.array.isRequired,
   filteredPOIs: PropTypes.array.isRequired,
   selectedIndex: PropTypes.number.isRequired,
@@ -341,7 +276,7 @@ StadtplanInfo.propTypes = {
   panelClick: PropTypes.func.isRequired
 };
 
-StadtplanInfo.defaultProps = {
+InfoBox.defaultProps = {
   featureCollection: [],
   filteredPOIs: [],
   selectedIndex: 0,

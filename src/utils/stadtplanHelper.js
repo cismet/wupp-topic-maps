@@ -1,3 +1,4 @@
+import React from "react";
 import ColorHash from "color-hash";
 import Color from "color";
 import L from "leaflet";
@@ -6,6 +7,7 @@ import createElement from "svg-create-element";
 import poiColors from "../constants/poiColors.js";
 import store from "../redux/store";
 import queryString from "query-string";
+import { Icon } from "react-fa";
 
 const fallbackSVG = `
     <svg xmlns="http://www.w3.org/2000/svg" width="311.668" height="311.668">
@@ -14,9 +16,9 @@ const fallbackSVG = `
     </svg>
 `;
 
-export const getFeatureStyler = (svgSize = 24) => {
+export const getFeatureStyler = (svgSize = 24, colorizer = getColorForProperties) => {
   return feature => {
-    var color = Color(getColorForProperties(feature.properties));
+    var color = Color(colorizer(feature.properties));
     let radius = svgSize / 2; //needed for the Tooltip Positioning
     let canvasSize = svgSize;
     if (feature.selected) {
@@ -30,10 +32,10 @@ export const getFeatureStyler = (svgSize = 24) => {
                     <style>
                     /* <![CDATA[ */
                         #badgefor_${feature.id} .bg-fill  {
-                            fill: ${getColorForProperties(feature.properties)};
+                            fill: ${colorizer(feature.properties)};
                         }
                         #badgefor_${feature.id} .bg-stroke  {
-                            stroke: ${getColorForProperties(feature.properties)};
+                            stroke: ${colorizer(feature.properties)};
                         }
                         #badgefor_${feature.id} .fg-fill  {
                             fill: white;
@@ -62,10 +64,10 @@ export const getFeatureStyler = (svgSize = 24) => {
                     <style>
                     /* <![CDATA[ */
                         #badgefor_${feature.id} .bg-fill  {
-                            fill: ${getColorForProperties(feature.properties)};
+                            fill: ${colorizer(feature.properties)};
                         }
                         #badgefor_${feature.id} .bg-stroke  {
-                            stroke: ${getColorForProperties(feature.properties)};
+                            stroke: ${colorizer(feature.properties)};
                         }
                         #badgefor_${feature.id} .fg-fill  {
                             fill: white;
@@ -100,7 +102,10 @@ export const getFeatureStyler = (svgSize = 24) => {
     return style;
   };
 };
-export const getPoiClusterIconCreatorFunction = (svgSize = 24) => {
+export const getPoiClusterIconCreatorFunction = (
+  svgSize = 24,
+  colorizer = getColorForProperties
+) => {
   //return a function because the functionCall of the iconCreateFunction cannot be manipulated
   return cluster => {
     var childCount = cluster.getChildCount();
@@ -115,7 +120,7 @@ export const getPoiClusterIconCreatorFunction = (svgSize = 24) => {
     let inCart = false;
     for (let marker of childMarkers) {
       values.push(1);
-      colors.push(Color(getColorForProperties(marker.feature.properties)));
+      colors.push(Color(colorizer(marker.feature.properties)));
       if (marker.feature.selected === true) {
         containsSelection = true;
       }
@@ -317,4 +322,77 @@ export const addSVGToPOI = (poi, manualReloadRequested) => {
         fulfilled(poi);
       });
   });
+};
+
+export const triggerLightBoxForPOI = (currentFeature, uiStateActions) => {
+  if (
+    currentFeature.properties.fotostrecke === undefined ||
+    currentFeature.properties.fotostrecke === null ||
+    currentFeature.properties.fotostrecke.indexOf("&noparse") !== -1
+  ) {
+    uiStateActions.setLightboxUrls([
+      currentFeature.properties.foto.replace(
+        /http:\/\/.*fotokraemer-wuppertal\.de/,
+        "https://wunda-geoportal-fotos.cismet.de/"
+      )
+    ]);
+    uiStateActions.setLightboxTitle(currentFeature.text);
+    let linkUrl;
+    if (currentFeature.properties.fotostrecke) {
+      linkUrl = currentFeature.properties.fotostrecke;
+    } else {
+      linkUrl = "http://www.fotokraemer-wuppertal.de/";
+    }
+    uiStateActions.setLightboxCaption(
+      <a href={linkUrl} target="_fotos">
+        <Icon name="copyright" /> Peter Kr&auml;mer - Fotografie
+      </a>
+    );
+    uiStateActions.setLightboxIndex(0);
+    uiStateActions.setLightboxVisible(true);
+  } else {
+    fetch(
+      currentFeature.properties.fotostrecke.replace(
+        /http:\/\/.*fotokraemer-wuppertal\.de/,
+        "https://wunda-geoportal-fotos.cismet.de/"
+      ),
+      {
+        method: "get"
+      }
+    )
+      .then(function(response) {
+        return response.text();
+      })
+      .then(function(data) {
+        var tmp = document.implementation.createHTMLDocument();
+        tmp.body.innerHTML = data;
+        let urls = [];
+        let counter = 0;
+        let mainfotoname = decodeURIComponent(currentFeature.properties.foto)
+          .split("/")
+          .pop()
+          .trim();
+        let selectionWish = 0;
+        for (let el of tmp.getElementsByClassName("bilderrahmen")) {
+          let query = queryString.parse(el.getElementsByTagName("a")[0].getAttribute("href"));
+          urls.push("https://wunda-geoportal-fotos.cismet.de/images/" + query.dateiname_bild);
+          if (mainfotoname === query.dateiname_bild) {
+            selectionWish = counter;
+          }
+          counter += 1;
+        }
+        uiStateActions.setLightboxUrls(urls);
+        uiStateActions.setLightboxTitle(currentFeature.text);
+        uiStateActions.setLightboxCaption(
+          <a href={currentFeature.properties.fotostrecke} target="_fotos">
+            <Icon name="copyright" /> Peter Kr&auml;mer - Fotografie
+          </a>
+        );
+        uiStateActions.setLightboxIndex(selectionWish);
+        uiStateActions.setLightboxVisible(true);
+      })
+      .catch(function(err) {
+        console.log(err);
+      });
+  }
 };

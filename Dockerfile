@@ -20,7 +20,6 @@ RUN yarn install
 RUN yarn cache clean
 COPY .docker-files/turf-jsts-package.json ./node_modules/turf-jsts/package.json
 COPY . .
-RUN ls
 RUN yarn run build
 
 

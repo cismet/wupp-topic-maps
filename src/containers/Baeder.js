@@ -1,8 +1,7 @@
 import PropTypes from "prop-types";
 import React from "react";
 import { connect } from "react-redux";
-//import 'proj4leaflet';
-//import proj4 from 'proj4';
+
 import { RoutedMap, MappingConstants, FeatureCollectionDisplay } from "react-cismap";
 import { bindActionCreators } from "redux";
 import { actions as MappingActions } from "../redux/modules/mapping";
@@ -18,7 +17,7 @@ import {
 import { routerActions as RoutingActions } from "react-router-redux";
 import { modifyQueryPart } from "../utils/routingHelper";
 
-import { getFeatureStyler } from "../utils/stadtplanHelper";
+import { getFeatureStyler, featureHoverer } from "../utils/stadtplanHelper";
 
 import { getColorForProperties } from "../utils/baederHelper";
 import BaederInfo from "../components/baeder/BaederInfo";
@@ -121,14 +120,9 @@ export class Baeder_ extends React.Component {
     return promise;
   }
   gotoHome() {
-    //x1=361332.75015625&y1=5669333.966678483&x2=382500.79703125&y2=5687261.576954328
-    this.props.routingActions.push(
-      this.props.routing.location.pathname +
-        modifyQueryPart(this.props.routing.location.search, {
-          lat: 51.25861849982617,
-          lng: 7.151010223705116,
-          zoom: 8
-        })
+    this.leafletRoutedMap.leafletMap.leafletElement.setView(
+      [51.25861849982617, 7.15101022370511],
+      8
     );
   }
   render() {
@@ -293,7 +287,8 @@ export class Baeder_ extends React.Component {
                 getBadSvgSize(this.props.baeder) || 30,
                 getColorForProperties
               )}
-              hoverer={this.props.hoverer}
+              hoverer={featureHoverer}
+              featureStylerScalableImageSize={32}
               featureClickHandler={this.featureClick}
               mapRef={this.leafletRoutedMap}
               showMarkerCollection={false}

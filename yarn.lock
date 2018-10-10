@@ -6564,9 +6564,9 @@ react-chartkick@^0.2.0:
   dependencies:
     chartkick "^2.3.6"
 
-react-cismap@0.0.2:
-  version "0.0.2"
-  resolved "https://registry.yarnpkg.com/react-cismap/-/react-cismap-0.0.2.tgz#c42538292640fa491e23a7ffbea569d0a6aa779c"
+react-cismap@^0.0.3:
+  version "0.0.3"
+  resolved "https://registry.yarnpkg.com/react-cismap/-/react-cismap-0.0.3.tgz#fa0c278dc96fee0879a5c3464685c391051566f3"
   dependencies:
     "@turf/bbox-polygon" "^6.0.1"
     "@turf/intersect" "^6.1.3"

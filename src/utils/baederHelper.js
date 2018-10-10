@@ -1,15 +1,17 @@
+import { getColorForProperties as poiColorizer } from "../utils/stadtplanHelper";
+import "url-search-params-polyfill";
 
-import {
-    getColorForProperties as poiColorizer,
-  } from "../utils/stadtplanHelper";
+export const getColorForProperties = (properties) => {    
+  let searchParams = new URLSearchParams(window.location.href);
+  let openForPublic= searchParams.get("openForPublic")||"147DA3";
+  let closedForPublic=searchParams.get("closedForPublic")||"52A6C4"
 
-export const getColorForProperties = properties => {
-    if (properties.more.zugang==="öffentlich" && properties.more.betreiber==="Verein") {
-        return '#69D2E7';
-    }else if (properties.more.zugang==="nicht öffentlich") {
-        return '#A7DBD8';
-    }
-    else {
-        return poiColorizer(properties);
-    }    
-  };
+  if (properties.more.zugang === "öffentlich" && properties.more.betreiber === "Verein") {
+    return "#"+openForPublic;
+  } else if (properties.more.zugang === "nicht öffentlich") {
+    return "#"+closedForPublic;
+  } else {
+    return poiColorizer(properties);
+  }
+};
+

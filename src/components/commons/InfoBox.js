@@ -147,13 +147,9 @@ const InfoBox = ({
 
 
    
-    let infoStyle = {
-        opacity: "0.9",
-        width: pixelwidth
-      };
-
+   
     return (
-        <div style={infoStyle}>
+        <div>
         {fotoPreview}
         {llVis}
         <Well bsSize="small" onClick={panelClick}>

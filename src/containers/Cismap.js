@@ -344,53 +344,6 @@ export class Cismap_ extends React.Component {
       };
     }
 
-    // let firstbutton;
-    // if (this.props.searchAfterGazetteer === true) {
-    //   firstbutton = (
-    //     <InputGroup.Button
-    //       disabled={this.props.mapping.searchInProgress || !searchAllowed}
-    //       onClick={e => {
-    //         if (searchAllowed) {
-    //           this.internalSearchButtonTrigger(e);
-    //         } else {
-    //           // Hier kann noch eine Meldung angezeigt werden.
-    //         }
-    //       }}
-    //     >
-    //       <OverlayTrigger
-    //         ref={c => (this.searchOverlay = c)}
-    //         placement="top"
-    //         overlay={this.props.searchTooltipProvider()}
-    //       >
-    //         <Button disabled={this.props.mapping.searchInProgress || !searchAllowed}>
-    //           {searchIcon}
-    //         </Button>
-    //       </OverlayTrigger>
-    //     </InputGroup.Button>
-    //   );
-    // } else {
-    //   if (!searchAllowed) {
-    //     firstbutton = (
-    //       <InputGroup.Button onClick={this.internalClearButtonTrigger}>
-    //         <OverlayTrigger
-    //           ref={c => (this.gazClearOverlay = c)}
-    //           placement="top"
-    //           overlay={this.props.gazClearTooltipProvider()}
-    //         >
-    //           <Button
-    //             disabled={
-    //               this.props.mapping.overlayFeature === null &&
-    //               this.props.mapping.gazetteerHit === null
-    //             }
-    //           >
-    //             <Icon name="times" />
-    //           </Button>
-    //         </OverlayTrigger>
-    //       </InputGroup.Button>
-    //     );
-    //   }
-    // }
-
   
 
     let searchControl = (
@@ -400,7 +353,7 @@ export class Cismap_ extends React.Component {
         }}
         enabled={this.props.uiState.gazetteerBoxEnabled}
         placeholder={this.props.uiState.gazeteerBoxInfoText}
-        pixelwidth={300}
+        pixelwidth={searchControlWidth}
         searchControlPosition={searchControlPosition}
         gazData={this.gazData}
         gazeteerHitTrigger={hit => {

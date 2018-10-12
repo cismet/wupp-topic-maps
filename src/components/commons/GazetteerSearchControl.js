@@ -165,7 +165,7 @@ GazetteerSearchControl_.propTypes = {
   gazClearTooltipProvider: PropTypes.func
 };
 
-GazetteerSearchControl_.GazetteerSearchControl = {
+GazetteerSearchControl_.defaultProps = {
   enabled: true,
   placeholder: "Geben Sie einen Suchbegriff ein",
   pixelwidth: 300,

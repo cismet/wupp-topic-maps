@@ -1,9 +1,5 @@
-import objectAssign from "object-assign";
-import { actions as mappingActions } from "./mapping";
-import { predicateBy } from "../../utils/stringHelper";
-import kdbush from "kdbush";
+
 import { addSVGToPOI } from "../../utils/stadtplanHelper";
-import queryString from "query-string";
 import makeDataDuck from "../higherorderduckfactories/dataWithMD5Check";
 import makePointFeatureCollectionWithIndexDuck from "../higherorderduckfactories/pointFeatureCollectionWithIndex";
 import makeMarkerSizeDuck from "../higherorderduckfactories/markerSize";

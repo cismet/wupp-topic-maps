@@ -199,8 +199,10 @@ export class TopicMap_ extends React.Component {
     if (this.props.photoLightBox){
       photoLightBox=<PhotoLightbox />;
     }
-    
+
     return (
+      <div>
+      {this.props.modalMenu}  
       <Loadable active={!this.dataLoaded&&!this.props.noInitialLoadingText} spinner text={this.props.initialLoadingText}>
         <div>
           {photoLightBox}
@@ -272,6 +274,7 @@ export class TopicMap_ extends React.Component {
           </RoutedMap>
         </div>
       </Loadable>
+      </div>
     );
   }
 }
@@ -301,6 +304,7 @@ TopicMap.propTypes = {
   featureStyler: PropTypes.func,
   featureHoverer: PropTypes.func,
   home: PropTypes.object,
+  modalMenu: PropTypes.object,
 
 };
 

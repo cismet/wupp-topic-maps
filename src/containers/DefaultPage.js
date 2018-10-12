@@ -5,24 +5,22 @@ import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 
 import { Well } from "react-bootstrap";
-import {
-  actions as BaederActions,
-  getBaederFeatureCollection,
-  getBadSvgSize,
-} from "../redux/modules/baeder";
-import { getColorForProperties } from "../utils/baederHelper";
-
 import { getFeatureStyler, featureHoverer } from "../utils/stadtplanHelper";
+import { actions as UIStateActions } from "../redux/modules/uiState";
 
+import GenericModalApplicationMenu from  "../components/commons/GenericModalApplicationMenu";
+import DemoMenuIntroduction from "../components/demo/DemoMenuIntroduction" 
+import DemoMenuSettingsSection from "../components/demo/DemoMenuSettingsSection" 
+import DemoMenuHelpSection from "../components/demo/DemoMenuHelpSection" 
 
 function mapStateToProps(state) {
-  return { ui: state.uiState,
-    baeder: state.baeder,
+  return { 
+    uiState: state.uiState,
   };
 }
 function mapDispatchToProps(dispatch) {
   return {
-    baederActions: bindActionCreators(BaederActions, dispatch),
+    uiStateActions: bindActionCreators(UIStateActions, dispatch),
   };
 }
 export class DefaultPage_ extends React.Component {
@@ -58,6 +56,20 @@ export class DefaultPage_ extends React.Component {
             photoLightBox      
             infoBox={info} 
             backgroundlayers="rvrWMS@70"
+            modalMenu= {<GenericModalApplicationMenu
+              uiState={this.props.uiState}
+              menuIntroduction={(
+                <DemoMenuIntroduction uiStateActions={this.props.uiStateActions}/>
+              )}
+              menuSections={[
+                <DemoMenuSettingsSection 
+                      uiState={this.props.uiState}
+                      uiStateActions={this.props.uiStateActions}/>,
+                  <DemoMenuHelpSection 
+                      uiState={this.props.uiState}
+                      uiStateActions={this.props.uiStateActions}/>
+              ]}
+            />}
         />
     );
   }
@@ -67,7 +79,5 @@ const DefaultPage = connect(mapStateToProps,mapDispatchToProps)(DefaultPage_);
 export default DefaultPage;
 
 DefaultPage_.propTypes = {
-  ui: PropTypes.object,
-  kassenzeichen: PropTypes.object,
   uiState: PropTypes.object
 };

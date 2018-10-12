@@ -15,7 +15,7 @@ const GenericModalApplicationMenu = ({
   menuFooter,
 
   uiState,
-  uiActions,
+  uiStateActions,
   kitasState,
   kitasActions,
   mappingState,
@@ -24,7 +24,7 @@ const GenericModalApplicationMenu = ({
   routingActions
 }) => {
   const close = () => {
-    uiActions.showApplicationMenu(false);
+    uiStateActions.showApplicationMenu(false);
   };
 
   const changeMarkerSymbolSize = size => {
@@ -61,7 +61,7 @@ const GenericModalApplicationMenu = ({
 
         <br />
         <br />
-        
+
         {menuSections}
       </Modal.Body>
       <Modal.Footer>
@@ -102,7 +102,7 @@ GenericModalApplicationMenu.propTypes = {
   menuSections: PropTypes.array,
   menuFooter: PropTypes.object,
 
-  uiActions: PropTypes.object,
+  uiStateActions: PropTypes.object,
   uiState: PropTypes.object,
   kitasState: PropTypes.object,
   kitasActions: PropTypes.object,

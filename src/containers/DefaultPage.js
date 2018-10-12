@@ -58,14 +58,17 @@ export class DefaultPage_ extends React.Component {
             backgroundlayers="rvrWMS@70"
             modalMenu= {<GenericModalApplicationMenu
               uiState={this.props.uiState}
+              uiStateActions={this.props.uiStateActions}
               menuIntroduction={(
                 <DemoMenuIntroduction uiStateActions={this.props.uiStateActions}/>
               )}
               menuSections={[
                 <DemoMenuSettingsSection 
+                      key="DemoMenuSettingsSection"
                       uiState={this.props.uiState}
                       uiStateActions={this.props.uiStateActions}/>,
                   <DemoMenuHelpSection 
+                      key="DemoMenuHelpSection"
                       uiState={this.props.uiState}
                       uiStateActions={this.props.uiStateActions}/>
               ]}

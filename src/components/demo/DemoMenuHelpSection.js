@@ -27,7 +27,7 @@ und ihren jungen Körper dehnte. »Es ist ein
 eigentümlicher Apparat«, sagte der Offizier zu dem 
 Forschungsreisenden und überblickte mit einem 
 gewissermaßen bewundernden Blick den ihm doch 
-<a class="external ext" href="#">link</a> wohlbekannten 
+<a  href="#">link</a> wohlbekannten 
 Apparat.</p>     
                  </div>      
         )}

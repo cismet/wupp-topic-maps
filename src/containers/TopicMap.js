@@ -57,8 +57,11 @@ export class TopicMap_ extends React.Component {
     this.loadData = this.loadData.bind(this);
     this.featureClick = this.featureClick.bind(this);
     this.gotoHome = this.gotoHome.bind(this);
+    this.defaultShowModalApplicationMenu = this.defaultShowModalApplicationMenu.bind(this);
     this.props.mappingActions.setBoundingBoxChangedTrigger(bbox =>
       this.props.refreshFeatureCollection(bbox)
+      
+
     );
   }
   componentWillMount() {
@@ -110,6 +113,12 @@ export class TopicMap_ extends React.Component {
       this.props.home.zoom
     );
   }
+
+  defaultShowModalApplicationMenu() {
+    this.props.uiStateActions.showApplicationMenu(true);
+  }
+
+
   render() {
     const mapStyle = {
       height: this.props.uiState.height
@@ -130,7 +139,7 @@ export class TopicMap_ extends React.Component {
       );
     }
 
-
+  
 
     let searchIcon = <Icon name="search" />;
     if (this.props.mapping.searchInProgress) {
@@ -266,7 +275,15 @@ export class TopicMap_ extends React.Component {
                   </Tooltip>
                 }
               >
-                <Button onClick={this.showModalApplicationMenu}>
+                <Button onClick={()=>{
+                    if (this.props.showModalApplicationMenu) {
+                      this.props.showModalApplicationMenu();
+                    }
+                    else {
+                      this.defaultShowModalApplicationMenu();
+                    }
+                  }
+                  }>
                   <Icon name="bars" />
                 </Button>
               </OverlayTrigger>
@@ -305,7 +322,7 @@ TopicMap.propTypes = {
   featureHoverer: PropTypes.func,
   home: PropTypes.object,
   modalMenu: PropTypes.object,
-
+  showModalApplicationMenu: PropTypes.func,
 };
 
 TopicMap.defaultProps = {
@@ -326,5 +343,5 @@ TopicMap.defaultProps = {
   home: {
     center: [51.25861849982617, 7.15101022370511],
     zoom: 8
-  }
+  },
 };

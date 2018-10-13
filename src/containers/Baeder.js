@@ -82,10 +82,11 @@ export class Baeder_ extends React.Component {
     
     return (
       <TopicMap 
+          initialLoadingText="Laden der Bäder ..."
           fullScreenControl
           locatorControl
           gazetteerSearchBox
-          gazetteerSearchBoxPlaceholdertext="Suchbegriff hier eingeben."
+          gazetteerSearchBoxPlaceholdertext="Stadtteil | Adresse | POI"
           photoLightBox      
           infoBox={info} 
           backgroundlayers="rvrWMS@70"

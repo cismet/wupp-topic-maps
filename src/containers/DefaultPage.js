@@ -29,12 +29,6 @@ export class DefaultPage_ extends React.Component {
       <Well pixelwidth={300} bsSize="small">
         <h3>Topic Maps</h3>
         <p>Bei den Topic Maps handelt es sich um Karten mit einem ganz speziellen Fokus auf ein begrenztes Thema.</p>
-        {/* <p>Folgende "Spezialkarten" sind verfügbar:</p>
-        <a href="/#/kitas">Kita-Finder</a><br/>
-        <a href="/#/ehrenamt">Info Portal Ehrenamt</a><br/>
-        <a href="/#/stadtplan">Stadtplan mit den POI</a><br/>
-        <a href="/#/baeder">Bäderkarte</a><br/>
-        <a href="/#/bplaene">BPlan Auskunft</a><br/> */}
         <br/>
         <br/>
         <a

@@ -17,6 +17,7 @@ import { routerActions as RoutingActions } from "react-router-redux";
 import { getFeatureStyler, featureHoverer } from "../utils/stadtplanHelper";
 import { getColorForProperties } from "../utils/baederHelper";
 import BaederInfo from "../components/baeder/BaederInfo";
+import BaederModalMenu from "../components/baeder/BaederModalMenu";
 import TopicMap from "../containers/TopicMap";
 
 function mapStateToProps(state) {
@@ -97,6 +98,10 @@ export class Baeder_ extends React.Component {
           refreshFeatureCollection={this.props.baederActions.refreshFeatureCollection}
           setSelectedFeatureIndex={this.props.baederActions.setSelectedFeatureIndex}
           featureHovererX={featureHoverer}
+          modalMenu={<BaederModalMenu
+            uiState={this.props.uiState}
+            uiStateActions={this.props.uiStateActions}
+          />}
       />
     );
   }

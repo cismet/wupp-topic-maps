@@ -1,10 +1,8 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { Modal, Button, Accordion, Panel } from "react-bootstrap";
-
+import { Modal, Button } from "react-bootstrap";
 import { Icon } from "react-fa";
 import "react-bootstrap-switch/dist/css/bootstrap3/react-bootstrap-switch.min.css";
-import queryString from "query-string";
 import GenericRVRStadtplanwerkMenuFooter from "./GenericRVRStadtplanwerkMenuFooter";
 
 const GenericModalApplicationMenu = ({
@@ -16,12 +14,9 @@ const GenericModalApplicationMenu = ({
 
   uiState,
   uiStateActions,
-  kitasState,
   kitasActions,
-  mappingState,
   mappingActions,
-  routingState,
-  routingActions
+
 }) => {
   const close = () => {
     uiStateActions.showApplicationMenu(false);

@@ -3,8 +3,8 @@ import "url-search-params-polyfill";
 
 export const getColorForProperties = (properties) => {    
   let searchParams = new URLSearchParams(window.location.href);
-  let openForPublic= searchParams.get("openForPublic")||"147DA3";
-  let closedForPublic=searchParams.get("closedForPublic")||"52A6C4"
+  let openForPublic= searchParams.get("openForPublic")||"107FC9";
+  let closedForPublic=searchParams.get("closedForPublic")||"4AC1D1"
 
   if (properties.more.zugang === "öffentlich" && properties.more.betreiber === "Verein") {
     return "#"+openForPublic;

@@ -42,13 +42,19 @@ function mapDispatchToProps(dispatch) {
 export class Baeder_ extends React.Component {
   constructor(props, context) {
     super(props, context);
+    this.gotoHome = this.gotoHome.bind(this);
     this.props.mappingActions.setBoundingBoxChangedTrigger(bbox =>
       this.props.baederActions.refreshFeatureCollection(bbox)
     );
   }
   
-  render() {
+  gotoHome() {
+    if (this.topicMap){
+      this.topicMap.wrappedInstance.gotoHome();
+     }
+  }
 
+  render() {
     let info = (
       <BaederInfo
         key={"BaederInfo." + (getBaederFeatureCollectionSelectedIndex(this.props.baeder) || 0)}
@@ -82,6 +88,7 @@ export class Baeder_ extends React.Component {
     
     return (
       <TopicMap 
+          ref={(comp)=>{this.topicMap=comp;}}
           initialLoadingText="Laden der Bäder ..."
           fullScreenControl
           locatorControl
@@ -89,7 +96,7 @@ export class Baeder_ extends React.Component {
           gazetteerSearchBoxPlaceholdertext="Stadtteil | Adresse | POI"
           photoLightBox      
           infoBox={info} 
-          backgroundlayers="rvrWMS@70"
+          backgroundlayers={this.props.match.params.layers || "rvrWMS@70"}
           dataLoader={this.props.baederActions.loadBaeder}
           getFeatureCollectionForData={()=>{return getBaederFeatureCollection(this.props.baeder)}}
           featureStyler={getFeatureStyler(

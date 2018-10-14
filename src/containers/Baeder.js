@@ -105,7 +105,7 @@ export class Baeder_ extends React.Component {
           )}
           refreshFeatureCollection={this.props.baederActions.refreshFeatureCollection}
           setSelectedFeatureIndex={this.props.baederActions.setSelectedFeatureIndex}
-          featureHovererX={featureHoverer}
+          featureHoverer={featureHoverer}
           modalMenu={<BaederModalMenu
             uiState={this.props.uiState}
             uiStateActions={this.props.uiStateActions}

@@ -4,6 +4,8 @@ import { removeQueryPart, modifyQueryPart } from "../../utils/routingHelper";
 import { getInternetExplorerVersion } from "../../utils/browserHelper";
 import { constants as kitasConstants } from "../../redux/modules/kitas";
 import { getChildSVG } from "../../utils/kitasHelper";
+import SymbolSizeChooser from "../commons/SymbolSizeChooser";
+
 // Since this component is simple and static, there's no parent container for it.
 const KitasSettingsPanel = ({
   width,
@@ -259,7 +261,13 @@ const KitasSettingsPanel = ({
                   </Radio>{" "}
                 </FormGroup>
               )}
-              <FormGroup>
+              <SymbolSizeChooser 
+              changeMarkerSymbolSize={changeMarkerSymbolSize}
+              currentMarkerSize={markerSize}
+              getSymbolSVG={getChildSVG}
+
+              />
+              {/* <FormGroup>
                 <br />
                 <ControlLabel>Symbolgr&ouml;&szlig;e:</ControlLabel>
                 <br />
@@ -324,7 +332,7 @@ const KitasSettingsPanel = ({
                     </tr>
                   </tbody>
                 </table>
-              </FormGroup>
+              </FormGroup> */}
             </td>
             {widePreviewPlaceholder}
           </tr>

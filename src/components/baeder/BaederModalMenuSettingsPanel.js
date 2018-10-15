@@ -17,7 +17,7 @@ const BaederModalMenuSettingsSection = ({ uiState, uiStateActions }) => {
               geknotetes Tau vom Boden.
             </li>
             <li>
-              Aber sie überwanden sich, umdrängten den Käfig und wollten sich gar nicht fortrühren.
+              Aber sie überwanden sich, umdrängten den Käfig und wollten sich gar nicht fortrühren.{" "}
             </li>
             <li>
               Welcher keine daraus resultierende Freude nach sich zieht, außer um Vorteile daraus zu

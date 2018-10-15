@@ -344,8 +344,6 @@ export class Cismap_ extends React.Component {
       };
     }
 
-  
-
     let searchControl = (
       <GazetteerSearchControl
         ref={comp => {
@@ -365,8 +363,6 @@ export class Cismap_ extends React.Component {
           );
         }}
         renderMenuItemChildren={this.renderMenuItemChildren}
-        
-        
         searchAfterGazetteer={this.props.searchAfterGazetteer}
         searchInProgress={this.props.mapping.searchInProgress}
         searchAllowed={searchAllowed}

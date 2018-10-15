@@ -15,8 +15,7 @@ const GenericModalApplicationMenu = ({
   uiState,
   uiStateActions,
   kitasActions,
-  mappingActions,
-
+  mappingActions
 }) => {
   const close = () => {
     uiStateActions.showApplicationMenu(false);
@@ -32,7 +31,6 @@ const GenericModalApplicationMenu = ({
     overflowX: "hidden",
     maxHeight: uiState.height - 200
   };
-
 
   return (
     <Modal
@@ -92,7 +90,7 @@ const GenericModalApplicationMenu = ({
 export default GenericModalApplicationMenu;
 GenericModalApplicationMenu.propTypes = {
   menuIcon: PropTypes.string,
-  menuTitel:PropTypes.string,
+  menuTitel: PropTypes.string,
   menuIntroduction: PropTypes.object,
   menuSections: PropTypes.array,
   menuFooter: PropTypes.object,
@@ -102,13 +100,12 @@ GenericModalApplicationMenu.propTypes = {
   kitasState: PropTypes.object,
   kitasActions: PropTypes.object,
   mappingState: PropTypes.object,
-  mappingActions: PropTypes.object,
-  
+  mappingActions: PropTypes.object
 };
 
 GenericModalApplicationMenu.defaultProps = {
   menuIcon: "bars",
   menuTitel: "   Einstellungen und Hilfe",
   menuSections: [],
-  menuFooter: <GenericRVRStadtplanwerkMenuFooter/>
-}
+  menuFooter: <GenericRVRStadtplanwerkMenuFooter />
+};

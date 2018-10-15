@@ -10,8 +10,8 @@ import { persistReducer } from "redux-persist";
 import localForage from "localforage";
 //TYPES
 export const types = {
-//   SET_POI_GAZ_HIT: "STADTPLAN/SET_POI_GAZ_HIT",
-//   CLEAR_POI_GAZ_HIT: "STADTPLAN/CLEAR_POI_GAZ_HIT",
+  //   SET_POI_GAZ_HIT: "STADTPLAN/SET_POI_GAZ_HIT",
+  //   CLEAR_POI_GAZ_HIT: "STADTPLAN/CLEAR_POI_GAZ_HIT",
   SET_FILTERED_POIS: "STADTPLAN/SET_FILTERED_POIS",
   SET_FILTER: "STADTPLAN/SET_FILTER",
 
@@ -26,7 +26,7 @@ export const constants = {
 };
 
 //HIGHER ORDER DUCKS
-const dataDuck = makeDataDuck("POIS",state=>state.stadtplan.dataState);
+const dataDuck = makeDataDuck("POIS", state => state.stadtplan.dataState);
 
 ///INITIAL STATE
 const initialState = {

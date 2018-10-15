@@ -35,7 +35,7 @@ function mapDispatchToProps(dispatch) {
     mappingActions: bindActionCreators(MappingActions, dispatch),
     uiStateActions: bindActionCreators(UIStateActions, dispatch),
     routingActions: bindActionCreators(RoutingActions, dispatch),
-    baederActions: bindActionCreators(BaederActions, dispatch),
+    baederActions: bindActionCreators(BaederActions, dispatch)
   };
 }
 
@@ -47,11 +47,11 @@ export class Baeder_ extends React.Component {
       this.props.baederActions.refreshFeatureCollection(bbox)
     );
   }
-  
+
   gotoHome() {
-    if (this.topicMap){
+    if (this.topicMap) {
       this.topicMap.wrappedInstance.gotoHome();
-     }
+    }
   }
 
   render() {
@@ -85,31 +85,37 @@ export class Baeder_ extends React.Component {
         panelClick={e => {}}
       />
     );
-    
+
     return (
-      <TopicMap 
-          ref={(comp)=>{this.topicMap=comp;}}
-          initialLoadingText="Laden der Bäder ..."
-          fullScreenControl
-          locatorControl
-          gazetteerSearchBox
-          gazetteerSearchBoxPlaceholdertext="Stadtteil | Adresse | POI"
-          photoLightBox      
-          infoBox={info} 
-          backgroundlayers={this.props.match.params.layers || "rvrWMS@70"}
-          dataLoader={this.props.baederActions.loadBaeder}
-          getFeatureCollectionForData={()=>{return getBaederFeatureCollection(this.props.baeder)}}
-          featureStyler={getFeatureStyler(
-            getBadSvgSize(this.props.baeder) || 30,
-            getColorForProperties
-          )}
-          refreshFeatureCollection={this.props.baederActions.refreshFeatureCollection}
-          setSelectedFeatureIndex={this.props.baederActions.setSelectedFeatureIndex}
-          featureHoverer={featureHoverer}
-          modalMenu={<BaederModalMenu
+      <TopicMap
+        ref={comp => {
+          this.topicMap = comp;
+        }}
+        initialLoadingText="Laden der Bäder ..."
+        fullScreenControl
+        locatorControl
+        gazetteerSearchBox
+        gazetteerSearchBoxPlaceholdertext="Stadtteil | Adresse | POI"
+        photoLightBox
+        infoBox={info}
+        backgroundlayers={this.props.match.params.layers || "rvrWMS@70"}
+        dataLoader={this.props.baederActions.loadBaeder}
+        getFeatureCollectionForData={() => {
+          return getBaederFeatureCollection(this.props.baeder);
+        }}
+        featureStyler={getFeatureStyler(
+          getBadSvgSize(this.props.baeder) || 30,
+          getColorForProperties
+        )}
+        refreshFeatureCollection={this.props.baederActions.refreshFeatureCollection}
+        setSelectedFeatureIndex={this.props.baederActions.setSelectedFeatureIndex}
+        featureHoverer={featureHoverer}
+        modalMenu={
+          <BaederModalMenu
             uiState={this.props.uiState}
             uiStateActions={this.props.uiStateActions}
-          />}
+          />
+        }
       />
     );
   }

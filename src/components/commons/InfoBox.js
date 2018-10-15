@@ -35,14 +35,11 @@ const InfoBox = ({
 }) => {
   const currentFeature = featureCollection[selectedIndex];
 
-
   let maillink = null;
   let urllink = null;
   let phonelink = null;
 
-
-
-  if (currentFeature) {      
+  if (currentFeature) {
     let headerBackgroundColor = Color(headerColor);
 
     let textColor = "black";
@@ -145,11 +142,8 @@ const InfoBox = ({
       }
     };
 
-
-   
-   
     return (
-        <div>
+      <div>
         {fotoPreview}
         {llVis}
         <Well bsSize="small" onClick={panelClick}>
@@ -161,18 +155,19 @@ const InfoBox = ({
                     <table border={0} style={{ width: "100%" }}>
                       <tbody>
                         <tr>
-                          <td style={{ textAlign: "left",
-                           padding: "5px",
+                          <td
+                            style={{
+                              textAlign: "left",
+                              padding: "5px",
                               maxWidth: "160px",
                               overflowWrap: "break-word"
-                            }}>
+                            }}
+                          >
                             <h5>
                               <b>{title}</b>
                             </h5>
                           </td>
-                          <td style={{ textAlign: "right" }}>
-                           {[links]}
-                          </td>
+                          <td style={{ textAlign: "right" }}>{[links]}</td>
                         </tr>
                       </tbody>
                     </table>
@@ -235,7 +230,7 @@ const InfoBox = ({
             </table>
           </div>
         </Well>
-        </div>
+      </div>
     );
   } else if (items.length > 0) {
     return (

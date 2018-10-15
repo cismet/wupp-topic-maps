@@ -48,7 +48,7 @@ const StadtplanInfo = ({
         </a>
       );
     }
-    if (currentFeature.properties.email) {   
+    if (currentFeature.properties.email) {
       maillink = (
         <a
           title="E-Mail schreiben"

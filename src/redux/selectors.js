@@ -1,6 +1,5 @@
 // import { selectors as stadtplanSelectors } from "../redux/modules/stadtplan";
 
-
 // export const  getPOIs = state => state.stadtplanlocalState.pois,
 // getPOIGazHitId: state => state.localState.poiGazHitId,
 // getPOIsMD5: state => state.localState.poisMD5,

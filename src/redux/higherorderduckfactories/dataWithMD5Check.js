@@ -85,7 +85,7 @@ const makeDataWithMD5CheckDuckFor = (section, substateResolver) => {
             let preparingPromises = config.prepare(dispatch, data);
             Promise.all(preparingPromises).then(function(results) {
               dispatch(actions.set(data, md5));
-              config.done(dispatch,data,md5);
+              config.done(dispatch, data, md5);
             });
           })
           .catch(function(err) {
@@ -93,9 +93,8 @@ const makeDataWithMD5CheckDuckFor = (section, substateResolver) => {
               console.log("Problem during DataLoading");
               console.log(err);
               config.errorHandler(err);
-            }
-            else {
-                console.log(`Cachehit for ${section}-Data`);
+            } else {
+              console.log(`Cachehit for ${section}-Data`);
             }
           });
       };

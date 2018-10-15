@@ -1,4 +1,3 @@
-
 import { addSVGToPOI } from "../../utils/stadtplanHelper";
 import makeDataDuck from "../higherorderduckfactories/dataWithMD5Check";
 import makePointFeatureCollectionWithIndexDuck from "../higherorderduckfactories/pointFeatureCollectionWithIndex";
@@ -35,7 +34,7 @@ const markerSizeStorageConfig = {
 const dataStateStorageConfig = {
   key: "baederData",
   storage: localForage,
-  whitelist: []//["items", "md5"]
+  whitelist: [] //["items", "md5"]
 };
 
 const reducer = combineReducers({
@@ -58,18 +57,16 @@ function loadBaeder() {
         manualReloadRequested: manualReloadRequest,
         dataURL: "/data/baeder.data.json",
         done: (dispatch, data, md5) => {
-            console.log("BÄDER LOADED")
-            dispatch(actions.setFeatureCollectionDataSource(data));
-            dispatch(actions.createFeatureCollection());
+          console.log("BÄDER LOADED");
+          dispatch(actions.setFeatureCollectionDataSource(data));
+          dispatch(actions.createFeatureCollection());
         },
         prepare: (dispatch, data) => {
-            
-            let svgResolvingPromises = data.map(function(bad) {
-
-              return addSVGToPOI(bad, manualReloadRequest);
-            });
-            return svgResolvingPromises;
-          },
+          let svgResolvingPromises = data.map(function(bad) {
+            return addSVGToPOI(bad, manualReloadRequest);
+          });
+          return svgResolvingPromises;
+        },
         errorHandler: err => {
           console.log(err);
         }
@@ -91,8 +88,10 @@ export const actions = {
 
 //EXPORT SELECTORS
 export const getBaeder = state => dataDuck.selectors.getItems(state.dataState);
-export const getBaederFeatureCollection = state => featureCollectionDuck.selectors.getFeatureCollection(state.featureCollectionState);
-export const getBaederFeatureCollectionSelectedIndex = state => featureCollectionDuck.selectors.getSelectedIndex(state.featureCollectionState);
+export const getBaederFeatureCollection = state =>
+  featureCollectionDuck.selectors.getFeatureCollection(state.featureCollectionState);
+export const getBaederFeatureCollectionSelectedIndex = state =>
+  featureCollectionDuck.selectors.getSelectedIndex(state.featureCollectionState);
 export const getBaederMD5 = state => dataDuck.selectors.getMD5(state.dataState);
 export const getBadSvgSize = state => markerSizeDuck.selectors.getMarkerSize(state.markerSizeState);
 

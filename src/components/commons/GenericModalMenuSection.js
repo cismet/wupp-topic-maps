@@ -1,15 +1,16 @@
 import React from "react";
 import { Accordion, Panel } from "react-bootstrap";
 
-const GenericModalMenuSection=({
+const GenericModalMenuSection = ({
   sectionKey,
   sectionTitle,
   sectionBsStyle,
   sectionContent,
-  uiState,uiStateActions
-})=> {
-    return (
-      <Accordion  
+  uiState,
+  uiStateActions
+}) => {
+  return (
+    <Accordion
       key={sectionKey}
       defaultActiveKey={uiState.applicationMenuActiveKey || sectionKey}
       onSelect={() => {
@@ -24,6 +25,6 @@ const GenericModalMenuSection=({
         {sectionContent}
       </Panel>
     </Accordion>
-    );
-}
+  );
+};
 export default GenericModalMenuSection;

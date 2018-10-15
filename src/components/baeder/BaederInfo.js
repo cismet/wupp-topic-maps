@@ -42,7 +42,8 @@ const BaederInfo = ({
     let links = [];
     if (currentFeature.properties.tel) {
       links.push(
-        <IconLink key={`IconLink.tel`}
+        <IconLink
+          key={`IconLink.tel`}
           tooltip="Anrufen"
           href={"tel:" + currentFeature.properties.tel}
           iconname="phone"
@@ -51,7 +52,8 @@ const BaederInfo = ({
     }
     if (currentFeature.properties.email) {
       links.push(
-        <IconLink key={`IconLink.email`}
+        <IconLink
+          key={`IconLink.email`}
           tooltip="E-Mail schreiben"
           href={"mailto:" + currentFeature.properties.email}
           iconname="envelope-square"
@@ -60,7 +62,8 @@ const BaederInfo = ({
     }
     if (currentFeature.properties.url) {
       links.push(
-        <IconLink key={`IconLink.web`}
+        <IconLink
+          key={`IconLink.web`}
           tooltip="Zur Homepage"
           href={currentFeature.properties.url}
           target="_blank"
@@ -70,7 +73,8 @@ const BaederInfo = ({
     }
     if (currentFeature.properties.more.coursemanager) {
       links.push(
-        <IconLink key={`IconLink.coursemanager`}
+        <IconLink
+          key={`IconLink.coursemanager`}
           tooltip="Kurs buchen"
           href={currentFeature.properties.more.coursemanager}
           target="coursemanager"

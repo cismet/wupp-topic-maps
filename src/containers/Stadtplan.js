@@ -10,18 +10,18 @@ import { actions as uiStateActions } from "../redux/modules/uiState";
 import { actions as stadtplanActions } from "../redux/modules/stadtplan";
 
 import {
-    getPOIs,
-    getPOIsMD5,
-    getPOIGazHitId,
-    getFilteredPOIs,
-    getFilteredPOIsIndex,
-    getLebenslagen,
-    getPOITypes,
-    getFilter,
-    getPoiSvgSize,
-    getApps
-  } from "../redux/modules/stadtplan";
-  
+  getPOIs,
+  getPOIsMD5,
+  getPOIGazHitId,
+  getFilteredPOIs,
+  getFilteredPOIsIndex,
+  getLebenslagen,
+  getPOITypes,
+  getFilter,
+  getPoiSvgSize,
+  getApps
+} from "../redux/modules/stadtplan";
+
 import { routerActions } from "react-router-redux";
 
 import { bindActionCreators } from "redux";
@@ -129,7 +129,7 @@ export class Stadtplan_ extends React.Component {
 
   loadThePOIs() {
     var promise = new Promise((resolve, reject) => {
-      setTimeout(() => {          
+      setTimeout(() => {
         this.props.stadtplanActions.loadPOIs();
         resolve("ok");
       }, 100);
@@ -236,7 +236,8 @@ export class Stadtplan_ extends React.Component {
       if (qTitle === null || qTitle === "") {
         if (
           getFilter(this.props.stadtplan).positiv.length > 0 &&
-          getFilter(this.props.stadtplan).positiv.length < getLebenslagen(this.props.stadtplan).length
+          getFilter(this.props.stadtplan).positiv.length <
+            getLebenslagen(this.props.stadtplan).length
         ) {
           if (getFilter(this.props.stadtplan).positiv.length <= 4) {
             themenstadtplanDesc += getFilter(this.props.stadtplan).positiv.join(", ");
@@ -343,7 +344,9 @@ export class Stadtplan_ extends React.Component {
               animate: false,
               cismapZoomTillSpiderfy: 12,
               selectionSpiderfyMinZoom: 12,
-              iconCreateFunction: getPoiClusterIconCreatorFunction(getPoiSvgSize(this.props.stadtplan))
+              iconCreateFunction: getPoiClusterIconCreatorFunction(
+                getPoiSvgSize(this.props.stadtplan)
+              )
             }}
             infoBox={info}
             applicationMenuTooltipProvider={() => (

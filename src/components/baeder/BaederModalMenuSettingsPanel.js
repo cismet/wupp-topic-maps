@@ -1,7 +1,25 @@
 import React from 'react';
 import GenericModalMenuSection from '../commons/GenericModalMenuSection';
+import SymbolSizeChooser from '../commons/SymbolSizeChooser';
+import NamedMapStyleChooser from '../commons/NamedMapStyleChooser';
+import SettingsPanelWithPreviewSection from '../commons/SettingsPanelWithPreviewSection';
+import { getInternetExplorerVersion } from '../../utils/browserHelper';
+import 'url-search-params-polyfill';
+import { getColorForProperties, getBadSVG } from '../../utils/baederHelper';
 
-const BaederModalMenuSettingsSection = ({ uiState, uiStateActions }) => {
+const BaederModalMenuSettingsSection = ({
+	uiState,
+	uiStateActions,
+	width,
+	urlPathname,
+	urlSearch,
+	pushNewRoute,
+	changeMarkerSymbolSize,
+	currentMarkerSize
+}) => {
+	let preview = <div />;
+
+	let namedMapStyle = new URLSearchParams(urlSearch).get('mapStyle') || 'default';
 	return (
 		<GenericModalMenuSection
 			uiState={uiState}
@@ -10,21 +28,31 @@ const BaederModalMenuSettingsSection = ({ uiState, uiStateActions }) => {
 			sectionTitle="Einstellungen"
 			sectionBsStyle="primary"
 			sectionContent={
-				<div>
-					<ul>
-						<li>
-							Sie hätten noch ins Boot springen können, aber der Reisende hob ein schweres, geknotetes Tau
-							vom Boden.
-						</li>
-						<li>Aber sie überwanden sich, umdrängten den Käfig und wollten sich gar nicht fortrühren. </li>
-						<li>
-							Welcher keine daraus resultierende Freude nach sich zieht, außer um Vorteile daraus zu
-							ziehen?
-						</li>
-					</ul>
-				</div>
+				<SettingsPanelWithPreviewSection
+					width={width}
+					preview={preview}
+					settingsSections={[
+						getInternetExplorerVersion() === -1 && (
+							<NamedMapStyleChooser
+								currentNamedMapStyle={namedMapStyle}
+								pathname={urlPathname}
+								search={urlSearch}
+								pushNewRoute={pushNewRoute}
+							/>
+						),
+						<SymbolSizeChooser
+							changeMarkerSymbolSize={changeMarkerSymbolSize}
+							currentMarkerSize={currentMarkerSize}
+							getSymbolSVG={getBadSVG}
+							symbolColor={getColorForProperties({
+								more: { zugang: 'öffentlich', betreiber: 'Verein' }
+							})}
+						/>
+					]}
+				/>
 			}
 		/>
 	);
 };
+
 export default BaederModalMenuSettingsSection;

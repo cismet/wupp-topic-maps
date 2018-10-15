@@ -6,7 +6,7 @@ import { applyMiddleware } from 'redux';
 import objectAssign from 'object-assign';
 
 // Since this component is simple and static, there's no parent container for it.
-const SymbolSizeChooser = ({ title, changeMarkerSymbolSize, currentMarkerSize, getSymbolSVG, additionalConfig }) => {
+const SymbolSizeChooser = ({ title, changeMarkerSymbolSize, currentMarkerSize, getSymbolSVG, symbolColor, additionalConfig }) => {
 	const defaultConfig = {
 		smallSize: 25,
 		midSize: 35,
@@ -30,7 +30,7 @@ const SymbolSizeChooser = ({ title, changeMarkerSymbolSize, currentMarkerSize, g
 							}}
 						>
 							<a onClick={() => changeMarkerSymbolSize(config.smallSize)}>
-								{getSymbolSVG(config.smallSize, '#00A0B0')}
+								{getSymbolSVG(config.smallSize, symbolColor)}
 							</a>
 						</td>
 						<td
@@ -40,7 +40,7 @@ const SymbolSizeChooser = ({ title, changeMarkerSymbolSize, currentMarkerSize, g
 							}}
 						>
 							<a onClick={() => changeMarkerSymbolSize(config.midSize)}>
-								{getSymbolSVG(config.midSize, '#00A0B0')}
+								{getSymbolSVG(config.midSize, symbolColor)}
 							</a>
 						</td>
 						<td
@@ -50,7 +50,7 @@ const SymbolSizeChooser = ({ title, changeMarkerSymbolSize, currentMarkerSize, g
 							}}
 						>
 							<a onClick={() => changeMarkerSymbolSize(config.largeSize)}>
-								{getSymbolSVG(config.largeSize, '#00A0B0')}
+								{getSymbolSVG(config.largeSize, symbolColor)}
 							</a>
 						</td>
 					</tr>
@@ -95,10 +95,12 @@ SymbolSizeChooser.propTypes = {
 	changeMarkerSymbolSize: PropTypes.func.isRequired,
 	currentMarkerSize: PropTypes.number.isRequired,
 	getSymbolSVG: PropTypes.func,
+	symbolColor: PropTypes.string,
 	config: PropTypes.object
 };
 
 SymbolSizeChooser.defaultProps = {
 	title: 'Symbolgröße:',
-	config: {}
+	config: {},
+	symbolColor: '#00A0B0'
 };

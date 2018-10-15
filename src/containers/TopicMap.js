@@ -197,7 +197,7 @@ export class TopicMap_ extends React.Component {
     let photoLightBox;
     if (this.props.photoLightBox) {
       photoLightBox = <PhotoLightbox />;
-    }
+    }  
 
     return (
       <div>
@@ -248,7 +248,13 @@ export class TopicMap_ extends React.Component {
                 mappingProps={this.props.mapping}
               />
               <FeatureCollectionDisplay
-                key={JSON.stringify(this.props.getFeatureCollectionForData())}
+                key={JSON.stringify(this.props.getFeatureCollectionForData())+
+                  this.props.featureKeySuffixCreator() +
+                  "clustered:" +
+                  this.props.clustered +
+                  ".customPostfix:" +
+                  this.props.featureCollectionKeyPostfix
+                }
                 featureCollection={this.props.getFeatureCollectionForData()}
                 boundingBox={this.props.mapping.boundingBox}
                 clusteringEnabled={false}
@@ -319,7 +325,9 @@ TopicMap.propTypes = {
   featureHoverer: PropTypes.func,
   home: PropTypes.object,
   modalMenu: PropTypes.object,
-  showModalApplicationMenu: PropTypes.func
+  showModalApplicationMenu: PropTypes.func,
+  featureKeySuffixCreator: PropTypes.func,
+  featureCollectionKeyPostfix: PropTypes.string,
 };
 
 TopicMap.defaultProps = {
@@ -340,5 +348,7 @@ TopicMap.defaultProps = {
   home: {
     center: [51.25861849982617, 7.15101022370511],
     zoom: 8
-  }
+  },
+  featureKeySuffixCreator: () => "",
+  featureCollectionKeyPostfix: ""
 };

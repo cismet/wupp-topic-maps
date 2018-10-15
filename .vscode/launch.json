@@ -32,6 +32,13 @@
             "name": "Debug Kitas",
             "url": "http://localhost:3000/#/kitas/?lat=51.27179498177712&lng=7.197965721193838&zoom=10",
             "webRoot": "${workspaceRoot}"
+        },
+        {
+            "type": "chrome",
+            "request": "launch",
+            "name": "Debug Baeder",
+            "url": "http://localhost:3000/#/baeder/?lat=51.27179498177712&lng=7.197965721193838&zoom=10&mapStyle=night",
+            "webRoot": "${workspaceRoot}"
         }
     ]
 }

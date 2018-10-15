@@ -43,6 +43,7 @@ export class Baeder_ extends React.Component {
 	constructor(props, context) {
 		super(props, context);
 		this.gotoHome = this.gotoHome.bind(this);
+		this.changeMarkerSymbolSize = this.changeMarkerSymbolSize.bind(this);
 		this.props.mappingActions.setBoundingBoxChangedTrigger((bbox) =>
 			this.props.baederActions.refreshFeatureCollection(bbox)
 		);
@@ -54,6 +55,14 @@ export class Baeder_ extends React.Component {
 		}
 	}
 
+
+	changeMarkerSymbolSize (size) {
+		this.props.baederActions.setBadSvgSize(size);
+		this.props.mappingActions.setFeatureCollectionKeyPostfix("MarkerSvgSize:" + size);
+	  };
+	
+
+	
 	render() {
 		let info = (
 			<BaederInfo
@@ -106,7 +115,16 @@ export class Baeder_ extends React.Component {
 				refreshFeatureCollection={this.props.baederActions.refreshFeatureCollection}
 				setSelectedFeatureIndex={this.props.baederActions.setSelectedFeatureIndex}
 				featureHoverer={featureHoverer}
-				modalMenu={<BaederModalMenu uiState={this.props.uiState} uiStateActions={this.props.uiStateActions} />}
+				modalMenu={<BaederModalMenu 
+					uiState={this.props.uiState} 
+					uiStateActions={this.props.uiStateActions} 
+					urlPathname={this.props.routing.location.pathname}
+					urlSearch={this.props.routing.location.search}
+					pushNewRoute={this.props.routingActions.push}
+					currentMarkerSize={getBadSvgSize(this.props.baeder)}
+					changeMarkerSymbolSize={this.changeMarkerSymbolSize}
+					/>}
+				featureCollectionKeyPostfix={this.props.mapping.featureCollectionKeyPostfix}
 			/>
 		);
 	}

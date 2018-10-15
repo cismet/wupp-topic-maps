@@ -13,9 +13,9 @@ const makeMarkerSizeDuck = (section, substateResolver) => {
     getMarkerSize: state => state.markerSize
   };
   const actions = {
-    setSize: size => {
-      type: actionTypes.SET, size;
-    }
+    setSize: size => ({
+      type: actionTypes.SET, size
+    })
   };
 
   const reducer = (state = initialState, action) => {

@@ -57,7 +57,6 @@ function loadBaeder() {
         manualReloadRequested: manualReloadRequest,
         dataURL: "/data/baeder.data.json",
         done: (dispatch, data, md5) => {
-          console.log("BÄDER LOADED");
           dispatch(actions.setFeatureCollectionDataSource(data));
           dispatch(actions.createFeatureCollection());
         },

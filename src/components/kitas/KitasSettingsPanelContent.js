@@ -6,6 +6,7 @@ import { constants as kitasConstants } from '../../redux/modules/kitas';
 import { getChildSVG } from '../../utils/kitasHelper';
 import SymbolSizeChooser from '../commons/SymbolSizeChooser';
 import NamedMapStyleChooser from '../commons/NamedMapStyleChooser';
+import SettingsPanelWithPreviewSection from '../commons/SettingsPanelWithPreviewSection';
 
 // Since this component is simple and static, there's no parent container for it.
 const KitasSettingsPanel = ({
@@ -129,118 +130,107 @@ const KitasSettingsPanel = ({
 		widePreviewPlaceholder = <td>{preview}</td>;
 	}
 	return (
-		<div>
-			<table border={0} width="100%">
-				<tbody>
-					<tr>
-						<td valign="top" style={{ width: '330px' }}>
-							<FormGroup>
-								<ControlLabel>Kita-Einstellungen:</ControlLabel>
-								<br />
-								<Checkbox
-									readOnly={true}
-									key={'title.checkbox' + titleDisplay}
-									checked={titleDisplay}
-									onClick={(e) => {
-										console.log('routing.location.search');
-										console.log(routing.location.search);
+		<SettingsPanelWithPreviewSection
+			width={width}
+			preview={preview}
+			settingsSections={[
+				<FormGroup>
+					<ControlLabel>Kita-Einstellungen:</ControlLabel>
+					<br />
+					<Checkbox
+						readOnly={true}
+						key={'title.checkbox' + titleDisplay}
+						checked={titleDisplay}
+						onClick={(e) => {
+							console.log('routing.location.search');
+							console.log(routing.location.search);
 
-										if (e.target.checked === false) {
-											routingActions.push(
-												routing.location.pathname +
-													removeQueryPart(routing.location.search, 'title')
-											);
-										} else {
-											routingActions.push(
-												routing.location.pathname +
-													(routing.location.search !== '' ? routing.location.search : '?') +
-													'&title'
-											);
-										}
-									}}
-									inline
-								>
-									Titel bei individueller Kita-Filterung anzeigen
-								</Checkbox>
-								<br />
-								<Checkbox
-									readOnly={true}
-									key={'clustered.checkbox' + clusteredMarkers}
-									onClick={(e) => {
-										if (e.target.checked === true) {
-											routingActions.push(
-												routing.location.pathname +
-													removeQueryPart(routing.location.search, 'unclustered')
-											);
-										} else {
-											routingActions.push(
-												routing.location.pathname +
-													(routing.location.search !== '' ? routing.location.search : '?') +
-													'&unclustered'
-											);
-										}
-										refreshFeatureCollection();
-									}}
-									checked={clusteredMarkers}
-									inline
-								>
-									Kitas ma&szlig;stabsabh&auml;ngig zusammenfassen
-								</Checkbox>
-								<br />
-							</FormGroup>
-							<br />
-							<FormGroup key={'featureRenderingCombos.' + featureRendering}>
-								<ControlLabel>Zeichenvorschrift:</ControlLabel>
-								<br />
-								<Radio
-									readOnly={true}
-									onClick={(e) => {
-										if (e.target.checked === true) {
-											setFeatureRendering(kitasConstants.FEATURE_RENDERING_BY_TRAEGERTYP);
-										}
-									}}
-									checked={featureRendering === kitasConstants.FEATURE_RENDERING_BY_TRAEGERTYP}
-									name="featureRendering"
-									inline
-								>
-									nach Trägertyp
-								</Radio>{' '}
-								<br />
-								<Radio
-									readOnly={true}
-									onClick={(e) => {
-										if (e.target.checked === true) {
-											setFeatureRendering(kitasConstants.FEATURE_RENDERING_BY_PROFIL);
-										}
-									}}
-									name="featureRendering"
-									checked={featureRendering === kitasConstants.FEATURE_RENDERING_BY_PROFIL}
-									inline
-								>
-									nach Profil (Inklusionsschwerpunkt j/n)
-								</Radio>{' '}
-							</FormGroup>
-
-							{getInternetExplorerVersion() === -1 && (
-								<NamedMapStyleChooser
-									currentNamedMapStyle={namedMapStyle}
-									pathname={routing.location.pathname}
-									search={routing.location.search}
-									pushNewRoute={routingActions.push}
-								/>
-							)}
-							<SymbolSizeChooser
-								changeMarkerSymbolSize={changeMarkerSymbolSize}
-								currentMarkerSize={markerSize}
-								getSymbolSVG={getChildSVG}
-							/>
-						</td>
-						{widePreviewPlaceholder}
-					</tr>
-				</tbody>
-			</table>
-			{narrowPreviewPlaceholder}
-		</div>
+							if (e.target.checked === false) {
+								routingActions.push(
+									routing.location.pathname + removeQueryPart(routing.location.search, 'title')
+								);
+							} else {
+								routingActions.push(
+									routing.location.pathname +
+										(routing.location.search !== '' ? routing.location.search : '?') +
+										'&title'
+								);
+							}
+						}}
+						inline
+					>
+						Titel bei individueller Kita-Filterung anzeigen
+					</Checkbox>
+					<br />
+					<Checkbox
+						readOnly={true}
+						key={'clustered.checkbox' + clusteredMarkers}
+						onClick={(e) => {
+							if (e.target.checked === true) {
+								routingActions.push(
+									routing.location.pathname + removeQueryPart(routing.location.search, 'unclustered')
+								);
+							} else {
+								routingActions.push(
+									routing.location.pathname +
+										(routing.location.search !== '' ? routing.location.search : '?') +
+										'&unclustered'
+								);
+							}
+							refreshFeatureCollection();
+						}}
+						checked={clusteredMarkers}
+						inline
+					>
+						Kitas ma&szlig;stabsabh&auml;ngig zusammenfassen
+					</Checkbox>
+				</FormGroup>,
+				<FormGroup key={'featureRenderingCombos.' + featureRendering}>
+					<ControlLabel>Zeichenvorschrift:</ControlLabel>
+					<br />
+					<Radio
+						readOnly={true}
+						onClick={(e) => {
+							if (e.target.checked === true) {
+								setFeatureRendering(kitasConstants.FEATURE_RENDERING_BY_TRAEGERTYP);
+							}
+						}}
+						checked={featureRendering === kitasConstants.FEATURE_RENDERING_BY_TRAEGERTYP}
+						name="featureRendering"
+						inline
+					>
+						nach Trägertyp
+					</Radio>{' '}
+					<br />
+					<Radio
+						readOnly={true}
+						onClick={(e) => {
+							if (e.target.checked === true) {
+								setFeatureRendering(kitasConstants.FEATURE_RENDERING_BY_PROFIL);
+							}
+						}}
+						name="featureRendering"
+						checked={featureRendering === kitasConstants.FEATURE_RENDERING_BY_PROFIL}
+						inline
+					>
+						nach Profil (Inklusionsschwerpunkt j/n)
+					</Radio>{' '}
+				</FormGroup>,
+				getInternetExplorerVersion() === -1 && (
+					<NamedMapStyleChooser
+						currentNamedMapStyle={namedMapStyle}
+						pathname={routing.location.pathname}
+						search={routing.location.search}
+						pushNewRoute={routingActions.push}
+					/>
+				),
+				<SymbolSizeChooser
+					changeMarkerSymbolSize={changeMarkerSymbolSize}
+					currentMarkerSize={markerSize}
+					getSymbolSVG={getChildSVG}
+				/>
+			]}
+		/>
 	);
 };
 

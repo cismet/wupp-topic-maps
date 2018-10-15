@@ -222,15 +222,12 @@ const KitasSettingsPanel = ({
 							</FormGroup>
 
 							{getInternetExplorerVersion() === -1 && (
-								
-                <NamedMapStyleChooser 
-                currentNamedMapStyle={namedMapStyle}
-                pathname={routing.location.pathname}
-                search={routing.location.search}
-                pushNewRoute={routingActions.push}
-
-                />
-                
+								<NamedMapStyleChooser
+									currentNamedMapStyle={namedMapStyle}
+									pathname={routing.location.pathname}
+									search={routing.location.search}
+									pushNewRoute={routingActions.push}
+								/>
 							)}
 							<SymbolSizeChooser
 								changeMarkerSymbolSize={changeMarkerSymbolSize}

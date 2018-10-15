@@ -7,7 +7,6 @@ import { removeQueryPart, modifyQueryPart } from '../../utils/routingHelper';
 const NamedMapStyleChooser = ({ title, currentNamedMapStyle, pathname, search, pushNewRoute, modes }) => {
 	return (
 		<FormGroup>
-			<br />
 			<ControlLabel>{title}</ControlLabel>
 			<br />
 			{modes.map((item, key) => {

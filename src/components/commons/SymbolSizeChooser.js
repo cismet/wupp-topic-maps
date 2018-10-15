@@ -17,7 +17,6 @@ const SymbolSizeChooser = ({ title, changeMarkerSymbolSize, currentMarkerSize, g
 
 	return (
 		<FormGroup>
-			<br />
 			<ControlLabel>{title}</ControlLabel>
 			<br />
 

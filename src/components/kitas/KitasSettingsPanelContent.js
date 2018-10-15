@@ -22,9 +22,6 @@ const KitasSettingsPanel = ({
 	featureRendering,
 	setFeatureRendering
 }) => {
-	let widePreviewPlaceholder = null;
-	let narrowPreviewPlaceholder = null;
-
 	let markerPreviewPrefix = 'kitas.preview';
 	let markerPreviewName;
 	let markerPreviewRendering;
@@ -57,7 +54,6 @@ const KitasSettingsPanel = ({
 		'.' +
 		markerPreviewSize +
 		'.png';
-	console.log('markerPreviewName:' + markerPreviewName);
 	let titlePreview = null;
 	if (titleDisplay) {
 		titlePreview = (
@@ -119,16 +115,6 @@ const KitasSettingsPanel = ({
 		</div>
 	);
 
-	if (width < 995) {
-		narrowPreviewPlaceholder = (
-			<div>
-				<br />
-				{preview}
-			</div>
-		);
-	} else {
-		widePreviewPlaceholder = <td>{preview}</td>;
-	}
 	return (
 		<SettingsPanelWithPreviewSection
 			width={width}

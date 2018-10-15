@@ -9,7 +9,6 @@ const SettingsPanelWithPreviewSection = ({
 }) => {
   let widePreviewPlaceholder = null;
 	let narrowPreviewPlaceholder = null;
-console.log('width',width);
   if (width < 995) {
 		narrowPreviewPlaceholder = (
 			<div>
@@ -29,7 +28,6 @@ console.log('width',width);
 					<td valign="top" style={{ width: '330px' }}>
 
             {settingsSections.map((item,key)=>{
-							console.log(key)
 							return (
                 <div key={key}>
 									{(key!==0) && (<br/>)}

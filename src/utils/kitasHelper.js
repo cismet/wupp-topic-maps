@@ -435,7 +435,6 @@ export const getFilterDescription = filter => {
           .join(joiner);
     }
   }
-  console.log(traegerDesc);
 
   const radioAgeUnter2 = filter.alter.indexOf(kitasConstants.ALTER_UNTER2) !== -1;
   const radioAgeAb2 = filter.alter.indexOf(kitasConstants.ALTER_AB2) !== -1;

@@ -12,7 +12,7 @@ const NamedMapStyleChooser = ({ title, currentNamedMapStyle, pathname, search, p
 			{modes.map((item, key) => {
 				return (
 					
-						<Radio
+						<Radio key={key}
 							readOnly={true}
 							onClick={(e) => {
 								if (e.target.checked === true) {

@@ -11,7 +11,7 @@ const NamedMapStyleChooser = ({ title, currentNamedMapStyle, pathname, search, p
 			<br />
 			{modes.map((item, key) => {
 				return (
-					<div>
+					
 						<Radio
 							readOnly={true}
 							onClick={(e) => {
@@ -32,11 +32,11 @@ const NamedMapStyleChooser = ({ title, currentNamedMapStyle, pathname, search, p
 							name="mapBackground"
 							inline
 						>
-							{item.title}
-						</Radio>{' '}
-					</div>
+							{item.title} &nbsp;
+						</Radio>
+					
 				);
-			})}
+            })}
 		</FormGroup>
 	);
 };

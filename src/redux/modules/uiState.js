@@ -34,7 +34,11 @@ const initialState = {
   lightboxindex: 0,
   lightboxvisible: false,
   lightboxcaption: null,
-  lightboxtitle: null
+  lightboxtitle: null,
+  namedFilters: {
+    night: "grayscale(0.9) brightness(0.9) invert(1)",
+    blue: "sepia(1.0) hue-rotate(150deg) contrast(0.9) opacity(1) invert(0) saturate(1)"
+  }
 };
 
 ///REDUCER

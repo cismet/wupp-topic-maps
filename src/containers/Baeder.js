@@ -19,7 +19,6 @@ import { getColorForProperties } from '../utils/baederHelper';
 import BaederInfo from '../components/baeder/BaederInfo';
 import BaederModalMenu from '../components/baeder/BaederModalMenu';
 import TopicMap from '../containers/TopicMap';
-
 function mapStateToProps(state) {
 	return {
 		uiState: state.uiState,

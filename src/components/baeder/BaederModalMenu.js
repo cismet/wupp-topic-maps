@@ -12,7 +12,8 @@ const BaederModalMenu = ({
 	urlSearch,
 	pushNewRoute,
 	currentMarkerSize,
-	changeMarkerSymbolSize
+	changeMarkerSymbolSize,
+	topicMapRef
 }) => {
 	return (
 		<GenericModalApplicationMenu
@@ -21,6 +22,7 @@ const BaederModalMenu = ({
 			menuIntroduction={<BaederModalMenuIntroduction uiStateActions={uiStateActions} />}
 			menuSections={[
 				<BaederModalMenuSettingsPanel
+					key="BaederModalMenuSettingsPanel"
 					uiState={uiState}
 					uiStateActions={uiStateActions}
 					width={uiState.width}
@@ -29,6 +31,7 @@ const BaederModalMenu = ({
 					changeMarkerSymbolSize={changeMarkerSymbolSize}
 					urlPathname={urlPathname}
 					urlSearch={urlSearch}
+					topicMapRef={topicMapRef}
 				/>,
 
 				<BaederModalMenuHelpSection

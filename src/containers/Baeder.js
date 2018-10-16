@@ -61,7 +61,6 @@ export class Baeder_ extends React.Component {
 	  };
 	
 
-	
 	render() {
 		let info = (
 			<BaederInfo
@@ -92,7 +91,7 @@ export class Baeder_ extends React.Component {
 				panelClick={(e) => {}}
 			/>
 		);
-
+					console.log()
 		return (
 			<TopicMap
 				ref={(comp) => {
@@ -105,7 +104,7 @@ export class Baeder_ extends React.Component {
 				gazetteerSearchBoxPlaceholdertext="Stadtteil | Adresse | POI"
 				photoLightBox
 				infoBox={info}
-				backgroundlayers={this.props.match.params.layers || 'rvrWMS@70'}
+				backgroundlayers={this.props.match.params.layers || 'rvrWMS'}
 				dataLoader={this.props.baederActions.loadBaeder}
 				getFeatureCollectionForData={() => {
 					return getBaederFeatureCollection(this.props.baeder);
@@ -122,6 +121,7 @@ export class Baeder_ extends React.Component {
 					pushNewRoute={this.props.routingActions.push}
 					currentMarkerSize={getBadSvgSize(this.props.baeder)}
 					changeMarkerSymbolSize={this.changeMarkerSymbolSize}
+					topicMapRef={this.topicMap}
 					/>}
 				featureCollectionKeyPostfix={this.props.mapping.featureCollectionKeyPostfix}
 			/>

@@ -11,8 +11,6 @@ import uiStateReducer from "./modules/uiState";
 import { persistReducer } from "redux-persist";
 import localForage from "localforage";
 
-import { selectors as stadtplanSelectors } from "../redux/modules/stadtplan";
-
 const gazetteerTopicsStorageConfig = {
   key: "gazetteerTopics",
   storage: localForage

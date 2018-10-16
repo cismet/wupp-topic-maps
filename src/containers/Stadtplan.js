@@ -12,11 +12,8 @@ import { actions as stadtplanActions } from "../redux/modules/stadtplan";
 import {
   getPOIs,
   getPOIsMD5,
-  getPOIGazHitId,
   getFilteredPOIs,
-  getFilteredPOIsIndex,
   getLebenslagen,
-  getPOITypes,
   getFilter,
   getPoiSvgSize,
   getApps

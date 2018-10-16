@@ -1,9 +1,5 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { Well } from "react-bootstrap";
-import { Icon } from "react-fa";
-import queryString from "query-string";
-import Color from "color";
 import InfoBox from "../commons/InfoBox";
 import { getColorForProperties } from "../../utils/baederHelper";
 import { triggerLightBoxForPOI } from "../../utils/stadtplanHelper";

@@ -2,7 +2,6 @@ import React from 'react';
 import BaederModalMenuIntroduction from './BaederModalMenuIntroduction';
 import BaederModalMenuHelpSection from './BaederModalMenuHelpSection';
 import GenericModalApplicationMenu from '../commons/GenericModalApplicationMenu';
-import GenericModalMenuSection from '../commons/GenericModalMenuSection';
 import BaederModalMenuSettingsPanel from './BaederModalMenuSettingsPanel';
 
 const BaederModalMenu = ({

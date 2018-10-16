@@ -14,13 +14,11 @@ import NewWindowControl from "../components/NewWindowControl";
 import queryString from "query-string";
 
 import Control from "react-leaflet-control";
-import { Form, FormGroup, InputGroup, Button, OverlayTrigger, Tooltip } from "react-bootstrap";
-import { Typeahead } from "react-bootstrap-typeahead";
+import { Button, OverlayTrigger, Tooltip } from "react-bootstrap";
 
 import { routerActions } from "react-router-redux";
 import { modifyQueryPart } from "../utils/routingHelper";
 import { actions as mappingActions, constants as mappingConstants } from "../redux/modules/mapping";
-import objectAssign from "object-assign";
 import { Icon } from "react-fa";
 import { actions as uiStateActions } from "../redux/modules/uiState";
 import {
@@ -28,10 +26,7 @@ import {
   getGazDataForTopicIds
 } from "../redux/modules/gazetteerTopics";
 import "url-search-params-polyfill";
-import * as turfHelpers from "@turf/helpers";
-import bbox from "@turf/bbox";
 import { WUNDAAPI } from "../constants/services";
-import * as gisHelpers from "../utils/gisHelper";
 
 // need to have this import
 // eslint-disable-next-line

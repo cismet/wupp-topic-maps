@@ -1,6 +1,4 @@
 import React from 'react';
-import { Accordion, Panel } from 'react-bootstrap';
-import GenericModalMenuSection from './GenericModalMenuSection';
 
 const SettingsPanelWithPreviewSection = ({
   settingsSections,

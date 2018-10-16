@@ -1,8 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { FormGroup, Checkbox, Radio, ControlLabel } from 'react-bootstrap';
-import { Icon } from 'react-fa';
-import { applyMiddleware } from 'redux';
+import { FormGroup, Radio, ControlLabel } from 'react-bootstrap';
 import objectAssign from 'object-assign';
 
 // Since this component is simple and static, there's no parent container for it.

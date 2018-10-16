@@ -1,6 +1,6 @@
 import React from 'react';
 import { FormGroup, Checkbox, Radio, ControlLabel } from 'react-bootstrap';
-import { removeQueryPart, modifyQueryPart } from '../../utils/routingHelper';
+import { removeQueryPart } from '../../utils/routingHelper';
 import { getInternetExplorerVersion } from '../../utils/browserHelper';
 import { constants as kitasConstants } from '../../redux/modules/kitas';
 import { getChildSVG } from '../../utils/kitasHelper';

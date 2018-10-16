@@ -5,7 +5,6 @@ import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 
 import { Well } from "react-bootstrap";
-import { getFeatureStyler, featureHoverer } from "../utils/stadtplanHelper";
 import { actions as UIStateActions } from "../redux/modules/uiState";
 
 import GenericModalApplicationMenu from "../components/commons/GenericModalApplicationMenu";

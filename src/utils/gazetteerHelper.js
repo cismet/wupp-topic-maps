@@ -1,4 +1,4 @@
-import { crs25832, proj4crs25832def } from "../constants/gis";
+import { proj4crs25832def } from "../constants/gis";
 import proj4 from "proj4";
 import objectAssign from "object-assign";
 import bboxCreator from "@turf/bbox";

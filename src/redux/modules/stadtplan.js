@@ -3,7 +3,6 @@ import { actions as mappingActions } from "./mapping";
 import { predicateBy } from "../../utils/stringHelper";
 import kdbush from "kdbush";
 import { addSVGToPOI } from "../../utils/stadtplanHelper";
-import queryString from "query-string";
 import makeDataDuck from "../higherorderduckfactories/dataWithMD5Check";
 import { combineReducers } from "redux";
 import { persistReducer } from "redux-persist";

@@ -29,10 +29,6 @@ const BaederModalMenuSettingsSection = ({
 	topicMapRef,
 }) => {
 	let namedMapStyle = new URLSearchParams(urlSearch).get('mapStyle') || 'default';
-	let filter = '';
-	if (uiState.namedFilters[namedMapStyle]) {
-		filter = uiState.namedFilters[namedMapStyle];
-	}
 	let zoom = 7;
 	let layers="";
 	if (topicMapRef){

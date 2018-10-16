@@ -21,11 +21,6 @@ const GenericModalApplicationMenu = ({
     uiStateActions.showApplicationMenu(false);
   };
 
-  const changeMarkerSymbolSize = size => {
-    kitasActions.setSvgSize(size);
-    mappingActions.setFeatureCollectionKeyPostfix("MarkerSvgSize:" + size);
-  };
-
   const modalBodyStyle = {
     overflowY: "auto",
     overflowX: "hidden",

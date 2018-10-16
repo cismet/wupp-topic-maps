@@ -63,15 +63,15 @@ const initialState = {
       backgroundColor: null,
       link: "/#/kitas",
       target: "_kitas"
-    }
-    // {
-    //   on: ["Sport", "Freizeit"],
-    //   name: "Schwimmbäder",
-    //   bsStyle: "primary",
-    //   backgroundColor: null,
-    //   link: "/#/bplaene",
-    //   target: "_baeder"
-    // },
+    },
+    {
+      on: ["Sport", "Freizeit"],
+      name: "Schwimmbäder",
+      bsStyle: "primary",
+      backgroundColor: null,
+      link: "/#/baeder",
+      target: "_baeder"
+    },
     // {
     //   on: ["Sport"],
     //   name: "Sporthallen",

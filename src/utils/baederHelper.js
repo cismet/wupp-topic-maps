@@ -24,7 +24,7 @@ const hallenbadSVG = `
 <polygon class="fg-fill" fill="#FFF" fill-rule="nonzero" points="0.00095,5.53666 9.47805,0.2716 9.96243,0.00251 10.4468,0.2716 20.001,5.57945 20.001,7.85983 9.96243,2.28288 0.00095,7.81704 "/>
 </svg>
 `;
-const freiBadSVG=`
+const freiBadSVG = `
 <svg xmlns="http://www.w3.org/2000/svg" width="20.0" height="20.0">
     <path class="fg-fill" fill="#FFF"  d="M0 0h20.008v16.945H0z"/>
     <path class="bg-fill" fill="#C32D6A"  stroke="#C32D6A" stroke-width=".011" 

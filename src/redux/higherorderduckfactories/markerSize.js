@@ -14,7 +14,8 @@ const makeMarkerSizeDuck = (section, substateResolver) => {
   };
   const actions = {
     setSize: size => ({
-      type: actionTypes.SET, size
+      type: actionTypes.SET,
+      size
     })
   };
 

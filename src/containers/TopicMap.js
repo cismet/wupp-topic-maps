@@ -197,7 +197,7 @@ export class TopicMap_ extends React.Component {
     let photoLightBox;
     if (this.props.photoLightBox) {
       photoLightBox = <PhotoLightbox />;
-    }  
+    }
 
     return (
       <div>
@@ -248,7 +248,8 @@ export class TopicMap_ extends React.Component {
                 mappingProps={this.props.mapping}
               />
               <FeatureCollectionDisplay
-                key={JSON.stringify(this.props.getFeatureCollectionForData())+
+                key={
+                  JSON.stringify(this.props.getFeatureCollectionForData()) +
                   this.props.featureKeySuffixCreator() +
                   "clustered:" +
                   this.props.clustered +
@@ -327,7 +328,7 @@ TopicMap.propTypes = {
   modalMenu: PropTypes.object,
   showModalApplicationMenu: PropTypes.func,
   featureKeySuffixCreator: PropTypes.func,
-  featureCollectionKeyPostfix: PropTypes.string,
+  featureCollectionKeyPostfix: PropTypes.string
 };
 
 TopicMap.defaultProps = {

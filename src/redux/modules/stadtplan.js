@@ -70,7 +70,7 @@ const initialState = {
       backgroundColor: null,
       link: "/#/baeder",
       target: "_baeder"
-    },
+    }
     // {
     //   on: ["Sport"],
     //   name: "Sporthallen",

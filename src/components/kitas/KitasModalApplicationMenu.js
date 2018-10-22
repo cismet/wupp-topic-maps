@@ -11,8 +11,8 @@ import { Link } from "react-scroll";
 import KitasFilterPanelContent from "./KitasFilterPaneContent";
 import KitasSettingsPanelContent from "./KitasSettingsPanelContent";
 import KitasHelpTextPanelContent from "./KitasHelpTextPanelContent";
-import KitasModalFooterContent from "./KitasModalFooterContent";
 import KitasPieChart from "./KitasPieChart";
+import GenericRVRStadtplanwerkMenuFooter from "../commons/GenericRVRStadtplanwerkMenuFooter";
 
 const KitasModalApplicationMenu = ({
   uiState,
@@ -197,7 +197,7 @@ const KitasModalApplicationMenu = ({
                   paddingRight: "30px"
                 }}
               >
-                <KitasModalFooterContent />
+              <GenericRVRStadtplanwerkMenuFooter />
               </td>
               <td>
                 <Button bsStyle="primary" type="submit" onClick={close}>

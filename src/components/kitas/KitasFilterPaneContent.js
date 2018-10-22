@@ -36,7 +36,12 @@ const KitasFilterPanel = ({
   } else {
     widePieChartPlaceholder = <td>{pieChart}</td>;
   }
-
+  
+  let injectQueryParameter="&inject="+window.btoa(JSON.stringify({action:"setFilterAndApply", payload: filter}));
+  
+  if (new URLSearchParams(window.location.href).get('getinjectorstring')){
+    console.log(injectQueryParameter);
+  }
   return (
     <div>
       <table border={0} width="100%">

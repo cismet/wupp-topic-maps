@@ -126,9 +126,9 @@ const BaederModalMenuHelpSection = ({ uiState, uiStateActions }) => {
 						Auswahlliste werden Ihnen passende Treffer angeboten. (Wenn Sie weitere Zeichen eingeben, wird
 						der Inhalt der Auswahlliste angepasst.) Durch das vorangestellte Symbol erkennen Sie, ob es sich
 						dabei um einen <Icon name="circle" /> Stadtbezirk, ein <Icon name="pie-chart" /> Quartier, eine{' '}
-						<Icon name="home" />
-						Adresse, eine <Icon name="road" /> Straße ohne zugeordnete Hausnummern, einen{' '}
-						<Icon name="tag" /> POI oder die <Icon name="tags" /> alternative Bezeichnung eines POI handelt.
+						<Icon name="home" /> Adresse, eine <Icon name="road" /> Straße ohne zugeordnete Hausnummern,
+						einen <Icon name="tag" /> POI oder die <Icon name="tags" /> alternative Bezeichnung eines POI
+						handelt.
 					</p>
 					<p>
 						Nach der Auswahl eines Treffers aus der Liste wird die Karte auf die zugehörige Position
@@ -147,7 +147,6 @@ const BaederModalMenuHelpSection = ({ uiState, uiStateActions }) => {
 						Da die Wuppertaler Schwimmbäder vollständig im POI-Datensatz enthalten sind, können Sie sich
 						über alle gängigen Bezeichnungen dieser Schwimmbäder in der Karte positionieren. Dabei sind auch
 						die Namen der Vereine, die ein Schwimmbad betreiben, als alternative Bezeichnungen des
-						jeweiligen Bades hinterlegt. (Geben Sie z. B. einmal "Wasserfreunde" ein.)
 						jeweiligen Bades hinterlegt. (Geben Sie z. B. einmal "Wasserfreunde" ein.)
 					</p>
 					<div name="MeinStandort">

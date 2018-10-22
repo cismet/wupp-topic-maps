@@ -22,7 +22,7 @@ const BaederModalMenuHelpSection = ({ uiState, uiStateActions }) => {
 
 						<Link to="POIauswahluabfragen" containerId="myMenu" style={{ textDecoration: 'none' }}>
 							{' '}
-							<Label bsStyle="warning">Kitas auswählen und abfragen</Label>{' '}
+							<Label bsStyle="warning">Bäder auswählen und abfragen</Label>{' '}
 						</Link>
 						<Link to="InKartePositionieren" containerId="myMenu" style={{ textDecoration: 'none' }}>
 							{' '}
@@ -36,10 +36,10 @@ const BaederModalMenuHelpSection = ({ uiState, uiStateActions }) => {
 							{' '}
 							<Label bsStyle="success">Einstellungen</Label>{' '}
 						</Link>
-						<Link to="Personalisierung" containerId="myMenu" style={{ textDecoration: 'none' }}>
+						{/* <Link to="Personalisierung" containerId="myMenu" style={{ textDecoration: 'none' }}>
 							{' '}
 							<Label bsStyle="success">Personalisierung</Label>{' '}
-						</Link>
+						</Link> */}
 					</div>
 
 					<div name="Datengrundlage">
@@ -221,10 +221,10 @@ const BaederModalMenuHelpSection = ({ uiState, uiStateActions }) => {
 					</p>
 					<p>Im Vorschaubild sehen Sie direkt die prinzipielle Wirkung ihrer Einstellungen.</p>
 
-					<div name="Personalisierung">
+					{/* <div name="Personalisierung">
 						<br />
-					</div>
-					<h4>
+					</div> */}
+					{/* <h4>
 						Personalisierung{' '}
 						<Link to="help" containerId="myMenu" style={{ color: '#00000044' }}>
 							<Icon name="arrow-circle-up" />
@@ -235,7 +235,7 @@ const BaederModalMenuHelpSection = ({ uiState, uiStateActions }) => {
 						erhalten. (Es sei denn, Sie löschen den Browser-Verlauf einschließlich der gehosteten
 						App-Daten.) Damit können Sie mit wenigen Klicks aus dem Kita-Finder Wuppertal einen dauerhaft
 						für Sie optimierten Kita-Finder machen.
-					</p>
+					</p> */}
 				</div>
 			}
 		/>

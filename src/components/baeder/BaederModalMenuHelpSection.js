@@ -148,6 +148,7 @@ const BaederModalMenuHelpSection = ({ uiState, uiStateActions }) => {
 						über alle gängigen Bezeichnungen dieser Schwimmbäder in der Karte positionieren. Dabei sind auch
 						die Namen der Vereine, die ein Schwimmbad betreiben, als alternative Bezeichnungen des
 						jeweiligen Bades hinterlegt. (Geben Sie z. B. einmal "Wasserfreunde" ein.)
+						jeweiligen Bades hinterlegt. (Geben Sie z. B. einmal "Wasserfreunde" ein.)
 					</p>
 					<div name="MeinStandort">
 						<br />

@@ -192,9 +192,9 @@ const BaederModalMenuHelpSection = ({ uiState, uiStateActions }) => {
 						</em>
 						" können Sie auswählen, ob Sie die standardmäßig aktivierte farbige Hintergrundkarte verwenden
 						möchten ("
-						<em>Tag</em>
-						") oder lieber eine farblich zurückgenommene Karte in Blautönen ("blau"), auf der sich die
-						Schwimmbad-Symbole noch besser abheben. Die unterschiedlichen Flächennutzungen lassen sich
+						<em>mehrfarbig</em>
+						") oder lieber eine farblich zurückgenommene Karte in Blautönen ("<em>blau</em>"), auf der sich
+						die Schwimmbad-Symbole noch besser abheben. Die unterschiedlichen Flächennutzungen lassen sich
 						dagegen in der Blauton-Karte nicht mehr so gut unterscheiden wie in der mehrfarbigen. Hinweis:
 						Diese Auswahl wird Ihnen nur angeboten, wenn Ihr Browser CSS3-Filtereffekte unterstützt, also z.
 						B. nicht beim Microsoft Internet Explorer.
@@ -204,12 +204,12 @@ const BaederModalMenuHelpSection = ({ uiState, uiStateActions }) => {
 						<em>
 							<strong>Symbolgröße</strong>
 						</em>
-						" können Sie in Abhängigkeit von Ihrer Bildschirmauflösung und Ihrem Sehvermögen auswählen, ob die
-						Schwimmbäder mit kleinen (25 Pixel), mittleren (35 Pixel) oder großen (45 Pixel) Symbolen
+						" können Sie in Abhängigkeit von Ihrer Bildschirmauflösung und Ihrem Sehvermögen auswählen, ob
+						die Schwimmbäder mit kleinen (25 Pixel), mittleren (35 Pixel) oder großen (45 Pixel) Symbolen
 						angezeigt werden.
 					</p>
 
-					<p>Im Vorschaubild sehen Sie direkt die prinzipielle Wirkung ihrer Einstellungen.</p>
+					<p>Im Vorschaubild sehen Sie direkt die Wirkung ihrer Einstellungen in einem fest eingestellten Kartenausschnitt.</p>
 
 					<div name="Personalisierung">
 						<br />

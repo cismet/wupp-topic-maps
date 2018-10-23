@@ -87,10 +87,11 @@ export class Kitas_ extends React.Component {
 		if (inject) {
 			console.log(inject);
 			try {
-        let injector = JSON.parse(window.atob(inject));
-        console.log('injector',injector);
-        
-				this.props.kitasActions[injector.action](injector.payload);
+				let injectors = JSON.parse(window.atob(inject));
+				console.log('injectors', injectors);
+				for (const injector of injectors) {
+					this.props.kitasActions[injector.action](injector.payload);
+				}
 			} catch (err) {
 				console.log('Error when injecting stuff.', err);
 			} finally {
@@ -98,18 +99,7 @@ export class Kitas_ extends React.Component {
 					this.props.routing.location.pathname + removeQueryPart(this.props.routing.location.search, 'inject')
 				);
 			}
-    }
-    
-    
-		// let x = {
-		// 	action: 'setFilterAndApply',
-		// 	payload: {
-		// 		profil: [ 'KITAS/CONSTS/PROFIL_NORMAL', 'KITAS/CONSTS/PROFIL_INKLUSION' ],
-		// 		alter: [ 'KITAS/CONSTS/ALTER_AB3' ],
-		// 		umfang: [ 'KITAS/CONSTS/STUNDEN_FILTER_35', 'KITAS/CONSTS/STUNDEN_FILTER_45' ],
-		// 		traeger: [ 'KITAS/CONSTS/TRAEGERTYP_ANDERE', 'KITAS/CONSTS/TRAEGERTYP_BETRIEBSKITA' ]
-		// 	}
-		// };
+		}
 	}
 
 	loadTheKitas() {

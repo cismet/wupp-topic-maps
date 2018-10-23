@@ -7,7 +7,7 @@ import GenericRVRStadtplanwerkMenuFooter from "./GenericRVRStadtplanwerkMenuFoot
 
 const GenericModalApplicationMenu = ({
   menuIcon,
-  menuTitel,
+  menuTitle,
   menuIntroduction,
   menuSections,
   menuFooter,
@@ -41,7 +41,7 @@ const GenericModalApplicationMenu = ({
       <Modal.Header>
         <Modal.Title>
           <Icon name={menuIcon} />
-          {menuTitel}
+          {' '}{menuTitle}
         </Modal.Title>
       </Modal.Header>
       <Modal.Body style={modalBodyStyle} id="myMenu" key={uiState.applicationMenuActiveKey}>
@@ -85,7 +85,7 @@ const GenericModalApplicationMenu = ({
 export default GenericModalApplicationMenu;
 GenericModalApplicationMenu.propTypes = {
   menuIcon: PropTypes.string,
-  menuTitel: PropTypes.string,
+  menuTitle: PropTypes.string,
   menuIntroduction: PropTypes.object,
   menuSections: PropTypes.array,
   menuFooter: PropTypes.object,
@@ -100,7 +100,7 @@ GenericModalApplicationMenu.propTypes = {
 
 GenericModalApplicationMenu.defaultProps = {
   menuIcon: "bars",
-  menuTitel: "   Einstellungen und Hilfe",
+  menuTitle: "Einstellungen und Hilfe",
   menuSections: [],
   menuFooter: <GenericRVRStadtplanwerkMenuFooter />
 };

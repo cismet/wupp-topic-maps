@@ -10,7 +10,7 @@ const BaederModalMenuHelpSection = ({ uiState, uiStateActions }) => {
 			uiState={uiState}
 			uiStateActions={uiStateActions}
 			sectionKey="help"
-			sectionTitle="Hilfe"
+			sectionTitle="Kompaktanleitung"
 			sectionBsStyle="success"
 			sectionContent={
 				<div>
@@ -36,10 +36,10 @@ const BaederModalMenuHelpSection = ({ uiState, uiStateActions }) => {
 							{' '}
 							<Label bsStyle="success">Einstellungen</Label>{' '}
 						</Link>
-						{/* <Link to="Personalisierung" containerId="myMenu" style={{ textDecoration: 'none' }}>
+						<Link to="Personalisierung" containerId="myMenu" style={{ textDecoration: 'none' }}>
 							{' '}
 							<Label bsStyle="success">Personalisierung</Label>{' '}
-						</Link> */}
+						</Link>
 					</div>
 
 					<div name="Datengrundlage">
@@ -183,23 +183,7 @@ const BaederModalMenuHelpSection = ({ uiState, uiStateActions }) => {
 					</h4>
 					<p>
 						Unter "<strong>Einstellungen</strong>" können Sie im Anwendungsmenü <Icon name="bars" />{' '}
-						festlegen, wie die Kitas und die Hintergrundkarte angezeigt werden sollen. Zu den Kitas können
-						Sie auswählen, ob Ihre unter "<strong>Filtern</strong>" festgelegten Filterbedingungen in einer
-						Titelzeile ausgeprägt werden oder nicht. Weiter können Sie festlegen, ob räumlich nah
-						beieinander liegende Kitas maßstabsabhängig zu einem Punktsymbol zusammengefasst werden oder
-						nicht. "
-						<em>
-							<strong>Zeichenvorschrift</strong>
-						</em>
-						" erlaubt es Ihnen, zwischen der standardmäßig aktivierten Zeichenvorschrift "
-						<em>nach Trägertyp</em>" und der Alternative "
-						<em>nach Profil (Inklusionsschwerpunkt j/n)</em>" zu wechseln. Unter "
-						<em>
-							<strong>Symbolgröße</strong>
-						</em>
-						" können Sie in Abhängigkeit von Ihrer Bildschirmauflösung und Ihrem Sehvermögen auswählen, ob
-						die Kitas mit kleinen (25 Pixel), mittleren (35 Pixel) oder großen (45 Pixel) Symbolen angezeigt
-						werden.
+						festlegen, wie die Kitas und die Hintergrundkarte und die Schwimmbäder angezeigt werden sollen.
 					</p>
 					<p>
 						Unter "
@@ -209,32 +193,37 @@ const BaederModalMenuHelpSection = ({ uiState, uiStateActions }) => {
 						" können Sie auswählen, ob Sie die standardmäßig aktivierte farbige Hintergrundkarte verwenden
 						möchten ("
 						<em>Tag</em>
-						") oder lieber eine invertierte Graustufenkarte ("
-						<em>Nacht</em>
-						"), zu der uns die von vielen PKW-Navis bei Dunkelheit eingesetzte Darstellungsweise inspiriert
-						hat. <strong>Hinweis:</strong> Diese Auswahl wird Ihnen nur angeboten, wenn Ihr Browser
-						CSS3-Filtereffekte unterstützt, also z. B. nicht beim Microsoft Internet Explorer. Die
-						Nacht-Karte erzeugt einen deutlicheren Kontrast mit den farbigen Kita-Symbolen, die
-						unterschiedlichen Flächennutzungen in der Hintergrundkarte lassen sich aber nicht mehr so gut
-						unterscheiden wie in der Tag-Karte.
+						") oder lieber eine farblich zurückgenommene Karte in Blautönen ("blau"), auf der sich die
+						Schwimmbad-Symbole noch besser abheben. Die unterschiedlichen Flächennutzungen lassen sich
+						dagegen in der Blauton-Karte nicht mehr so gut unterscheiden wie in der mehrfarbigen. Hinweis:
+						Diese Auswahl wird Ihnen nur angeboten, wenn Ihr Browser CSS3-Filtereffekte unterstützt, also z.
+						B. nicht beim Microsoft Internet Explorer.
 					</p>
+					<p>
+						Unter "
+						<em>
+							<strong>Symbolgröße</strong>
+						</em>
+						" können Sie in Abhängigkeit von Ihrer Bildschirmauflösung und Ihrem Sehvermögen auswählen, ob die
+						Schwimmbäder mit kleinen (25 Pixel), mittleren (35 Pixel) oder großen (45 Pixel) Symbolen
+						angezeigt werden.
+					</p>
+
 					<p>Im Vorschaubild sehen Sie direkt die prinzipielle Wirkung ihrer Einstellungen.</p>
 
-					{/* <div name="Personalisierung">
+					<div name="Personalisierung">
 						<br />
-					</div> */}
-					{/* <h4>
+					</div>
+					<h4>
 						Personalisierung{' '}
 						<Link to="help" containerId="myMenu" style={{ color: '#00000044' }}>
 							<Icon name="arrow-circle-up" />
 						</Link>
 					</h4>
 					<p>
-						Ihre Filterbedingungen und Einstellungen bleiben auch nach einem Neustart der Anwendung
-						erhalten. (Es sei denn, Sie löschen den Browser-Verlauf einschließlich der gehosteten
-						App-Daten.) Damit können Sie mit wenigen Klicks aus dem Kita-Finder Wuppertal einen dauerhaft
-						für Sie optimierten Kita-Finder machen.
-					</p> */}
+						Ihre Einstellungen bleiben auch nach einem Neustart der Anwendung erhalten. (Es sei denn, Sie
+						löschen den Browser-Verlauf einschließlich der gehosteten App-Daten.)
+					</p>
 				</div>
 			}
 		/>

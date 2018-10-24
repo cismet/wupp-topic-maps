@@ -209,7 +209,10 @@ const BaederModalMenuHelpSection = ({ uiState, uiStateActions }) => {
 						angezeigt werden.
 					</p>
 
-					<p>Im Vorschaubild sehen Sie direkt die Wirkung ihrer Einstellungen in einem fest eingestellten Kartenausschnitt.</p>
+					<p>
+						Im Vorschaubild sehen Sie direkt die Wirkung ihrer Einstellungen in einem fest eingestellten
+						Kartenausschnitt.
+					</p>
 
 					<div name="Personalisierung">
 						<br />

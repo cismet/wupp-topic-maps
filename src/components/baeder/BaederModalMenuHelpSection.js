@@ -3,6 +3,26 @@ import { Link } from 'react-scroll';
 import { Icon } from 'react-fa';
 import { Label } from 'react-bootstrap';
 import GenericModalMenuSection from '../commons/GenericModalMenuSection';
+import { getColorForProperties, getBadSVG } from '../../utils/baederHelper';
+
+const helpSVGSize = 18
+const hallenBadSVG = getBadSVG(helpSVGSize, '#565B5E', 'Hallenbad', 'helpTextSVG0');
+const freibadBadSVG = getBadSVG(helpSVGSize, '#565B5E', 'Freibad', 'helpTextSVG1');
+
+const staedtischesFreibadSVG=getBadSVG(helpSVGSize,getColorForProperties({more:{zugang: "öffentlich",betreiber: "Stadt"}, mainlocationtype:{lebenslagen:["Freizeit","Sport"]}}),"Freibad", "helpTextSVG2");
+const oeffentlichesVereinsbadSVG=getBadSVG(helpSVGSize,getColorForProperties({more:{zugang: "öffentlich",betreiber: "Verein"}, mainlocationtype:{lebenslagen:["Freizeit","Sport"]}}),"Freibad", "helpTextSVG3");
+const nichtOeffentlichesVereinsbadSVG=getBadSVG(helpSVGSize,getColorForProperties({more:{zugang: "nicht öffentlich",betreiber: "Verein"}, mainlocationtype:{lebenslagen:["Freizeit","Sport"]}}),"Freibad", "helpTextSVG4");
+
+
+// Zur Darstellung der Schwimmbäder in der Karte werden unterschiedliche Symbole für Hallenbäder
+// [Signatur städtisches Hallenbad] und Freibäder [Signatur städtisches Freibad] verwendet. Dabei
+// werden 3 unterschiedliche Hintergrundfarben verwendet: [Signatur städtisches Freibad] steht für
+// städtische Bäder, die alle öffentlich zugänglich sind. [Signatur öffentlich zugängliches
+// Vereinsbad] kennzeichnet öffentlich zugängliche Bäder in Vereinsregie und [Signatur nicht
+// öffentlich zugängliches Vereinsbad] wird für nicht öffentlich zugängliche Vereinsbäder
+// eingesetzt. Diese Farben werden in der Titelzeile der Info-Box aufgegriffen. Zusätzlich werden
+// dort die Informationen zusammengefasst, die für die Kartendarstellung relevant sind, z. B.
+// "Hallenbad (Verein), nicht öffentlich".
 
 const BaederModalMenuHelpSection = ({ uiState, uiStateActions }) => {
 	return (
@@ -22,7 +42,11 @@ const BaederModalMenuHelpSection = ({ uiState, uiStateActions }) => {
 
 						<Link to="POIauswahluabfragen" containerId="myMenu" style={{ textDecoration: 'none' }}>
 							{' '}
-							<Label bsStyle="warning">Bäder auswählen und abfragen</Label>{' '}
+							<Label bsStyle="danger">Bäder auswählen und abfragen</Label>{' '}
+						</Link>
+						<Link to="kartendarstellung" containerId="myMenu" style={{ textDecoration: 'none' }}>
+							{' '}
+							<Label bsStyle="primary">Kartendarstellung</Label>{' '}
 						</Link>
 						<Link to="InKartePositionieren" containerId="myMenu" style={{ textDecoration: 'none' }}>
 							{' '}
@@ -30,7 +54,7 @@ const BaederModalMenuHelpSection = ({ uiState, uiStateActions }) => {
 						</Link>
 						<Link to="MeinStandort" containerId="myMenu" style={{ textDecoration: 'none' }}>
 							{' '}
-							<Label bsStyle="warning">Mein Standort</Label>{' '}
+							<Label bsStyle="info">Mein Standort</Label>{' '}
 						</Link>
 						<Link to="Einstellungen" containerId="myMenu" style={{ textDecoration: 'none' }}>
 							{' '}
@@ -89,8 +113,11 @@ const BaederModalMenuHelpSection = ({ uiState, uiStateActions }) => {
 						Hausnummer) werden unten rechts in der Info-Box angezeigt. (Auf einem Tablet-PC wird der Fokus
 						durch das erste Antippen des Schwimmbad-Symbols gesetzt, das zweite Antippen blendet den Namen
 						ein.) Außerdem werden Ihnen in der Info-Box weiterführende (Kommunikations-) Links zu diesem
-						Schwimmbad angezeigt: <Icon name="link" /> Internet, <Icon name="envelope-square" /> E-Mail und{' '}
-						<Icon name="phone" />
+						Schwimmbad angezeigt: <Icon name="link" /> Internet,{' '}
+						<span style={{ whiteSpace: 'nowrap' }}>
+							<Icon name="envelope-square" /> E-Mail
+						</span>{' '}
+						und <Icon name="phone" />
 						Telefon. Durch Anklicken des Kalender-Symbols <Icon name="calendar" /> gelangen Sie bei einigen
 						städtischen Bädern zum Aqua-Aktiv-Kursprogramm des Sport- und Bäderamtes. Dort können Sie online
 						Fitnesskurse in diesen Bädern buchen.
@@ -109,6 +136,25 @@ const BaederModalMenuHelpSection = ({ uiState, uiStateActions }) => {
 						("Leuchtkasten") mit dem Foto / der Fotoserie zu öffnen. Wenn wir hier auf Bildmaterial
 						zugreifen, das der Urheber auch selbst im Internet publiziert, finden Sie im Fußbereich des
 						Bildbetrachters einen Link auf dieses Angebot.
+					</p>
+					<div name="kartendarstellung">
+						<br />
+					</div>
+					<h4>
+						Kartendarstellung der Schwimmbäder{' '}
+						<Link to="help" containerId="myMenu" style={{ color: '#00000044' }}>
+							<Icon name="arrow-circle-up" />
+						</Link>
+					</h4>
+					<p>
+						Zur Darstellung der Schwimmbäder in der Karte werden unterschiedliche Symbole für Hallenbäder{' '}
+						{hallenBadSVG} und Freibäder {freibadBadSVG} verwendet. Dabei werden 3 unterschiedliche
+						Hintergrundfarben verwendet: {staedtischesFreibadSVG} steht für städtische Bäder, die alle
+						öffentlich zugänglich sind. {oeffentlichesVereinsbadSVG} kennzeichnet
+						öffentlich zugängliche Bäder in Vereinsregie und {nichtOeffentlichesVereinsbadSVG} wird für nicht öffentlich zugängliche Vereinsbäder eingesetzt. Diese Farben werden
+						in der Titelzeile der Info-Box aufgegriffen. Zusätzlich werden dort die Informationen
+						zusammengefasst, die für die Kartendarstellung relevant sind, z. B. "Hallenbad (Verein), nicht
+						öffentlich".
 					</p>
 					<div name="InKartePositionieren">
 						<br />

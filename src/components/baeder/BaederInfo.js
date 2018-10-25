@@ -21,8 +21,8 @@ const BaederInfo = ({
   pixelwidth
 }) => {
   const currentFeature = featureCollection[selectedIndex];
-  if (currentFeature) {
-    let header = currentFeature.properties.more.typ + ", " + currentFeature.properties.more.zugang;
+  if (currentFeature) {    
+    let header = `${currentFeature.properties.more.typ} (${currentFeature.properties.more.betreiber}), ${currentFeature.properties.more.zugang}`;
 
     let adresse = currentFeature.properties.adresse;
 

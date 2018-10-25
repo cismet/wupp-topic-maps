@@ -103,7 +103,7 @@ export class Baeder_ extends React.Component {
         gazetteerSearchBoxPlaceholdertext="Stadtteil | Adresse | POI"
         photoLightBox
         infoBox={info}
-        backgroundlayers={this.props.match.params.layers || "rvrWMS"}
+        backgroundlayers={this.props.match.params.layers || "wupp-plan-live"}
         dataLoader={this.props.baederActions.loadBaeder}
         getFeatureCollectionForData={() => {
           return getBaederFeatureCollection(this.props.baeder);

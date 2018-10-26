@@ -12,6 +12,7 @@ const GenericModalMenuSection = ({
   return (
     <Accordion
       key={sectionKey}
+      name={sectionKey}
       defaultActiveKey={uiState.applicationMenuActiveKey || sectionKey}
       onSelect={() => {
         if (uiState.applicationMenuActiveKey === sectionKey) {

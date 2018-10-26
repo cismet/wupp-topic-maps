@@ -31,6 +31,7 @@ import MultiToggleButton from "./MultiToggleButton";
 import { Link } from "react-scroll";
 
 import copy from "copy-to-clipboard";
+import GenericRVRStadtplanwerkMenuFooter from "./commons/GenericRVRStadtplanwerkMenuFooter";
 
 function mapStateToProps(state) {
   return {
@@ -976,43 +977,8 @@ export class EhrenamtModalApplicationMenu_ extends React.Component {
                     paddingRight: "30px"
                   }}
                 >
-                  <span
-                    style={{
-                      fontSize: "11px"
-                    }}
-                  >
-                    <b>Hintergrundkarte</b>: <a>Stadtplanwerk 2.0 (Beta)</a>,{" "}
-                    <Icon name="copyright" /> Regionalverband Ruhr (RVR) und Kooperationspartner,
-                    Datengrundlagen <Icon name="copyright" /> OpenStreetMap contributors (
-                    <a href="http://www.opendatacommons.org/licenses/odbl/1.0/" target="_licensing">
-                      ODbL
-                    </a>
-                    ) und <Icon name="copyright" /> Land NRW (2018) ,{" "}
-                    <a href="http://www.govdata.de/dl-de/by-2-0" target="_licensing">
-                      Datenlizenz Deutschland - Namensnennung - Version 2.0
-                    </a>
-                    .<br />
-                    <b>Technische Realisierung</b>:{" "}
-                    <a href="https://cismet.de/" target="_cismet">
-                      cismet GmbH
-                    </a>{" "}
-                    auf Basis von{" "}
-                    <a href="http://leafletjs.com/" target="_leaflet">
-                      Leaflet
-                    </a>{" "}
-                    und{" "}
-                    <a href="https://cismet.de/#refs" target="_cismet">
-                      cids | WuNDa
-                    </a>
-                    <br />
-                    <a
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      href="https://cismet.de/datenschutzerklaerung.html"
-                    >
-                      Datenschutzerklärung (Privacy Policy)
-                    </a>
-                  </span>
+                  <GenericRVRStadtplanwerkMenuFooter />
+
                 </td>
                 <td>
                   <Button bsStyle="primary" type="submit" onClick={this.close}>

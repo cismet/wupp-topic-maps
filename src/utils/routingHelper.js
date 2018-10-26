@@ -1,5 +1,8 @@
 import queryString from "query-string";
 import objectAssign from "object-assign";
+
+import "url-search-params-polyfill";
+
 export function modifyQueryPart(search, modifiedParts) {
   let query = queryString.parse(search);
   let newQuery = objectAssign(query, modifiedParts);

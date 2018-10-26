@@ -11,6 +11,7 @@ import "url-search-params-polyfill";
 import { routerActions as RoutingActions } from "react-router-redux";
 import { modifyQueryPart, getQueryObject } from "../utils/routingHelper";
 import { actions as MappingActions, constants as MappingConstants } from "../redux/modules/mapping";
+import FullscreenControl from "../components/FullscreenControl";
 
 const fallbackposition = {
   lat: 51.272399,
@@ -153,6 +154,7 @@ export class RoutedMap_ extends React.Component {
         maxZoom={18}
       >
         <ZoomControl position="topleft" zoomInTitle="Vergr&ouml;ßern" zoomOutTitle="Verkleinern" />
+        {fullscreenControl}
         {this.props.children}
       </Map>
     );
@@ -174,7 +176,8 @@ RoutedMap_.propTypes = {
   featureClickHandler: PropTypes.func,
   style: PropTypes.object.isRequired,
   ondblclick: PropTypes.func,
-  children: PropTypes.array
+  children: PropTypes.array,
+  fullScreenControlEnabled: PropTypes.bool
 };
 
 RoutedMap_.defaultProps = {

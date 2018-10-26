@@ -3,17 +3,20 @@ import { actions as mappingActions } from "./mapping";
 import { predicateBy } from "../../utils/stringHelper";
 import kdbush from "kdbush";
 import { addSVGToPOI } from "../../utils/stadtplanHelper";
-import queryString from "query-string";
-
+import makeDataDuck from "../higherorderduckfactories/dataWithMD5Check";
+import { combineReducers } from "redux";
+import { persistReducer } from "redux-persist";
+import localForage from "localforage";
 //TYPES
 export const types = {
-  SET_POIS: "STADTPLAN/SET_POIS",
-  SET_POI_GAZ_HIT: "STADTPLAN/SET_POI_GAZ_HIT",
-  CLEAR_POI_GAZ_HIT: "STADTPLAN/CLEAR_POI_GAZ_HIT",
+  //   SET_POI_GAZ_HIT: "STADTPLAN/SET_POI_GAZ_HIT",
+  //   CLEAR_POI_GAZ_HIT: "STADTPLAN/CLEAR_POI_GAZ_HIT",
   SET_FILTERED_POIS: "STADTPLAN/SET_FILTERED_POIS",
+  SET_FILTER: "STADTPLAN/SET_FILTER",
+
   SET_TYPES: "STADTPLAN/SET_TYPES",
   SET_LEBENSLAGEN: "STADTPLAN/SET_LEBENSLAGEN",
-  SET_FILTER: "STADTPLAN/SET_FILTER",
+
   SET_POI_SVG_SIZE: "STADTPLAN/SET_POI_SVG_SIZE"
 };
 
@@ -21,11 +24,12 @@ export const constants = {
   DEBUG_ALWAYS_LOADING: false
 };
 
+//HIGHER ORDER DUCKS
+const dataDuck = makeDataDuck("POIS", state => state.stadtplan.dataState);
+
 ///INITIAL STATE
 const initialState = {
-  pois: [],
   poiGazHitId: null,
-  poisMD5: "",
   filteredPois: [],
   filteredPoisIndex: null,
   lebenslagen: [],
@@ -58,15 +62,15 @@ const initialState = {
       backgroundColor: null,
       link: "/#/kitas",
       target: "_kitas"
+    },
+    {
+      on: ["Sport", "Freizeit"],
+      name: "Schwimmbäder",
+      bsStyle: "primary",
+      backgroundColor: null,
+      link: "/#/baeder",
+      target: "_baeder"
     }
-    // {
-    //   on: ["Sport", "Freizeit"],
-    //   name: "Schwimmbäder",
-    //   bsStyle: "primary",
-    //   backgroundColor: null,
-    //   link: "/#/bplaene",
-    //   target: "_baeder"
-    // },
     // {
     //   on: ["Sport"],
     //   name: "Sporthallen",
@@ -77,26 +81,27 @@ const initialState = {
     // }
   ]
 };
+
 ///REDUCER
-export default function stadtplanReducer(state = initialState, action) {
+const localStadtplanReducer = (state = initialState, action) => {
   let newState;
   switch (action.type) {
-    case types.SET_POIS: {
-      newState = objectAssign({}, state);
-      newState.pois = action.pois;
-      newState.poisMD5 = action.poisMD5;
-      return newState;
-    }
-    case types.SET_POI_GAZ_HIT: {
-      newState = objectAssign({}, state);
-      newState.poiGazHitId = action.hitId;
-      return newState;
-    }
-    case types.CLEAR_POI_GAZ_HIT: {
-      newState = objectAssign({}, state);
-      newState.poiGazHitId = null;
-      return newState;
-    }
+    // case types.SET_POIS: {
+    //   newState = objectAssign({}, state);
+    //   newState.pois = action.pois;
+    //   newState.poisMD5 = action.poisMD5;
+    //   return newState;
+    // }
+    // case types.SET_POI_GAZ_HIT: {
+    //   newState = objectAssign({}, state);
+    //   newState.poiGazHitId = action.hitId;
+    //   return newState;
+    // }
+    // case types.CLEAR_POI_GAZ_HIT: {
+    //   newState = objectAssign({}, state);
+    //   newState.poiGazHitId = null;
+    //   return newState;
+    // }
     case types.SET_FILTERED_POIS: {
       newState = objectAssign({}, state);
       newState.filteredPois = action.filteredPois;
@@ -130,18 +135,36 @@ export default function stadtplanReducer(state = initialState, action) {
     default:
       return state;
   }
-}
+};
+
+const localStateStorageConfig = {
+  key: "stadtplanPOIs",
+  storage: localForage,
+  whitelist: ["pois", "poisMD5", "filter", "poitypes", "lebenslagen", "poiSvgSize"]
+};
+const dataStateStorageConfig = {
+  key: "stadtplanPOIData",
+  storage: localForage,
+  whitelist: ["items", "md5"]
+};
+
+const stadtplanReducer = combineReducers({
+  localState: persistReducer(localStateStorageConfig, localStadtplanReducer),
+  dataState: persistReducer(dataStateStorageConfig, dataDuck.reducer)
+});
+
+export default stadtplanReducer;
 
 ///SIMPLEACTIONCREATORS
 function setPOIs(pois, poisMD5) {
   return { type: types.SET_POIS, pois, poisMD5 };
 }
-function setPoiGazHit(hitId) {
-  return { type: types.SET_POI_GAZ_HIT, hitId };
-}
-function clearPoiGazHit() {
-  return { type: types.CLEAR_POI_GAZ_HIT };
-}
+// function setPoiGazHit(hitId) {
+//   return { type: types.SET_POI_GAZ_HIT, hitId };
+// }
+// function clearPoiGazHit() {
+//   return { type: types.CLEAR_POI_GAZ_HIT };
+// }
 function setFilteredPOIs(filteredPois) {
   return { type: types.SET_FILTERED_POIS, filteredPois };
 }
@@ -166,117 +189,64 @@ function setSelectedPOI(pid) {
     let poiFeature = state.mapping.featureCollection.find(x => x.id === pid);
     if (poiFeature) {
       dispatch(mappingActions.setSelectedFeatureIndex(poiFeature.index));
-      dispatch(clearPoiGazHit());
+      //dispatch(clearPoiGazHit());
     } else {
-      dispatch(setPoiGazHit(poiFeature.index));
+      //dispatch(setPoiGazHit(poiFeature.index));
     }
   };
 }
 
 function loadPOIs() {
+  const manualReloadRequest = false;
   return (dispatch, getState) => {
-    let md5 = null;
-    let currentPOI = null;
-    const state = getState();
-    let noCacheHeaders = new Headers();
-    noCacheHeaders.append("pragma", "no-cache");
-    noCacheHeaders.append("cache-control", "no-cache");
+    dispatch(
+      dataDuck.actions.load({
+        manualReloadRequested: manualReloadRequest,
+        dataURL: "/data/poi.data.json",
+        prepare: (dispatch, data) => {
+          let lebenslagen = new Set();
+          let poitypes = [];
+          let currentPOI;
+          for (let poi of data) {
+            currentPOI = poi;
+            //poi.point25832 = convertPoint(poi.geo_x, offer.geo_y)
 
-    const manualReloadRequested =
-      queryString.parse(state.routing.location.search).alwaysRefreshPOIsOnReload !== undefined;
-
-    return fetch("/pois/poi.data.json.md5", { method: "get", headers: noCacheHeaders })
-      .then(response => {
-        if (response.ok) {
-          return response.text();
-        } else {
-          throw new Error("Server md5 response wasn't OK");
-        }
-      })
-      .then(md5value => {
-        md5 = md5value.trim();
-        if (manualReloadRequested) {
-          console.log("Fetch POIs because of alwaysRefreshPOIsOnReload Parameter");
-          return "fetchit";
-        }
-
-        if (md5 === state.stadtplan.poisMD5 && constants.DEBUG_ALWAYS_LOADING === false) {
-          dispatch(applyFilter());
-          dispatch(createFeatureCollectionFromPOIs());
-          throw "CACHEHIT";
-        } else {
-          return "fetchit";
-        }
-      })
-      .then(fetchit => {
-        return fetch("/pois/poi.data.json", { method: "get", headers: noCacheHeaders });
-      })
-      .then(response => {
-        if (response.ok) {
-          return response.json();
-        } else {
-          throw new Error("Server ehrenamt/data response wasn't OK");
-        }
-      })
-      .then(data => {
-        let lebenslagen = new Set();
-        let poitypes = [];
-
-        for (let poi of data) {
-          currentPOI = poi;
-          //poi.point25832 = convertPoint(poi.geo_x, offer.geo_y)
-
-          //zuesrt mainlocationtype
-          if (poi.mainlocationtype) {
-            let type = poi.mainlocationtype;
-            for (let ll of type.lebenslagen) {
-              lebenslagen.add(ll);
-            }
-            let found = poitypes.find(x => x.id === type.id);
-            if (!found) {
-              poitypes.push(type);
+            //zuesrt mainlocationtype
+            if (poi.mainlocationtype) {
+              let type = poi.mainlocationtype;
+              for (let ll of type.lebenslagen) {
+                lebenslagen.add(ll);
+              }
+              let found = poitypes.find(x => x.id === type.id);
+              if (!found) {
+                poitypes.push(type);
+              }
             }
           }
-          //alle anderen typen
-          // if (poi.locationtypes) {
-          //     for (let type of poi.locationtypes){
-          //         for (let ll of type.lebenslagen) {
-          //             lebenslagen.add(ll);
-          //         }
-          //         let found=poitypes.find(x => x.id === type.id);
-          //         if (!found) {
-          //             poitypes.push(type);
-          //         }
-          //     }
-          // }
-        }
 
-        dispatch(setTypes(Array.from(poitypes).sort(predicateBy("name"))));
-        dispatch(setLebenslagen(Array.from(lebenslagen).sort()));
-        let svgResolvingPromises = data.map(function(poi) {
-          return addSVGToPOI(poi, manualReloadRequested);
-        });
-
-        Promise.all(svgResolvingPromises).then(function(results) {
-          dispatch(setPOIs(data, md5));
+          dispatch(setTypes(Array.from(poitypes).sort(predicateBy("name"))));
+          dispatch(setLebenslagen(Array.from(lebenslagen).sort()));
+          let svgResolvingPromises = data.map(function(poi) {
+            return addSVGToPOI(poi, manualReloadRequest);
+          });
+          return svgResolvingPromises;
+        },
+        done: (dispatch, data, md5) => {
           dispatch(applyFilter());
           dispatch(createFeatureCollectionFromPOIs());
-        });
-      })
-      .catch(function(err) {
-        if (err !== "CACHEHIT") {
-          console.log("Problem during POILoading");
-          console.log(currentPOI);
+        },
+        errorHandler: err => {
           console.log(err);
         }
-      });
+      })
+    );
   };
 }
 
 function toggleFilter(kind, filter) {
   return (dispatch, getState) => {
     let state = getState();
-    let filterState = JSON.parse(JSON.stringify(state.stadtplan.filter));
+    let filterState = JSON.parse(JSON.stringify(state.stadtplan.localState.filter));
     let filterGroupSet = new Set(filterState[kind]);
     if (filterGroupSet.has(filter)) {
       filterGroupSet.delete(filter);
@@ -306,7 +276,7 @@ function toggleFilter(kind, filter) {
 function clearFilter(kind) {
   return (dispatch, getState) => {
     let state = getState();
-    let filterState = JSON.parse(JSON.stringify(state.stadtplan.filter));
+    let filterState = JSON.parse(JSON.stringify(state.stadtplan.localState.filter));
     filterState[kind] = [];
     dispatch(setFilter(filterState));
     dispatch(applyFilter());
@@ -315,8 +285,8 @@ function clearFilter(kind) {
 function setAllLebenslagenToFilter(kind) {
   return (dispatch, getState) => {
     let state = getState();
-    let filterState = JSON.parse(JSON.stringify(state.stadtplan.filter));
-    filterState[kind] = JSON.parse(JSON.stringify(state.stadtplan.lebenslagen));
+    let filterState = JSON.parse(JSON.stringify(state.stadtplan.localState.filter));
+    filterState[kind] = JSON.parse(JSON.stringify(state.stadtplan.localState.lebenslagen));
     dispatch(setFilter(filterState));
     dispatch(applyFilter());
   };
@@ -336,18 +306,18 @@ function applyFilter() {
     let filteredPoiSet = new Set(); //avoid duplicates
 
     //positiv
-    for (let poi of state.stadtplan.pois) {
+    for (let poi of state.stadtplan.dataState.items) {
       for (let ll of poi.mainlocationtype.lebenslagen) {
-        if (state.stadtplan.filter.positiv.indexOf(ll) !== -1) {
+        if (state.stadtplan.localState.filter.positiv.indexOf(ll) !== -1) {
           filteredPoiSet.add(poi);
           break;
         }
       }
     }
     //negativ
-    for (let poi of state.stadtplan.pois) {
+    for (let poi of state.stadtplan.dataState.items) {
       for (let ll of poi.mainlocationtype.lebenslagen) {
-        if (state.stadtplan.filter.negativ.indexOf(ll) !== -1) {
+        if (state.stadtplan.localState.filter.negativ.indexOf(ll) !== -1) {
           filteredPoiSet.delete(poi);
         }
       }
@@ -368,7 +338,7 @@ function refreshFeatureCollection() {
 function createFeatureCollectionFromPOIs(boundingBox) {
   return (dispatch, getState) => {
     let state = getState();
-    if (state.stadtplan.filteredPoisIndex) {
+    if (state.stadtplan.localState.filteredPoisIndex) {
       let currentSelectedFeature = {
         id: -1
       };
@@ -384,13 +354,18 @@ function createFeatureCollectionFromPOIs(boundingBox) {
         bb = state.mapping.boundingBox;
       }
 
-      let resultIds = state.stadtplan.filteredPoisIndex.range(bb.left, bb.bottom, bb.right, bb.top);
+      let resultIds = state.stadtplan.localState.filteredPoisIndex.range(
+        bb.left,
+        bb.bottom,
+        bb.right,
+        bb.top
+      );
       let resultFC = [];
       let counter = 0;
       let results = [];
 
       for (let id of resultIds) {
-        results.push(state.stadtplan.filteredPois[id]);
+        results.push(state.stadtplan.localState.filteredPois[id]);
       }
 
       results.sort((a, b) => {
@@ -413,7 +388,7 @@ function createFeatureCollectionFromPOIs(boundingBox) {
       }
 
       dispatch(mappingActions.setFeatureCollection(resultFC));
-      //console.log("setPoiGazHit(null));")
+      //console.log("setPoiGazHit(nactionsull));")
       // dispatch(setPoiGazHit(null));
       dispatch(mappingActions.setSelectedFeatureIndex(selectionWish));
     }
@@ -433,6 +408,31 @@ export const actions = {
   refreshFeatureCollection,
   setPoiSvgSize
 };
+
+//EXPORT SELECTORS
+export const getPOIs = state => dataDuck.selectors.getItems(state.dataState);
+export const getPOIGazHitId = state => state.localState.poiGazHitId;
+export const getPOIsMD5 = state => dataDuck.selectors.getMD5(state.dataState);
+export const getFilteredPOIs = state => state.localState.filteredPois;
+export const getFilteredPOIsIndex = state => state.localState.filteredPoisIndex;
+export const getLebenslagen = state => state.localState.lebenslagen;
+export const getPOITypes = state => state.localState.poitypes;
+export const getFilter = state => state.localState.filter;
+export const getPoiSvgSize = state => state.localState.poiSvgSize;
+export const getApps = state => state.localState.apps;
+
+// import {
+//   getPOIs,
+//   getPOIsMD5,
+//   getPOIGazHitId,
+//   getFilteredPOIs,
+//   getFilteredPOIsIndex,
+//   getLebenslagen,
+//   getPOITypes,
+//   getFilter,
+//   getPoiSvgSize,
+//   getApps
+// } from "../redux/modules/stadtplan";
 
 //HELPER FUNCTIONS
 function convertPOIToFeature(poi, index) {

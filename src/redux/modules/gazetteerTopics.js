@@ -128,6 +128,114 @@ function loadTopicData(topicKey) {
   };
 }
 
+//EXPORT SELECTORS
+export const getGazDataForTopicIds = (state, topics) => {
+  let sorter = 0;
+
+  let gazData = [];
+  if (topics.indexOf("pois") !== -1) {
+    let pois = JSON.parse(state.pois);
+    for (let i = 0; i < pois.length; ++i) {
+      let topicItem = pois[i];
+      let g = {
+        sorter: sorter++,
+        string: topicItem.s,
+        glyph: topicItem.g,
+        x: topicItem.x,
+        y: topicItem.y,
+        more: topicItem.m
+      };
+      gazData.push(g);
+    }
+  }
+  if (topics.indexOf("quartiere") !== -1) {
+    let quartiere = JSON.parse(state.quartiere);
+    for (let i = 0; i < quartiere.length; ++i) {
+      let topicItem = quartiere[i];
+      let g = {
+        sorter: sorter++,
+        string: topicItem.s,
+        glyph: topicItem.g,
+        x: topicItem.x,
+        y: topicItem.y,
+        more: topicItem.m
+      };
+      gazData.push(g);
+    }
+  }
+
+  if (topics.indexOf("bezirke") !== -1) {
+    let bezirke = JSON.parse(state.bezirke);
+    for (let i = 0; i < bezirke.length; ++i) {
+      let topicItem = bezirke[i];
+      let g = {
+        sorter: sorter++,
+        string: topicItem.s,
+        glyph: topicItem.g,
+        x: topicItem.x,
+        y: topicItem.y,
+        more: topicItem.m
+      };
+      gazData.push(g);
+    }
+  }
+  if (topics.indexOf("kitas") !== -1) {
+    let kitas = JSON.parse(state.kitas);
+    for (let i = 0; i < kitas.length; ++i) {
+      let topicItem = kitas[i];
+      let g = {
+        sorter: sorter++,
+        string: topicItem.s,
+        glyph: topicItem.g,
+        x: topicItem.x,
+        y: topicItem.y,
+        more: topicItem.m
+      };
+      gazData.push(g);
+    }
+  }
+
+  if (topics.indexOf("adressen") !== -1) {
+    let adressen = JSON.parse(state.adressen);
+    for (let i = 0; i < adressen.length; ++i) {
+      let topicItem = adressen[i];
+      let string = topicItem.s;
+      if (topicItem.nr !== "" && topicItem.nr !== 0) {
+        string = string + " " + topicItem.nr;
+      }
+      if (topicItem.z !== "") {
+        string = string + " " + topicItem.z;
+      }
+      let g = {
+        sorter: sorter++,
+        string: string,
+        glyph: topicItem.g,
+        x: topicItem.x,
+        y: topicItem.y,
+        more: topicItem.m
+      };
+      gazData.push(g);
+    }
+  }
+
+  if (topics.indexOf("bplaene") !== -1) {
+    let bplaene = JSON.parse(state.bplaene);
+    for (let i = 0; i < bplaene.length; ++i) {
+      let topicItem = bplaene[i];
+      let g = {
+        sorter: sorter++,
+        string: topicItem.s,
+        glyph: topicItem.g,
+        x: topicItem.x,
+        y: topicItem.y,
+        more: topicItem.m
+      };
+      gazData.push(g);
+    }
+  }
+  return gazData;
+};
+
 // For debugging purposes
 // console.log("pause")
 // sleep(1000);

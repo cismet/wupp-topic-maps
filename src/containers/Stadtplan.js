@@ -8,6 +8,17 @@ import { Tooltip } from "react-bootstrap";
 import { actions as mappingActions } from "../redux/modules/mapping";
 import { actions as uiStateActions } from "../redux/modules/uiState";
 import { actions as stadtplanActions } from "../redux/modules/stadtplan";
+
+import {
+  getPOIs,
+  getPOIsMD5,
+  getFilteredPOIs,
+  getLebenslagen,
+  getFilter,
+  getPoiSvgSize,
+  getApps
+} from "../redux/modules/stadtplan";
+
 import { routerActions } from "react-router-redux";
 
 import { bindActionCreators } from "redux";
@@ -79,7 +90,7 @@ export class Stadtplan_ extends React.Component {
     //this.props.uiStateActions.setApplicationMenuActiveKey("filtertab");
   }
   componentWillUpdate() {
-    if (this.props.stadtplan.pois.length === 0) {
+    if (getPOIs(this.props.stadtplan).length === 0) {
       return;
     }
     // let urlCart=queryString.parse(this.props.routing.location.search).cart;
@@ -198,7 +209,7 @@ export class Stadtplan_ extends React.Component {
         key={"stadtplanInfo." + (this.props.mapping.selectedIndex || 0)}
         pixelwidth={300}
         featureCollection={this.props.mapping.featureCollection}
-        filteredPOIs={this.props.stadtplan.filteredPois}
+        filteredPOIs={getFilteredPOIs(this.props.stadtplan)}
         selectedIndex={this.props.mapping.selectedIndex || 0}
         next={this.selectNextIndex}
         previous={this.selectPreviousIndex}
@@ -221,21 +232,22 @@ export class Stadtplan_ extends React.Component {
     if (qTitle !== undefined) {
       if (qTitle === null || qTitle === "") {
         if (
-          this.props.stadtplan.filter.positiv.length > 0 &&
-          this.props.stadtplan.filter.positiv.length < this.props.stadtplan.lebenslagen.length
+          getFilter(this.props.stadtplan).positiv.length > 0 &&
+          getFilter(this.props.stadtplan).positiv.length <
+            getLebenslagen(this.props.stadtplan).length
         ) {
-          if (this.props.stadtplan.filter.positiv.length <= 4) {
-            themenstadtplanDesc += this.props.stadtplan.filter.positiv.join(", ");
+          if (getFilter(this.props.stadtplan).positiv.length <= 4) {
+            themenstadtplanDesc += getFilter(this.props.stadtplan).positiv.join(", ");
           } else {
-            themenstadtplanDesc += this.props.stadtplan.filter.positiv.length + " Themen";
+            themenstadtplanDesc += getFilter(this.props.stadtplan).positiv.length + " Themen";
           }
-          if (this.props.stadtplan.filter.negativ.length > 0) {
-            if (this.props.stadtplan.filter.negativ.length <= 3) {
+          if (getFilter(this.props.stadtplan).negativ.length > 0) {
+            if (getFilter(this.props.stadtplan).negativ.length <= 3) {
               themenstadtplanDesc += " ohne ";
-              themenstadtplanDesc += this.props.stadtplan.filter.negativ.join(", ");
+              themenstadtplanDesc += getFilter(this.props.stadtplan).negativ.join(", ");
             } else {
               themenstadtplanDesc +=
-                " (" + this.props.stadtplan.filter.negativ.length + " Themen ausgeschlossen)";
+                " (" + getFilter(this.props.stadtplan).negativ.length + " Themen ausgeschlossen)";
             }
           }
         }
@@ -285,17 +297,17 @@ export class Stadtplan_ extends React.Component {
       <div>
         <StadtplanModalApplicationMenu
           key={"StadtplanModalApplicationMenu.visible:" + this.props.uiState.applicationMenuVisible}
-          lebenslagen={this.props.stadtplan.lebenslagen}
-          apps={this.props.stadtplan.apps}
-          filter={this.props.stadtplan.filter}
+          lebenslagen={getLebenslagen(this.props.stadtplan)}
+          apps={getApps(this.props.stadtplan)}
+          filter={getFilter(this.props.stadtplan)}
           filterChanged={this.filterChanged}
-          filteredPois={this.props.stadtplan.filteredPois || []}
+          filteredPois={getFilteredPOIs(this.props.stadtplan) || []}
           featureCollectionCount={this.props.mapping.featureCollection.length}
-          offersMD5={this.props.stadtplan.poisMD5}
+          offersMD5={getPOIsMD5(this.props.stadtplan)}
           centerOnPoint={this.centerOnPoint}
           stadtplanActions={this.props.stadtplanActions}
           mappingActions={this.props.mappingActions}
-          poiSvgSize={this.props.stadtplan.poiSvgSize}
+          poiSvgSize={getPoiSvgSize(this.props.stadtplan)}
         />
         <Loadable active={!this.dataLoaded} spinner text="Laden der POIs ...">
           <PhotoLightbox />
@@ -307,7 +319,7 @@ export class Stadtplan_ extends React.Component {
             layers={this.props.match.params.layers || "wupp-plan-live@90"}
             gazeteerHitTrigger={this.gazeteerhHit}
             searchButtonTrigger={this.searchButtonHit}
-            featureStyler={getFeatureStyler(this.props.stadtplan.poiSvgSize)}
+            featureStyler={getFeatureStyler(getPoiSvgSize(this.props.stadtplan))}
             hoverer={featureHoverer}
             featureClickHandler={this.featureClick}
             ondblclick={this.doubleMapClick}
@@ -321,7 +333,7 @@ export class Stadtplan_ extends React.Component {
             minZoom={6}
             clusterOptions={{
               spiderfyOnMaxZoom: false,
-              spiderfyDistanceMultiplier: this.props.stadtplan.poiSvgSize / 24,
+              spiderfyDistanceMultiplier: getPoiSvgSize(this.props.stadtplan) / 24,
               showCoverageOnHover: false,
               zoomToBoundsOnClick: false,
               maxClusterRadius: 40,
@@ -329,7 +341,9 @@ export class Stadtplan_ extends React.Component {
               animate: false,
               cismapZoomTillSpiderfy: 12,
               selectionSpiderfyMinZoom: 12,
-              iconCreateFunction: getPoiClusterIconCreatorFunction(this.props.stadtplan.poiSvgSize)
+              iconCreateFunction: getPoiClusterIconCreatorFunction(
+                getPoiSvgSize(this.props.stadtplan)
+              )
             }}
             infoBox={info}
             applicationMenuTooltipProvider={() => (

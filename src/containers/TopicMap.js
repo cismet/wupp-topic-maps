@@ -279,7 +279,7 @@ export class TopicMap_ extends React.Component {
                     </Tooltip>
                   }
                 >
-                  <Button
+                  <Button id="cmdShowModalApplicationMenu"
                     onClick={() => {
                       if (this.props.showModalApplicationMenu) {
                         this.props.showModalApplicationMenu();

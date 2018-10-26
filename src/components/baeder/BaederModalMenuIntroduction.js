@@ -6,6 +6,7 @@ const BaederModalMenuIntroduction = ({ uiStateActions }) => {
 		<span>
 			Über{' '}
 			<Link
+				id="lnkSettings"
 				to="settings"
 				containerId="myMenu"
 				smooth={true}
@@ -16,6 +17,7 @@ const BaederModalMenuIntroduction = ({ uiStateActions }) => {
 			</Link>{' '}
 			können Sie die Darstellung der Hintergrundkarte und der Bäder an Ihre Vorlieben anpassen. Wählen Sie{' '}
 			<Link
+				id="lnkHelp"
 				to="help"
 				containerId="myMenu"
 				smooth={true}

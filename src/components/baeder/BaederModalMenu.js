@@ -19,7 +19,7 @@ const BaederModalMenu = ({
       uiState={uiState}
       uiStateActions={uiStateActions}
       menuIntroduction={<BaederModalMenuIntroduction uiStateActions={uiStateActions} />}
-      menuTitle="Einstellung und Kompaktanleitung"
+      menuTitle="Einstellungen und Kompaktanleitung"
       menuSections={[
         <BaederModalMenuSettingsPanel
           key="BaederModalMenuSettingsPanel"

@@ -292,6 +292,7 @@ export class TopicMap_ extends React.Component {
                   </Button>
                 </OverlayTrigger>
               </Control>
+              {this.props.children}
             </RoutedMap>
           </div>
         </Loadable>

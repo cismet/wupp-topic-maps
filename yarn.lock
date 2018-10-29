@@ -34,13 +34,6 @@
   dependencies:
     "@turf/helpers" "^5.1.5"
 
-"@turf/bbox-polygon@^6.0.1":
-  version "6.0.1"
-  resolved "https://registry.yarnpkg.com/@turf/bbox-polygon/-/bbox-polygon-6.0.1.tgz#ae0fbb14558831fb34538aae089a23d3336c6379"
-  integrity sha512-f6BK6GOzUNjmJeOYHklk/5LNcQMQbo51gvAM10dTM5IqzKP01KM5bgV88uOKfSZB0HRQVpaRV1tgXk2bg5cPRg==
-  dependencies:
-    "@turf/helpers" "6.x"
-
 "@turf/bbox@^5.1.5":
   version "5.1.5"
   resolved "https://registry.yarnpkg.com/@turf/bbox/-/bbox-5.1.5.tgz#3051df514ad4c50f4a4f9b8a2d15fd8b6840eda3"
@@ -56,11 +49,6 @@
   dependencies:
     "@turf/helpers" "^5.1.5"
     "@turf/invariant" "^5.1.5"
-
-"@turf/helpers@6.x":
-  version "6.1.4"
-  resolved "https://registry.yarnpkg.com/@turf/helpers/-/helpers-6.1.4.tgz#d6fd7ebe6782dd9c87dca5559bda5c48ae4c3836"
-  integrity sha512-vJvrdOZy1ngC7r3MDA7zIGSoIgyrkWcGnNIEaqn/APmw+bVLF2gAW7HIsdTxd12s5wQMqEpqIQrmrbRRZ0xC7g==
 
 "@turf/helpers@^5.0.4", "@turf/helpers@^5.1.5":
   version "5.1.5"
@@ -84,22 +72,6 @@
     "@turf/invariant" "^5.1.5"
     "@turf/truncate" "^5.1.5"
     turf-jsts "*"
-
-"@turf/intersect@^6.1.3":
-  version "6.1.3"
-  resolved "https://registry.yarnpkg.com/@turf/intersect/-/intersect-6.1.3.tgz#c6574a2f00a38df6f81fc08d8103ad5295b7b6bc"
-  integrity sha512-SeAJG/zPRRTeyK2OifkPoyLq60q8tv8prpPIH3R8ZhyF4MdLOnMv5MURaQ6kQd+3UTDrL+pYm6rqbPvln1zqIw==
-  dependencies:
-    "@turf/helpers" "6.x"
-    "@turf/invariant" "6.x"
-    martinez-polygon-clipping "^0.4.3"
-
-"@turf/invariant@6.x":
-  version "6.1.2"
-  resolved "https://registry.yarnpkg.com/@turf/invariant/-/invariant-6.1.2.tgz#6013ed6219f9ac2edada9b31e1dfa5918eb0a2f7"
-  integrity sha512-WU08Ph8j0J2jVGlQCKChXoCtI50BB3yEH21V++V0T4cR1T27HKCxkehV2sYMwTierfMBgjwSwDIsxnR4/2mWXg==
-  dependencies:
-    "@turf/helpers" "6.x"
 
 "@turf/invariant@^5.0.0", "@turf/invariant@^5.1.5":
   version "5.2.0"
@@ -5653,11 +5625,6 @@ leaflet.markercluster@^1.3.0:
   resolved "https://registry.yarnpkg.com/leaflet.markercluster/-/leaflet.markercluster-1.4.0.tgz#82d1892e2dfa6d3b2da262d9ed373c12411ba861"
   integrity sha512-8WXIZFnIViNjp1YctGPcm1FXyppzuxs+cNjnghSeHK3Z1+zhq5BSESc6aQZan118X9TqptuP9Vzf29NVob+6Uw==
 
-leaflet.markercluster@^1.4.0:
-  version "1.4.1"
-  resolved "https://registry.yarnpkg.com/leaflet.markercluster/-/leaflet.markercluster-1.4.1.tgz#b53f2c4f2ca7306ddab1dbb6f1861d5e8aa6c5e5"
-  integrity sha512-ZSEpE/EFApR0bJ1w/dUGwTSUvWlpalKqIzkaYdYB7jaftQA/Y2Jav+eT4CMtEYFj+ZK4mswP13Q2acnPBnhGOw==
-
 leaflet.snogylop@^0.4.0:
   version "0.4.0"
   resolved "https://registry.yarnpkg.com/leaflet.snogylop/-/leaflet.snogylop-0.4.0.tgz#bc373432edc1da63a8efbcc5a681d398deebd0d3"
@@ -5982,14 +5949,6 @@ map-visit@^1.0.0:
   integrity sha1-7Nyo8TFE5mDxtb1B8S80edmN+48=
   dependencies:
     object-visit "^1.0.0"
-
-martinez-polygon-clipping@^0.4.3:
-  version "0.4.3"
-  resolved "https://registry.yarnpkg.com/martinez-polygon-clipping/-/martinez-polygon-clipping-0.4.3.tgz#a3971ddf1da147104b5d0fbbf68f728bb62885c1"
-  integrity sha512-3ZNS0ksKhWTLsmCUkNf+/UimndZ5U2cVOS0I+IjiwF+M23E77TmeOZSmbRJbfCoQUog/vcQ42s3DXrhgOhgPqw==
-  dependencies:
-    splaytree "^0.1.4"
-    tinyqueue "^1.2.0"
 
 math-expression-evaluator@^1.2.14:
   version "1.2.17"
@@ -6932,13 +6891,6 @@ pluralize@^7.0.0:
   resolved "https://registry.yarnpkg.com/pluralize/-/pluralize-7.0.0.tgz#298b89df8b93b0221dbf421ad2b1b1ea23fc6777"
   integrity sha512-ARhBOdzS3e41FbkW/XWrTEtukqqLoK5+Z/4UeDaLuSW+39JPeFgs4gCGqsrJHVZX0fUrx//4OF0K1CUGwlIFow==
 
-polylabel@^1.0.2:
-  version "1.0.2"
-  resolved "https://registry.yarnpkg.com/polylabel/-/polylabel-1.0.2.tgz#90c11602fb217a65b78ac2110ac5fcb00b652560"
-  integrity sha1-kMEWAvshemW3isIRCsX8sAtlJWA=
-  dependencies:
-    tinyqueue "^1.1.0"
-
 portfinder@^1.0.9:
   version "1.0.17"
   resolved "https://registry.yarnpkg.com/portfinder/-/portfinder-1.0.17.tgz#a8a1691143e46c4735edefcf4fbcccedad26456a"
@@ -7341,7 +7293,7 @@ progress@^2.0.0:
   resolved "https://registry.yarnpkg.com/progress/-/progress-2.0.0.tgz#8a1be366bf8fc23db2bd23f10c6fe920b4389d1f"
   integrity sha1-ihvjZr+Pwj2yvSPxDG/pILQ4nR8=
 
-proj4@^2.3.14, proj4@^2.4.4, proj4@^2.5.0:
+proj4@^2.3.14, proj4@^2.4.4:
   version "2.5.0"
   resolved "https://registry.yarnpkg.com/proj4/-/proj4-2.5.0.tgz#e3a88ce7e7a07221aaccbc6760dd2eafee745f03"
   integrity sha512-XZTRT7OPdLzgvtTqL8DG2cEj8lYdovztOwiwpwRSYayOty5Ipf3H68dh/fiL+HKDEyetmQSMhkkMGiJoyziz3w==
@@ -7591,26 +7543,6 @@ react-chartkick@^0.2.0:
   dependencies:
     chartkick "^2.3.6"
 
-react-cismap@^0.0.12:
-  version "0.0.12"
-  resolved "https://registry.yarnpkg.com/react-cismap/-/react-cismap-0.0.12.tgz#e8268152d7ae297e0ee880a9b1faf036d8c7c060"
-  integrity sha512-xMz8V7BB5tDRinKbCFc3OVXFTU0eoZYAZIN7OhzoRJU3x8jAM2AwGSP7Uq6ukNxo4YOlZmCjwwxrs2VCjC0JCg==
-  dependencies:
-    "@turf/bbox-polygon" "^6.0.1"
-    "@turf/intersect" "^6.1.3"
-    leaflet "^1.2.0"
-    leaflet-easybutton "^2.3.0"
-    leaflet-fullscreen-custom-container-fork "^1.0.7"
-    leaflet.locatecontrol "^0.63.0"
-    leaflet.markercluster "^1.4.0"
-    polylabel "^1.0.2"
-    proj4 "^2.5.0"
-    proj4leaflet "^1.0.2"
-    react-dom "^16.5.0"
-    react-leaflet "^1.6.4"
-    react-leaflet-markercluster "^1.1.8"
-    url-search-params-polyfill "^5.0.0"
-
 react-dev-utils@^4.2.1:
   version "4.2.2"
   resolved "https://registry.yarnpkg.com/react-dev-utils/-/react-dev-utils-4.2.2.tgz#e8f2ffdbf27bfb13ee88ac18e20c83163aac0659"
@@ -7652,16 +7584,6 @@ react-dom@^16.1.1:
     object-assign "^4.1.1"
     prop-types "^15.6.0"
 
-react-dom@^16.5.0:
-  version "16.5.2"
-  resolved "https://registry.yarnpkg.com/react-dom/-/react-dom-16.5.2.tgz#b69ee47aa20bab5327b2b9d7c1fe2a30f2cfa9d7"
-  integrity sha512-RC8LDw8feuZOHVgzEf7f+cxBr/DnKdqp56VU0lAs1f4UfKc4cU8wU4fTq/mgnvynLQo8OtlPC19NUFh/zjZPuA==
-  dependencies:
-    loose-envify "^1.1.0"
-    object-assign "^4.1.1"
-    prop-types "^15.6.2"
-    schedule "^0.5.0"
-
 react-error-overlay@^3.0.0:
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/react-error-overlay/-/react-error-overlay-3.0.0.tgz#c2bc8f4d91f1375b3dad6d75265d51cd5eeaf655"
@@ -7702,14 +7624,14 @@ react-leaflet-control@^1.4.0:
   dependencies:
     prop-types "^15.5.7"
 
-react-leaflet-markercluster@^1.1.7, react-leaflet-markercluster@^1.1.8:
+react-leaflet-markercluster@^1.1.7:
   version "1.1.8"
   resolved "https://registry.yarnpkg.com/react-leaflet-markercluster/-/react-leaflet-markercluster-1.1.8.tgz#ba72acb2ae07a47a45b5f7287b73a9c2b26cc316"
   integrity sha512-REOnc8+QPO3V+vUHIkJ2Dnlw6lNBY+L7p3PBG3+Q1t8Idy9yXTjZ0hEJKSRrcU6HSPALiVyZgbDxIpd2j/HbqA==
   dependencies:
     deep-equal "^1.0.1"
 
-react-leaflet@^1.6.4, react-leaflet@^1.9.1:
+react-leaflet@^1.9.1:
   version "1.9.1"
   resolved "https://registry.yarnpkg.com/react-leaflet/-/react-leaflet-1.9.1.tgz#0a282d8d26f66ea2d719ebb8f4a5fa156b33b8c8"
   integrity sha512-QiYpjyf1DHy0gLAR2958Mo5Wlu2u7FubIjapPpuUAQNFmjkVSteiDLlEdDpGswTHTyNAfKLS+u9PqvfipMDZKA==
@@ -8466,13 +8388,6 @@ sax@^1.2.1, sax@^1.2.4, sax@~1.2.1:
   resolved "https://registry.yarnpkg.com/sax/-/sax-1.2.4.tgz#2816234e2378bddc4e5354fab5caa895df7100d9"
   integrity sha512-NqVDv9TpANUjFm0N8uM5GxL36UgKi9/atZw+x7YFnQ8ckwFGKrl4xX4yWtrey3UJm5nP1kUbnYgLopqWNSRhWw==
 
-schedule@^0.5.0:
-  version "0.5.0"
-  resolved "https://registry.yarnpkg.com/schedule/-/schedule-0.5.0.tgz#c128fffa0b402488b08b55ae74bb9df55cc29cc8"
-  integrity sha512-HUcJicG5Ou8xfR//c2rPT0lPIRR09vVvN81T9fqfVgBmhERUbDEQoYKjpBxbueJnCPpSu2ujXzOnRQt6x9o/jw==
-  dependencies:
-    object-assign "^4.1.1"
-
 schema-utils@^0.3.0:
   version "0.3.0"
   resolved "https://registry.yarnpkg.com/schema-utils/-/schema-utils-0.3.0.tgz#f5877222ce3e931edae039f17eb3716e7137f8cf"
@@ -8819,11 +8734,6 @@ spdy@^3.4.1:
     safe-buffer "^5.0.1"
     select-hose "^2.0.0"
     spdy-transport "^2.0.18"
-
-splaytree@^0.1.4:
-  version "0.1.4"
-  resolved "https://registry.yarnpkg.com/splaytree/-/splaytree-0.1.4.tgz#fc35475248edcc29d4938c9b67e43c6b7e55a659"
-  integrity sha512-D50hKrjZgBzqD3FT2Ek53f2dcDLAQT8SSGrzj3vidNH5ISRgceeGVJ2dQIthKOuayqFXfFjXheHNo4bbt9LhRQ==
 
 split-string@^3.0.1, split-string@^3.0.2:
   version "3.1.0"
@@ -9247,7 +9157,7 @@ timers-browserify@^2.0.4:
   dependencies:
     setimmediate "^1.0.4"
 
-tinyqueue@^1.1.0, tinyqueue@^1.2.0:
+tinyqueue@^1.1.0:
   version "1.2.3"
   resolved "https://registry.yarnpkg.com/tinyqueue/-/tinyqueue-1.2.3.tgz#b6a61de23060584da29f82362e45df1ec7353f3d"
   integrity sha512-Qz9RgWuO9l8lT+Y9xvbzhPT2efIUIFd69N7eF7tJ9lnQl0iLj1M7peK7IoUGZL9DJHw9XftqLreccfxcQgYLxA==
@@ -9563,11 +9473,6 @@ url-search-params-polyfill@^2.0.1:
   version "2.0.3"
   resolved "https://registry.yarnpkg.com/url-search-params-polyfill/-/url-search-params-polyfill-2.0.3.tgz#466b451df7e707f9a0de601fa39b0a5816402dcd"
   integrity sha512-DLQzhOippXPJOS+XJOwZGV5tILjGhIQEPbjEDAvTh5nWcZOpbGZG0xXj/lss+dAA1oC/8HYR5xFfC28TW0b+VQ==
-
-url-search-params-polyfill@^5.0.0:
-  version "5.0.0"
-  resolved "https://registry.yarnpkg.com/url-search-params-polyfill/-/url-search-params-polyfill-5.0.0.tgz#09b98337c89dcf6c6a6a0bfeb096f6ba83b7526b"
-  integrity sha512-+SCD22QJp4UnqPOI5UTTR0Ljuh8cHbjEf1lIiZrZ8nHTlTixqwVsVQTSfk5vrmDz7N09/Y+ka5jQr0ff35FnQQ==
 
 url@0.11.0, url@^0.11.0:
   version "0.11.0"

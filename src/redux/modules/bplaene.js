@@ -156,6 +156,7 @@ export function searchForPlans(gazObject, overriddenWKT) {
                   gazHitMatchesEmbeddedStatus)
               ) {
                 featureArray = [feature];
+                selectionIndexWish = 0; // set it to 0  (again) because it could have been set to another value
                 planMatch = true;
                 break;
               }

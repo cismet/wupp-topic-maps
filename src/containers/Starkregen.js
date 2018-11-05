@@ -120,7 +120,7 @@ export class Starkregen_ extends React.Component {
 			{ layer: 'R102:20md', title: '20 jährlicher Starkregen', next: 1 },
 			{ layer: 'R102:50md', title: '50 jährlicher Starkregen', next: 2 },
 			{ layer: 'R102:100md', title: '100 jährlicher Starkregen', next: 3 },
-			{ layer: 'R102:100md', title: 'Ereigniss am 29.05.2018', next: 0 }
+			{ layer: 'R102:100md', title: 'Ereignis am 29.05.2018', next: 0 }
 		];
 	}
 
@@ -200,7 +200,7 @@ export class Starkregen_ extends React.Component {
 										paddingBottom: '5px'
 									}}
 								>
-									<h5>anderes Ereigniss</h5>
+									<h5>anderes Ereignis</h5>
 								</td>
 								<td
 									style={{

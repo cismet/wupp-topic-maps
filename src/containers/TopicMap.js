@@ -219,8 +219,7 @@ export class TopicMap_ extends React.Component {
               layers=""
               style={mapStyle}
               fallbackPosition={position}
-              ondblclick={this.mapDblClick}
-              doubleClickZoom={false}
+              ondblclick={this.props.ondblclick}
               locationChangedHandler={location => {
                 this.props.routingActions.push(
                   this.props.routing.location.pathname +

@@ -16,33 +16,44 @@ const initialState = {
 		{
 			layer: 'R102:20md',
 			name: '20-jährlich',
-			title: '20-jährlicher Starkregen',
-			subtitle: 'Bei den angezeigten Wasserständen handelt es sich um Simulationsergebnisse eines Regenereignisses das statisch gesehen alle 20 Jahre vorkommt.'
+			title: '20-jährlicher Starkregen (2h)',
+			icon: 'bar-chart',
+			subtitle:
+				'Simulation eines zweistündigen Starkregenereignisses mit statistisch 20-jährlicher Wiederkehrzeit in ganz Wuppertal (Intensitätsverlauf Modell Euler Typ II)'
 		},
-		// { layer: 'R102:50md', name:"50-jährlich",  title: '50-jährlicher Starkregen',subtitle: "Bei den angezeigten Wasserständen handelt es sich um Simulationsergebnisse."  },
 		{
 			layer: 'R102:100md',
 			name: '100-jährlich',
-			title: '100-jährlicher Starkregen',
-			subtitle: 'Bei den angezeigten Wasserständen handelt es sich um Simulationsergebnisse eines Regenereignisses das statisch gesehen alle 100 Jahre vorkommt.'
+			icon: 'bar-chart',
+			title: '100-jährlicher Starkregen (2h)',
+			subtitle:
+				'Simulation eines zweistündigen Starkregenereignisses mit statistisch 100-jährlicher Wiederkehrzeit in ganz Wuppertal (Intensitätsverlauf Modell Euler Typ II)'
 		},
 		{
 			layer: 'R102:90md',
-			name: '90mm Modell',
-			title: '90mm Modellregen',
-			subtitle: 'Bei den angezeigten Wasserständen handelt es sich um Simulationsergebnisse eines 90mm Modellregens.'
+			name: '90 Liter/m²',
+			icon: 'bitbucket',
+			title: '90 Liter/m² Blockregen (1h)',
+			subtitle:
+				'Simulation eines einstündigen Starkregenereignisses (90 Liter pro m²) mit gleichmäßiger Intensität ("Blockregen") in ganz Wuppertal'
 		},
 		{
 			layer: 'R102:50md',
 			name: '29.05.2018',
-			title: 'Ereignis am 29.05.2018',
-			subtitle: 'Bei den angezeigten Wasserständen handelt es sich um Simulationsergebnisse. Als Grundlage wurde das Starkregenereignis vom 29.05.2018 herangezogen.'
+			icon: 'calendar',
+			title: 'Starkregen vom 29.05.18',
+			subtitle:
+				'Simulation des Starkregenereignisses vom 29.05.2018 in den Tallagen von Barmen und Elberfeld anhand gemessener Niederschlagsmengen'
 		}
 	],
 	backgrounds: [
-		{ layerkey:"wupp-plan-live@40",src: '/images/rain-hazard-map-bg/citymap.png', title: 'Stadtplan' },
-		{ layerkey:"trueOrtho2018@40",src: '/images/rain-hazard-map-bg/ortho.png', title: 'Luftbild' },
-		{ layerkey:"wupp-plan-live@60|trueOrtho2018@40",src: '/images/rain-hazard-map-bg/mixed.png', title: 'Luftbild mit Beschriftungen' }
+		{ layerkey: 'wupp-plan-live@40', src: '/images/rain-hazard-map-bg/citymap.png', title: 'Stadtplan' },
+		{ layerkey: 'trueOrtho2018@40', src: '/images/rain-hazard-map-bg/ortho.png', title: 'Luftbild' },
+		{
+			layerkey: 'wupp-plan-live@60|trueOrtho2018@40',
+			src: '/images/rain-hazard-map-bg/mixed.png',
+			title: 'Luftbild mit Beschriftungen'
+		}
 	],
 	legend: [
 		{ title: '> 10 cm', bg: '#AFCFF9' },

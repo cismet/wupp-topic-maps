@@ -7,12 +7,16 @@ import { actions as MappingActions } from '../redux/modules/mapping';
 import { actions as UIStateActions } from '../redux/modules/uiState';
 import { actions as StarkregenActions } from '../redux/modules/starkregen';
 
+import { proj4crs25832def } from "../constants/gis";
+import proj4 from "proj4";
+
 import { routerActions as RoutingActions } from 'react-router-redux';
 import TopicMap from '../containers/TopicMap';
 import { WMSTileLayer, Marker, Popup } from 'react-leaflet';
 import { Well, Label } from 'react-bootstrap';
 
 import L from 'leaflet';
+import { Icon } from "react-fa";
 
 (function() {
 	// var originalInitTile = L.GridLayer.prototype._initTile;
@@ -79,28 +83,23 @@ export class Starkregen_ extends React.Component {
 	constructor(props, context) {
 		super(props, context);
 		this.gotoHome = this.gotoHome.bind(this);
-		this.toggleSimulation = this.toggleSimulation.bind(this);
-		this.backgroundIndex = 0;
-		this.simulationIndex = 0;
-		this.simulations = [
-			{ layer: 'R102:20md', title: '20 jährlicher Starkregen', next: 1 },
-			{ layer: 'R102:50md', title: '50 jährlicher Starkregen', next: 2 },
-			{ layer: 'R102:100md', title: '100 jährlicher Starkregen', next: 3 },
-			{ layer: 'R102:100md', title: 'Ereignis am 29.05.2018', next: 0 }
-		];
-	}
+		this.doubleMapClick = this.doubleMapClick.bind(this);
 
+	}
+	doubleMapClick(event) {
+		const pos = proj4(proj4.defs("EPSG:4326"), proj4crs25832def, [
+		  event.latlng.lng,
+		  event.latlng.lat
+		]);
+		let wkt = `POINT(${pos[0]} ${pos[1]})`;
+		console.log('doubleClick',wkt);
+		
+	}
 	gotoHome() {
 		if (this.topicMap) {
 			this.topicMap.wrappedInstance.gotoHome();
 		}
 	}
-
-	toggleSimulation() {
-		this.simulationIndex = (this.simulationIndex + 1) % this.simulations.length;
-		this.forceUpdate();
-	}
-
 	render() {
 		let options = { opacity: 1 };
 
@@ -150,7 +149,7 @@ export class Starkregen_ extends React.Component {
 			);
 			simulationLabels.push(label);
 		});
-
+		let selSim=this.props.starkregen.simulations[this.props.starkregen.selectedSimulation];
 		let info = (
 			<div pixelwidth={300}>
 				<table style={{ width: '100%' }}>
@@ -169,11 +168,13 @@ export class Starkregen_ extends React.Component {
 						</tr>
 					</tbody>
 				</table>
+				
+
 				<Well pixelwidth={300} bsSize="small">
-					<h4 style={{marginTop:0}}>{this.props.starkregen.simulations[this.props.starkregen.selectedSimulation].title}</h4>
+					<h4 style={{marginTop:0}}><Icon name={selSim.icon} /> {selSim.title}</h4>
 					<p style={{marginBottom:5}}>
-						{this.props.starkregen.simulations[this.props.starkregen.selectedSimulation].subtitle}{' '}
-						<a>(weitere Informationen)</a>
+						{selSim.subtitle}{' '}
+						<a>(mehr)</a>
 					</p>
 					<table border={0} style={{ width: '100%' }}>
 						<tbody>
@@ -299,6 +300,8 @@ export class Starkregen_ extends React.Component {
 					this.props.match.params.layers ||
 					this.props.starkregen.backgrounds[this.props.starkregen.selectedBackground].layerkey
 				}
+				ondblclick={this.doubleMapClick}
+
 			>
 				<WMSTileLayer
 					key={'Ortho2014' + JSON.stringify(options)}

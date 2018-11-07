@@ -38,7 +38,7 @@ const initialState = {
 				'Simulation eines einstündigen Starkregenereignisses (90 Liter pro m²) mit gleichmäßiger Intensität ("Blockregen") in ganz Wuppertal'
 		},
 		{
-			layer: 'R102:50md',
+			layer: 'R102:SRmd',
 			name: '29.05.2018',
 			icon: 'calendar',
 			title: 'Starkregen vom 29.05.18',

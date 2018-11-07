@@ -305,7 +305,7 @@ export class Starkregen_ extends React.Component {
 
 			>
 				<WMSTileLayer
-					key={'Ortho2014' + JSON.stringify(options)}
+					key={'rainHazardMap.bgMap'+ this.props.starkregen.selectedBackground}
 					url="http://geoportal.wuppertal.de/deegree/wms"
 					layers={this.props.starkregen.simulations[this.props.starkregen.selectedSimulation].layer}
 					version="1.1.1"

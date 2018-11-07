@@ -5,10 +5,10 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { actions as MappingActions } from '../redux/modules/mapping';
 import { actions as UIStateActions } from '../redux/modules/uiState';
-import { actions as StarkregenActions } from '../redux/modules/starkregen';
+import { actions as StarkregenActions, initialState as starkregenInitialState } from '../redux/modules/starkregen';
 
-import { proj4crs25832def } from "../constants/gis";
-import proj4 from "proj4";
+import { proj4crs25832def } from '../constants/gis';
+import proj4 from 'proj4';
 
 import { routerActions as RoutingActions } from 'react-router-redux';
 import TopicMap from '../containers/TopicMap';
@@ -16,7 +16,8 @@ import { WMSTileLayer, Marker, Popup } from 'react-leaflet';
 import { Well, Label } from 'react-bootstrap';
 
 import L from 'leaflet';
-import { Icon } from "react-fa";
+import { Icon } from 'react-fa';
+import { modifyQueryPart } from '../utils/routingHelper';
 
 (function() {
 	// var originalInitTile = L.GridLayer.prototype._initTile;
@@ -84,16 +85,40 @@ export class Starkregen_ extends React.Component {
 		super(props, context);
 		this.gotoHome = this.gotoHome.bind(this);
 		this.doubleMapClick = this.doubleMapClick.bind(this);
-
-	}
-	doubleMapClick(event) {
-		const pos = proj4(proj4.defs("EPSG:4326"), proj4crs25832def, [
-		  event.latlng.lng,
-		  event.latlng.lat
-		]);
-		let wkt = `POINT(${pos[0]} ${pos[1]})`;
-		console.log('doubleClick',wkt);
+		this.setSimulationStateFromUrl = this.setSimulationStateFromUrl.bind(this);
+		this.setSimulationStateInUrl = this.setSimulationStateInUrl.bind(this);
 		
+	}
+
+	componentDidUpdate() {
+		this.setSimulationStateFromUrl();
+	}
+
+
+	setSimulationStateFromUrl() {
+		let selectedSimulationFromUrl = parseInt(
+			new URLSearchParams(this.props.routing.location.search).get('selectedSimulation') ||
+				starkregenInitialState.selectedSimulation
+		);
+		if (selectedSimulationFromUrl !== this.props.starkregen.selectedSimulation) {
+			this.props.starkregenActions.setSimulation(selectedSimulationFromUrl);
+		}
+	}
+	setSimulationStateInUrl(simulation) {
+		if (simulation !== this.props.starkregen.selectedSimulation) {
+			this.props.routingActions.push(
+				this.props.routing.location.pathname +
+					modifyQueryPart(this.props.routing.location.search, {
+						selectedSimulation: simulation
+					})
+			);
+		}
+	}
+
+	doubleMapClick(event) {
+		const pos = proj4(proj4.defs('EPSG:4326'), proj4crs25832def, [ event.latlng.lng, event.latlng.lat ]);
+		let wkt = `POINT(${pos[0]} ${pos[1]})`;
+		console.log('doubleClick', wkt);
 	}
 	gotoHome() {
 		if (this.topicMap) {
@@ -101,6 +126,7 @@ export class Starkregen_ extends React.Component {
 		}
 	}
 	render() {
+		
 		let options = { opacity: 1 };
 
 		let header = (
@@ -139,9 +165,10 @@ export class Starkregen_ extends React.Component {
 				bsStyle = 'default';
 			}
 			let label = (
-				<a style={{ textDecoration: 'none' }}
+				<a
+					style={{ textDecoration: 'none' }}
 					onClick={() => {
-						this.props.starkregenActions.setSimulation(index);
+						this.setSimulationStateInUrl(index);
 					}}
 				>
 					<Label bsStyle={bsStyle}>{item.name}</Label>
@@ -149,7 +176,7 @@ export class Starkregen_ extends React.Component {
 			);
 			simulationLabels.push(label);
 		});
-		let selSim=this.props.starkregen.simulations[this.props.starkregen.selectedSimulation];
+		let selSim = this.props.starkregen.simulations[this.props.starkregen.selectedSimulation];
 		let info = (
 			<div pixelwidth={300}>
 				<table style={{ width: '100%' }}>
@@ -168,13 +195,16 @@ export class Starkregen_ extends React.Component {
 						</tr>
 					</tbody>
 				</table>
-				
 
 				<Well pixelwidth={300} bsSize="small">
-					<h4 style={{marginTop:0}}><Icon name={selSim.icon} /> {selSim.title}</h4>
-					<p style={{marginBottom:5}}>
+					<h4 style={{ marginTop: 0 }}>
+						<Icon name={selSim.icon} /> {selSim.title}
+					</h4>
+					<p style={{ marginBottom: 5 }}>
 						{selSim.subtitle}{' '}
-						<a><Icon style={{fontSize:16}} name="info-circle"/></a>
+						<a>
+							<Icon style={{ fontSize: 16 }} name="info-circle" />
+						</a>
 					</p>
 					<table border={0} style={{ width: '100%' }}>
 						<tbody>
@@ -238,7 +268,7 @@ export class Starkregen_ extends React.Component {
 											</tr>
 											<tr>
 												<td>
-												{simulationLabels[2]} {simulationLabels[3]}
+													{simulationLabels[2]} {simulationLabels[3]}
 												</td>
 											</tr>
 										</tbody>
@@ -267,7 +297,7 @@ export class Starkregen_ extends React.Component {
 											};
 										}
 										return (
-											<a
+											<a key={"backgroundChanger."+index}
 												onClick={() => {
 													this.props.starkregenActions.setBackground(index);
 												}}
@@ -293,7 +323,7 @@ export class Starkregen_ extends React.Component {
 				fullScreenControl
 				locatorControl
 				gazetteerSearchBox
-				gazetteerTopicsList= {["geps","geps_reverse", "pois", "kitas", "quartiere", "bezirke", "adressen"]}
+				gazetteerTopicsList={[ 'geps', 'geps_reverse', 'pois', 'kitas', 'quartiere', 'bezirke', 'adressen' ]}
 				gazetteerSearchBoxPlaceholdertext="Stadtteil | Adresse | POI | GEP"
 				photoLightBox
 				infoBox={info}
@@ -302,10 +332,9 @@ export class Starkregen_ extends React.Component {
 					this.props.starkregen.backgrounds[this.props.starkregen.selectedBackground].layerkey
 				}
 				ondblclick={this.doubleMapClick}
-
 			>
 				<WMSTileLayer
-					key={'rainHazardMap.bgMap'+ this.props.starkregen.selectedBackground}
+					key={'rainHazardMap.bgMap' + this.props.starkregen.selectedBackground}
 					url="http://geoportal.wuppertal.de/deegree/wms"
 					layers={this.props.starkregen.simulations[this.props.starkregen.selectedSimulation].layer}
 					version="1.1.1"

@@ -6,10 +6,11 @@ export const types = {
 	SET_BACKGROUND: 'STARKREGEN/SET_BACKGROUND'
 };
 
-export const constants = {};
+export const constants = {
+};
 
 ///INITIAL STATE
-const initialState = {
+export const initialState = {
 	selectedSimulation: 0,
 	selectedBackground: 0,
 	simulations: [

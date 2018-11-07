@@ -174,7 +174,7 @@ export class Starkregen_ extends React.Component {
 					<h4 style={{marginTop:0}}><Icon name={selSim.icon} /> {selSim.title}</h4>
 					<p style={{marginBottom:5}}>
 						{selSim.subtitle}{' '}
-						<a>(mehr)</a>
+						<a><Icon style={{fontSize:16}} name="info-circle"/></a>
 					</p>
 					<table border={0} style={{ width: '100%' }}>
 						<tbody>

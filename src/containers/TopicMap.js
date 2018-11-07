@@ -337,7 +337,7 @@ TopicMap.defaultProps = {
   noInitialLoadingText: false,
   initialLoadingText: "Laden der Daten ...",
   gazetteerSearchBox: false,
-  gazetteerTopicsList: ["adressen", "bezirke", "quartiere", "pois"],
+  gazetteerTopicsList: ["pois", "kitas", "quartiere", "bezirke", "adressen"],
   gazetteerSearchBoxPlaceholdertext: "Geben Sie einen Suchbegriff ein.",
   fullScreenControl: false,
   locatorControl: false,

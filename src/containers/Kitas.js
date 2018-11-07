@@ -301,7 +301,7 @@ export class Kitas_ extends React.Component {
 						searchTooltipProvider={this.searchTooltip}
 						searchMinZoom={99}
 						searchMaxZoom={98}
-						gazTopics={[ 'adressen', 'bezirke', 'quartiere', 'kitas' ]}
+						gazTopics={[ 'kitas', 'bezirke', 'quartiere','adressen']}
 						clustered={queryString.parse(this.props.routing.location.search).unclustered === undefined}
 						minZoom={6}
 						clusterOptions={{

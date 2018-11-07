@@ -37,6 +37,12 @@ const kitasStorageConfig = {
   whitelist: ["kitas", "kitasMD5", "filter", "kitaSvgSize", "featureRendering"] //['kitas','kitasMD5']
 };
 
+const starkregenStorageConfig = {
+  key: "starkregen",
+  storage: localForage,
+  whitelist: ["selectedBackground", "selectedSimulation"]
+};
+
 const uiStateStorageConfig = {
   key: "uiState",
   storage: localForage,
@@ -45,6 +51,7 @@ const uiStateStorageConfig = {
 
 const appReducer = combineReducers({
   bplaene: bplaenenReducer,
+  starkregen: persistReducer(starkregenStorageConfig, starkregenReducer),
   ehrenamt: persistReducer(ehrenamtStorageConfig, ehrenamtReducer),
   stadtplan: stadtplanReducer,
   baeder: baederReducer,
@@ -54,7 +61,6 @@ const appReducer = combineReducers({
   routing: routerReducer,
   gazetteerTopics: persistReducer(gazetteerTopicsStorageConfig, gazetteerTopicsReducer),
   // gazetteerTopics: gazetteerTopicsReducer, // uncomment to skip persitent gazetteer data
-  starkregen: starkregenReducer,
 });
 
 const rootReducer = (state, action) => {

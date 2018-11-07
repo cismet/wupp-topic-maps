@@ -90,19 +90,32 @@ export class Starkregen_ extends React.Component {
 		
 	}
 
+	comnponentDidMount() {
+		console.log('didMount');
+		
+	}
+
 	componentDidUpdate() {
 		this.setSimulationStateFromUrl();
 	}
 
 
 	setSimulationStateFromUrl() {
-		let selectedSimulationFromUrl = parseInt(
-			new URLSearchParams(this.props.routing.location.search).get('selectedSimulation') ||
-				starkregenInitialState.selectedSimulation
-		);
-		if (selectedSimulationFromUrl !== this.props.starkregen.selectedSimulation) {
-			this.props.starkregenActions.setSimulation(selectedSimulationFromUrl);
+		let selectedSimulationFromUrlQueryValue=new URLSearchParams(this.props.routing.location.search).get('selectedSimulation');
+		if (selectedSimulationFromUrlQueryValue) {
+			let selectedSimulationFromUrl = parseInt(selectedSimulationFromUrlQueryValue,10);
+			if (selectedSimulationFromUrl !== this.props.starkregen.selectedSimulation) {
+				this.props.starkregenActions.setSimulation(selectedSimulationFromUrl);
+			}
+		} else{
+			this.props.routingActions.push(
+				this.props.routing.location.pathname +
+					modifyQueryPart(this.props.routing.location.search, {
+						selectedSimulation: this.props.starkregen.selectedSimulation
+					})
+			);
 		}
+		
 	}
 	setSimulationStateInUrl(simulation) {
 		if (simulation !== this.props.starkregen.selectedSimulation) {

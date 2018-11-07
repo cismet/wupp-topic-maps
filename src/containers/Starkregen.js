@@ -293,7 +293,7 @@ export class Starkregen_ extends React.Component {
 				fullScreenControl
 				locatorControl
 				gazetteerSearchBox
-				gazetteerTopicsList= {["geps", "pois", "kitas", "quartiere", "bezirke", "adressen"]}
+				gazetteerTopicsList= {["geps","geps_reverse", "pois", "kitas", "quartiere", "bezirke", "adressen"]}
 				gazetteerSearchBoxPlaceholdertext="Stadtteil | Adresse | POI | GEP"
 				photoLightBox
 				infoBox={info}

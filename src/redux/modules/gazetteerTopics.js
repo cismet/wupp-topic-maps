@@ -234,10 +234,26 @@ export const getGazDataForTopicIds = (state, topics) => {
 					x: topicItem.x,
 					y: topicItem.y,
 					more: topicItem.m
-				};
+        };
+				gazData.push(g);
+			}
+    }
+    if (topic==='geps_reverse') {
+      let geps_reverse = JSON.parse(state.geps_reverse);
+			for (let i = 0; i < geps_reverse.length; ++i) {
+				let topicItem = geps_reverse[i];
+				let g = {
+					sorter: sorter++,
+					string: topicItem.s,
+					glyph: topicItem.g,
+					x: topicItem.x,
+					y: topicItem.y,
+					more: topicItem.m
+        };
 				gazData.push(g);
 			}
 		}
+
 	}
 	return gazData;
 };

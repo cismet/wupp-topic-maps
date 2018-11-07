@@ -19,7 +19,7 @@ const initialState = {
 			title: '20-jährlicher Starkregen (2h)',
 			icon: 'bar-chart',
 			subtitle:
-				'Simulation eines zweistündigen Starkregenereignisses mit statistisch 20-jährlicher Wiederkehrzeit in ganz Wuppertal (Intensitätsverlauf Modell Euler Typ II)'
+				'Simulation eines zweistündigen Starkregens mit statistisch 20-jährlicher Wiederkehrzeit in ganz Wuppertal (Intensitätsverlauf Modell Euler Typ II)'
 		},
 		{
 			layer: 'R102:100md',
@@ -27,7 +27,7 @@ const initialState = {
 			icon: 'bar-chart',
 			title: '100-jährlicher Starkregen (2h)',
 			subtitle:
-				'Simulation eines zweistündigen Starkregenereignisses mit statistisch 100-jährlicher Wiederkehrzeit in ganz Wuppertal (Intensitätsverlauf Modell Euler Typ II)'
+				'Simulation eines zweistündigen Starkregens mit statistisch 100-jährlicher Wiederkehrzeit in ganz Wuppertal (Intensitätsverlauf Modell Euler Typ II)'
 		},
 		{
 			layer: 'R102:90md',
@@ -35,15 +35,15 @@ const initialState = {
 			icon: 'bitbucket',
 			title: '90 Liter/m² Blockregen (1h)',
 			subtitle:
-				'Simulation eines einstündigen Starkregenereignisses (90 Liter pro m²) mit gleichmäßiger Intensität ("Blockregen") in ganz Wuppertal'
+				'Simulation eines einstündigen Starkregens (90 Liter pro m²) mit gleichmäßiger Intensität ("Blockregen") in ganz Wuppertal '
 		},
 		{
 			layer: 'R102:SRmd',
-			name: '29.05.2018',
+			name: '29.05.18',
 			icon: 'calendar',
-			title: 'Starkregen vom 29.05.18',
+			title: 'Starkregen vom 29.05.2018',
 			subtitle:
-				'Simulation des Starkregenereignisses vom 29.05.2018 in den Tallagen von Barmen und Elberfeld anhand gemessener Niederschlagsmengen'
+				'Simulation des Starkregens vom 29.05.2018 in den Tallagen von Barmen und Elberfeld anhand gemessener Niederschlagsmengen'
 		}
 	],
 	backgrounds: [

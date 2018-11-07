@@ -193,7 +193,7 @@ export class Starkregen_ extends React.Component {
 											margin: '4px'
 										}}
 									>
-										Simulation
+										<b>Simulation</b>
 									</h5>
 								</td>
 								<td
@@ -210,7 +210,7 @@ export class Starkregen_ extends React.Component {
 											margin: '4px'
 										}}
 									>
-										Karte
+										<b>Karte</b>
 									</h5>
 								</td>
 							</tr>

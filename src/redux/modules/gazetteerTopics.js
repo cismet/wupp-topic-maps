@@ -230,7 +230,7 @@ export const getGazDataForTopicIds = (state, topics) => {
 				let g = {
 					sorter: sorter++,
 					string: topicItem.s,
-					glyph: topicItem.g,
+					glyph: "code-fork", //topicItem.g,
 					x: topicItem.x,
 					y: topicItem.y,
 					more: topicItem.m
@@ -245,7 +245,7 @@ export const getGazDataForTopicIds = (state, topics) => {
 				let g = {
 					sorter: sorter++,
 					string: topicItem.s,
-					glyph: topicItem.g,
+					glyph: "code-fork",//topicItem.g,
 					x: topicItem.x,
 					y: topicItem.y,
 					more: topicItem.m

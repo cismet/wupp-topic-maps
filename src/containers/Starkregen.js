@@ -18,7 +18,8 @@ import { Well, Label } from 'react-bootstrap';
 import L from 'leaflet';
 import { Icon } from 'react-fa';
 import { modifyQueryPart } from '../utils/routingHelper';
-
+import Legend from '../components/starkregen/Legend';
+import InfoBox from '../components/starkregen/ControlInfoBox';
 (function() {
 	// var originalInitTile = L.GridLayer.prototype._initTile;
 	// var originalGetTileUrl = L.TileLayer.WMS.prototype.getTileUrl;
@@ -130,6 +131,45 @@ export class Starkregen_ extends React.Component {
 		const pos = proj4(proj4.defs('EPSG:4326'), proj4crs25832def, [ event.latlng.lng, event.latlng.lat ]);
 		let wkt = `POINT(${pos[0]} ${pos[1]})`;
 		console.log('doubleClick', wkt);
+		const minimalBoxSize = 0.0001;
+		const roundingDecimalPlaces = 2;
+		let roundingFactor = Math.pow(10, roundingDecimalPlaces);
+		let selectedSimulation = this.props.starkregen.simulations[this.props.starkregen.selectedSimulation].layer;
+		let getFetureInfoRequestUrl =
+			`http://geoportal.wuppertal.de/deegree/wms\?` +
+			`service\=WMS\&request\=GetFeatureInfo\&` +
+			`styles\=default\&format\=image%2Fpng\&transparent\=true\&` +
+			`version\=1.1.1\&tiled\=true\&` +
+			`width\=1\&height\=1\&srs\=EPSG%3A25832\&` +
+			`bbox\=` +
+			`${pos[0] - minimalBoxSize},` +
+			`${pos[1] - minimalBoxSize},` +
+			`${pos[0] + minimalBoxSize},` +
+			`${pos[1] + minimalBoxSize}\&` +
+			`x\=0\&y\=0\&` +
+			`layers\=${selectedSimulation}\&` +
+			`QUERY_LAYERS\=${selectedSimulation}\&` +
+			`INFO_FORMAT\=application/vnd.ogc.gml`;
+
+		console.log(getFetureInfoRequestUrl);
+
+		fetch(getFetureInfoRequestUrl)
+			.then((response) => {
+				if (response.ok) {
+					return response.text();
+				} else {
+					throw new Error("Server md5 response wasn't OK");
+				}
+			})
+			.then((data) => {
+				let parser = new DOMParser();
+				let xmlDoc = parser.parseFromString(data, 'text/xml');
+				let value = parseFloat(xmlDoc.getElementsByTagName('ll:value')[0].textContent, 10);
+				console.log('value', Math.round(value * roundingFactor) / roundingFactor);
+			})
+			.catch((error) => {
+				console.log('error during fetch', error);
+			});
 	}
 	gotoHome() {
 		if (this.topicMap) {
@@ -139,32 +179,7 @@ export class Starkregen_ extends React.Component {
 	render() {
 		let options = { opacity: 1 };
 
-		let header = (
-			<table style={{ width: '100%' }}>
-				<tbody>
-					<tr>
-						{this.props.starkregen.legend.map((item) => {
-							return (
-								<td
-									key={'legend-for-' + item.title}
-									style={{
-										textAlign: 'center',
-										verticalAlign: 'top',
-										background: item.bg,
-										// color: textColor,
-										paddingLeft: '3px',
-										paddingTop: '0px',
-										paddingBottom: '0px'
-									}}
-								>
-									<div>{item.title}</div>
-								</td>
-							);
-						})}
-					</tr>
-				</tbody>
-			</table>
-		);
+		let legend = <Legend legendObjects={this.props.starkregen.legend} />;
 
 		let simulationLabels = [];
 		this.props.starkregen.simulations.map((item, index) => {
@@ -188,173 +203,20 @@ export class Starkregen_ extends React.Component {
 		});
 		let selSim = this.props.starkregen.simulations[this.props.starkregen.selectedSimulation];
 		let info = (
-			<div pixelwidth={330}>
-				<table style={{ width: '100%' }}>
-					<tbody>
-						<tr>
-							<td
-								style={{
-									opacity: '0.9',
-									paddingLeft: '0px',
-									paddingTop: '0px',
-									paddingBottom: '0px'
-								}}
-							>
-								{header}
-							</td>
-						</tr>
-					</tbody>
-				</table>
-
-				<Well bsSize="small">
-					<table border={0} style={{ width: '100%' }}>
-						<tr>
-							<td
-								style={{
-									opacity: '0.9',
-									paddingLeft: '0px',
-									paddingTop: '0px',
-									paddingBottom: '0px',
-									textAlign: 'left'
-								}}
-							>
-								<h4 style={{ margin: 0 }}>
-									<Icon name={selSim.icon} /> {selSim.title} {'   '}
-								</h4>
-							</td>
-							<td
-								style={{
-									textAlign: 'right',
-									opacity: '0.9',
-									paddingLeft: '0px',
-									paddingTop: '0px',
-									paddingBottom: '0px'
-								}}
-							>
-								<h4 style={{ margin: 0 }}>
-									<a style={{ textDecoration: 'none' }}>
-										<Icon onClick={()=>this.props.starkregenActions.setMinifiedInfoBox(!this.props.starkregen.minifiedInfoBox)} style={{ color: '#7e7e7e' }} name={(this.props.starkregen.minifiedInfoBox) ? "chevron-circle-up" : "chevron-circle-down"} />
-									</a>
-								</h4>
-							</td>
-						</tr>
-					</table>					
-					{(!this.props.starkregen.minifiedInfoBox) && (<p style={{ marginBottom: 5 }}>
-						{selSim.subtitle}{' '}
-						<a>
-							<Icon style={{ fontSize: 16 }} name="info-circle" />
-						</a>
-					</p>)}
-					{(!this.props.starkregen.minifiedInfoBox) && (
-					<table border={0} style={{ width: '100%' }}>
-						<tbody>
-							<tr>
-								<td
-									style={{
-										textAlign: 'center',
-										paddingLeft: '0px',
-										paddingTop: '0px',
-										paddingBottom: '0px'
-									}}
-								>
-									<h5
-										style={{
-											textAlign: 'center',
-											margin: '4px'
-										}}
-									>
-										<b>Simulation</b>
-									</h5>
-								</td>
-								<td
-									style={{
-										textAlign: 'center',
-										paddingLeft: '0px',
-										paddingTop: '0px',
-										paddingBottom: '5px'
-									}}
-								>
-									<h5
-										style={{
-											textAlign: 'center',
-											margin: '4px'
-										}}
-									>
-										<b>Karte</b>
-									</h5>
-								</td>
-							</tr>
-							<tr>
-								<td
-									style={{
-										textAlign: 'center',
-										paddingLeft: '0px',
-										paddingTop: '0px',
-										paddingBottom: '0px'
-									}}
-								>
-									<table
-										border={0}
-										style={{
-											width: '100%'
-										}}
-									>
-										<tbody>
-											<tr>
-												<td style={{ textAlign: 'center', verticalAlign: 'center' }}>
-													{simulationLabels[0]} {simulationLabels[1]}
-												</td>
-												<td style={{ textAlign: 'center', verticalAlign: 'center' }} />
-											</tr>
-											<tr>
-												<td>
-													{simulationLabels[2]} {simulationLabels[3]}
-												</td>
-											</tr>
-										</tbody>
-									</table>
-								</td>
-								<td
-									key={'bgprev' + this.backgroundIndex}
-									style={{
-										textAlign: 'center',
-										paddingLeft: '0px',
-										paddingTop: '0px',
-										paddingBottom: '0px'
-									}}
-								>
-									{this.props.starkregen.backgrounds.map((item, index) => {
-										let theStyle;
-										if (this.props.starkregen.selectedBackground === index) {
-											theStyle = {
-												border: '3px solid #5f83b8',
-												marginLeft: 7
-											};
-										} else {
-											theStyle = {
-												//border: '3px solid #818180',
-												marginLeft: 7
-											};
-										}
-										return (
-											<a
-												key={'backgroundChanger.' + index}
-												onClick={() => {
-													this.props.starkregenActions.setBackground(index);
-												}}
-											>
-												<img style={theStyle} width="36px" src={item.src} />
-											</a>
-										);
-									})}
-								</td>
-							</tr>
-						</tbody>
-					</table>
-					)}
-				</Well>
-			</div>
+			<InfoBox
+				pixelwidth={330}
+				selectedSimulation={selSim}
+				simulationLabels={simulationLabels}
+				backgrounds={this.props.starkregen.backgrounds}
+				selectedBackgroundIndex={this.props.starkregen.selectedBackground}
+				setBackground={(index) => this.props.starkregenActions.setBackground(index)}
+				minified={this.props.starkregen.minifiedInfoBox}
+				minify={(minified) =>
+					this.props.starkregenActions.setMinifiedInfoBox(!this.props.starkregen.minifiedInfoBox)}
+				legend={legend}
+			/>
 		);
+
 		return (
 			<TopicMap
 				key={'topicmap with background no' + this.backgroundIndex}

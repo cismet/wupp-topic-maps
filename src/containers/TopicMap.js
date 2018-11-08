@@ -274,7 +274,7 @@ export class TopicMap_ extends React.Component {
                   placement="left"
                   overlay={
                     <Tooltip style={{ zIndex: 3000000000 }} id="helpTooltip">
-                      Einstellungen | Anleitung
+                      {this.props.applicationMenuTooltipString}
                     </Tooltip>
                   }
                 >
@@ -287,7 +287,7 @@ export class TopicMap_ extends React.Component {
                       }
                     }}
                   >
-                    <Icon name="bars" />
+                    <Icon name={this.props.applicationMenuIconname} />
                   </Button>
                 </OverlayTrigger>
               </Control>
@@ -328,7 +328,9 @@ TopicMap.propTypes = {
   modalMenu: PropTypes.object,
   showModalApplicationMenu: PropTypes.func,
   featureKeySuffixCreator: PropTypes.func,
-  featureCollectionKeyPostfix: PropTypes.string
+  featureCollectionKeyPostfix: PropTypes.string,
+  applicationMenuTooltipString: PropTypes.string,
+  applicationMenuIconname: PropTypes.string,
 };
 
 TopicMap.defaultProps = {
@@ -351,5 +353,7 @@ TopicMap.defaultProps = {
     zoom: 8
   },
   featureKeySuffixCreator: () => "",
-  featureCollectionKeyPostfix: ""
+  featureCollectionKeyPostfix: "",
+  applicationMenuTooltipString: "Einstellungen | Anleitung",
+  applicationMenuIconname: "bars",
 };

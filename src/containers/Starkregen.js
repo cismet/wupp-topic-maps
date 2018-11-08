@@ -236,9 +236,16 @@ export class Starkregen_ extends React.Component {
 					this.props.starkregen.backgrounds[this.props.starkregen.selectedBackground].layerkey
 				}
 				ondblclick={this.doubleMapClick}
+				applicationMenuTooltipString= "Kompaktanleitung | Hintergrundinfo"
+  				applicationMenuIconname="info"
 			>
 				<WMSTileLayer
-					key={'rainHazardMap.bgMap' + this.props.starkregen.selectedBackground}
+					key={
+						'rainHazardMap.bgMap' +
+						this.props.starkregen.selectedBackground +
+						'.' +
+						this.props.match.params.layers
+					}
 					url="http://geoportal.wuppertal.de/deegree/wms"
 					layers={this.props.starkregen.simulations[this.props.starkregen.selectedSimulation].layer}
 					version="1.1.1"

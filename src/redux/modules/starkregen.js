@@ -3,7 +3,8 @@ import objectAssign from 'object-assign';
 //TYPES
 export const types = {
 	SET_SIMULATION: 'STARKREGEN/SET_SIMULATION',
-	SET_BACKGROUND: 'STARKREGEN/SET_BACKGROUND'
+	SET_BACKGROUND: 'STARKREGEN/SET_BACKGROUND',
+	SET_MINIFIED_INFO_BOX: 'STARKREGEN/SET_MINIFIED_INFO_BOX'
 };
 
 export const constants = {
@@ -11,6 +12,7 @@ export const constants = {
 
 ///INITIAL STATE
 export const initialState = {
+	minifiedInfoBox: false,
 	selectedSimulation: 0,
 	selectedBackground: 0,
 	simulations: [
@@ -77,6 +79,11 @@ export default function starkregenReducer(state = initialState, action) {
 			newState.selectedBackground = action.background;
 			return newState;
 		}
+		case types.SET_MINIFIED_INFO_BOX: {
+			newState = objectAssign({}, state);
+			newState.minifiedInfoBox = action.minified;
+			return newState;
+		}
 		default:
 			return state;
 	}
@@ -89,12 +96,16 @@ function setSimulation(simulation) {
 function setBackground(background) {
 	return { type: types.SET_BACKGROUND, background };
 }
+function setMinifiedInfoBox(minified) {
+	return { type: types.SET_MINIFIED_INFO_BOX, minified };
+}
 //COMPLEXACTIONS
 
 //EXPORT ACTIONS
 export const actions = {
 	setSimulation,
-	setBackground
+	setBackground,
+	setMinifiedInfoBox
 };
 
 //HELPER FUNCTIONS

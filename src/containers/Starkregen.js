@@ -87,27 +87,26 @@ export class Starkregen_ extends React.Component {
 		this.doubleMapClick = this.doubleMapClick.bind(this);
 		this.setSimulationStateFromUrl = this.setSimulationStateFromUrl.bind(this);
 		this.setSimulationStateInUrl = this.setSimulationStateInUrl.bind(this);
-		
 	}
 
 	comnponentDidMount() {
 		console.log('didMount');
-		
 	}
 
 	componentDidUpdate() {
 		this.setSimulationStateFromUrl();
 	}
 
-
 	setSimulationStateFromUrl() {
-		let selectedSimulationFromUrlQueryValue=new URLSearchParams(this.props.routing.location.search).get('selectedSimulation');
+		let selectedSimulationFromUrlQueryValue = new URLSearchParams(this.props.routing.location.search).get(
+			'selectedSimulation'
+		);
 		if (selectedSimulationFromUrlQueryValue) {
-			let selectedSimulationFromUrl = parseInt(selectedSimulationFromUrlQueryValue,10);
+			let selectedSimulationFromUrl = parseInt(selectedSimulationFromUrlQueryValue, 10);
 			if (selectedSimulationFromUrl !== this.props.starkregen.selectedSimulation) {
 				this.props.starkregenActions.setSimulation(selectedSimulationFromUrl);
 			}
-		} else{
+		} else {
 			this.props.routingActions.push(
 				this.props.routing.location.pathname +
 					modifyQueryPart(this.props.routing.location.search, {
@@ -115,7 +114,6 @@ export class Starkregen_ extends React.Component {
 					})
 			);
 		}
-		
 	}
 	setSimulationStateInUrl(simulation) {
 		if (simulation !== this.props.starkregen.selectedSimulation) {
@@ -139,7 +137,6 @@ export class Starkregen_ extends React.Component {
 		}
 	}
 	render() {
-		
 		let options = { opacity: 1 };
 
 		let header = (
@@ -191,7 +188,7 @@ export class Starkregen_ extends React.Component {
 		});
 		let selSim = this.props.starkregen.simulations[this.props.starkregen.selectedSimulation];
 		let info = (
-			<div pixelwidth={300}>
+			<div pixelwidth={330}>
 				<table style={{ width: '100%' }}>
 					<tbody>
 						<tr>
@@ -209,16 +206,46 @@ export class Starkregen_ extends React.Component {
 					</tbody>
 				</table>
 
-				<Well pixelwidth={300} bsSize="small">
-					<h4 style={{ marginTop: 0 }}>
-						<Icon name={selSim.icon} /> {selSim.title}
-					</h4>
-					<p style={{ marginBottom: 5 }}>
+				<Well bsSize="small">
+					<table border={0} style={{ width: '100%' }}>
+						<tr>
+							<td
+								style={{
+									opacity: '0.9',
+									paddingLeft: '0px',
+									paddingTop: '0px',
+									paddingBottom: '0px',
+									textAlign: 'left'
+								}}
+							>
+								<h4 style={{ margin: 0 }}>
+									<Icon name={selSim.icon} /> {selSim.title} {'   '}
+								</h4>
+							</td>
+							<td
+								style={{
+									textAlign: 'right',
+									opacity: '0.9',
+									paddingLeft: '0px',
+									paddingTop: '0px',
+									paddingBottom: '0px'
+								}}
+							>
+								<h4 style={{ margin: 0 }}>
+									<a style={{ textDecoration: 'none' }}>
+										<Icon onClick={()=>this.props.starkregenActions.setMinifiedInfoBox(!this.props.starkregen.minifiedInfoBox)} style={{ color: '#7e7e7e' }} name={(this.props.starkregen.minifiedInfoBox) ? "chevron-circle-up" : "chevron-circle-down"} />
+									</a>
+								</h4>
+							</td>
+						</tr>
+					</table>					
+					{(!this.props.starkregen.minifiedInfoBox) && (<p style={{ marginBottom: 5 }}>
 						{selSim.subtitle}{' '}
 						<a>
 							<Icon style={{ fontSize: 16 }} name="info-circle" />
 						</a>
-					</p>
+					</p>)}
+					{(!this.props.starkregen.minifiedInfoBox) && (
 					<table border={0} style={{ width: '100%' }}>
 						<tbody>
 							<tr>
@@ -310,7 +337,8 @@ export class Starkregen_ extends React.Component {
 											};
 										}
 										return (
-											<a key={"backgroundChanger."+index}
+											<a
+												key={'backgroundChanger.' + index}
 												onClick={() => {
 													this.props.starkregenActions.setBackground(index);
 												}}
@@ -323,6 +351,7 @@ export class Starkregen_ extends React.Component {
 							</tr>
 						</tbody>
 					</table>
+					)}
 				</Well>
 			</div>
 		);

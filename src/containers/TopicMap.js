@@ -117,7 +117,8 @@ export class TopicMap_ extends React.Component {
 
   render() {
     const mapStyle = {
-      height: this.props.uiState.height
+      height: this.props.uiState.height,
+      cursor: this.props.cursor
     };
     let urlSearchParams = new URLSearchParams(this.props.routing.location.search);
 
@@ -220,6 +221,7 @@ export class TopicMap_ extends React.Component {
               style={mapStyle}
               fallbackPosition={position}
               ondblclick={this.props.ondblclick}
+              onclick={this.props.onclick}
               locationChangedHandler={location => {
                 this.props.routingActions.push(
                   this.props.routing.location.pathname +
@@ -331,6 +333,8 @@ TopicMap.propTypes = {
   featureCollectionKeyPostfix: PropTypes.string,
   applicationMenuTooltipString: PropTypes.string,
   applicationMenuIconname: PropTypes.string,
+  cursor: PropTypes.string,
+  onclick: PropTypes.func,
 };
 
 TopicMap.defaultProps = {
@@ -356,4 +360,6 @@ TopicMap.defaultProps = {
   featureCollectionKeyPostfix: "",
   applicationMenuTooltipString: "Einstellungen | Anleitung",
   applicationMenuIconname: "bars",
+  cursor: "grabbing",
+  onclick: () => {},
 };

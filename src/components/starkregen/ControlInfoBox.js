@@ -1,12 +1,122 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Icon } from 'react-fa';
-import { Well } from 'react-bootstrap';
+import { Well, Button } from 'react-bootstrap';
+import Legend from './Legend';
 
 // Since this component is simple and static, there's no parent container for it.
-const InfoBox = ({ pixelwidth, selectedSimulation, simulationLabels, backgrounds,  selectedBackgroundIndex, setBackground, minified, minify, legend }) => {
+const InfoBox = ({
+	pixelwidth,
+	selectedSimulation,
+	simulationLabels,
+	backgrounds,
+	selectedBackgroundIndex,
+	setBackgroundIndex,
+	minified,
+	minify,
+	legendObject,
+	featureInfoModeActivated = false,
+	setFeatureInfoModeActivation,
+	featureInfoValue
+}) => {
+	const legend = <Legend legendObjects={legendObject} />;
+	let headerColor = '#7e7e7e';
+	if (featureInfoValue) {
+		for (const item of legendObject) {
+			if (featureInfoValue >= item.lt) {
+				headerColor = item.bg;
+			}
+		}
+	}
 	return (
 		<div>
+			{!featureInfoModeActivated && (
+				<div style={{ marginBottom: 5, textAlign: 'right' }}>
+					<Button
+						id="cmdShowGetFeatureInfo"
+						onClick={() => {
+							setFeatureInfoModeActivation(true);
+						}}
+					>
+						<Icon name="crosshairs" />
+					</Button>
+				</div>
+			)}
+			{featureInfoModeActivated && (
+				<div style={{ marginBottom: 5, float: 'right', width: '50%', height_: '145px' }}>
+					<table style={{ width: '100%' }}>
+						<tbody>
+							<tr>
+								<td
+									style={{
+										opacity: '0.9',
+										paddingLeft: '2px',
+										paddingRight: '15px',
+										paddingTop: '0px',
+										paddingBottom: '0px',
+										background: headerColor,
+										textAlign: 'left'
+									}}
+								>
+									Simulationsergebnis
+								</td>
+								<td
+									style={{
+										opacity: '0.9',
+										paddingLeft: '0px',
+										paddingTop: '0px',
+										paddingRight: '2px',
+										paddingBottom: '0px',
+										background: headerColor,
+										textAlign: 'right'
+									}}
+								>
+									<a
+										onClick={() => {
+											setFeatureInfoModeActivation(false);
+										}}
+										style={{ color: 'black' }}
+									>
+										<Icon name="close" />{' '}
+									</a>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+					<Well
+						bsSize="small"
+						style={{
+							opacity: '0.9',
+							height_: '90%'
+						}}
+					>
+						<table style={{ width: '100%' }}>
+							<tbody>
+								<tr>
+									<td
+										style={{
+											opacity: '0.9',
+											paddingLeft: '0px',
+											paddingTop: '0px',
+											paddingBottom: '0px'
+										}}
+									>
+										{featureInfoValue!==undefined && (
+											<h1 style={{ marginTop: 0, textAlign: 'center' }}>{featureInfoValue} m</h1>
+										)}
+										{featureInfoValue===undefined && (
+											<p>
+												mit einem Klick in die Karte erfahren Sie mehr über den simulierten
+												Wasserstand.
+											</p>
+										)}
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</Well>
+				</div>
+			)}
 			<table style={{ width: '100%' }}>
 				<tbody>
 					<tr>
@@ -53,16 +163,9 @@ const InfoBox = ({ pixelwidth, selectedSimulation, simulationLabels, backgrounds
 								<h4 style={{ margin: 0 }}>
 									<a style={{ textDecoration: 'none' }}>
 										<Icon
-											onClick={() =>
-												minify(!minified)}
+											onClick={() => minify(!minified)}
 											style={{ color: '#7e7e7e' }}
-											name={
-												minified ? (
-													'chevron-circle-up'
-												) : (
-													'chevron-circle-down'
-												)
-											}
+											name={minified ? 'chevron-circle-up' : 'chevron-circle-down'}
 										/>
 									</a>
 								</h4>
@@ -74,7 +177,7 @@ const InfoBox = ({ pixelwidth, selectedSimulation, simulationLabels, backgrounds
 					<p style={{ marginBottom: 5 }}>
 						{selectedSimulation.subtitle}{' '}
 						<a>
-							<Icon style={{ fontSize: 16 }} name="info-circle" />
+							<Icon style={{ paddingLeft: 3, fontSize: 16 }} name="info-circle" />
 						</a>
 					</p>
 				)}
@@ -173,7 +276,7 @@ const InfoBox = ({ pixelwidth, selectedSimulation, simulationLabels, backgrounds
 											<a
 												key={'backgroundChanger.' + index}
 												onClick={() => {
-													setBackground(index);
+													setBackgroundIndex(index);
 												}}
 											>
 												<img style={style} width="36px" src={item.src} />
@@ -192,17 +295,16 @@ const InfoBox = ({ pixelwidth, selectedSimulation, simulationLabels, backgrounds
 
 export default InfoBox;
 InfoBox.propTypes = {
-  pixelwidth: PropTypes.number, 
-  selectedSimulation: PropTypes.object, 
-  simulationLabels: PropTypes.array, 
-  backgrounds: PropTypes.array,  
-  selectedBackgroundIndex: PropTypes.number, 
-  setBackground: PropTypes.func, 
-  minified: PropTypes.bool, 
-  minify: PropTypes.func, 
-  legend: PropTypes.object
+	pixelwidth: PropTypes.number,
+	selectedSimulation: PropTypes.object,
+	simulationLabels: PropTypes.array,
+	backgrounds: PropTypes.array,
+	selectedBackgroundIndex: PropTypes.number,
+	setBackgroundIndexv: PropTypes.func,
+	minified: PropTypes.bool,
+	minify: PropTypes.func,
+	legend: PropTypes.object,
+	featureInfoModeActivated: PropTypes.bool
 };
 
-InfoBox.defaultProps = {
-
-};
+InfoBox.defaultProps = {};

@@ -17,8 +17,8 @@ import { Well, Label } from 'react-bootstrap';
 
 import L from 'leaflet';
 import { Icon } from 'react-fa';
+import {FeatureCollectionDisplay} from 'react-cismap';
 import { modifyQueryPart } from '../utils/routingHelper';
-import Legend from '../components/starkregen/Legend';
 import InfoBox from '../components/starkregen/ControlInfoBox';
 (function() {
 	// var originalInitTile = L.GridLayer.prototype._initTile;
@@ -85,8 +85,9 @@ export class Starkregen_ extends React.Component {
 	constructor(props, context) {
 		super(props, context);
 		this.gotoHome = this.gotoHome.bind(this);
-		this.doubleMapClick = this.doubleMapClick.bind(this);
+		this.getFeatureInfo = this.getFeatureInfo.bind(this);
 		this.setSimulationStateFromUrl = this.setSimulationStateFromUrl.bind(this);
+		this.setBackgroundStateFromUrl = this.setBackgroundStateFromUrl.bind(this);
 		this.setSimulationStateInUrl = this.setSimulationStateInUrl.bind(this);
 	}
 
@@ -96,6 +97,7 @@ export class Starkregen_ extends React.Component {
 
 	componentDidUpdate() {
 		this.setSimulationStateFromUrl();
+		this.setBackgroundStateFromUrl();
 	}
 
 	setSimulationStateFromUrl() {
@@ -116,6 +118,12 @@ export class Starkregen_ extends React.Component {
 			);
 		}
 	}
+
+	setBackgroundStateFromUrl() {
+		let urlBackground = this.props.match.params.layers;
+		if (urlBackground) {
+		}
+	}
 	setSimulationStateInUrl(simulation) {
 		if (simulation !== this.props.starkregen.selectedSimulation) {
 			this.props.routingActions.push(
@@ -127,49 +135,52 @@ export class Starkregen_ extends React.Component {
 		}
 	}
 
-	doubleMapClick(event) {
-		const pos = proj4(proj4.defs('EPSG:4326'), proj4crs25832def, [ event.latlng.lng, event.latlng.lat ]);
-		let wkt = `POINT(${pos[0]} ${pos[1]})`;
-		console.log('doubleClick', wkt);
-		const minimalBoxSize = 0.0001;
-		const roundingDecimalPlaces = 2;
-		let roundingFactor = Math.pow(10, roundingDecimalPlaces);
-		let selectedSimulation = this.props.starkregen.simulations[this.props.starkregen.selectedSimulation].layer;
-		let getFetureInfoRequestUrl =
-			`http://geoportal.wuppertal.de/deegree/wms\?` +
-			`service\=WMS\&request\=GetFeatureInfo\&` +
-			`styles\=default\&format\=image%2Fpng\&transparent\=true\&` +
-			`version\=1.1.1\&tiled\=true\&` +
-			`width\=1\&height\=1\&srs\=EPSG%3A25832\&` +
-			`bbox\=` +
-			`${pos[0] - minimalBoxSize},` +
-			`${pos[1] - minimalBoxSize},` +
-			`${pos[0] + minimalBoxSize},` +
-			`${pos[1] + minimalBoxSize}\&` +
-			`x\=0\&y\=0\&` +
-			`layers\=${selectedSimulation}\&` +
-			`QUERY_LAYERS\=${selectedSimulation}\&` +
-			`INFO_FORMAT\=application/vnd.ogc.gml`;
+	getFeatureInfo(event) {
+		if (this.props.starkregen.featureInfoModeActivated) {
+			const pos = proj4(proj4.defs('EPSG:4326'), proj4crs25832def, [ event.latlng.lng, event.latlng.lat ]);
+			const wkt = `POINT(${pos[0]} ${pos[1]})`;
+			const minimalBoxSize = 0.0001;
+			const roundingDecimalPlaces = 1;
+			const roundingFactor = Math.pow(10, roundingDecimalPlaces);
+			const selectedSimulation = this.props.starkregen.simulations[this.props.starkregen.selectedSimulation]
+				.layer;
+			const getFetureInfoRequestUrl =
+				`https://geoportal.wuppertal.de/deegree/wms\?` +
+				`service\=WMS\&request\=GetFeatureInfo\&` +
+				`styles\=default\&format\=image%2Fpng\&transparent\=true\&` +
+				`version\=1.1.1\&tiled\=true\&` +
+				`width\=1\&height\=1\&srs\=EPSG%3A25832\&` +
+				`bbox\=` +
+				`${pos[0] - minimalBoxSize},` +
+				`${pos[1] - minimalBoxSize},` +
+				`${pos[0] + minimalBoxSize},` +
+				`${pos[1] + minimalBoxSize}\&` +
+				`x\=0\&y\=0\&` +
+				`layers\=${selectedSimulation}\&` +
+				`QUERY_LAYERS\=${selectedSimulation}\&` +
+				`INFO_FORMAT\=application/vnd.ogc.gml`;
 
-		console.log(getFetureInfoRequestUrl);
-
-		fetch(getFetureInfoRequestUrl)
-			.then((response) => {
-				if (response.ok) {
-					return response.text();
-				} else {
-					throw new Error("Server md5 response wasn't OK");
-				}
-			})
-			.then((data) => {
-				let parser = new DOMParser();
-				let xmlDoc = parser.parseFromString(data, 'text/xml');
-				let value = parseFloat(xmlDoc.getElementsByTagName('ll:value')[0].textContent, 10);
-				console.log('value', Math.round(value * roundingFactor) / roundingFactor);
-			})
-			.catch((error) => {
-				console.log('error during fetch', error);
-			});
+			fetch(getFetureInfoRequestUrl)
+				.then((response) => {
+					if (response.ok) {
+						return response.text();
+					} else {
+						throw new Error("Server md5 response wasn't OK");
+					}
+				})
+				.then((data) => {
+					const parser = new DOMParser();
+					const xmlDoc = parser.parseFromString(data, 'text/xml');
+					const value = parseFloat(xmlDoc.getElementsByTagName('ll:value')[0].textContent, 10);
+					const roundedValue = Math.round(value * roundingFactor) / roundingFactor;
+					this.props.starkregenActions.setCurrentFeatureInfoValue(roundedValue);
+					this.props.starkregenActions.setCurrentFeatureInfoPosition(pos);
+					console.log('value', Math.round(value * roundingFactor) / roundingFactor);
+				})
+				.catch((error) => {
+					console.log('error during fetch', error);
+				});
+		}
 	}
 	gotoHome() {
 		if (this.topicMap) {
@@ -178,8 +189,6 @@ export class Starkregen_ extends React.Component {
 	}
 	render() {
 		let options = { opacity: 1 };
-
-		let legend = <Legend legendObjects={this.props.starkregen.legend} />;
 
 		let simulationLabels = [];
 		this.props.starkregen.simulations.map((item, index) => {
@@ -209,13 +218,62 @@ export class Starkregen_ extends React.Component {
 				simulationLabels={simulationLabels}
 				backgrounds={this.props.starkregen.backgrounds}
 				selectedBackgroundIndex={this.props.starkregen.selectedBackground}
-				setBackground={(index) => this.props.starkregenActions.setBackground(index)}
+				setBackgroundIndex={(index) => this.props.starkregenActions.setSelectedBackground(index)}
 				minified={this.props.starkregen.minifiedInfoBox}
 				minify={(minified) =>
-					this.props.starkregenActions.setMinifiedInfoBox(!this.props.starkregen.minifiedInfoBox)}
-				legend={legend}
+					this.props.starkregenActions.setMinifiedInfoBox(minified)}
+				legendObject={this.props.starkregen.legend}
+				featureInfoModeActivated={this.props.starkregen.featureInfoModeActivated}
+				setFeatureInfoModeActivation={(activated) => {
+					if (!activated) {
+						this.props.starkregenActions.setCurrentFeatureInfoValue(undefined);
+						this.props.starkregenActions.setCurrentFeatureInfoPosition(undefined);
+					}
+					this.props.starkregenActions.setFeatureInfoModeActivation(activated);
+				}}
+				featureInfoValue={this.props.starkregen.currentFeatureInfoValue}
 			/>
 		);
+
+		let cursor;
+		if (this.props.starkregen.featureInfoModeActivated) {
+			cursor = 'crosshair';
+		} else {
+			cursor = 'grabbing';
+		}
+
+		let featureInfoLayer;
+		if (this.props.starkregen.currentFeatureInfoPosition){
+			const geoJsonObject={
+				id:0,
+				type: "Feature",
+				geometry: {
+					"type": "Point",
+					"coordinates": [this.props.starkregen.currentFeatureInfoPosition[0],this.props.starkregen.currentFeatureInfoPosition[1] ]
+				  },
+				crs: {
+					type: "name",
+					properties: {
+					  name: "urn:ogc:def:crs:EPSG::25832"
+					}
+				  },
+				  properties: {
+					value: this.props.starkregen.currentFeatureInfoValue
+				  }
+			};
+			console.log('geoJsonObject',geoJsonObject);
+			
+			featureInfoLayer=(
+				<FeatureCollectionDisplay
+					featureCollection={[geoJsonObject]}
+					clusteringEnabled={false}
+					// style={getFeatureStyler(currentMarkerSize, getColorForProperties)}
+					style={() => ({ color: 'black' })}
+					featureStylerScalableImageSize={30}
+					showMarkerCollection={false}
+				/>
+			);
+		}
 
 		return (
 			<TopicMap
@@ -235,9 +293,10 @@ export class Starkregen_ extends React.Component {
 					this.props.match.params.layers ||
 					this.props.starkregen.backgrounds[this.props.starkregen.selectedBackground].layerkey
 				}
-				ondblclick={this.doubleMapClick}
-				applicationMenuTooltipString= "Kompaktanleitung | Hintergrundinfo"
-  				applicationMenuIconname="info"
+				onclick={this.getFeatureInfo}
+				applicationMenuTooltipString="Kompaktanleitung | Hintergrundinfo"
+				applicationMenuIconname="info"
+				cursor={cursor}
 			>
 				<WMSTileLayer
 					key={
@@ -256,6 +315,8 @@ export class Starkregen_ extends React.Component {
 					maxZoom={19}
 					opacity={1}
 				/>
+					{featureInfoLayer}
+				
 			</TopicMap>
 		);
 	}

@@ -23,7 +23,7 @@ const InfoBox = ({
 	let headerColor = '#7e7e7e';
 	if (featureInfoValue) {
 		for (const item of legendObject) {
-			if (featureInfoValue >= item.lt) {
+			if (featureInfoValue > item.lt) {
 				headerColor = item.bg;
 			}
 		}
@@ -33,7 +33,8 @@ const InfoBox = ({
 			{!featureInfoModeActivated && (
 				<div style={{ marginBottom: 5, textAlign: 'right' }}>
 					<Button
-						id="cmdShowGetFeatureInfo"
+            id="cmdShowGetFeatureInfo"
+            title="Maximalen Wasserstand abfragen"
 						onClick={() => {
 							setFeatureInfoModeActivation(true);
 						}}
@@ -43,7 +44,7 @@ const InfoBox = ({
 				</div>
 			)}
 			{featureInfoModeActivated && (
-				<div style={{ marginBottom: 5, float: 'right', width: '50%', height_: '145px' }}>
+				<div style={{ marginBottom: 5, float: 'right', width: '60%', height_: '145px' }}>
 					<table style={{ width: '100%' }}>
 						<tbody>
 							<tr>
@@ -58,7 +59,7 @@ const InfoBox = ({
 										textAlign: 'left'
 									}}
 								>
-									Simulationsergebnis
+									Maximaler Wasserstand
 								</td>
 								<td
 									style={{
@@ -87,10 +88,10 @@ const InfoBox = ({
 						bsSize="small"
 						style={{
 							opacity: '0.9',
-							height_: '90%'
+							paddingBottom: '0px'
 						}}
 					>
-						<table style={{ width: '100%' }}>
+						<table style={{ width: '100%',paddingBottom: '0px'  }}>
 							<tbody>
 								<tr>
 									<td
@@ -101,17 +102,33 @@ const InfoBox = ({
 											paddingBottom: '0px'
 										}}
 									>
-										{featureInfoValue!==undefined && (
-											<h1 style={{ marginTop: 0, textAlign: 'center' }}>{featureInfoValue} m</h1>
+										{featureInfoValue !== undefined && (
+											<h2 style={{ marginTop: 0, marginBottom: 0, textAlign: 'center' }}>
+                        ca. {Math.round(featureInfoValue * 10)*10.0} cm
+											</h2>
 										)}
-										{featureInfoValue===undefined && (
+										{featureInfoValue === undefined && (
 											<p>
-												mit einem Klick in die Karte erfahren Sie mehr über den simulierten
-												Wasserstand.
+												Klick in die Karte zur Abfrage des simulierten max. Wasserstandes
 											</p>
 										)}
 									</td>
 								</tr>
+								{featureInfoValue !== undefined && (
+									<tr>
+										<td
+											style={{
+												opacity: '0.9',
+												paddingLeft: '0px',
+												paddingTop: '0px',
+												paddingBottom: '2px',
+												textAlign: 'center'
+											}}
+										>
+											<a>Information zur Aussagekraft</a>
+										</td>
+									</tr>
+								)}
 							</tbody>
 						</table>
 					</Well>
@@ -147,7 +164,7 @@ const InfoBox = ({
 									textAlign: 'left'
 								}}
 							>
-								<h4 style={{ margin: 0 }}>
+								<h4 style={{ margin: 0, paddingBottom: '10px' }}>
 									<Icon name={selectedSimulation.icon} /> {selectedSimulation.title} {'   '}
 								</h4>
 							</td>
@@ -175,10 +192,10 @@ const InfoBox = ({
 				</table>
 				{!minified && (
 					<p style={{ marginBottom: 5 }}>
-						{selectedSimulation.subtitle}{' '}
-						<a>
+						{selectedSimulation.subtitle} <a>(mehr)</a>
+						{/* <a>
 							<Icon style={{ paddingLeft: 3, fontSize: 16 }} name="info-circle" />
-						</a>
+						</a> */}
 					</p>
 				)}
 				{!minified && (

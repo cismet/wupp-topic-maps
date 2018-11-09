@@ -227,6 +227,7 @@ export class TopicMap_ extends React.Component {
                   this.props.routing.location.pathname +
                     modifyQueryPart(this.props.routing.location.search, location)
                 );
+                this.props.locationChangedHandler(location);
               }}
               autoFitConfiguration={{
                 autoFitBounds: this.props.mapping.autoFitBounds,
@@ -235,8 +236,11 @@ export class TopicMap_ extends React.Component {
               }}
               autoFitProcessedHandler={() => this.props.mappingActions.setAutoFit(false)}
               urlSearchParams={urlSearchParams}
-              boundingBoxChangedHandler={bbox =>
-                this.props.mappingActions.mappingBoundsChanged(bbox)
+              boundingBoxChangedHandler={bbox => {
+                this.props.mappingActions.mappingBoundsChanged(bbox);
+                this.props.mappingBoundsChanged(bbox);
+              }
+
               }
               backgroundlayers={this.props.backgroundlayers}
               fallbackZoom={8}
@@ -335,6 +339,8 @@ TopicMap.propTypes = {
   applicationMenuIconname: PropTypes.string,
   cursor: PropTypes.string,
   onclick: PropTypes.func,
+  locationChangedHandler: PropTypes.func,
+  mappingBoundsChanged: PropTypes.func,
 };
 
 TopicMap.defaultProps = {
@@ -362,4 +368,7 @@ TopicMap.defaultProps = {
   applicationMenuIconname: "bars",
   cursor: "grabbing",
   onclick: () => {},
+  locationChangedHandler: () => {},
+  mappingBoundsChanged:  () => {},
+
 };

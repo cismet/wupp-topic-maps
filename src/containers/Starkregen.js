@@ -140,25 +140,23 @@ export class Starkregen_ extends React.Component {
 			const pos = proj4(proj4.defs('EPSG:4326'), proj4crs25832def, [ event.latlng.lng, event.latlng.lat ]);
 			const wkt = `POINT(${pos[0]} ${pos[1]})`;
 			const minimalBoxSize = 0.0001;
-			const roundingDecimalPlaces = 1;
-			const roundingFactor = Math.pow(10, roundingDecimalPlaces);
 			const selectedSimulation = this.props.starkregen.simulations[this.props.starkregen.selectedSimulation]
 				.layer;
 			const getFetureInfoRequestUrl =
-				`https://geoportal.wuppertal.de/deegree/wms\?` +
-				`service\=WMS\&request\=GetFeatureInfo\&` +
-				`styles\=default\&format\=image%2Fpng\&transparent\=true\&` +
-				`version\=1.1.1\&tiled\=true\&` +
-				`width\=1\&height\=1\&srs\=EPSG%3A25832\&` +
-				`bbox\=` +
+				`https://geoportal.wuppertal.de/deegree/wms?` +
+				`service=WMS&request=GetFeatureInfo&` +
+				`styles=default&format=image%2Fpng&transparenttrue&` +
+				`version=1.1.1&tiled=true&` +
+				`width=1&height=1&srs=EPSG%3A25832&` +
+				`bbox=` +
 				`${pos[0] - minimalBoxSize},` +
 				`${pos[1] - minimalBoxSize},` +
 				`${pos[0] + minimalBoxSize},` +
-				`${pos[1] + minimalBoxSize}\&` +
-				`x\=0\&y\=0\&` +
-				`layers\=${selectedSimulation}\&` +
-				`QUERY_LAYERS\=${selectedSimulation}\&` +
-				`INFO_FORMAT\=application/vnd.ogc.gml`;
+				`${pos[1] + minimalBoxSize}&` +
+				`x=0&y=0&` +
+				`layers=${selectedSimulation}&` +
+				`QUERY_LAYERS=${selectedSimulation}&` +
+				`INFO_FORMAT=application/vnd.ogc.gml`;
 
 			fetch(getFetureInfoRequestUrl)
 				.then((response) => {
@@ -172,10 +170,8 @@ export class Starkregen_ extends React.Component {
 					const parser = new DOMParser();
 					const xmlDoc = parser.parseFromString(data, 'text/xml');
 					const value = parseFloat(xmlDoc.getElementsByTagName('ll:value')[0].textContent, 10);
-					const roundedValue = Math.round(value * roundingFactor) / roundingFactor;
-					this.props.starkregenActions.setCurrentFeatureInfoValue(roundedValue);
+					this.props.starkregenActions.setCurrentFeatureInfoValue(value);
 					this.props.starkregenActions.setCurrentFeatureInfoPosition(pos);
-					console.log('value', Math.round(value * roundingFactor) / roundingFactor);
 				})
 				.catch((error) => {
 					console.log('error during fetch', error);
@@ -228,6 +224,18 @@ export class Starkregen_ extends React.Component {
 					if (!activated) {
 						this.props.starkregenActions.setCurrentFeatureInfoValue(undefined);
 						this.props.starkregenActions.setCurrentFeatureInfoPosition(undefined);
+					}else {
+						let currentZoom = new URLSearchParams(this.props.routing.location.search).get(
+							'zoom') || 8;
+						if (currentZoom<15){
+							this.props.routingActions.push(
+								this.props.routing.location.pathname +
+									modifyQueryPart(this.props.routing.location.search, {
+										zoom: 15
+									})
+							);	
+						}
+						
 					}
 					this.props.starkregenActions.setFeatureInfoModeActivation(activated);
 				}}
@@ -261,7 +269,6 @@ export class Starkregen_ extends React.Component {
 					value: this.props.starkregen.currentFeatureInfoValue
 				  }
 			};
-			console.log('geoJsonObject',geoJsonObject);
 			
 			featureInfoLayer=(
 				<FeatureCollectionDisplay
@@ -297,6 +304,19 @@ export class Starkregen_ extends React.Component {
 				applicationMenuTooltipString="Kompaktanleitung | Hintergrundinfo"
 				applicationMenuIconname="info"
 				cursor={cursor}
+				mappingBoundsChanged={(bbox)=>{
+					
+					if (this.props.starkregen.currentFeatureInfoPosition){
+						const x=this.props.starkregen.currentFeatureInfoPosition[0];
+						const y=this.props.starkregen.currentFeatureInfoPosition[1];
+						const bb=bbox;
+						if (x<bb.left || x > bb.right || y<bb.bottom || y > bb.top){
+							this.props.starkregenActions.setCurrentFeatureInfoValue(undefined);
+							this.props.starkregenActions.setCurrentFeatureInfoPosition(undefined)
+						}
+					}
+			
+				}}
 			>
 				<WMSTileLayer
 					key={

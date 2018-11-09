@@ -29,7 +29,7 @@ export const initialState = {
 			title: '20-jährlicher Starkregen (2h)',
 			icon: 'bar-chart',
 			subtitle:
-				'Simulation eines zweistündigen Starkregens mit statistisch 20-jährlicher Wiederkehrzeit in ganz Wuppertal (Intensitätsverlauf Modell Euler Typ II)'
+				'Simulation eines zweistündigen Starkregens mit statistisch 20-jährlicher Wiederkehrzeit in ganz Wuppertal mit Intensitätsverlauf Modell Euler Typ II'
 		},
 		{
 			layer: 'R102:100md',
@@ -37,7 +37,7 @@ export const initialState = {
 			icon: 'bar-chart',
 			title: '100-jährlicher Starkregen (2h)',
 			subtitle:
-				'Simulation eines zweistündigen Starkregens mit statistisch 100-jährlicher Wiederkehrzeit in ganz Wuppertal (Intensitätsverlauf Modell Euler Typ II)'
+				'Simulation eines zweistündigen Starkregens mit statistisch 100-jährlicher Wiederkehrzeit in ganz Wuppertal mit Intensitätsverlauf Modell Euler Typ II'
 		},
 		{
 			layer: 'R102:90md',
@@ -45,7 +45,7 @@ export const initialState = {
 			icon: 'bitbucket',
 			title: '90 Liter/m² Blockregen (1h)',
 			subtitle:
-				'Simulation eines einstündigen Starkregens (90 Liter pro m²) mit gleichmäßiger Intensität ("Blockregen") in ganz Wuppertal '
+				'Simulation eines einstündigen Starkregens (90 Liter pro m²) mit gleichmäßiger Intensität ("Blockregen") in ganz Wuppertal'
 		},
 		{
 			layer: 'R102:SRmd',

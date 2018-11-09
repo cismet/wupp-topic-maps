@@ -53,7 +53,7 @@ export const initialState = {
 			icon: 'calendar',
 			title: 'Starkregen vom 29.05.2018',
 			subtitle:
-				'Simulation des Starkregens vom 29.05.2018 in den Tallagen von Barmen und Elberfeld anhand gemessener Niederschlagsmengen'
+				'Simulation des Starkregens vom 29.05.2018 für das gesamte Stadtgebiet anhand gemessener Niederschlagsmengen'
 		}
 	],
 	backgrounds: [

@@ -291,7 +291,8 @@ const InfoBox = ({
 										}
 										return (
 											<a
-												key={'backgroundChanger.' + index}
+                        key={'backgroundChanger.' + index}
+                        title={item.title}
 												onClick={() => {
 													setBackgroundIndex(index);
 												}}

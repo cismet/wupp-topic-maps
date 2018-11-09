@@ -57,13 +57,10 @@ export const initialState = {
 		}
 	],
 	backgrounds: [
+		{ layerkey: 'hillshade|bplan_abkg@30 ', src: '/images/rain-hazard-map-bg/topo.png', title: 'Top. Karte' },
+		{ layerkey: 'trueOrtho2018@50', src: '/images/rain-hazard-map-bg/ortho.png', title: 'Luftbild' },
 		{ layerkey: 'wupp-plan-live@40', src: '/images/rain-hazard-map-bg/citymap.png', title: 'Stadtplan' },
-		{ layerkey: 'trueOrtho2018@40', src: '/images/rain-hazard-map-bg/ortho.png', title: 'Luftbild' },
-		{
-			layerkey: 'wupp-plan-live@60|trueOrtho2018@40',
-			src: '/images/rain-hazard-map-bg/mixed.png',
-			title: 'Luftbild mit Beschriftungen'
-		}
+
 	],
 	legend: [
 		{ title: '> 10 cm', lt: 0.1, bg: '#AFCFF9' },

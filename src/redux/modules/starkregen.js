@@ -1,5 +1,8 @@
 import objectAssign from 'object-assign';
 
+import { proj4crs25832def } from '../../constants/gis';
+import proj4 from 'proj4';
+
 //TYPES
 export const types = {
 	SET_SIMULATION: 'STARKREGEN/SET_SIMULATION',
@@ -8,15 +11,17 @@ export const types = {
 	SET_MINIFIED_INFO_BOX: 'STARKREGEN/SET_MINIFIED_INFO_BOX',
 	SET_FEATUREINFOMODE_ACTIVATION: 'STARKREGEN/SET_FEATUREINFOMODE_ACTIVATION',
 	SET_FEATUREOINFO_VALUE: 'STARKREGEN/SET_FEATUREOINFO_VALUE',
-	SET_FEATUREOINFO_POSITION: 'STARKREGEN/SET_FEATUREOINFO_POSITION'
+	SET_FEATUREOINFO_POSITION: 'STARKREGEN/SET_FEATUREOINFO_POSITION',
+	SET_FEATUREOINFO_SIMULATION: 'STARKREGEN/SET_FEATUREOINFO_SIMULATION'
 };
 
 export const constants = {};
 
 ///INITIAL STATE
 export const initialState = {
-	featureInfoModeActivated: true,
+	featureInfoModeActivated: false,
 	currentFeatureInfoValue: undefined,
+	currentFeatureInfoSelectedSimulation: undefined,
 	currentFeatureInfoPosition: undefined,
 	minifiedInfoBox: false,
 	selectedSimulation: 0,
@@ -59,8 +64,7 @@ export const initialState = {
 	backgrounds: [
 		{ layerkey: 'hillshade|bplan_abkg@30 ', src: '/images/rain-hazard-map-bg/topo.png', title: 'Top. Karte' },
 		{ layerkey: 'trueOrtho2018@50', src: '/images/rain-hazard-map-bg/ortho.png', title: 'Luftbild' },
-		{ layerkey: 'wupp-plan-live@40', src: '/images/rain-hazard-map-bg/citymap.png', title: 'Stadtplan' },
-
+		{ layerkey: 'wupp-plan-live@40', src: '/images/rain-hazard-map-bg/citymap.png', title: 'Stadtplan' }
 	],
 	legend: [
 		{ title: '> 10 cm', lt: 0.1, bg: '#AFCFF9' },
@@ -108,13 +112,18 @@ export default function starkregenReducer(state = initialState, action) {
 			newState.currentFeatureInfoPosition = action.position;
 			return newState;
 		}
+		case types.SET_FEATUREOINFO_SIMULATION: {
+			newState = objectAssign({}, state);
+			newState.currentFeatureInfoSelectedSimulation = action.simulation;
+			return newState;
+		}
 		default:
 			return state;
 	}
 }
 
 ///SIMPLEACTIONCREATORS
-function setSimulation(simulation) {
+function setSelectedSimulation(simulation) {
 	return { type: types.SET_SIMULATION, simulation };
 }
 function setSelectedBackground(backgroundIndex) {
@@ -135,7 +144,77 @@ function setCurrentFeatureInfoValue(value) {
 function setCurrentFeatureInfoPosition(position) {
 	return { type: types.SET_FEATUREOINFO_POSITION, position };
 }
+function setCurrentFeaturSelectedSimulation(simulation) {
+	return { type: types.SET_FEATUREOINFO_SIMULATION, simulation };
+}
 //COMPLEXACTIONS
+
+function setSimulation(simulation) {
+	return (dispatch, getState) => {
+		let localState = getState().starkregen;
+		dispatch(setSelectedSimulation(simulation));
+		if (localState.featureInfoModeActivated) {
+			dispatch(getFeatureInfo());
+		}
+	};
+}
+
+function getFeatureInfo(mapEvent) {
+	return (dispatch, getState) => {
+		let localState = getState().starkregen;
+		let pos;
+		if (!mapEvent) {
+			if (
+				localState.currentFeatureInfoPosition &&
+				localState.currentFeatureInfoSelectedSimulation !== localState.selectedSimulation
+			) {
+				pos = localState.currentFeatureInfoPosition;
+			} else {
+				return;
+			}
+		} else {
+			pos = proj4(proj4.defs('EPSG:4326'), proj4crs25832def, [ mapEvent.latlng.lng, mapEvent.latlng.lat ]);
+		}
+		const wkt = `POINT(${pos[0]} ${pos[1]})`;
+		const minimalBoxSize = 0.0001;
+		const selectedSimulation = localState.simulations[localState.selectedSimulation].layer;
+		const getFetureInfoRequestUrl =
+			`https://geoportal.wuppertal.de/deegree/wms?` +
+			`service=WMS&request=GetFeatureInfo&` +
+			`styles=default&format=image%2Fpng&transparenttrue&` +
+			`version=1.1.1&tiled=true&` +
+			`width=1&height=1&srs=EPSG%3A25832&` +
+			`bbox=` +
+			`${pos[0] - minimalBoxSize},` +
+			`${pos[1] - minimalBoxSize},` +
+			`${pos[0] + minimalBoxSize},` +
+			`${pos[1] + minimalBoxSize}&` +
+			`x=0&y=0&` +
+			`layers=${selectedSimulation}&` +
+			`QUERY_LAYERS=${selectedSimulation}&` +
+			`INFO_FORMAT=application/vnd.ogc.gml`;
+
+		fetch(getFetureInfoRequestUrl)
+			.then((response) => {
+				if (response.ok) {
+					return response.text();
+				} else {
+					throw new Error("Server md5 response wasn't OK");
+				}
+			})
+			.then((data) => {
+				const parser = new DOMParser();
+				const xmlDoc = parser.parseFromString(data, 'text/xml');
+				const value = parseFloat(xmlDoc.getElementsByTagName('ll:value')[0].textContent, 10);
+				dispatch(setCurrentFeaturSelectedSimulation(localState.selectedSimulation));
+				dispatch(setCurrentFeatureInfoValue(value));
+				dispatch(setCurrentFeatureInfoPosition(pos));
+			})
+			.catch((error) => {
+				console.log('error during fetch', error);
+			});
+	};
+}
 
 //EXPORT ACTIONS
 export const actions = {
@@ -145,7 +224,8 @@ export const actions = {
 	setMinifiedInfoBox,
 	setFeatureInfoModeActivation,
 	setCurrentFeatureInfoValue,
-	setCurrentFeatureInfoPosition
+	setCurrentFeatureInfoPosition,
+	getFeatureInfo
 };
 
 //HELPER FUNCTIONS

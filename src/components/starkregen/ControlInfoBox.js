@@ -17,7 +17,8 @@ const InfoBox = ({
 	legendObject,
 	featureInfoModeActivated = false,
 	setFeatureInfoModeActivation,
-	featureInfoValue
+	featureInfoValue,
+	showModalMenu
 }) => {
 	const legend = <Legend legendObjects={legendObject} />;
 	let headerColor = '#7e7e7e';
@@ -125,7 +126,7 @@ const InfoBox = ({
 												textAlign: 'center'
 											}}
 										>
-											<a>Information zur Aussagekraft</a>
+											<a onClick={()=>showModalMenu('aussagekraft')}>Information zur Aussagekraft</a>
 										</td>
 									</tr>
 								)}
@@ -192,7 +193,8 @@ const InfoBox = ({
 				</table>
 				{!minified && (
 					<p style={{ marginBottom: 5 }}>
-						{selectedSimulation.subtitle} <a>(mehr)</a>
+						{selectedSimulation.subtitle} <a onClick={()=>showModalMenu('szenarien')
+						}>(mehr)</a>
 						{/* <a>
 							<Icon style={{ paddingLeft: 3, fontSize: 16 }} name="info-circle" />
 						</a> */}
@@ -322,7 +324,10 @@ InfoBox.propTypes = {
 	minified: PropTypes.bool,
 	minify: PropTypes.func,
 	legend: PropTypes.object,
-	featureInfoModeActivated: PropTypes.bool
+	featureInfoModeActivated: PropTypes.bool,
+	showModalMenu: PropTypes.func,
 };
 
-InfoBox.defaultProps = {};
+InfoBox.defaultProps = {
+	showModalMenu: ()=>{}
+};

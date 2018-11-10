@@ -17,6 +17,8 @@ import { Icon } from 'react-fa';
 import { FeatureCollectionDisplay } from 'react-cismap';
 import { modifyQueryPart } from '../utils/routingHelper';
 import InfoBox from '../components/starkregen/ControlInfoBox';
+import HelpAndInfo from '../components/starkregen/Help00MainComponent';
+
 (function() {
 	// var originalInitTile = L.GridLayer.prototype._initTile;
 	// var originalGetTileUrl = L.TileLayer.WMS.prototype.getTileUrl;
@@ -166,10 +168,6 @@ export class Starkregen_ extends React.Component {
 			simulationLabels.push(label);
 		});
 
-		// if (this.props.starkregen.currentFeatureInfoPosition && this.props.starkregen.featureInfoModeActivated){
-		// 	this.getFeatureInfo(null,this.props.starkregen.currentFeatureInfoPosition);
-		// }
-
 		let selSim = this.props.starkregen.simulations[this.props.starkregen.selectedSimulation];
 		let info = (
 			<InfoBox
@@ -201,6 +199,9 @@ export class Starkregen_ extends React.Component {
 					this.props.starkregenActions.setFeatureInfoModeActivation(activated);
 				}}
 				featureInfoValue={this.props.starkregen.currentFeatureInfoValue}
+				showModalMenu={(section) => {
+					this.props.uiStateActions.showApplicationMenuAndActivateSection(true, section);
+				}}
 			/>
 		);
 
@@ -267,6 +268,7 @@ export class Starkregen_ extends React.Component {
 				onclick={this.getFeatureInfo}
 				applicationMenuTooltipString="Kompaktanleitung | Hintergrundinfo"
 				applicationMenuIconname="info"
+				modalMenu={<HelpAndInfo uiState={this.props.uiState} uiStateActions={this.props.uiStateActions} />}
 				cursor={cursor}
 				mappingBoundsChanged={(bbox) => {
 					if (this.props.starkregen.currentFeatureInfoPosition) {

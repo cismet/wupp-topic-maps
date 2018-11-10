@@ -3,6 +3,7 @@ import { Link } from 'react-scroll';
 import { Icon } from 'react-fa';
 import { Label } from 'react-bootstrap';
 import GenericModalMenuSection from '../commons/GenericModalMenuSection';
+import MeinStandortHelpText from '../commons/GenericHelpTextForMyLocation';
 import { getColorForProperties, getBadSVG } from '../../utils/baederHelper';
 
 const helpSVGSize = 18
@@ -204,20 +205,7 @@ const BaederModalMenuHelpSection = ({ uiState, uiStateActions }) => {
 							<Icon id="lnkUpInHelp_standort" name="arrow-circle-up" />
 						</Link>
 					</h4>
-					<p>
-						Mit der Funktion Mein Standort <Icon name="map-marker" /> können Sie ihren aktuellen Standort
-						mit einem blauen Kreissymbol <img alt="Cluster" src="images/MeinStandpunktMarker.jpg" /> in der
-						Karte anzeigen. Das Standortsymbol ist umgeben von einem zweiten Kreis mit transparenter, blauer
-						Füllung, dessen Radius die Unsicherheit der Positionsbestimmung angibt{' '}
-						<img alt="Cluster" src="images/MeinStandpunktMarkerDoppel.jpg" />. Die Richtigkeit der
-						Positionsanzeige ist dabei nicht garantiert, ihre Genauigkeit hängt davon ab, mit welcher
-						Methode Ihr Endgerät und der von Ihnen verwendete Browser die Position bestimmen. Smartphones
-						und Tablet-PC's sind i. d. R. mit einer GPS-Antenne ausgestattet, so dass Sie bei diesen Geräten
-						eine Positionsgenauigkeit in der Größenordnung von 10 Metern erwarten können. Die Markierung
-						Ihrer Position wird laufend automatisch aktualisiert. Ein weiterer Klick auf "Mein Standort"
-						schaltet die Anzeige Ihrer Position wieder ab.
-					</p>
-
+						<MeinStandortHelpText/>
 					<div id="anchorDivInHelp_settings" name="Einstellungen">
 						<br />
 					</div>

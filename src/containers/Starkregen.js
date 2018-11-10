@@ -214,14 +214,25 @@ export class Starkregen_ extends React.Component {
 
 		let featureInfoLayer;
 		if (this.props.starkregen.currentFeatureInfoPosition) {
+			const x = Math.round(this.props.starkregen.currentFeatureInfoPosition[0]) - 0.125;
+			const y = Math.round(this.props.starkregen.currentFeatureInfoPosition[1]) - 0.02;
 			const geoJsonObject = {
 				id: 0,
 				type: 'Feature',
-				geometry: {
+				geometry_: {
 					type: 'Point',
+					coordinates: [ x, y ]
+				},
+				geometry: {
+					type: 'Polygon',
 					coordinates: [
-						this.props.starkregen.currentFeatureInfoPosition[0],
-						this.props.starkregen.currentFeatureInfoPosition[1]
+						[
+							[ x - 0.5, y - 0.5 ],
+							[ x + 0.5, y - 0.5 ],
+							[ x + 0.5, y + 0.5 ],
+							[ x - 0.5, y + 0.5 ],
+							[ x - 0.5, y - 0.5 ]
+						]
 					]
 				},
 				crs: {
@@ -240,9 +251,11 @@ export class Starkregen_ extends React.Component {
 					featureCollection={[ geoJsonObject ]}
 					clusteringEnabled={false}
 					// style={getFeatureStyler(currentMarkerSize, getColorForProperties)}
-					style={() => ({ color: 'black' })}
+					style={() => ({ color: 'black', fillColor: 'black', weight: '0.75', opacity: 1, fillOpacity: 0.3 })}
 					featureStylerScalableImageSize={30}
-					showMarkerCollection={false}
+					showMarkerCollection={true}
+					//markerCollectionTransformation={}
+					//markerStyle={getMarkerStyleFromFeatureConsideringSelection}
 				/>
 			);
 		}
@@ -312,4 +325,23 @@ export default Starkregen;
 Starkregen.propTypes = {
 	ui: PropTypes.object,
 	uiState: PropTypes.object
+};
+
+const getMarkerStyleFromFeatureConsideringSelection = (feature) => {
+	let opacity = 0.6;
+	let linecolor = '#000000';
+	let weight = 1;
+
+	const style = {
+		radius: 10,
+		color: linecolor,
+		weight: weight,
+		opacity: 1.0,
+		fillOpacity: opacity,
+		svgSize: 100,
+		className: 'verdis-flaeche-marker-' + feature.properties.bez,
+		svg: `<svg width="32" height="32" viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg"><path d="M1325 1024h-109q-26 0-45-19t-19-45v-128q0-26 19-45t45-19h109q-32-108-112.5-188.5t-188.5-112.5v109q0 26-19 45t-45 19h-128q-26 0-45-19t-19-45v-109q-108 32-188.5 112.5t-112.5 188.5h109q26 0 45 19t19 45v128q0 26-19 45t-45 19h-109q32 108 112.5 188.5t188.5 112.5v-109q0-26 19-45t45-19h128q26 0 45 19t19 45v109q108-32 188.5-112.5t112.5-188.5zm339-192v128q0 26-19 45t-45 19h-143q-37 161-154.5 278.5t-278.5 154.5v143q0 26-19 45t-45 19h-128q-26 0-45-19t-19-45v-143q-161-37-278.5-154.5t-154.5-278.5h-143q-26 0-45-19t-19-45v-128q0-26 19-45t45-19h143q37-161 154.5-278.5t278.5-154.5v-143q0-26 19-45t45-19h128q26 0 45 19t19 45v143q161 37 278.5 154.5t154.5 278.5h143q26 0 45 19t19 45z"/></svg>`
+	};
+
+	return style;
 };

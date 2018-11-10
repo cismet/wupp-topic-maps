@@ -29,13 +29,16 @@ const InfoBox = ({
 			}
 		}
 	}
+	if (featureInfoValue<=0){
+		featureInfoValue=0;
+	}
 	return (
 		<div>
 			{!featureInfoModeActivated && (
 				<div style={{ marginBottom: 5, textAlign: 'right' }}>
 					<Button
-            id="cmdShowGetFeatureInfo"
-            title="Maximalen Wasserstand abfragen"
+						id="cmdShowGetFeatureInfo"
+						title="Maximalen Wasserstand abfragen"
 						onClick={() => {
 							setFeatureInfoModeActivation(true);
 						}}
@@ -92,7 +95,7 @@ const InfoBox = ({
 							paddingBottom: '0px'
 						}}
 					>
-						<table style={{ width: '100%',paddingBottom: '0px'  }}>
+						<table style={{ width: '100%', paddingBottom: '0px' }}>
 							<tbody>
 								<tr>
 									<td
@@ -105,13 +108,11 @@ const InfoBox = ({
 									>
 										{featureInfoValue !== undefined && (
 											<h2 style={{ marginTop: 0, marginBottom: 0, textAlign: 'center' }}>
-                        ca. {Math.round(featureInfoValue * 10)*10.0} cm
+												ca. {Math.round(featureInfoValue * 10.0) * 10.0} cm
 											</h2>
 										)}
 										{featureInfoValue === undefined && (
-											<p>
-												Klick in die Karte zur Abfrage des simulierten max. Wasserstandes
-											</p>
+											<p>Klick in die Karte zur Abfrage des simulierten max. Wasserstandes</p>
 										)}
 									</td>
 								</tr>
@@ -126,7 +127,9 @@ const InfoBox = ({
 												textAlign: 'center'
 											}}
 										>
-											<a onClick={()=>showModalMenu('aussagekraft')}>Information zur Aussagekraft</a>
+											<a onClick={() => showModalMenu('aussagekraft')}>
+												Information zur Aussagekraft
+											</a>
 										</td>
 									</tr>
 								)}
@@ -193,8 +196,7 @@ const InfoBox = ({
 				</table>
 				{!minified && (
 					<p style={{ marginBottom: 5 }}>
-						{selectedSimulation.subtitle} <a onClick={()=>showModalMenu('szenarien')
-						}>(mehr)</a>
+						{selectedSimulation.subtitle} <a onClick={() => showModalMenu('szenarien')}>(mehr)</a>
 						{/* <a>
 							<Icon style={{ paddingLeft: 3, fontSize: 16 }} name="info-circle" />
 						</a> */}
@@ -293,8 +295,8 @@ const InfoBox = ({
 										}
 										return (
 											<a
-                        key={'backgroundChanger.' + index}
-                        title={item.title}
+												key={'backgroundChanger.' + index}
+												title={item.title}
 												onClick={() => {
 													setBackgroundIndex(index);
 												}}
@@ -325,9 +327,9 @@ InfoBox.propTypes = {
 	minify: PropTypes.func,
 	legend: PropTypes.object,
 	featureInfoModeActivated: PropTypes.bool,
-	showModalMenu: PropTypes.func,
+	showModalMenu: PropTypes.func
 };
 
 InfoBox.defaultProps = {
-	showModalMenu: ()=>{}
+	showModalMenu: () => {}
 };

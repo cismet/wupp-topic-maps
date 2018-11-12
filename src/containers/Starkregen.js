@@ -6,17 +6,16 @@ import { bindActionCreators } from 'redux';
 import { actions as MappingActions } from '../redux/modules/mapping';
 import { actions as UIStateActions } from '../redux/modules/uiState';
 import { actions as StarkregenActions, initialState as starkregenInitialState } from '../redux/modules/starkregen';
+import { Icon } from 'react-fa';
 
 import { routerActions as RoutingActions } from 'react-router-redux';
 import TopicMap from '../containers/TopicMap';
-import { WMSTileLayer, Marker, Popup } from 'react-leaflet';
-import { Well, Label } from 'react-bootstrap';
-
-import L from 'leaflet';
-import { Icon } from 'react-fa';
+import { WMSTileLayer } from 'react-leaflet';
+import { Button, Label, Alert } from 'react-bootstrap';
 import { FeatureCollectionDisplay } from 'react-cismap';
 import { modifyQueryPart } from '../utils/routingHelper';
 import InfoBox from '../components/starkregen/ControlInfoBox';
+import ContactButton from '../components/starkregen/ContactButton';
 import HelpAndInfo from '../components/starkregen/Help00MainComponent';
 
 (function() {
@@ -88,15 +87,29 @@ export class Starkregen_ extends React.Component {
 		this.setSimulationStateFromUrl = this.setSimulationStateFromUrl.bind(this);
 		this.setBackgroundStateFromUrl = this.setBackgroundStateFromUrl.bind(this);
 		this.setSimulationStateInUrl = this.setSimulationStateInUrl.bind(this);
+		this.state = {
+			caching: 0
+		};
 	}
 
-	comnponentDidMount() {
-		console.log('didMount');
-	}
+	componentDidMount() {}
 
 	componentDidUpdate() {
 		this.setSimulationStateFromUrl();
 		this.setBackgroundStateFromUrl();
+		const that = this;
+		if (this.modelLayer) {
+			this.modelLayer.leafletElement.on('tileerror', function(error, tile) {
+				if (that.props.starkregen.modelLayerProblem === false) {
+					that.props.starkregenActions.setModelLayerProblemStatus(true);
+				}
+			});
+			this.modelLayer.leafletElement.on('tileload', function() {
+				if (that.props.starkregen.modelLayerProblem === true) {
+					that.props.starkregenActions.setModelLayerProblemStatus(false);
+				}
+			});
+		}
 	}
 
 	setSimulationStateFromUrl() {
@@ -296,6 +309,7 @@ export class Starkregen_ extends React.Component {
 				}}
 			>
 				<WMSTileLayer
+					ref={(c) => (this.modelLayer = c)}
 					key={
 						'rainHazardMap.bgMap' +
 						this.props.starkregen.selectedBackground +
@@ -311,8 +325,86 @@ export class Starkregen_ extends React.Component {
 					styles="default"
 					maxZoom={19}
 					opacity={1}
+					caching={this.state.caching}
 				/>
 				{featureInfoLayer}
+				<ContactButton
+					position="topleft"
+					title="Modellfehler melden"
+					action={() => {
+						let link = document.createElement("a");
+						link.setAttribute("type", "hidden");
+						const br='%0D';
+						let mailToHref =
+						"mailto:th@cismet.de?subject=eventueller Modellfehler in Starkregenkarte&body=" +
+						`Sehr geehrte Damen und Herren,${br}
+						${br}
+						in der Starkregenkarte auf ${br}
+						${br}
+						${br}
+						${window.location.href.replace(/&/g, "%26")}
+						${br}
+						${br}
+						ist mir folgendes aufgefallen:
+						${br}
+						${br}
+						${br}
+						${br}
+						${br}
+						${br}
+						Mit freundlichen Grüßen
+						${br}
+						${br}
+						${br}
+						`;
+						document.body.appendChild(link);
+						//link.href = downloadOptions.url;
+						link.href=mailToHref;
+						//link.download = downloadOptions.file;
+						//link.target = "_blank";
+						link.click();
+
+
+					}}
+				/>
+
+				{this.props.starkregen.modelLayerProblem && (
+					<Alert
+						style={{
+							position: 'absolute',
+							zIndex: 1000,
+							top_alt: '10px',
+							top: '30%',
+							left: '15%',
+							width: '70%',
+							textAlignment: 'center'
+						}}
+						bsStyle="danger"
+						onDismiss={() => {
+							this.setState({
+								caching: this.state.caching + 1
+							});
+						}}
+					>
+						<h5>
+							<Icon name="exclamation-circle" /> Es liegt eine Störung vor. Momentan können leider keine
+							Modellinformationen angezeigt werden. Bitte versuchen Sie es später noch einmal.
+						</h5>
+						<div style={{ textAlign: 'right' }}>
+							<Button
+								bsSize="xsmall"
+								style={{ opacity: 0.5 }}
+								onClick={() => {
+									this.setState({
+										caching: this.state.caching + 1
+									});
+								}}
+							>
+								Erneut versuchen
+							</Button>
+						</div>
+					</Alert>
+				)}
 			</TopicMap>
 		);
 	}

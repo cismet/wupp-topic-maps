@@ -68,7 +68,7 @@
     "svg-create-element": "^1.0.0",
     "terraformer-wkt-parser": "^1.1.2",
     "url-search-params-polyfill": "^2.0.1",
-    "whatwg-fetch": "^2.0.3"
+    "whatwg-fetch": "^3.0.0"
   },
   "scripts": {
     "start": "react-scripts start",

@@ -193,19 +193,25 @@ function getFeatureInfo(mapEvent) {
 			`layers=${selectedSimulation}&` +
 			`QUERY_LAYERS=${selectedSimulation}&` +
 			`INFO_FORMAT=application/vnd.ogc.gml`;
+		let valueKey = 'll:value';
+		if (/Edge/.test(navigator.userAgent)) {
+			valueKey = 'value';
+		}
 
 		fetch(getFetureInfoRequestUrl)
 			.then((response) => {
+				console.log('response', response);
 				if (response.ok) {
 					return response.text();
 				} else {
-					throw new Error("Server md5 response wasn't OK");
+					throw new Error("Server response wasn't OK");
 				}
 			})
 			.then((data) => {
+				console.log(data);
 				const parser = new DOMParser();
 				const xmlDoc = parser.parseFromString(data, 'text/xml');
-				const value = parseFloat(xmlDoc.getElementsByTagName('ll:value')[0].textContent, 10);
+				const value = parseFloat(xmlDoc.getElementsByTagName(valueKey)[0].textContent, 10);
 				dispatch(setCurrentFeaturSelectedSimulation(localState.selectedSimulation));
 				dispatch(setCurrentFeatureInfoValue(value));
 				dispatch(setCurrentFeatureInfoPosition(pos));

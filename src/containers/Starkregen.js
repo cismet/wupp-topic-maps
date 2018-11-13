@@ -131,11 +131,6 @@ export class Starkregen_ extends React.Component {
 		}
 	}
 
-	setBackgroundStateFromUrl() {
-		let urlBackground = this.props.match.params.layers;
-		if (urlBackground) {
-		}
-	}
 	setSimulationStateInUrl(simulation) {
 		if (simulation !== this.props.starkregen.selectedSimulation) {
 			this.props.routingActions.push(
@@ -147,6 +142,27 @@ export class Starkregen_ extends React.Component {
 		}
 	}
 
+	setBackgroundStateFromUrl() {
+		let urlBackgroundQueryValue = new URLSearchParams(this.props.routing.location.search).get(
+			'bg'
+		);
+		if (urlBackgroundQueryValue) {
+			let urlBackgroundIndex=parseInt(urlBackgroundQueryValue,10);
+			if (urlBackgroundIndex !== this.props.starkregen.selectedBackground) {
+				this.props.starkregenActions.setSelectedBackground(urlBackgroundIndex);
+			}
+		}
+	}
+	setBackgroundStateInUrl(backgroundIndex) {
+		if (backgroundIndex !== this.props.starkregen.selectedBackground) {
+			this.props.routingActions.push(
+				this.props.routing.location.pathname +
+					modifyQueryPart(this.props.routing.location.search, {
+						bg: backgroundIndex
+					})
+			);
+		}
+	}
 	getFeatureInfo(event) {
 		if (this.props.starkregen.featureInfoModeActivated) {
 			this.props.starkregenActions.getFeatureInfo(event);
@@ -159,7 +175,6 @@ export class Starkregen_ extends React.Component {
 	}
 	render() {
 		let options = { opacity: 1 };
-
 		let simulationLabels = [];
 		this.props.starkregen.simulations.map((item, index) => {
 			let bsStyle;
@@ -189,7 +204,7 @@ export class Starkregen_ extends React.Component {
 				simulationLabels={simulationLabels}
 				backgrounds={this.props.starkregen.backgrounds}
 				selectedBackgroundIndex={this.props.starkregen.selectedBackground}
-				setBackgroundIndex={(index) => this.props.starkregenActions.setSelectedBackground(index)}
+				setBackgroundIndex={(index) => this.setBackgroundStateInUrl(index)}
 				minified={this.props.starkregen.minifiedInfoBox}
 				minify={(minified) => this.props.starkregenActions.setMinifiedInfoBox(minified)}
 				legendObject={this.props.starkregen.legend}
@@ -215,6 +230,7 @@ export class Starkregen_ extends React.Component {
 				showModalMenu={(section) => {
 					this.props.uiStateActions.showApplicationMenuAndActivateSection(true, section);
 				}}
+				mapClickListener={this.getFeatureInfo}
 			/>
 		);
 
@@ -272,7 +288,10 @@ export class Starkregen_ extends React.Component {
 				/>
 			);
 		}
-
+		let validBackgroundIndex=this.props.starkregen.selectedBackground;
+		if (validBackgroundIndex>=this.props.starkregen.backgrounds.length){
+			validBackgroundIndex=0;
+		}
 		return (
 			<TopicMap
 				key={'topicmap with background no' + this.backgroundIndex}
@@ -289,7 +308,7 @@ export class Starkregen_ extends React.Component {
 				infoBox={info}
 				backgroundlayers={
 					this.props.match.params.layers ||
-					this.props.starkregen.backgrounds[this.props.starkregen.selectedBackground].layerkey
+					this.props.starkregen.backgrounds[validBackgroundIndex].layerkey
 				}
 				onclick={this.getFeatureInfo}
 				applicationMenuTooltipString="Kompaktanleitung | Hintergrundinfo"
@@ -332,39 +351,28 @@ export class Starkregen_ extends React.Component {
 					position="topleft"
 					title="Modellfehler melden"
 					action={() => {
-						let link = document.createElement("a");
-						link.setAttribute("type", "hidden");
-						const br='%0D';
+						let link = document.createElement('a');
+						link.setAttribute('type', 'hidden');
+						const br = '\n';
 						let mailToHref =
-						"mailto:th@cismet.de?subject=eventueller Modellfehler in Starkregenkarte&body=" +
-						`Sehr geehrte Damen und Herren,${br}
-						${br}
-						in der Starkregenkarte auf ${br}
-						${br}
-						${br}
-						${window.location.href.replace(/&/g, "%26")}
-						${br}
-						${br}
-						ist mir folgendes aufgefallen:
-						${br}
-						${br}
-						${br}
-						${br}
-						${br}
-						${br}
-						Mit freundlichen Grüßen
-						${br}
-						${br}
-						${br}
-						`;
+							'mailto:th@cismet.de?subject=eventueller Modellfehler in Starkregenkarte&body=' +
+							encodeURI(
+								`Sehr geehrte Damen und Herren,${br}${br}` +
+									`in der Starkregenkarte auf${br}${br}`) +
+									`${window.location.href.replace(/&/g, '%26')}`+encodeURI(`${br}` +
+									`${br}` +
+									`ist mir folgendes aufgefallen:${br}` +
+									`${br}${br}${br}${br}` +
+									`Mit freundlichen Grüßen${br}` +
+									`${br}` +
+									`${br}`
+							);
 						document.body.appendChild(link);
 						//link.href = downloadOptions.url;
-						link.href=mailToHref;
+						link.href = mailToHref;
 						//link.download = downloadOptions.file;
 						//link.target = "_blank";
 						link.click();
-
-
 					}}
 				/>
 

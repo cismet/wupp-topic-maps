@@ -349,13 +349,13 @@ export class Starkregen_ extends React.Component {
 				{featureInfoLayer}
 				<ContactButton
 					position="topleft"
-					title="Modellfehler melden"
+					title="*Fehler im Geländemodell melden*"
 					action={() => {
 						let link = document.createElement('a');
 						link.setAttribute('type', 'hidden');
 						const br = '\n';
 						let mailToHref =
-							'mailto:th@cismet.de?subject=eventueller Modellfehler in Starkregenkarte&body=' +
+							'mailto:starkregen@stadt.wuppertal.de?subject=eventueller Modellfehler in Starkregenkarte&body=' +
 							encodeURI(
 								`Sehr geehrte Damen und Herren,${br}${br}` +
 									`in der Starkregenkarte auf${br}${br}`) +

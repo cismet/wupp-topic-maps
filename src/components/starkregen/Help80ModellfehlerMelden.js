@@ -7,7 +7,7 @@ const Component = ({ uiState, uiStateActions }) => {
 			uiState={uiState}
 			uiStateActions={uiStateActions}
 			sectionKey="help"
-			sectionTitle="Fehler im Geländemodell melden*"
+			sectionTitle="Fehler im Geländemodell melden"
 			sectionBsStyle="danger"
 			sectionContent={
 				<div>

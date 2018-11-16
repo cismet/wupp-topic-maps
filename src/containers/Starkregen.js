@@ -355,7 +355,7 @@ export class Starkregen_ extends React.Component {
 						link.setAttribute('type', 'hidden');
 						const br = '\n';
 						let mailToHref =
-							'mailto:starkregen@stadt.wuppertal.de?subject=eventueller Modellfehler im Geländemodell&body=' +
+							'mailto:starkregen@stadt.wuppertal.de?subject=eventueller Fehler im Geländemodell&body=' +
 							encodeURI(
 								`Sehr geehrte Damen und Herren,${br}${br}` +
 									`in der Starkregenkarte auf${br}${br}`) +

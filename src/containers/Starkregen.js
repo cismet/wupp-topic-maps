@@ -18,6 +18,7 @@ import InfoBox from '../components/starkregen/ControlInfoBox';
 import ContactButton from '../components/starkregen/ContactButton';
 import HelpAndInfo from '../components/starkregen/Help00MainComponent';
 
+
 (function() {
 	// var originalInitTile = L.GridLayer.prototype._initTile;
 	// var originalGetTileUrl = L.TileLayer.WMS.prototype.getTileUrl;
@@ -87,6 +88,7 @@ export class Starkregen_ extends React.Component {
 		this.setSimulationStateFromUrl = this.setSimulationStateFromUrl.bind(this);
 		this.setBackgroundStateFromUrl = this.setBackgroundStateFromUrl.bind(this);
 		this.setSimulationStateInUrl = this.setSimulationStateInUrl.bind(this);
+		this.getMapRef = this.getMapRef.bind(this);
 		this.state = {
 			caching: 0
 		};
@@ -143,11 +145,9 @@ export class Starkregen_ extends React.Component {
 	}
 
 	setBackgroundStateFromUrl() {
-		let urlBackgroundQueryValue = new URLSearchParams(this.props.routing.location.search).get(
-			'bg'
-		);
+		let urlBackgroundQueryValue = new URLSearchParams(this.props.routing.location.search).get('bg');
 		if (urlBackgroundQueryValue) {
-			let urlBackgroundIndex=parseInt(urlBackgroundQueryValue,10);
+			let urlBackgroundIndex = parseInt(urlBackgroundQueryValue, 10);
 			if (urlBackgroundIndex !== this.props.starkregen.selectedBackground) {
 				this.props.starkregenActions.setSelectedBackground(urlBackgroundIndex);
 			}
@@ -173,6 +173,13 @@ export class Starkregen_ extends React.Component {
 			this.topicMap.wrappedInstance.gotoHome();
 		}
 	}
+
+	getMapRef() {
+		if (this.topicMap) {
+			return this.topicMap.wrappedInstance.leafletRoutedMap.leafletMap.leafletElement;
+		}
+		return undefined;
+	}
 	render() {
 		let options = { opacity: 1 };
 		let simulationLabels = [];
@@ -197,6 +204,21 @@ export class Starkregen_ extends React.Component {
 		});
 
 		let selSim = this.props.starkregen.simulations[this.props.starkregen.selectedSimulation];
+		let leafletMapRef;
+		if (this.topicMap) {
+			leafletMapRef = this.topicMap.wrappedInstance.leafletRoutedMap.leafletMap.leafletElement;
+		}
+
+
+		let cursor;
+		if (this.props.starkregen.featureInfoModeActivated) {
+			cursor = 'crosshair';
+		} else {
+			cursor = 'grabbing';
+		}
+
+		const mapRef=this.getMapRef();
+
 		let info = (
 			<InfoBox
 				pixelwidth={330}
@@ -231,15 +253,10 @@ export class Starkregen_ extends React.Component {
 					this.props.uiStateActions.showApplicationMenuAndActivateSection(true, section);
 				}}
 				mapClickListener={this.getFeatureInfo}
+				mapRef={mapRef}
+				mapCursor={cursor}
 			/>
 		);
-
-		let cursor;
-		if (this.props.starkregen.featureInfoModeActivated) {
-			cursor = 'crosshair';
-		} else {
-			cursor = 'grabbing';
-		}
 
 		let featureInfoLayer;
 		if (this.props.starkregen.currentFeatureInfoPosition) {
@@ -288,9 +305,9 @@ export class Starkregen_ extends React.Component {
 				/>
 			);
 		}
-		let validBackgroundIndex=this.props.starkregen.selectedBackground;
-		if (validBackgroundIndex>=this.props.starkregen.backgrounds.length){
-			validBackgroundIndex=0;
+		let validBackgroundIndex = this.props.starkregen.selectedBackground;
+		if (validBackgroundIndex >= this.props.starkregen.backgrounds.length) {
+			validBackgroundIndex = 0;
 		}
 		return (
 			<TopicMap
@@ -307,8 +324,7 @@ export class Starkregen_ extends React.Component {
 				photoLightBox
 				infoBox={info}
 				backgroundlayers={
-					this.props.match.params.layers ||
-					this.props.starkregen.backgrounds[validBackgroundIndex].layerkey
+					this.props.match.params.layers || this.props.starkregen.backgrounds[validBackgroundIndex].layerkey
 				}
 				onclick={this.getFeatureInfo}
 				applicationMenuTooltipString="Kompaktanleitung | Hintergrundinfo"
@@ -357,9 +373,11 @@ export class Starkregen_ extends React.Component {
 						let mailToHref =
 							'mailto:starkregen@stadt.wuppertal.de?subject=eventueller Fehler im Geländemodell&body=' +
 							encodeURI(
-								`Sehr geehrte Damen und Herren,${br}${br}` +
-									`in der Starkregenkarte auf${br}${br}`) +
-									`${window.location.href.replace(/&/g, '%26')}`+encodeURI(`${br}` +
+								`Sehr geehrte Damen und Herren,${br}${br}` + `in der Starkregenkarte auf${br}${br}`
+							) +
+							`${window.location.href.replace(/&/g, '%26')}` +
+							encodeURI(
+								`${br}` +
 									`${br}` +
 									`ist mir folgendes aufgefallen:${br}` +
 									`${br}${br}${br}${br}` +

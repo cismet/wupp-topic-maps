@@ -210,7 +210,6 @@ function getFeatureInfo(mapEvent) {
 
 		fetch(getFetureInfoRequestUrl)
 			.then((response) => {
-				console.log('response', response);
 				if (response.ok) {
 					return response.text();
 				} else {
@@ -218,7 +217,6 @@ function getFeatureInfo(mapEvent) {
 				}
 			})
 			.then((data) => {
-				console.log(data);
 				const parser = new DOMParser();
 				const xmlDoc = parser.parseFromString(data, 'text/xml');
 				const value = parseFloat(xmlDoc.getElementsByTagName(valueKey)[0].textContent, 10);

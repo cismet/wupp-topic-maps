@@ -6,6 +6,7 @@ import { Icon } from 'react-fa';
 import { Well, Button } from 'react-bootstrap';
 import Legend from './Legend';
 import { Map,Control, DomUtil, DomEvent } from 'leaflet';
+import L from 'leaflet';
 
 // Since this component is simple and static, there's no parent container for it.
 const InfoBox = ({
@@ -22,7 +23,9 @@ const InfoBox = ({
 	setFeatureInfoModeActivation,
 	featureInfoValue,
 	showModalMenu,
-	mapClickListener
+	mapClickListener,
+	mapRef,
+	mapCursor
 }) => {
 	const legend = <Legend legendObjects={legendObject} />;
 	let headerColor = '#7e7e7e';
@@ -332,10 +335,13 @@ const InfoBox = ({
 	return (
 		<div ref={(c)=>(this.chaos=c)} id="giveittoleaflet"
 			onClick={(e) => {
-				console.log('click', this.chaos);
-
+				if (mapRef){
+					let point = L.point(e.clientX,e.clientY); // x=0,y=0
+					let latlng = mapRef.containerPointToLatLng(point);
+					mapClickListener({latlng})
+				}
 			}}
-			//style={{ background: 'red' }}
+			style={{ cursor: mapCursor }}
 		>
 			{infoComps}
 		</div>

@@ -19,8 +19,6 @@ const Component = ({ uiState, uiStateActions }) => {
             eines GEP-Bereichs im Eingabefeld links unten ein. (Die Bedeutung der GEP-Bereiche wird
             am Ende dieses Abschnittes der Kompaktanleitung erläutert!) In der inkrementellen
             Auswahlliste werden Ihnen passende Treffer angeboten. (Wenn Sie weitere Zeichen
-            eingeben, wird der Inhalt der Auswahlliste angepasst.) In der inkrementellen
-            Auswahlliste werden Ihnen passende Treffer angeboten. (Wenn Sie weitere Zeichen
             eingeben, wird der Inhalt der Auswahlliste angepasst.) Durch das vorangestellte Symbol
             erkennen Sie, ob es sich dabei um einen <Icon name="circle" /> Stadtbezirk, ein{" "}
             <Icon name="pie-chart" /> Quartier, eine <Icon name="home" /> Adresse, eine{" "}
@@ -31,7 +29,7 @@ const Component = ({ uiState, uiStateActions }) => {
           <p>
             Nach der Auswahl eines Treffers aus der Liste wird die Karte auf die zugehörige Position
             zentriert. Bei Suchbegriffen mit Punktgeometrie (Adresse, Straße, POI) wird außerdem ein
-            großer Maßstab (Zoomstufe 14) eingestellt und ein Marker <Icon name="comment" /> auf der
+            großer Maßstab (Zoomstufe 14) eingestellt und ein Marker <Icon name="map-marker" /> auf der
             Zielposition platziert. Bei Suchbegriffen mit Flächengeometrie (Stadtbezirk, Quartier,
             GEP) wird der Maßstab so eingestellt, dass die Fläche vollständig dargestellt werden
             kann. Zusätzlich wird der Bereich außerhalb dieser Fläche abgedunkelt
@@ -47,8 +45,8 @@ const Component = ({ uiState, uiStateActions }) => {
             langfristigen Prozess zur Weiterentwicklung des Wuppertaler Kanalnetzes, wird nahezu das
             gesamte Stadtgebiet in Teilbereiche (GEP-Bereiche) eingeteilt. Die GEP-Bereiche haben
             eine Nummer und einen Namen, der zumeist dem Bach entspricht, in den der GEP-Bereich
-            entwässert, z. B. „GEP 09 Mirker Bach“. Alternativ können Sie der GEP-Bereiche auch über
-            den vorangestellten Namen ansprechen, also z. B. „Mirker Bach (GEP 09)“. Zusätzlich
+            entwässert, z. B. "GEP 09 Mirker Bach". Alternativ können Sie der GEP-Bereiche auch über
+            den vorangestellten Namen ansprechen, also z. B. "Mirker Bach (GEP 09)". Zusätzlich
             haben wir weitere wichtige Wuppertaler Bäche, die direkt in die Wupper oder die Düssel
             einmünden, als Alias für die zugehörigen GEP-Bereiche angelegt. Diese werden dann in der
             Form „Burgholzbach (im GEP27 Cronenberg-West)“ angezeigt.

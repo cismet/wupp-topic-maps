@@ -12,16 +12,13 @@ import ModellfehlerMelden from './Help80ModellfehlerMelden';
 import GenericModalApplicationMenu from '../commons/GenericModalApplicationMenu';
 import Footer from './Help99Footer';
 
-const ModalHelpAndInfo = ({
-	uiState,
-	uiStateActions
-}) => {
+const ModalHelpAndInfo = ({ uiState, uiStateActions }) => {
 	return (
 		<GenericModalApplicationMenu
 			uiState={uiState}
 			uiStateActions={uiStateActions}
-      menuIntroduction={<Introduction uiStateActions={uiStateActions} />}
-      menuIcon="info"
+			menuIntroduction={<Introduction uiStateActions={uiStateActions} />}
+			menuIcon="info"
 			menuTitle="Kompaktanleitung und Hintergrundinformationen"
 			menuSections={[
 				<Datengrundlage key="Datengrundlage" uiState={uiState} uiStateActions={uiStateActions} />,
@@ -32,8 +29,12 @@ const ModalHelpAndInfo = ({
 				<SimulierteSzenarien key="SimulierteSzenarien" uiState={uiState} uiStateActions={uiStateActions} />,
 				<Aussagekraft key="Aussagekraft" uiState={uiState} uiStateActions={uiStateActions} />,
 				<ModellfehlerMelden key="ModellfehlerMelden" uiState={uiState} uiStateActions={uiStateActions} />
-      ]}
-      menuFooter= {<Footer/>}
+			]}
+			menuFooter={
+				<Footer
+					showModalMenu={(section) => uiStateActions.showApplicationMenuAndActivateSection(true, section)}
+				/>
+			}
 		/>
 	);
 };

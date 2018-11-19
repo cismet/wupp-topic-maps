@@ -32,7 +32,7 @@ const Component = ({ uiState, uiStateActions }) => {
             </b>{" "}
             Stellen Sie dazu die Kartenansicht (Ausschnitt, Hintergrundkarte und Simulation) ein,
             die den von Ihnen vermuteten Fehler im DGM bestmöglich darstellt. Durch Anklicken des
-            Werkzeugs „Fehler im Geländemodell melden“ <Icon name="comment" /> links
+            Werkzeugs "Fehler im Geländemodell melden" <Icon name="comment" /> links
             oben im Kartenfenster öffnen Sie das auf Ihrem Rechner eingerichtete
             E-Mail-Programm mit dem Gerüst einer Nachricht an{" "}
             <a href="starkregen@stadt.wuppertal.de">starkregen@stadt.wuppertal.de</a>. Über diese

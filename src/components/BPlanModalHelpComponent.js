@@ -62,7 +62,7 @@ export class BPlanModalHelp_ extends React.Component {
             </Panel>
             <Panel header="Mein Standort" eventKey="1a" bsStyle="warning">
               <p>
-                Mit der Funktion „<em>Mein Standort</em>“ <Icon name="map-marker" /> können Sie
+                Mit der Funktion "<em>Mein Standort</em>" <Icon name="map-marker" /> können Sie
                 ihren aktuellen Standort mit einem blauen Kreissymbol{" "}
                 <img alt="Cluster" src="images/MeinStandpunktMarker.jpg" /> in der Karte anzeigen.
                 Das Standortsymbol ist umgeben von einem zweiten Kreis mit transparenter, blauer
@@ -73,7 +73,7 @@ export class BPlanModalHelp_ extends React.Component {
                 bestimmen. Smartphones und Tablet-PC's sind i. d. R. mit einer GPS-Antenne
                 ausgestattet, so dass Sie bei diesen Geräten eine Positionsgenauigkeit in der
                 Größenordnung von 10 Metern erwarten können. Die Markierung Ihrer Position wird
-                laufend automatisch aktualisiert. Ein weiterer Klick auf „<em>Mein Standort</em>“
+                laufend automatisch aktualisiert. Ein weiterer Klick auf "<em>Mein Standort</em>"
                 schaltet die Anzeige Ihrer Position wieder ab.
               </p>
             </Panel>

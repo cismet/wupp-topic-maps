@@ -49,7 +49,7 @@ const Component = ({ uiState, uiStateActions }) => {
             den vorangestellten Namen ansprechen, also z. B. "Mirker Bach (GEP 09)". Zusätzlich
             haben wir weitere wichtige Wuppertaler Bäche, die direkt in die Wupper oder die Düssel
             einmünden, als Alias für die zugehörigen GEP-Bereiche angelegt. Diese werden dann in der
-            Form „Burgholzbach (im GEP27 Cronenberg-West)“ angezeigt.
+            Form "Burgholzbach (im GEP27 Cronenberg-West)" angezeigt.
           </p>
         </div>
       }

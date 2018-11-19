@@ -870,7 +870,7 @@ export class StadtplanModalApplicationMenu_ extends React.Component {
                 </Link>
               </h4>
               <p>
-                Unter „<strong>Mein Themenstadtplan</strong>“ können Sie im Anwendungsmenü{" "}
+                Unter "<strong>Mein Themenstadtplan</strong>" können Sie im Anwendungsmenü{" "}
                 <Icon name="bars" /> auswählen, welche POI-Kategorien in der Karte dargestellt
                 werden. Über die Schaltfläche{" "}
                 <img alt="Cluster" src="images/sf_keinethemenausw.png" /> können Sie die POI
@@ -889,7 +889,7 @@ export class StadtplanModalApplicationMenu_ extends React.Component {
               <p>
                 Mit <Icon name="thumbs-down" /> können Sie die POI, die dem entsprechenden Thema
                 zugeordnet sind, ausblenden und dadurch die Treffermenge reduzieren. Schließen Sie
-                jetzt z. B. das Thema „<em>Gesellschaft</em>“ aus. Im Tortendiagramm werden Ihnen
+                jetzt z. B. das Thema "<em>Gesellschaft</em>" aus. Im Tortendiagramm werden Ihnen
                 dann nur noch die POI mit der Themen-Kombination "<em>Kultur, Freizeit</em>"
                 angezeigt (Theater, Museen etc.). Die POI mit der Kombination "
                 <em>Kultur, Gesellschaft</em>" (Standorte von Verlagen und anderen

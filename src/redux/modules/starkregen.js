@@ -31,12 +31,12 @@ export const initialState = {
 	selectedBackground: 0,
 	simulations: [
 		{
-			layer: 'R102:20md',
-			name: '20-jährlich',
-			title: '20-jährlicher Starkregen (2h)',
+			layer: 'R102:50md',
+			name: '50-jährlich',
+			title: '50-jährlicher Starkregen (2h)',
 			icon: 'bar-chart',
 			subtitle:
-				'Simulation eines zweistündigen Starkregens mit statistisch 20-jährlicher Wiederkehrzeit in ganz Wuppertal mit Intensitätsverlauf Modell Euler Typ II'
+				'Simulation eines zweistündigen Starkregens mit statistisch 50-jährlicher Wiederkehrzeit in ganz Wuppertal mit Intensitätsverlauf Modell Euler Typ II'
 		},
 		{
 			layer: 'R102:100md',

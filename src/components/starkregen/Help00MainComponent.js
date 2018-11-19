@@ -10,7 +10,7 @@ import Aussagekraft from './Help70AussagekraftDerSimulationen';
 import ModellfehlerMelden from './Help80ModellfehlerMelden';
 
 import GenericModalApplicationMenu from '../commons/GenericModalApplicationMenu';
-
+import Footer from './Help99Footer';
 
 const ModalHelpAndInfo = ({
 	uiState,
@@ -33,7 +33,7 @@ const ModalHelpAndInfo = ({
 				<Aussagekraft key="Aussagekraft" uiState={uiState} uiStateActions={uiStateActions} />,
 				<ModellfehlerMelden key="ModellfehlerMelden" uiState={uiState} uiStateActions={uiStateActions} />
       ]}
-      //menuFooter:
+      menuFooter= {<Footer/>}
 		/>
 	);
 };

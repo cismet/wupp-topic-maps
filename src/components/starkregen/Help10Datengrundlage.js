@@ -7,7 +7,7 @@ const Component = ({ uiState, uiStateActions }) => {
 			uiState={uiState}
 			uiStateActions={uiStateActions}
 			sectionKey="datengrundlage"
-			sectionTitle="Datengrundlage"
+			sectionTitle="Datengrundlagen"
 			sectionBsStyle="warning"
 			sectionContent={
 				<div>

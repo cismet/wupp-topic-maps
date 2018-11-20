@@ -11,8 +11,8 @@ import ModellfehlerMelden from './Help80ModellfehlerMelden';
 
 import GenericModalApplicationMenu from '../commons/GenericModalApplicationMenu';
 import Footer from './Help99Footer';
-
 const ModalHelpAndInfo = ({ uiState, uiStateActions }) => {
+	const showModalMenu=(section) => uiStateActions.showApplicationMenuAndActivateSection(true, section);
 	return (
 		<GenericModalApplicationMenu
 			uiState={uiState}
@@ -22,7 +22,7 @@ const ModalHelpAndInfo = ({ uiState, uiStateActions }) => {
 			menuTitle="Kompaktanleitung und Hintergrundinformationen"
 			menuSections={[
 				<Datengrundlage key="Datengrundlage" uiState={uiState} uiStateActions={uiStateActions} />,
-				<Karteninhalt key="Karteninhalt" uiState={uiState} uiStateActions={uiStateActions} />,
+				<Karteninhalt key="Karteninhalt" uiState={uiState} uiStateActions={uiStateActions} showModalMenu={showModalMenu} />,
 				<InKartePositionieren key="InKartePositionieren" uiState={uiState} uiStateActions={uiStateActions} />,
 				<MeinStandort key="MeinStandort" uiState={uiState} uiStateActions={uiStateActions} />,
 				<WasserstandAbfragen key="WasserstandAbfragen" uiState={uiState} uiStateActions={uiStateActions} />,
@@ -32,7 +32,7 @@ const ModalHelpAndInfo = ({ uiState, uiStateActions }) => {
 			]}
 			menuFooter={
 				<Footer
-					showModalMenu={(section) => uiStateActions.showApplicationMenuAndActivateSection(true, section)}
+					showModalMenu={showModalMenu}
 				/>
 			}
 		/>

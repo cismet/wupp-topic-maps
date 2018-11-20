@@ -45,11 +45,11 @@ const Component = ({ uiState, uiStateActions }) => {
             langfristigen Prozess zur Weiterentwicklung des Wuppertaler Kanalnetzes, wird nahezu das
             gesamte Stadtgebiet in Teilbereiche (GEP-Bereiche) eingeteilt. Die GEP-Bereiche haben
             eine Nummer und einen Namen, der zumeist dem Bach entspricht, in den der GEP-Bereich
-            entwässert, z. B. "GEP 09 Mirker Bach". Alternativ können Sie der GEP-Bereiche auch über
+            entwässert, z. B. "GEP 09 Mirker Bach". Alternativ können Sie die GEP-Bereiche auch über
             den vorangestellten Namen ansprechen, also z. B. "Mirker Bach (GEP 09)". Zusätzlich
             haben wir weitere wichtige Wuppertaler Bäche, die direkt in die Wupper oder die Düssel
             einmünden, als Alias für die zugehörigen GEP-Bereiche angelegt. Diese werden dann in der
-            Form "Burgholzbach (im GEP27 Cronenberg-West)" angezeigt.
+            Form "Burgholzbach (im GEP 27 Cronenberg-West)" angezeigt.
           </p>
         </div>
       }

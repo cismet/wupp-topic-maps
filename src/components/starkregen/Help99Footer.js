@@ -1,16 +1,12 @@
 import React from 'react';
-import { Icon } from 'react-fa';
 
 const Comp = ({showModalMenu}) => {
 	return (
 		<div>
 			<span style={{ fontSize: '11px' }}>
-				<b>Hintergrundkarte</b>: True Orthophoto 2018, Amtliche Basiskarte (ABK), Hillshade © Stadt Wuppertal |
+				<b>Hintergrundkarten</b>: True Orthophoto 2018, Amtliche Basiskarte (ABK), Hillshade © Stadt Wuppertal |
 				Stadtplanwerk 2.0 (Beta) © RVR | WebAtlasDE © BKG{' '}
-				<a onClick={() => {
-          console.log('showModalMenu',showModalMenu);
-          
-          showModalMenu('datengrundlage')}}>(Details und Nutzungsbedingungen)</a>
+				<a onClick={() => showModalMenu('datengrundlage')}>(Details und Nutzungsbedingungen)</a>
 				<br />
 				<b>Modellierung und Simulationsberechnung</b> (Version 0.9 | 10/2018):{' '}
 				<a target="_wsw" href="https://www.wsw-online.de/wsw-energie-wasser/privatkunden/">

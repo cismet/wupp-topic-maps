@@ -21,14 +21,14 @@ const ModalHelpAndInfo = ({ uiState, uiStateActions }) => {
 			menuIcon="info"
 			menuTitle="Kompaktanleitung und Hintergrundinformationen"
 			menuSections={[
-				<Datengrundlage key="Datengrundlage" uiState={uiState} uiStateActions={uiStateActions} />,
+				<Datengrundlage key="Datengrundlage" uiState={uiState} uiStateActions={uiStateActions} showModalMenu={showModalMenu}/>,
 				<Karteninhalt key="Karteninhalt" uiState={uiState} uiStateActions={uiStateActions} showModalMenu={showModalMenu} />,
-				<InKartePositionieren key="InKartePositionieren" uiState={uiState} uiStateActions={uiStateActions} />,
-				<MeinStandort key="MeinStandort" uiState={uiState} uiStateActions={uiStateActions} />,
-				<WasserstandAbfragen key="WasserstandAbfragen" uiState={uiState} uiStateActions={uiStateActions} />,
-				<SimulierteSzenarien key="SimulierteSzenarien" uiState={uiState} uiStateActions={uiStateActions} />,
-				<Aussagekraft key="Aussagekraft" uiState={uiState} uiStateActions={uiStateActions} />,
-				<ModellfehlerMelden key="ModellfehlerMelden" uiState={uiState} uiStateActions={uiStateActions} />
+				<InKartePositionieren key="InKartePositionieren" uiState={uiState} uiStateActions={uiStateActions} showModalMenu={showModalMenu}/>,
+				<MeinStandort key="MeinStandort" uiState={uiState} uiStateActions={uiStateActions} showModalMenu={showModalMenu}/>,
+				<WasserstandAbfragen key="WasserstandAbfragen" uiState={uiState} uiStateActions={uiStateActions} showModalMenu={showModalMenu}/>,
+				<SimulierteSzenarien key="SimulierteSzenarien" uiState={uiState} uiStateActions={uiStateActions} showModalMenu={showModalMenu}/>,
+				<Aussagekraft key="Aussagekraft" uiState={uiState} uiStateActions={uiStateActions} showModalMenu={showModalMenu}/>,
+				<ModellfehlerMelden key="ModellfehlerMelden" uiState={uiState} uiStateActions={uiStateActions} showModalMenu={showModalMenu} />
 			]}
 			menuFooter={
 				<Footer

@@ -1,7 +1,7 @@
 import React from 'react';
 import GenericModalMenuSection from '../commons/GenericModalMenuSection';
 import { Icon } from 'react-fa';
-const Component = ({ uiState, uiStateActions }) => {
+const Component = ({ uiState, uiStateActions, showModalMenu }) => {
 	return (
 		<GenericModalMenuSection
 			uiState={uiState}
@@ -19,7 +19,7 @@ const Component = ({ uiState, uiStateActions }) => {
 						Bedienungshinweis. Ein Klick auf eine beliebige Position in der Karte bewirkt jetzt, dass die
 						Zelle in der Karte markiert und der zugehörige maximale Wasserstand in diesem Feld angezeigt
 						wird. Die Anzeige wird dabei auf volle 10 cm gerundet (z. B. "ca. 90 cm"), um die{' '}
-						<a onClick={() => uiStateActions.showApplicationMenuAndActivateSection(true, 'aussagekraft')}>
+						<a onClick={() => showModalMenu('aussagekraft')}>
 							beschränkte Aussagekraft der Simulationsergebnisse
 						</a>{' '}
 						zu verdeutlichen. Aus demselben Grund werden berechnete Wasserstände von mehr als 150 cm nur als
@@ -28,7 +28,7 @@ const Component = ({ uiState, uiStateActions }) => {
 						eine bestimmte Position bequem alle angebotenen Simulations-Szenarien durchgehen. Auch im
 						Abfragemodus können Sie die Karte mit gedrückter linker Maustaste verschieben. Wenn Sie auf
 						diese Weise oder durch{' '}
-						<a onClick={() => uiStateActions.showApplicationMenuAndActivateSection(true, 'positionieren')}>
+						<a onClick={() => showModalMenu('positionieren')}>
 							Positionierung über einen Suchbegriff
 						</a>{' '}
 						einen Kartenausschnitt auswählen, in dem die zuletzt abgefragte Zelle nicht mehr enthalten ist,

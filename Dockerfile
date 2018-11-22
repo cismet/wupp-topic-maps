@@ -20,8 +20,13 @@ RUN yarn install
 RUN yarn cache clean
 COPY .docker-files/turf-jsts-package.json ./node_modules/turf-jsts/package.json
 COPY . .
+# RUN VERSION=`git rev-parse --abbrev-ref HEAD`
+#sed -i -- "s/%VERSION%/$VERSION/g" build/index.html
+RUN apt-get install md5deep
+
 RUN yarn run build
 
+RUN ECHO $VERSION
 
 # ---
 

@@ -1,4 +1,5 @@
 import React from 'react';
+import CismetFooterAcks from '../commons/CismetFooterAcknowledgements';
 
 const Comp = ({ showModalMenu }) => {
 	return (
@@ -16,23 +17,8 @@ const Comp = ({ showModalMenu }) => {
 				<a target="_pecher" href="https://www.pecher.de/">
 					Dr. Pecher AG (Erkrath)
 				</a>
-				<br />
-				<b>Technische Realisierung</b>:{' '}
-				<a href="https://cismet.de/" target="_cismet">
-					cismet GmbH
-				</a>{' '}
-				auf Basis von{' '}
-				<a href="http://leafletjs.com/" target="_leaflet">
-					Leaflet
-				</a>{' '}
-				und{' '}
-				<a href="https://cismet.de/#refs" target="_cismet">
-					cids | WuNDa
-				</a>{' '}
-				|{' '}
-				<a target="_blank" rel="noopener noreferrer" href="https://cismet.de/datenschutzerklaerung.html">
-					Datenschutzerklärung (Privacy Policy)
-				</a>
+				<CismetFooterAcks/>
+				
 			</span>
 		</div>
 	);

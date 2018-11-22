@@ -15,6 +15,7 @@ import Reset from "./containers/Reset";
 
 import store from "./redux/store";
 import ReactLoading from "react-loading";
+import {getTopicMapVersion, getTopicMapHash} from './constants/versions';
 
 export default class App extends React.Component {
   constructor() {
@@ -23,6 +24,11 @@ export default class App extends React.Component {
   }
 
   componentWillMount() {
+    console.log("............................................................................................")
+    console.log("....................... TopicMaps Wuppertal ("+getTopicMapVersion()+")")
+    console.log("....................... BuildNumber: "+getTopicMapHash())
+    console.log("............................................................................................")
+    
     persistStore(store, null, () => {
       let thisHere = this;
       setTimeout(() => {

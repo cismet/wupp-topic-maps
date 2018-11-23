@@ -221,7 +221,7 @@ export class Starkregen_ extends React.Component {
 
 		let info = (
 			<InfoBox
-				pixelwidth={330}
+				pixelwidth={340}
 				selectedSimulation={selSim}
 				simulationLabels={simulationLabels}
 				backgrounds={this.props.starkregen.backgrounds}

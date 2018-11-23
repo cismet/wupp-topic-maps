@@ -32,35 +32,35 @@ export const initialState = {
 	simulations: [
 		{
 			layer: 'R102:50md',
-			name: '50-jährlich',
-			title: '50-jährlicher Starkregen (2h)',
+			name: 'Stärke 6',
+			title: 'Starkregen SRI 6 (34 l/m² in 2h)',
 			icon: 'bar-chart',
 			subtitle:
-				'Simulation eines zweistündigen Starkregens mit statistisch 50-jährlicher Wiederkehrzeit in ganz Wuppertal mit Intensitätsverlauf Modell Euler Typ II'
+				'Simulation eines zweistündigen Starkregens mit 34 Liter/m² Niederschlag (Starkregenindex SRI 6) in ganz Wuppertal, statistische Wiederkehrzeit 50 Jahre'
 		},
 		{
 			layer: 'R102:100md',
-			name: '100-jährlich',
+			name: 'Stärke 7',
 			icon: 'bar-chart',
-			title: '100-jährlicher Starkregen (2h)',
+			title: 'Starkregen SRI 7 (42 l/m² in 2h)',
 			subtitle:
-				'Simulation eines zweistündigen Starkregens mit statistisch 100-jährlicher Wiederkehrzeit in ganz Wuppertal mit Intensitätsverlauf Modell Euler Typ II'
+				'Simulation eines zweistündigen Starkregens mit 42 Liter/m² Niederschlag (Starkregenindex SRI 7) in ganz Wuppertal, statistische Wiederkehrzeit 100 Jahre'
 		},
 		{
 			layer: 'R102:90md',
-			name: '90 Liter/m²',
+			name: 'Stärke 10',
 			icon: 'bitbucket',
-			title: '90 Liter/m² Blockregen (1h)',
+			title: 'Starkregen SRI 10 (90 l/m² in 1h)',
 			subtitle:
-				'Simulation eines einstündigen Starkregens (90 Liter pro m²) mit gleichmäßiger Intensität ("Blockregen") in ganz Wuppertal'
+				'Simulation eines einstündigen Starkregens mit 90 Liter/m² Niederschlag (Starkregenindex SRI 10) in ganz Wuppertal'
 		},
 		{
 			layer: 'R102:SRmd',
 			name: '29.05.18',
 			icon: 'calendar',
-			title: 'Starkregen vom 29.05.2018',
+			title: 'Regen vom 29.05.2018 (SRI 11)',
 			subtitle:
-				'Simulation des Starkregens vom 29.05.2018 für das gesamte Stadtgebiet anhand gemessener Niederschlagsmengen'
+				'Simulation des Starkregens vom 29.05.2018 (Starkregenindex SRI 11) für das gesamte Stadtgebiet anhand gemessener Niederschlagsmengen'
 		}
 	],
 	backgrounds: [

@@ -28,3 +28,4 @@ public/poi-signaturen/
 public/kitas/
 public/data/
 
+.package.json.without.version

@@ -33,7 +33,7 @@ export const initialState = {
 		{
 			layer: 'R102:50md',
 			name: 'Stärke 6',
-			title: 'Starkregen SRI 6 (34 l/m² in 2h)',
+			title: 'Starkregen SRI 6 (38,5 l/m² in 2h)',
 			icon: 'bar-chart',
 			subtitle:
 				'Simulation eines zweistündigen Starkregens mit 34 Liter/m² Niederschlag (Starkregenindex SRI 6) in ganz Wuppertal, statistische Wiederkehrzeit 50 Jahre'

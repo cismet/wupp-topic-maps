@@ -16,16 +16,16 @@ WORKDIR /app
 
 # Install dependencies
 COPY package.json yarn.lock ./
+RUN sed -i  '/^.*"version":.*$/d' package.json
 RUN yarn install
 RUN yarn cache clean
 COPY .docker-files/turf-jsts-package.json ./node_modules/turf-jsts/package.json
 COPY . .
+RUN sed -i  '/^.*"version":.*$/d' package.json
+
 # RUN VERSION=`git rev-parse --abbrev-ref HEAD`
-#sed -i -- "s/%VERSION%/$VERSION/g" build/index.html
-
+RUN cat package.json
 RUN yarn run build
-
-RUN ECHO $VERSION
 
 # ---
 

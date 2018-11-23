@@ -21,8 +21,8 @@ const Component = ({ uiState, uiStateActions }) => {
 					</p>
 
 					<p>
-						Ein <strong>Modellregen</strong> wird durch seine Dauer (in Stunden, abgekürzt h), die in dieser
-						Zeit fallende Niederschlagsmenge (in Liter pro Quadratmeter, abgekürzt „l/m²“) und den
+						Ein <strong>Modellregen</strong> wird durch seine Dauer (in Stunden, abgekürzt "h"), die in dieser
+						Zeit fallende Niederschlagsmenge (in Liter pro Quadratmeter, abgekürzt "l/m²") und den
 						zeitlichen Verlauf der Regenintensität definiert. Für den Intensitätsverlauf gibt es zwei
 						Modelle: beim sog. <strong>Blockregen</strong> ist die Intensität über die gesamte Dauer des
 						Regenereignisses konstant. Beim <strong>Eulerregen Typ II</strong> werden in 5
@@ -31,7 +31,7 @@ const Component = ({ uiState, uiStateActions }) => {
 					</p>
 
 					<p>
-						Zur Einteilung der Starkregen dient der ortsbezogene <strong>Starkregenindex“ (SRI)</strong>,
+						Zur Einteilung der Starkregen dient der ortsbezogene <strong>Starkregenindex (SRI)</strong>,
 						der Niederschläge in eine Skala von 1 bis 12 einteilt, vergleichbar mit der Klassifizierung von
 						Erdbeben nach Mercalli. (Das Ereignis vom 29.05.2018 entsprach im Zentrum des Unwetters dem SRI
 						11.) Der Starkregenindex wird durch eine statistische Auswertung von langfristigen

@@ -1,5 +1,5 @@
 const TOPICMAPVERSION = "%TOPICMAP_VERSION%";
-const TOPICMAPHASH = "%TOPICMAP_HASH%";
+const TOPICMAPHASH = "#%TOPICMAP_HASH%";
 
 export const getTopicMapVersion=()=>{
     if (TOPICMAPVERSION===("%TOPICMAP"+"_"+"VERSION%")){

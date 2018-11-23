@@ -71,11 +71,11 @@ const Component = ({ uiState, uiStateActions, showModalMenu }) => {
 						<li>
 							<strong>Luftbild</strong>: Kartendienst (WMS) der Stadt Wuppertal. Datengrundlage:{' '}
 							<strong>True Orthophoto aus Bildflug vom 19.04.2018</strong>, hergestellt durch Aero West
-							GmbH/Dortmund, Bodenauflösung 5 cm. (True Orthophoto: Aus Luftbildern mit hoher Längs- und
+							GmbH/Dortmund, Bodenauflösung 10 cm. (True Orthophoto: Aus Luftbildern mit hoher Längs- und
 							Querüberdeckung in einem automatisierten Bildverarbeitungsprozess berechnetes Bild in
 							Parallelprojektion, also ohne Gebäudeverkippung und sichttote Bereiche.) © Stadt Wuppertal (
-							<a target='_more' href="https://www.wuppertal.de/geoportal/Nutzungsbedingungen/NB-GDIKOM-B_Geodaten.pdf">
-								NB-GDIKOM B
+							<a target='_more' href="https://www.wuppertal.de/geoportal/Nutzungsbedingungen/NB-GDIKOM-C_Geodaten.pdf">
+								NB-GDIKOM C
 							</a>
 							).
 						</li>

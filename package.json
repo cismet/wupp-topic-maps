@@ -1,6 +1,6 @@
 {
   "name": "wupp-geoportal3-powerboats",
-  "version": "1.7.0-SNAPSHOT.2",
+  "version": "1.7.0-SNAPSHOT.3",
   "private": true,
   "dependencies": {
     "@mapbox/polylabel": "^1.0.2",

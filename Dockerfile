@@ -21,7 +21,8 @@ RUN yarn install
 RUN yarn cache clean
 COPY .docker-files/turf-jsts-package.json ./node_modules/turf-jsts/package.json
 COPY . .
-RUN cat .version
+RUN VERSION=`cat .version`; sed -i "s/%TOPICMAP_VERSION%/$VERSION/" src/constants/versions.js
+RUN cat src/constants/versions.js   
 RUN yarn run build
 
 # ---

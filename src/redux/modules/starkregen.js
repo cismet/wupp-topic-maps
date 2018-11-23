@@ -36,7 +36,7 @@ export const initialState = {
 			title: 'Starkregen SRI 6 (38,5 l/m² in 2h)',
 			icon: 'bar-chart',
 			subtitle:
-				'Simulation eines zweistündigen Starkregens mit 34 Liter/m² Niederschlag (Starkregenindex SRI 6) in ganz Wuppertal, statistische Wiederkehrzeit 50 Jahre'
+				'Simulation eines zweistündigen Starkregens mit 38,5 Liter/m² Niederschlag (Starkregenindex SRI 6) in ganz Wuppertal, statistische Wiederkehrzeit 50 Jahre'
 		},
 		{
 			layer: 'R102:100md',

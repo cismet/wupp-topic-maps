@@ -15,15 +15,12 @@ ENV API_URL $API_URL
 WORKDIR /app
 
 # Install dependencies
-COPY package.json yarn.lock ./
-RUN sed -i  '/^.*"version":.*$/d' package.json
+COPY yarn.lock ./
+COPY .package.json.without.version ./package.json
 RUN yarn install
 RUN yarn cache clean
 COPY .docker-files/turf-jsts-package.json ./node_modules/turf-jsts/package.json
 COPY . .
-RUN sed -i  '/^.*"version":.*$/d' package.json
-
-# RUN VERSION=`git rev-parse --abbrev-ref HEAD`
 RUN cat package.json
 RUN yarn run build
 

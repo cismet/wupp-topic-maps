@@ -3,7 +3,7 @@ const TOPICMAPHASH = "%TOPICMAP_HASH%";
 
 export const getTopicMapVersion=()=>{
     if (TOPICMAPVERSION===("%TOPICMAP"+"_"+"VERSION%")){
-        return "0.0.0-dev";
+        return "dev-hot-reload";
     }
     else {
         return TOPICMAPVERSION;
@@ -11,7 +11,7 @@ export const getTopicMapVersion=()=>{
 }
 export const getTopicMapHash=()=>{
     if (TOPICMAPHASH===("%TOPICMAP"+"_"+"HASH%")){
-        return "#00000-dev";
+        return "#dev-hot-reload";
     }
     else {
         return TOPICMAPHASH;

@@ -1,6 +1,6 @@
 {
   "name": "topic-maps-wuppertal",
-  "version": "1.7.0-SNAPSHOT.24",
+  "version": "1.7.0-SNAPSHOT.25",
   "private": true,
   "dependencies": {
     "@mapbox/polylabel": "^1.0.2",
@@ -82,7 +82,6 @@
     "bumpSnapshot": "npm version prerelease --preid=SNAPSHOT",
     "build:docker": "VERSION=`echo $npm_package_version| sed 's/\\.[0-9]*-SNAPSHOT.*$/-SNAPSHOT/'`; docker build  -t cismet/$npm_package_name -t cismet/$npm_package_name:$VERSION .",
     "publish:docker": "npm run build:docker; VERSION=`echo $npm_package_version| sed 's/\\.[0-9]*-SNAPSHOT.*$/-SNAPSHOT/'`; echo $VERSION; docker tag cismet/$npm_package_name:$VERSION $npm_package_config_dockerRegistryPath/$npm_package_name:$VERSION && docker push  $npm_package_config_dockerRegistryPath/$npm_package_name:$VERSION"
-
   },
   "devDependencies": {
     "chai": "^4.1.2",

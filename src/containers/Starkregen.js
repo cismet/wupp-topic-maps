@@ -340,6 +340,10 @@ export class Starkregen_ extends React.Component {
 						}
 					}
 				}}
+				home= {{
+					center: [51.27243990281796, 7.199752226846924],
+					zoom: 13
+				  }}
 			>
 				<WMSTileLayer
 					ref={(c) => (this.modelLayer = c)}

@@ -219,7 +219,10 @@ export class TopicMap_ extends React.Component {
               }}
               layers=""
               style={mapStyle}
-              fallbackPosition={position}
+              fallbackPosition={{
+                lat: this.props.home.center[0],
+                lng: this.props.home.center[1]
+              }}
               ondblclick={this.props.ondblclick}
               onclick={this.props.onclick}
               locationChangedHandler={location => {
@@ -243,7 +246,7 @@ export class TopicMap_ extends React.Component {
 
               }
               backgroundlayers={this.props.backgroundlayers}
-              fallbackZoom={8}
+              fallbackZoom={this.props.home.zoom}
               fullScreenControlEnabled={this.props.locatorControl}
               locateControlEnabled={this.props.locatorControl}
             >

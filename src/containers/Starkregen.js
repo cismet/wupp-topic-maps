@@ -18,7 +18,6 @@ import InfoBox from '../components/starkregen/ControlInfoBox';
 import ContactButton from '../components/starkregen/ContactButton';
 import HelpAndInfo from '../components/starkregen/Help00MainComponent';
 
-
 (function() {
 	// var originalInitTile = L.GridLayer.prototype._initTile;
 	// var originalGetTileUrl = L.TileLayer.WMS.prototype.getTileUrl;
@@ -209,7 +208,6 @@ export class Starkregen_ extends React.Component {
 			leafletMapRef = this.topicMap.wrappedInstance.leafletRoutedMap.leafletMap.leafletElement;
 		}
 
-
 		let cursor;
 		if (this.props.starkregen.featureInfoModeActivated) {
 			cursor = 'crosshair';
@@ -217,7 +215,7 @@ export class Starkregen_ extends React.Component {
 			cursor = 'grabbing';
 		}
 
-		const mapRef=this.getMapRef();
+		const mapRef = this.getMapRef();
 
 		let info = (
 			<InfoBox
@@ -363,6 +361,10 @@ export class Starkregen_ extends React.Component {
 					caching={this.state.caching}
 				/>
 				{featureInfoLayer}
+
+				
+
+
 				<ContactButton
 					position="topleft"
 					title="Fehler im Geländemodell melden"

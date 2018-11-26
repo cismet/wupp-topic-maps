@@ -23,7 +23,6 @@ COPY .docker-files/turf-jsts-package.json ./node_modules/turf-jsts/package.json
 COPY . .
 RUN VERSION=`cat .version`; sed -i "s/%TOPICMAP_VERSION%/$VERSION/" src/constants/versions.js
 RUN HASH=`cat .githash`; sed -i "s/%TOPICMAP_HASH%/$HASH/" src/constants/versions.js
-RUN cat src/constants/versions.js   
 RUN yarn run build
 
 # ---

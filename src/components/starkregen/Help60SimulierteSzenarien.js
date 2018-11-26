@@ -39,7 +39,7 @@ const Component = ({ uiState, uiStateActions }) => {
 						Aufzeichnungen des Regenschreibers der Niederschlagsstation Wuppertal-Buchenhofen, der seit 1960
 						kontinuierlich betrieben wird. Starkregen mit SRI 6 und 7 (<strong>außergewöhnliche Starkregen</strong>)
 						haben statistische Wiederkehrzeiten von 50 bzw. 100 Jahren . Für noch stärkere{' '}
-						<strong>extremere Starkregen</strong> lässt sich keine aus der Regenreihe Buchenhofen kein
+						<strong>extremere Starkregen</strong> lässt sich aus der Regenreihe Buchenhofen kein
 						Wiederkehrintervall ableiten.
 					</p>
 

@@ -22,7 +22,7 @@ const Component = ({ uiState, uiStateActions, showModalMenu }) => {
 
 					<ul>
 						<li>
-							Das abfließende Regenwasser findet in <strong>Kellergeschossen</strong> Rückzugsräume (sog.{' '}
+							Das abfließende Regenwasser findet in <strong>Kellergeschossen</strong> ein Rückhaltevolumen (sog.{' '}
 							<strong>Retentionsräume</strong>), die wir nicht berücksichtigt haben. Hierzu fehlen uns die
 							Daten. Es ist wegen der unbekannten Eintrittspunkte auch nicht modellierbar, in welche
 							Kellergeschosse tatsächlich Wasser hineinlaufen würde!

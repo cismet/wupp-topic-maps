@@ -357,7 +357,7 @@ export class Starkregen_ extends React.Component {
 					tiled="true"
 					styles="default"
 					maxZoom={19}
-					opacity={1}
+					opacity={0}
 					caching={this.state.caching}
 				/>
 				{featureInfoLayer}

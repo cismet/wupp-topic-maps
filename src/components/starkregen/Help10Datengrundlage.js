@@ -69,7 +69,7 @@ const Component = ({ uiState, uiStateActions, showModalMenu }) => {
 						</li>
 
 						<li>
-							<strong>Luftbild</strong>: Kartendienst (WMS) der Stadt Wuppertal. Datengrundlage:{' '}
+							<strong>Luftbildkarte</strong>: Kartendienst (WMS) der Stadt Wuppertal. Datengrundlage:{' '}
 							<strong>True Orthophoto aus Bildflug vom 19.04.2018</strong>, hergestellt durch Aero West
 							GmbH/Dortmund, Bodenauflösung 10 cm. (True Orthophoto: Aus Luftbildern mit hoher Längs- und
 							Querüberdeckung in einem automatisierten Bildverarbeitungsprozess berechnetes Bild in

@@ -23,10 +23,10 @@ const Component = ({ uiState, uiStateActions, showModalMenu }) => {
 					</p>
 					<p>
 						Unter <b>Karte</b> können Sie aus drei verschiedenen Hintergrundkarten auswählen: einer
-						topographischen Karte in Graustufen, einem Luftbild und einem Stadtplan. Die topographische
+						topographischen Karte in Graustufen, einer Luftbildkarte und einem Stadtplan. Die topographische
 						Karte verschafft Ihnen den besten Überblick über die Situation, da sie einen plastischen
 						Geländeindruck vermittelt. Der Stadtplan eignet sich gut für die sichere Identifizierung Ihres
-						Hauses, da hier die Hausnummern aller Gebäude dargestellt werden. Das Luftbild ist die
+						Hauses, da hier die Hausnummern aller Gebäude dargestellt werden. Die Luftbildkarte ist die
 						anschaulichste Kartengrundlage, es eignet sich daher vor allem für Detailbetrachtungen. Näheres
 						zu den Geodaten, die diesen Karten zu Grunde liegen, finden Sie ebenfalls unter{' '}
 						<a onClick={() => showModalMenu('datengrundlage')}>Datengrundlagen</a>.
@@ -36,13 +36,13 @@ const Component = ({ uiState, uiStateActions, showModalMenu }) => {
 						Klassifizierung der maximalen simulierten Wasserstände verwendeten Farben erläutert. Direkt
 						darunter finden Sie die Bezeichnung und (in kleiner Schrift) eine Kurzbeschreibung des aktuell
 						ausgewählten Simulations-Szenarios. Über den Link{' '}
-						<a onClick={() => showModalMenu('szenarien')}>(mehr)</a> am Ende jeder Kurzbeschreibung
-						gelangen Sie zu einer ausführlicheren Darstellung aller vier Szenarien in der Kompaktanleitung.
-						Mit der Schaltfläche <Icon name="chevron-circle-down" /> rechts neben der Simulationsbezeichnung
-						lässt sich das Kontrollfeld so verkleinern, dass nur noch die Legende und die
-						Simulationsbezeichnung angezeigt werden - nützlich für Endgeräte mit kleinem Display. Mit der
-						Schaltfläche <Icon name="chevron-circle-up" /> können Sie das Kontrollfeld dann wieder
-						vollständig einblenden.
+						<a onClick={() => showModalMenu('szenarien')}>(mehr)</a> am Ende jeder Kurzbeschreibung gelangen
+						Sie zu einer ausführlicheren Darstellung aller vier Szenarien in der Kompaktanleitung. Mit der
+						Schaltfläche <Icon name="chevron-circle-down" /> rechts neben der Simulationsbezeichnung lässt
+						sich das Kontrollfeld so verkleinern, dass nur noch die Legende und die Simulationsbezeichnung
+						angezeigt werden - nützlich für Endgeräte mit kleinem Display. Mit der Schaltfläche{' '}
+						<Icon name="chevron-circle-up" /> können Sie das Kontrollfeld dann wieder vollständig
+						einblenden.
 					</p>
 				</div>
 			}

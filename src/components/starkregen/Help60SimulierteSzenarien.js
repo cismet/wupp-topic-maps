@@ -44,7 +44,7 @@ const Component = ({ uiState, uiStateActions }) => {
 					</p>
 
 					<p>
-						Mit diesen Erläuterungen lassen sich unsere vier simulierten Szenarien wir folgt zusammenfassen:
+						Mit diesen Erläuterungen lassen sich unsere vier simulierten Szenarien wie folgt zusammenfassen:
 					</p>
 
 					<ul>

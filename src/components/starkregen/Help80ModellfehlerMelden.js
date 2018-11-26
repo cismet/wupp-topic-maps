@@ -7,7 +7,7 @@ const Component = ({ uiState, uiStateActions }) => {
     <GenericModalMenuSection
       uiState={uiState}
       uiStateActions={uiStateActions}
-      sectionKey="help"
+      sectionKey="modellfehlermelden"
       sectionTitle="Fehler im Geländemodell melden"
       sectionBsStyle="danger"
       sectionContent={

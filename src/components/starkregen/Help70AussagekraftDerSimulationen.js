@@ -1,7 +1,7 @@
 import React from 'react';
 import GenericModalMenuSection from '../commons/GenericModalMenuSection';
 
-const Component = ({ uiState, uiStateActions }) => {
+const Component = ({ uiState, uiStateActions, showModalMenu }) => {
 	return (
 		<GenericModalMenuSection
 			uiState={uiState}
@@ -12,16 +12,56 @@ const Component = ({ uiState, uiStateActions }) => {
 			sectionContent={
 				<div>
 					<p>
-						Und es war ihnen wie eine Bestätigung ihrer neuen Träume und guten Absichten, als am Ziele ihrer
-						Fahrt die Tochter als erste sich erhob und ihren jungen Körper dehnte. »Es ist ein
-						eigentümlicher Apparat«, sagte der Offizier zu dem Forschungsreisenden und überblickte mit einem
-						gewissermaßen bewundernden Blick den ihm doch wohlbekannten Apparat. Sie hätten noch ins Boot
-						springen können, aber der Reisende hob ein schweres, geknotetes Tau vom Boden, drohte ihnen
-						damit und hielt sie dadurch von dem Sprunge ab. In den letzten Jahrzehnten ist das Interesse an
-						Hungerkünstlern sehr zurückgegangen. Aber sie überwanden sich, umdrängten den Käfig und wollten
-						sich gar nicht fortrühren. Jemand musste Josef K. verleumdet haben, denn ohne dass er etwas
-						Böses getan hätte, wurde er eines Morgens verhaftet. »Wie ein Hund! « sagte er, es war, als
-						sollte die Scham ihn überleben.
+						Unsere Starkregengefahrenkarte zeigt die Ergebnisse von Simulationen, die dem heutigen Stand der
+						Technik entsprechen. Die Berechnungen basieren auf einem vereinfachten Modell der tatsächlichen
+						Verhältnisse. Für eine noch differenzierte Modellierung fehlen zum einen die Daten, zum anderen
+						ließe sich die automatisierte Berechnung nicht mehr in erlebbarer Zeit durchführen!{' '}
+					</p>
+
+					<p>Was sind die wichtigsten Vereinfachungen, die wir vornehmen mussten?</p>
+
+					<ul>
+						<li>
+							Das abfließende Regenwasser findet in <strong>Kellergeschossen</strong> Rückzugsräume (sog.{' '}
+							<strong>Retentionsräume</strong>), die wir nicht berücksichtigt haben. Hierzu fehlen uns die
+							Daten. Es ist wegen der unbekannten Eintrittspunkte auch nicht modellierbar, in welche
+							Kellergeschosse tatsächlich Wasser hineinlaufen würde!
+						</li>
+
+						<li>
+							Teile des Regenwassers würden in der Realität durch <strong>Versickerung</strong> oder{' '}
+							<strong>Verdunstung</strong> verschwinden. Diese Effekte haben wir bewusst vernachlässigt,
+							um die Rechenaufwand für die Simulationen zu reduzieren.
+						</li>
+					</ul>
+
+					<p>
+						<strong>
+							Die Vereinfachungen bewirken, dass die Simulationen den schlimmsten anzunehmenden Fall
+							zeigen.
+						</strong>{' '}
+						Wenn es z. B. in den Tagen vor dem angenommenen Starkregenereignis schon so viel geregnet hätte,
+						dass der Boden mit Wasser gesättigt ist, würde der Effekt der Versickerung ja tatsächlich
+						wegfallen! Es bleibt aber eine gewisse Tendenz zur lokalen Überzeichnung der Wasserstände, die
+						sich bei einem realen Regen der angenommenen Stärke einstellen würden. Um diesem Umstand
+						Rechnung zu tragen, geben wir bei der{' '}
+						<a onClick={() => showModalMenu('wasserstand')}>Abfrage des maximalen Wasserstandes</a> ab einem
+						Berechnungsergebnis von 150 cm nur noch "größer als 150 cm" (> 150 cm) als Ergebnis an.
+					</p>
+
+					<p>
+						Außerdem konnten wir die Wirkung des Kanalnetzes, das einen Teil des Starkregens abführt, nur
+						vereinfacht modellieren. Hierdurch kann es zu Abweichungen zwischen den Simulationsergebnissen
+						und den Überflutungen durch ein reales Regenereignis kommen.
+					</p>
+
+					<p>
+						Auch das Digitale Geländemodell (DGM), das für die Simulationen verwendet wird, kann Fehler
+						aufweisen. Helfen Sie uns dabei, das DGM sukzessive zu verbessern, indem Sie uns vermutete{' '}
+						<a onClick={() => showModalMenu('modellfehlermelden')}>Fehler im Geländemodell melden</a>!
+						Zuletzt kann es sein, dass ein bestehendes Gebäude in den Simulationen nicht berücksichtigt
+						wurde, weil es zum Zeitpunkt der Datenbereitstellung für die Simulationsberechnungen noch nicht
+						im Liegenschaftskataster nachgewiesen war.
 					</p>
 				</div>
 			}

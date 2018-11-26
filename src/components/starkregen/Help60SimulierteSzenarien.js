@@ -59,7 +59,7 @@ const Component = ({ uiState, uiStateActions }) => {
 						</li>
 
 						<li>
-							<strong>Stärke 10</strong>: extremes Starkregenereignis, Dauer1 h, Niederschlag 90 l/m²,
+							<strong>Stärke 10</strong>: extremes Starkregenereignis, Dauer 1 h, Niederschlag 90 l/m²,
 							Blockregen, SRI 10
 						</li>
 

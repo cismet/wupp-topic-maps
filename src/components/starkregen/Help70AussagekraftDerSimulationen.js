@@ -30,8 +30,9 @@ const Component = ({ uiState, uiStateActions, showModalMenu }) => {
 
 						<li>
 							Teile des Regenwassers würden in der Realität durch <strong>Versickerung</strong> oder{' '}
-							<strong>Verdunstung</strong> verschwinden. Diese Effekte haben wir bewusst vernachlässigt,
-							um die Rechenaufwand für die Simulationen zu reduzieren.
+							<strong>Verdunstung</strong> verschwinden. Diese Effekte haben wir aus fachlichen Gründen
+							bewusst vernachlässigt. Die Verdunstung spielt im Starkregenfall nur eine untergeordnete
+							Rolle und die Versickerung ist stark von den Ausgangsbedingungen abhängig.
 						</li>
 					</ul>
 

@@ -27,7 +27,7 @@ const Component = ({ uiState, uiStateActions, showModalMenu }) => {
 						Karte verschafft Ihnen den besten Überblick über die Situation, da sie einen plastischen
 						Geländeindruck vermittelt. Der Stadtplan eignet sich gut für die sichere Identifizierung Ihres
 						Hauses, da hier die Hausnummern aller Gebäude dargestellt werden. Die Luftbildkarte ist die
-						anschaulichste Kartengrundlage, es eignet sich daher vor allem für Detailbetrachtungen. Näheres
+						anschaulichste Kartengrundlage, sie eignet sich daher vor allem für Detailbetrachtungen. Näheres
 						zu den Geodaten, die diesen Karten zu Grunde liegen, finden Sie ebenfalls unter{' '}
 						<a onClick={() => showModalMenu('datengrundlage')}>Datengrundlagen</a>.
 					</p>

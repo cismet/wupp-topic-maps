@@ -370,6 +370,8 @@ export class Starkregen_ extends React.Component {
 
 
 				<ContactButton
+					id="329487"
+					key="dsjkhfg"
 					position="topleft"
 					title="Fehler im Geländemodell melden"
 					action={() => {
@@ -379,7 +381,7 @@ export class Starkregen_ extends React.Component {
 						let mailToHref =
 							'mailto:starkregen@stadt.wuppertal.de?subject=eventueller Fehler im Geländemodell&body=' +
 							encodeURI(
-								`Sehr geehrte Damen und Herren,${br}${br}` + `in der Starkregenkarte auf${br}${br}`
+								`Sehr geehrte Damen und Herren,${br}${br}` + `in der Starkregengefahrenkarte auf${br}${br}`
 							) +
 							`${window.location.href.replace(/&/g, '%26')}` +
 							encodeURI(

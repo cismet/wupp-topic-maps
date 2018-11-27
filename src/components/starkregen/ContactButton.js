@@ -26,13 +26,15 @@ class ContactButton extends MapControl {
 ContactButton.propTypes = {
 	position: PropTypes.string,
 	title: PropTypes.string,
-	action: PropTypes.func
+	action: PropTypes.func,
+	id: PropTypes.string,
 };
 
 ContactButton.defaultProps = {
 	position: 'topleft',
 	title: '',
-	action: () => {}
+	action: () => {},
+	id: 'ContactButton'
 };
 
 export default ContactButton;

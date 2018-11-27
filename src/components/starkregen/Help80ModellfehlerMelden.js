@@ -39,7 +39,7 @@ const Component = ({ uiState, uiStateActions }) => {
             Funktionsadresse sprechen Sie eine Gruppe von Experten der Stadtverwaltung, der
             Wuppertaler Stadtwerke (WSW) und des städtischen Eigenbetriebs Wasser und Abwasser
             Wuppertal (WAW) an. Das automatisch erzeugte E-Mail-Gerüst enthält einen Link, mit dem
-            diese Experten die Starkregenkarte genau in dem Zustand öffnen können, den Sie
+            diese Experten die Starkregengefahrenkarte genau in dem Zustand öffnen können, den Sie
             eingestellt haben. Bitte ergänzen Sie Ihre E-Mail mit einer kurzen Darstellung des
             vermuteten Fehlers. Wo haben wir vermutlich einen Gewässerdurchlass o. ä. übersehen?
           </p>

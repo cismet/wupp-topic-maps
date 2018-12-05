@@ -47,5 +47,12 @@
             "url": "http://localhost:3000/#/baeder/?lat=51.27179498177712&lng=7.197965721193838&zoom=10&mapStyle=night",
             "webRoot": "${workspaceRoot}"
         }
+        {
+            "type": "chrome",
+            "request": "launch",
+            "name": "Debug DocViewer",
+            "url": "http://localhost:3000/#/docs/bplaene/1179V/1",
+            "webRoot": "${workspaceRoot}"
+        }
     ]
 }

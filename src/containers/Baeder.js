@@ -90,7 +90,7 @@ export class Baeder_ extends React.Component {
         panelClick={e => {}}
       />
     );
-    console.log();
+
     return (
       <TopicMap
         ref={comp => {

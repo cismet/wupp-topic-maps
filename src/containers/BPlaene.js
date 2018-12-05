@@ -260,7 +260,7 @@ export class BPlaene_ extends React.Component {
         <BPlanModalHelp key={"BPlanModalHelp.visible:" + this.props.ui.applicationMenuVisible} />
 
         <Cismap
-          layers={this.props.match.params.layers || "uwBPlan"}
+          layers={this.props.match.params.layers || "uwBPlanCached"}
           gazeteerHitTrigger={this.bplanGazeteerhHit}
           searchButtonTrigger={this.bplanSearchButtonHit}
           applicationMenuTooltipProvider={() => {

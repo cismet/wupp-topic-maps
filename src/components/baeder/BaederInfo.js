@@ -66,7 +66,7 @@ const BaederInfo = ({
 					tooltip="Zur Homepage"
 					href={currentFeature.properties.url}
 					target="_blank"
-					iconname="link"
+					iconname="external-link-square"
 				/>
 			);
 		}

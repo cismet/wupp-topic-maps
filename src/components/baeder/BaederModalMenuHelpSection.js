@@ -114,7 +114,7 @@ const BaederModalMenuHelpSection = ({ uiState, uiStateActions }) => {
 						Hausnummer) werden unten rechts in der Info-Box angezeigt. (Auf einem Tablet-PC wird der Fokus
 						durch das erste Antippen des Schwimmbad-Symbols gesetzt, das zweite Antippen blendet den Namen
 						ein.) Außerdem werden Ihnen in der Info-Box weiterführende (Kommunikations-) Links zu diesem
-						Schwimmbad angezeigt: <Icon name="link" /> Internet,{' '}
+						Schwimmbad angezeigt: <Icon name="external-link-square" /> Internet,{' '}
 						<span style={{ whiteSpace: 'nowrap' }}>
 							<Icon name="envelope-square" /> E-Mail
 						</span>{' '}

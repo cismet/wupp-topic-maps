@@ -7591,10 +7591,10 @@ react-chartkick@^0.2.0:
   dependencies:
     chartkick "^2.3.6"
 
-react-cismap@^0.0.31:
-  version "0.0.31"
-  resolved "https://registry.yarnpkg.com/react-cismap/-/react-cismap-0.0.31.tgz#ccf48ca9489eed84901abc0dc53d51e427f5a01f"
-  integrity sha512-R+wpD3O17F52ddtlPJd+7yONi6vu7Xn/A6U6MGSPhaTi2xG5l4z3jN9MM8C2gYidXfeqXqfSl/jC49rAeJvhJQ==
+react-cismap@^0.0.36:
+  version "0.0.36"
+  resolved "https://registry.yarnpkg.com/react-cismap/-/react-cismap-0.0.36.tgz#56fc479234f1122aa99536b385f588203a70c47a"
+  integrity sha512-kYY8NBduRiDBk1DIQbdxcVQsZEvEP0biOXDeT92JYJSp20KAYdNRhkdyhyiszsPc/54uAamzNyVAaOC/BwoD9g==
   dependencies:
     "@turf/bbox-polygon" "^6.0.1"
     "@turf/intersect" "^6.1.3"
@@ -8467,9 +8467,9 @@ sax@^1.2.1, sax@^1.2.4, sax@~1.2.1:
   integrity sha512-NqVDv9TpANUjFm0N8uM5GxL36UgKi9/atZw+x7YFnQ8ckwFGKrl4xX4yWtrey3UJm5nP1kUbnYgLopqWNSRhWw==
 
 scheduler@^0.11.2:
-  version "0.11.2"
-  resolved "https://registry.yarnpkg.com/scheduler/-/scheduler-0.11.2.tgz#a8db5399d06eba5abac51b705b7151d2319d33d3"
-  integrity sha512-+WCP3s3wOaW4S7C1tl3TEXp4l9lJn0ZK8G3W3WKRWmw77Z2cIFUW2MiNTMHn5sCjxN+t7N43HAOOgMjyAg5hlg==
+  version "0.11.3"
+  resolved "https://registry.yarnpkg.com/scheduler/-/scheduler-0.11.3.tgz#b5769b90cf8b1464f3f3cfcafe8e3cd7555a2d6b"
+  integrity sha512-i9X9VRRVZDd3xZw10NY5Z2cVMbdYg6gqFecfj79USv1CFN+YrJ3gIPRKf1qlY+Sxly4djoKdfx1T+m9dnRB8kQ==
   dependencies:
     loose-envify "^1.1.0"
     object-assign "^4.1.1"
@@ -9831,10 +9831,15 @@ whatwg-fetch@2.0.3:
   resolved "https://registry.yarnpkg.com/whatwg-fetch/-/whatwg-fetch-2.0.3.tgz#9c84ec2dcf68187ff00bc64e1274b442176e1c84"
   integrity sha1-nITsLc9oGH/wC8ZOEnS0QhduHIQ=
 
-whatwg-fetch@>=0.10.0, whatwg-fetch@^2.0.3:
+whatwg-fetch@>=0.10.0:
   version "2.0.4"
   resolved "https://registry.yarnpkg.com/whatwg-fetch/-/whatwg-fetch-2.0.4.tgz#dde6a5df315f9d39991aa17621853d720b85566f"
   integrity sha512-dcQ1GWpOD/eEQ97k66aiEVpNnapVj90/+R+SXTPYGHpYBBypfKJEQjLrvMZ7YXbKm21gXd4NcuxUTjiv1YtLng==
+
+whatwg-fetch@^3.0.0:
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/whatwg-fetch/-/whatwg-fetch-3.0.0.tgz#fc804e458cc460009b1a2b966bc8817d2578aefb"
+  integrity sha512-9GSJUgz1D4MfyKU7KRqwOjXCXTqWdFNvEr7eUBYchQiVc744mqK/MzXPNR2WsPkmkOa4ywfg8C2n8h+13Bey1Q==
 
 whatwg-url@^4.3.0:
   version "4.8.0"

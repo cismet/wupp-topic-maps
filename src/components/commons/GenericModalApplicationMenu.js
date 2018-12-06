@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { Modal, Button } from "react-bootstrap";
+import { Modal, Button, Accordion } from "react-bootstrap";
 import { Icon } from "react-fa";
 import "react-bootstrap-switch/dist/css/bootstrap3/react-bootstrap-switch.min.css";
 import GenericRVRStadtplanwerkMenuFooter from "./GenericRVRStadtplanwerkMenuFooter";
@@ -46,10 +46,8 @@ const GenericModalApplicationMenu = ({
       </Modal.Header>
       <Modal.Body style={modalBodyStyle} id="myMenu" key={uiState.applicationMenuActiveKey}>
         {menuIntroduction}
-
         <br />
         <br />
-
         {menuSections}
       </Modal.Body>
       <Modal.Footer>
@@ -70,7 +68,7 @@ const GenericModalApplicationMenu = ({
                 {menuFooter}
               </td>
               <td>
-                <Button bsStyle="primary" type="submit" onClick={close}>
+                <Button id="cmdCloseModalApplicationMenu" bsStyle="primary" type="submit" onClick={close}>
                   Ok
                 </Button>
               </td>

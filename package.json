@@ -1,6 +1,9 @@
 {
-  "name": "wupp-geoportal3-powerboats",
-  "version": "0.1.0",
+  "name": "topic-maps-wuppertal",
+  "version": "1.7.0-SNAPSHOT.41",
+  "config": {
+    "dockerRegistryPath": "reg.cismet.de/wupp"
+  },
   "private": true,
   "dependencies": {
     "@mapbox/polylabel": "^1.0.2",
@@ -42,7 +45,7 @@
     "react-bootstrap-switch": "^15.5.3",
     "react-bootstrap-typeahead": "^2.6.0",
     "react-chartkick": "^0.2.0",
-    "react-cismap": "^0.0.31",
+    "react-cismap": "^0.0.36",
     "react-dimensions": "^1.3.1",
     "react-dom": "^16.1.1",
     "react-fa": "^5.0.0",
@@ -68,7 +71,7 @@
     "svg-create-element": "^1.0.0",
     "terraformer-wkt-parser": "^1.1.2",
     "url-search-params-polyfill": "^2.0.1",
-    "whatwg-fetch": "^2.0.3"
+    "whatwg-fetch": "^3.0.0"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -76,7 +79,12 @@
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
     "cy": "cypress open",
-    "cy-run": "cypress run"
+    "cy-run": "cypress run",
+    "postversion": "sed '/^.*\"version\":.*$/d' package.json > .package.json.without.version && echo $npm_package_version > .version && git rev-parse HEAD > .githash",
+    "newSnapshot": "npm version preminor --preid=SNAPSHOT",
+    "bumpSnapshot": "npm version prerelease --preid=SNAPSHOT",
+    "build:docker": "VERSION=`echo $npm_package_version| sed 's/\\.[0-9]*-SNAPSHOT.*$/-SNAPSHOT/'`; docker build  -t cismet/$npm_package_name -t cismet/$npm_package_name:$VERSION .",
+    "publish:docker": "npm run build:docker; VERSION=`echo $npm_package_version| sed 's/\\.[0-9]*-SNAPSHOT.*$/-SNAPSHOT/'`; docker tag cismet/$npm_package_name:$VERSION $npm_package_config_dockerRegistryPath/$npm_package_name:$VERSION && docker push $npm_package_config_dockerRegistryPath/$npm_package_name:$VERSION"
   },
   "devDependencies": {
     "chai": "^4.1.2",

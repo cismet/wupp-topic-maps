@@ -772,7 +772,7 @@ export class EhrenamtModalApplicationMenu_ extends React.Component {
                 </Link>
               </h4>
               <p>
-                Mit der Funktion „<em>Mein Standort</em>“ <Icon name="map-marker" /> können Sie
+                Mit der Funktion "<em>Mein Standort</em>" <Icon name="map-marker" /> können Sie
                 ihren aktuellen Standort mit einem blauen Kreissymbol{" "}
                 <img alt="Cluster" src="images/MeinStandpunktMarker.jpg" /> in der Karte anzeigen.
                 Das Standortsymbol ist umgeben von einem zweiten Kreis mit transparenter, blauer
@@ -783,7 +783,7 @@ export class EhrenamtModalApplicationMenu_ extends React.Component {
                 bestimmen. Smartphones und Tablet-PC's sind i. d. R. mit einer GPS-Antenne
                 ausgestattet, so dass Sie bei diesen Geräten eine Positionsgenauigkeit in der
                 Größenordnung von 10 Metern erwarten können. Die Markierung Ihrer Position wird
-                laufend automatisch aktualisiert. Ein weiterer Klick auf „<em>Mein Standort</em>“
+                laufend automatisch aktualisiert. Ein weiterer Klick auf "<em>Mein Standort</em>"
                 schaltet die Anzeige Ihrer Position wieder ab.
               </p>
 
@@ -906,7 +906,7 @@ export class EhrenamtModalApplicationMenu_ extends React.Component {
                       Zentrale Funktion ist dabei <Icon name="copy" /> Link kopieren: hiermit
                       kopieren sie einen Link in die Zwischenablage, der das Infoportal Ehrenamt mit
                       dem Inhalt Ihrer Merkliste öffnet. Der Inhalt Ihrer Merkliste wird als Liste
-                      über den Parameter „cart“ übergeben. Wenn ein Nutzer, der bereits eigene
+                      über den Parameter "cart" übergeben. Wenn ein Nutzer, der bereits eigene
                       Angebote in seiner Merkliste hat, diesen Link anklickt, werden die übergebenen
                       Angebote an seine Merkliste angehängt.
                     </li>
@@ -933,14 +933,14 @@ export class EhrenamtModalApplicationMenu_ extends React.Component {
               <p>
                 Über das Anwendungsmenü <Icon name="bars" /> in der rechten oberen Ecke können Sie
                 Filter einstellen, um die in der Karte angezeigten Angebote an Ihre Interessen
-                anzupassen. Dazu werden Ihnen in der Auswahlliste „<em>Ich suche nach</em>“ alle
+                anzupassen. Dazu werden Ihnen in der Auswahlliste "<em>Ich suche nach</em>" alle
                 Kategorisierungen in den Bereichen <em>Aufgabenfelder</em>, <em>Tätigkeiten</em> und{" "}
                 <em>Zielgruppen</em> zur Auswahl angeboten. Es werden alle Angebote gefunden, die
                 vom Zentrum für Gute Taten mit mindestens einem der von Ihnen ausgewählten Begriffe
-                kategorisiert worden sind (logisches „oder“). Die Treffermenge steigt dadurch bei
+                kategorisiert worden sind (logisches "oder"). Die Treffermenge steigt dadurch bei
                 mehreren Suchbegriffen schnell an.
                 <br />
-                Als Gegengewicht dazu können Sie in der Liste „<em>Ich schließe aus</em>“ auch
+                Als Gegengewicht dazu können Sie in der Liste "<em>Ich schließe aus</em>" auch
                 Ausschlusskriterien definieren.
               </p>
               <p>

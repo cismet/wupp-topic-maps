@@ -58,7 +58,7 @@ const KitaInfo = ({
           <Icon
             style={{ color: "grey", width: "26px", textAlign: "center" }}
             size="2x"
-            name={"link"}
+            name={"external-link-square"}
           />
         </a>
       );

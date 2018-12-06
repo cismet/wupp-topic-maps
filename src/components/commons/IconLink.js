@@ -25,5 +25,5 @@ IconLink.propTypes = {
 
 IconLink.defaultProps = {
   tooltip: null,
-  iconname: "link"
+  iconname: "external-link-square"
 };

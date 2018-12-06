@@ -36,6 +36,13 @@
         {
             "type": "chrome",
             "request": "launch",
+            "name": "Debug Starkregen",
+            "url": "http://localhost:3000/#/starkregen/?lat=51.252177483447596&lng=7.083074889273052&zoom=14",
+            "webRoot": "${workspaceRoot}"
+        },
+        {
+            "type": "chrome",
+            "request": "launch",
             "name": "Debug Baeder",
             "url": "http://localhost:3000/#/baeder/?lat=51.27179498177712&lng=7.197965721193838&zoom=10&mapStyle=night",
             "webRoot": "${workspaceRoot}"

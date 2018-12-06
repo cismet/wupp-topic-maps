@@ -114,7 +114,7 @@ const KitasHelpTextPanel = () => {
         Betreuungsumfang) werden unten rechts in der Info-Box angezeigt. (Auf einem Tablet-PC wird
         der Fokus durch das erste Antippen des Angebots gesetzt, das zweite Antippen blendet die
         Bezeichnung ein.) Außerdem werden Ihnen in der Info-Box weiterführende (Kommunikations-)
-        Links zur Kita angezeigt: <Icon name="link" /> Internet und <Icon name="phone" /> Telefon.
+        Links zur Kita angezeigt: <Icon name="external-link-square" /> Internet und <Icon name="phone" /> Telefon.
       </p>
       <p>
         Wenn Sie noch nicht aktiv eine bestimmte Kita im aktuellen Kartenausschnitt selektiert

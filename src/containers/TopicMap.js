@@ -117,7 +117,8 @@ export class TopicMap_ extends React.Component {
 
   render() {
     const mapStyle = {
-      height: this.props.uiState.height
+      height: this.props.uiState.height,
+      cursor: this.props.cursor
     };
     let urlSearchParams = new URLSearchParams(this.props.routing.location.search);
 
@@ -218,14 +219,18 @@ export class TopicMap_ extends React.Component {
               }}
               layers=""
               style={mapStyle}
-              fallbackPosition={position}
-              ondblclick={this.mapDblClick}
-              doubleClickZoom={false}
+              fallbackPosition={{
+                lat: this.props.home.center[0],
+                lng: this.props.home.center[1]
+              }}
+              ondblclick={this.props.ondblclick}
+              onclick={this.props.onclick}
               locationChangedHandler={location => {
                 this.props.routingActions.push(
                   this.props.routing.location.pathname +
                     modifyQueryPart(this.props.routing.location.search, location)
                 );
+                this.props.locationChangedHandler(location);
               }}
               autoFitConfiguration={{
                 autoFitBounds: this.props.mapping.autoFitBounds,
@@ -234,11 +239,14 @@ export class TopicMap_ extends React.Component {
               }}
               autoFitProcessedHandler={() => this.props.mappingActions.setAutoFit(false)}
               urlSearchParams={urlSearchParams}
-              boundingBoxChangedHandler={bbox =>
-                this.props.mappingActions.mappingBoundsChanged(bbox)
+              boundingBoxChangedHandler={bbox => {
+                this.props.mappingActions.mappingBoundsChanged(bbox);
+                this.props.mappingBoundsChanged(bbox);
+              }
+
               }
               backgroundlayers={this.props.backgroundlayers}
-              fallbackZoom={8}
+              fallbackZoom={this.props.home.zoom}
               fullScreenControlEnabled={this.props.locatorControl}
               locateControlEnabled={this.props.locatorControl}
             >
@@ -275,7 +283,7 @@ export class TopicMap_ extends React.Component {
                   placement="left"
                   overlay={
                     <Tooltip style={{ zIndex: 3000000000 }} id="helpTooltip">
-                      Einstellungen | Anleitung
+                      {this.props.applicationMenuTooltipString}
                     </Tooltip>
                   }
                 >
@@ -288,10 +296,11 @@ export class TopicMap_ extends React.Component {
                       }
                     }}
                   >
-                    <Icon name="bars" />
+                    <Icon name={this.props.applicationMenuIconname} />
                   </Button>
                 </OverlayTrigger>
               </Control>
+              {this.props.children}
             </RoutedMap>
           </div>
         </Loadable>
@@ -328,7 +337,13 @@ TopicMap.propTypes = {
   modalMenu: PropTypes.object,
   showModalApplicationMenu: PropTypes.func,
   featureKeySuffixCreator: PropTypes.func,
-  featureCollectionKeyPostfix: PropTypes.string
+  featureCollectionKeyPostfix: PropTypes.string,
+  applicationMenuTooltipString: PropTypes.string,
+  applicationMenuIconname: PropTypes.string,
+  cursor: PropTypes.string,
+  onclick: PropTypes.func,
+  locationChangedHandler: PropTypes.func,
+  mappingBoundsChanged: PropTypes.func,
 };
 
 TopicMap.defaultProps = {
@@ -337,7 +352,7 @@ TopicMap.defaultProps = {
   noInitialLoadingText: false,
   initialLoadingText: "Laden der Daten ...",
   gazetteerSearchBox: false,
-  gazetteerTopicsList: ["adressen", "bezirke", "quartiere", "pois"],
+  gazetteerTopicsList: ["pois", "kitas", "quartiere", "bezirke", "adressen"],
   gazetteerSearchBoxPlaceholdertext: "Geben Sie einen Suchbegriff ein.",
   fullScreenControl: false,
   locatorControl: false,
@@ -351,5 +366,12 @@ TopicMap.defaultProps = {
     zoom: 8
   },
   featureKeySuffixCreator: () => "",
-  featureCollectionKeyPostfix: ""
+  featureCollectionKeyPostfix: "",
+  applicationMenuTooltipString: "Einstellungen | Anleitung",
+  applicationMenuIconname: "bars",
+  cursor: "grabbing",
+  onclick: () => {},
+  locationChangedHandler: () => {},
+  mappingBoundsChanged:  () => {},
+
 };

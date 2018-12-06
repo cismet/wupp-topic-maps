@@ -250,7 +250,7 @@ export class Ehrenamt_ extends React.Component {
             searchTooltipProvider={this.searchTooltip}
             searchMinZoom={99}
             searchMaxZoom={98}
-            gazTopics={["pois", "adressen", "bezirke", "quartiere"]}
+            gazTopics={["pois", "bezirke", "quartiere", "adressen"]}
             clustered={true}
             clusterOptions={{
               spiderfyOnMaxZoom: false,

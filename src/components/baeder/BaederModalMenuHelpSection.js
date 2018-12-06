@@ -3,6 +3,7 @@ import { Link } from 'react-scroll';
 import { Icon } from 'react-fa';
 import { Label } from 'react-bootstrap';
 import GenericModalMenuSection from '../commons/GenericModalMenuSection';
+import MeinStandortHelpText from '../commons/GenericHelpTextForMyLocation';
 import { getColorForProperties, getBadSVG } from '../../utils/baederHelper';
 
 const helpSVGSize = 18
@@ -33,45 +34,45 @@ const BaederModalMenuHelpSection = ({ uiState, uiStateActions }) => {
 			sectionTitle="Kompaktanleitung"
 			sectionBsStyle="success"
 			sectionContent={
-				<div>
+				<div >
 					<div>
-						<Link to="Datengrundlage" containerId="myMenu" style={{ textDecoration: 'none' }}>
+						<Link id="lnkHelpHeader_datengrundlage" to="Datengrundlage" containerId="myMenu" style={{ textDecoration: 'none' }}>
 							{' '}
 							<Label bsStyle="default">Datengrundlage</Label>{' '}
 						</Link>
 
-						<Link to="POIauswahluabfragen" containerId="myMenu" style={{ textDecoration: 'none' }}>
+						<Link id="lnkHelpHeader_auswahl" to="POIauswahluabfragen" containerId="myMenu" style={{ textDecoration: 'none' }}>
 							{' '}
 							<Label bsStyle="danger">Bäder auswählen und abfragen</Label>{' '}
 						</Link>
-						<Link to="kartendarstellung" containerId="myMenu" style={{ textDecoration: 'none' }}>
+						<Link id="lnkHelpHeader_styling" to="kartendarstellung" containerId="myMenu" style={{ textDecoration: 'none' }}>
 							{' '}
 							<Label bsStyle="primary">Kartendarstellung</Label>{' '}
 						</Link>
-						<Link to="InKartePositionieren" containerId="myMenu" style={{ textDecoration: 'none' }}>
+						<Link id="lnkHelpHeader_positionieren" to="InKartePositionieren" containerId="myMenu" style={{ textDecoration: 'none' }}>
 							{' '}
 							<Label bsStyle="warning">In Karte positionieren</Label>{' '}
 						</Link>
-						<Link to="MeinStandort" containerId="myMenu" style={{ textDecoration: 'none' }}>
+						<Link id="lnkHelpHeader_standort" to="MeinStandort" containerId="myMenu" style={{ textDecoration: 'none' }}>
 							{' '}
 							<Label bsStyle="info">Mein Standort</Label>{' '}
 						</Link>
-						<Link to="Einstellungen" containerId="myMenu" style={{ textDecoration: 'none' }}>
+						<Link id="lnkHelpHeader_settings" to="Einstellungen" containerId="myMenu" style={{ textDecoration: 'none' }}>
 							{' '}
 							<Label bsStyle="success">Einstellungen</Label>{' '}
 						</Link>
-						<Link to="Personalisierung" containerId="myMenu" style={{ textDecoration: 'none' }}>
+						<Link id="lnkHelpHeader_personalisierung" to="Personalisierung" containerId="myMenu" style={{ textDecoration: 'none' }}>
 							{' '}
 							<Label bsStyle="success">Personalisierung</Label>{' '}
 						</Link>
 					</div>
 
-					<div name="Datengrundlage">
+					<div id="anchorDivInHelp_datengrundlage" name="Datengrundlage">
 						<br />
 					</div>
 					<h4>
 						Datengrundlage{' '}
-						<Link to="help" containerId="myMenu" style={{ color: '#00000044' }}>
+						<Link id="lnkUpInHelp_datengrundlage" to="help" containerId="myMenu" style={{ color: '#00000044' }}>
 							<Icon name="arrow-circle-up" />
 						</Link>
 					</h4>
@@ -97,12 +98,12 @@ const BaederModalMenuHelpSection = ({ uiState, uiStateActions }) => {
 						aus dem Open-Data-Angebot der Stadt Wuppertal, der auch die Wuppertaler Schwimmbäder umfasst.
 					</p>
 
-					<div name="POIauswahluabfragen">
+					<div id="anchorDivInHelp_auswahl" name="POIauswahluabfragen">
 						<br />
 					</div>
 					<h4>
 						Bäder auswählen und abfragen{' '}
-						<Link to="help" containerId="myMenu" style={{ color: '#00000044' }}>
+						<Link id="lnkUpInHelp_auswahl" to="help" containerId="myMenu" style={{ color: '#00000044' }}>
 							<Icon name="arrow-circle-up" />
 						</Link>
 					</h4>
@@ -113,7 +114,7 @@ const BaederModalMenuHelpSection = ({ uiState, uiStateActions }) => {
 						Hausnummer) werden unten rechts in der Info-Box angezeigt. (Auf einem Tablet-PC wird der Fokus
 						durch das erste Antippen des Schwimmbad-Symbols gesetzt, das zweite Antippen blendet den Namen
 						ein.) Außerdem werden Ihnen in der Info-Box weiterführende (Kommunikations-) Links zu diesem
-						Schwimmbad angezeigt: <Icon name="link" /> Internet,{' '}
+						Schwimmbad angezeigt: <Icon name="external-link-square" /> Internet,{' '}
 						<span style={{ whiteSpace: 'nowrap' }}>
 							<Icon name="envelope-square" /> E-Mail
 						</span>{' '}
@@ -137,12 +138,12 @@ const BaederModalMenuHelpSection = ({ uiState, uiStateActions }) => {
 						zugreifen, das der Urheber auch selbst im Internet publiziert, finden Sie im Fußbereich des
 						Bildbetrachters einen Link auf dieses Angebot.
 					</p>
-					<div name="kartendarstellung">
+					<div id="anchorDivInHelp_styling" name="kartendarstellung">
 						<br />
 					</div>
 					<h4>
 						Kartendarstellung der Schwimmbäder{' '}
-						<Link to="help" containerId="myMenu" style={{ color: '#00000044' }}>
+						<Link id="lnkUpInHelp_styling" to="help" containerId="myMenu" style={{ color: '#00000044' }}>
 							<Icon name="arrow-circle-up" />
 						</Link>
 					</h4>
@@ -156,12 +157,12 @@ const BaederModalMenuHelpSection = ({ uiState, uiStateActions }) => {
 						zusammengefasst, die für die Kartendarstellung relevant sind, z. B. "Hallenbad (Verein), nicht
 						öffentlich".
 					</p>
-					<div name="InKartePositionieren">
+					<div id="anchorDivInHelp_positionieren" name="InKartePositionieren">
 						<br />
 					</div>
 					<h4>
 						In Karte positionieren{' '}
-						<Link to="help" containerId="myMenu" style={{ color: '#00000044' }}>
+						<Link id="lnkUpInHelp_positionieren" to="help" containerId="myMenu" style={{ color: '#00000044' }}>
 							<Icon name="arrow-circle-up" />
 						</Link>
 					</h4>
@@ -195,36 +196,23 @@ const BaederModalMenuHelpSection = ({ uiState, uiStateActions }) => {
 						die Namen der Vereine, die ein Schwimmbad betreiben, als alternative Bezeichnungen des
 						jeweiligen Bades hinterlegt. (Geben Sie z. B. einmal "Wasserfreunde" ein.)
 					</p>
-					<div name="MeinStandort">
+					<div id="anchorDivInHelp_standort" name="MeinStandort">
 						<br />
 					</div>
 					<h4>
 						Mein Standort{' '}
 						<Link to="help" containerId="myMenu" style={{ color: '#00000044' }}>
-							<Icon name="arrow-circle-up" />
+							<Icon id="lnkUpInHelp_standort" name="arrow-circle-up" />
 						</Link>
 					</h4>
-					<p>
-						Mit der Funktion Mein Standort <Icon name="map-marker" /> können Sie ihren aktuellen Standort
-						mit einem blauen Kreissymbol <img alt="Cluster" src="images/MeinStandpunktMarker.jpg" /> in der
-						Karte anzeigen. Das Standortsymbol ist umgeben von einem zweiten Kreis mit transparenter, blauer
-						Füllung, dessen Radius die Unsicherheit der Positionsbestimmung angibt{' '}
-						<img alt="Cluster" src="images/MeinStandpunktMarkerDoppel.jpg" />. Die Richtigkeit der
-						Positionsanzeige ist dabei nicht garantiert, ihre Genauigkeit hängt davon ab, mit welcher
-						Methode Ihr Endgerät und der von Ihnen verwendete Browser die Position bestimmen. Smartphones
-						und Tablet-PC's sind i. d. R. mit einer GPS-Antenne ausgestattet, so dass Sie bei diesen Geräten
-						eine Positionsgenauigkeit in der Größenordnung von 10 Metern erwarten können. Die Markierung
-						Ihrer Position wird laufend automatisch aktualisiert. Ein weiterer Klick auf "Mein Standort"
-						schaltet die Anzeige Ihrer Position wieder ab.
-					</p>
-
-					<div name="Einstellungen">
+						<MeinStandortHelpText/>
+					<div id="anchorDivInHelp_settings" name="Einstellungen">
 						<br />
 					</div>
 					<h4>
 						Einstellungen{' '}
 						<Link to="help" containerId="myMenu" style={{ color: '#00000044' }}>
-							<Icon name="arrow-circle-up" />
+							<Icon id="lnkUpInHelp_settings" name="arrow-circle-up" />
 						</Link>
 					</h4>
 					<p>
@@ -260,13 +248,13 @@ const BaederModalMenuHelpSection = ({ uiState, uiStateActions }) => {
 						Kartenausschnitt.
 					</p>
 
-					<div name="Personalisierung">
+					<div id="anchorDivInHelp_personalisierung" name="Personalisierung">
 						<br />
 					</div>
 					<h4>
 						Personalisierung{' '}
 						<Link to="help" containerId="myMenu" style={{ color: '#00000044' }}>
-							<Icon name="arrow-circle-up" />
+							<Icon id="lnkUpInHelp_personalisierung" name="arrow-circle-up" />
 						</Link>
 					</h4>
 					<p>

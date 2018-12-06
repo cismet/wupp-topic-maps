@@ -36,8 +36,9 @@ const Component = ({ uiState, uiStateActions, showModalMenu }) => {
 					<p>
 						Darüber hinaus ist das Ergebnis der Simulation natürlich von der Dauer und Intensität des Regens
 						abhängig, der für die Simulation angenommen wird. Wir bieten Ihnen hierzu vier unterschiedliche{' '}
-						<a onClick={() => showModalMenu('szenarien')}>simulierte Szenarien</a> an, drei "Modellregen" sowie das anhand der
-						Niederschlagsmessungen desselben Tages nachgestellte Starkregenereignis vom 29.05.2018.{' '}
+						<a onClick={() => showModalMenu('szenarien')}>simulierte Szenarien</a> an, drei "Modellregen"
+						sowie das anhand der Niederschlagsmessungen desselben Tages nachgestellte Starkregenereignis vom
+						29.05.2018.{' '}
 					</p>
 
 					<p>
@@ -51,7 +52,7 @@ const Component = ({ uiState, uiStateActions, showModalMenu }) => {
 							Datengrundlagen: (a) <strong>Amtliche Basiskarte ABK Graustufen</strong>. (Wöchentlich in
 							einem automatisierten Prozess aus dem Fachverfahren ALKIS des Liegenschaftskatasters
 							abgeleitete großmaßstäbige topographische Karte in Graustufen.) © Stadt Wuppertal (
-							<a target='_more' href="http://www.govdata.de/dl-de/by-2-0">
+							<a target="_more" href="http://www.govdata.de/dl-de/by-2-0">
 								Datenlizenz Deutschland - Namensnennung - Version 2.0
 							</a>
 							). (b) <strong>Hillshade</strong> (Schummerungsdarstellung eines für hydrologische
@@ -61,7 +62,10 @@ const Component = ({ uiState, uiStateActions, showModalMenu }) => {
 							Energie &amp; Wasser AG. (2) Kartendienst (WMS) des Bundesamtes für Kartographie und
 							Geodäsie (BKG). Datengrundlage:{' '}
 							<strong>
-								<a target='_more' href="http://www.geodatenzentrum.de/geodaten/gdz_rahmen.gdz_div?gdz_spr=deu&amp;gdz_akt_zeile=4&amp;gdz_anz_zeile=4&amp;gdz_unt_zeile=0&amp;gdz_user_id=0#dok">
+								<a
+									target="_more"
+									href="http://www.geodatenzentrum.de/geodaten/gdz_rahmen.gdz_div?gdz_spr=deu&amp;gdz_akt_zeile=4&amp;gdz_anz_zeile=4&amp;gdz_unt_zeile=0&amp;gdz_user_id=0#dok"
+								>
 									WebAtlasDE
 								</a>
 							</strong>{' '}
@@ -69,15 +73,20 @@ const Component = ({ uiState, uiStateActions, showModalMenu }) => {
 						</li>
 
 						<li>
-							<strong>Luftbildkarte</strong>: Kartendienst (WMS) der Stadt Wuppertal. Datengrundlage:{' '}
+							<strong>Luftbildkarte</strong>: (1) Kartendienst (WMS) der Stadt Wuppertal. Datengrundlage:{' '}
 							<strong>True Orthophoto aus Bildflug vom 19.04.2018</strong>, hergestellt durch Aero West
 							GmbH/Dortmund, Bodenauflösung 10 cm. (True Orthophoto: Aus Luftbildern mit hoher Längs- und
 							Querüberdeckung in einem automatisierten Bildverarbeitungsprozess berechnetes Bild in
 							Parallelprojektion, also ohne Gebäudeverkippung und sichttote Bereiche.) © Stadt Wuppertal (
-							<a target='_more' href="https://www.wuppertal.de/geoportal/Nutzungsbedingungen/NB-GDIKOM-C_Geodaten.pdf">
+							<a
+								target="_more"
+								href="https://www.wuppertal.de/geoportal/Nutzungsbedingungen/NB-GDIKOM-C_Geodaten.pdf"
+							>
 								NB-GDIKOM C
 							</a>
-							).
+							). (2) Kartendienst (WMS) des Regionalverbandes Ruhr (RVR). Datengrundlage:{' '}
+							<strong>Stadtplanwerk 2.0 Beta</strong>. (Details s. Hintergrundkarte{' '}
+							<strong>Stadtplan</strong>).
 						</li>
 
 						<li>
@@ -86,13 +95,16 @@ const Component = ({ uiState, uiStateActions, showModalMenu }) => {
 							Prozess aktualisierte Zusammenführung des Straßennetzes der OpenStreetMap mit Gebäuden und
 							Flächennutzungen aus dem Fachverfahren ALKIS des Liegenschaftskatasters.) © RVR und
 							Kooperationspartner (
-							<a target='_more' href="https://creativecommons.org/licenses/by/4.0/legalcode.de">CC BY 4.0</a>). Lizenzen
-							der Ausgangsprodukte: Land NRW (2018){' '}
-							<a target='_more' href="http://www.govdata.de/dl-de/by-2-0">
+							<a target="_more" href="https://creativecommons.org/licenses/by/4.0/legalcode.de">
+								CC BY 4.0
+							</a>). Lizenzen der Ausgangsprodukte: Land NRW (2018){' '}
+							<a target="_more" href="http://www.govdata.de/dl-de/by-2-0">
 								Datenlizenz Deutschland - Namensnennung - Version 2.0
 							</a>{' '}
 							und OpenStreetMap contributors (
-							<a target='_more' href="http://www.opendatacommons.org/licenses/odbl/1.0/">ODbL</a>).{' '}
+							<a target="_more" href="http://www.opendatacommons.org/licenses/odbl/1.0/">
+								ODbL
+							</a>).{' '}
 						</li>
 					</ul>
 				</div>

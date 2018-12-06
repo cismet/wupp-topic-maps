@@ -9,7 +9,7 @@ const Comp = ({ showModalMenu }) => {
 				Stadtplanwerk 2.0 (Beta) © RVR | WebAtlasDE © BKG{' '}
 				<a onClick={() => showModalMenu('datengrundlage')}>(Details und Nutzungsbedingungen)</a>
 				<br />
-				<b>Modellierung und Simulationsberechnung</b> (Version 0.9 | 10/2018):{' '}
+				<b>Modellierung und Simulationsberechnung</b> (Version 1.0 | 12/2018):{' '}
 				<a target="_wsw" href="https://www.wsw-online.de/wsw-energie-wasser/privatkunden/">
 					WSW Energie und Wasser AG
 				</a>{' '}

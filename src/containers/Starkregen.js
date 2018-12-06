@@ -341,10 +341,10 @@ export class Starkregen_ extends React.Component {
 						}
 					}
 				}}
-				home= {{
-					center: [51.27243990281796, 7.199752226846924],
+				home={{
+					center: [ 51.27243990281796, 7.199752226846924 ],
 					zoom: 13
-				  }}
+				}}
 			>
 				<WMSTileLayer
 					ref={(c) => (this.modelLayer = c)}
@@ -368,9 +368,6 @@ export class Starkregen_ extends React.Component {
 				/>
 				{featureInfoLayer}
 
-				
-
-
 				<ContactButton
 					id="329487"
 					key="dsjkhfg"
@@ -381,30 +378,12 @@ export class Starkregen_ extends React.Component {
 						link.setAttribute('type', 'hidden');
 						const br = '\n';
 
-						let positionsBeschreibung;
-						let urlParams=new URLSearchParams(this.props.routing.location.search);
-						const lat=urlParams.get('lat');
-						const lng=urlParams.get('lng');
-						const zoom=urlParams.get('zoom');
-						if (getInternetExplorerVersion() === -1){
-							positionsBeschreibung=encodeURI(`auf${br}${br}`)
-							 +
-							`${window.location.href.replace(/&/g, '%26')}` 
-						}
-						else {
-							positionsBeschreibung=encodeURI(`${br}${br}`+
-							`Position: (${lat},${lng})${br}`+
-							`Zoomstufe: ${zoom}${br}`+
-							`Selektierte Simulation: ${this.props.starkregen.simulations[this.props.starkregen.selectedSimulation].title}${br}`
-							);
-						}
-
-
 						let mailToHref =
 							'mailto:starkregen@stadt.wuppertal.de?subject=eventueller Fehler im Geländemodell&body=' +
+							encodeURI(`Sehr geehrte Damen und Herren,${br}${br}` + `in der Starkregengefahrenkarte `) +
+							encodeURI(`auf${br}${br}`) +
+							`${window.location.href.replace(/&/g, '%26').replace(/#/g, '%23')}` +
 							encodeURI(
-								`Sehr geehrte Damen und Herren,${br}${br}` + `in der Starkregengefahrenkarte `
-							)+positionsBeschreibung+encodeURI(
 								`${br}` +
 									`${br}` +
 									`ist mir folgendes aufgefallen:${br}` +

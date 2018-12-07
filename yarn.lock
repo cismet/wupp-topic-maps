@@ -7591,10 +7591,10 @@ react-chartkick@^0.2.0:
   dependencies:
     chartkick "^2.3.6"
 
-react-cismap@^0.0.36:
-  version "0.0.36"
-  resolved "https://registry.yarnpkg.com/react-cismap/-/react-cismap-0.0.36.tgz#56fc479234f1122aa99536b385f588203a70c47a"
-  integrity sha512-kYY8NBduRiDBk1DIQbdxcVQsZEvEP0biOXDeT92JYJSp20KAYdNRhkdyhyiszsPc/54uAamzNyVAaOC/BwoD9g==
+react-cismap@^0.0.37:
+  version "0.0.37"
+  resolved "https://registry.yarnpkg.com/react-cismap/-/react-cismap-0.0.37.tgz#6b6d7c568782c4d68117042fd8aca8347edd6d7f"
+  integrity sha512-Lk+Fp+TEvjSXY4LXoCpeUoc82U01MemZSEfeDJ33p3OBSEk2JJrJP8QsoFLhwdNzeXSDd77auFdm+GMGRhyqQA==
   dependencies:
     "@turf/bbox-polygon" "^6.0.1"
     "@turf/intersect" "^6.1.3"

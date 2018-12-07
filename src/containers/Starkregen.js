@@ -354,7 +354,7 @@ export class Starkregen_ extends React.Component {
 						'.' +
 						this.props.match.params.layers
 					}
-					url="http://geoportal.wuppertal.de/deegree/wms"
+					url="https://geoportal.wuppertal.de/deegree/wms"
 					//url="https://wunda-geoportal-cache.cismet.de/geoportal"
 					layers={this.props.starkregen.simulations[this.props.starkregen.selectedSimulation].layer}
 					version="1.1.1"

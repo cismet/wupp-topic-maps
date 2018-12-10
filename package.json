@@ -1,6 +1,6 @@
 {
   "name": "topic-maps-wuppertal",
-  "version": "1.7.0-SNAPSHOT.41",
+  "version": "1.7.4",
   "config": {
     "dockerRegistryPath": "reg.cismet.de/wupp"
   },
@@ -45,7 +45,7 @@
     "react-bootstrap-switch": "^15.5.3",
     "react-bootstrap-typeahead": "^2.6.0",
     "react-chartkick": "^0.2.0",
-    "react-cismap": "^0.0.36",
+    "react-cismap": "^0.0.38",
     "react-dimensions": "^1.3.1",
     "react-dom": "^16.1.1",
     "react-fa": "^5.0.0",

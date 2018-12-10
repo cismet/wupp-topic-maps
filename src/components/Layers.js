@@ -166,7 +166,7 @@ Layers.set("bplan_abkg_uncached", (options = defaultOptions) => {
   return (
     <StyledWMSTileLayer
       key="bplan_abkg_uncached"
-      url="https://geoportal.wuppertal.de/deegree/wms"
+      url="https://maps.wuppertal.de/deegree/wms"
       layers="bplanreihe"
       format="image/png"
       tiled="true"
@@ -181,7 +181,7 @@ Layers.set("bplan_ovl", (options = defaultOptions) => {
   return (
     <StyledWMSTileLayer
       key="bplan_ovl"
-      url="https://geoportal.wuppertal.de/deegree/wms"
+      url="https://maps.wuppertal.de/deegree/wms"
       layers="bplanhintergrund"
       format="image/png"
       tiled="true"
@@ -228,7 +228,7 @@ Layers.set("uwBPlan", (options = defaultOptions) => {
   return (
     <StyledWMSTileLayer
       key="BPlanreihe auf Umwis"
-      url="https://geoportal.wuppertal.de/deegree/wms"
+      url="https://maps.wuppertal.de/deegree/wms"
       layers="bplanreihe,bplanhintergrund"
       format="image/png"
       tiled="true"

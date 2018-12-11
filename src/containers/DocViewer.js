@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import objectAssign from 'object-assign';
+import CanvasLayer from 'react-leaflet-canvas-layer';
 
 import { connect } from 'react-redux';
 import { Navbar, Nav, NavItem, OverlayTrigger, Tooltip } from 'react-bootstrap';
@@ -17,6 +18,8 @@ import { modifyQueryPart } from '../utils/routingHelper';
 import 'url-search-params-polyfill';
 import { actions as UIStateActions } from '../redux/modules/uiState';
 import { Icon } from 'react-fa';
+import PDFLayer from '../components/mapping/PDFLayer';
+import Coords from '../components/mapping/CoordLayer';
 
 function mapStateToProps(state) {
 	return {
@@ -115,13 +118,13 @@ export class DocViewer_ extends React.Component {
 									url: rkDoc.url.replace('https://wunda-geoportal-docs.cismet.de/', 'bplandocs/')
 								});
 							}
-							for (const nrkDoc of bplan.plaene_nrk) {
-								newState.docs.push({
-									group: 'nicht rechtskräftig',
-									file: nrkDoc.file,
-									url: nrkDoc.url.replace('https://wunda-geoportal-docs.cismet.de/', 'bplandocs/')
-								});
-							}
+							// for (const nrkDoc of bplan.plaene_nrk) {
+							// 	newState.docs.push({
+							// 		group: 'nicht rechtskräftig',
+							// 		file: nrkDoc.file,
+							// 		url: nrkDoc.url.replace('https://wunda-geoportal-docs.cismet.de/', 'bplandocs/')
+							// 	});
+							// }
 							// for (const doc of bplan.docs) {
 							// 	newState.docs.push({
 							// 		group: 'Zusatzdokumente',
@@ -131,18 +134,18 @@ export class DocViewer_ extends React.Component {
 							// }
 							this.setState(newState);
 
-							this.getDocInfoWithHead(newState.docs[0], 0).then((result) => {
-								console.log('First HEAD Fetch done', result);
-								let newState = objectAssign({}, this.state);
-								newState.activePage = objectAssign({}, newState.docs[0], result);
-								this.setState(newState);
+							// this.getDocInfoWithHead(newState.docs[0], 0).then((result) => {
+							// 	console.log('First HEAD Fetch done', result);
+							// 	let newState = objectAssign({}, this.state);
+							// 	newState.activePage = objectAssign({}, newState.docs[0], result);
+							// 	this.setState(newState);
 
-								//now head fetch all other docs
-								let getInfoWithHeadPromises = this.state.docs.map(this.getDocInfoWithHead);
-								Promise.all(getInfoWithHeadPromises).then((results) => {
-									console.log('all HEAD Fetches done', results);
-								});
-							});
+							// 	//now head fetch all other docs
+							// 	let getInfoWithHeadPromises = this.state.docs.map(this.getDocInfoWithHead);
+							// 	Promise.all(getInfoWithHeadPromises).then((results) => {
+							// 		console.log('all HEAD Fetches done', results);
+							// 	});
+							// });
 
 							console.log('------------------------------');
 						}
@@ -375,7 +378,7 @@ export class DocViewer_ extends React.Component {
 					zoomDelta={1}
 					onclick={(e) => console.log('click', e)}
 				>
-					{this.state.activePage && (
+					{/* {this.state.activePage && (
 						<WMSTileLayer
 							ref={(c) => (this.modelLayer = c)}
 							key={'docLayer'}
@@ -392,15 +395,29 @@ export class DocViewer_ extends React.Component {
 							opacity={1}
 							//caching={this.state.caching}
 						/>
-					)}
+					)} */}
+					<PDFLayer />
+					{/* <Coords/> */}
 					{/* {debugMarker} */}
-					<Rectangle bounds={[ [ -0.5, -0.5 ], [ 0.5, 0.5 ] ]} color="black" />
-
-					<Control position="bottomright">
+					<Rectangle bounds={[ [ -0.5, -0.5 ], [ 0.5, 0.5 ] ]} color="#D8D8D8D8" />
+					<CanvasLayer
+            drawMethod={(info)=>{
+				const ctx = info.canvas.getContext('2d');
+    ctx.clearRect(0, 0, info.canvas.width, info.canvas.height);
+    ctx.fillStyle = 'rgba(255,116,0, 0.2)';
+    var point = info.map.latLngToContainerPoint([-37, 175]);
+    ctx.beginPath();
+    ctx.arc(point.x, point.y, 200, 0, Math.PI * 2.0, true, true);
+    ctx.closePath();
+    ctx.fill();
+    ctx.stroke();
+			}}
+          />
+					{ this.state.activePage!==undefined && (<Control position="bottomright">
 						<p style={{ backgroundColor: '#D8D8D8D8', padding: '5px' }}>
-							BPL_1179V_0_PB_Drs_05-2013_Bebauungsplan-Festsetzungen.pdf (1/2)
+							{this.state.activePage!==undefined ? '   ' + this.state.activePage.file + '   ' : ''} 
 						</p>
-					</Control>
+					</Control>)}
 				</RoutedMap>
 			</div>
 		);

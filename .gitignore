@@ -33,3 +33,4 @@ public/data/
 .githash
 cypress/screenshots/
 cypress/videos/
+public/tmp/

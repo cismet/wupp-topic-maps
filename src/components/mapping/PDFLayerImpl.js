@@ -155,15 +155,17 @@ const PDFLayer = L.GridLayer.extend({
             size.x,
             size.y
           );
-          // ctx.fillStyle = 'black';
+          ctx.fillStyle = 'black';
             
-          // ctx.fillText('x: ' + coords.x + ', y: ' + coords.y, 20, 40);
-          // ctx.fillText('sx:' + coords.x % 4 * tile.width+' sy:' + coords.y % 4 * tile.height, 20, 60);
-          // ctx.fillText('swidth:' + tile.width+' sheight:' + tile.height, 20, 80);
-          // ctx.fillText('dx:' + 0+' dy:' + 0, 20, 100);
-          // ctx.fillText('dwidth:' + size.x+' dheight:' + size.y, 20, 120);
-          // ctx.stroke();
+          ctx.fillText('x: ' + coords.x + ', y: ' + coords.y, 20, 40);
+          ctx.fillText('sx:' + coords.x % 4 * tile.width+' sy:' + coords.y % 4 * tile.height, 20, 60);
+          ctx.fillText('swidth:' + tile.width+' sheight:' + tile.height, 20, 80);
+          ctx.fillText('dx:' + 0+' dy:' + 0, 20, 100);
+          ctx.fillText('dwidth:' + size.x+' dheight:' + size.y, 20, 120);
+          ctx.stroke();
           console.log('done draw x: ' + coords.x + ', y: ' + coords.y);
+          console.log('metatileCanvas',metatileCanvas);
+          
 
           done(null, tile);
         },

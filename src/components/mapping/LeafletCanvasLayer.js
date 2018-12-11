@@ -1,11 +1,11 @@
 import L from "leaflet";
 
-if(typeof(L) !== 'undefined') {
+//f(typeof(L) !== 'undefined') {
     /**
      * full canvas layer implementation for Leaflet
      */
     
-    L.CanvasLayer = L.Class.extend({
+    const Layer = L.Class.extend({
     
       includes: [L.Mixin.Events, L.Mixin.TileLoader],
     
@@ -229,4 +229,5 @@ if(typeof(L) !== 'undefined') {
     
     });
     
-    } //L defined
+   // } //L defined
+    export default Layer;

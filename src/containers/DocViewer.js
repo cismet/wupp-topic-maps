@@ -65,6 +65,8 @@ export class DocViewer_ extends React.Component {
 		this.getMapRef = this.getMapRef.bind(this);
 		this.getDocInfoWithHead = this.getDocInfoWithHead.bind(this);
 		this.loadPage = this.loadPage.bind(this);
+		this.nextDoc = this.nextDoc.bind(this);
+		this.prevDoc = this.prevDoc.bind(this);
 
 		const topic = this.props.match.params.topic || 'bplaene';
 		const docPackageId = this.props.match.params.docPackageId || '1179V';
@@ -83,30 +85,43 @@ export class DocViewer_ extends React.Component {
 			offScreenCanvas: document.createElement('canvas')
 		};
 	}
-	loadPage(doc) {
-		// currentPage: "1"
-		// file: "B442_DBA.pdf"
-		// fileSize: "1051021"
-		// group: "rechtskräftig"
-		// height: "4064"
-		// index: 0
-		// numOfPages: "1"
-		// url: "bplandocs/bplaene/rechtswirksam/B442_DBA.pdf"
-		// width: "5526"
-		let docs = [
-			'/tmp/B442_DBA.pdf',
-			'/tmp/BPL_0774_0_PB_Drs_05-1989_Beitrittsbeschluss.pdf',
-			'/tmp/BPL_1131_0_PB_Drs_10-2011_Auflistung-TÖB.pdf',
-			'/tmp/BPL_1131_0_PB_Drs_10-2011_Abwägung.pdf'
-		];
-		console.log('xxxxxxxxdoc',doc);
-		
+
+	nextDoc() {
+		this.props.routingActions.push(
+			'/docs/' +
+				this.props.match.params.topic +
+				'/' +
+				this.props.match.params.docPackageId +
+				'/' +
+				(parseInt(this.props.match.params.file, 10) + 1)
+		);
+	}
+	prevDoc() {
+		this.props.routingActions.push(
+			'/docs/' +
+				this.props.match.params.topic +
+				'/' +
+				this.props.match.params.docPackageId +
+				'/' +
+				(parseInt(this.props.match.params.file, 10) - 1)
+		);
+	}
+
+	loadPage(index) {
+		// let docs = [
+		// 	'/tmp/B442_DBA.pdf',
+		// 	'/tmp/BPL_0774_0_PB_Drs_05-1989_Beitrittsbeschluss.pdf',
+		// 	'/tmp/BPL_1131_0_PB_Drs_10-2011_Auflistung-TÖB.pdf',
+		// 	'/tmp/BPL_1131_0_PB_Drs_10-2011_Abwägung.pdf'
+		// ];
+		console.log('this.state', this.state);
+		const doc = this.state.docs[index];
 		PDFJS.getDocument(doc.url).then((pdf) =>
 			pdf.getPage(1).then((page) => {
 				const layerBounds = new L.LatLngBounds([ -0.5, -0.5 ], [ 0.5, 0.5 ]);
 				const _map = this.leafletRoutedMap.leafletMap.leafletElement;
 				const canvas = document.createElement('canvas');
-				const scale=2;
+				const scale = 2;
 				const w = page.getViewport(scale).width;
 				const h = page.getViewport(scale).height;
 				let xCorrection = 0;
@@ -114,11 +129,11 @@ export class DocViewer_ extends React.Component {
 				if (w > h) {
 					canvas.width = w;
 					canvas.height = w;
-					yCorrection=(w-h)/2;
+					yCorrection = (w - h) / 2;
 				} else {
 					canvas.width = h;
 					canvas.height = h;
-					xCorrection=(h-w)/2;
+					xCorrection = (h - w) / 2;
 				}
 
 				const ctx = canvas.getContext('2d');
@@ -132,12 +147,9 @@ export class DocViewer_ extends React.Component {
 				console.log('page created- state', this.state);
 				console.log('page created- page.getViewport(1.0).width', page.getViewport(1.0).width);
 				console.log('page created- page.getViewport(1.0).height', page.getViewport(1.0).height);
-				console.log('page created- page.rotation',page);
-				
-			// let computedScale=computeScale(page, _map, layerBounds, _map.zoom)
+				console.log('page created- page.rotation', page);
 
-
-
+				// let computedScale=computeScale(page, _map, layerBounds, _map.zoom)
 
 				page
 					.render({
@@ -145,8 +157,8 @@ export class DocViewer_ extends React.Component {
 						background: 'white', //'transparent'
 						canvasContext: ctx,
 						viewport: new PDFJS.PageViewport(
-							page.view ,
-							scale,//computedScale,
+							page.view,
+							scale, //computedScale,
 							page.rotate,
 							xCorrection,
 							yCorrection
@@ -220,35 +232,26 @@ export class DocViewer_ extends React.Component {
 								newState.docs.push({
 									group: 'rechtskräftig',
 									file: rkDoc.file,
-									url: rkDoc.url//.replace('https://wunda-geoportal-docs.cismet.de/', 'bplandocs/')
+									url: rkDoc.url //.replace('https://wunda-geoportal-docs.cismet.de/', 'bplandocs/')
 								});
-							}
-							let alreadyLoaded=false;
-							if (newState.docs.length>0){
-								this.loadPage(newState.docs[0]);
-								alreadyLoaded=true;
 							}
 							for (const nrkDoc of bplan.plaene_nrk) {
 								newState.docs.push({
 									group: 'nicht rechtskräftig',
 									file: nrkDoc.file,
-									url: nrkDoc.url//.replace('https://wunda-geoportal-docs.cismet.de/', 'bplandocs/')
+									url: nrkDoc.url //.replace('https://wunda-geoportal-docs.cismet.de/', 'bplandocs/')
 								});
-							}
-							if (!alreadyLoaded && newState.docs.length>0){
-								this.loadPage(newState.docs[0]);
 							}
 							for (const doc of bplan.docs) {
 								newState.docs.push({
 									group: 'Zusatzdokumente',
 									file: doc.file,
-									url: doc.url//.replace('https://wunda-geoportal-docs.cismet.de/', 'bplandocs/')
+									url: doc.url //.replace('https://wunda-geoportal-docs.cismet.de/', 'bplandocs/')
 								});
 							}
-							if (!alreadyLoaded && newState.docs.length>0){
-								this.loadPage(newState.docs[0]);
-							}
 							this.setState(newState);
+							console.log('new State', newState);
+							this.loadPage(0);
 
 							// this.getDocInfoWithHead(newState.docs[0], 0).then((result) => {
 							// 	console.log('First HEAD Fetch done', result);
@@ -269,6 +272,14 @@ export class DocViewer_ extends React.Component {
 						}
 					}
 				);
+			}
+		} else if (this.state.docIndex !== this.props.match.params.file - 1) {
+			if (this.state.docs.length > 0) {
+				console.log('load the shit');
+				let newState = objectAssign({}, this.state);
+				newState.docIndex = this.props.match.params.file - 1;
+				this.loadPage(newState.docIndex);
+				this.setState(newState);
 			}
 		}
 	}
@@ -301,7 +312,7 @@ export class DocViewer_ extends React.Component {
 
 	gotoWholeHeight() {
 		console.log('gotoWholeHeight');
-		const scale=2;
+		const scale = 2;
 		const w = this.state.page.getViewport(scale).width;
 		const h = this.state.page.getViewport(scale).height;
 		let xCorrection = 0.0;
@@ -331,7 +342,7 @@ export class DocViewer_ extends React.Component {
 	}
 	gotoWholeWidth() {
 		console.log('gotoWholeWidth');
-		const scale=2;
+		const scale = 2;
 		const w = this.state.page.getViewport(scale).width;
 		const h = this.state.page.getViewport(scale).height;
 		let xCorrection = 0.0;
@@ -438,13 +449,13 @@ export class DocViewer_ extends React.Component {
 							<NavItem eventKey={1} href="#">
 								<Icon name="step-backward" />
 							</NavItem>
-							<NavItem eventKey={2} href="#">
+							<NavItem onClick={() => this.prevDoc()}eventKey={2} href="#">
 								<Icon name="chevron-left" />
 							</NavItem>
 							<NavItem eventKey={1} href="#">
-								1 / 1
+								{this.state.docIndex+1} / 1 / {this.state.docs.length}
 							</NavItem>
-							<NavItem eventKey={1} href="#">
+							<NavItem onClick={() => this.nextDoc()} eventKey={1} href="#">
 								<Icon name="chevron-right" />
 							</NavItem>
 							<NavItem eventKey={2} href="#">
@@ -504,7 +515,7 @@ export class DocViewer_ extends React.Component {
 					fallbackZoom={10}
 					fullScreenControlEnabled={true}
 					locateControlEnabled={false}
-					zoomSnap={0.25}
+					zoomSnap={1}
 					zoomDelta={1}
 					onclick={(e) => console.log('click', e)}
 				>
@@ -530,57 +541,57 @@ export class DocViewer_ extends React.Component {
 					{/* <Coords/> */}
 					{/* {debugMarker} */}
 					<Rectangle bounds={[ [ -0.5, -0.5 ], [ 0.5, 0.5 ] ]} color="#D8D8D8D8" />
-					{this.leafletRoutedMap && <CanvasLayer
-						key={'CANVAS' + this.state.caching}
-						leaflet={leafletContext}
-						drawMethod={(info) => {
-							console.log('in drawMethod(', info);
+					{this.leafletRoutedMap && (
+						<CanvasLayer
+							key={'CANVAS' + this.state.caching}
+							leaflet={leafletContext}
+							drawMethod={(info) => {
+								console.log('in drawMethod(', info);
 
-							const ctx = info.canvas.getContext('2d');
-							ctx.fillStyle = 'black';
-							ctx.clearRect(0, 0, info.canvas.width, info.canvas.height);
-							var point = info.map.latLngToContainerPoint([ 0, 0 ]);
-							console.log('info', info);
-							console.log('info.canvas.width, info.canvas.height', [
-								info.canvas.width,
-								info.canvas.height
-							]);
+								const ctx = info.canvas.getContext('2d');
+								ctx.fillStyle = 'black';
+								ctx.clearRect(0, 0, info.canvas.width, info.canvas.height);
+								var point = info.map.latLngToContainerPoint([ 0, 0 ]);
+								console.log('info', info);
+								console.log('info.canvas.width, info.canvas.height', [
+									info.canvas.width,
+									info.canvas.height
+								]);
 
-							// ctx.fillText('Center ', point.x, point.y);
-							if (this.leafletRoutedMap) {
-								const layerBounds = new L.LatLngBounds([ -0.5, -0.5 ], [ 0.5, 0.5 ]);
-								const zoom = info.map.getZoom();
-								const layerBoundsTopLeft = info.map.project(layerBounds.getNorthWest(), zoom);
-								const layerBoundsBottomRight = info.map.project(layerBounds.getSouthEast(), zoom);
+								// ctx.fillText('Center ', point.x, point.y);
+								if (this.leafletRoutedMap) {
+									const layerBounds = new L.LatLngBounds([ -0.5, -0.5 ], [ 0.5, 0.5 ]);
+									const zoom = info.map.getZoom();
+									const layerBoundsTopLeft = info.map.project(layerBounds.getNorthWest(), zoom);
+									const layerBoundsBottomRight = info.map.project(layerBounds.getSouthEast(), zoom);
 
-								const mapBoundsTopLeft = info.map.project(info.bounds.getNorthWest(), zoom);
-								console.log('layerBoundsTopLeft',layerBoundsTopLeft);
-								console.log('mapBoundsTopLeft',mapBoundsTopLeft);
-								console.log('layerBoundsBottomRight',layerBoundsBottomRight);
-								console.log('width',-1*(layerBoundsTopLeft.x-layerBoundsBottomRight.x));
-								
-								
-								console.log('x', layerBoundsTopLeft.x - mapBoundsTopLeft.x);
-								console.log('y', layerBoundsTopLeft.y - mapBoundsTopLeft.y);
-								console.log('y', layerBoundsTopLeft.y - mapBoundsTopLeft.y);
-								console.log(' info.map', zoom);
-								console.log('this.state.pageZoom',this.state.pageZoom);
-																
-								
-								ctx.drawImage(
-									this.state.offScreenCanvas,
-									//0,0,5526,5526,
-									layerBoundsTopLeft.x - mapBoundsTopLeft.x,
-									layerBoundsTopLeft.y - mapBoundsTopLeft.y,
-									-1*(layerBoundsTopLeft.x-layerBoundsBottomRight.x),
-									-1*(layerBoundsTopLeft.y-layerBoundsBottomRight.y)
-									//5526*zoom/this.state.pageZoom,5526*zoom/this.state.pageZoom
-								);
-								console.log('this.state.offScreenCanvas', this.state.offScreenCanvas);
-							}
-							ctx.stroke();
-						}}
-					/>}
+									const mapBoundsTopLeft = info.map.project(info.bounds.getNorthWest(), zoom);
+									console.log('layerBoundsTopLeft', layerBoundsTopLeft);
+									console.log('mapBoundsTopLeft', mapBoundsTopLeft);
+									console.log('layerBoundsBottomRight', layerBoundsBottomRight);
+									console.log('width', -1 * (layerBoundsTopLeft.x - layerBoundsBottomRight.x));
+
+									console.log('x', layerBoundsTopLeft.x - mapBoundsTopLeft.x);
+									console.log('y', layerBoundsTopLeft.y - mapBoundsTopLeft.y);
+									console.log('y', layerBoundsTopLeft.y - mapBoundsTopLeft.y);
+									console.log(' info.map', zoom);
+									console.log('this.state.pageZoom', this.state.pageZoom);
+
+									ctx.drawImage(
+										this.state.offScreenCanvas,
+										//0,0,5526,5526,
+										layerBoundsTopLeft.x - mapBoundsTopLeft.x,
+										layerBoundsTopLeft.y - mapBoundsTopLeft.y,
+										-1 * (layerBoundsTopLeft.x - layerBoundsBottomRight.x),
+										-1 * (layerBoundsTopLeft.y - layerBoundsBottomRight.y)
+										//5526*zoom/this.state.pageZoom,5526*zoom/this.state.pageZoom
+									);
+									console.log('this.state.offScreenCanvas', this.state.offScreenCanvas);
+								}
+								ctx.stroke();
+							}}
+						/>
+					)}
 					{this.state.activePage !== undefined && (
 						<Control position="bottomright">
 							<p style={{ backgroundColor: '#D8D8D8D8', padding: '5px' }}>

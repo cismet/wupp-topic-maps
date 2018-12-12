@@ -21,8 +21,11 @@ import PDFLayer from '../components/mapping/PDFLayer';
 import Coords from '../components/mapping/CoordLayer';
 import CanvasLayer from '../components/mapping/ReactCanvasLayer';
 
-import { PDFJS } from 'pdfjs-dist';
-PDFJS.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/1.8.507/pdf.worker.min.js';
+import pdfjsLib from 'pdfjs-dist';
+
+//pdfjsLib.GlobalWorkerOptions.workerSrc = '//mozilla.github.io/pdf.js/build/pdf.worker.js';
+
+pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.0.943/pdf.worker.min.js';
 
 function mapStateToProps(state) {
 	return {
@@ -124,7 +127,7 @@ export class DocViewer_ extends React.Component {
 		newState.pageLoadingInProgress = true;
 		this.setState(newState);
 
-		PDFJS.getDocument(doc.url).then((pdf) => {
+		pdfjsLib.getDocument(doc.url).then((pdf) => {
 			console.log('loadPage getDocument');
 
 			pdf.getPage(1).then((page) => {
@@ -147,7 +150,8 @@ export class DocViewer_ extends React.Component {
 					canvas.height = h;
 					xCorrection = (h - w) / 2;
 				}
-
+				canvas.width = w;
+				canvas.height = h;
 				const ctx = canvas.getContext('2d');
 				// const layerBoundsTopLeft = _map.project(layerBounds.getNorthWest(), zoom);
 
@@ -162,19 +166,24 @@ export class DocViewer_ extends React.Component {
 				console.log('page created- page.rotation', page);
 
 				// let computedScale=computeScale(page, _map, layerBounds, _map.zoom)
+				const viewport=page.getViewport(scale, page.rotate);
+				viewport.offsetX=xCorrection;
+				viewport.offsetY=yCorrection;
+				
 
 				page
 					.render({
 						intent: 'print',
 						background: 'white', //'transparent'
 						canvasContext: ctx,
-						viewport: new PDFJS.PageViewport(
-							page.view,
-							scale, //computedScale,
-							page.rotate,
-							xCorrection,
-							yCorrection
-						)
+						viewport: viewport,
+						// viewport: new pdfjsLib.PageViewport(
+						// 	page.view,
+						// 	scale, //computedScale,
+						// 	page.rotate,
+						// 	xCorrection,
+						// 	yCorrection
+						// )
 					})
 					.then(() => {
 						console.log('loadPage done render Page');
@@ -533,7 +542,7 @@ export class DocViewer_ extends React.Component {
 					fallbackZoom={10}
 					fullScreenControlEnabled={true}
 					locateControlEnabled={false}
-					zoomSnap={1}
+					zoomSnap={0.1}
 					zoomDelta={1}
 					onclick={(e) => console.log('click', e)}
 				>
@@ -578,7 +587,22 @@ export class DocViewer_ extends React.Component {
 
 								// ctx.fillText('Center ', point.x, point.y);
 								if (this.leafletRoutedMap) {
-									const layerBounds = new L.LatLngBounds([ -0.5, -0.5 ], [ 0.5, 0.5 ]);
+									const w=this.state.offScreenCanvas.width;
+									const h=this.state.offScreenCanvas.height;
+									let ph, pw;
+
+									if (w>h){
+										pw=1;
+										ph=h/w;
+									}
+									else {
+										ph=1;
+										pw=w/h;
+									}
+									console.log('[pw,ph]',[pw,ph]);
+									
+									// const layerBounds = new L.LatLngBounds([ -0.5, -0.5 ], [ 0.5, 0.5 ]);
+									const layerBounds = new L.LatLngBounds([ -ph/2, -pw/2  ], [ ph/2 , pw/2  ]);
 									const zoom = info.map.getZoom();
 									const layerBoundsTopLeft = info.map.project(layerBounds.getNorthWest(), zoom);
 									const layerBoundsBottomRight = info.map.project(layerBounds.getSouthEast(), zoom);

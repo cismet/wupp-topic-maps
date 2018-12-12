@@ -1,7 +1,7 @@
 import L from "leaflet";
 import {PDFJS} from "pdfjs-dist";
 
-PDFJS.workerSrc = "./worker.js";
+//PDFJS.workerSrc = "./worker.js";
 
 const rescaleCanvas = ctx => {
   const devicePixelRatio = window.devicePixelRatio || 1;

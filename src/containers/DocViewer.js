@@ -22,6 +22,7 @@ import Coords from '../components/mapping/CoordLayer';
 import CanvasLayer from '../components/mapping/ReactCanvasLayer';
 
 import { PDFJS } from 'pdfjs-dist';
+PDFJS.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/1.8.507/pdf.worker.min.js';
 
 function mapStateToProps(state) {
 	return {
@@ -77,6 +78,7 @@ export class DocViewer_ extends React.Component {
 			docPackageId: undefined,
 			docIndex: undefined,
 			pageIndex: undefined,
+			pageLoadingInProgress: false,
 			doc: undefined,
 			caching: 0,
 			docs: [],
@@ -108,6 +110,8 @@ export class DocViewer_ extends React.Component {
 	}
 
 	loadPage(index) {
+		console.log('loadPage', this.state);
+
 		// let docs = [
 		// 	'/tmp/B442_DBA.pdf',
 		// 	'/tmp/BPL_0774_0_PB_Drs_05-1989_Beitrittsbeschluss.pdf',
@@ -116,8 +120,16 @@ export class DocViewer_ extends React.Component {
 		// ];
 		console.log('this.state', this.state);
 		const doc = this.state.docs[index];
-		PDFJS.getDocument(doc.url).then((pdf) =>
+		let newState = objectAssign({}, this.state);
+		newState.pageLoadingInProgress = true;
+		this.setState(newState);
+
+		PDFJS.getDocument(doc.url).then((pdf) => {
+			console.log('loadPage getDocument');
+
 			pdf.getPage(1).then((page) => {
+				console.log('loadPage page');
+
 				const layerBounds = new L.LatLngBounds([ -0.5, -0.5 ], [ 0.5, 0.5 ]);
 				const _map = this.leafletRoutedMap.leafletMap.leafletElement;
 				const canvas = document.createElement('canvas');
@@ -165,17 +177,18 @@ export class DocViewer_ extends React.Component {
 						)
 					})
 					.then(() => {
-						console.log('done render Page');
+						console.log('loadPage done render Page');
 						console.log('page rendered', page);
 
 						console.log('this.state.canvas', this.state.offScreenCanvas);
 						let newState = objectAssign({}, this.state);
 						newState.cache++;
 						// newState.pageZoom=zoom;
+						newState.pageLoadingInProgress = false;
 						this.setState(newState);
 					});
-			})
-		);
+			});
+		});
 	}
 	componentDidMount() {
 		this.gotoHome();
@@ -273,7 +286,7 @@ export class DocViewer_ extends React.Component {
 					}
 				);
 			}
-		} else if (this.state.docIndex !== this.props.match.params.file - 1) {
+		} else if (!this.state.pageLoadingInProgress && this.state.docIndex !== undefined && this.state.docIndex !== this.props.match.params.file - 1) {
 			if (this.state.docs.length > 0) {
 				console.log('load the shit');
 				let newState = objectAssign({}, this.state);
@@ -449,11 +462,11 @@ export class DocViewer_ extends React.Component {
 							<NavItem eventKey={1} href="#">
 								<Icon name="step-backward" />
 							</NavItem>
-							<NavItem onClick={() => this.prevDoc()}eventKey={2} href="#">
+							<NavItem onClick={() => this.prevDoc()} eventKey={2} href="#">
 								<Icon name="chevron-left" />
 							</NavItem>
 							<NavItem eventKey={1} href="#">
-								{this.state.docIndex+1} / 1 / {this.state.docs.length}
+								{this.state.docIndex + 1} / 1 / {this.state.docs.length}
 							</NavItem>
 							<NavItem onClick={() => this.nextDoc()} eventKey={1} href="#">
 								<Icon name="chevron-right" />
@@ -469,6 +482,11 @@ export class DocViewer_ extends React.Component {
 							</NavItem>
 							<NavItem onClick={() => this.gotoWholeHeight()} eventKey={1} href="#">
 								<Icon name="arrows-v" />
+							</NavItem>
+						</Nav>
+						<Nav>
+							<NavItem onClick={() => this.gotoWholeWidth()} eventKey={2} href="#">
+								<Icon spin={true} name="refresh" />
 							</NavItem>
 						</Nav>
 
@@ -566,6 +584,10 @@ export class DocViewer_ extends React.Component {
 									const layerBoundsBottomRight = info.map.project(layerBounds.getSouthEast(), zoom);
 
 									const mapBoundsTopLeft = info.map.project(info.bounds.getNorthWest(), zoom);
+									const layerBoundsPixelWidth =
+										-1 * (layerBoundsTopLeft.x - layerBoundsBottomRight.x);
+									const layerBoundsPixelHeight =
+										-1 * (layerBoundsTopLeft.y - layerBoundsBottomRight.y);
 									console.log('layerBoundsTopLeft', layerBoundsTopLeft);
 									console.log('mapBoundsTopLeft', mapBoundsTopLeft);
 									console.log('layerBoundsBottomRight', layerBoundsBottomRight);
@@ -582,8 +604,8 @@ export class DocViewer_ extends React.Component {
 										//0,0,5526,5526,
 										layerBoundsTopLeft.x - mapBoundsTopLeft.x,
 										layerBoundsTopLeft.y - mapBoundsTopLeft.y,
-										-1 * (layerBoundsTopLeft.x - layerBoundsBottomRight.x),
-										-1 * (layerBoundsTopLeft.y - layerBoundsBottomRight.y)
+										layerBoundsPixelWidth,
+										layerBoundsPixelHeight
 										//5526*zoom/this.state.pageZoom,5526*zoom/this.state.pageZoom
 									);
 									console.log('this.state.offScreenCanvas', this.state.offScreenCanvas);

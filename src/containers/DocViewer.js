@@ -198,6 +198,8 @@ export class DocViewer_ extends React.Component {
 				this.getPDFPage(pdf, pageNo)
 			});
 		} else {
+			console.log('pdf already loaded');
+			
 			this.getPDFPage(this.state.pdfdoc, pageNo);
 		}
 	}
@@ -287,6 +289,9 @@ export class DocViewer_ extends React.Component {
 		const pageNumber = this.props.match.params.page || 1;
 		console.log('docViewerConf:', { topic, docPackageId, fileNumber, pageNumber });
 
+
+
+
 		if (this.props.match.params.file === undefined || this.props.match.params.page === undefined) {
 			//not necessary to check file && page || page cause if file is undefined page must beundefined too
 			this.pushRouteForForPage(topic, docPackageId, fileNumber, pageNumber);
@@ -305,7 +310,7 @@ export class DocViewer_ extends React.Component {
 			console.log('found bplan', gazHit);
 			console.log('this.props.bplanActions', this.props.bplanActions);
 			if (gazHit) {
-				this.changeState({ docPackageId, topic });
+				this.changeState({ docPackageId, topic, docIndex:undefined });
 				this.props.bplanActions.searchForPlans(
 					[
 						{
@@ -371,6 +376,7 @@ export class DocViewer_ extends React.Component {
 			}
 		} else if (
 			(!this.state.pageLoadingInProgress && this.state.docIndex === undefined) ||
+			// (this.state.docPackageId !== undefined && this.state.docPackageId !== this.props.match.params.docPackageId - 1) ||
 			(this.state.docIndex !== undefined && this.state.docIndex !== this.props.match.params.file - 1) ||
 			(this.state.pageIndex !== undefined && this.state.pageIndex !== this.props.match.params.page - 1)
 		) {

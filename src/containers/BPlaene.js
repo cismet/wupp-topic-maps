@@ -53,6 +53,7 @@ export class BPlaene_ extends React.Component {
     this.downloadPreparationDone = this.downloadPreparationDone.bind(this);
     this.doubleMapClick = this.doubleMapClick.bind(this);
     this.resetPreparedDownload = this.resetPreparedDownload.bind(this);
+    this.openDocViewer = this.openDocViewer.bind(this);
   }
 
   bplanGazeteerhHit(selectedObject) {
@@ -95,6 +96,21 @@ export class BPlaene_ extends React.Component {
     this.props.mappingActions.fitAll();
   }
 
+
+  openDocViewer() {
+    const currentFeature = this.props.mapping.featureCollection[this.props.mapping.selectedIndex];
+    try {
+      let link = document.createElement("a");
+      document.body.appendChild(link);
+      link.setAttribute("type", "hidden");
+      link.href = "/#/docs/bplaene/"+currentFeature.properties.nummer+"/1/1";
+      link.target = "_blank";//"_docviewer";
+      link.click();
+     
+    } catch (err) {
+      window.alert(err);
+    }
+  }
   downloadPlan() {
     const currentFeature = this.props.mapping.featureCollection[this.props.mapping.selectedIndex];
     if (
@@ -221,8 +237,8 @@ export class BPlaene_ extends React.Component {
           previous={this.selectPreviousIndex}
           fitAll={this.fitAll}
           loadingIndicator={this.props.bplaene.documentsLoading}
-          downloadPlan={this.downloadPlan}
-          downloadEverything={this.downloadEverything}
+          downloadPlan={this.openDocViewer}
+          downloadEverything={this.openDocViewer}
           preparedDownload={this.props.bplaene.preparedDownload}
           resetPreparedDownload={this.resetPreparedDownload}
           loadingError={this.props.bplaene.documentsLoadingError}

@@ -3,7 +3,7 @@ import React from 'react';
 import objectAssign from 'object-assign';
 
 import { connect } from 'react-redux';
-import { Navbar, Nav, NavItem, OverlayTrigger, Tooltip, MenuItem} from 'react-bootstrap';
+import { Navbar, Nav, NavItem, OverlayTrigger, Tooltip, MenuItem } from 'react-bootstrap';
 import { RoutedMap, MappingConstants, FeatureCollectionDisplay } from 'react-cismap';
 import { routerActions as RoutingActions } from 'react-router-redux';
 import { WMSTileLayer, Marker, Popup, Rectangle } from 'react-leaflet';
@@ -83,7 +83,7 @@ export class DocViewer_ extends React.Component {
 		this.getLayerBoundsForOffscreenCanvas = this.getLayerBoundsForOffscreenCanvas.bind(this);
 		this.getOptimalBounds = this.getOptimalBounds.bind(this);
 		this.gotoWholeDocument = this.gotoWholeDocument.bind(this);
-		this.getPDFPage=this.getPDFPage.bind(this);
+		this.getPDFPage = this.getPDFPage.bind(this);
 
 		const topic = this.props.match.params.topic || 'bplaene';
 		const docPackageId = this.props.match.params.docPackageId || '1179V';
@@ -111,7 +111,7 @@ export class DocViewer_ extends React.Component {
 	}
 
 	pushRouteForForPage(topic, docPackageId, docIndex, pageIndex) {
-		console.log('this.props.routing', this.props.routing);
+		
 
 		this.props.routingActions.push(
 			'/docs/' +
@@ -174,6 +174,8 @@ export class DocViewer_ extends React.Component {
 
 	changeState(changes) {
 		let newState = objectAssign({}, this.state, changes);
+		console.log('changeState-from:', this.state);
+		console.log('changeState-to:', newState);
 		this.setState(newState);
 	}
 
@@ -186,27 +188,25 @@ export class DocViewer_ extends React.Component {
 		// ];
 		console.log('loadPage this.state', this.state);
 		const doc = this.state.docs[index];
-		let newState = objectAssign({}, this.state);
-		newState.pageLoadingInProgress = true;
-		this.setState(newState);
+		this.changeState({ pageLoadingInProgress: true });
 		console.log('loadPage', this.state);
 
 		if (index !== this.state.docIndex) {
-			this.changeState({pdfdoc:undefined});
+			this.changeState({ pdfdoc: undefined });
 			pdfjsLib.getDocument(doc.url).then((pdf) => {
-				this.changeState({pdfdoc:pdf,pageLoadingInProgress:true});
-				this.getPDFPage(pdf, pageNo)
+				this.changeState({ pdfdoc: pdf, pageLoadingInProgress: true });
+				this.getPDFPage(pdf, pageNo);
 			});
 		} else {
 			console.log('pdf already loaded');
-			
+
 			this.getPDFPage(this.state.pdfdoc, pageNo);
 		}
 	}
 
-	getPDFPage(pdf, pageNo){
+	getPDFPage(pdf, pageNo) {
 		pdf.getPage(pageNo + 1).then((page) => {
-			console.log('loadPage page');
+			console.log('loadPage page', pdf);
 
 			const layerBounds = new L.LatLngBounds([ -0.5, -0.5 ], [ 0.5, 0.5 ]);
 			const _map = this.leafletRoutedMap.leafletMap.leafletElement;
@@ -230,16 +230,11 @@ export class DocViewer_ extends React.Component {
 			const ctx = canvas.getContext('2d');
 			// const layerBoundsTopLeft = _map.project(layerBounds.getNorthWest(), zoom);
 
-			let newState = objectAssign({}, this.state);
-			newState.offScreenCanvas = canvas;
-			newState.page = page;
-			newState.pageLoadingInProgress = true;
-			this.setState(newState);
+			console.log('XXXXXXXXXX', canvas);
+			this.changeState({ pageLoadingInProgress: true, offScreenCanvas: canvas, page });
+
 			console.log('page created', page);
 			console.log('page created- state', this.state);
-			console.log('page created- page.getViewport(1.0).width', page.getViewport(1.0).width);
-			console.log('page created- page.getViewport(1.0).height', page.getViewport(1.0).height);
-			console.log('page created- page.rotation', page);
 
 			// let computedScale=computeScale(page, _map, layerBounds, _map.zoom)
 			const viewport = page.getViewport(scale, page.rotate);
@@ -265,17 +260,13 @@ export class DocViewer_ extends React.Component {
 					console.log('page rendered', page);
 
 					console.log('this.state.canvas', this.state.offScreenCanvas);
-					let newState = objectAssign({}, this.state);
-					newState.cache++;
-					newState.pageLoadingInProgress = false;
-					this.setState(newState);
+					this.changeState({ pageLoadingInProgress: false, cache: this.state.cache + 1 });
 					setTimeout(() => {
 						this.gotoWholeDocument();
 					}, 100);
 				});
 		});
 	}
-
 
 	componentDidMount() {
 		this.componentDidUpdate();
@@ -289,9 +280,6 @@ export class DocViewer_ extends React.Component {
 		const pageNumber = this.props.match.params.page || 1;
 		console.log('docViewerConf:', { topic, docPackageId, fileNumber, pageNumber });
 
-
-
-
 		if (this.props.match.params.file === undefined || this.props.match.params.page === undefined) {
 			//not necessary to check file && page || page cause if file is undefined page must beundefined too
 			this.pushRouteForForPage(topic, docPackageId, fileNumber, pageNumber);
@@ -300,6 +288,8 @@ export class DocViewer_ extends React.Component {
 
 		if (this.state.docPackageId !== docPackageId || this.state.topic !== topic) {
 			let gazHit;
+			this.changeState({ pageLoadingInProgress: true, pdfdoc: undefined, page: undefined });
+
 			const bpl = JSON.parse(this.props.gazetteerTopics.bplaene);
 			for (let gazEntry of bpl) {
 				if (gazEntry.s === docPackageId) {
@@ -308,9 +298,9 @@ export class DocViewer_ extends React.Component {
 			}
 
 			console.log('found bplan', gazHit);
-			console.log('this.props.bplanActions', this.props.bplanActions);
+
 			if (gazHit) {
-				this.changeState({ docPackageId, topic, docIndex:undefined });
+				this.changeState({ docPackageId, topic, docIndex: undefined, docs:[] });
 				this.props.bplanActions.searchForPlans(
 					[
 						{
@@ -326,7 +316,6 @@ export class DocViewer_ extends React.Component {
 					{
 						skipMappingActions: true,
 						done: (bplanFeatures) => {
-							console.log('bplanFeature', bplanFeatures);
 							const bplan = bplanFeatures[0].properties;
 							let docs = [];
 							for (const rkDoc of bplan.plaene_rk) {
@@ -350,9 +339,11 @@ export class DocViewer_ extends React.Component {
 									url: doc.url //.replace('https://wunda-geoportal-docs.cismet.de/', 'bplandocs/')
 								});
 							}
-							this.changeState({ docs });
+							const canvas = document.createElement('canvas');
 
-							//							this.loadPage(0);
+							this.changeState({ docs, pdfdoc: undefined, page: undefined, offScreenCanvas: canvas });
+
+							//	this.loadPage(0,0);
 
 							// this.getDocInfoWithHead(newState.docs[0], 0).then((result) => {
 							// 	console.log('First HEAD Fetch done', result);
@@ -368,8 +359,6 @@ export class DocViewer_ extends React.Component {
 							// 	// 	console.log('all HEAD Fetches done', results);
 							// 	// });
 							// });
-
-							console.log('------------------------------');
 						}
 					}
 				);
@@ -381,11 +370,10 @@ export class DocViewer_ extends React.Component {
 			(this.state.pageIndex !== undefined && this.state.pageIndex !== this.props.match.params.page - 1)
 		) {
 			if (this.state.docs.length > 0) {
-				let newState = objectAssign({}, this.state);
-				newState.docIndex = fileNumber - 1;
-				newState.pageIndex = pageNumber - 1;
-				this.loadPage(newState.docIndex, newState.pageIndex);
-				this.setState(newState);
+				let docIndex = fileNumber - 1;
+				let pageIndex = pageNumber - 1;
+				this.loadPage(docIndex, pageIndex);
+				this.changeState({ docIndex, pageIndex });
 			}
 		} else {
 			console.log('dont load', this.state);
@@ -538,10 +526,6 @@ export class DocViewer_ extends React.Component {
 			leafletContext = {
 				map: this.leafletRoutedMap.leafletMap.leafletElement
 			};
-			console.log(
-				'	this.leafletRoutedMap.leafletMap.leafletElement',
-				this.leafletRoutedMap.leafletMap.leafletElement
-			);
 		}
 		const mapStyle = {
 			height: this.props.uiState.height - 50,
@@ -636,8 +620,12 @@ export class DocViewer_ extends React.Component {
 						</Nav> */}
 
 						<Nav pullRight>
-							
-							{(this.state.docs.length>0 && this.state.docIndex !== undefined && <MenuItem href={this.state.docs[this.state.docIndex].url} target="_blank"><Icon name="download" /></MenuItem>)}
+							{this.state.docs.length > 0 &&
+							this.state.docIndex !== undefined && (
+								<MenuItem href={this.state.docs[this.state.docIndex].url} target="_blank">
+									<Icon name="download" />
+								</MenuItem>
+							)}
 							<NavItem disabled={true} eventKey={1} href="#">
 								<Icon name="file-archive-o" />
 							</NavItem>
@@ -680,7 +668,7 @@ export class DocViewer_ extends React.Component {
 						locateControlEnabled={false}
 						zoomSnap={0.1}
 						zoomDelta={1}
-						onclick={(e) => console.log('click', e)}
+						onclick={(e) => {}}
 					>
 						{/* {this.state.activePage && (
 						<WMSTileLayer
@@ -709,17 +697,12 @@ export class DocViewer_ extends React.Component {
 								key={'CANVAS' + this.state.caching}
 								leaflet={leafletContext}
 								drawMethod={(info) => {
-									console.log('in drawMethod(', info);
+									
 
 									const ctx = info.canvas.getContext('2d');
 									ctx.fillStyle = 'black';
 									ctx.clearRect(0, 0, info.canvas.width, info.canvas.height);
 									var point = info.map.latLngToContainerPoint([ 0, 0 ]);
-									console.log('info', info);
-									console.log('info.canvas.width, info.canvas.height', [
-										info.canvas.width,
-										info.canvas.height
-									]);
 
 									// ctx.fillText('Center ', point.x, point.y);
 									if (this.leafletRoutedMap && this.state.pageLoadingInProgress === false) {
@@ -736,16 +719,6 @@ export class DocViewer_ extends React.Component {
 											-1 * (layerBoundsTopLeft.x - layerBoundsBottomRight.x);
 										const layerBoundsPixelHeight =
 											-1 * (layerBoundsTopLeft.y - layerBoundsBottomRight.y);
-										console.log('layerBoundsTopLeft', layerBoundsTopLeft);
-										console.log('mapBoundsTopLeft', mapBoundsTopLeft);
-										console.log('layerBoundsBottomRight', layerBoundsBottomRight);
-										console.log('width', -1 * (layerBoundsTopLeft.x - layerBoundsBottomRight.x));
-
-										console.log('x', layerBoundsTopLeft.x - mapBoundsTopLeft.x);
-										console.log('y', layerBoundsTopLeft.y - mapBoundsTopLeft.y);
-										console.log('y', layerBoundsTopLeft.y - mapBoundsTopLeft.y);
-										console.log(' info.map', zoom);
-
 										ctx.drawImage(
 											this.state.offScreenCanvas,
 											//0,0,5526,5526,
@@ -754,7 +727,6 @@ export class DocViewer_ extends React.Component {
 											layerBoundsPixelWidth,
 											layerBoundsPixelHeight
 										);
-										console.log('this.state.offScreenCanvas', this.state.offScreenCanvas);
 									}
 									ctx.stroke();
 								}}
@@ -786,7 +758,7 @@ export class DocViewer_ extends React.Component {
 			ph = 1;
 			pw = w / h;
 		}
-		console.log('[pw,ph]', [ pw, ph ]);
+
 
 		// const layerBounds = new L.LatLngBounds([ v ], [ 0.5, 0.5 ]);
 		const layerBounds = new L.LatLngBounds([ -ph / 2, -pw / 2 ], [ ph / 2, pw / 2 ]);

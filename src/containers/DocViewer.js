@@ -637,7 +637,7 @@ export class DocViewer_ extends React.Component {
 
 						<Nav pullRight>
 							
-							{(this.state.docs.length>0 && this.state.docIndex && <MenuItem href={this.state.docs[this.state.docIndex].url} target="_blank"><Icon name="download" /></MenuItem>)}
+							{(this.state.docs.length>0 && this.state.docIndex !== undefined && <MenuItem href={this.state.docs[this.state.docIndex].url} target="_blank"><Icon name="download" /></MenuItem>)}
 							<NavItem disabled={true} eventKey={1} href="#">
 								<Icon name="file-archive-o" />
 							</NavItem>

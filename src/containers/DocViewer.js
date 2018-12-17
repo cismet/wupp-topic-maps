@@ -22,8 +22,8 @@ import Coords from '../components/mapping/CoordLayer';
 import CanvasLayer from '../components/mapping/ReactCanvasLayer';
 
 import pdfjsLib from 'pdfjs-dist';
-import Loadable from 'react-loading-overlay';
 import { isThisQuarter } from 'date-fns';
+import Loadable from 'react-loading-overlay';
 
 //pdfjsLib.GlobalWorkerOptions.workerSrc = '//mozilla.github.io/pdf.js/build/pdf.worker.js';
 
@@ -32,6 +32,7 @@ pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs
 const WIDTH = 'WIDTH';
 const HEIGHT = 'HEIGHT';
 const BOTH = 'BOTH';
+const OVERLAY_DELAY = 150;
 
 function mapStateToProps(state) {
 	return {
@@ -81,10 +82,11 @@ export class DocViewer_ extends React.Component {
 		this.changeState = this.changeState.bind(this);
 		this.showMainDoc = this.showMainDoc.bind(this);
 		this.getLayerBoundsForOffscreenCanvas = this.getLayerBoundsForOffscreenCanvas.bind(this);
+
 		this.getOptimalBounds = this.getOptimalBounds.bind(this);
 		this.gotoWholeDocument = this.gotoWholeDocument.bind(this);
 		this.getPDFPage = this.getPDFPage.bind(this);
-
+		this.showPageLoadingInProgress = this.showPageLoadingInProgress.bind(this);
 		const topic = this.props.match.params.topic || 'bplaene';
 		const docPackageId = this.props.match.params.docPackageId || '1179V';
 		const file = this.props.match.params.file || 1;
@@ -93,7 +95,7 @@ export class DocViewer_ extends React.Component {
 		this.state = {
 			docPackageId: undefined,
 			pageLoadingInProgress: false,
-			enablePageLoadingInProgressMessage: false,
+			showPageLoadingInProgressMessage: false,
 
 			pdfdoc: undefined,
 			page: undefined,
@@ -111,8 +113,6 @@ export class DocViewer_ extends React.Component {
 	}
 
 	pushRouteForForPage(topic, docPackageId, docIndex, pageIndex) {
-		
-
 		this.props.routingActions.push(
 			'/docs/' +
 				topic +
@@ -180,21 +180,26 @@ export class DocViewer_ extends React.Component {
 	}
 
 	loadPage(index, pageNo = 0) {
-		// let docs = [
-		// 	'/tmp/B442_DBA.pdf',
-		// 	'/tmp/BPL_0774_0_PB_Drs_05-1989_Beitrittsbeschluss.pdf',
-		// 	'/tmp/BPL_1131_0_PB_Drs_10-2011_Auflistung-TÖB.pdf',
-		// 	'/tmp/BPL_1131_0_PB_Drs_10-2011_Abwägung.pdf'
-		// ];
 		console.log('loadPage this.state', this.state);
 		const doc = this.state.docs[index];
 		this.changeState({ pageLoadingInProgress: true });
+		setTimeout(this.showPageLoadingInProgress, OVERLAY_DELAY);
+
 		console.log('loadPage', this.state);
+		const total = fetch(new Request(doc.url, { method: 'HEAD', credentials: 'include' })).then((res) => {
+			console.log('total - percent', parseInt(res.headers.get('content-length'), 10));
+		});
 
 		if (index !== this.state.docIndex) {
 			this.changeState({ pdfdoc: undefined });
-			pdfjsLib.getDocument(doc.url).then((pdf) => {
+			const loadingTask = pdfjsLib.getDocument(doc.url);
+			loadingTask.onProgress = function(progress) {
+				var percent = parseInt(progress.loaded / progress.total * 100);
+				console.log('percent', progress);
+			};
+			loadingTask.promise.then((pdf) => {
 				this.changeState({ pdfdoc: pdf, pageLoadingInProgress: true });
+				setTimeout(this.showPageLoadingInProgress, OVERLAY_DELAY);
 				this.getPDFPage(pdf, pageNo);
 			});
 		} else {
@@ -231,7 +236,8 @@ export class DocViewer_ extends React.Component {
 			// const layerBoundsTopLeft = _map.project(layerBounds.getNorthWest(), zoom);
 
 			console.log('XXXXXXXXXX', canvas);
-			this.changeState({ pageLoadingInProgress: true, offScreenCanvas: canvas, page });
+			//this.changeState({ pageLoadingInProgress: true, offScreenCanvas: canvas, page });
+			this.changeState({ offScreenCanvas: canvas, page });
 
 			console.log('page created', page);
 			console.log('page created- state', this.state);
@@ -260,7 +266,11 @@ export class DocViewer_ extends React.Component {
 					console.log('page rendered', page);
 
 					console.log('this.state.canvas', this.state.offScreenCanvas);
-					this.changeState({ pageLoadingInProgress: false, cache: this.state.cache + 1 });
+					this.changeState({
+						pageLoadingInProgress: false,
+						showPageLoadingInProgressMessage: false,
+						caching: this.state.caching + 1
+					});
 					setTimeout(() => {
 						this.gotoWholeDocument();
 					}, 100);
@@ -270,6 +280,14 @@ export class DocViewer_ extends React.Component {
 
 	componentDidMount() {
 		this.componentDidUpdate();
+	}
+
+	showPageLoadingInProgress() {
+		if (this.state.pageLoadingInProgress) {
+			this.changeState({ showPageLoadingInProgressMessage: true });
+		} else {
+			this.changeState({ showPageLoadingInProgressMessage: false });
+		}
 	}
 
 	componentDidUpdate() {
@@ -288,7 +306,12 @@ export class DocViewer_ extends React.Component {
 
 		if (this.state.docPackageId !== docPackageId || this.state.topic !== topic) {
 			let gazHit;
-			this.changeState({ pageLoadingInProgress: true, pdfdoc: undefined, page: undefined });
+			this.changeState({
+				pageLoadingInProgress: true,
+				showPageLoadingInProgressMessage: true,
+				pdfdoc: undefined,
+				page: undefined
+			});
 
 			const bpl = JSON.parse(this.props.gazetteerTopics.bplaene);
 			for (let gazEntry of bpl) {
@@ -300,7 +323,7 @@ export class DocViewer_ extends React.Component {
 			console.log('found bplan', gazHit);
 
 			if (gazHit) {
-				this.changeState({ docPackageId, topic, docIndex: undefined, docs:[] });
+				this.changeState({ docPackageId, topic, docIndex: undefined, docs: [] });
 				this.props.bplanActions.searchForPlans(
 					[
 						{
@@ -635,7 +658,11 @@ export class DocViewer_ extends React.Component {
 						</Nav>
 					</Navbar.Collapse>
 				</Navbar>
-				<Loadable delay={500} active={this.state.pageLoadingInProgress} spinner text="Laden der Datei ...">
+				<Loadable
+					active={this.state.showPageLoadingInProgressMessage && this.state.pageLoadingInProgress}
+					spinner
+					text="Laden der Datei ..."
+				>
 					<RoutedMap
 						key={'leafletRoutedMap'}
 						referenceSystem={L.CRS.Simple}
@@ -697,15 +724,17 @@ export class DocViewer_ extends React.Component {
 								key={'CANVAS' + this.state.caching}
 								leaflet={leafletContext}
 								drawMethod={(info) => {
-									
-
 									const ctx = info.canvas.getContext('2d');
 									ctx.fillStyle = 'black';
 									ctx.clearRect(0, 0, info.canvas.width, info.canvas.height);
 									var point = info.map.latLngToContainerPoint([ 0, 0 ]);
 
 									// ctx.fillText('Center ', point.x, point.y);
-									if (this.leafletRoutedMap && this.state.pageLoadingInProgress === false && this.state.docPackageId===this.props.match.params.docPackageId) {
+									if (
+										this.leafletRoutedMap &&
+										this.state.pageLoadingInProgress === false &&
+										this.state.docPackageId === this.props.match.params.docPackageId
+									) {
 										const layerBounds = this.getLayerBoundsForOffscreenCanvas();
 										const zoom = info.map.getZoom();
 										const layerBoundsTopLeft = info.map.project(layerBounds.getNorthWest(), zoom);
@@ -758,7 +787,6 @@ export class DocViewer_ extends React.Component {
 			ph = 1;
 			pw = w / h;
 		}
-
 
 		// const layerBounds = new L.LatLngBounds([ v ], [ 0.5, 0.5 ]);
 		const layerBounds = new L.LatLngBounds([ -ph / 2, -pw / 2 ], [ ph / 2, pw / 2 ]);

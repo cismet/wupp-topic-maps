@@ -705,7 +705,7 @@ export class DocViewer_ extends React.Component {
 									var point = info.map.latLngToContainerPoint([ 0, 0 ]);
 
 									// ctx.fillText('Center ', point.x, point.y);
-									if (this.leafletRoutedMap && this.state.pageLoadingInProgress === false) {
+									if (this.leafletRoutedMap && this.state.pageLoadingInProgress === false && this.state.docPackageId===this.props.match.params.docPackageId) {
 										const layerBounds = this.getLayerBoundsForOffscreenCanvas();
 										const zoom = info.map.getZoom();
 										const layerBoundsTopLeft = info.map.project(layerBounds.getNorthWest(), zoom);

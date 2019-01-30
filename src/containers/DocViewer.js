@@ -17,7 +17,7 @@ import { modifyQueryPart } from '../utils/routingHelper';
 import 'url-search-params-polyfill';
 import { actions as UIStateActions } from '../redux/modules/uiState';
 import { Icon } from 'react-fa';
-import PDFLayer from '../components/mapping/PDFLayer';
+//import PDFLayer from '../components/mapping/PDFLayer';
 import Coords from '../components/mapping/CoordLayer';
 import CanvasLayer from '../components/mapping/ReactCanvasLayer';
 
@@ -32,7 +32,11 @@ pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs
 const WIDTH = 'WIDTH';
 const HEIGHT = 'HEIGHT';
 const BOTH = 'BOTH';
-const OVERLAY_DELAY = 150;
+const OVERLAY_DELAY = 500;
+
+const LOADING_STARTED = 'LOADING_STARTED';
+const LOADING_FINISHED = 'LOADING_FINISHED';
+const LOADING_OVERLAY = 'LOADING_OVERLAY';
 
 function mapStateToProps(state) {
 	return {
@@ -50,22 +54,6 @@ function mapDispatchToProps(dispatch) {
 		bplanActions: bindActionCreators(bplanActions, dispatch)
 	};
 }
-const computeScale = (page, map, layerBounds, zoom) => {
-	const viewport = page.getViewport(1.0);
-
-	const [ pageMinX, pageMinY, pageMaxX, pageMaxY ] = [ 0, 0, viewport.width, viewport.height ];
-
-	const sw = map.project(layerBounds.getSouthWest(), zoom);
-	const ne = map.project(layerBounds.getNorthEast(), zoom);
-
-	const [ layerMinX, layerMinY, layerMaxX, layerMaxY ] = [ sw.x, sw.y, ne.x, ne.y ];
-
-	const xScale = Math.abs(layerMaxX - layerMinX) / Math.abs(pageMaxX - pageMinX);
-	const yScale = Math.abs(layerMaxY - layerMinY) / Math.abs(pageMaxY - pageMinY);
-	const scale = Math.min(xScale, yScale);
-
-	return scale;
-};
 
 export class DocViewer_ extends React.Component {
 	constructor(props, context) {
@@ -92,10 +80,13 @@ export class DocViewer_ extends React.Component {
 		const file = this.props.match.params.file || 1;
 		const page = this.props.match.params.page || 1;
 
+		const osc = document.createElement('canvas');
+		osc.width = 10;
+		osc.height = 10;
+
 		this.state = {
 			docPackageId: undefined,
-			pageLoadingInProgress: false,
-			showPageLoadingInProgressMessage: false,
+			loading: LOADING_FINISHED,
 
 			pdfdoc: undefined,
 			page: undefined,
@@ -107,7 +98,7 @@ export class DocViewer_ extends React.Component {
 			caching: 0,
 
 			docs: [],
-			offScreenCanvas: document.createElement('canvas'),
+			offScreenCanvas: osc,
 			debugBounds: [ [ -0.5, -0.5 ], [ 0.5, 0.5 ] ]
 		};
 	}
@@ -174,7 +165,7 @@ export class DocViewer_ extends React.Component {
 
 	changeState(changes) {
 		let newState = objectAssign({}, this.state, changes);
-		console.log('changeState-from:', this.state);
+		//console.log('changeState-from:', this.state);
 		console.log('changeState-to:', newState);
 		this.setState(newState);
 	}
@@ -182,12 +173,13 @@ export class DocViewer_ extends React.Component {
 	loadPage(index, pageNo = 0) {
 		console.log('loadPage this.state', this.state);
 		const doc = this.state.docs[index];
-		this.changeState({ pageLoadingInProgress: true });
-		setTimeout(this.showPageLoadingInProgress, OVERLAY_DELAY);
-
-		console.log('loadPage', this.state);
+		this.showPageLoadingInProgress(true);
+		console.log(
+			'loadPage +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++',
+			this.state
+		);
 		const total = fetch(new Request(doc.url, { method: 'HEAD', credentials: 'include' })).then((res) => {
-			console.log('total - percent', parseInt(res.headers.get('content-length'), 10));
+			// console.log('total - percent', parseInt(res.headers.get('content-length'), 10));
 		});
 
 		if (index !== this.state.docIndex) {
@@ -195,11 +187,11 @@ export class DocViewer_ extends React.Component {
 			const loadingTask = pdfjsLib.getDocument(doc.url);
 			loadingTask.onProgress = function(progress) {
 				var percent = parseInt(progress.loaded / progress.total * 100);
-				console.log('percent', progress);
+				//console.log('percent', progress);
 			};
 			loadingTask.promise.then((pdf) => {
-				this.changeState({ pdfdoc: pdf, pageLoadingInProgress: true });
-				setTimeout(this.showPageLoadingInProgress, OVERLAY_DELAY);
+				this.changeState({ pdfdoc: pdf });
+				this.showPageLoadingInProgress(true);
 				this.getPDFPage(pdf, pageNo);
 			});
 		} else {
@@ -211,7 +203,7 @@ export class DocViewer_ extends React.Component {
 
 	getPDFPage(pdf, pageNo) {
 		pdf.getPage(pageNo + 1).then((page) => {
-			console.log('loadPage page', pdf);
+			console.log('loadPage page', page);
 
 			const layerBounds = new L.LatLngBounds([ -0.5, -0.5 ], [ 0.5, 0.5 ]);
 			const _map = this.leafletRoutedMap.leafletMap.leafletElement;
@@ -235,18 +227,16 @@ export class DocViewer_ extends React.Component {
 			const ctx = canvas.getContext('2d');
 			// const layerBoundsTopLeft = _map.project(layerBounds.getNorthWest(), zoom);
 
-			console.log('XXXXXXXXXX', canvas);
-			//this.changeState({ pageLoadingInProgress: true, offScreenCanvas: canvas, page });
 			this.changeState({ offScreenCanvas: canvas, page });
 
 			console.log('page created', page);
 			console.log('page created- state', this.state);
 
-			// let computedScale=computeScale(page, _map, layerBounds, _map.zoom)
 			const viewport = page.getViewport(scale, page.rotate);
 			viewport.offsetX = xCorrection;
 			viewport.offsetY = yCorrection;
-
+			console.log('XXXX VIEWPORT', viewport);
+			console.log('XXXX CTX', ctx);
 			page
 				.render({
 					intent: 'print',
@@ -265,15 +255,17 @@ export class DocViewer_ extends React.Component {
 					console.log('loadPage done render Page');
 					console.log('page rendered', page);
 
-					console.log('this.state.canvas', this.state.offScreenCanvas);
+					console.log('this.state.offScreenCanvas', this.state.offScreenCanvas);
 					this.changeState({
-						pageLoadingInProgress: false,
-						showPageLoadingInProgressMessage: false,
+						loading: LOADING_FINISHED,
 						caching: this.state.caching + 1
 					});
 					setTimeout(() => {
 						this.gotoWholeDocument();
 					}, 100);
+				})
+				.catch((error) => {
+					console.error('error during rendering', error);
 				});
 		});
 	}
@@ -281,16 +273,21 @@ export class DocViewer_ extends React.Component {
 	componentDidMount() {
 		this.componentDidUpdate();
 	}
-
-	showPageLoadingInProgress() {
-		if (this.state.pageLoadingInProgress) {
-			this.changeState({ showPageLoadingInProgressMessage: true });
+	showPageLoadingInProgress(visible) {
+		if (visible) {
+			this.changeState({ loading: LOADING_STARTED });
+			setTimeout(()=>{
+				if (this.state.loading===LOADING_STARTED){
+					this.changeState({ loading: LOADING_OVERLAY });
+				}
+			}, OVERLAY_DELAY);
 		} else {
-			this.changeState({ showPageLoadingInProgressMessage: false });
 		}
 	}
 
 	componentDidUpdate() {
+		console.log('###############################################################################');
+
 		console.log('localState', this.state);
 		const topic = this.props.match.params.topic || 'bplaene';
 		const docPackageId = this.props.match.params.docPackageId || '1179V';
@@ -307,12 +304,10 @@ export class DocViewer_ extends React.Component {
 		if (this.state.docPackageId !== docPackageId || this.state.topic !== topic) {
 			let gazHit;
 			this.changeState({
-				pageLoadingInProgress: true,
-				showPageLoadingInProgressMessage: true,
 				pdfdoc: undefined,
 				page: undefined
 			});
-
+			this.showPageLoadingInProgress(true);
 			const bpl = JSON.parse(this.props.gazetteerTopics.bplaene);
 			for (let gazEntry of bpl) {
 				if (gazEntry.s === docPackageId) {
@@ -345,21 +340,30 @@ export class DocViewer_ extends React.Component {
 								docs.push({
 									group: 'rechtskräftig',
 									file: rkDoc.file,
-									url: rkDoc.url //.replace('https://wunda-geoportal-docs.cismet.de/', 'bplandocs/')
+									url: rkDoc.url.replace(
+										'https://wunda-geoportal-docs.cismet.de/',
+										'https://wunda-geoportal-dox.cismet.de/'
+									)
 								});
 							}
 							for (const nrkDoc of bplan.plaene_nrk) {
 								docs.push({
 									group: 'nicht rechtskräftig',
 									file: nrkDoc.file,
-									url: nrkDoc.url //.replace('https://wunda-geoportal-docs.cismet.de/', 'bplandocs/')
+									url: nrkDoc.url.replace(
+										'https://wunda-geoportal-docs.cismet.de/',
+										'https://wunda-geoportal-dox.cismet.de/'
+									)
 								});
 							}
 							for (const doc of bplan.docs) {
 								docs.push({
 									group: 'Zusatzdokumente',
 									file: doc.file,
-									url: doc.url //.replace('https://wunda-geoportal-docs.cismet.de/', 'bplandocs/')
+									url: doc.url.replace(
+										'https://wunda-geoportal-docs.cismet.de/',
+										'https://wunda-geoportal-dox.cismet.de/'
+									)
 								});
 							}
 							const canvas = document.createElement('canvas');
@@ -387,7 +391,7 @@ export class DocViewer_ extends React.Component {
 				);
 			}
 		} else if (
-			(!this.state.pageLoadingInProgress && this.state.docIndex === undefined) ||
+			(this.state.loading === LOADING_FINISHED && this.state.docIndex === undefined) ||
 			// (this.state.docPackageId !== undefined && this.state.docPackageId !== this.props.match.params.docPackageId - 1) ||
 			(this.state.docIndex !== undefined && this.state.docIndex !== this.props.match.params.file - 1) ||
 			(this.state.pageIndex !== undefined && this.state.pageIndex !== this.props.match.params.page - 1)
@@ -577,12 +581,19 @@ export class DocViewer_ extends React.Component {
 			numPages = '?';
 		}
 
+		let downloadURL;
+		const downloadAvailable = this.state.docs.length > 0 && this.state.docIndex !== undefined;
+
+		if (downloadAvailable) {
+			downloadURL = this.state.docs[this.state.docIndex].url;
+		}
+
 		return (
 			<div>
 				<Navbar style={{ marginBottom: 0 }} inverse collapseOnSelect>
 					<Navbar.Header>
 						<Navbar.Brand>
-							<a onClick={() => this.showMainDoc()} disabled={this.state.pageLoadingInProgress}>
+							<a onClick={() => this.showMainDoc()} disabled={this.state.loading !== LOADING_FINISHED}>
 								{'BPlan ' + this.state.docPackageId}
 							</a>
 						</Navbar.Brand>
@@ -592,7 +603,7 @@ export class DocViewer_ extends React.Component {
 						<Nav>
 							<NavItem
 								onClick={() => this.prevDoc()}
-								disabled={this.state.pageLoadingInProgress}
+								disabled={this.state.loading !== LOADING_FINISHED}
 								eventKey={1}
 								href="#"
 							>
@@ -600,7 +611,7 @@ export class DocViewer_ extends React.Component {
 							</NavItem>
 							<NavItem
 								onClick={() => this.prevPage()}
-								disabled={this.state.pageLoadingInProgress}
+								disabled={this.state.loading !== LOADING_FINISHED}
 								eventKey={2}
 								href="#"
 							>
@@ -612,7 +623,7 @@ export class DocViewer_ extends React.Component {
 							</NavItem>
 							<NavItem
 								onClick={() => this.nextPage()}
-								disabled={this.state.pageLoadingInProgress}
+								disabled={this.state.loading !== LOADING_FINISHED}
 								eventKey={1}
 								href="#"
 							>
@@ -620,7 +631,7 @@ export class DocViewer_ extends React.Component {
 							</NavItem>
 							<NavItem
 								onClick={() => this.nextDoc()}
-								disabled={this.state.pageLoadingInProgress}
+								disabled={this.state.loading !== LOADING_FINISHED}
 								eventKey={2}
 								href="#"
 							>
@@ -643,12 +654,10 @@ export class DocViewer_ extends React.Component {
 						</Nav> */}
 
 						<Nav pullRight>
-							{this.state.docs.length > 0 &&
-							this.state.docIndex !== undefined && (
-								<MenuItem href={this.state.docs[this.state.docIndex].url} target="_blank">
-									<Icon name="download" />
-								</MenuItem>
-							)}
+							<NavItem disabled={!downloadAvailable} href={downloadURL} target="_blank">
+								<Icon name="download" />
+							</NavItem>
+
 							<NavItem disabled={true} eventKey={1} href="#">
 								<Icon name="file-archive-o" />
 							</NavItem>
@@ -658,11 +667,8 @@ export class DocViewer_ extends React.Component {
 						</Nav>
 					</Navbar.Collapse>
 				</Navbar>
-				<Loadable
-					active={this.state.showPageLoadingInProgressMessage && this.state.pageLoadingInProgress}
-					spinner
-					text="Laden der Datei ..."
-				>
+
+				<Loadable active={this.state.loading === LOADING_OVERLAY} spinner text="Laden der Datei ...">
 					<RoutedMap
 						key={'leafletRoutedMap'}
 						referenceSystem={L.CRS.Simple}
@@ -721,7 +727,7 @@ export class DocViewer_ extends React.Component {
 						{/* {this.state.debugBounds && <Rectangle bounds={this.state.debugBounds} color="#D8D8D8D8" />} */}
 						{this.leafletRoutedMap && (
 							<CanvasLayer
-								key={'CANVAS' + this.state.caching}
+								key={'CANVAS' + this.state.caching + this.changeState.state}
 								leaflet={leafletContext}
 								drawMethod={(info) => {
 									const ctx = info.canvas.getContext('2d');
@@ -732,7 +738,7 @@ export class DocViewer_ extends React.Component {
 									// ctx.fillText('Center ', point.x, point.y);
 									if (
 										this.leafletRoutedMap &&
-										this.state.pageLoadingInProgress === false &&
+										(this.state.loading === undefined || this.state.loading === LOADING_FINISHED) &&
 										this.state.docPackageId === this.props.match.params.docPackageId
 									) {
 										const layerBounds = this.getLayerBoundsForOffscreenCanvas();

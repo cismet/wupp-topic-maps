@@ -216,24 +216,24 @@ export class DocViewer_ extends React.Component {
 	componentDidUpdate(prevProps, prevState) {
 		console.log('################## componentDidUpdate');
 
-		const topic = this.props.match.params.topic;
+		const topicParam = this.props.match.params.topic;
 		const docPackageIdParam = this.props.match.params.docPackageId;
-		const fileNumber = this.props.match.params.file || 1;
-		const pageNumber = this.props.match.params.page || 1;
+		const fileNumberParam = this.props.match.params.file || 1;
+		const pageNumberParam = this.props.match.params.page || 1;
 
 		if (this.props.match.params.file === undefined || this.props.match.params.page === undefined) {
 			//not necessary to check file && page || page cause if file is undefined page must beundefined too
 			// this corrects a url like http://localhost:3000/#/docs/bplaene/599 to http://localhost:3000/#/docs/bplaene/599/3/1
-			this.pushRouteForPage(topic, docPackageIdParam, fileNumber, pageNumber);
+			this.pushRouteForPage(topicParam, docPackageIdParam, fileNumberParam, pageNumberParam);
 			return;
 		}
 
-		if (this.getCurrentDocPackageId() !== docPackageIdParam || this.getCurrentTopic() !== topic) {
+		if (this.getCurrentDocPackageId() !== docPackageIdParam || this.getCurrentTopic() !== topicParam) {
 			let gazHit;
 			console.log('initializeLocalState.outer.before', this.state);
 
-			this.setDocIndex(fileNumber - 1);
-			this.setPageIndex(pageNumber - 1);
+			this.setDocIndex(fileNumberParam - 1);
+			this.setPageIndex(pageNumberParam - 1);
 			console.log('initializeLocalState.outer.after', this.state);
 
 			this.showPageLoadingInProgress(true);
@@ -247,7 +247,7 @@ export class DocViewer_ extends React.Component {
 			console.log('found bplan', gazHit);
 
 			if (gazHit) {
-				this.initializeLocalState(docPackageIdParam, topic);
+				this.initializeLocalState(docPackageIdParam, topicParam);
 
 				this.props.bplanActions.searchForPlans(
 					[
@@ -325,8 +325,8 @@ export class DocViewer_ extends React.Component {
 			(this.state.pageIndex !== undefined && this.state.pageIndex !== this.props.match.params.page - 1)
 		) {
 			if (this.getDocs().length > 0) {
-				let docIndex = fileNumber - 1;
-				let pageIndex = pageNumber - 1;
+				let docIndex = fileNumberParam - 1;
+				let pageIndex = pageNumberParam - 1;
 				this.loadPage(docPackageIdParam, docIndex, pageIndex);
 				this.changeState({ docIndex, pageIndex });
 			}

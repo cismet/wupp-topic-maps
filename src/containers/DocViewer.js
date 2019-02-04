@@ -164,7 +164,7 @@ export class DocViewer_ extends React.Component {
 								});
 							}
 							this.props.docsActions.setDocsInformationAndInitializeCaches(docs);
-							this.props.docsActions.loadPage(docPackageIdParam, docIndex, pageIndex);
+							this.props.docsActions.loadPage(docPackageIdParam, docIndex, pageIndex, ()=>this.gotoWholeDocument());
 						}
 					}
 				);
@@ -176,7 +176,7 @@ export class DocViewer_ extends React.Component {
 			(this.props.docs.pageIndex !== undefined && this.props.docs.pageIndex !== this.props.match.params.page - 1)
 		) {
 			if (this.props.docs.docs.length > 0) {
-				this.props.docsActions.loadPage(docPackageIdParam, docIndex, pageIndex);
+				this.props.docsActions.loadPage(docPackageIdParam, docIndex, pageIndex, ()=>this.gotoWholeDocument());
 			}
 		} else {
 			//console.log('dont load', this.state);
@@ -220,11 +220,8 @@ export class DocViewer_ extends React.Component {
 		let numPages;
 
 		if (this.props.docs.pdfdoc) {
-			numPages = this.props.docs.pdfdoc._pdfInfo.numPages;
-		} else {
-			numPages = '?';
-		}
-
+			numPages = " / " +this.props.docs.pdfdoc._pdfInfo.numPages;
+		} 
 		let downloadURL;
 		const downloadAvailable = this.props.docs.docs.length > 0 && this.props.docs.docIndex !== undefined;
 
@@ -234,7 +231,7 @@ export class DocViewer_ extends React.Component {
 
 		return (
 			<div>
-				<Navbar style={{ marginBottom: 0 }} inverse collapseOnSelect>
+				<Navbar style={{ marginBottom: 0 }} inverse >
 					<Navbar.Header>
 						<Navbar.Brand >
 							<a
@@ -266,7 +263,7 @@ export class DocViewer_ extends React.Component {
 							</NavItem>
 							<NavItem eventKey={1} href="#">
 								{/* {this.state.docIndex + 1} / {this.props.docs.docs.length} -  */}
-								{this.props.docs.pageIndex + 1} / {numPages}
+								{(this.props.docs.pageIndex || this.props.docs.futurePageIndex) + 1} {numPages}
 							</NavItem>
 							<NavItem
 								onClick={() => this.nextPage()}
@@ -301,7 +298,7 @@ export class DocViewer_ extends React.Component {
 						</Nav> */}
 
 						<Nav pullRight>
-							<NavItem disabled={!downloadAvailable} href={downloadURL} target="_blank">
+							<NavItem disabled={false && !downloadAvailable} href={downloadURL} target="_blank" >
 								<Icon name="download" />
 							</NavItem>
 
@@ -413,6 +410,7 @@ export class DocViewer_ extends React.Component {
 								text={this.props.docs.loadingText || 'Laden der Datei ...'}
 								content={<h1>test</h1>}
 							>
+							
 								<RoutedMap
 									key={'leafletRoutedMap'}
 									referenceSystem={L.CRS.Simple}
@@ -468,7 +466,7 @@ export class DocViewer_ extends React.Component {
 									{/* <PDFLayer /> */}
 									{/* <Coords/> */}
 									{/* {debugMarker} */}
-									{/* {this.getDebugBounds() && <Rectangle bounds={this.getDebugBounds()} color="#D8D8D8D8" />} */}
+									{this.props.docs.debugBounds && <Rectangle bounds={this.props.docs.debugBounds} color="#D8D8D8D8" />}
 									{this.leafletRoutedMap && (
 										<CanvasLayer
 											key={'CANVAS' + this.props.docs.caching}
@@ -520,7 +518,7 @@ export class DocViewer_ extends React.Component {
 										/>
 									)}
 									{this.props.docs.docIndex !== undefined &&
-									this.props.docs.docs.length > 0 && (
+									this.props.docs.docs.length > 0 && !this.isLoading() &&  (
 										<Control position="bottomright">
 											<p style={{ backgroundColor: '#D8D8D8D8', padding: '5px' }}>
 												{this.props.docs.docs[this.props.docs.docIndex].file} ({this.props.docs
@@ -714,19 +712,19 @@ export class DocViewer_ extends React.Component {
 
 	gotoWholeDocument = () => {
 		let wb = this.getOptimalBounds();
-		// this.setDebugBounds(wb);
+		this.props.docsActions.setDebugBounds(wb);
 		this.leafletRoutedMap.leafletMap.leafletElement.fitBounds(wb);
 	};
 
 	gotoWholeWidth = () => {
 		let wb = this.getOptimalBounds(WIDTH);
-		// this.setDebugBounds(wb);
+		this.props.docsActions.setDebugBounds(wb);
 		this.leafletRoutedMap.leafletMap.leafletElement.fitBounds(wb);
 	};
 
 	gotoWholeHeight = () => {
 		let hb = this.getOptimalBounds();
-		// this.setDebugBounds(hb);
+		this.props.docsActions.setDebugBounds(hb);
 		this.leafletRoutedMap.leafletMap.leafletElement.fitBounds(hb);
 	};
 

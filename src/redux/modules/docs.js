@@ -12,7 +12,11 @@ export const types = {
 	SET_LOADING_STATE: 'SET_LOADING_STATE',
 	RENDERING_FINISHED: 'RENDERING_FINISHED',
 	SET_DOCS_INFO: 'SET_DOCS_INFO',
-	CLEAR_PDF_DOC_AND_CANVAS: 'CLEAR_PDF_DOC_AND_CANVAS'
+	CLEAR_PDF_DOC_AND_CANVAS: 'CLEAR_PDF_DOC_AND_CANVAS',
+	SET_SIZES: 'SET_SIZES',
+	SET_SIZE: 'SET_SIZE',
+	SET_LOADING_TEXT: 'SET_LOADING_TEXT',
+	SET_DEBUG_BOUNDS: 'SET_DEBUG_BOUNDS'
 };
 
 export const constants = {
@@ -39,7 +43,7 @@ const initialState = {
 	docs: [],
 
 	loadingState: constants.LOADING_FINISHED,
-	loadingtext: undefined,
+	loadingText: undefined,
 
 	pdfdoc: undefined,
 	canvas: undefined,
@@ -86,7 +90,27 @@ export default function docReducer(state = initialState, action) {
 			newState.canvas = undefined;
 			return newState;
 		}
-
+		case types.SET_SIZES: {
+			newState = objectAssign({}, state);
+			newState.sizes = action.sizes;
+			return newState;
+		}
+		case types.SET_SIZE: {
+			newState = objectAssign({}, state);
+			newState.sizes=state.sizes.slice(0);
+			newState.sizes[action.index] = action.size;
+			return newState;
+		}
+		case types.SET_LOADING_TEXT: {
+			newState = objectAssign({}, state);
+			newState.loadingText = action.loadingText;
+			return newState;
+		}
+		case types.SET_DEBUG_BOUNDS: {
+			newState = objectAssign({}, state);
+			newState.debugBounds = action.debugBounds;
+			return newState;
+		}
 		default:
 			return state;
 	}
@@ -107,7 +131,18 @@ function setDocsInfo(docs) {
 function clearDocAndCanvas() {
 	return { type: types.CLEAR_PDF_DOC_AND_CANVAS };
 }
-
+function setSizes(sizes) {
+	return { type: types.SET_SIZES,sizes };
+}
+function setSize(index,size) {
+	return { type: types.SET_SIZE,index,size };
+}
+function setLoadingText(loadingText) {
+	return { type: types.SET_LOADING_TEXT,loadingText };
+}
+function setDebugBounds(debugBounds) {
+	return { type: types.SET_DEBUG_BOUNDS,debugBounds };
+}
 //COMPLEXACTIONS
 function setDelayedLoadingState(docPackageId, docIndex, pageIndex) {
 	return (dispatch, getState) => {
@@ -122,7 +157,7 @@ function setDelayedLoadingState(docPackageId, docIndex, pageIndex) {
 	};
 }
 
-function loadPage(docPackageId, docIndex, pageIndex = 0) {
+function loadPage(docPackageId, docIndex, pageIndex = 0, callback) {
 	return (dispatch, getState) => {
 		const state = getState().docs;
 		const cacheState = getState().docsCache;
@@ -130,11 +165,11 @@ function loadPage(docPackageId, docIndex, pageIndex = 0) {
 		const doc = state.docs[docIndex];
 		dispatch(setDelayedLoadingState(docPackageId, docIndex, pageIndex));
 
-		// const total = fetch(new Request(doc.url, { method: 'HEAD' })).then((res) => {
-		//     this.setSize(docIndex, res.headers.get('content-length'));
-		// });
+		const total = fetch(new Request(doc.url, { method: 'HEAD' })).then((res) => {
+		    dispatch(setSize(docIndex, res.headers.get('content-length')));
+		});
 		const pdfDocCacheHit = getCachedPdfDoc(cacheState, docPackageId, docIndex);
-
+		
 		if (docPackageId !== state.docPackageId || docIndex !== state.docIndex) {
 			if (pdfDocCacheHit === undefined) {
 				const loadingTask = pdfjsLib.getDocument(doc.url);
@@ -146,21 +181,22 @@ function loadPage(docPackageId, docIndex, pageIndex = 0) {
 
 				loadingTask.promise.then((pdf) => {
 					dispatch(storePdfDocInCache(docPackageId, docIndex, pdf));
-					dispatch(getPDFPage(docPackageId, docIndex, pdf, pageIndex));
+					dispatch(getPDFPage(docPackageId, docIndex, pdf, pageIndex,callback));
 				});
 			} else {
-				dispatch(getPDFPage(docPackageId, docIndex, pdfDocCacheHit, pageIndex));
+				dispatch(getPDFPage(docPackageId, docIndex, pdfDocCacheHit, pageIndex,callback));
 			}
 		} else {
 			//Same doc other page
-			dispatch(getPDFPage(docPackageId, docIndex, pdfDocCacheHit, pageIndex));
+			dispatch(getPDFPage(docPackageId, docIndex, pdfDocCacheHit, pageIndex,callback));
 		}
 	};
 }
 
-function getPDFPage(docPackageId, docIndex, pdf, pageIndex) {
+function getPDFPage(docPackageId, docIndex, pdf, pageIndex, callback=()=>{}) {
 	return (dispatch, getState) => {
 		const cacheState = getState().docsCache;
+		dispatch(setLoadingText("Extrahieren der Seite ..."));
 		pdf.getPage(pageIndex + 1).then((page) => {
 			const canvasCacheHit = getCachedCanvas(getState().docsCache, docPackageId, docIndex, pageIndex);
 			if (canvasCacheHit === undefined) {
@@ -188,6 +224,8 @@ function getPDFPage(docPackageId, docIndex, pdf, pageIndex) {
 				viewport.offsetY = yCorrection;
 
 				const ctx = canvas.getContext('2d');
+//				dispatch(setLoadingText(`Darstellen der Seite (${canvas.width} x ${canvas.height}) ...`));
+				dispatch(setLoadingText(`Darstellen der Seite ...`));
 				page
 					.render({
 						intent: 'print',
@@ -205,6 +243,8 @@ function getPDFPage(docPackageId, docIndex, pdf, pageIndex) {
 					.then(() => {
 						dispatch(storeCanvasInCache(docPackageId, docIndex, pageIndex, canvas));
 						dispatch(renderingFinished(docPackageId, docIndex, pageIndex, pdf, canvas));
+						callback();
+
 						// setTimeout(() => {
 						//     this.gotoWholeDocument();
 						// }, 100);
@@ -214,6 +254,7 @@ function getPDFPage(docPackageId, docIndex, pdf, pageIndex) {
 					});
 			} else {
 				dispatch(renderingFinished(docPackageId, docIndex, pageIndex, pdf, canvasCacheHit));
+				callback();
 				// setTimeout(() => {
 				//     this.gotoWholeDocument();
 				// }, 50);
@@ -244,6 +285,7 @@ function setDocsInformationAndInitializeCaches(docs) {
 	return (dispatch) => {
 		dispatch(docsCacheActions.clearAllCaches());
 		dispatch(clearDocAndCanvas());
+		dispatch(setSizes([]));
 		dispatch(setDocsInfo(docs));
 	};
 }
@@ -253,7 +295,8 @@ function setDocsInformationAndInitializeCaches(docs) {
 export const actions = {
 	loadPage,
 	setDocsInformationAndInitializeCaches,
-	setDelayedLoadingState
+	setDelayedLoadingState,
+	setDebugBounds
 };
 
 //HELPER FUNCTIONS

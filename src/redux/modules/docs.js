@@ -162,7 +162,7 @@ function getPDFPage(docPackageId, docIndex, pdf, pageIndex) {
 	return (dispatch, getState) => {
 		const cacheState = getState().docsCache;
 		pdf.getPage(pageIndex + 1).then((page) => {
-			const canvasCacheHit = getCachedCanvas(cacheState, docPackageId, docIndex, pageIndex);
+			const canvasCacheHit = getCachedCanvas(getState().docsCache, docPackageId, docIndex, pageIndex);
 			if (canvasCacheHit === undefined) {
                 const scale = 2;
                 const canvas = document.createElement('canvas');
@@ -263,9 +263,9 @@ function getCachedPdfDoc(cacheState, docPackageId, docIndex) {
 }
 
 function getCachedPage(cacheState, docPackageId, docIndex, pageIndex) {
-	return cacheState.get(docPackageId + '.' + docIndex + '.' + pageIndex);
+	return cacheState.pdfPageCache.get(docPackageId + '.' + docIndex + '.' + pageIndex);
 }
 
 function getCachedCanvas(cacheState, docPackageId, docIndex, pageIndex) {
-	return cacheState.pdfDocCache.get(docPackageId + '.' + docIndex + '.' + pageIndex);
+	return cacheState.canvasCache.get(docPackageId + '.' + docIndex + '.' + pageIndex);
 }

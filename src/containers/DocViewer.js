@@ -374,19 +374,19 @@ export class DocViewer_ extends React.Component {
 
 	gotoWholeDocument() {
 		let wb = this.getOptimalBounds();
-		this.setDebugBounds(wb);
+		// this.setDebugBounds(wb);
 		this.leafletRoutedMap.leafletMap.leafletElement.fitBounds(wb);
 	}
 
 	gotoWholeWidth() {
 		let wb = this.getOptimalBounds(WIDTH);
-		this.setDebugBounds(wb);
+		// this.setDebugBounds(wb);
 		this.leafletRoutedMap.leafletMap.leafletElement.fitBounds(wb);
 	}
 
 	gotoWholeHeight() {
 		let hb = this.getOptimalBounds();
-		this.setDebugBounds(hb);
+		// this.setDebugBounds(hb);
 		this.leafletRoutedMap.leafletMap.leafletElement.fitBounds(hb);
 	}
 
@@ -574,7 +574,6 @@ export class DocViewer_ extends React.Component {
 										<Well
 											key={'doc.symbol.well.' + index}
 											onClick={() => {
-												console.log('index', index);
 												this.pushRouteForPage(
 													this.props.match.params.topic,
 													this.props.match.params.docPackageId,

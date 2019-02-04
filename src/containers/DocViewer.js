@@ -31,8 +31,6 @@ import { Column, Row } from 'simple-flexbox';
 
 import filesize from 'filesize';
 
-import update from 'react-addons-update';
-
 //pdfjsLib.GlobalWorkerOptions.workerSrc = '//mozilla.github.io/pdf.js/build/pdf.worker.js';
 
 pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.0.943/pdf.worker.min.js';
@@ -76,113 +74,10 @@ function mapDispatchToProps(dispatch) {
 export class DocViewer_ extends React.Component {
 	constructor(props, context) {
 		super(props, context);
-		this.gotoWholeHeight = this.gotoWholeHeight.bind(this);
-		this.gotoWholeWidth = this.gotoWholeWidth.bind(this);
-		this.gotoHome = this.gotoHome.bind(this);
-		this.getMapRef = this.getMapRef.bind(this);
-		this.getDocInfoWithHead = this.getDocInfoWithHead.bind(this);
-		this.pushRouteForPage = this.pushRouteForPage.bind(this);
-		this.showMainDoc = this.showMainDoc.bind(this);
-		this.getOptimalBounds = this.getOptimalBounds.bind(this);
-		this.gotoWholeDocument = this.gotoWholeDocument.bind(this);
-		this.onSetSidebarOpen = this.onSetSidebarOpen.bind(this);
-
-		const topic = this.props.match.params.topic || 'bplaene';
-		const file = this.props.match.params.file || 1;
-		const page = this.props.match.params.page || 1;
-
-
 	}
-
-	onSetSidebarOpen(open) {
-		this.setSidebarState(open);
-	}
-
-	pushRouteForPage(topic, docPackageId, docIndex, pageIndex) {
-		this.props.routingActions.push(
-			'/docs/' +
-				topic +
-				'/' +
-				docPackageId +
-				'/' +
-				docIndex +
-				'/' +
-				pageIndex +
-				this.props.routing.location.search
-		);
-	}
-
-	showMainDoc() {
-		this.pushRouteForPage(this.props.match.params.topic, this.props.match.params.docPackageId, 1, 1);
-	}
-
-	nextPage() {
-		if (parseInt(this.props.match.params.page, 10) < this.props.docs.pdfdoc._pdfInfo.numPages) {
-			this.pushRouteForPage(
-				this.props.match.params.topic,
-				this.props.match.params.docPackageId,
-				parseInt(this.props.match.params.file, 10),
-				parseInt(this.props.match.params.page, 10) + 1
-			);
-		} else {
-			if (parseInt(this.props.match.params.file, 10) < this.props.docs.docs.length) {
-				this.pushRouteForPage(
-					this.props.match.params.topic,
-					this.props.match.params.docPackageId,
-					parseInt(this.props.match.params.file, 10) + 1,
-					1
-				);
-			} else {
-				this.pushRouteForPage(this.props.match.params.topic, this.props.match.params.docPackageId, 1, 1);
-			}
-		}
-	}
-	prevPage() {
-		if (parseInt(this.props.match.params.page, 10) > 1) {
-			this.pushRouteForPage(
-				this.props.match.params.topic,
-				this.props.match.params.docPackageId,
-				parseInt(this.props.match.params.file, 10),
-				parseInt(this.props.match.params.page, 10) - 1
-			);
-		} else {
-			if (parseInt(this.props.match.params.file, 10) > 1) {
-				this.pushRouteForPage(
-					this.props.match.params.topic,
-					this.props.match.params.docPackageId,
-					parseInt(this.props.match.params.file, 10) - 1,
-					1
-				);
-			} else {
-				this.pushRouteForPage(
-					this.props.match.params.topic,
-					this.props.match.params.docPackageId,
-					this.props.docs.docs.length,
-					1
-				);
-			}
-		}
-	}
-	// shouldComponentUpdate(nextProps, nextState) {
-	// 	console.log('nextProps',nextProps);
-
-	// 	return JSON.stringify(this.props) !== JSON.stringify(nextProps) || JSON.stringify(this.state) !== JSON.stringify(nextState);
-	//   }
 
 	componentDidMount() {
 		this.componentDidUpdate();
-	}
-	showPageLoadingInProgress(visible) {
-		if (visible) {
-			this.setLoadingState(LOADING_STARTED);
-
-			setTimeout(() => {
-				if (this.props.docs.loadingState === LOADING_STARTED) {
-					this.setLoadingState(LOADING_OVERLAY);
-				}
-			}, OVERLAY_DELAY);
-		} else {
-		}
 	}
 
 	componentDidUpdate(prevProps, prevState) {
@@ -192,7 +87,7 @@ export class DocViewer_ extends React.Component {
 		const pageNumberParam = this.props.match.params.page || 1;
 		const docIndex = fileNumberParam - 1;
 		const pageIndex = pageNumberParam - 1;
-		const currentlyLoading=this.isLoading();
+		const currentlyLoading = this.isLoading();
 
 		if (
 			currentlyLoading &&
@@ -202,6 +97,7 @@ export class DocViewer_ extends React.Component {
 		) {
 			return;
 		}
+
 		if (this.props.match.params.file === undefined || this.props.match.params.page === undefined) {
 			// not necessary to check file && page || page cause if file is undefined page must beundefined too
 			// this corrects a url like http://localhost:3000/#/docs/bplaene/599 to http://localhost:3000/#/docs/bplaene/599/3/1
@@ -211,7 +107,7 @@ export class DocViewer_ extends React.Component {
 
 		if (this.props.docs.docPackageId !== docPackageIdParam || this.props.docs.topic !== topicParam) {
 			let gazHit;
-			this.props.docsActions.setDelayedLoadingState(docPackageIdParam,docIndex,pageIndex );
+			this.props.docsActions.setDelayedLoadingState(docPackageIdParam, docIndex, pageIndex);
 			const bpl = JSON.parse(this.props.gazetteerTopics.bplaene);
 			for (let gazEntry of bpl) {
 				if (gazEntry.s === docPackageIdParam) {
@@ -243,7 +139,7 @@ export class DocViewer_ extends React.Component {
 									file: rkDoc.file,
 									url: rkDoc.url.replace(
 										'https://wunda-geoportal-docs.cismet.de/',
-										'https://wunda-geoportal-docs.cismet.de/'
+										'https://wunda-geoportal-dox.cismet.de/'
 									)
 								});
 							}
@@ -253,7 +149,7 @@ export class DocViewer_ extends React.Component {
 									file: nrkDoc.file,
 									url: nrkDoc.url.replace(
 										'https://wunda-geoportal-docs.cismet.de/',
-										'https://wunda-geoportal-docs.cismet.de/'
+										'https://wunda-geoportal-dox.cismet.de/'
 									)
 								});
 							}
@@ -263,7 +159,7 @@ export class DocViewer_ extends React.Component {
 									file: doc.file,
 									url: doc.url.replace(
 										'https://wunda-geoportal-docs.cismet.de/',
-										'https://wunda-geoportal-docs.cismet.de/'
+										'https://wunda-geoportal-dox.cismet.de/'
 									)
 								});
 							}
@@ -287,115 +183,6 @@ export class DocViewer_ extends React.Component {
 		}
 	}
 
-	getDocInfoWithHead(doc, index) {
-		return fetch(
-			`http://localhost:8081/rasterfariWMS?SRS=EPSG:25832&service=WMS&request=GetMap&layers=${doc.url}&styles=default&format=image%2Fpng&transparent=true&version=1.1.1&tiled=true&width=256&height=256&srs=undefined&bbox=-0.5,-0.5,0.5,0.5`,
-			{
-				method: 'head'
-			}
-		).then((response) => {
-			if (response.ok) {
-				return {
-					index,
-					height: response.headers.get('X-Rasterfari-pageHeight'),
-					width: response.headers.get('X-Rasterfari-pageWidth'),
-					numOfPages: response.headers.get('X-Rasterfari-numOfPages'),
-					fileSize: response.headers.get('X-Rasterfari-fileSize'),
-					currentPage: response.headers.get('X-Rasterfari-currentPage')
-				};
-			} else {
-				throw new Error("Server md5 response wasn't OK");
-			}
-		});
-	}
-
-	gotoHome() {
-		this.leafletRoutedMap.leafletMap.leafletElement.fitBounds([ [ -0.5, -0.5 ], [ 0.5, 0.5 ] ]);
-	}
-
-	getOptimalBounds(forDimension) {
-		const w = this.props.docs.canvas.width;
-		const h = this.props.docs.canvas.height;
-
-		//procentual canvas width & height
-		let ph, pw;
-
-		if (w > h) {
-			pw = 1;
-			ph = h / w;
-		} else {
-			ph = 1;
-			pw = w / h;
-		}
-
-		const mapBounds = this.leafletRoutedMap.leafletMap.leafletElement.getBounds();
-		const leafletSize = this.leafletRoutedMap.leafletMap.leafletElement._size; //x,y
-
-		//procentual leaflet width & height
-		let plw, plh;
-		if (leafletSize.x > leafletSize.y) {
-			plw = 1;
-			plh = leafletSize.y / leafletSize.x;
-		} else {
-			plh = 1;
-			plw = leafletSize.x / leafletSize.y;
-		}
-
-		//optimal bounds
-		let b = [ [ -1 * (ph / 2), -pw / 2 ], [ ph / 2, pw / 2 ] ];
-
-		switch (forDimension) {
-			case WIDTH: {
-				//height shrinking
-				let newB;
-				if (plh !== 1) {
-					newB = [ [ -1 * (ph / 2) * plh, -pw / 2 ], [ ph / 2 * plh, pw / 2 ] ];
-				} else {
-					newB = [ [ -1 * (ph / 2) * plh, -pw / 2 ], [ ph / 2 * plh, pw / 2 ] ];
-				}
-				return newB;
-			}
-			case HEIGHT: {
-				//width shrinking
-				let newB;
-				if (plw !== 1) {
-					newB = [ [ -1 * (ph / 2), -pw / 2 * plw ], [ ph / 2, pw / 2 * plw ] ];
-				} else {
-					newB = [ [ -1 * (ph / 2), -pw / 2 * plw ], [ ph / 2, pw / 2 * plw ] ];
-				}
-				return newB;
-			}
-			case BOTH:
-			default: {
-				return b;
-			}
-		}
-	}
-
-	gotoWholeDocument() {
-		let wb = this.getOptimalBounds();
-		// this.setDebugBounds(wb);
-		this.leafletRoutedMap.leafletMap.leafletElement.fitBounds(wb);
-	}
-
-	gotoWholeWidth() {
-		let wb = this.getOptimalBounds(WIDTH);
-		// this.setDebugBounds(wb);
-		this.leafletRoutedMap.leafletMap.leafletElement.fitBounds(wb);
-	}
-
-	gotoWholeHeight() {
-		let hb = this.getOptimalBounds();
-		// this.setDebugBounds(hb);
-		this.leafletRoutedMap.leafletMap.leafletElement.fitBounds(hb);
-	}
-
-	getMapRef() {
-		if (this.topicMap) {
-			return this.topicMap.wrappedInstance.leafletRoutedMap.leafletMap.leafletElement;
-		}
-		return undefined;
-	}
 	render() {
 		let mapHeight;
 		if (this.props.uiState.height) {
@@ -449,12 +236,12 @@ export class DocViewer_ extends React.Component {
 			<div>
 				<Navbar style={{ marginBottom: 0 }} inverse collapseOnSelect>
 					<Navbar.Header>
-						<Navbar.Brand>
+						<Navbar.Brand >
 							<a
 								onClick={() => this.showMainDoc()}
 								disabled={this.props.docs.loadingState !== LOADING_FINISHED}
 							>
-								{'BPlan ' + this.props.docs.docPackageId}
+								{'BPlan ' + (this.props.docs.docPackageId||this.props.docs.futuredocPackageId||'')}
 							</a>
 						</Navbar.Brand>
 						<Navbar.Toggle />
@@ -530,93 +317,95 @@ export class DocViewer_ extends React.Component {
 
 				<div>
 					<Row vertical="stretch" horizontal="spaced" style={{ width: '100%', height: mapHeight }}>
-						<Column
-							style={{
-								backgroundColor: '#999999',
-								backgroundColorX: 'red',
-								padding: '5px 11px 5px 5px',
-								overflow: 'scroll',
-								height: mapHeight + 'px',
-								width: '130px'
-							}}
-							vertical="start"
-						>
-							{this.props.docs.docs.map((doc, index) => {
-								let iconname = 'file-o';
-								let selected = false;
-								let progressBar = undefined;
-								let numPages = '';
-								let currentPage = '';
-								let pageStatus = '';
-								if (doc.group !== 'Zusatzdokumente') {
-									iconname = 'file-pdf-o';
-								}
-								if (
-									index === this.props.match.params.file - 1 &&
-									this.props.docs.pdfdoc !== undefined
-								) {
-									numPages = this.props.docs.pdfdoc._pdfInfo.numPages;
-									currentPage = this.props.match.params.page;
-									selected = true;
-									pageStatus = `${currentPage} / ${numPages}`;
-									progressBar = (
-										<ProgressBar
-											style={{ height: '5px', marginTop: 0, marginBottom: 0 }}
-											max={numPages}
-											min={0}
-											now={parseInt(currentPage, 10)}
-										/>
-									);
-								}
+						{ (this.props.docs.docs||[]).length>1 && (
+							<Column
+								style={{
+									backgroundColor: '#999999',
+									backgroundColorX: 'red',
+									padding: '5px 11px 5px 5px',
+									overflow: 'scroll',
+									height: mapHeight + 'px',
+									width: '130px'
+								}}
+								vertical="start"
+							>
+								{this.props.docs.docs.map((doc, index) => {
+									let iconname = 'file-o';
+									let selected = false;
+									let progressBar = undefined;
+									let numPages = '';
+									let currentPage = '';
+									let pageStatus = '';
+									if (doc.group !== 'Zusatzdokumente') {
+										iconname = 'file-pdf-o';
+									}
+									if (
+										index === this.props.match.params.file - 1 &&
+										this.props.docs.pdfdoc !== undefined
+									) {
+										numPages = this.props.docs.pdfdoc._pdfInfo.numPages;
+										currentPage = this.props.match.params.page;
+										selected = true;
+										pageStatus = `${currentPage} / ${numPages}`;
+										progressBar = (
+											<ProgressBar
+												style={{ height: '5px', marginTop: 0, marginBottom: 0 }}
+												max={numPages}
+												min={0}
+												now={parseInt(currentPage, 10)}
+											/>
+										);
+									}
 
-								return (
-									<div key={'doc.symbol.div.' + index}>
-										<Well
-											key={'doc.symbol.well.' + index}
-											onClick={() => {
-												this.pushRouteForPage(
-													this.props.match.params.topic,
-													this.props.match.params.docPackageId,
-													index + 1,
-													1
-												);
-											}}
-											style={{
-												background: selected ? '#777777' : undefined,
-												height: '100%',
-												marginBottom: 10,
-												padding: 10
-											}}
-										>
-											<div align="center">
-												<Icon size="3x" name={iconname} />
-												<p
-													style={{
-														marginTop: 10,
-														marginBottom: 5,
-														fontSize: 11,
-														wordWrap: 'break-word'
-													}}
-												>
-													{doc.file}
-												</p>
-												{progressBar}
-												<p
-													style={{
-														marginTop: 5,
-														marginBottom: 0,
-														fontSize: 11,
-														wordWrap: 'break-word'
-													}}
-												>
-													{pageStatus}
-												</p>
-											</div>
-										</Well>
-									</div>
-								);
-							})}
-						</Column>
+									return (
+										<div key={'doc.symbol.div.' + index}>
+											<Well
+												key={'doc.symbol.well.' + index}
+												onClick={() => {
+													this.pushRouteForPage(
+														this.props.match.params.topic,
+														this.props.match.params.docPackageId,
+														index + 1,
+														1
+													);
+												}}
+												style={{
+													background: selected ? '#777777' : undefined,
+													height: '100%',
+													marginBottom: 10,
+													padding: 10
+												}}
+											>
+												<div align="center">
+													<Icon size="3x" name={iconname} />
+													<p
+														style={{
+															marginTop: 10,
+															marginBottom: 5,
+															fontSize: 11,
+															wordWrap: 'break-word'
+														}}
+													>
+														{doc.file}
+													</p>
+													{progressBar}
+													<p
+														style={{
+															marginTop: 5,
+															marginBottom: 0,
+															fontSize: 11,
+															wordWrap: 'break-word'
+														}}
+													>
+														{pageStatus}
+													</p>
+												</div>
+											</Well>
+										</div>
+									);
+								})}
+							</Column>
+						)}
 						<Column style={{ background: 'green', width: '100%' }} horizontal="stretch">
 							<Loadable
 								active={this.props.docs.loadingState === LOADING_OVERLAY}
@@ -770,8 +559,182 @@ export class DocViewer_ extends React.Component {
 		return layerBounds;
 	};
 
-	isLoading = () => {		
+	isLoading = () => {
 		return this.props.docs.loadingState !== LOADING_FINISHED;
+	};
+	pushRouteForPage = (topic, docPackageId, docIndex, pageIndex) => {
+		this.props.routingActions.push(
+			'/docs/' +
+				topic +
+				'/' +
+				docPackageId +
+				'/' +
+				docIndex +
+				'/' +
+				pageIndex +
+				this.props.routing.location.search
+		);
+	};
+
+	showMainDoc = () => {
+		this.pushRouteForPage(this.props.match.params.topic, this.props.match.params.docPackageId, 1, 1);
+	};
+
+	nextPage = () => {
+		if (parseInt(this.props.match.params.page, 10) < this.props.docs.pdfdoc._pdfInfo.numPages) {
+			this.pushRouteForPage(
+				this.props.match.params.topic,
+				this.props.match.params.docPackageId,
+				parseInt(this.props.match.params.file, 10),
+				parseInt(this.props.match.params.page, 10) + 1
+			);
+		} else {
+			if (parseInt(this.props.match.params.file, 10) < this.props.docs.docs.length) {
+				this.pushRouteForPage(
+					this.props.match.params.topic,
+					this.props.match.params.docPackageId,
+					parseInt(this.props.match.params.file, 10) + 1,
+					1
+				);
+			} else {
+				this.pushRouteForPage(this.props.match.params.topic, this.props.match.params.docPackageId, 1, 1);
+			}
+		}
+	};
+	prevPage = () => {
+		if (parseInt(this.props.match.params.page, 10) > 1) {
+			this.pushRouteForPage(
+				this.props.match.params.topic,
+				this.props.match.params.docPackageId,
+				parseInt(this.props.match.params.file, 10),
+				parseInt(this.props.match.params.page, 10) - 1
+			);
+		} else {
+			if (parseInt(this.props.match.params.file, 10) > 1) {
+				this.pushRouteForPage(
+					this.props.match.params.topic,
+					this.props.match.params.docPackageId,
+					parseInt(this.props.match.params.file, 10) - 1,
+					1
+				);
+			} else {
+				this.pushRouteForPage(
+					this.props.match.params.topic,
+					this.props.match.params.docPackageId,
+					this.props.docs.docs.length,
+					1
+				);
+			}
+		}
+	};
+	getDocInfoWithHead = (doc, index) => {
+		return fetch(
+			`http://localhost:8081/rasterfariWMS?SRS=EPSG:25832&service=WMS&request=GetMap&layers=${doc.url}&styles=default&format=image%2Fpng&transparent=true&version=1.1.1&tiled=true&width=256&height=256&srs=undefined&bbox=-0.5,-0.5,0.5,0.5`,
+			{
+				method: 'head'
+			}
+		).then((response) => {
+			if (response.ok) {
+				return {
+					index,
+					height: response.headers.get('X-Rasterfari-pageHeight'),
+					width: response.headers.get('X-Rasterfari-pageWidth'),
+					numOfPages: response.headers.get('X-Rasterfari-numOfPages'),
+					fileSize: response.headers.get('X-Rasterfari-fileSize'),
+					currentPage: response.headers.get('X-Rasterfari-currentPage')
+				};
+			} else {
+				throw new Error("Server md5 response wasn't OK");
+			}
+		});
+	};
+
+	gotoHome = () => {
+		this.leafletRoutedMap.leafletMap.leafletElement.fitBounds([ [ -0.5, -0.5 ], [ 0.5, 0.5 ] ]);
+	};
+
+	getOptimalBounds = (forDimension) => {
+		const w = this.props.docs.canvas.width;
+		const h = this.props.docs.canvas.height;
+
+		//procentual canvas width & height
+		let ph, pw;
+
+		if (w > h) {
+			pw = 1;
+			ph = h / w;
+		} else {
+			ph = 1;
+			pw = w / h;
+		}
+
+		const mapBounds = this.leafletRoutedMap.leafletMap.leafletElement.getBounds();
+		const leafletSize = this.leafletRoutedMap.leafletMap.leafletElement._size; //x,y
+
+		//procentual leaflet width & height
+		let plw, plh;
+		if (leafletSize.x > leafletSize.y) {
+			plw = 1;
+			plh = leafletSize.y / leafletSize.x;
+		} else {
+			plh = 1;
+			plw = leafletSize.x / leafletSize.y;
+		}
+
+		//optimal bounds
+		let b = [ [ -1 * (ph / 2), -pw / 2 ], [ ph / 2, pw / 2 ] ];
+
+		switch (forDimension) {
+			case WIDTH: {
+				//height shrinking
+				let newB;
+				if (plh !== 1) {
+					newB = [ [ -1 * (ph / 2) * plh, -pw / 2 ], [ ph / 2 * plh, pw / 2 ] ];
+				} else {
+					newB = [ [ -1 * (ph / 2) * plh, -pw / 2 ], [ ph / 2 * plh, pw / 2 ] ];
+				}
+				return newB;
+			}
+			case HEIGHT: {
+				//width shrinking
+				let newB;
+				if (plw !== 1) {
+					newB = [ [ -1 * (ph / 2), -pw / 2 * plw ], [ ph / 2, pw / 2 * plw ] ];
+				} else {
+					newB = [ [ -1 * (ph / 2), -pw / 2 * plw ], [ ph / 2, pw / 2 * plw ] ];
+				}
+				return newB;
+			}
+			case BOTH:
+			default: {
+				return b;
+			}
+		}
+	};
+
+	gotoWholeDocument = () => {
+		let wb = this.getOptimalBounds();
+		// this.setDebugBounds(wb);
+		this.leafletRoutedMap.leafletMap.leafletElement.fitBounds(wb);
+	};
+
+	gotoWholeWidth = () => {
+		let wb = this.getOptimalBounds(WIDTH);
+		// this.setDebugBounds(wb);
+		this.leafletRoutedMap.leafletMap.leafletElement.fitBounds(wb);
+	};
+
+	gotoWholeHeight = () => {
+		let hb = this.getOptimalBounds();
+		// this.setDebugBounds(hb);
+		this.leafletRoutedMap.leafletMap.leafletElement.fitBounds(hb);
+	};
+
+	getMapRef = () => {
+		if (this.topicMap) {
+			return this.topicMap.wrappedInstance.leafletRoutedMap.leafletMap.leafletElement;
+		}
+		return undefined;
 	};
 }
 

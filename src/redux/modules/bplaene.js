@@ -209,7 +209,6 @@ export function searchForPlans(gazObject, overriddenWKT, cfg = { skipMappingActi
 		if (overriddenWKT) {
 			wkt = overriddenWKT;
 		} else if (Array.isArray(gazObject) && gazObject[0].more.v) {
-			console.log('BPLAN QUERY ' + gazObject[0].x + ' ,' + gazObject[0].y);
 			wkt = `POINT (${gazObject[0].x} ${gazObject[0].y} )`;
 		} else {
 			wkt = getPolygonfromBBox(state.mapping.boundingBox);

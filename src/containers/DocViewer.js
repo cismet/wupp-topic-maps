@@ -88,33 +88,10 @@ export class DocViewer_ extends React.Component {
 		this.onSetSidebarOpen = this.onSetSidebarOpen.bind(this);
 
 		const topic = this.props.match.params.topic || 'bplaene';
-		//const docPackageId = this.props.match.params.docPackageId || '1179V';
 		const file = this.props.match.params.file || 1;
 		const page = this.props.match.params.page || 1;
 
-		const osc = document.createElement('canvas');
-		osc.width = 10;
-		osc.height = 10;
 
-		// this.state = {
-		// 	docPackageId: undefined,
-		// 	loading: LOADING_FINISHED,
-		// 	sidebarOpen: true,
-		// 	pdfdoc: undefined,
-		// 	pdfdocs: [],
-		// 	sizes: [],
-		// 	canvasCache: new Map(),
-		// 	topic: undefined,
-		// 	docIndex: undefined,
-		// 	pageIndex: undefined,
-
-		// 	doc: undefined,
-		// 	caching: 0,
-
-		// 	docs: [],
-		// 	offScreenCanvas: osc,
-		// 	debugBounds: [ [ -0.5, -0.5 ], [ 0.5, 0.5 ] ]
-		// };
 	}
 
 	onSetSidebarOpen(open) {
@@ -140,7 +117,7 @@ export class DocViewer_ extends React.Component {
 	}
 
 	nextPage() {
-		if (parseInt(this.props.match.params.page, 10) < this.getCurrentPDFDocument()._pdfInfo.numPages) {
+		if (parseInt(this.props.match.params.page, 10) < this.props.docs.pdfdoc._pdfInfo.numPages) {
 			this.pushRouteForPage(
 				this.props.match.params.topic,
 				this.props.match.params.docPackageId,
@@ -148,7 +125,7 @@ export class DocViewer_ extends React.Component {
 				parseInt(this.props.match.params.page, 10) + 1
 			);
 		} else {
-			if (parseInt(this.props.match.params.file, 10) < this.getDocs().length) {
+			if (parseInt(this.props.match.params.file, 10) < this.props.docs.docs.length) {
 				this.pushRouteForPage(
 					this.props.match.params.topic,
 					this.props.match.params.docPackageId,
@@ -180,19 +157,17 @@ export class DocViewer_ extends React.Component {
 				this.pushRouteForPage(
 					this.props.match.params.topic,
 					this.props.match.params.docPackageId,
-					this.getDocs().length,
+					this.props.docs.docs.length,
 					1
 				);
 			}
 		}
 	}
+	// shouldComponentUpdate(nextProps, nextState) {
+	// 	console.log('nextProps',nextProps);
 
-	changeState(changes) {
-		let newState = objectAssign({}, this.state, changes);
-		console.log('changeState-from:', this.state);
-		console.log('changeState-to:', newState);
-		this.setState(newState);
-	}
+	// 	return JSON.stringify(this.props) !== JSON.stringify(nextProps) || JSON.stringify(this.state) !== JSON.stringify(nextState);
+	//   }
 
 	componentDidMount() {
 		this.componentDidUpdate();
@@ -202,7 +177,7 @@ export class DocViewer_ extends React.Component {
 			this.setLoadingState(LOADING_STARTED);
 
 			setTimeout(() => {
-				if (this.getLoadingState() === LOADING_STARTED) {
+				if (this.props.docs.loadingState === LOADING_STARTED) {
 					this.setLoadingState(LOADING_OVERLAY);
 				}
 			}, OVERLAY_DELAY);
@@ -211,26 +186,32 @@ export class DocViewer_ extends React.Component {
 	}
 
 	componentDidUpdate(prevProps, prevState) {
-		if (this.isLoading()) {
-			return;
-		}
-		console.log('################## componentDidUpdate');
-
 		const topicParam = this.props.match.params.topic;
 		const docPackageIdParam = this.props.match.params.docPackageId;
 		const fileNumberParam = this.props.match.params.file || 1;
 		const pageNumberParam = this.props.match.params.page || 1;
+		const docIndex = fileNumberParam - 1;
+		const pageIndex = pageNumberParam - 1;
+		const currentlyLoading=this.isLoading();
 
+		if (
+			currentlyLoading &&
+			docPackageIdParam === this.props.docs.futureDocPackageId &&
+			docIndex === this.props.docs.futureDocIndex &&
+			pageIndex === this.props.docs.futurePageIndex
+		) {
+			return;
+		}
 		if (this.props.match.params.file === undefined || this.props.match.params.page === undefined) {
-			//not necessary to check file && page || page cause if file is undefined page must beundefined too
+			// not necessary to check file && page || page cause if file is undefined page must beundefined too
 			// this corrects a url like http://localhost:3000/#/docs/bplaene/599 to http://localhost:3000/#/docs/bplaene/599/3/1
 			this.pushRouteForPage(topicParam, docPackageIdParam, fileNumberParam, pageNumberParam);
 			return;
 		}
 
-		if (this.getCurrentDocPackageId() !== docPackageIdParam || this.getCurrentTopic() !== topicParam) {
+		if (this.props.docs.docPackageId !== docPackageIdParam || this.props.docs.topic !== topicParam) {
 			let gazHit;
-			this.props.docsActions.setDelayedLoadingState();
+			this.props.docsActions.setDelayedLoadingState(docPackageIdParam,docIndex,pageIndex );
 			const bpl = JSON.parse(this.props.gazetteerTopics.bplaene);
 			for (let gazEntry of bpl) {
 				if (gazEntry.s === docPackageIdParam) {
@@ -287,22 +268,18 @@ export class DocViewer_ extends React.Component {
 								});
 							}
 							this.props.docsActions.setDocsInformationAndInitializeCaches(docs);
-							const docIndex = fileNumberParam - 1;
-							const pageIndex = pageNumberParam - 1;
 							this.props.docsActions.loadPage(docPackageIdParam, docIndex, pageIndex);
 						}
 					}
 				);
 			}
 		} else if (
-			(this.getLoadingState() === LOADING_FINISHED && this.props.docs.docIndex === undefined) ||
-			// (this.getCurrentDocPackageId() !== undefined && this.getCurrentDocPackageId() !== this.props.match.params.docPackageId - 1) ||
+			(this.props.docs.loadingState === LOADING_FINISHED && this.props.docs.docIndex === undefined) ||
+			// (this.props.docs.docPackageId !== undefined && this.props.docs.docPackageId !== this.props.match.params.docPackageId - 1) ||
 			(this.props.docs.docIndex !== undefined && this.props.docs.docIndex !== this.props.match.params.file - 1) ||
 			(this.props.docs.pageIndex !== undefined && this.props.docs.pageIndex !== this.props.match.params.page - 1)
 		) {
-			if (this.getDocs().length > 0) {
-				const docIndex = fileNumberParam - 1;
-				const pageIndex = pageNumberParam - 1;
+			if (this.props.docs.docs.length > 0) {
 				this.props.docsActions.loadPage(docPackageIdParam, docIndex, pageIndex);
 			}
 		} else {
@@ -337,8 +314,8 @@ export class DocViewer_ extends React.Component {
 	}
 
 	getOptimalBounds(forDimension) {
-		const w = this.getCurrentOffscreenCanvas().width;
-		const h = this.getCurrentOffscreenCanvas().height;
+		const w = this.props.docs.canvas.width;
+		const h = this.props.docs.canvas.height;
 
 		//procentual canvas width & height
 		let ph, pw;
@@ -462,10 +439,10 @@ export class DocViewer_ extends React.Component {
 		}
 
 		let downloadURL;
-		const downloadAvailable = this.getDocs().length > 0 && this.props.docs.docIndex !== undefined;
+		const downloadAvailable = this.props.docs.docs.length > 0 && this.props.docs.docIndex !== undefined;
 
 		if (downloadAvailable) {
-			downloadURL = this.getDocs()[this.props.docs.docIndex].url;
+			downloadURL = this.props.docs.docs[this.props.docs.docIndex].url;
 		}
 
 		return (
@@ -475,9 +452,9 @@ export class DocViewer_ extends React.Component {
 						<Navbar.Brand>
 							<a
 								onClick={() => this.showMainDoc()}
-								disabled={this.getLoadingState() !== LOADING_FINISHED}
+								disabled={this.props.docs.loadingState !== LOADING_FINISHED}
 							>
-								{'BPlan ' + this.getCurrentDocPackageId()}
+								{'BPlan ' + this.props.docs.docPackageId}
 							</a>
 						</Navbar.Brand>
 						<Navbar.Toggle />
@@ -486,7 +463,7 @@ export class DocViewer_ extends React.Component {
 						<Nav>
 							{/* <NavItem
 								onClick={() => this.prevDoc()}
-								disabled={this.getLoadingState() !== LOADING_FINISHED}
+								disabled={this.props.docs.loadingState !== LOADING_FINISHED}
 								eventKey={1}
 								href="#"
 							>
@@ -494,19 +471,19 @@ export class DocViewer_ extends React.Component {
 							</NavItem> */}
 							<NavItem
 								onClick={() => this.prevPage()}
-								disabled={this.getLoadingState() !== LOADING_FINISHED}
+								disabled={this.props.docs.loadingState !== LOADING_FINISHED}
 								eventKey={2}
 								href="#"
 							>
 								<Icon name="chevron-left" />
 							</NavItem>
 							<NavItem eventKey={1} href="#">
-								{/* {this.state.docIndex + 1} / {this.getDocs().length} -  */}
+								{/* {this.state.docIndex + 1} / {this.props.docs.docs.length} -  */}
 								{this.props.docs.pageIndex + 1} / {numPages}
 							</NavItem>
 							<NavItem
 								onClick={() => this.nextPage()}
-								disabled={this.getLoadingState() !== LOADING_FINISHED}
+								disabled={this.props.docs.loadingState !== LOADING_FINISHED}
 								eventKey={1}
 								href="#"
 							>
@@ -514,7 +491,7 @@ export class DocViewer_ extends React.Component {
 							</NavItem>
 							{/* <NavItem
 								onClick={() => this.nextDoc()}
-								disabled={this.getLoadingState() !== LOADING_FINISHED}
+								disabled={this.props.docs.loadingState !== LOADING_FINISHED}
 								eventKey={2}
 								href="#"
 							>
@@ -564,7 +541,7 @@ export class DocViewer_ extends React.Component {
 							}}
 							vertical="start"
 						>
-							{this.getDocs().map((doc, index) => {
+							{this.props.docs.docs.map((doc, index) => {
 								let iconname = 'file-o';
 								let selected = false;
 								let progressBar = undefined;
@@ -643,9 +620,9 @@ export class DocViewer_ extends React.Component {
 						</Column>
 						<Column style={{ background: 'green', width: '100%' }} horizontal="stretch">
 							<Loadable
-								active={this.getLoadingState() === LOADING_OVERLAY}
+								active={this.props.docs.loadingState === LOADING_OVERLAY}
 								spinner
-								text={this.getLoadingText() || 'Laden der Datei ...'}
+								text={this.props.docs.loadingText || 'Laden der Datei ...'}
 								content={<h1>test</h1>}
 							>
 								<RoutedMap
@@ -697,7 +674,7 @@ export class DocViewer_ extends React.Component {
 							styles="default"
 							maxZoom={19}
 							opacity={1}
-							//caching={this.getCachingHelperCounter()}
+							//caching={this.props.docs.caching}
 						/>
 					)} */}
 									{/* <PDFLayer /> */}
@@ -706,7 +683,7 @@ export class DocViewer_ extends React.Component {
 									{/* {this.getDebugBounds() && <Rectangle bounds={this.getDebugBounds()} color="#D8D8D8D8" />} */}
 									{this.leafletRoutedMap && (
 										<CanvasLayer
-											key={'CANVAS' + this.getCachingHelperCounter() + this.changeState.state}
+											key={'CANVAS' + this.props.docs.caching}
 											leaflet={leafletContext}
 											drawMethod={(info) => {
 												const ctx = info.canvas.getContext('2d');
@@ -717,9 +694,9 @@ export class DocViewer_ extends React.Component {
 												// ctx.fillText('Center ', point.x, point.y);
 												if (
 													this.leafletRoutedMap &&
-													(this.getLoadingState() === undefined ||
-														this.getLoadingState() === LOADING_FINISHED) &&
-													this.getCurrentDocPackageId() ===
+													(this.props.docs.loadingState === undefined ||
+														this.props.docs.loadingState === LOADING_FINISHED) &&
+													this.props.docs.docPackageId ===
 														this.props.match.params.docPackageId
 												) {
 													const layerBounds = this.getLayerBoundsForOffscreenCanvas();
@@ -742,7 +719,7 @@ export class DocViewer_ extends React.Component {
 													const layerBoundsPixelHeight =
 														-1 * (layerBoundsTopLeft.y - layerBoundsBottomRight.y);
 													ctx.drawImage(
-														this.getCurrentOffscreenCanvas(),
+														this.props.docs.canvas || document.createElement('canvas'),
 														//0,0,5526,5526,
 														layerBoundsTopLeft.x - mapBoundsTopLeft.x,
 														layerBoundsTopLeft.y - mapBoundsTopLeft.y,
@@ -755,13 +732,12 @@ export class DocViewer_ extends React.Component {
 										/>
 									)}
 									{this.props.docs.docIndex !== undefined &&
-									this.getDocs().length > 0 && (
+									this.props.docs.docs.length > 0 && (
 										<Control position="bottomright">
 											<p style={{ backgroundColor: '#D8D8D8D8', padding: '5px' }}>
-												{this.getDocs()[this.props.docs.docIndex].file} ({this.getSizeStorage()[
-													this.props.docs.docIndex
-												] ? (
-													filesize(this.getSizeStorage()[this.props.docs.docIndex])
+												{this.props.docs.docs[this.props.docs.docIndex].file} ({this.props.docs
+													.sizes[this.props.docs.docIndex] ? (
+													filesize(this.props.docs.sizes[this.props.docs.docIndex])
 												) : (
 													''
 												)})
@@ -778,8 +754,8 @@ export class DocViewer_ extends React.Component {
 	}
 
 	getLayerBoundsForOffscreenCanvas = () => {
-		const w = this.getCurrentOffscreenCanvas().width;
-		const h = this.getCurrentOffscreenCanvas().height;
+		const w = this.props.docs.canvas.width;
+		const h = this.props.docs.canvas.height;
 		let ph, pw;
 
 		if (w > h) {
@@ -790,176 +766,14 @@ export class DocViewer_ extends React.Component {
 			pw = w / h;
 		}
 
-		// const layerBounds = new L.LatLngBounds([ v ], [ 0.5, 0.5 ]);
+		//const layerBounds = new L.LatLngBounds([ -0.5, -0.5 ], [ 0.5, 0.5 ]);
 		const layerBounds = new L.LatLngBounds([ -ph / 2, -pw / 2 ], [ ph / 2, pw / 2 ]);
 		return layerBounds;
 	};
 
-	getCurrentDocPackageId = () => {
-		return this.props.docs.docPackageId;
-	};
-	getCurrentTopic = () => {
-		return this.props.docs.topic;
-	};
-	getDocs = () => {
-		return this.props.docs.docs;
-	};
-	getSizeStorage = () => {
-		return this.props.docs.sizes;
-	};
-	// getCanvasCache = () => {
-	// 	return this.state.canvasCache;
-	// };
-	getCachingHelperCounter = () => {
-		return this.props.docs.caching;
-	};
-	getLoadingState = () => {
-		return this.props.docs.loadingState;
-	};
-	getLoadingText = () => {
-		return this.props.docs.loadingText;
-	};
-	isLoading = () => {
+	isLoading = () => {		
 		return this.props.docs.loadingState !== LOADING_FINISHED;
 	};
-
-	getCurrentOffscreenCanvas = () => {
-		return this.props.docs.canvas;
-	};
-	// getDebugBounds = () => {
-	// 	return this.state.debugBounds;
-	// };
-
-	////////////////////
-
-	// setSize = (index, contentLength) => {
-	// 	const newState = update(this.state, {
-	// 		sizes: { [index]: { $set: parseInt(contentLength, 10) } }
-	// 	});
-	// 	//console.log('newState',newState);
-
-	// 	this.setState(newState);
-	// };
-
-	// setSidebarState = (open) => {
-	// 	const newState = update(this.state, {
-	// 		sidebarOpen: { $set: open }
-	// 	});
-	// 	this.setState(newState);
-	// };
-
-	// clearCurrentPDF = () => {
-	// 	const newState = update(this.state, {
-	// 		pdfdoc: { $set: undefined }
-	// 	});
-	// 	this.setState(newState);
-	// };
-
-	// setPDF = (pdf, index) => {
-	// 	let newState;
-	// 	if (index !== undefined) {
-	// 		newState = update(this.state, {
-	// 			pdfdoc: { $set: pdf },
-	// 			pdfdocs: {
-	// 				[index]: { $set: pdf }
-	// 			}
-	// 		});
-	// 	} else {
-	// 		newState = update(this.state, {
-	// 			pdfdoc: { $set: pdf }
-	// 		});
-	// 	}
-	// 	this.setState(newState);
-	// };
-	// setOffscreenCanvas = (canvas) => {
-	// 	const newState = update(this.state, {
-	// 		offScreenCanvas: { $set: canvas }
-	// 	});
-	// 	this.setState(newState);
-	// };
-
-	// setDebugBounds = (bounds) => {
-	// 	const newState = update(this.state, {
-	// 		debugBounds: { $set: bounds }
-	// 	});
-	// 	this.setState(newState);
-	// };
-
-	// setLoadingState = (loadingstate) => {
-	// 	const newState = update(this.state, {
-	// 		loading: { $set: loadingstate }
-	// 	});
-	// 	this.setState(newState);
-	// };
-
-	// setCanvasToCache = (index, canvas) => {
-	// 	const newcache = new Map(this.state.canvasCache);
-	// 	newcache.set(index, canvas);
-	// 	const newState = update(this.state, {
-	// 		canvasCache: { $set: newcache }
-	// 	});
-	// 	this.setState(newState);
-	// };
-
-	// incrementCachingNonce = () => {
-	// 	const newState = update(this.state, {
-	// 		caching: { $set: this.state.caching + 1 }
-	// 	});
-	// 	this.setState(newState);
-	// };
-
-	// initializeLocalState = (docPackageId, topic) => {
-	// 	const newState = update(this.state, {
-	// 		docPackageId: { $set: docPackageId },
-	// 		topic: { $set: topic },
-	// 		docIndex: { $set: undefined },
-	// 		docs: { $set: [] }
-	// 	});
-	// 	console.log('initializeLocalState2.oldState', this.state);
-	// 	console.log('initializeLocalState2.newState', newState);
-	// 	if (
-	// 		this.state.docPackageId !== newState.docPackageId ||
-	// 		this.state.docIndex !== undefined ||
-	// 		this.state.docs !== []
-	// 	) {
-	// 		this.setState(newState);
-	// 	}
-	// };
-	// setDocIndex = (docIndex) => {
-	// 	const newState = update(this.state, {
-	// 		docIndex: { $set: docIndex }
-	// 	});
-	// 	this.setState(newState);
-	// };
-	// setPageIndex = (pageIndex) => {
-	// 	const newState = update(this.state, {
-	// 		pageIndex: { $set: pageIndex }
-	// 	});
-	// 	this.setState(newState);
-	// };
-	// setDocsInformationAndInitializeCaches = (docs) => {
-	// 	const newState = update(this.state, {
-	// 		docs: { $set: docs },
-	// 		pdf: { $set: undefined },
-	// 		pdfdocs: { $set: [] },
-
-	// 		page: { $set: undefined },
-	// 		canvasCache: { $set: new Map() },
-	// 		page: { $set: undefined },
-	// 		docIndex: { $set: undefined },
-	// 		pageIndex: { $set: undefined },
-	// 		doc: { $set: undefined },
-	// 		debugBounds: { $set: [ [ -0.5, -0.5 ], [ 0.5, 0.5 ] ] },
-	// 		offScreenCanvas: { $set: document.createElement('canvas') }
-	// 	});
-	// 	this.setState(newState);
-	// };
-	// setPage = (page) => {
-	// 	const newState = update(this.state, {
-	// 		page: { $set: page }
-	// 	});
-	// 	this.setState(newState);
-	// };
 }
 
 const DocViewer = connect(mapStateToProps, mapDispatchToProps, null, { withRef: true })(DocViewer_);

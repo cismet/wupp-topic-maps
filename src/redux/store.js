@@ -18,7 +18,8 @@ const logger = createLogger({
 
 const initialState = {};
 const enhancers = [];
-const devMiddleware = [thunk, logger, reduxImmutableStateInvariant(), routerMiddleware(history)];
+// const devMiddleware = [thunk, logger, reduxImmutableStateInvariant(), routerMiddleware(history)];
+const devMiddleware = [thunk, logger, routerMiddleware(history)];
 
 const prodMiddleware = [thunk, routerMiddleware(history)];
 

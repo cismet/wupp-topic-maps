@@ -356,8 +356,8 @@ export class DocViewer_ extends React.Component {
 		let docLayer = <div />;
 		let layer = this.getLayer();
 		
-		if (layer) {
-			docLayer = <TileLayer url={layer.layerUrl} bounds={layer.layerBounds} maxNativeZoom={layer.meta.maxZoom}/>;
+		if (layer) {		
+			docLayer = <TileLayer url={layer.layerUrl} boundsX={layer.layerBounds} maxNativeZoom={layer.meta.maxZoom}/>;
 		}
 
 		return (
@@ -471,7 +471,7 @@ export class DocViewer_ extends React.Component {
 										index === this.props.match.params.file - 1 
 									) {
 										numPages = doc.pages;
-										currentPage = this.props.match.params.page;
+										currentPage = this.props.docs.docIndex+1;
 										selected = true;
 										pageStatus = `${currentPage} / ${numPages}`;
 										progressBar = (
@@ -554,10 +554,10 @@ export class DocViewer_ extends React.Component {
 									ondblclick={this.props.ondblclick}
 									// onclick={this.props.onclick}
 									locationChangedHandler={(location) => {
-										// this.props.routingActions.push(
-										// 	this.props.routing.location.pathname +
-										// 		modifyQueryPart(this.props.routing.location.search, location)
-										// );
+										this.props.routingActions.push(
+											this.props.routing.location.pathname +
+												modifyQueryPart(this.props.routing.location.search, location)
+										);
 										//this.props.locationChangedHandler(location);
 									}}
 									autoFitProcessedHandler={() => this.props.mappingActions.setAutoFit(false)}

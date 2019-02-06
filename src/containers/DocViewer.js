@@ -164,7 +164,9 @@ export class DocViewer_ extends React.Component {
 								});
 							}
 							this.props.docsActions.setDocsInformationAndInitializeCaches(docs);
-							this.props.docsActions.loadPage(docPackageIdParam, docIndex, pageIndex, ()=>this.gotoWholeDocument());
+							this.props.docsActions.loadPage(docPackageIdParam, docIndex, pageIndex, () =>
+								this.gotoWholeDocument()
+							);
 						}
 					}
 				);
@@ -176,7 +178,7 @@ export class DocViewer_ extends React.Component {
 			(this.props.docs.pageIndex !== undefined && this.props.docs.pageIndex !== this.props.match.params.page - 1)
 		) {
 			if (this.props.docs.docs.length > 0) {
-				this.props.docsActions.loadPage(docPackageIdParam, docIndex, pageIndex, ()=>this.gotoWholeDocument());
+				this.props.docsActions.loadPage(docPackageIdParam, docIndex, pageIndex, () => this.gotoWholeDocument());
 			}
 		} else {
 			//console.log('dont load', this.state);
@@ -220,8 +222,8 @@ export class DocViewer_ extends React.Component {
 		let numPages;
 
 		if (this.props.docs.pdfdoc) {
-			numPages = " / " +this.props.docs.pdfdoc._pdfInfo.numPages;
-		} 
+			numPages = ' / ' + this.props.docs.pdfdoc._pdfInfo.numPages;
+		}
 		let downloadURL;
 		const downloadAvailable = this.props.docs.docs.length > 0 && this.props.docs.docIndex !== undefined;
 
@@ -231,14 +233,14 @@ export class DocViewer_ extends React.Component {
 
 		return (
 			<div>
-				<Navbar style={{ marginBottom: 0 }} inverse >
+				<Navbar style={{ marginBottom: 0 }} inverse>
 					<Navbar.Header>
-						<Navbar.Brand >
+						<Navbar.Brand>
 							<a
 								onClick={() => this.showMainDoc()}
 								disabled={this.props.docs.loadingState !== LOADING_FINISHED}
 							>
-								{'BPlan ' + (this.props.docs.docPackageId||this.props.docs.futuredocPackageId||'')}
+								{'BPlan ' + (this.props.docs.docPackageId || this.props.docs.futuredocPackageId || '')}
 							</a>
 						</Navbar.Brand>
 						<Navbar.Toggle />
@@ -298,7 +300,7 @@ export class DocViewer_ extends React.Component {
 						</Nav> */}
 
 						<Nav pullRight>
-							<NavItem disabled={false && !downloadAvailable} href={downloadURL} target="_blank" >
+							<NavItem disabled={false && !downloadAvailable} href={downloadURL} target="_blank">
 								<Icon name="download" />
 							</NavItem>
 
@@ -314,7 +316,7 @@ export class DocViewer_ extends React.Component {
 
 				<div>
 					<Row vertical="stretch" horizontal="spaced" style={{ width: '100%', height: mapHeight }}>
-						{ (this.props.docs.docs||[]).length>1 && (
+						{(this.props.docs.docs || []).length > 1 && (
 							<Column
 								style={{
 									backgroundColor: '#999999',
@@ -410,7 +412,6 @@ export class DocViewer_ extends React.Component {
 								text={this.props.docs.loadingText || 'Laden der Datei ...'}
 								content={<h1>test</h1>}
 							>
-							
 								<RoutedMap
 									key={'leafletRoutedMap'}
 									referenceSystem={L.CRS.Simple}
@@ -423,7 +424,7 @@ export class DocViewer_ extends React.Component {
 										lng: 0
 									}}
 									ondblclick={this.props.ondblclick}
-									//onclick={this.props.onclick}
+									// onclick={this.props.onclick}
 									locationChangedHandler={(location) => {
 										this.props.routingActions.push(
 											this.props.routing.location.pathname +
@@ -466,7 +467,9 @@ export class DocViewer_ extends React.Component {
 									{/* <PDFLayer /> */}
 									{/* <Coords/> */}
 									{/* {debugMarker} */}
-									{this.props.docs.debugBounds && <Rectangle bounds={this.props.docs.debugBounds} color="#D8D8D8D8" />}
+									{this.props.docs.debugBounds && (
+										<Rectangle bounds={this.props.docs.debugBounds} color="#D8D8D8D8" />
+									)}
 									{this.leafletRoutedMap && (
 										<CanvasLayer
 											key={'CANVAS' + this.props.docs.caching}
@@ -518,7 +521,8 @@ export class DocViewer_ extends React.Component {
 										/>
 									)}
 									{this.props.docs.docIndex !== undefined &&
-									this.props.docs.docs.length > 0 && !this.isLoading() &&  (
+									this.props.docs.docs.length > 0 &&
+									!this.isLoading() && (
 										<Control position="bottomright">
 											<p style={{ backgroundColor: '#D8D8D8D8', padding: '5px' }}>
 												{this.props.docs.docs[this.props.docs.docIndex].file} ({this.props.docs

@@ -29,12 +29,68 @@ import Loadable from 'react-loading-overlay';
 import { Column, Row } from 'simple-flexbox';
 
 import filesize from 'filesize';
-import RasterCoords from 'leaflet-rastercoords';
+
+
+L.RasterCoords = function (map, imgsize, tilesize) {
+	this.map = map
+	this.width = imgsize[0]
+	this.height = imgsize[1]
+	this.tilesize = tilesize || 256
+	this.zoom = this.zoomLevel()
+	if (this.width && this.height) {
+	 // this.setMaxBounds()
+	}
+  }
+  L.RasterCoords.prototype = {
+	/**
+	 * calculate accurate zoom level for the given image size
+	 */
+	zoomLevel: function () {
+	  return Math.ceil(
+		Math.log(
+		  Math.max(this.width, this.height) /
+		  this.tilesize
+		) / Math.log(2)
+	  )
+	},
+	/**
+	 * unproject `coords` to the raster coordinates used by the raster image projection
+	 * @param {Array} coords - [ x, y ]
+	 * @return {L.LatLng} - internal coordinates
+	 */
+	unproject: function (coords) {
+	  return this.map.unproject(coords, this.zoom)
+	},
+	/**
+	 * project `coords` back to image coordinates
+	 * @param {Array} coords - [ x, y ]
+	 * @return {L.LatLng} - image coordinates
+	 */
+	project: function (coords) {
+	  return this.map.project(coords, this.zoom)
+	},
+	/**
+	 * sets the max bounds on map
+	 */
+	setMaxBounds: function () {
+	  var southWest = this.unproject([0, this.height])
+	  var northEast = this.unproject([this.width, 0])
+	  this.map.setMaxBounds(new L.LatLngBounds(southWest, northEast))
+	}
+  }
+
+//import '../components/external/rastercoords';
+
+
 //pdfjsLib.GlobalWorkerOptions.workerSrc = '//mozilla.github.io/pdf.js/build/pdf.worker.js';
 
-L.RasterCoords = RasterCoords;
+//L.RasterCoords = RasterCoords;
 
-pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.0.943/pdf.worker.min.js';
+//pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.0.943/pdf.worker.min.js';
+
+
+
+
 
 const WIDTH = 'WIDTH';
 const HEIGHT = 'HEIGHT';
@@ -77,6 +133,7 @@ function mapDispatchToProps(dispatch) {
 export class DocViewer_ extends React.Component {
 	constructor(props, context) {
 		super(props, context);
+	 
 	}
 
 	componentDidMount() {
@@ -100,7 +157,6 @@ export class DocViewer_ extends React.Component {
 		) {
 			return;
 		}
-
 		if (this.props.match.params.file === undefined || this.props.match.params.page === undefined) {
 			// not necessary to check file && page || page cause if file is undefined page must beundefined too
 			// this corrects a url like http://localhost:3000/#/docs/bplaene/599 to http://localhost:3000/#/docs/bplaene/599/3/1
@@ -299,8 +355,9 @@ export class DocViewer_ extends React.Component {
 
 		let docLayer = <div />;
 		let layer = this.getLayer();
+		
 		if (layer) {
-			docLayer = <TileLayer url={layer.layerUrl} bounds={layer.layerBounds} />;
+			docLayer = <TileLayer url={layer.layerUrl} bounds={layer.layerBounds} maxNativeZoom={layer.meta.maxZoom}/>;
 		}
 
 		return (
@@ -497,10 +554,10 @@ export class DocViewer_ extends React.Component {
 									ondblclick={this.props.ondblclick}
 									// onclick={this.props.onclick}
 									locationChangedHandler={(location) => {
-										this.props.routingActions.push(
-											this.props.routing.location.pathname +
-												modifyQueryPart(this.props.routing.location.search, location)
-										);
+										// this.props.routingActions.push(
+										// 	this.props.routing.location.pathname +
+										// 		modifyQueryPart(this.props.routing.location.search, location)
+										// );
 										//this.props.locationChangedHandler(location);
 									}}
 									autoFitProcessedHandler={() => this.props.mappingActions.setAutoFit(false)}
@@ -513,7 +570,7 @@ export class DocViewer_ extends React.Component {
 									fallbackZoom={2}
 									fullScreenControlEnabled={true}
 									locateControlEnabled={false}
-									minZoom={2}
+									minZoom={1}
 									maxZoom={6}
 									zoomSnap={0.5}
 									zoomDelta={1}
@@ -670,30 +727,35 @@ export class DocViewer_ extends React.Component {
 		});
 	};
 
-	gotoHome = () => {
-		this.leafletRoutedMap.leafletMap.leafletElement.fitBounds([ [ 0, 0 ], [ 12047, 8504 ] ]);
-	};
 
 	getOptimalBounds = (forDimension) => {
+		// var img = [
+		// 	12047,
+		// 	8504
+		// 	]
+		// 	var rc = new L.RasterCoords(this.leafletRoutedMap.leafletMap.leafletElement, img)
+		// 	return [ [ rc.unproject([ 0, 0 ]), rc.unproject([ img[0], img[1] ]) ] ]
 
-		if (forDimension){
-			const leafletSize = this.leafletRoutedMap.leafletMap.leafletElement._size; //x,y
-			let layer=this.getLayer();
-			let dimensions = [ layer.meta.x, layer.meta.y ];
-			if (forDimension===WIDTH){
-				let targetDimensions = [ layer.meta.x, layer.meta.y * leafletSize.x/leafletSize.y ];
-				let rc = new L.RasterCoords(this.leafletRoutedMap.leafletMap.leafletElement, targetDimensions);
-				return [ [ rc.unproject([ 0, 0 ]), rc.unproject([ targetDimensions[0], targetDimensions[1] ]) ] ];
-			}
-			else if (forDimension===HEIGHT){
-				let targetDimensions = [ layer.meta.x * leafletSize.x/leafletSize.y, layer.meta.y  ];
-				let rc = new L.RasterCoords(this.leafletRoutedMap.leafletMap.leafletElement, targetDimensions);
-				return [ [ rc.unproject([ 0, 0 ]), rc.unproject([ targetDimensions[0], targetDimensions[1] ]) ] ];
-			}
-		}
-		else {
+
+
+		// if (forDimension){
+		// 	const leafletSize = this.leafletRoutedMap.leafletMap.leafletElement._size; //x,y
+		// 	let layer=this.getLayer();
+		// 	let dimensions = [ layer.meta.x, layer.meta.y ];
+		// 	if (forDimension===WIDTH){
+		// 		let targetDimensions = [ layer.meta.x, layer.meta.y * leafletSize.x/leafletSize.y ];
+		// 		let rc = new L.RasterCoords(this.leafletRoutedMap.leafletMap.leafletElement, targetDimensions);
+		// 		return [ [ rc.unproject([ 0, 0 ]), rc.unproject([ targetDimensions[0], targetDimensions[1] ]) ] ];
+		// 	}
+		// 	else if (forDimension===HEIGHT){
+		// 		let targetDimensions = [ layer.meta.x * leafletSize.x/leafletSize.y, layer.meta.y  ];
+		// 		let rc = new L.RasterCoords(this.leafletRoutedMap.leafletMap.leafletElement, targetDimensions);
+		// 		return [ [ rc.unproject([ 0, 0 ]), rc.unproject([ targetDimensions[0], targetDimensions[1] ]) ] ];
+		// 	}
+		// }
+		// else {
 			return this.getLayer().layerBounds;
-		} 
+		// } 
 		// let layer=this.getLayer();
 		// let dimensions = [ layer.meta.x, layer.meta.y ];
 		// const w = layer.meta.x;
@@ -818,7 +880,7 @@ export class DocViewer_ extends React.Component {
 		} else {
 			return undefined;
 		}
-	};
+	};	
 }
 
 const DocViewer = connect(mapStateToProps, mapDispatchToProps, null, { withRef: true })(DocViewer_);

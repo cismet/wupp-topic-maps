@@ -5630,13 +5630,6 @@ leaflet-fullscreen-custom-container-fork@^1.0.7:
   resolved "https://registry.yarnpkg.com/leaflet-fullscreen-custom-container-fork/-/leaflet-fullscreen-custom-container-fork-1.0.7.tgz#2451ee0e1398b5d5c70b5c5da85c72a514e98715"
   integrity sha512-pTYxQ+NLD/lD36Uhei48ED6ypj52JiHCik6lvBDLrwNnSNEs3R4M29byhXEEZ6KizBIdphcQuga7up9iEQx4qg==
 
-leaflet-rastercoords@^1.0.3:
-  version "1.0.3"
-  resolved "https://registry.yarnpkg.com/leaflet-rastercoords/-/leaflet-rastercoords-1.0.3.tgz#5f9d1675a50a9e553f32da55f97af08c07151fed"
-  integrity sha512-b3HoPniMUnih0PzKJzowTDXUBbg2Fm/Ry/ZDbZljG1T3E+2IAKGfO5sjCaVSBp4Ca1yKq3whgd6BUHBPFKbzrg==
-  dependencies:
-    leaflet "^1.3.3"
-
 leaflet.locatecontrol@^0.63.0:
   version "0.63.0"
   resolved "https://registry.yarnpkg.com/leaflet.locatecontrol/-/leaflet.locatecontrol-0.63.0.tgz#a93b9af0c36a0edcac50dc336aa718d2c6f91f54"
@@ -5661,11 +5654,6 @@ leaflet@^1.0.1, leaflet@^1.2.0:
   version "1.3.4"
   resolved "https://registry.yarnpkg.com/leaflet/-/leaflet-1.3.4.tgz#7f006ea5832603b53d7269ef5c595fd773060a40"
   integrity sha512-FYL1LGFdj6v+2Ifpw+AcFIuIOqjNggfoLUwuwQv6+3sS21Za7Wvapq+LhbSE4NDXrEj6eYnW3y7LsaBICpyXtw==
-
-leaflet@^1.3.3:
-  version "1.4.0"
-  resolved "https://registry.yarnpkg.com/leaflet/-/leaflet-1.4.0.tgz#d5f56eeb2aa32787c24011e8be4c77e362ae171b"
-  integrity sha512-x9j9tGY1+PDLN9pcWTx9/y6C5nezoTMB8BLK5jTakx+H7bPlnbCHfi9Hjg+Qt36sgDz/cb9lrSpNQXmk45Tvhw==
 
 leven@^2.1.0:
   version "2.1.0"

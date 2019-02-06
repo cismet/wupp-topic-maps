@@ -103,7 +103,13 @@ export class BPlaene_ extends React.Component {
       let link = document.createElement("a");
       document.body.appendChild(link);
       link.setAttribute("type", "hidden");
-      link.href = "/#/docs/bplaene/"+currentFeature.properties.nummer+"/1/1";
+      let test="";
+      console.log('currentFeature.properties.nummer',currentFeature.properties.nummer);
+      
+      if (currentFeature.properties.nummer==="913"){
+        test="test";
+      }
+      link.href = "/#/docs"+test+"/bplaene/"+currentFeature.properties.nummer+"/1/1";
       link.target = "_docviewer";
       link.click();
      

@@ -111,7 +111,7 @@ const initialState = {
 					url: 'bplandocs/bplaene_dokumente/rechtsverbindlich/BPL_1179V_0_PB_Vorprüfung_04-2009.pdf'
 				},
 				{
-					file: '_Info_BPlan-Zusatzdokumente_WUP_1-0.pdf',
+					file: 'Info_BPlan-Zusatzdokumente_WUP_1-0.pdf',
 					url: 'bplandocs/bplaene_dokumente/Info_BPlan-Zusatzdokumente_WUP_1-0.pdf'
 				}
 			]
@@ -346,7 +346,7 @@ function convertPropArrayToFeature(propArray, counter) {
 	if (propArray[5] != null) {
 		docs = JSON.parse(propArray[5]);
 		docs.push({
-			file: '_Info_BPlan-Zusatzdokumente_WUP_1-0.pdf',
+			file: 'Info_BPlan-Zusatzdokumente_WUP_1-0.pdf',
 			url: 'https://wunda-geoportal-docs.cismet.de/bplaene_dokumente/Info_BPlan-Zusatzdokumente_WUP_1-0.pdf'
 		});
 	} else {

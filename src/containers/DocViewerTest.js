@@ -13,6 +13,7 @@ import { actions as bplanActions } from '../redux/modules/bplaene';
 import L from 'leaflet';
 import { bindActionCreators } from 'redux';
 import { modifyQueryPart } from '../utils/routingHelper';
+import { Simple as ownSimpleCRS } from '../utils/gisHelper';
 
 import 'url-search-params-polyfill';
 import { actions as UIStateActions } from '../redux/modules/uiState';
@@ -31,66 +32,57 @@ import { Column, Row } from 'simple-flexbox';
 import filesize from 'filesize';
 
 
-L.RasterCoords = function (map, imgsize, tilesize) {
-	this.map = map
-	this.width = imgsize[0]
-	this.height = imgsize[1]
-	this.tilesize = tilesize || 256
-	this.zoom = this.zoomLevel()
+
+L.RasterCoords = function(map, imgsize, tilesize) {
+	this.map = map;
+	this.width = imgsize[0];
+	this.height = imgsize[1];
+	this.tilesize = tilesize || 256;
+	this.zoom = this.zoomLevel();
 	if (this.width && this.height) {
-	 // this.setMaxBounds()
+		// this.setMaxBounds()
 	}
-  }
-  L.RasterCoords.prototype = {
+};
+L.RasterCoords.prototype = {
 	/**
 	 * calculate accurate zoom level for the given image size
 	 */
-	zoomLevel: function () {
-	  return Math.ceil(
-		Math.log(
-		  Math.max(this.width, this.height) /
-		  this.tilesize
-		) / Math.log(2)
-	  )
+	zoomLevel: function() {
+		return Math.ceil(Math.log(Math.max(this.width, this.height) / this.tilesize) / Math.log(2));
 	},
 	/**
 	 * unproject `coords` to the raster coordinates used by the raster image projection
 	 * @param {Array} coords - [ x, y ]
 	 * @return {L.LatLng} - internal coordinates
 	 */
-	unproject: function (coords) {
-	  return this.map.unproject(coords, this.zoom)
+	unproject: function(coords) {
+		return this.map.unproject(coords, this.zoom);
 	},
 	/**
 	 * project `coords` back to image coordinates
 	 * @param {Array} coords - [ x, y ]
 	 * @return {L.LatLng} - image coordinates
 	 */
-	project: function (coords) {
-	  return this.map.project(coords, this.zoom)
+	project: function(coords) {
+		return this.map.project(coords, this.zoom);
 	},
 	/**
 	 * sets the max bounds on map
 	 */
-	setMaxBounds: function () {
-	  var southWest = this.unproject([0, this.height])
-	  var northEast = this.unproject([this.width, 0])
-	  this.map.setMaxBounds(new L.LatLngBounds(southWest, northEast))
+	setMaxBounds: function() {
+		var southWest = this.unproject([ 0, this.height ]);
+		var northEast = this.unproject([ this.width, 0 ]);
+		this.map.setMaxBounds(new L.LatLngBounds(southWest, northEast));
 	}
-  }
+};
 
 //import '../components/external/rastercoords';
-
 
 //pdfjsLib.GlobalWorkerOptions.workerSrc = '//mozilla.github.io/pdf.js/build/pdf.worker.js';
 
 //L.RasterCoords = RasterCoords;
 
 //pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.0.943/pdf.worker.min.js';
-
-
-
-
 
 const WIDTH = 'WIDTH';
 const HEIGHT = 'HEIGHT';
@@ -133,7 +125,6 @@ function mapDispatchToProps(dispatch) {
 export class DocViewer_ extends React.Component {
 	constructor(props, context) {
 		super(props, context);
-	 
 	}
 
 	componentDidMount() {
@@ -192,75 +183,84 @@ export class DocViewer_ extends React.Component {
 						done: (bplanFeatures) => {
 							const bplan = bplanFeatures[0].properties;
 							let docs = [];
-							for (const rkDoc of bplan.plaene_rk) {
-								let pagecount = this.props.docs.pages[this.replaceUmlauteAndSpaces(rkDoc.file)].pages;
-								let pageinfo = [];
+							for (const doc of bplan.plaene_rk) {
+								// let pagecount = this.props.docs.pages[this.replaceUmlauteAndSpaces(doc.file)].pages;
+								// let pageinfo = [];
 
-								for (let i = 0; i < pagecount; ++i) {
-									if (pagecount > 1) {
-										pageinfo.push(
-											this.props.docs.layers[this.replaceUmlauteAndSpaces(rkDoc.file + '-' + i)]
-										);
-									} else {
-										pageinfo.push(this.props.docs.layers[this.replaceUmlauteAndSpaces(rkDoc.file)]);
-									}
-								}
+								// for (let i = 0; i < pagecount; ++i) {
+								// 	if (pagecount > 1) {
+								// 		pageinfo.push(
+								// 			this.props.docs.layers[this.replaceUmlauteAndSpaces(doc.file + '-' + i)]
+								// 		);
+								// 	} else {
+								// 		pageinfo.push(this.props.docs.layers[this.replaceUmlauteAndSpaces(doc.file)]);
+								// 	}
+								// }
 								docs.push({
 									group: 'rechtskraeftig',
-									file: rkDoc.file,
-									url: rkDoc.url.replace(
+									file: doc.file,
+									url: doc.url.replace(
 										'https://wunda-geoportal-docs.cismet.de/',
 										'https://wunda-geoportal-dox.cismet.de/'
 									),
-									layer: `${tileservice}/BPLAN_Plaene_und_Zusatzdokumente.${docPackageIdParam}/rechtskraeftig/${this.replaceUmlauteAndSpaces(
-										rkDoc.file
-									)}/{z}/{x}/{y}.png`,
-									pages: pagecount,
-									pageinfo
+								    layer: this.replaceUmlauteAndSpaces(doc.url.replace(
+											'https://wunda-geoportal-docs.cismet.de/',
+											'http://localhost:3030/'
+										) + '/{z}/{x}/{y}.png'),
+									meta: this.replaceUmlauteAndSpaces(doc.url.replace(
+											'https://wunda-geoportal-docs.cismet.de/',
+											'http://localhost:3030/'
+										) + '/meta.json'),
+									
 								});
 							}
-							for (const nrkDoc of bplan.plaene_nrk) {
-								let pagecount = this.props.docs.pages[this.replaceUmlauteAndSpaces(nrkDoc.file)].pages;
-								let pageinfo = [];
+							for (const doc of bplan.plaene_nrk) {
+								// let pagecount = this.props.docs.pages[this.replaceUmlauteAndSpaces(doc.file)].pages;
+								// let pageinfo = [];
 
-								for (let i = 0; i < pagecount; ++i) {
-									if (pagecount > 1) {
-										pageinfo.push(
-											this.props.docs.layers[this.replaceUmlauteAndSpaces(nrkDoc.file + '-' + i)]
-										);
-									} else {
-										pageinfo.push(
-											this.props.docs.layers[this.replaceUmlauteAndSpaces(nrkDoc.file)]
-										);
-									}
-								}
+								// for (let i = 0; i < pagecount; ++i) {
+								// 	if (pagecount > 1) {
+								// 		pageinfo.push(
+								// 			this.props.docs.layers[this.replaceUmlauteAndSpaces(doc.file + '-' + i)]
+								// 		);
+								// 	} else {
+								// 		pageinfo.push(
+								// 			this.props.docs.layers[this.replaceUmlauteAndSpaces(doc.file)]
+								// 		);
+								// 	}
+								// }
 								docs.push({
 									group: 'nicht_rechtskraeftig',
-									file: nrkDoc.file,
-									url: nrkDoc.url.replace(
+									file: doc.file,
+									url: doc.url.replace(
 										'https://wunda-geoportal-docs.cismet.de/',
 										'https://wunda-geoportal-dox.cismet.de/'
 									),
-									layer: `${tileservice}/BPLAN_Plaene_und_Zusatzdokumente.${docPackageIdParam}/nicht_rechtskraeftig/${this.replaceUmlauteAndSpaces(
-										nrkDoc.file
-									)}/{z}/{x}/{y}.png`,
-									pages: pagecount,
-									pageinfo
+									
+									layer:
+									this.replaceUmlauteAndSpaces(doc.url.replace(
+											'https://wunda-geoportal-docs.cismet.de/',
+											'http://localhost:3030/'
+										) + '/{z}/{x}/{y}.png'),
+										meta: this.replaceUmlauteAndSpaces(doc.url.replace(
+											'https://wunda-geoportal-docs.cismet.de/',
+											'http://localhost:3030/'
+										) + '/meta.json'),
 								});
 							}
 							for (const doc of bplan.docs) {
-								let pagecount = this.props.docs.pages[this.replaceUmlauteAndSpaces(doc.file)].pages;
-								let pageinfo = [];
+								// let pagecount = this.props.docs.pages[this.replaceUmlauteAndSpaces(doc.file)].pages;
+								// let pageinfo = [];
 
-								for (let i = 0; i < pagecount; ++i) {
-									if (pagecount > 1) {
-										pageinfo.push(
-											this.props.docs.layers[this.replaceUmlauteAndSpaces(doc.file + '-' + i)]
-										);
-									} else {
-										pageinfo.push(this.props.docs.layers[this.replaceUmlauteAndSpaces(doc.file)]);
-									}
-								}
+								// for (let i = 0; i < pagecount; ++i) {
+								// 	if (pagecount > 1) {
+								// 		pageinfo.push(
+								// 			this.props.docs.layers[this.replaceUmlauteAndSpaces(doc.file + '-' + i)]
+								// 		);
+								// 	} else {
+								// 		pageinfo.push(this.props.docs.layers[this.replaceUmlauteAndSpaces(doc.file)]);
+								// 	}
+								// }
 
 								docs.push({
 									group: 'Zusatzdokumente',
@@ -269,11 +269,17 @@ export class DocViewer_ extends React.Component {
 										'https://wunda-geoportal-docs.cismet.de/',
 										'https://wunda-geoportal-dox.cismet.de/'
 									),
-									layer: `${tileservice}/BPLAN_Plaene_und_Zusatzdokumente.${docPackageIdParam}/Zusatzdokumente/${this.replaceUmlauteAndSpaces(
-										doc.file
-									)}/{z}/{x}/{y}.png`,
-									pages: pagecount,
-									pageinfo
+									
+									layer:this.replaceUmlauteAndSpaces(
+										doc.url.replace(
+											'https://wunda-geoportal-docs.cismet.de/',
+											'http://localhost:3030/'
+										) + '/{z}/{x}/{y}.png'),
+
+										meta: this.replaceUmlauteAndSpaces(doc.url.replace(
+											'https://wunda-geoportal-docs.cismet.de/',
+											'http://localhost:3030/'
+										) + '/meta.json'),
 								});
 							}
 							this.props.docsActions.setDocsInformationAndInitializeCaches(docs);
@@ -327,7 +333,6 @@ export class DocViewer_ extends React.Component {
 			cursor: this.props.cursor,
 			backgroundColor: 'white'
 		};
-		const mapRef = this.getMapRef();
 		let menuIsHidden = false;
 		if (this.props.uiState.width < 768) {
 			menuIsHidden = true;
@@ -355,9 +360,27 @@ export class DocViewer_ extends React.Component {
 
 		let docLayer = <div />;
 		let layer = this.getLayer();
-		
-		if (layer) {		
-			docLayer = <TileLayer url={layer.layerUrl} boundsX={layer.layerBounds} maxNativeZoom={layer.meta.maxZoom}/>;
+
+		if (layer) {
+			docLayer = (
+				<TileLayer key={"tileLayer."+JSON.stringify(layer.layerBounds)+"."+layer.meta["layer"+this.props.docs.pageIndex].maxZoom}
+					url={layer.layerUrl}
+					bounds={layer.layerBounds}
+					minNativeZoom={1}
+					tms={true}
+					noWrap={true}
+					maxNativeZoom={layer.meta["layer"+this.props.docs.pageIndex].maxZoom}
+				/>
+			);
+			// L.tileLayer(layer.layerUrl, {
+			// 	minZoom: 0,
+			// 	maxZoom: layer.meta.maxZoom,
+			// 	tms: true,
+			// 	noWrap: true
+			// }).addTo(this.leafletRoutedMap.leafletMap.leafletElement);
+
+			// console.log('layer.meta.maxZoom', layer.meta.maxZoom);
+			
 		}
 
 		return (
@@ -467,11 +490,9 @@ export class DocViewer_ extends React.Component {
 									if (doc.group !== 'Zusatzdokumente') {
 										iconname = 'file-pdf-o';
 									}
-									if (
-										index === this.props.match.params.file - 1 
-									) {
+									if (index === this.props.match.params.file - 1) {
 										numPages = doc.pages;
-										currentPage = this.props.docs.docIndex+1;
+										currentPage = this.props.docs.pageIndex + 1;
 										selected = true;
 										pageStatus = `${currentPage} / ${numPages}`;
 										progressBar = (
@@ -595,8 +616,13 @@ export class DocViewer_ extends React.Component {
 						/>
 					)} */}
 									{/* <PDFLayer /> */}
-									{/* <Coords/> */}
-									{/* {debugMarker} */}
+									{/* <Marker position={[0,0]}>
+										<Popup>
+											<span>
+												0,0
+											</span>
+										</Popup>
+									</Marker> */}
 									{this.getLayer() && (
 										<Rectangle bounds={this.getLayer().layerBounds} color="#D8D8D8D8" />
 									)}
@@ -727,7 +753,6 @@ export class DocViewer_ extends React.Component {
 		});
 	};
 
-
 	getOptimalBounds = (forDimension) => {
 		// var img = [
 		// 	12047,
@@ -735,8 +760,6 @@ export class DocViewer_ extends React.Component {
 		// 	]
 		// 	var rc = new L.RasterCoords(this.leafletRoutedMap.leafletMap.leafletElement, img)
 		// 	return [ [ rc.unproject([ 0, 0 ]), rc.unproject([ img[0], img[1] ]) ] ]
-
-
 
 		// if (forDimension){
 		// 	const leafletSize = this.leafletRoutedMap.leafletMap.leafletElement._size; //x,y
@@ -754,8 +777,8 @@ export class DocViewer_ extends React.Component {
 		// 	}
 		// }
 		// else {
-			return this.getLayer().layerBounds;
-		// } 
+		return this.getLayer().layerBounds;
+		// }
 		// let layer=this.getLayer();
 		// let dimensions = [ layer.meta.x, layer.meta.y ];
 		// const w = layer.meta.x;
@@ -783,7 +806,6 @@ export class DocViewer_ extends React.Component {
 		// 	plw = leafletSize.x / leafletSize.y;
 		// }
 
-		
 		// //optimal bounds
 		// let b = [ [ -1 * (ph / 2), -pw / 2 ], [ ph / 2, pw / 2 ] ];
 
@@ -820,7 +842,6 @@ export class DocViewer_ extends React.Component {
 		// this.props.docsActions.setDebugBounds(wb);
 		this.leafletRoutedMap.leafletMap.leafletElement.fitBounds(wb);
 		//this.leafletRoutedMap.leafletMap.leafletElement.setView(wb);
-
 	};
 
 	gotoWholeWidth = () => {
@@ -833,13 +854,6 @@ export class DocViewer_ extends React.Component {
 		let hb = this.getOptimalBounds(HEIGHT);
 		// this.props.docsActions.setDebugBounds(hb);
 		this.leafletRoutedMap.leafletMap.leafletElement.fitBounds(hb);
-	};
-
-	getMapRef = () => {
-		if (this.topicMap) {
-			return this.topicMap.wrappedInstance.leafletRoutedMap.leafletMap.leafletElement;
-		}
-		return undefined;
 	};
 
 	replaceUmlauteAndSpaces(str) {
@@ -863,11 +877,15 @@ export class DocViewer_ extends React.Component {
 	getLayer = () => {
 		if (this.props.docs.docIndex !== undefined && this.props.docs.docs.length > 0) {
 			let layerUrl = this.props.docs.docs[this.props.docs.docIndex].layer;
-			if (this.props.docs.docs[this.props.docs.docIndex].pages > 1) {
+			const meta = this.props.docs.docs[this.props.docs.docIndex].meta;
+
+			if (meta.pages > 1) {
 				layerUrl = layerUrl.replace('.pdf/', `.pdf-${this.props.docs.pageIndex}/`);
 			}
-			const meta = this.props.docs.docs[this.props.docs.docIndex].pageinfo[this.props.docs.pageIndex];
-			const dimensions = [ meta.x, meta.y ];
+
+//			 const meta = this.props.docs.docs[this.props.docs.docIndex].pageinfo[this.props.docs.pageIndex];
+			const dimensions = [ meta["layer"+this.props.docs.pageIndex].x, meta["layer"+this.props.docs.pageIndex].y ];
+			// const meta = {};
 			const rc = new L.RasterCoords(this.leafletRoutedMap.leafletMap.leafletElement, dimensions);
 			const layerBounds = [ [ rc.unproject([ 0, 0 ]), rc.unproject([ dimensions[0], dimensions[1] ]) ] ];
 			const layer = {
@@ -880,7 +898,7 @@ export class DocViewer_ extends React.Component {
 		} else {
 			return undefined;
 		}
-	};	
+	};
 }
 
 const DocViewer = connect(mapStateToProps, mapDispatchToProps, null, { withRef: true })(DocViewer_);

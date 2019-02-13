@@ -37,104 +37,8 @@ const initialState = {
 	futureDocIndex: undefined,
 	futurePageIndex: undefined,
 
-
-
-
 	docs: [],
 	
-	layers: {
-		"BPL_n0913_0_PB_Drs_12-2006_Abwaegung.pdf-0": { "x":2479, "y":3508, "maxZoom": 4 },
-		"BPL_n0913_0_PB_Drs_12-2006_Abwaegung.pdf-1": { "x":2479, "y":3508, "maxZoom": 4 },
-		"BPL_n0913_0_PB_Drs_12-2006_Abwaegung.pdf-2": { "x":2479, "y":3508, "maxZoom": 4 },
-		"BPL_n0913_0_PB_Drs_12-2006_Abwaegung.pdf-3": { "x":2479, "y":3508, "maxZoom": 4 },
-		"BPL_n0913_0_PB_Drs_12-2006_Abwaegung.pdf-4": { "x":2479, "y":3508, "maxZoom": 4 },
-		"BPL_n0913_0_PB_Drs_12-2006_Abwaegung.pdf-5": { "x":2479, "y":3508, "maxZoom": 4 },
-		"BPL_n0913_0_PB_Drs_12-2006_Abwaegung.pdf-6": { "x":2479, "y":3508, "maxZoom": 4 },
-		"BPL_n0913_0_PB_Drs_12-2006_Abwaegung.pdf-7": { "x":2479, "y":3508, "maxZoom": 4 },
-		"BPL_n0913_0_PB_Drs_12-2006_Abwaegung.pdf-8": { "x":2479, "y":3508, "maxZoom": 4 },
-		"BPL_n0913_0_PB_Drs_12-2006_Abwaegung.pdf-9": { "x":2479, "y":3508, "maxZoom": 4 },
-		"BPL_n0913_0_PB_Drs_12-2006_Auflistung.pdf": { "x":2479, "y":3508, "maxZoom": 4 },
-		"BPL_n0913_0_PB_Drs_12-2006_Bebauungsplan.pdf": { "x":3508, "y":2479, "maxZoom": 4 },
-		"BPL_n0913_0_PB_Drs_12-2006_Begruendung.pdf-0": { "x":2479, "y":3508, "maxZoom": 4 },
-		"BPL_n0913_0_PB_Drs_12-2006_Begruendung.pdf-1": { "x":2479, "y":3508, "maxZoom": 4 },
-		"BPL_n0913_0_PB_Drs_12-2006_Begruendung.pdf-10": { "x":2479, "y":3508, "maxZoom": 4 },
-		"BPL_n0913_0_PB_Drs_12-2006_Begruendung.pdf-11": { "x":2479, "y":3508, "maxZoom": 4 },
-		"BPL_n0913_0_PB_Drs_12-2006_Begruendung.pdf-12": { "x":2479, "y":3508, "maxZoom": 4 },
-		"BPL_n0913_0_PB_Drs_12-2006_Begruendung.pdf-13": { "x":2479, "y":3508, "maxZoom": 4 },
-		"BPL_n0913_0_PB_Drs_12-2006_Begruendung.pdf-14": { "x":2479, "y":3508, "maxZoom": 4 },
-		"BPL_n0913_0_PB_Drs_12-2006_Begruendung.pdf-15": { "x":2479, "y":3508, "maxZoom": 4 },
-		"BPL_n0913_0_PB_Drs_12-2006_Begruendung.pdf-16": { "x":2479, "y":3508, "maxZoom": 4 },
-		"BPL_n0913_0_PB_Drs_12-2006_Begruendung.pdf-17": { "x":2479, "y":3508, "maxZoom": 4 },
-		"BPL_n0913_0_PB_Drs_12-2006_Begruendung.pdf-18": { "x":2479, "y":3508, "maxZoom": 4 },
-		"BPL_n0913_0_PB_Drs_12-2006_Begruendung.pdf-2": { "x":2479, "y":3508, "maxZoom": 4 },
-		"BPL_n0913_0_PB_Drs_12-2006_Begruendung.pdf-3": { "x":2479, "y":3508, "maxZoom": 4 },
-		"BPL_n0913_0_PB_Drs_12-2006_Begruendung.pdf-4": { "x":2479, "y":3508, "maxZoom": 4 },
-		"BPL_n0913_0_PB_Drs_12-2006_Begruendung.pdf-5": { "x":2479, "y":3508, "maxZoom": 4 },
-		"BPL_n0913_0_PB_Drs_12-2006_Begruendung.pdf-6": { "x":2479, "y":3508, "maxZoom": 4 },
-		"BPL_n0913_0_PB_Drs_12-2006_Begruendung.pdf-7": { "x":2479, "y":3508, "maxZoom": 4 },
-		"BPL_n0913_0_PB_Drs_12-2006_Begruendung.pdf-8": { "x":2479, "y":3508, "maxZoom": 4 },
-		"BPL_n0913_0_PB_Drs_12-2006_Begruendung.pdf-9": { "x":2479, "y":3508, "maxZoom": 4 },
-		"BPL_n0913_0_PB_Drs_12-2006_Begruendung_FNP.pdf-0": { "x":2479, "y":3508, "maxZoom": 4 },
-		"BPL_n0913_0_PB_Drs_12-2006_Begruendung_FNP.pdf-1": { "x":2479, "y":3508, "maxZoom": 4 },
-		"BPL_n0913_0_PB_Drs_12-2006_Begruendung_FNP.pdf-2": { "x":2479, "y":3508, "maxZoom": 4 },
-		"BPL_n0913_0_PB_Drs_12-2006_Begruendung_FNP.pdf-3": { "x":2479, "y":3508, "maxZoom": 4 },
-		"BPL_n0913_0_PB_Drs_12-2006_Begruendung_FNP.pdf-4": { "x":2479, "y":3508, "maxZoom": 4 },
-		"BPL_n0913_0_PB_Drs_12-2006_Begruendung_FNP.pdf-5": { "x":2479, "y":3508, "maxZoom": 4 },
-		"BPL_n0913_0_PB_Drs_12-2006_FNP_Legende.pdf": { "x":2479, "y":3508, "maxZoom": 4 },
-		"BPL_n0913_0_PB_Drs_12-2006_FNP_alt.pdf": { "x":2479, "y":3508, "maxZoom": 4 },
-		"BPL_n0913_0_PB_Drs_12-2006_FNP_neu.pdf": { "x":2479, "y":3508, "maxZoom": 4 },
-		"BPL_n0913_0_PB_Drs_12-2006_Laerm_nachts.pdf": { "x":2479, "y":3508, "maxZoom": 4 },
-		"BPL_n0913_0_PB_Drs_12-2006_Laerm_tags.pdf": { "x":2479, "y":3508, "maxZoom": 4 },
-		"BPL_n0913_0_PB_Drs_12-2006_Projektplanung.pdf": { "x":3508, "y":2479, "maxZoom": 4 },
-		"BPL_n0913_0_PB_Drs_12-2006_Textl_Fest.pdf-0": { "x":2479, "y":3508, "maxZoom": 4 },
-		"BPL_n0913_0_PB_Drs_12-2006_Textl_Fest.pdf-1": { "x":2479, "y":3508, "maxZoom": 4 },
-		"BPL_n0913_0_PB_Drs_12-2006_Umweltbericht.pdf-0": { "x":2479, "y":3508, "maxZoom": 4 },
-		"BPL_n0913_0_PB_Drs_12-2006_Umweltbericht.pdf-1": { "x":2479, "y":3508, "maxZoom": 4 },
-		"BPL_n0913_0_PB_Drs_12-2006_Umweltbericht.pdf-2": { "x":2479, "y":3508, "maxZoom": 4 },
-		"BPL_n0913_0_PB_Drs_12-2006_Umweltbericht.pdf-3": { "x":2479, "y":3508, "maxZoom": 4 },
-		"BPL_n0913_0_PB_Drs_12-2006_Umweltbericht.pdf-4": { "x":2479, "y":3508, "maxZoom": 4 },
-		"BPL_n0913_0_PB_Drs_12-2006_Umweltbericht.pdf-5": { "x":2479, "y":3508, "maxZoom": 4 },
-		"BPL_n0913_0_PB_Drs_12-2006_Umweltbericht.pdf-6": { "x":2479, "y":3508, "maxZoom": 4 },
-		"BPL_n0913_0_PB_Drs_12-2006_Umweltbericht.pdf-7": { "x":2479, "y":3508, "maxZoom": 4 },
-		"BPL_n0913_0_PB_Drs_12-2006_Umweltbericht.pdf-8": { "x":2479, "y":3508, "maxZoom": 4 },
-		"BPL_n0913_0_PB_Drs_12-2006_Umweltbericht.pdf-9": { "x":2479, "y":3508, "maxZoom": 4 },
-		"BPL_n0913_0_PB_Drs_12-2006_Vorlage.pdf-0": { "x":2479, "y":3508, "maxZoom": 4 },
-		"BPL_n0913_0_PB_Drs_12-2006_Vorlage.pdf-1": { "x":2479, "y":3508, "maxZoom": 4 },
-		"BPL_n0913_0_PB_Drs_12-2006_Vorlage.pdf-2": { "x":2479, "y":3508, "maxZoom": 4 },
-		"BPL_n0913_0_PB_Drs_12-2006_Vorlage.pdf-3": { "x":2479, "y":3508, "maxZoom": 4 },
-		"BPL_n0913_0_PB_Drs_12-2006_Vorlage.pdf-4": { "x":2479, "y":3508, "maxZoom": 4 },
-		"BPL_n0913_0_PB_Drs_12-2006__Verkehr.pdf-0": { "x":2479, "y":3508, "maxZoom": 4 },
-		"BPL_n0913_0_PB_Drs_12-2006__Verkehr.pdf-1": { "x":2479, "y":3508, "maxZoom": 4 },
-		"BPL_n0913_0_PB_Drs_12-2006__Verkehr.pdf-2": { "x":2479, "y":3508, "maxZoom": 4 },
-		"BPL_n0913_0_PB_Drs_12-2006__Verkehr.pdf-3": { "x":2479, "y":3508, "maxZoom": 4 },
-		"BPL_n0913_0_PB_Drs_12-2006__Verkehr.pdf-4": { "x":2479, "y":3508, "maxZoom": 4 },
-		"BPL_n0913_0_PB_Drs_12-2006__Verkehr.pdf-5": { "x":2479, "y":3508, "maxZoom": 4 },
-		"Info_BPlan-Zusatzdokumente_WUP_1-0.pdf-0": { "x":2480, "y":3508, "maxZoom": 4 },
-		"Info_BPlan-Zusatzdokumente_WUP_1-0.pdf-1": { "x":2480, "y":3508, "maxZoom": 4 },
-		"Info_BPlan-Zusatzdokumente_WUP_1-0.pdf-2": { "x":2480, "y":3508, "maxZoom": 4 },
-		"B913.pdf": { "x":12047, "y":8504, "maxZoom": 6 },
-		"_theend": 0},
-		pages: {
-			"BPL_n0913_0_PB_Drs_12-2006_Abwaegung.pdf": { "pages":10 },
-			"BPL_n0913_0_PB_Drs_12-2006_Auflistung.pdf": { "pages":1 },
-			"BPL_n0913_0_PB_Drs_12-2006_Bebauungsplan.pdf": { "pages":1 },
-			"BPL_n0913_0_PB_Drs_12-2006_Begruendung.pdf": { "pages":19 },
-			"BPL_n0913_0_PB_Drs_12-2006_Begruendung_FNP.pdf": { "pages":6 },
-			"BPL_n0913_0_PB_Drs_12-2006_FNP_Legende.pdf": { "pages":1 },
-			"BPL_n0913_0_PB_Drs_12-2006_FNP_alt.pdf": { "pages":1 },
-			"BPL_n0913_0_PB_Drs_12-2006_FNP_neu.pdf": { "pages":1 },
-			"BPL_n0913_0_PB_Drs_12-2006_Laerm_nachts.pdf": { "pages":1 },
-			"BPL_n0913_0_PB_Drs_12-2006_Laerm_tags.pdf": { "pages":1 },
-			"BPL_n0913_0_PB_Drs_12-2006_Projektplanung.pdf": { "pages":1 },
-			"BPL_n0913_0_PB_Drs_12-2006_Textl_Fest.pdf": { "pages":2 },
-			"BPL_n0913_0_PB_Drs_12-2006_Umweltbericht.pdf": { "pages":10 },
-			"BPL_n0913_0_PB_Drs_12-2006_Vorlage.pdf": { "pages":5 },
-			"BPL_n0913_0_PB_Drs_12-2006__Verkehr.pdf": { "pages":6 },
-			"Info_BPlan-Zusatzdokumente_WUP_1-0.pdf": { "pages":3 },
-			"B913.pdf": { "pages":1 },
-			"_theend": 0},
-		
-
 	loadingState: constants.LOADING_FINISHED,
 	loadingText: undefined,
 
@@ -155,9 +59,9 @@ export default function docReducer(state = initialState, action) {
 		case types.SET_LOADING_STATE: {
 			newState = objectAssign({}, state);
 			newState.loadingState = action.loadingState;
-			newState.futureDocPackageId= action.docPackageId;
-			newState.futureDocIndex= action.docIndex;
-			newState.futurePageIndex= action.pageIndex;
+			newState.futureDocPackageId = action.docPackageId;
+			newState.futureDocIndex = action.docIndex;
+			newState.futurePageIndex = action.pageIndex;
 			return newState;
 		}
 		case types.RENDERING_FINISHED: {
@@ -190,7 +94,7 @@ export default function docReducer(state = initialState, action) {
 		}
 		case types.SET_SIZE: {
 			newState = objectAssign({}, state);
-			newState.sizes=state.sizes.slice(0);
+			newState.sizes = state.sizes.slice(0);
 			newState.sizes[action.index] = action.size;
 			return newState;
 		}
@@ -210,8 +114,8 @@ export default function docReducer(state = initialState, action) {
 }
 
 ///SIMPLEACTIONCREATORS
-function setLoadingState(loadingState,docPackageId, docIndex, pageIndex) {
-	return { type: types.SET_LOADING_STATE, loadingState,docPackageId, docIndex, pageIndex };
+function setLoadingState(loadingState, docPackageId, docIndex, pageIndex) {
+	return { type: types.SET_LOADING_STATE, loadingState, docPackageId, docIndex, pageIndex };
 }
 
 function renderingFinished(docPackageId, docIndex, pageIndex, pdfdoc, canvas) {
@@ -225,32 +129,32 @@ function clearDocAndCanvas() {
 	return { type: types.CLEAR_PDF_DOC_AND_CANVAS };
 }
 function setSizes(sizes) {
-	return { type: types.SET_SIZES,sizes };
+	return { type: types.SET_SIZES, sizes };
 }
-function setSize(index,size) {
-	return { type: types.SET_SIZE,index,size };
+function setSize(index, size) {
+	return { type: types.SET_SIZE, index, size };
 }
 function setLoadingText(loadingText) {
-	return { type: types.SET_LOADING_TEXT,loadingText };
+	return { type: types.SET_LOADING_TEXT, loadingText };
 }
 function setDebugBounds(debugBounds) {
-	return { type: types.SET_DEBUG_BOUNDS,debugBounds };
+	return { type: types.SET_DEBUG_BOUNDS, debugBounds };
 }
 //COMPLEXACTIONS
 function setDelayedLoadingState(docPackageId, docIndex, pageIndex) {
 	return (dispatch, getState) => {
 		const state = getState().docs;
-		dispatch(setLoadingState(constants.LOADING_STARTED,docPackageId, docIndex, pageIndex));
+		dispatch(setLoadingState(constants.LOADING_STARTED, docPackageId, docIndex, pageIndex));
 		setTimeout(() => {
 			const istate = getState().docs;
 			if (istate.loadingState === constants.LOADING_STARTED) {
-				dispatch(setLoadingState(constants.LOADING_OVERLAY,docPackageId, docIndex, pageIndex));
+				dispatch(setLoadingState(constants.LOADING_OVERLAY, docPackageId, docIndex, pageIndex));
 			}
 		}, constants.OVERLAY_DELAY);
 	};
 }
 
-function loadPage(docPackageId, docIndex, pageIndex = 0, callback=()=>{}) {
+function loadPage(docPackageId, docIndex, pageIndex = 0, callback = () => {}) {
 	return (dispatch, getState) => {
 		dispatch(renderingFinished(docPackageId, docIndex, pageIndex, undefined, undefined));
 		callback();
@@ -262,10 +166,10 @@ function loadPage(docPackageId, docIndex, pageIndex = 0, callback=()=>{}) {
 		dispatch(setDelayedLoadingState(docPackageId, docIndex, pageIndex));
 
 		const total = fetch(new Request(doc.url, { method: 'HEAD' })).then((res) => {
-		    dispatch(setSize(docIndex, res.headers.get('content-length')));
+			dispatch(setSize(docIndex, res.headers.get('content-length')));
 		});
 		const pdfDocCacheHit = getCachedPdfDoc(cacheState, docPackageId, docIndex);
-		
+
 		if (docPackageId !== state.docPackageId || docIndex !== state.docIndex) {
 			if (pdfDocCacheHit === undefined) {
 				const loadingTask = pdfjsLib.getDocument(doc.url);
@@ -289,18 +193,18 @@ function loadPage(docPackageId, docIndex, pageIndex = 0, callback=()=>{}) {
 	};
 }
 
-function getPDFPage(docPackageId, docIndex, pdf, pageIndex, callback=()=>{}) {
+function getPDFPage(docPackageId, docIndex, pdf, pageIndex, callback = () => {}) {
 	return (dispatch, getState) => {
 		const cacheState = getState().docsCache;
-		dispatch(setLoadingText("Extrahieren der Seite ..."));
+		dispatch(setLoadingText('Extrahieren der Seite ...'));
 		pdf.getPage(pageIndex + 1).then((page) => {
 			const canvasCacheHit = getCachedCanvas(getState().docsCache, docPackageId, docIndex, pageIndex);
 			if (canvasCacheHit === undefined) {
-                const scale = 2;
-                const canvas = document.createElement('canvas');
+				const scale = 2;
+				const canvas = document.createElement('canvas');
 				const w = page.getViewport(scale).width;
-                const h = page.getViewport(scale).height;
-                
+				const h = page.getViewport(scale).height;
+
 				let xCorrection = 0;
 				let yCorrection = 0;
 				if (w > h) {
@@ -320,7 +224,7 @@ function getPDFPage(docPackageId, docIndex, pdf, pageIndex, callback=()=>{}) {
 				viewport.offsetY = yCorrection;
 
 				const ctx = canvas.getContext('2d');
-//				dispatch(setLoadingText(`Darstellen der Seite (${canvas.width} x ${canvas.height}) ...`));
+				//				dispatch(setLoadingText(`Darstellen der Seite (${canvas.width} x ${canvas.height}) ...`));
 				dispatch(setLoadingText(`Darstellen der Seite ...`));
 				page
 					.render({
@@ -382,7 +286,28 @@ function setDocsInformationAndInitializeCaches(docs) {
 		dispatch(docsCacheActions.clearAllCaches());
 		dispatch(clearDocAndCanvas());
 		dispatch(setSizes([]));
-		dispatch(setDocsInfo(docs));
+		Promise.all(
+			docs.map((doc) => {
+				return fetch(doc.meta);
+			})
+		)
+			.then((responses) => Promise.all(responses.map((res) => res.text())))
+			.then((jsonMetaArray) => {
+				let i=0;
+				for (let jsonText of jsonMetaArray){
+					try {
+						const meta=JSON.parse(jsonText);
+						docs[i].meta=meta
+						docs[i].pages=meta.pages;
+					}catch (err) {
+						console.log('Fehler in den Metadaten '+i,jsonText);
+						docs[i].meta=undefined;
+						docs[i].pages=0;
+					  }
+					  i=i+1;
+				}
+				dispatch(setDocsInfo(docs));
+			});
 	};
 }
 

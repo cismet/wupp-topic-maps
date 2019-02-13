@@ -3,7 +3,7 @@ import React from 'react';
 import objectAssign from 'object-assign';
 
 import { connect } from 'react-redux';
-import { Navbar, Nav, NavItem, OverlayTrigger, Tooltip, MenuItem, Well, ProgressBar } from 'react-bootstrap';
+import { Navbar, Nav, NavItem, OverlayTrigger, Tooltip, MenuItem, Well, ProgressBar, Alert } from 'react-bootstrap';
 import { RoutedMap, MappingConstants, FeatureCollectionDisplay } from 'react-cismap';
 import { routerActions as RoutingActions } from 'react-router-redux';
 import { WMSTileLayer, Marker, Popup, Rectangle, TileLayer } from 'react-leaflet';
@@ -30,8 +30,6 @@ import Loadable from 'react-loading-overlay';
 import { Column, Row } from 'simple-flexbox';
 
 import filesize from 'filesize';
-
-
 
 L.RasterCoords = function(map, imgsize, tilesize) {
 	this.map = map;
@@ -203,15 +201,18 @@ export class DocViewer_ extends React.Component {
 										'https://wunda-geoportal-docs.cismet.de/',
 										'https://wunda-geoportal-dox.cismet.de/'
 									),
-								    layer: this.replaceUmlauteAndSpaces(doc.url.replace(
+									layer: this.replaceUmlauteAndSpaces(
+										doc.url.replace(
 											'https://wunda-geoportal-docs.cismet.de/',
 											'http://localhost:3030/'
-										) + '/{z}/{x}/{y}.png'),
-									meta: this.replaceUmlauteAndSpaces(doc.url.replace(
+										) + '/{z}/{x}/{y}.png'
+									),
+									meta: this.replaceUmlauteAndSpaces(
+										doc.url.replace(
 											'https://wunda-geoportal-docs.cismet.de/',
 											'http://localhost:3030/'
-										) + '/meta.json'),
-									
+										) + '/meta.json'
+									)
 								});
 							}
 							for (const doc of bplan.plaene_nrk) {
@@ -236,16 +237,19 @@ export class DocViewer_ extends React.Component {
 										'https://wunda-geoportal-docs.cismet.de/',
 										'https://wunda-geoportal-dox.cismet.de/'
 									),
-									
-									layer:
-									this.replaceUmlauteAndSpaces(doc.url.replace(
+
+									layer: this.replaceUmlauteAndSpaces(
+										doc.url.replace(
 											'https://wunda-geoportal-docs.cismet.de/',
 											'http://localhost:3030/'
-										) + '/{z}/{x}/{y}.png'),
-										meta: this.replaceUmlauteAndSpaces(doc.url.replace(
+										) + '/{z}/{x}/{y}.png'
+									),
+									meta: this.replaceUmlauteAndSpaces(
+										doc.url.replace(
 											'https://wunda-geoportal-docs.cismet.de/',
 											'http://localhost:3030/'
-										) + '/meta.json'),
+										) + '/meta.json'
+									)
 								});
 							}
 							for (const doc of bplan.docs) {
@@ -269,24 +273,29 @@ export class DocViewer_ extends React.Component {
 										'https://wunda-geoportal-docs.cismet.de/',
 										'https://wunda-geoportal-dox.cismet.de/'
 									),
-									
-									layer:this.replaceUmlauteAndSpaces(
+
+									layer: this.replaceUmlauteAndSpaces(
 										doc.url.replace(
 											'https://wunda-geoportal-docs.cismet.de/',
 											'http://localhost:3030/'
-										) + '/{z}/{x}/{y}.png'),
+										) + '/{z}/{x}/{y}.png'
+									),
 
-										meta: this.replaceUmlauteAndSpaces(doc.url.replace(
+									meta: this.replaceUmlauteAndSpaces(
+										doc.url.replace(
 											'https://wunda-geoportal-docs.cismet.de/',
 											'http://localhost:3030/'
-										) + '/meta.json'),
+										) + '/meta.json'
+									)
 								});
 							}
 							this.props.docsActions.setDocsInformationAndInitializeCaches(docs);
 
 							this.props.docsActions.loadPage(docPackageIdParam, docIndex, pageIndex, () => {
 								setTimeout(() => {
-									this.gotoWholeDocument();
+									if (this.props.docs.docs[docIndex].meta) {
+										this.gotoWholeDocument();
+									}
 								}, 50);
 							});
 						}
@@ -303,7 +312,9 @@ export class DocViewer_ extends React.Component {
 				this.props.docsActions.loadPage(docPackageIdParam, docIndex, pageIndex, () =>
 					setTimeout(() => {
 						setTimeout(() => {
-							this.gotoWholeDocument();
+							if (this.props.docs.docs[docIndex].meta) {
+								this.gotoWholeDocument();
+							}
 						}, 50);
 					})
 				);
@@ -363,24 +374,48 @@ export class DocViewer_ extends React.Component {
 
 		if (layer) {
 			docLayer = (
-				<TileLayer key={"tileLayer."+JSON.stringify(layer.layerBounds)+"."+layer.meta["layer"+this.props.docs.pageIndex].maxZoom}
+				<TileLayer
+					key={
+						'tileLayer.' +
+						JSON.stringify(layer.layerBounds) +
+						'.' +
+						layer.meta['layer' + this.props.docs.pageIndex].maxZoom
+					}
 					url={layer.layerUrl}
 					bounds={layer.layerBounds}
 					minNativeZoom={1}
 					tms={true}
 					noWrap={true}
-					maxNativeZoom={layer.meta["layer"+this.props.docs.pageIndex].maxZoom}
+					maxNativeZoom={layer.meta['layer' + this.props.docs.pageIndex].maxZoom}
 				/>
 			);
-			// L.tileLayer(layer.layerUrl, {
-			// 	minZoom: 0,
-			// 	maxZoom: layer.meta.maxZoom,
-			// 	tms: true,
-			// 	noWrap: true
-			// }).addTo(this.leafletRoutedMap.leafletMap.leafletElement);
+		} else {
+		}
 
-			// console.log('layer.meta.maxZoom', layer.meta.maxZoom);
-			
+		let problemWithDocPreviewAlert = null;
+		if (this.getLayer() === undefined && this.props.docs.docIndex) {
+			problemWithDocPreviewAlert = (
+				<div
+					style={{
+						zIndex: 234098,
+						left: (this.props.uiState.width - 130) / 2 - (this.props.uiState.width - 130) * 0.2,
+						top: '30%',
+						width: '100%',
+						height: '100%',
+						textAlign: 'center',
+						position: 'absolute'
+					}}
+				>
+					<Alert style={{ width: '40%' }} variant="danger">
+						<h4>Vorschau nicht verfügbar.</h4>
+						<p>
+							Im Moment kann die Vorschau des Dokumentes nicht angezeigt werden. Sie können das Dokument
+							aber <a href={downloadURL} target="_blank">hier <Icon name="download" />
+							</a> herunterladen. 
+						</p>
+					</Alert>
+				</div>
+			);
 		}
 
 		return (
@@ -561,43 +596,44 @@ export class DocViewer_ extends React.Component {
 								text={this.props.docs.loadingText || 'Laden der Datei ...'}
 								content={<h1>test</h1>}
 							>
-								<RoutedMap
-									key={'leafletRoutedMap'}
-									referenceSystem={L.CRS.Simple}
-									ref={(leafletMap) => {
-										this.leafletRoutedMap = leafletMap;
-									}}
-									style={mapStyle}
-									fallbackPosition={{
-										lat: 0,
-										lng: 0
-									}}
-									ondblclick={this.props.ondblclick}
-									// onclick={this.props.onclick}
-									locationChangedHandler={(location) => {
-										this.props.routingActions.push(
-											this.props.routing.location.pathname +
-												modifyQueryPart(this.props.routing.location.search, location)
-										);
-										//this.props.locationChangedHandler(location);
-									}}
-									autoFitProcessedHandler={() => this.props.mappingActions.setAutoFit(false)}
-									urlSearchParams={urlSearchParams}
-									boundingBoxChangedHandler={(bbox) => {
-										// this.props.mappingActions.mappingBoundsChanged(bbox);
-										// this.props.mappingBoundsChanged(bbox);
-									}}
-									backgroundlayers={'no'}
-									fallbackZoom={2}
-									fullScreenControlEnabled={true}
-									locateControlEnabled={false}
-									minZoom={1}
-									maxZoom={6}
-									zoomSnap={0.5}
-									zoomDelta={1}
-									onclick={(e) => {}}
-								>
-									{/* {this.state.activePage && (
+								<div>
+									<RoutedMap
+										key={'leafletRoutedMap'}
+										referenceSystem={L.CRS.Simple}
+										ref={(leafletMap) => {
+											this.leafletRoutedMap = leafletMap;
+										}}
+										style={mapStyle}
+										fallbackPosition={{
+											lat: 0,
+											lng: 0
+										}}
+										ondblclick={this.props.ondblclick}
+										// onclick={this.props.onclick}
+										locationChangedHandler={(location) => {
+											this.props.routingActions.push(
+												this.props.routing.location.pathname +
+													modifyQueryPart(this.props.routing.location.search, location)
+											);
+											//this.props.locationChangedHandler(location);
+										}}
+										autoFitProcessedHandler={() => this.props.mappingActions.setAutoFit(false)}
+										urlSearchParams={urlSearchParams}
+										boundingBoxChangedHandler={(bbox) => {
+											// this.props.mappingActions.mappingBoundsChanged(bbox);
+											// this.props.mappingBoundsChanged(bbox);
+										}}
+										backgroundlayers={'no'}
+										fallbackZoom={2}
+										fullScreenControlEnabled={true}
+										locateControlEnabled={false}
+										minZoom={1}
+										maxZoom={6}
+										zoomSnap={0.5}
+										zoomDelta={1}
+										onclick={(e) => {}}
+									>
+										{/* {this.state.activePage && (
 						<WMSTileLayer
 							ref={(c) => (this.modelLayer = c)}
 							key={'docLayer'}
@@ -615,28 +651,30 @@ export class DocViewer_ extends React.Component {
 							//caching={this.props.docs.caching}
 						/>
 					)} */}
-									{/* <PDFLayer /> */}
-									{/* <Marker position={[0,0]}>
+										{/* <PDFLayer /> */}
+										{/* <Marker position={[0,0]}>
 										<Popup>
 											<span>
 												0,0
 											</span>
 										</Popup>
 									</Marker> */}
-									{this.getLayer() && (
-										<Rectangle bounds={this.getLayer().layerBounds} color="#D8D8D8D8" />
-									)}
-									{docLayer}
-									{this.props.docs.docIndex !== undefined &&
-									this.props.docs.docs.length > 0 &&
-									!this.isLoading() && (
-										<Control position="bottomright">
-											<p style={{ backgroundColor: '#D8D8D8D8', padding: '5px' }}>
-												{this.props.docs.docs[this.props.docs.docIndex].file}
-											</p>
-										</Control>
-									)}
-								</RoutedMap>
+										{this.getLayer() && (
+											<Rectangle bounds={this.getLayer().layerBounds} color="#D8D8D8D8" />
+										)}
+										{docLayer}
+										{this.props.docs.docIndex !== undefined &&
+										this.props.docs.docs.length > 0 &&
+										!this.isLoading() && (
+											<Control position="bottomright">
+												<p style={{ backgroundColor: '#D8D8D8D8', padding: '5px' }}>
+													{this.props.docs.docs[this.props.docs.docIndex].file}
+												</p>
+											</Control>
+										)}
+									</RoutedMap>
+									{problemWithDocPreviewAlert}
+								</div>
 							</Loadable>
 						</Column>
 					</Row>
@@ -879,22 +917,29 @@ export class DocViewer_ extends React.Component {
 			let layerUrl = this.props.docs.docs[this.props.docs.docIndex].layer;
 			const meta = this.props.docs.docs[this.props.docs.docIndex].meta;
 
-			if (meta.pages > 1) {
-				layerUrl = layerUrl.replace('.pdf/', `.pdf-${this.props.docs.pageIndex}/`);
+			if (meta) {
+				if (meta.pages > 1) {
+					layerUrl = layerUrl.replace('.pdf/', `.pdf-${this.props.docs.pageIndex}/`);
+				}
+
+				//			 const meta = this.props.docs.docs[this.props.docs.docIndex].pageinfo[this.props.docs.pageIndex];
+				const dimensions = [
+					meta['layer' + this.props.docs.pageIndex].x,
+					meta['layer' + this.props.docs.pageIndex].y
+				];
+				// const meta = {};
+				const rc = new L.RasterCoords(this.leafletRoutedMap.leafletMap.leafletElement, dimensions);
+				const layerBounds = [ [ rc.unproject([ 0, 0 ]), rc.unproject([ dimensions[0], dimensions[1] ]) ] ];
+				const layer = {
+					layerUrl,
+					meta,
+					layerBounds
+				};
+
+				return layer;
+			} else {
+				return undefined;
 			}
-
-//			 const meta = this.props.docs.docs[this.props.docs.docIndex].pageinfo[this.props.docs.pageIndex];
-			const dimensions = [ meta["layer"+this.props.docs.pageIndex].x, meta["layer"+this.props.docs.pageIndex].y ];
-			// const meta = {};
-			const rc = new L.RasterCoords(this.leafletRoutedMap.leafletMap.leafletElement, dimensions);
-			const layerBounds = [ [ rc.unproject([ 0, 0 ]), rc.unproject([ dimensions[0], dimensions[1] ]) ] ];
-			const layer = {
-				layerUrl,
-				meta,
-				layerBounds
-			};
-
-			return layer;
 		} else {
 			return undefined;
 		}

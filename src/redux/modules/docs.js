@@ -13,6 +13,7 @@ export const types = {
 	CLEAR_PDF_DOC_AND_CANVAS: 'CLEAR_PDF_DOC_AND_CANVAS',
 	SET_SIZES: 'SET_SIZES',
 	SET_SIZE: 'SET_SIZE',
+	SET_TOPIC: 'SET_TOPIC',
 	SET_LOADING_TEXT: 'SET_LOADING_TEXT',
 	SET_DEBUG_BOUNDS: 'SET_DEBUG_BOUNDS'
 };
@@ -26,7 +27,9 @@ export const constants = {
 
 ///INITIAL STATE
 const initialState = {
-	topic: 'bplaene',
+	topic: undefined,
+	topicData:undefined,
+
 	docPackageId: undefined,
 	docIndex: undefined,
 	pageIndex: undefined,
@@ -36,7 +39,7 @@ const initialState = {
 	futurePageIndex: undefined,
 
 	docs: [],
-	
+
 	loadingState: constants.LOADING_FINISHED,
 	loadingText: undefined,
 
@@ -77,6 +80,12 @@ export default function docReducer(state = initialState, action) {
 		case types.SET_DOCS_INFO: {
 			newState = objectAssign({}, state);
 			newState.docs = action.docs;
+			return newState;
+		}
+		case types.SET_TOPIC: {
+			newState = objectAssign({}, state);
+			newState.topic = action.topic;
+			newState.topicData = action.topicData;
 			return newState;
 		}
 		case types.CLEAR_PDF_DOC_AND_CANVAS: {
@@ -132,6 +141,9 @@ function setSizes(sizes) {
 function setSize(index, size) {
 	return { type: types.SET_SIZE, index, size };
 }
+function setTopic(topic, topicData) {
+	return { type: types.SET_TOPIC, topic ,topicData};
+}
 function setLoadingText(loadingText) {
 	return { type: types.SET_LOADING_TEXT, loadingText };
 }
@@ -155,8 +167,8 @@ function setDelayedLoadingState(docPackageId, docIndex, pageIndex) {
 function loadPage(docPackageId, docIndex, pageIndex = 0, callback = () => {}) {
 	return (dispatch, getState) => {
 		dispatch(renderingFinished(docPackageId, docIndex, pageIndex, undefined, undefined));
-		 callback();
-		
+		callback();
+
 		// const state = getState().docs;
 		// const cacheState = getState().docsCache;
 
@@ -202,18 +214,18 @@ function setDocsInformationAndInitializeCaches(docs) {
 		)
 			.then((responses) => Promise.all(responses.map((res) => res.text())))
 			.then((jsonMetaArray) => {
-				let i=0;
-				for (let jsonText of jsonMetaArray){
+				let i = 0;
+				for (let jsonText of jsonMetaArray) {
 					try {
-						const meta=JSON.parse(jsonText);
-						docs[i].meta=meta
-						docs[i].pages=meta.pages;
-					}catch (err) {
-						console.log('Fehler in den Metadaten '+i,jsonText);
-						docs[i].meta=undefined;
-						docs[i].pages=0;
-					  }
-					  i=i+1;
+						const meta = JSON.parse(jsonText);
+						docs[i].meta = meta;
+						docs[i].pages = meta.pages;
+					} catch (err) {
+						console.log('Fehler in den Metadaten ' + i, jsonText);
+						docs[i].meta = undefined;
+						docs[i].pages = 0;
+					}
+					i = i + 1;
 				}
 				dispatch(setDocsInfo(docs));
 			});
@@ -226,7 +238,8 @@ export const actions = {
 	loadPage,
 	setDocsInformationAndInitializeCaches,
 	setDelayedLoadingState,
-	setDebugBounds
+	setDebugBounds,
+	setTopic,
 };
 
 //HELPER FUNCTIONS

@@ -9,6 +9,10 @@ import { routerActions as RoutingActions } from 'react-router-redux';
 import { WMSTileLayer, Marker, Popup, Rectangle, TileLayer } from 'react-leaflet';
 import Control from 'react-leaflet-control';
 import { actions as bplanActions } from '../redux/modules/bplaene';
+import {
+	actions as gazetteerTopicsActions,
+	getGazDataForTopicIds
+  } from "../redux/modules/gazetteerTopics";
 
 import L from 'leaflet';
 import { bindActionCreators } from 'redux';
@@ -105,7 +109,7 @@ const tileservice = 'https://aaa.cismet.de/';
 function mapStateToProps(state) {
 	return {
 		uiState: state.uiState,
-		gazetteerTopics: state.gazetteerTopics,
+		allGazetteerTopics: state.gazetteerTopics,
 		routing: state.routing,
 		docs: state.docs
 	};
@@ -116,7 +120,9 @@ function mapDispatchToProps(dispatch) {
 		uiStateActions: bindActionCreators(UIStateActions, dispatch),
 		routingActions: bindActionCreators(RoutingActions, dispatch),
 		bplanActions: bindActionCreators(bplanActions, dispatch),
-		docsActions: bindActionCreators(DocsActions, dispatch)
+		docsActions: bindActionCreators(DocsActions, dispatch),
+		gazetteerTopicsActions: bindActionCreators(gazetteerTopicsActions, dispatch)
+
 	};
 }
 
@@ -138,6 +144,14 @@ export class DocViewer_ extends React.Component {
 		const pageIndex = pageNumberParam - 1;
 		const currentlyLoading = this.isLoading();
 
+		if (topicParam!== this.props.docs.topic) {
+			const gazData=getGazDataForTopicIds(this.props.allGazetteerTopics, [topicParam]);
+			console.log('gazData',gazData);
+			this.props.docsActions.setTopic(topicParam,gazData);
+			return;
+		}
+		
+
 		if (
 			currentlyLoading &&
 			docPackageIdParam === this.props.docs.futureDocPackageId &&
@@ -156,9 +170,9 @@ export class DocViewer_ extends React.Component {
 		if (this.props.docs.docPackageId !== docPackageIdParam || this.props.docs.topic !== topicParam) {
 			let gazHit;
 			this.props.docsActions.setDelayedLoadingState(docPackageIdParam, docIndex, pageIndex);
-			const bpl = JSON.parse(this.props.gazetteerTopics.bplaene);
-			for (let gazEntry of bpl) {
-				if (gazEntry.s === docPackageIdParam) {
+			
+			for (let gazEntry of this.props.docs.topicData) {
+				if (gazEntry.string === docPackageIdParam) {
 					gazHit = gazEntry;
 				}
 			}
@@ -168,11 +182,11 @@ export class DocViewer_ extends React.Component {
 					[
 						{
 							sorter: 0,
-							string: gazHit.s,
+							string: gazHit.string,
 							glyph: '-',
 							x: gazHit.x,
 							y: gazHit.y,
-							more: { zl: 18, v: gazHit.m.v }
+							more: { zl: 18, v: gazHit.more.v }
 						}
 					],
 					null,

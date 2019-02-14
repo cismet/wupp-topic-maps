@@ -13,7 +13,6 @@ import Kitas from './containers/Kitas';
 import Experiments from './containers/Experiments';
 import Reset from './containers/Reset';
 import DocViewer from "./containers/DocViewer";
-import DocViewerTest from "./containers/DocViewerTest";
 
 import store from './redux/store';
 import ReactLoading from 'react-loading';
@@ -69,8 +68,6 @@ export default class App extends React.Component {
 							<Route exact path="/default(/:layers)(/:bplannummer)" component={DefaultPage} />
 							<Route exact path="/reset" component={Reset} />
 							<Route exact path="/docs/:topic?/:docPackageId?/:file?/:page?" component={DocViewer} />
-							<Route exact path="/docstest/:topic?/:docPackageId?/:file?/:page?" component={DocViewerTest} />
-
 							<Route component={NotFoundPage} />
 						</Switch>
 					</main>

@@ -3,8 +3,6 @@ import objectAssign from 'object-assign';
 import pdfjsLib from 'pdfjs-dist';
 import L from 'leaflet';
 
-import { actions as docsCacheActions } from './docsCache';
-
 pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.0.943/pdf.worker.min.js';
 
 ///TYPES
@@ -37,11 +35,8 @@ const initialState = {
 	futureDocIndex: undefined,
 	futurePageIndex: undefined,
 
-
-
-
 	docs: [],
-
+	
 	loadingState: constants.LOADING_FINISHED,
 	loadingText: undefined,
 
@@ -62,9 +57,9 @@ export default function docReducer(state = initialState, action) {
 		case types.SET_LOADING_STATE: {
 			newState = objectAssign({}, state);
 			newState.loadingState = action.loadingState;
-			newState.futureDocPackageId= action.docPackageId;
-			newState.futureDocIndex= action.docIndex;
-			newState.futurePageIndex= action.pageIndex;
+			newState.futureDocPackageId = action.docPackageId;
+			newState.futureDocIndex = action.docIndex;
+			newState.futurePageIndex = action.pageIndex;
 			return newState;
 		}
 		case types.RENDERING_FINISHED: {
@@ -97,7 +92,7 @@ export default function docReducer(state = initialState, action) {
 		}
 		case types.SET_SIZE: {
 			newState = objectAssign({}, state);
-			newState.sizes=state.sizes.slice(0);
+			newState.sizes = state.sizes.slice(0);
 			newState.sizes[action.index] = action.size;
 			return newState;
 		}
@@ -117,8 +112,8 @@ export default function docReducer(state = initialState, action) {
 }
 
 ///SIMPLEACTIONCREATORS
-function setLoadingState(loadingState,docPackageId, docIndex, pageIndex) {
-	return { type: types.SET_LOADING_STATE, loadingState,docPackageId, docIndex, pageIndex };
+function setLoadingState(loadingState, docPackageId, docIndex, pageIndex) {
+	return { type: types.SET_LOADING_STATE, loadingState, docPackageId, docIndex, pageIndex };
 }
 
 function renderingFinished(docPackageId, docIndex, pageIndex, pdfdoc, canvas) {
@@ -132,161 +127,96 @@ function clearDocAndCanvas() {
 	return { type: types.CLEAR_PDF_DOC_AND_CANVAS };
 }
 function setSizes(sizes) {
-	return { type: types.SET_SIZES,sizes };
+	return { type: types.SET_SIZES, sizes };
 }
-function setSize(index,size) {
-	return { type: types.SET_SIZE,index,size };
+function setSize(index, size) {
+	return { type: types.SET_SIZE, index, size };
 }
 function setLoadingText(loadingText) {
-	return { type: types.SET_LOADING_TEXT,loadingText };
+	return { type: types.SET_LOADING_TEXT, loadingText };
 }
 function setDebugBounds(debugBounds) {
-	return { type: types.SET_DEBUG_BOUNDS,debugBounds };
+	return { type: types.SET_DEBUG_BOUNDS, debugBounds };
 }
 //COMPLEXACTIONS
 function setDelayedLoadingState(docPackageId, docIndex, pageIndex) {
 	return (dispatch, getState) => {
 		const state = getState().docs;
-		dispatch(setLoadingState(constants.LOADING_STARTED,docPackageId, docIndex, pageIndex));
+		dispatch(setLoadingState(constants.LOADING_STARTED, docPackageId, docIndex, pageIndex));
 		setTimeout(() => {
 			const istate = getState().docs;
 			if (istate.loadingState === constants.LOADING_STARTED) {
-				dispatch(setLoadingState(constants.LOADING_OVERLAY,docPackageId, docIndex, pageIndex));
+				dispatch(setLoadingState(constants.LOADING_OVERLAY, docPackageId, docIndex, pageIndex));
 			}
 		}, constants.OVERLAY_DELAY);
 	};
 }
 
-function loadPage(docPackageId, docIndex, pageIndex = 0, callback) {
+function loadPage(docPackageId, docIndex, pageIndex = 0, callback = () => {}) {
 	return (dispatch, getState) => {
-		const state = getState().docs;
-		const cacheState = getState().docsCache;
-
-		const doc = state.docs[docIndex];
-		dispatch(setDelayedLoadingState(docPackageId, docIndex, pageIndex));
-
-		const total = fetch(new Request(doc.url, { method: 'HEAD' })).then((res) => {
-		    dispatch(setSize(docIndex, res.headers.get('content-length')));
-		});
-		const pdfDocCacheHit = getCachedPdfDoc(cacheState, docPackageId, docIndex);
+		dispatch(renderingFinished(docPackageId, docIndex, pageIndex, undefined, undefined));
+		 callback();
 		
-		if (docPackageId !== state.docPackageId || docIndex !== state.docIndex) {
-			if (pdfDocCacheHit === undefined) {
-				const loadingTask = pdfjsLib.getDocument(doc.url);
-				// loadingTask.onProgress = function(progress) {
-				//     var percent = parseInt(progress.loaded, 10) / parseInt(progress.total, 10) * 100;
-				//     console.log('percent', percent);
-				//     console.log('state', that.state);
-				// };
+		// const state = getState().docs;
+		// const cacheState = getState().docsCache;
 
-				loadingTask.promise.then((pdf) => {
-					dispatch(storePdfDocInCache(docPackageId, docIndex, pdf));
-					dispatch(getPDFPage(docPackageId, docIndex, pdf, pageIndex,callback));
-				});
-			} else {
-				dispatch(getPDFPage(docPackageId, docIndex, pdfDocCacheHit, pageIndex,callback));
-			}
-		} else {
-			//Same doc other page
-			dispatch(getPDFPage(docPackageId, docIndex, pdfDocCacheHit, pageIndex,callback));
-		}
-	};
-}
+		// const doc = state.docs[docIndex];
+		// dispatch(setDelayedLoadingState(docPackageId, docIndex, pageIndex));
 
-function getPDFPage(docPackageId, docIndex, pdf, pageIndex, callback=()=>{}) {
-	return (dispatch, getState) => {
-		const cacheState = getState().docsCache;
-		dispatch(setLoadingText("Extrahieren der Seite ..."));
-		pdf.getPage(pageIndex + 1).then((page) => {
-			const canvasCacheHit = getCachedCanvas(getState().docsCache, docPackageId, docIndex, pageIndex);
-			if (canvasCacheHit === undefined) {
-                const scale = 2;
-                const canvas = document.createElement('canvas');
-				const w = page.getViewport(scale).width;
-                const h = page.getViewport(scale).height;
-                
-				let xCorrection = 0;
-				let yCorrection = 0;
-				if (w > h) {
-					canvas.width = w;
-					canvas.height = w;
-					yCorrection = (w - h) / 2;
-				} else {
-					canvas.width = h;
-					canvas.height = h;
-					xCorrection = (h - w) / 2;
-				}
-				canvas.width = w;
-				canvas.height = h;
+		// const total = fetch(new Request(doc.url, { method: 'HEAD' })).then((res) => {
+		// 	dispatch(setSize(docIndex, res.headers.get('content-length')));
+		// });
+		// const pdfDocCacheHit = getCachedPdfDoc(cacheState, docPackageId, docIndex);
 
-				const viewport = page.getViewport(scale, page.rotate);
-				viewport.offsetX = xCorrection;
-				viewport.offsetY = yCorrection;
+		// if (docPackageId !== state.docPackageId || docIndex !== state.docIndex) {
+		// 	if (pdfDocCacheHit === undefined) {
+		// 		const loadingTask = pdfjsLib.getDocument(doc.url);
+		// 		// loadingTask.onProgress = function(progress) {
+		// 		//     var percent = parseInt(progress.loaded, 10) / parseInt(progress.total, 10) * 100;
+		// 		//     console.log('percent', percent);
+		// 		//     console.log('state', that.state);
+		// 		// };
 
-				const ctx = canvas.getContext('2d');
-//				dispatch(setLoadingText(`Darstellen der Seite (${canvas.width} x ${canvas.height}) ...`));
-				dispatch(setLoadingText(`Darstellen der Seite ...`));
-				page
-					.render({
-						intent: 'print',
-						background: 'white', //'transparent'
-						canvasContext: ctx,
-						viewport: viewport
-						// viewport: new pdfjsLib.PageViewport(
-						// 	page.view,
-						// 	scale, //computedScale,
-						// 	page.rotate,
-						// 	xCorrection,
-						// 	yCorrection
-						// )
-					})
-					.then(() => {
-						dispatch(storeCanvasInCache(docPackageId, docIndex, pageIndex, canvas));
-						dispatch(renderingFinished(docPackageId, docIndex, pageIndex, pdf, canvas));
-						callback();
-
-						// setTimeout(() => {
-						//     this.gotoWholeDocument();
-						// }, 100);
-					})
-					.catch((error) => {
-						console.error('error during pdfjs-rendering', error);
-					});
-			} else {
-				dispatch(renderingFinished(docPackageId, docIndex, pageIndex, pdf, canvasCacheHit));
-				callback();
-				// setTimeout(() => {
-				//     this.gotoWholeDocument();
-				// }, 50);
-			}
-		});
-	};
-}
-
-function storePdfDocInCache(docPackageId, docIndex, pdfDoc) {
-	return (dispatch) => {
-		dispatch(docsCacheActions.addPdfDocToCache(docPackageId + '.' + docIndex, pdfDoc));
-	};
-}
-
-function storePageInCache(docPackageId, docIndex, pageIndex, page) {
-	return (dispatch) => {
-		dispatch(docsCacheActions.addPdfPageToCache(docPackageId + '.' + docIndex + '.' + pageIndex, page));
-	};
-}
-
-function storeCanvasInCache(docPackageId, docIndex, pageIndex, canvas) {
-	return (dispatch) => {
-		dispatch(docsCacheActions.addCanvasToCache(docPackageId + '.' + docIndex + '.' + pageIndex, canvas));
+		// 		loadingTask.promise.then((pdf) => {
+		// 			dispatch(storePdfDocInCache(docPackageId, docIndex, pdf));
+		// 			//dispatch(getPDFPage(docPackageId, docIndex, pdf, pageIndex,callback));
+		// 		});
+		// 	} else {
+		// 		//dispatch(getPDFPage(docPackageId, docIndex, pdfDocCacheHit, pageIndex,callback));
+		// 	}
+		// } else {
+		// 	//Same doc other page
+		// 	//dispatch(getPDFPage(docPackageId, docIndex, pdfDocCacheHit, pageIndex,callback));
+		// }
 	};
 }
 
 function setDocsInformationAndInitializeCaches(docs) {
 	return (dispatch) => {
-		dispatch(docsCacheActions.clearAllCaches());
 		dispatch(clearDocAndCanvas());
 		dispatch(setSizes([]));
-		dispatch(setDocsInfo(docs));
+		Promise.all(
+			docs.map((doc) => {
+				return fetch(doc.meta);
+			})
+		)
+			.then((responses) => Promise.all(responses.map((res) => res.text())))
+			.then((jsonMetaArray) => {
+				let i=0;
+				for (let jsonText of jsonMetaArray){
+					try {
+						const meta=JSON.parse(jsonText);
+						docs[i].meta=meta
+						docs[i].pages=meta.pages;
+					}catch (err) {
+						console.log('Fehler in den Metadaten '+i,jsonText);
+						docs[i].meta=undefined;
+						docs[i].pages=0;
+					  }
+					  i=i+1;
+				}
+				dispatch(setDocsInfo(docs));
+			});
 	};
 }
 

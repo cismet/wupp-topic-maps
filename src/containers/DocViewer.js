@@ -3,16 +3,17 @@ import React from 'react';
 import objectAssign from 'object-assign';
 
 import { connect } from 'react-redux';
-import { Navbar, Nav, NavItem, OverlayTrigger, Tooltip, MenuItem, Well, ProgressBar } from 'react-bootstrap';
+import { Navbar, Nav, NavItem, OverlayTrigger, Tooltip, MenuItem, Well, ProgressBar, Alert } from 'react-bootstrap';
 import { RoutedMap, MappingConstants, FeatureCollectionDisplay } from 'react-cismap';
 import { routerActions as RoutingActions } from 'react-router-redux';
-import { WMSTileLayer, Marker, Popup, Rectangle } from 'react-leaflet';
+import { WMSTileLayer, Marker, Popup, Rectangle, TileLayer } from 'react-leaflet';
 import Control from 'react-leaflet-control';
 import { actions as bplanActions } from '../redux/modules/bplaene';
 
 import L from 'leaflet';
 import { bindActionCreators } from 'redux';
 import { modifyQueryPart } from '../utils/routingHelper';
+import { Simple as ownSimpleCRS } from '../utils/gisHelper';
 
 import 'url-search-params-polyfill';
 import { actions as UIStateActions } from '../redux/modules/uiState';
@@ -21,7 +22,6 @@ import { actions as DocsActions, getCanvas, getPdfDoc } from '../redux/modules/d
 import { Icon } from 'react-fa';
 //import PDFLayer from '../components/mapping/PDFLayer';
 import Coords from '../components/mapping/CoordLayer';
-import CanvasLayer from '../components/mapping/ReactCanvasLayer';
 
 import pdfjsLib from 'pdfjs-dist';
 import { isThisQuarter } from 'date-fns';
@@ -31,9 +31,56 @@ import { Column, Row } from 'simple-flexbox';
 
 import filesize from 'filesize';
 
+L.RasterCoords = function(map, imgsize, tilesize) {
+	this.map = map;
+	this.width = imgsize[0];
+	this.height = imgsize[1];
+	this.tilesize = tilesize || 256;
+	this.zoom = this.zoomLevel();
+	if (this.width && this.height) {
+		// this.setMaxBounds()
+	}
+};
+L.RasterCoords.prototype = {
+	/**
+	 * calculate accurate zoom level for the given image size
+	 */
+	zoomLevel: function() {
+		return Math.ceil(Math.log(Math.max(this.width, this.height) / this.tilesize) / Math.log(2));
+	},
+	/**
+	 * unproject `coords` to the raster coordinates used by the raster image projection
+	 * @param {Array} coords - [ x, y ]
+	 * @return {L.LatLng} - internal coordinates
+	 */
+	unproject: function(coords) {
+		return this.map.unproject(coords, this.zoom);
+	},
+	/**
+	 * project `coords` back to image coordinates
+	 * @param {Array} coords - [ x, y ]
+	 * @return {L.LatLng} - image coordinates
+	 */
+	project: function(coords) {
+		return this.map.project(coords, this.zoom);
+	},
+	/**
+	 * sets the max bounds on map
+	 */
+	setMaxBounds: function() {
+		var southWest = this.unproject([ 0, this.height ]);
+		var northEast = this.unproject([ this.width, 0 ]);
+		this.map.setMaxBounds(new L.LatLngBounds(southWest, northEast));
+	}
+};
+
+//import '../components/external/rastercoords';
+
 //pdfjsLib.GlobalWorkerOptions.workerSrc = '//mozilla.github.io/pdf.js/build/pdf.worker.js';
 
-pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.0.943/pdf.worker.min.js';
+//L.RasterCoords = RasterCoords;
+
+//pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.0.943/pdf.worker.min.js';
 
 const WIDTH = 'WIDTH';
 const HEIGHT = 'HEIGHT';
@@ -52,6 +99,8 @@ const detailsStyle = {
 	padding: '5px 5px 5px 5px',
 	overflow: 'auto'
 };
+
+const tileservice = 'https://aaa.cismet.de/';
 
 function mapStateToProps(state) {
 	return {
@@ -97,7 +146,6 @@ export class DocViewer_ extends React.Component {
 		) {
 			return;
 		}
-
 		if (this.props.match.params.file === undefined || this.props.match.params.page === undefined) {
 			// not necessary to check file && page || page cause if file is undefined page must beundefined too
 			// this corrects a url like http://localhost:3000/#/docs/bplaene/599 to http://localhost:3000/#/docs/bplaene/599/3/1
@@ -133,40 +181,123 @@ export class DocViewer_ extends React.Component {
 						done: (bplanFeatures) => {
 							const bplan = bplanFeatures[0].properties;
 							let docs = [];
-							for (const rkDoc of bplan.plaene_rk) {
+							for (const doc of bplan.plaene_rk) {
+								// let pagecount = this.props.docs.pages[this.replaceUmlauteAndSpaces(doc.file)].pages;
+								// let pageinfo = [];
+
+								// for (let i = 0; i < pagecount; ++i) {
+								// 	if (pagecount > 1) {
+								// 		pageinfo.push(
+								// 			this.props.docs.layers[this.replaceUmlauteAndSpaces(doc.file + '-' + i)]
+								// 		);
+								// 	} else {
+								// 		pageinfo.push(this.props.docs.layers[this.replaceUmlauteAndSpaces(doc.file)]);
+								// 	}
+								// }
 								docs.push({
-									group: 'rechtskräftig',
-									file: rkDoc.file,
-									url: rkDoc.url.replace(
+									group: 'rechtskraeftig',
+									file: doc.file,
+									url: doc.url.replace(
 										'https://wunda-geoportal-docs.cismet.de/',
 										'https://wunda-geoportal-dox.cismet.de/'
+									),
+									layer: this.replaceUmlauteAndSpaces(
+										doc.url.replace(
+											'https://wunda-geoportal-docs.cismet.de/',
+											'http://localhost:3030/'
+										) + '/{z}/{x}/{y}.png'
+									),
+									meta: this.replaceUmlauteAndSpaces(
+										doc.url.replace(
+											'https://wunda-geoportal-docs.cismet.de/',
+											'http://localhost:3030/'
+										) + '/meta.json'
 									)
 								});
 							}
-							for (const nrkDoc of bplan.plaene_nrk) {
+							for (const doc of bplan.plaene_nrk) {
+								// let pagecount = this.props.docs.pages[this.replaceUmlauteAndSpaces(doc.file)].pages;
+								// let pageinfo = [];
+
+								// for (let i = 0; i < pagecount; ++i) {
+								// 	if (pagecount > 1) {
+								// 		pageinfo.push(
+								// 			this.props.docs.layers[this.replaceUmlauteAndSpaces(doc.file + '-' + i)]
+								// 		);
+								// 	} else {
+								// 		pageinfo.push(
+								// 			this.props.docs.layers[this.replaceUmlauteAndSpaces(doc.file)]
+								// 		);
+								// 	}
+								// }
 								docs.push({
-									group: 'nicht rechtskräftig',
-									file: nrkDoc.file,
-									url: nrkDoc.url.replace(
+									group: 'nicht_rechtskraeftig',
+									file: doc.file,
+									url: doc.url.replace(
 										'https://wunda-geoportal-docs.cismet.de/',
 										'https://wunda-geoportal-dox.cismet.de/'
+									),
+
+									layer: this.replaceUmlauteAndSpaces(
+										doc.url.replace(
+											'https://wunda-geoportal-docs.cismet.de/',
+											'http://localhost:3030/'
+										) + '/{z}/{x}/{y}.png'
+									),
+									meta: this.replaceUmlauteAndSpaces(
+										doc.url.replace(
+											'https://wunda-geoportal-docs.cismet.de/',
+											'http://localhost:3030/'
+										) + '/meta.json'
 									)
 								});
 							}
 							for (const doc of bplan.docs) {
+								// let pagecount = this.props.docs.pages[this.replaceUmlauteAndSpaces(doc.file)].pages;
+								// let pageinfo = [];
+
+								// for (let i = 0; i < pagecount; ++i) {
+								// 	if (pagecount > 1) {
+								// 		pageinfo.push(
+								// 			this.props.docs.layers[this.replaceUmlauteAndSpaces(doc.file + '-' + i)]
+								// 		);
+								// 	} else {
+								// 		pageinfo.push(this.props.docs.layers[this.replaceUmlauteAndSpaces(doc.file)]);
+								// 	}
+								// }
+
 								docs.push({
 									group: 'Zusatzdokumente',
 									file: doc.file,
 									url: doc.url.replace(
 										'https://wunda-geoportal-docs.cismet.de/',
 										'https://wunda-geoportal-dox.cismet.de/'
+									),
+
+									layer: this.replaceUmlauteAndSpaces(
+										doc.url.replace(
+											'https://wunda-geoportal-docs.cismet.de/',
+											'http://localhost:3030/'
+										) + '/{z}/{x}/{y}.png'
+									),
+
+									meta: this.replaceUmlauteAndSpaces(
+										doc.url.replace(
+											'https://wunda-geoportal-docs.cismet.de/',
+											'http://localhost:3030/'
+										) + '/meta.json'
 									)
 								});
 							}
 							this.props.docsActions.setDocsInformationAndInitializeCaches(docs);
-							this.props.docsActions.loadPage(docPackageIdParam, docIndex, pageIndex, () =>
-								this.gotoWholeDocument()
-							);
+
+							this.props.docsActions.loadPage(docPackageIdParam, docIndex, pageIndex, () => {
+								setTimeout(() => {
+									if (this.props.docs.docs[docIndex].meta) {
+										this.gotoWholeDocument();
+									}
+								}, 50);
+							});
 						}
 					}
 				);
@@ -178,7 +309,15 @@ export class DocViewer_ extends React.Component {
 			(this.props.docs.pageIndex !== undefined && this.props.docs.pageIndex !== this.props.match.params.page - 1)
 		) {
 			if (this.props.docs.docs.length > 0) {
-				this.props.docsActions.loadPage(docPackageIdParam, docIndex, pageIndex, () => this.gotoWholeDocument());
+				this.props.docsActions.loadPage(docPackageIdParam, docIndex, pageIndex, () =>
+					setTimeout(() => {
+						setTimeout(() => {
+							if (this.props.docs.docs[docIndex].meta) {
+								this.gotoWholeDocument();
+							}
+						}, 50);
+					})
+				);
 			}
 		} else {
 			//console.log('dont load', this.state);
@@ -205,7 +344,6 @@ export class DocViewer_ extends React.Component {
 			cursor: this.props.cursor,
 			backgroundColor: 'white'
 		};
-		const mapRef = this.getMapRef();
 		let menuIsHidden = false;
 		if (this.props.uiState.width < 768) {
 			menuIsHidden = true;
@@ -221,14 +359,63 @@ export class DocViewer_ extends React.Component {
 
 		let numPages;
 
-		if (this.props.docs.pdfdoc) {
-			numPages = ' / ' + this.props.docs.pdfdoc._pdfInfo.numPages;
+		if (this.props.docs.docs && this.props.docs.docIndex && this.props.docs.docs[this.props.docs.docIndex]) {
+			numPages = ' / ' + this.props.docs.docs[this.props.docs.docIndex].pages;
 		}
 		let downloadURL;
 		const downloadAvailable = this.props.docs.docs.length > 0 && this.props.docs.docIndex !== undefined;
 
 		if (downloadAvailable) {
 			downloadURL = this.props.docs.docs[this.props.docs.docIndex].url;
+		}
+
+		let docLayer = <div />;
+		let layer = this.getLayer();
+
+		if (layer) {
+			docLayer = (
+				<TileLayer
+					key={
+						'tileLayer.' +
+						JSON.stringify(layer.layerBounds) +
+						'.' +
+						layer.meta['layer' + this.props.docs.pageIndex].maxZoom
+					}
+					url={layer.layerUrl}
+					bounds={layer.layerBounds}
+					minNativeZoom={1}
+					tms={true}
+					noWrap={true}
+					maxNativeZoom={layer.meta['layer' + this.props.docs.pageIndex].maxZoom}
+				/>
+			);
+		} else {
+		}
+
+		let problemWithDocPreviewAlert = null;
+		if (this.getLayer() === undefined && this.props.docs.docIndex) {
+			problemWithDocPreviewAlert = (
+				<div
+					style={{
+						zIndex: 234098,
+						left: (this.props.uiState.width - 130) / 2 - (this.props.uiState.width - 130) * 0.2,
+						top: '30%',
+						width: '100%',
+						height: '100%',
+						textAlign: 'center',
+						position: 'absolute'
+					}}
+				>
+					<Alert style={{ width: '40%' }} variant="danger">
+						<h4>Vorschau nicht verfügbar.</h4>
+						<p>
+							Im Moment kann die Vorschau des Dokumentes nicht angezeigt werden. Sie können das Dokument
+							aber <a href={downloadURL} target="_blank">hier <Icon name="download" />
+							</a> herunterladen. 
+						</p>
+					</Alert>
+				</div>
+			);
 		}
 
 		return (
@@ -338,12 +525,9 @@ export class DocViewer_ extends React.Component {
 									if (doc.group !== 'Zusatzdokumente') {
 										iconname = 'file-pdf-o';
 									}
-									if (
-										index === this.props.match.params.file - 1 &&
-										this.props.docs.pdfdoc !== undefined
-									) {
-										numPages = this.props.docs.pdfdoc._pdfInfo.numPages;
-										currentPage = this.props.match.params.page;
+									if (index === this.props.match.params.file - 1) {
+										numPages = doc.pages;
+										currentPage = this.props.docs.pageIndex + 1;
 										selected = true;
 										pageStatus = `${currentPage} / ${numPages}`;
 										progressBar = (
@@ -412,41 +596,44 @@ export class DocViewer_ extends React.Component {
 								text={this.props.docs.loadingText || 'Laden der Datei ...'}
 								content={<h1>test</h1>}
 							>
-								<RoutedMap
-									key={'leafletRoutedMap'}
-									referenceSystem={L.CRS.Simple}
-									ref={(leafletMap) => {
-										this.leafletRoutedMap = leafletMap;
-									}}
-									style={mapStyle}
-									fallbackPosition={{
-										lat: 0,
-										lng: 0
-									}}
-									ondblclick={this.props.ondblclick}
-									// onclick={this.props.onclick}
-									locationChangedHandler={(location) => {
-										this.props.routingActions.push(
-											this.props.routing.location.pathname +
-												modifyQueryPart(this.props.routing.location.search, location)
-										);
-										//this.props.locationChangedHandler(location);
-									}}
-									autoFitProcessedHandler={() => this.props.mappingActions.setAutoFit(false)}
-									urlSearchParams={urlSearchParams}
-									boundingBoxChangedHandler={(bbox) => {
-										// this.props.mappingActions.mappingBoundsChanged(bbox);
-										// this.props.mappingBoundsChanged(bbox);
-									}}
-									backgroundlayers={'no'}
-									fallbackZoom={10}
-									fullScreenControlEnabled={true}
-									locateControlEnabled={false}
-									zoomSnap={0.1}
-									zoomDelta={1}
-									onclick={(e) => {}}
-								>
-									{/* {this.state.activePage && (
+								<div>
+									<RoutedMap
+										key={'leafletRoutedMap'}
+										referenceSystem={L.CRS.Simple}
+										ref={(leafletMap) => {
+											this.leafletRoutedMap = leafletMap;
+										}}
+										style={mapStyle}
+										fallbackPosition={{
+											lat: 0,
+											lng: 0
+										}}
+										ondblclick={this.props.ondblclick}
+										// onclick={this.props.onclick}
+										locationChangedHandler={(location) => {
+											this.props.routingActions.push(
+												this.props.routing.location.pathname +
+													modifyQueryPart(this.props.routing.location.search, location)
+											);
+											//this.props.locationChangedHandler(location);
+										}}
+										autoFitProcessedHandler={() => this.props.mappingActions.setAutoFit(false)}
+										urlSearchParams={urlSearchParams}
+										boundingBoxChangedHandler={(bbox) => {
+											// this.props.mappingActions.mappingBoundsChanged(bbox);
+											// this.props.mappingBoundsChanged(bbox);
+										}}
+										backgroundlayers={'no'}
+										fallbackZoom={2}
+										fullScreenControlEnabled={true}
+										locateControlEnabled={false}
+										minZoom={1}
+										maxZoom={6}
+										zoomSnap={0.5}
+										zoomDelta={1}
+										onclick={(e) => {}}
+									>
+										{/* {this.state.activePage && (
 						<WMSTileLayer
 							ref={(c) => (this.modelLayer = c)}
 							key={'docLayer'}
@@ -464,77 +651,30 @@ export class DocViewer_ extends React.Component {
 							//caching={this.props.docs.caching}
 						/>
 					)} */}
-									{/* <PDFLayer /> */}
-									{/* <Coords/> */}
-									{/* {debugMarker} */}
-									{this.props.docs.debugBounds && (
-										<Rectangle bounds={this.props.docs.debugBounds} color="#D8D8D8D8" />
-									)}
-									{this.leafletRoutedMap && (
-										<CanvasLayer
-											key={'CANVAS' + this.props.docs.caching}
-											leaflet={leafletContext}
-											drawMethod={(info) => {
-												const ctx = info.canvas.getContext('2d');
-												ctx.fillStyle = 'black';
-												ctx.clearRect(0, 0, info.canvas.width, info.canvas.height);
-												var point = info.map.latLngToContainerPoint([ 0, 0 ]);
-
-												// ctx.fillText('Center ', point.x, point.y);
-												if (
-													this.leafletRoutedMap &&
-													(this.props.docs.loadingState === undefined ||
-														this.props.docs.loadingState === LOADING_FINISHED) &&
-													this.props.docs.docPackageId ===
-														this.props.match.params.docPackageId
-												) {
-													const layerBounds = this.getLayerBoundsForOffscreenCanvas();
-													const zoom = info.map.getZoom();
-													const layerBoundsTopLeft = info.map.project(
-														layerBounds.getNorthWest(),
-														zoom
-													);
-													const layerBoundsBottomRight = info.map.project(
-														layerBounds.getSouthEast(),
-														zoom
-													);
-
-													const mapBoundsTopLeft = info.map.project(
-														info.bounds.getNorthWest(),
-														zoom
-													);
-													const layerBoundsPixelWidth =
-														-1 * (layerBoundsTopLeft.x - layerBoundsBottomRight.x);
-													const layerBoundsPixelHeight =
-														-1 * (layerBoundsTopLeft.y - layerBoundsBottomRight.y);
-													ctx.drawImage(
-														this.props.docs.canvas || document.createElement('canvas'),
-														//0,0,5526,5526,
-														layerBoundsTopLeft.x - mapBoundsTopLeft.x,
-														layerBoundsTopLeft.y - mapBoundsTopLeft.y,
-														layerBoundsPixelWidth,
-														layerBoundsPixelHeight
-													);
-												}
-												ctx.stroke();
-											}}
-										/>
-									)}
-									{this.props.docs.docIndex !== undefined &&
-									this.props.docs.docs.length > 0 &&
-									!this.isLoading() && (
-										<Control position="bottomright">
-											<p style={{ backgroundColor: '#D8D8D8D8', padding: '5px' }}>
-												{this.props.docs.docs[this.props.docs.docIndex].file} ({this.props.docs
-													.sizes[this.props.docs.docIndex] ? (
-													filesize(this.props.docs.sizes[this.props.docs.docIndex])
-												) : (
-													''
-												)})
-											</p>
-										</Control>
-									)}
-								</RoutedMap>
+										{/* <PDFLayer /> */}
+										{/* <Marker position={[0,0]}>
+										<Popup>
+											<span>
+												0,0
+											</span>
+										</Popup>
+									</Marker> */}
+										{this.getLayer() && (
+											<Rectangle bounds={this.getLayer().layerBounds} color="#D8D8D8D8" />
+										)}
+										{docLayer}
+										{this.props.docs.docIndex !== undefined &&
+										this.props.docs.docs.length > 0 &&
+										!this.isLoading() && (
+											<Control position="bottomright">
+												<p style={{ backgroundColor: '#D8D8D8D8', padding: '5px' }}>
+													{this.props.docs.docs[this.props.docs.docIndex].file}
+												</p>
+											</Control>
+										)}
+									</RoutedMap>
+									{problemWithDocPreviewAlert}
+								</div>
 							</Loadable>
 						</Column>
 					</Row>
@@ -583,7 +723,7 @@ export class DocViewer_ extends React.Component {
 	};
 
 	nextPage = () => {
-		if (parseInt(this.props.match.params.page, 10) < this.props.docs.pdfdoc._pdfInfo.numPages) {
+		if (parseInt(this.props.match.params.page, 10) < this.props.docs.docs[this.props.docs.docIndex].pages) {
 			this.pushRouteForPage(
 				this.props.match.params.topic,
 				this.props.match.params.docPackageId,
@@ -651,92 +791,158 @@ export class DocViewer_ extends React.Component {
 		});
 	};
 
-	gotoHome = () => {
-		this.leafletRoutedMap.leafletMap.leafletElement.fitBounds([ [ -0.5, -0.5 ], [ 0.5, 0.5 ] ]);
-	};
-
 	getOptimalBounds = (forDimension) => {
-		const w = this.props.docs.canvas.width;
-		const h = this.props.docs.canvas.height;
+		// var img = [
+		// 	12047,
+		// 	8504
+		// 	]
+		// 	var rc = new L.RasterCoords(this.leafletRoutedMap.leafletMap.leafletElement, img)
+		// 	return [ [ rc.unproject([ 0, 0 ]), rc.unproject([ img[0], img[1] ]) ] ]
 
-		//procentual canvas width & height
-		let ph, pw;
+		// if (forDimension){
+		// 	const leafletSize = this.leafletRoutedMap.leafletMap.leafletElement._size; //x,y
+		// 	let layer=this.getLayer();
+		// 	let dimensions = [ layer.meta.x, layer.meta.y ];
+		// 	if (forDimension===WIDTH){
+		// 		let targetDimensions = [ layer.meta.x, layer.meta.y * leafletSize.x/leafletSize.y ];
+		// 		let rc = new L.RasterCoords(this.leafletRoutedMap.leafletMap.leafletElement, targetDimensions);
+		// 		return [ [ rc.unproject([ 0, 0 ]), rc.unproject([ targetDimensions[0], targetDimensions[1] ]) ] ];
+		// 	}
+		// 	else if (forDimension===HEIGHT){
+		// 		let targetDimensions = [ layer.meta.x * leafletSize.x/leafletSize.y, layer.meta.y  ];
+		// 		let rc = new L.RasterCoords(this.leafletRoutedMap.leafletMap.leafletElement, targetDimensions);
+		// 		return [ [ rc.unproject([ 0, 0 ]), rc.unproject([ targetDimensions[0], targetDimensions[1] ]) ] ];
+		// 	}
+		// }
+		// else {
+		return this.getLayer().layerBounds;
+		// }
+		// let layer=this.getLayer();
+		// let dimensions = [ layer.meta.x, layer.meta.y ];
+		// const w = layer.meta.x;
+		// const h = layer.meta.y;
 
-		if (w > h) {
-			pw = 1;
-			ph = h / w;
-		} else {
-			ph = 1;
-			pw = w / h;
-		}
+		// //procentual canvas width & height
+		// let ph, pw;
 
-		const mapBounds = this.leafletRoutedMap.leafletMap.leafletElement.getBounds();
-		const leafletSize = this.leafletRoutedMap.leafletMap.leafletElement._size; //x,y
+		// if (w > h) {
+		// 	pw = 1;
+		// 	ph = h / w;
+		// } else {
+		// 	ph = 1;
+		// 	pw = w / h;
+		// }
+		// const leafletSize = this.leafletRoutedMap.leafletMap.leafletElement._size; //x,y
 
-		//procentual leaflet width & height
-		let plw, plh;
-		if (leafletSize.x > leafletSize.y) {
-			plw = 1;
-			plh = leafletSize.y / leafletSize.x;
-		} else {
-			plh = 1;
-			plw = leafletSize.x / leafletSize.y;
-		}
+		// //procentual leaflet width & height
+		// let plw, plh;
+		// if (leafletSize.x > leafletSize.y) {
+		// 	plw = 1;
+		// 	plh = leafletSize.y / leafletSize.x;
+		// } else {
+		// 	plh = 1;
+		// 	plw = leafletSize.x / leafletSize.y;
+		// }
 
-		//optimal bounds
-		let b = [ [ -1 * (ph / 2), -pw / 2 ], [ ph / 2, pw / 2 ] ];
+		// //optimal bounds
+		// let b = [ [ -1 * (ph / 2), -pw / 2 ], [ ph / 2, pw / 2 ] ];
 
-		switch (forDimension) {
-			case WIDTH: {
-				//height shrinking
-				let newB;
-				if (plh !== 1) {
-					newB = [ [ -1 * (ph / 2) * plh, -pw / 2 ], [ ph / 2 * plh, pw / 2 ] ];
-				} else {
-					newB = [ [ -1 * (ph / 2) * plh, -pw / 2 ], [ ph / 2 * plh, pw / 2 ] ];
-				}
-				return newB;
-			}
-			case HEIGHT: {
-				//width shrinking
-				let newB;
-				if (plw !== 1) {
-					newB = [ [ -1 * (ph / 2), -pw / 2 * plw ], [ ph / 2, pw / 2 * plw ] ];
-				} else {
-					newB = [ [ -1 * (ph / 2), -pw / 2 * plw ], [ ph / 2, pw / 2 * plw ] ];
-				}
-				return newB;
-			}
-			case BOTH:
-			default: {
-				return b;
-			}
-		}
+		// switch (forDimension) {
+		// 	case WIDTH: {
+		// 		//height shrinking
+		// 		let newB;
+		// 		if (plh !== 1) {
+		// 			newB = [ [ -1 * (ph / 2) * plh, -pw / 2 ], [ ph / 2 * plh, pw / 2 ] ];
+		// 		} else {
+		// 			newB = [ [ -1 * (ph / 2) * plh, -pw / 2 ], [ ph / 2 * plh, pw / 2 ] ];
+		// 		}
+		// 		return newB;
+		// 	}
+		// 	case HEIGHT: {
+		// 		//width shrinking
+		// 		let newB;
+		// 		if (plw !== 1) {
+		// 			newB = [ [ -1 * (ph / 2), -pw / 2 * plw ], [ ph / 2, pw / 2 * plw ] ];
+		// 		} else {
+		// 			newB = [ [ -1 * (ph / 2), -pw / 2 * plw ], [ ph / 2, pw / 2 * plw ] ];
+		// 		}
+		// 		return newB;
+		// 	}
+		// 	case BOTH:
+		// 	default: {
+		// 		return b;
+		// 	}
+		// }
 	};
 
 	gotoWholeDocument = () => {
 		let wb = this.getOptimalBounds();
-		this.props.docsActions.setDebugBounds(wb);
+		// this.props.docsActions.setDebugBounds(wb);
 		this.leafletRoutedMap.leafletMap.leafletElement.fitBounds(wb);
+		//this.leafletRoutedMap.leafletMap.leafletElement.setView(wb);
 	};
 
 	gotoWholeWidth = () => {
 		let wb = this.getOptimalBounds(WIDTH);
-		this.props.docsActions.setDebugBounds(wb);
+		// this.props.docsActions.setDebugBounds(wb);
 		this.leafletRoutedMap.leafletMap.leafletElement.fitBounds(wb);
 	};
 
 	gotoWholeHeight = () => {
-		let hb = this.getOptimalBounds();
-		this.props.docsActions.setDebugBounds(hb);
+		let hb = this.getOptimalBounds(HEIGHT);
+		// this.props.docsActions.setDebugBounds(hb);
 		this.leafletRoutedMap.leafletMap.leafletElement.fitBounds(hb);
 	};
 
-	getMapRef = () => {
-		if (this.topicMap) {
-			return this.topicMap.wrappedInstance.leafletRoutedMap.leafletMap.leafletElement;
+	replaceUmlauteAndSpaces(str) {
+		const umlautMap = {
+			Ü: 'UE',
+			Ä: 'AE',
+			Ö: 'OE',
+			ü: 'ue',
+			ä: 'ae',
+			ö: 'oe',
+			ß: 'ss',
+			' ': '_'
+		};
+		return str
+			.replace(/[\u00dc|\u00c4|\u00d6][a-z]/g, (a) => {
+				var big = umlautMap[a.slice(0, 1)];
+				return big.charAt(0) + big.charAt(1).toLowerCase() + a.slice(1);
+			})
+			.replace(new RegExp('[' + Object.keys(umlautMap).join('|') + ']', 'g'), (a) => umlautMap[a]);
+	}
+	getLayer = () => {
+		if (this.props.docs.docIndex !== undefined && this.props.docs.docs.length > 0) {
+			let layerUrl = this.props.docs.docs[this.props.docs.docIndex].layer;
+			const meta = this.props.docs.docs[this.props.docs.docIndex].meta;
+
+			if (meta) {
+				if (meta.pages > 1) {
+					layerUrl = layerUrl.replace('.pdf/', `.pdf-${this.props.docs.pageIndex}/`);
+				}
+
+				//			 const meta = this.props.docs.docs[this.props.docs.docIndex].pageinfo[this.props.docs.pageIndex];
+				const dimensions = [
+					meta['layer' + this.props.docs.pageIndex].x,
+					meta['layer' + this.props.docs.pageIndex].y
+				];
+				// const meta = {};
+				const rc = new L.RasterCoords(this.leafletRoutedMap.leafletMap.leafletElement, dimensions);
+				const layerBounds = [ [ rc.unproject([ 0, 0 ]), rc.unproject([ dimensions[0], dimensions[1] ]) ] ];
+				const layer = {
+					layerUrl,
+					meta,
+					layerBounds
+				};
+
+				return layer;
+			} else {
+				return undefined;
+			}
+		} else {
+			return undefined;
 		}
-		return undefined;
 	};
 }
 

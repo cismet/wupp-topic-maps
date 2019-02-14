@@ -345,9 +345,15 @@ export class DocViewer_ extends React.Component {
 				map: this.leafletRoutedMap.leafletMap.leafletElement
 			};
 		}
+
+		let w='100%';
+		if ((this.props.docs.docs || []).length > 1){
+			w=this.props.uiState.width - sidebarWidth + 17;
+		}
+
 		const mapStyle = {
 			height: this.props.uiState.height - 50,
-			width: this.props.uiState.width - sidebarWidth + 17,
+			width: w,
 			cursor: this.props.cursor,
 			backgroundColor: 'white'
 		};

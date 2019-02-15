@@ -392,13 +392,9 @@ export class DocViewer_ extends React.Component {
 			);
 		} else {
 		}
-		console.log('layer', layer);
-		console.log('layer this.props.docs.docIndex ', this.props.docs.docIndex);
 
 		let problemWithDocPreviewAlert = null;
 		if (layer === undefined && this.props.docs.docIndex !== undefined) {
-			console.log('set problemWithDocPreviewAlert');
-
 			problemWithDocPreviewAlert = (
 				<div
 					style={{
@@ -843,8 +839,6 @@ export class DocViewer_ extends React.Component {
 	};
 
 	gotoWholeDocument = () => {
-		console.log('gotoWholeDocument');
-
 		let wb = this.getOptimalBounds();
 		// this.props.docsActions.setDebugBounds(wb);
 		this.leafletRoutedMap.leafletMap.leafletElement.fitBounds(wb);

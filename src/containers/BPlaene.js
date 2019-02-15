@@ -56,7 +56,6 @@ export class BPlaene_ extends React.Component {
 
 	componentDidMount() {
 		this.bplaeneGazData = getGazDataForTopicIds(this.props.allGazetteerTopics, [ 'bplaene' ]);
-		console.log('gaz', this.bplaeneGazData);
 	}
 
 	bplanGazeteerhHit(selectedObject) {
@@ -64,7 +63,6 @@ export class BPlaene_ extends React.Component {
 	}
 
 	bplanSearchButtonHit(event) {
-		console.log(this.props);
 		this.props.bplanActions.searchForPlans();
 	}
 

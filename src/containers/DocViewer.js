@@ -24,7 +24,6 @@ import { Icon } from 'react-fa';
 //import PDFLayer from '../components/mapping/PDFLayer';
 import Coords from '../components/mapping/CoordLayer';
 
-import pdfjsLib from 'pdfjs-dist';
 import { isThisQuarter } from 'date-fns';
 import Loadable from 'react-loading-overlay';
 
@@ -75,13 +74,6 @@ L.RasterCoords.prototype = {
 	}
 };
 
-//import '../components/external/rastercoords';
-
-//pdfjsLib.GlobalWorkerOptions.workerSrc = '//mozilla.github.io/pdf.js/build/pdf.worker.js';
-
-//L.RasterCoords = RasterCoords;
-
-//pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.0.943/pdf.worker.min.js';
 
 const WIDTH = 'WIDTH';
 const HEIGHT = 'HEIGHT';

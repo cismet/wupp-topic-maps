@@ -1,9 +1,7 @@
 import objectAssign from 'object-assign';
 
-import pdfjsLib from 'pdfjs-dist';
 import L from 'leaflet';
 
-pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.0.943/pdf.worker.min.js';
 
 ///TYPES
 export const types = {
@@ -168,38 +166,6 @@ function loadPage(docPackageId, docIndex, pageIndex = 0, callback = () => {}) {
 	return (dispatch, getState) => {
 		dispatch(renderingFinished(docPackageId, docIndex, pageIndex, undefined, undefined));
 		callback();
-
-		// const state = getState().docs;
-		// const cacheState = getState().docsCache;
-
-		// const doc = state.docs[docIndex];
-		// dispatch(setDelayedLoadingState(docPackageId, docIndex, pageIndex));
-
-		// const total = fetch(new Request(doc.url, { method: 'HEAD' })).then((res) => {
-		// 	dispatch(setSize(docIndex, res.headers.get('content-length')));
-		// });
-		// const pdfDocCacheHit = getCachedPdfDoc(cacheState, docPackageId, docIndex);
-
-		// if (docPackageId !== state.docPackageId || docIndex !== state.docIndex) {
-		// 	if (pdfDocCacheHit === undefined) {
-		// 		const loadingTask = pdfjsLib.getDocument(doc.url);
-		// 		// loadingTask.onProgress = function(progress) {
-		// 		//     var percent = parseInt(progress.loaded, 10) / parseInt(progress.total, 10) * 100;
-		// 		//     console.log('percent', percent);
-		// 		//     console.log('state', that.state);
-		// 		// };
-
-		// 		loadingTask.promise.then((pdf) => {
-		// 			dispatch(storePdfDocInCache(docPackageId, docIndex, pdf));
-		// 			//dispatch(getPDFPage(docPackageId, docIndex, pdf, pageIndex,callback));
-		// 		});
-		// 	} else {
-		// 		//dispatch(getPDFPage(docPackageId, docIndex, pdfDocCacheHit, pageIndex,callback));
-		// 	}
-		// } else {
-		// 	//Same doc other page
-		// 	//dispatch(getPDFPage(docPackageId, docIndex, pdfDocCacheHit, pageIndex,callback));
-		// }
 	};
 }
 

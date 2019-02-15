@@ -210,16 +210,12 @@ export class DocViewer_ extends React.Component {
 										'https://wunda-geoportal-dox.cismet.de/'
 									),
 									layer: this.replaceUmlauteAndSpaces(
-										doc.url.replace(
-											'https://wunda-geoportal-docs.cismet.de/',
-											tileservice
-										) + '/{z}/{x}/{y}.png'
+										doc.url.replace('https://wunda-geoportal-docs.cismet.de/', tileservice) +
+											'/{z}/{x}/{y}.png'
 									),
 									meta: this.replaceUmlauteAndSpaces(
-										doc.url.replace(
-											'https://wunda-geoportal-docs.cismet.de/',
-											tileservice
-										) + '/meta.json'
+										doc.url.replace('https://wunda-geoportal-docs.cismet.de/', tileservice) +
+											'/meta.json'
 									)
 								});
 							}
@@ -247,16 +243,12 @@ export class DocViewer_ extends React.Component {
 									),
 
 									layer: this.replaceUmlauteAndSpaces(
-										doc.url.replace(
-											'https://wunda-geoportal-docs.cismet.de/',
-											tileservice
-										) + '/{z}/{x}/{y}.png'
+										doc.url.replace('https://wunda-geoportal-docs.cismet.de/', tileservice) +
+											'/{z}/{x}/{y}.png'
 									),
 									meta: this.replaceUmlauteAndSpaces(
-										doc.url.replace(
-											'https://wunda-geoportal-docs.cismet.de/',
-											tileservice
-										) + '/meta.json'
+										doc.url.replace('https://wunda-geoportal-docs.cismet.de/', tileservice) +
+											'/meta.json'
 									)
 								});
 							}
@@ -283,17 +275,13 @@ export class DocViewer_ extends React.Component {
 									),
 
 									layer: this.replaceUmlauteAndSpaces(
-										doc.url.replace(
-											'https://wunda-geoportal-docs.cismet.de/',
-											tileservice
-										) + '/{z}/{x}/{y}.png'
+										doc.url.replace('https://wunda-geoportal-docs.cismet.de/', tileservice) +
+											'/{z}/{x}/{y}.png'
 									),
 
 									meta: this.replaceUmlauteAndSpaces(
-										doc.url.replace(
-											'https://wunda-geoportal-docs.cismet.de/',
-											tileservice
-										) + '/meta.json'
+										doc.url.replace('https://wunda-geoportal-docs.cismet.de/', tileservice) +
+											'/meta.json'
 									)
 								});
 							}
@@ -301,7 +289,7 @@ export class DocViewer_ extends React.Component {
 
 							this.props.docsActions.loadPage(docPackageIdParam, docIndex, pageIndex, () => {
 								setTimeout(() => {
-									if (this.props.docs.docs[docIndex].meta) {
+									if (this.props.docs.docs[docIndex] && this.props.docs.docs[docIndex].meta) {
 										this.gotoWholeDocument();
 									}
 								}, 50);
@@ -319,7 +307,7 @@ export class DocViewer_ extends React.Component {
 			if (this.props.docs.docs.length > 0) {
 				this.props.docsActions.loadPage(docPackageIdParam, docIndex, pageIndex, () =>
 					setTimeout(() => {
-						if (this.props.docs.docs[docIndex].meta) {
+						if (this.props.docs.docs[docIndex] && this.props.docs.docs[docIndex].meta) {
 							this.gotoWholeDocument();
 						}
 					}, 50)
@@ -346,9 +334,9 @@ export class DocViewer_ extends React.Component {
 			};
 		}
 
-		let w='100%';
-		if ((this.props.docs.docs || []).length > 1){
-			w=this.props.uiState.width - sidebarWidth + 17;
+		let w = '100%';
+		if ((this.props.docs.docs || []).length > 1) {
+			w = this.props.uiState.width - sidebarWidth + 17;
 		}
 
 		const mapStyle = {
@@ -404,13 +392,13 @@ export class DocViewer_ extends React.Component {
 			);
 		} else {
 		}
-		console.log('layer',layer);
-		console.log('layer this.props.docs.docIndex ',this.props.docs.docIndex);
+		console.log('layer', layer);
+		console.log('layer this.props.docs.docIndex ', this.props.docs.docIndex);
 
 		let problemWithDocPreviewAlert = null;
 		if (layer === undefined && this.props.docs.docIndex !== undefined) {
 			console.log('set problemWithDocPreviewAlert');
-			
+
 			problemWithDocPreviewAlert = (
 				<div
 					style={{
@@ -561,7 +549,12 @@ export class DocViewer_ extends React.Component {
 									}
 
 									return (
-										<div key={'doc.symbol.div.' + index}>
+										<div
+											style={{
+												marginBottom: 10
+											}}
+											key={'doc.symbol.div.' + index}
+										>
 											<Well
 												key={'doc.symbol.well.' + index}
 												onClick={() => {
@@ -679,7 +672,8 @@ export class DocViewer_ extends React.Component {
 											</span>
 										</Popup>
 									</Marker> */}
-										{this.getLayer() && (
+										{this.getLayer() &&
+										this.getLayer().layerBounds && (
 											<Rectangle bounds={this.getLayer().layerBounds} color="#D8D8D8D8" />
 										)}
 										{docLayer}
@@ -815,8 +809,7 @@ export class DocViewer_ extends React.Component {
 		const meta = this.props.docs.docs[this.props.docs.docIndex].meta;
 		const dimensions = [ meta['layer' + this.props.docs.pageIndex].x, meta['layer' + this.props.docs.pageIndex].y ];
 		const leafletSize = this.leafletRoutedMap.leafletMap.leafletElement._size; //x,y
-		console.log('dimensions', dimensions);
-		console.log('leafletSize', leafletSize);
+
 		if (forDimension) {
 			const leafletSize = this.leafletRoutedMap.leafletMap.leafletElement._size; //x,y
 			let layer = this.getLayer();

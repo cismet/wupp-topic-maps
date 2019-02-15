@@ -13,7 +13,7 @@ import { actions as gazetteerTopicsActions, getGazDataForTopicIds } from '../red
 
 import L from 'leaflet';
 import { bindActionCreators } from 'redux';
-import { modifyQueryPart } from '../utils/routingHelper';
+import { modifyQueryPart, removeQueryPart } from '../utils/routingHelper';
 import { Simple as ownSimpleCRS } from '../utils/gisHelper';
 
 import 'url-search-params-polyfill';
@@ -74,7 +74,6 @@ L.RasterCoords.prototype = {
 	}
 };
 
-
 const WIDTH = 'WIDTH';
 const HEIGHT = 'HEIGHT';
 const BOTH = 'BOTH';
@@ -100,7 +99,8 @@ function mapStateToProps(state) {
 		uiState: state.uiState,
 		allGazetteerTopics: state.gazetteerTopics,
 		routing: state.routing,
-		docs: state.docs
+		docs: state.docs,
+		mapping: state.mapping
 	};
 }
 
@@ -131,6 +131,16 @@ export class DocViewer_ extends React.Component {
 		const docIndex = fileNumberParam - 1;
 		const pageIndex = pageNumberParam - 1;
 		const currentlyLoading = this.isLoading();
+
+		const keepLatLng = new URLSearchParams(this.props.routing.location.search).get('keepLatLng');
+
+		if (keepLatLng !== null) {
+			const newUrl =
+				this.props.routing.location.pathname + removeQueryPart(prevProps.routing.location.search, 'keepLatLng');
+
+			this.props.routingActions.push(newUrl);
+			return;
+		}
 
 		if (topicParam !== this.props.docs.topic) {
 			const gazData = getGazDataForTopicIds(this.props.allGazetteerTopics, [ topicParam ]);
@@ -284,7 +294,7 @@ export class DocViewer_ extends React.Component {
 									if (this.props.docs.docs[docIndex] && this.props.docs.docs[docIndex].meta) {
 										this.gotoWholeDocument();
 									}
-								}, 50);
+								}, 200);
 							});
 						}
 					}
@@ -302,7 +312,7 @@ export class DocViewer_ extends React.Component {
 						if (this.props.docs.docs[docIndex] && this.props.docs.docs[docIndex].meta) {
 							this.gotoWholeDocument();
 						}
-					}, 50)
+					}, 200)
 				);
 			}
 		} else {
@@ -591,7 +601,7 @@ export class DocViewer_ extends React.Component {
 						)}
 						<Column style={{ width: '100%' }} horizontal="stretch">
 							<Loadable
-								active={this.props.docs.loadingState === LOADING_OVERLAY}
+								active={this.props.docs.loadingState === LOADING_OVERLAY && false}
 								spinner
 								text={this.props.docs.loadingText || 'Laden der Datei ...'}
 								content={<h1>test</h1>}
@@ -604,10 +614,10 @@ export class DocViewer_ extends React.Component {
 											this.leafletRoutedMap = leafletMap;
 										}}
 										style={mapStyle}
-										fallbackPosition={{
-											lat: 0,
-											lng: 0
-										}}
+										// fallbackPosition={{
+										// 	lat: 0,
+										// 	lng: 0
+										// }}
 										ondblclick={this.props.ondblclick}
 										// onclick={this.props.onclick}
 										locationChangedHandler={(location) => {

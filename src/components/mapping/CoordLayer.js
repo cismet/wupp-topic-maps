@@ -19,8 +19,8 @@ class Layer extends GridLayer {
 				tile.style.outline = '1px solid red';
 				return tile;
 			}
-    })();
-    console.log('CoordLayer.this.leafletElement',this.leafletElement);
+		})();
+		console.log('CoordLayer.this.leafletElement', this.leafletElement);
 
 		super.componentDidMount();
 	}

@@ -106,14 +106,14 @@ export class BPlaene_ extends React.Component {
 					return gazEntry.string == currentFeature.properties.nummer;
 				});
 				if (found) {
-					link.href = '/#/docs/bplaene/' + currentFeature.properties.nummer + '/1/1';
+					link.href = '/#/docs/bplaene/' + currentFeature.properties.nummer + '/1/1?keepLatLng';
 				} else {
 					link.href =
 						'/#/docs/bplaene/' +
 						currentFeature.properties.nummer +
 						' (' +
 						currentFeature.properties.status +
-						')/1/1';
+						')/1/1?keepLatLng';
 				}
 			}
 
@@ -123,6 +123,14 @@ export class BPlaene_ extends React.Component {
 			window.alert(err);
 		}
 	}
+	openNewBackgroundTab() {
+		var a = document.createElement('a');
+		a.href = 'www.google.co.in';
+		var evt = document.createEvent('MouseEvents');
+		evt.initMouseEvent('click', true, true, window, 0, 0, 0, 0, 0, true, false, false, false, 0, null);
+		a.dispatchEvent(evt);
+	}
+
 	downloadPlan() {
 		const currentFeature = this.props.mapping.featureCollection[this.props.mapping.selectedIndex];
 		if (currentFeature.properties.plaene_rk.length + currentFeature.properties.plaene_nrk.length === 1) {
@@ -232,6 +240,18 @@ export class BPlaene_ extends React.Component {
 				B-Pl&auml;ne im Kartenausschnitt laden
 			</Tooltip>
 		);
+	}
+
+	componentDidUpdate(prevProps) {
+		if (
+			prevProps.mapping.selectedIndex !== this.props.mapping.selectedIndex ||
+			JSON.stringify(prevProps.mapping.featureCollection.map((x) => x.id)) !==
+				JSON.stringify(this.props.mapping.featureCollection.map((x) => x.id))
+		) {
+			if (new URLSearchParams(this.props.routing.location.search).get('syncDocViewer') !== null) {
+				this.openDocViewer();
+			}
+		}
 	}
 
 	render() {

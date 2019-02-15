@@ -2,7 +2,6 @@ import objectAssign from 'object-assign';
 
 import L from 'leaflet';
 
-
 ///TYPES
 export const types = {
 	SET_LOADING_STATE: 'SET_LOADING_STATE',
@@ -26,7 +25,7 @@ export const constants = {
 ///INITIAL STATE
 const initialState = {
 	topic: undefined,
-	topicData:undefined,
+	topicData: undefined,
 
 	docPackageId: undefined,
 	docIndex: undefined,
@@ -140,7 +139,7 @@ function setSize(index, size) {
 	return { type: types.SET_SIZE, index, size };
 }
 function setTopic(topic, topicData) {
-	return { type: types.SET_TOPIC, topic ,topicData};
+	return { type: types.SET_TOPIC, topic, topicData };
 }
 function setLoadingText(loadingText) {
 	return { type: types.SET_LOADING_TEXT, loadingText };
@@ -187,7 +186,6 @@ function setDocsInformationAndInitializeCaches(docs) {
 						docs[i].meta = meta;
 						docs[i].pages = meta.pages;
 					} catch (err) {
-						console.log('Fehler in den Metadaten ' + i, jsonText);
 						docs[i].meta = undefined;
 						docs[i].pages = 0;
 					}
@@ -205,7 +203,7 @@ export const actions = {
 	setDocsInformationAndInitializeCaches,
 	setDelayedLoadingState,
 	setDebugBounds,
-	setTopic,
+	setTopic
 };
 
 //HELPER FUNCTIONS

@@ -551,7 +551,7 @@ export class DocViewer_ extends React.Component {
 									return (
 										<div
 											style={{
-												marginBottom: 10
+												marginBottom: 8
 											}}
 											key={'doc.symbol.div.' + index}
 										>
@@ -568,8 +568,7 @@ export class DocViewer_ extends React.Component {
 												style={{
 													background: selected ? '#777777' : undefined,
 													height: '100%',
-													marginBottom: 10,
-													padding: 10
+													padding: 6
 												}}
 											>
 												<div align="center">

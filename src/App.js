@@ -12,7 +12,7 @@ import Starkregen from './containers/Starkregen';
 import Kitas from './containers/Kitas';
 import Experiments from './containers/Experiments';
 import Reset from './containers/Reset';
-import DocViewer from "./containers/DocViewer";
+import DocViewer from './containers/DocViewer';
 
 import store from './redux/store';
 import ReactLoading from 'react-loading';

@@ -134,9 +134,10 @@ export class DocViewer_ extends React.Component {
 
 		const keepLatLng = new URLSearchParams(this.props.routing.location.search).get('keepLatLng');
 
-		if (keepLatLng !== null) {
+		if (keepLatLng !== null && prevProps) {
 			const newUrl =
 				this.props.routing.location.pathname + removeQueryPart(prevProps.routing.location.search, 'keepLatLng');
+			console.log('keepLatLng');
 
 			this.props.routingActions.push(newUrl);
 			return;
@@ -209,7 +210,7 @@ export class DocViewer_ extends React.Component {
 									file: doc.file,
 									url: doc.url.replace(
 										'https://wunda-geoportal-docs.cismet.de/',
-										'https://wunda-geoportal-dox.cismet.de/'
+										'https://wunda-geoportal-docs.cismet.de/'
 									),
 									layer: this.replaceUmlauteAndSpaces(
 										doc.url.replace('https://wunda-geoportal-docs.cismet.de/', tileservice) +
@@ -241,7 +242,7 @@ export class DocViewer_ extends React.Component {
 									file: doc.file,
 									url: doc.url.replace(
 										'https://wunda-geoportal-docs.cismet.de/',
-										'https://wunda-geoportal-dox.cismet.de/'
+										'https://wunda-geoportal-docs.cismet.de/'
 									),
 
 									layer: this.replaceUmlauteAndSpaces(
@@ -273,7 +274,7 @@ export class DocViewer_ extends React.Component {
 									file: doc.file,
 									url: doc.url.replace(
 										'https://wunda-geoportal-docs.cismet.de/',
-										'https://wunda-geoportal-dox.cismet.de/'
+										'https://wunda-geoportal-docs.cismet.de/'
 									),
 
 									layer: this.replaceUmlauteAndSpaces(

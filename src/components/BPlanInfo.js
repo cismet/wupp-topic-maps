@@ -31,7 +31,7 @@ const BPlanInfo = ({
 
 	if (currentFeature.properties.plaene_rk.length + currentFeature.properties.plaene_nrk.length > 1) {
 		planOrPlaene = 'Pläne';
-		dokumentArt = 'PDF Dokument';
+		dokumentArt = 'PDF Dokumente';
 	} else {
 		planOrPlaene = 'Plan';
 		dokumentArt = 'PDF Dokument';
@@ -53,12 +53,6 @@ const BPlanInfo = ({
 		nichtRK = ' und ' + currentFeature.properties.plaene_nrk.length + ' ' + planOrPlanteile_nrk;
 	}
 
-	const planTooltip = (
-		<Tooltip style={{ zIndex: 3000000000 }} id="planTooltip">
-			{dokumentArt} mit {currentFeature.properties.plaene_rk.length + ' ' + planOrPlanteile_rk + nichtRK}
-		</Tooltip>
-	);
-
 	let docsEnabled;
 	let docOrDocs;
 	if (currentFeature.properties.docs.length === 0) {
@@ -71,6 +65,18 @@ const BPlanInfo = ({
 		docsEnabled = true;
 		docOrDocs = 'Zusatzdokument';
 	}
+
+	let zusatzdokumente = '';
+	if (currentFeature.properties.docs.length > 0) {
+		zusatzdokumente = ' und ' + currentFeature.properties.docs.length + ' ' + docOrDocs;
+	}
+
+	const planTooltip = (
+		<Tooltip style={{ zIndex: 3000000000 }} id="planTooltip">
+			{dokumentArt} mit{' '}
+			{currentFeature.properties.plaene_rk.length + ' ' + planOrPlanteile_rk + nichtRK + zusatzdokumente}
+		</Tooltip>
+	);
 
 	const docsTooltip = (
 		<Tooltip style={{ zIndex: 3000000000 }} id="docsTooltip">
@@ -226,7 +232,7 @@ const BPlanInfo = ({
 										textAlign: 'left',
 										verticalAlign: 'top',
 										padding: '5px',
-										maxWidth: '190px',
+										maxWidth: '160px',
 										overflowWrap: 'break-word'
 									}}
 								>
@@ -236,16 +242,24 @@ const BPlanInfo = ({
 									</h4>
 									<h6>{currentFeature.properties.name}</h6>
 								</td>
-								<td style={{ textAlign: 'right', verticalAlign: 'top', padding: '5px' }}>
-									<h4>
-										<Icon name="arrow-circle-o-down" />
-									</h4>
-									<h6>
+								<td
+									style={{
+										textAlign: 'center',
+										verticalAlign: 'top',
+										padding: '5px',
+										paddingTop: '1px'
+									}}
+								>
+									<a style={{ color: '#333' }} onClick={downloadPlan}>
+										<h4 style={{ marginLeft: 5, marginRight: 5 }}>
+											<font size="30">
+												<Icon style={{ textDecoration: 'none' }} name="file-pdf-o" />
+											</font>
+										</h4>
 										<OverlayTrigger placement="left" overlay={planTooltip}>
-											<a onClick={downloadPlan}>{planOrPlaene}</a>
+											<div>Vorschau</div>
 										</OverlayTrigger>
-									</h6>
-									{docDownload}
+									</a>
 								</td>
 							</tr>
 						</tbody>
@@ -253,17 +267,21 @@ const BPlanInfo = ({
 					<br />
 					<table style={{ width: '100%' }}>
 						<tbody>
-							<tr >
+							<tr>
 								<td style={{ textAlign: 'left', verticalAlign: 'center' }}>
-									<a title="vorheriger Treffer" onClick={previous}>&lt;&lt;</a>
+									<a title="vorheriger Treffer" onClick={previous}>
+										&lt;&lt;
+									</a>
 								</td>
 
 								<td style={{ textAlign: 'center', verticalAlign: 'center' }}>
 									<a onClick={fitAll}>alle {featureCollection.length} Treffer anzeigen</a>
 								</td>
-									<td style={{ textAlign: 'right', verticalAlign: 'center' }}>
-										<a title="nächster Treffer" onClick={next}>&gt;&gt;</a>
-									</td>
+								<td style={{ textAlign: 'right', verticalAlign: 'center' }}>
+									<a title="nächster Treffer" onClick={next}>
+										&gt;&gt;
+									</a>
+								</td>
 							</tr>
 						</tbody>
 					</table>

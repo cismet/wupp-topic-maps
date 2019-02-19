@@ -321,6 +321,50 @@ export class DocViewer_ extends React.Component {
 		}
 	}
 
+	// downloadEverything() {
+	// 	this.props.bplanActions.setDocumentLoadingIndicator(true);
+	// 	const currentFeature = this.props.mapping.featureCollection[this.props.mapping.selectedIndex];
+	// 	// downloadMultipleFiles(
+	// 	//     [
+	// 	//       {"folder":"rechtskraeftig/","downloads":currentFeature.properties.plaene_rk},
+	// 	//       {"folder":"nicht rechtskraeftig/","downloads":currentFeature.properties.plaene_nrk},
+	// 	//       {"folder":"Zusatzdokumente/","downloads":currentFeature.properties.docs}
+	// 	//     ], "BPLAN_Plaene_und_Zusatzdokumente."+currentFeature.properties.nummer,this.downloadDone);
+
+	// 	let encoding = null;
+	// 	if (navigator.appVersion.indexOf('Win') !== -1) {
+	// 		encoding = 'CP850';
+	// 	}
+
+	// 	let downloadConf = {
+	// 		name: 'BPLAN_Plaene_und_Zusatzdokumente.' + currentFeature.properties.nummer,
+	// 		files: [],
+	// 		encoding: encoding
+	// 	};
+	// 	for (let index = 0; index < currentFeature.properties.plaene_rk.length; ++index) {
+	// 		let prk = currentFeature.properties.plaene_rk[index];
+	// 		downloadConf.files.push({
+	// 			uri: prk.url,
+	// 			folder: 'rechtskraeftig'
+	// 		});
+	// 	}
+	// 	for (let index = 0; index < currentFeature.properties.plaene_nrk.length; ++index) {
+	// 		let pnrk = currentFeature.properties.plaene_nrk[index];
+	// 		downloadConf.files.push({
+	// 			uri: pnrk.url,
+	// 			folder: 'nicht rechtskraeftig'
+	// 		});
+	// 	}
+	// 	for (let index = 0; index < currentFeature.properties.docs.length; ++index) {
+	// 		let doc = currentFeature.properties.docs[index];
+	// 		downloadConf.files.push({
+	// 			uri: doc.url,
+	// 			folder: 'Zusatzdokumente'
+	// 		});
+	// 	}
+	// 	prepareDownloadMultipleFiles(downloadConf, this.downloadPreparationDone);
+	// }
+
 	render() {
 		let mapHeight;
 		if (this.props.uiState.height) {
@@ -498,7 +542,7 @@ export class DocViewer_ extends React.Component {
 								<Icon name="download" />
 							</NavItem>
 
-							<NavItem disabled={true} eventKey={1} href="#">
+							<NavItem disabled={true || (false && !downloadAvailable)} eventKey={1} href="#">
 								<Icon name="file-archive-o" />
 							</NavItem>
 							<NavItem disabled={true} eventKey={2} href="#">
@@ -644,32 +688,6 @@ export class DocViewer_ extends React.Component {
 										zoomDelta={1}
 										onclick={(e) => {}}
 									>
-										{/* {this.state.activePage && (
-						<WMSTileLayer
-							ref={(c) => (this.modelLayer = c)}
-							key={'docLayer'}
-							url="http://localhost:8081/rasterfariWMS?SRS=EPSG:25832"
-							//layers='vermessungsregister/Vermessungsrisse/3485/VR_501-3485-009-00000001.jpg'
-							//						layers="bplandocs/bplaene/rechtswirksam/B84A.pdf"
-							layers={this.state.activePage.url}
-							version="1.1.1"
-							transparent="true"
-							format="image/png"
-							tiled="true"
-							styles="default"
-							maxZoom={19}
-							opacity={1}
-							//caching={this.props.docs.caching}
-						/>
-					)} */}
-										{/* <PDFLayer /> */}
-										{/* <Marker position={[0,0]}>
-										<Popup>
-											<span>
-												0,0
-											</span>
-										</Popup>
-									</Marker> */}
 										{this.getLayer() &&
 										this.getLayer().layerBounds && (
 											<Rectangle bounds={this.getLayer().layerBounds} color="#D8D8D8D8" />

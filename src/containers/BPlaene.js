@@ -123,13 +123,6 @@ export class BPlaene_ extends React.Component {
 			window.alert(err);
 		}
 	}
-	openNewBackgroundTab() {
-		var a = document.createElement('a');
-		a.href = 'www.google.co.in';
-		var evt = document.createEvent('MouseEvents');
-		evt.initMouseEvent('click', true, true, window, 0, 0, 0, 0, 0, true, false, false, false, 0, null);
-		a.dispatchEvent(evt);
-	}
 
 	downloadPlan() {
 		const currentFeature = this.props.mapping.featureCollection[this.props.mapping.selectedIndex];

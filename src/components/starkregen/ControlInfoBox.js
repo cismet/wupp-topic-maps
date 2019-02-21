@@ -1,11 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import ReactDOM from "react-dom";
+import ReactDOM from 'react-dom';
 
 import { Icon } from 'react-fa';
 import { Well, Button } from 'react-bootstrap';
 import Legend from './Legend';
-import { Map,Control, DomUtil, DomEvent } from 'leaflet';
+import { Map, Control, DomUtil, DomEvent } from 'leaflet';
 import L from 'leaflet';
 
 // Since this component is simple and static, there's no parent container for it.
@@ -56,7 +56,11 @@ const InfoBox = ({
 	);
 
 	const featureInfoModeBox = (
-		<div onClick={(e) => e.stopPropagation()} key="featureInfoModeBox" style={{ pointerEvents: 'auto', marginBottom: 5, float: 'right', width: '60%', height_: '145px' }}>
+		<div
+			onClick={(e) => e.stopPropagation()}
+			key="featureInfoModeBox"
+			style={{ pointerEvents: 'auto', marginBottom: 5, float: 'right', width: '60%', height_: '145px' }}
+		>
 			<table style={{ width: '100%' }}>
 				<tbody>
 					<tr>
@@ -146,7 +150,7 @@ const InfoBox = ({
 	);
 
 	const legendTable = (
-		<table onClick={(e) => e.stopPropagation()}  key="legendTable" style={{ width: '100%' }}>
+		<table onClick={(e) => e.stopPropagation()} key="legendTable" style={{ width: '100%' }}>
 			<tbody>
 				<tr>
 					<td
@@ -333,12 +337,13 @@ const InfoBox = ({
 	infoComps.push(mainInfoBox);
 
 	return (
-		<div ref={(c)=>(this.chaos=c)} id="giveittoleaflet"
+		<div
+			id="giveittoleaflet"
 			onClick={(e) => {
-				if (mapRef){
-					let point = L.point(e.clientX,e.clientY); // x=0,y=0
+				if (mapRef) {
+					let point = L.point(e.clientX, e.clientY); // x=0,y=0
 					let latlng = mapRef.containerPointToLatLng(point);
-					mapClickListener({latlng})
+					mapClickListener({ latlng });
 				}
 			}}
 			style={{ cursor: mapCursor }}

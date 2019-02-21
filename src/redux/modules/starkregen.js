@@ -64,13 +64,25 @@ export const initialState = {
 		}
 	],
 	backgrounds: [
-		{ layerkey: 'hillshade|bplan_abkg@30|wupp-plan-live@20', src: '/images/rain-hazard-map-bg/topo.png', title: 'Top. Karte' },
-		{ layerkey: 'trueOrtho2018@50|rvrSchrift@100|wupp-plan-live@20', src: '/images/rain-hazard-map-bg/ortho.png', title: 'Luftbildkarte' },
+		{
+			layerkey: 'hillshade|bplan_abkg@30|wupp-plan-live@20',
+			src: '/images/rain-hazard-map-bg/topo.png',
+			title: 'Top. Karte'
+		},
+		{
+			layerkey: 'trueOrtho2018@50|rvrSchrift@100|wupp-plan-live@20',
+			src: '/images/rain-hazard-map-bg/ortho.png',
+			title: 'Luftbildkarte'
+		},
 		{ layerkey: 'wupp-plan-live@40', src: '/images/rain-hazard-map-bg/citymap.png', title: 'Stadtplan' }
 	],
 	backgroundsCached: [
 		{ layerkey: 'hillshadeCached|bplan_abkg@30 ', src: '/images/rain-hazard-map-bg/topo.png', title: 'Top. Karte' },
-		{ layerkey: 'trueOrtho2018Cached@50|rvrSchrift@100', src: '/images/rain-hazard-map-bg/ortho.png', title: 'Luftbildkarte' },
+		{
+			layerkey: 'trueOrtho2018Cached@50|rvrSchrift@100',
+			src: '/images/rain-hazard-map-bg/ortho.png',
+			title: 'Luftbildkarte'
+		},
 		{ layerkey: 'wupp-plan-live@40', src: '/images/rain-hazard-map-bg/citymap.png', title: 'Stadtplan' }
 	],
 	legend: [

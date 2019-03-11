@@ -10,6 +10,7 @@ import { WMSTileLayer, Marker, Popup, Rectangle, TileLayer } from 'react-leaflet
 import Control from 'react-leaflet-control';
 import { actions as bplanActions } from '../redux/modules/bplaene';
 import { actions as gazetteerTopicsActions, getGazDataForTopicIds } from '../redux/modules/gazetteerTopics';
+import { downloadSingleFile, prepareDownloadMultipleFiles, prepareMergeMultipleFiles } from '../utils/downloadHelper';
 
 import L from 'leaflet';
 import { bindActionCreators } from 'redux';
@@ -117,6 +118,10 @@ function mapDispatchToProps(dispatch) {
 export class DocViewer_ extends React.Component {
 	constructor(props, context) {
 		super(props, context);
+		this.state = {
+			downloadArchiveIcon: 'file-archive-o',
+			downloadArchivePrepInProgress: false
+		};
 	}
 
 	componentDidMount() {
@@ -321,49 +326,42 @@ export class DocViewer_ extends React.Component {
 		}
 	}
 
-	// downloadEverything() {
-	// 	this.props.bplanActions.setDocumentLoadingIndicator(true);
-	// 	const currentFeature = this.props.mapping.featureCollection[this.props.mapping.selectedIndex];
-	// 	// downloadMultipleFiles(
-	// 	//     [
-	// 	//       {"folder":"rechtskraeftig/","downloads":currentFeature.properties.plaene_rk},
-	// 	//       {"folder":"nicht rechtskraeftig/","downloads":currentFeature.properties.plaene_nrk},
-	// 	//       {"folder":"Zusatzdokumente/","downloads":currentFeature.properties.docs}
-	// 	//     ], "BPLAN_Plaene_und_Zusatzdokumente."+currentFeature.properties.nummer,this.downloadDone);
+	downloadEverything = () => {
+		this.setState({ downloadArchivePrepInProgress: true, downloadArchiveIcon: 'spinner' });
 
-	// 	let encoding = null;
-	// 	if (navigator.appVersion.indexOf('Win') !== -1) {
-	// 		encoding = 'CP850';
-	// 	}
+		let encoding = null;
+		if (navigator.appVersion.indexOf('Win') !== -1) {
+			encoding = 'CP850';
+		}
 
-	// 	let downloadConf = {
-	// 		name: 'BPLAN_Plaene_und_Zusatzdokumente.' + currentFeature.properties.nummer,
-	// 		files: [],
-	// 		encoding: encoding
-	// 	};
-	// 	for (let index = 0; index < currentFeature.properties.plaene_rk.length; ++index) {
-	// 		let prk = currentFeature.properties.plaene_rk[index];
-	// 		downloadConf.files.push({
-	// 			uri: prk.url,
-	// 			folder: 'rechtskraeftig'
-	// 		});
-	// 	}
-	// 	for (let index = 0; index < currentFeature.properties.plaene_nrk.length; ++index) {
-	// 		let pnrk = currentFeature.properties.plaene_nrk[index];
-	// 		downloadConf.files.push({
-	// 			uri: pnrk.url,
-	// 			folder: 'nicht rechtskraeftig'
-	// 		});
-	// 	}
-	// 	for (let index = 0; index < currentFeature.properties.docs.length; ++index) {
-	// 		let doc = currentFeature.properties.docs[index];
-	// 		downloadConf.files.push({
-	// 			uri: doc.url,
-	// 			folder: 'Zusatzdokumente'
-	// 		});
-	// 	}
-	// 	prepareDownloadMultipleFiles(downloadConf, this.downloadPreparationDone);
-	// }
+		let downloadConf = {
+			name: 'BPLAN_Plaene_und_Zusatzdokumente.' + this.props.docs.docPackageId,
+			files: [],
+			encoding: encoding
+		};
+		for (const doc of this.props.docs.docs) {
+			downloadConf.files.push({
+				uri: doc.url,
+				folder: doc.group
+			});
+		}
+		prepareDownloadMultipleFiles(downloadConf, this.downloadPreparationDone);
+	};
+
+	downloadPreparationDone = (result) => {
+		if (result.error) {
+			// this.props.bplanActions.setDocumentHasLoadingError(true);
+			// setTimeout(() => {
+			// 	this.props.bplanActions.setDocumentLoadingIndicator(false);
+			// }, 2000);
+			this.setState({ downloadArchivePrepInProgress: false, downloadArchiveIcon: 'file-archive-o' });
+		} else {
+			console.log('result', result);
+			downloadSingleFile(result, () => {
+				this.setState({ downloadArchivePrepInProgress: false, downloadArchiveIcon: 'file-archive-o' });
+			});
+		}
+	};
 
 	render() {
 		let mapHeight;
@@ -396,14 +394,6 @@ export class DocViewer_ extends React.Component {
 		if (this.props.uiState.width < 768) {
 			menuIsHidden = true;
 		}
-
-		let lblDownLoadFeb = 'Flächenerfassungsbogen herunterladen (PDF)';
-		let lblInfo = this.props.uiState.infoElementsEnabled ? 'Flächeninfo ausblenden' : 'Flächeninfo einblenden';
-		let lblChart = this.props.uiState.chartElementsEnabled ? 'Diagramm ausblenden' : 'Diagramm einblenden';
-		let lblContact = this.props.uiState.contactElementEnabled
-			? 'Ansprechpartner ausblenden'
-			: 'Ansprechpartner einblenden';
-		let lblExit = 'Hilfe anzeigen';
 
 		let numPages;
 
@@ -542,8 +532,20 @@ export class DocViewer_ extends React.Component {
 								<Icon name="download" />
 							</NavItem>
 
-							<NavItem disabled={true || (false && !downloadAvailable)} eventKey={1} href="#">
-								<Icon name="file-archive-o" />
+							<NavItem
+								disabled={!downloadAvailable}
+								eventKey={1}
+								href="#"
+								onClick={() => {
+									if (!this.state.downloadArchivePrepInProgress) {
+										this.downloadEverything();
+									}
+								}}
+							>
+								<Icon
+									spin={this.state.downloadArchivePrepInProgress}
+									name={this.state.downloadArchiveIcon}
+								/>
 							</NavItem>
 							<NavItem disabled={true} eventKey={2} href="#">
 								<Icon name="question-circle" />

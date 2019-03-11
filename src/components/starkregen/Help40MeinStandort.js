@@ -10,9 +10,7 @@ const Component = ({ uiState, uiStateActions }) => {
       sectionKey="standort"
       sectionTitle="Mein Standort"
       sectionBsStyle="success"
-      sectionContent={
-        <MyLocation/>
-      }
+      sectionContent={<MyLocation />}
     />
   );
 };

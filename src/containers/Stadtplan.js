@@ -326,7 +326,7 @@ export class Stadtplan_ extends React.Component {
             searchTooltipProvider={this.searchTooltip}
             searchMinZoom={99}
             searchMaxZoom={98}
-            gazTopics={["pois", "kitas", "bezirke", "quartiere","adressen" ]}
+            gazTopics={["pois", "kitas", "bezirke", "quartiere", "adressen"]}
             clustered={
               queryString.parse(this.props.routing.location.search).unclustered === undefined
             }

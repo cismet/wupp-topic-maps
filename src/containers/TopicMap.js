@@ -242,9 +242,7 @@ export class TopicMap_ extends React.Component {
               boundingBoxChangedHandler={bbox => {
                 this.props.mappingActions.mappingBoundsChanged(bbox);
                 this.props.mappingBoundsChanged(bbox);
-              }
-
-              }
+              }}
               backgroundlayers={this.props.backgroundlayers}
               fallbackZoom={this.props.home.zoom}
               fullScreenControlEnabled={this.props.locatorControl}
@@ -287,7 +285,8 @@ export class TopicMap_ extends React.Component {
                     </Tooltip>
                   }
                 >
-                  <Button id="cmdShowModalApplicationMenu"
+                  <Button
+                    id="cmdShowModalApplicationMenu"
                     onClick={() => {
                       if (this.props.showModalApplicationMenu) {
                         this.props.showModalApplicationMenu();
@@ -343,7 +342,7 @@ TopicMap.propTypes = {
   cursor: PropTypes.string,
   onclick: PropTypes.func,
   locationChangedHandler: PropTypes.func,
-  mappingBoundsChanged: PropTypes.func,
+  mappingBoundsChanged: PropTypes.func
 };
 
 TopicMap.defaultProps = {
@@ -372,6 +371,5 @@ TopicMap.defaultProps = {
   cursor: "grabbing",
   onclick: () => {},
   locationChangedHandler: () => {},
-  mappingBoundsChanged:  () => {},
-
+  mappingBoundsChanged: () => {}
 };

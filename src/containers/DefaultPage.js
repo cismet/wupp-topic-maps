@@ -71,8 +71,7 @@ export class DefaultPage_ extends React.Component {
             ]}
           />
         }
-      >
-      </TopicMap>
+      />
     );
   }
 }

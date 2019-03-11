@@ -36,7 +36,7 @@ const SymbolSizeChooser = ({
               }}
             >
               <a onClick={() => changeMarkerSymbolSize(config.smallSize)}>
-                {getSymbolSVG(config.smallSize*sizeMulitplier, symbolColor)}
+                {getSymbolSVG(config.smallSize * sizeMulitplier, symbolColor)}
               </a>
             </td>
             <td
@@ -46,7 +46,7 @@ const SymbolSizeChooser = ({
               }}
             >
               <a onClick={() => changeMarkerSymbolSize(config.midSize)}>
-                {getSymbolSVG(config.midSize*sizeMulitplier, symbolColor)}
+                {getSymbolSVG(config.midSize * sizeMulitplier, symbolColor)}
               </a>
             </td>
             <td
@@ -56,7 +56,7 @@ const SymbolSizeChooser = ({
               }}
             >
               <a onClick={() => changeMarkerSymbolSize(config.largeSize)}>
-                {getSymbolSVG(config.largeSize*sizeMulitplier, symbolColor)}
+                {getSymbolSVG(config.largeSize * sizeMulitplier, symbolColor)}
               </a>
             </td>
           </tr>
@@ -105,12 +105,12 @@ SymbolSizeChooser.propTypes = {
   getSymbolSVG: PropTypes.func,
   symbolColor: PropTypes.string,
   config: PropTypes.object,
-  sizeMulitplier: PropTypes.number,
+  sizeMulitplier: PropTypes.number
 };
 
 SymbolSizeChooser.defaultProps = {
   title: "Symbolgröße:",
   config: {},
   symbolColor: "#00A0B0",
-  sizeMulitplier: 0.9,
+  sizeMulitplier: 0.9
 };

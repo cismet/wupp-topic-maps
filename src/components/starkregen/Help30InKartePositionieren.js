@@ -29,10 +29,10 @@ const Component = ({ uiState, uiStateActions }) => {
           <p>
             Nach der Auswahl eines Treffers aus der Liste wird die Karte auf die zugehörige Position
             zentriert. Bei Suchbegriffen mit Punktgeometrie (Adresse, Straße, POI) wird außerdem ein
-            großer Maßstab (Zoomstufe 14) eingestellt und ein Marker <Icon name="map-marker" /> auf der
-            Zielposition platziert. Bei Suchbegriffen mit Flächengeometrie (Stadtbezirk, Quartier,
-            GEP) wird der Maßstab so eingestellt, dass die Fläche vollständig dargestellt werden
-            kann. Zusätzlich wird der Bereich außerhalb dieser Fläche abgedunkelt
+            großer Maßstab (Zoomstufe 14) eingestellt und ein Marker <Icon name="map-marker" /> auf
+            der Zielposition platziert. Bei Suchbegriffen mit Flächengeometrie (Stadtbezirk,
+            Quartier, GEP) wird der Maßstab so eingestellt, dass die Fläche vollständig dargestellt
+            werden kann. Zusätzlich wird der Bereich außerhalb dieser Fläche abgedunkelt
             (Spotlight-Effekt).
           </p>
           <p>

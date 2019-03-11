@@ -36,9 +36,10 @@ const KitasFilterPanel = ({
   } else {
     widePieChartPlaceholder = <td>{pieChart}</td>;
   }
-  
-  let injectQueryParameter="&inject="+window.btoa(JSON.stringify([{action:"setFilterAndApply", payload: filter}]));
-  if (new URLSearchParams(window.location.href).get('getinjectorstring')){
+
+  let injectQueryParameter =
+    "&inject=" + window.btoa(JSON.stringify([{ action: "setFilterAndApply", payload: filter }]));
+  if (new URLSearchParams(window.location.href).get("getinjectorstring")) {
     console.log(injectQueryParameter);
   }
   return (

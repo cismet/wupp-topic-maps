@@ -64,7 +64,6 @@ const appReducer = combineReducers({
   gazetteerTopics: persistReducer(gazetteerTopicsStorageConfig, gazetteerTopicsReducer),
   // gazetteerTopics: gazetteerTopicsReducer, // uncomment to skip persitent gazetteer data,
   docs: docsReducer
-
 });
 
 const rootReducer = (state, action) => {

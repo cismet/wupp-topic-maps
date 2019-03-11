@@ -1,6 +1,6 @@
 import React from "react";
 import GenericModalMenuSection from "../commons/GenericModalMenuSection";
-import { Icon } from 'react-fa';
+import { Icon } from "react-fa";
 
 const Component = ({ uiState, uiStateActions }) => {
   return (
@@ -32,9 +32,9 @@ const Component = ({ uiState, uiStateActions }) => {
             </b>{" "}
             Stellen Sie dazu die Kartenansicht (Ausschnitt, Hintergrundkarte und Simulation) ein,
             die den von Ihnen vermuteten Fehler im DGM bestmöglich darstellt. Durch Anklicken des
-            Werkzeugs "Fehler im Geländemodell melden" <Icon name="comment" /> links
-            oben im Kartenfenster öffnen Sie das auf Ihrem Rechner eingerichtete
-            E-Mail-Programm mit dem Gerüst einer Nachricht an{" "}
+            Werkzeugs "Fehler im Geländemodell melden" <Icon name="comment" /> links oben im
+            Kartenfenster öffnen Sie das auf Ihrem Rechner eingerichtete E-Mail-Programm mit dem
+            Gerüst einer Nachricht an{" "}
             <a href="starkregen@stadt.wuppertal.de">starkregen@stadt.wuppertal.de</a>. Über diese
             Funktionsadresse sprechen Sie eine Gruppe von Experten der Stadtverwaltung, der
             Wuppertaler Stadtwerke (WSW) und des städtischen Eigenbetriebs Wasser und Abwasser

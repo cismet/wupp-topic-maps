@@ -197,7 +197,7 @@ const KitasModalApplicationMenu = ({
                   paddingRight: "30px"
                 }}
               >
-              <GenericRVRStadtplanwerkMenuFooter />
+                <GenericRVRStadtplanwerkMenuFooter />
               </td>
               <td>
                 <Button bsStyle="primary" type="submit" onClick={close}>

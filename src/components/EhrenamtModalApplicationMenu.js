@@ -978,7 +978,6 @@ export class EhrenamtModalApplicationMenu_ extends React.Component {
                   }}
                 >
                   <GenericRVRStadtplanwerkMenuFooter />
-
                 </td>
                 <td>
                   <Button bsStyle="primary" type="submit" onClick={this.close}>

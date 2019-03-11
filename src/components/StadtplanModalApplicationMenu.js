@@ -780,8 +780,8 @@ export class StadtplanModalApplicationMenu_ extends React.Component {
                 (unten rechts) angezeigt. (Auf einem Tablet-PC wird der Fokus durch das erste
                 Antippen des Angebots gesetzt, das zweite Antippen blendet die Bezeichnung ein.)
                 Außerdem werden Ihnen in der Info-Box weiterführende (Kommunikations-) Links zum POI
-                angezeigt: <Icon name="external-link-square" /> Internet, <Icon name="envelope-square" /> E-Mail und{" "}
-                <Icon name="phone" /> Telefon.
+                angezeigt: <Icon name="external-link-square" /> Internet,{" "}
+                <Icon name="envelope-square" /> E-Mail und <Icon name="phone" /> Telefon.
               </p>
               <p>
                 Wenn Sie noch nicht aktiv einen bestimmten POI im aktuellen Kartenausschnitt

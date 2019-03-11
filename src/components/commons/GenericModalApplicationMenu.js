@@ -40,8 +40,7 @@ const GenericModalApplicationMenu = ({
     >
       <Modal.Header>
         <Modal.Title>
-          <Icon name={menuIcon} />
-          {' '}{menuTitle}
+          <Icon name={menuIcon} /> {menuTitle}
         </Modal.Title>
       </Modal.Header>
       <Modal.Body style={modalBodyStyle} id="myMenu" key={uiState.applicationMenuActiveKey}>
@@ -68,7 +67,12 @@ const GenericModalApplicationMenu = ({
                 {menuFooter}
               </td>
               <td>
-                <Button id="cmdCloseModalApplicationMenu" bsStyle="primary" type="submit" onClick={close}>
+                <Button
+                  id="cmdCloseModalApplicationMenu"
+                  bsStyle="primary"
+                  type="submit"
+                  onClick={close}
+                >
                   Ok
                 </Button>
               </td>

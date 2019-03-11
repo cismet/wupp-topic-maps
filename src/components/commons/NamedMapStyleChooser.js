@@ -19,7 +19,7 @@ const NamedMapStyleChooser = ({
       {modes.map((item, key) => {
         return (
           <Radio
-            id={"cboMapStyleChooser_"+item}
+            id={"cboMapStyleChooser_" + item}
             key={key}
             readOnly={true}
             onClick={e => {

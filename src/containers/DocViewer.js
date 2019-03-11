@@ -611,7 +611,14 @@ export class DocViewer_ extends React.Component {
 															wordWrap: 'break-word'
 														}}
 													>
-														{doc.file}
+														{doc.file
+															.replace('.pdf', '')
+															.replace('BPL_' + this.props.docs.docPackageId + '_0_', '')
+															.replace('BPL_' + this.props.docs.docPackageId + '_', '')
+															.replace(
+																'Info_BPlan-Zusatzdokumente_WUP_1-0',
+																'InfoDokument'
+															)}
 													</p>
 													{progressBar}
 													<p

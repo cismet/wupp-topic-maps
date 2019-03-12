@@ -653,7 +653,6 @@ export class DocViewer_ extends React.Component {
 												this.props.routing.location.pathname +
 													modifyQueryPart(this.props.routing.location.search, location)
 											);
-											//this.props.locationChangedHandler(location);
 										}}
 										autoFitProcessedHandler={() => this.props.mappingActions.setAutoFit(false)}
 										urlSearchParams={urlSearchParams}
@@ -805,8 +804,6 @@ export class DocViewer_ extends React.Component {
 	};
 
 	getOptimalBounds = (forDimension) => {
-		//	console.log('this.props', this.props);
-
 		const meta = this.props.docs.docs[this.props.docs.docIndex].meta;
 		const dimensions = [ meta['layer' + this.props.docs.pageIndex].x, meta['layer' + this.props.docs.pageIndex].y ];
 		//const leafletSize = this.leafletRoutedMap.leafletMap.leafletElement._size; //x,y
@@ -846,7 +843,8 @@ export class DocViewer_ extends React.Component {
 
 	gotoWholeDocument = () => {
 		let wb = this.getOptimalBounds();
-		// this.props.docsActions.setDebugBounds(wb);
+		//this.props.docsActions.setDebugBounds(wb);
+		this.leafletRoutedMap.leafletMap.leafletElement.invalidateSize();
 		this.leafletRoutedMap.leafletMap.leafletElement.fitBounds(wb);
 		//this.leafletRoutedMap.leafletMap.leafletElement.setView(wb);
 	};

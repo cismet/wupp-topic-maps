@@ -618,6 +618,12 @@ export class DocViewer_ extends React.Component {
 															.replace(
 																'BPL_' +
 																	this.pad(this.props.docs.docPackageId, 4) +
+																	'_0_',
+																''
+															)
+															.replace(
+																'BPL_' +
+																	this.pad(this.props.docs.docPackageId, 4) +
 																	'_',
 																''
 															)

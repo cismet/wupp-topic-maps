@@ -358,17 +358,20 @@ export class DocViewer_ extends React.Component {
 			};
 		}
 
-		let w = '100%';
+		let w;
 		if ((this.props.docs.docs || []).length > 1) {
 			w = this.props.uiState.width - sidebarWidth + 17;
+		} else {
+			w = this.props.uiState.width;
 		}
 
-		const mapStyle = {
+		this.mapStyle = {
 			height: this.props.uiState.height - 50,
 			width: w,
 			cursor: this.props.cursor,
 			backgroundColor: 'white'
 		};
+
 		let menuIsHidden = false;
 		if (this.props.uiState.width < 768) {
 			menuIsHidden = true;
@@ -536,9 +539,6 @@ export class DocViewer_ extends React.Component {
 									if (doc.group !== 'Zusatzdokumente') {
 										iconname = 'file-pdf-o';
 									}
-									if (doc.hideInDocViewer === true) {
-										return;
-									}
 
 									if (index === this.props.match.params.file - 1) {
 										numPages = doc.pages;
@@ -606,7 +606,7 @@ export class DocViewer_ extends React.Component {
 															)
 															.replace(
 																'Info_BPlan-Zusatzdokumente_WUP_1-0',
-																'InfoDokument'
+																'Info Dateinamen'
 															)}
 													</p>
 													{progressBar}
@@ -641,7 +641,7 @@ export class DocViewer_ extends React.Component {
 										ref={(leafletMap) => {
 											this.leafletRoutedMap = leafletMap;
 										}}
-										style={mapStyle}
+										style={this.mapStyle}
 										// fallbackPosition={{
 										// 	lat: 0,
 										// 	lng: 0
@@ -744,8 +744,7 @@ export class DocViewer_ extends React.Component {
 				parseInt(this.props.match.params.page, 10) + 1
 			);
 		} else {
-			if (parseInt(this.props.match.params.file, 10) < this.props.docs.docs.length - 1) {
-				//-1 because of the hiding of the info doc
+			if (parseInt(this.props.match.params.file, 10) < this.props.docs.docs.length) {
 				this.pushRouteForPage(
 					this.props.match.params.topic,
 					this.props.match.params.docPackageId,
@@ -777,7 +776,7 @@ export class DocViewer_ extends React.Component {
 				this.pushRouteForPage(
 					this.props.match.params.topic,
 					this.props.match.params.docPackageId,
-					this.props.docs.docs.length - 1, //-1 because of the hiding of the info doc
+					this.props.docs.docs.length,
 					1
 				);
 			}
@@ -806,12 +805,14 @@ export class DocViewer_ extends React.Component {
 	};
 
 	getOptimalBounds = (forDimension) => {
+		//	console.log('this.props', this.props);
+
 		const meta = this.props.docs.docs[this.props.docs.docIndex].meta;
 		const dimensions = [ meta['layer' + this.props.docs.pageIndex].x, meta['layer' + this.props.docs.pageIndex].y ];
-		const leafletSize = this.leafletRoutedMap.leafletMap.leafletElement._size; //x,y
-
+		//const leafletSize = this.leafletRoutedMap.leafletMap.leafletElement._size; //x,y
+		const leafletSize = { x: this.mapStyle.width - 100, y: this.mapStyle.height };
 		if (forDimension) {
-			const leafletSize = this.leafletRoutedMap.leafletMap.leafletElement._size; //x,y
+			//const leafletSize = { x: this.mapStyle.width, y: this.mapStyle.height };
 			let layer = this.getLayer();
 
 			if (leafletSize.x / leafletSize.y < 1) {

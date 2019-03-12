@@ -214,14 +214,17 @@ function convertPropArrayToFeature(propArray, counter) {
 	} else {
 		plaene_nrk = [];
 	}
-	let docs;
+	let docs = [];
 	if (propArray[5] != null) {
-		docs = JSON.parse(propArray[5]);
 		docs.push({
-			hideInDocViewer: true,
 			file: 'Info_BPlan-Zusatzdokumente_WUP_1-0.pdf',
 			url: 'https://wunda-geoportal-docs.cismet.de/bplaene_dokumente/Info_BPlan-Zusatzdokumente_WUP_1-0.pdf'
 		});
+		const zusatzDocs = JSON.parse(propArray[5]);
+		for (const zd of zusatzDocs) {
+			docs.push(zd);
+		}
+		//docs.push(zusatzDocs);
 	} else {
 		docs = [];
 	}

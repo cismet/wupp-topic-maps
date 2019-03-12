@@ -616,6 +616,12 @@ export class DocViewer_ extends React.Component {
 															.replace('BPL_' + this.props.docs.docPackageId + '_0_', '')
 															.replace('BPL_' + this.props.docs.docPackageId + '_', '')
 															.replace(
+																'BPL_' +
+																	this.pad(this.props.docs.docPackageId, 4) +
+																	'_',
+																''
+															)
+															.replace(
 																'Info_BPlan-Zusatzdokumente_WUP_1-0',
 																'InfoDokument'
 															)}
@@ -921,6 +927,10 @@ export class DocViewer_ extends React.Component {
 		} else {
 			return undefined;
 		}
+	};
+	pad = (num, size) => {
+		var s = '000000000' + num;
+		return s.substr(s.length - size);
 	};
 }
 

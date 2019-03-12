@@ -538,8 +538,6 @@ export class DocViewer_ extends React.Component {
 									}
 									if (doc.hideInDocViewer === true) {
 										return;
-									} else {
-										console.log(doc);
 									}
 
 									if (index === this.props.match.params.file - 1) {

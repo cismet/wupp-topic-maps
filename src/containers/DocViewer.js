@@ -228,20 +228,6 @@ export class DocViewer_ extends React.Component {
 								});
 							}
 							for (const doc of bplan.plaene_nrk) {
-								// let pagecount = this.props.docs.pages[this.replaceUmlauteAndSpaces(doc.file)].pages;
-								// let pageinfo = [];
-
-								// for (let i = 0; i < pagecount; ++i) {
-								// 	if (pagecount > 1) {
-								// 		pageinfo.push(
-								// 			this.props.docs.layers[this.replaceUmlauteAndSpaces(doc.file + '-' + i)]
-								// 		);
-								// 	} else {
-								// 		pageinfo.push(
-								// 			this.props.docs.layers[this.replaceUmlauteAndSpaces(doc.file)]
-								// 		);
-								// 	}
-								// }
 								docs.push({
 									group: 'nicht_rechtskraeftig',
 									file: doc.file,
@@ -261,19 +247,6 @@ export class DocViewer_ extends React.Component {
 								});
 							}
 							for (const doc of bplan.docs) {
-								// let pagecount = this.props.docs.pages[this.replaceUmlauteAndSpaces(doc.file)].pages;
-								// let pageinfo = [];
-
-								// for (let i = 0; i < pagecount; ++i) {
-								// 	if (pagecount > 1) {
-								// 		pageinfo.push(
-								// 			this.props.docs.layers[this.replaceUmlauteAndSpaces(doc.file + '-' + i)]
-								// 		);
-								// 	} else {
-								// 		pageinfo.push(this.props.docs.layers[this.replaceUmlauteAndSpaces(doc.file)]);
-								// 	}
-								// }
-
 								docs.push({
 									group: 'Zusatzdokumente',
 									file: doc.file,
@@ -281,7 +254,7 @@ export class DocViewer_ extends React.Component {
 										'https://wunda-geoportal-docs.cismet.de/',
 										'https://wunda-geoportal-docs.cismet.de/'
 									),
-
+									hideInDocViewer: doc.hideInDocViewer,
 									layer: this.replaceUmlauteAndSpaces(
 										doc.url.replace('https://wunda-geoportal-docs.cismet.de/', tileservice) +
 											'/{z}/{x}/{y}.png'
@@ -563,6 +536,12 @@ export class DocViewer_ extends React.Component {
 									if (doc.group !== 'Zusatzdokumente') {
 										iconname = 'file-pdf-o';
 									}
+									if (doc.hideInDocViewer === true) {
+										return;
+									} else {
+										console.log(doc);
+									}
+
 									if (index === this.props.match.params.file - 1) {
 										numPages = doc.pages;
 										currentPage = this.props.docs.pageIndex + 1;
@@ -767,7 +746,8 @@ export class DocViewer_ extends React.Component {
 				parseInt(this.props.match.params.page, 10) + 1
 			);
 		} else {
-			if (parseInt(this.props.match.params.file, 10) < this.props.docs.docs.length) {
+			if (parseInt(this.props.match.params.file, 10) < this.props.docs.docs.length - 1) {
+				//-1 because of the hiding of the info doc
 				this.pushRouteForPage(
 					this.props.match.params.topic,
 					this.props.match.params.docPackageId,
@@ -799,7 +779,7 @@ export class DocViewer_ extends React.Component {
 				this.pushRouteForPage(
 					this.props.match.params.topic,
 					this.props.match.params.docPackageId,
-					this.props.docs.docs.length,
+					this.props.docs.docs.length - 1, //-1 because of the hiding of the info doc
 					1
 				);
 			}

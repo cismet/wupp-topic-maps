@@ -496,18 +496,20 @@ export class DocViewer_ extends React.Component {
 						<Nav>
 							<NavItem
 								onClick={() => this.prevPage()}
+								title="vorherige Seite"
 								disabled={this.props.docs.loadingState !== LOADING_FINISHED}
 								eventKey={2}
 								href="#"
 							>
 								<Icon name="chevron-left" />
 							</NavItem>
-							<NavItem eventKey={1} href="#">
+							<NavItem onClick={() => this.gotoWholeDocument()} eventKey={1} href="#">
 								{/* {this.state.docIndex + 1} / {this.props.docs.docs.length} -  */}
 								{(this.props.docs.pageIndex || this.props.docs.futurePageIndex) + 1} {numPages}
 							</NavItem>
 							<NavItem
 								onClick={() => this.nextPage()}
+								title="nächste Seite"
 								disabled={this.props.docs.loadingState !== LOADING_FINISHED}
 								eventKey={1}
 								href="#"
@@ -517,21 +519,32 @@ export class DocViewer_ extends React.Component {
 						</Nav>
 						<Navbar.Text>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </Navbar.Text>
 						<Nav>
-							<NavItem onClick={() => this.gotoWholeWidth()} eventKey={2} href="#">
+							<NavItem
+								title="maximale Breite"
+								onClick={() => this.gotoWholeWidth()}
+								eventKey={2}
+								href="#"
+							>
 								<Icon name="arrows-h" />
 							</NavItem>
-							<NavItem onClick={() => this.gotoWholeHeight()} eventKey={1} href="#">
+							<NavItem title="ganze Seite" onClick={() => this.gotoWholeHeight()} eventKey={1} href="#">
 								<Icon name="arrows-v" />
 							</NavItem>
 						</Nav>
 
 						<Nav pullRight>
-							<NavItem disabled={false && !downloadAvailable} href={downloadURL} target="_blank">
+							<NavItem
+								title="Dokument herunterladen (pdf)"
+								disabled={false && !downloadAvailable}
+								href={downloadURL}
+								target="_blank"
+							>
 								<Icon name="download" />
 							</NavItem>
 
 							<NavItem
 								disabled={!downloadAvailable || this.props.docs.docs.length < 2}
+								title="alles herunterladen (zip)"
 								eventKey={1}
 								href="#"
 								onClick={() => {
@@ -545,7 +558,7 @@ export class DocViewer_ extends React.Component {
 									name={this.state.downloadArchiveIcon}
 								/>
 							</NavItem>
-							<NavItem disabled={true} eventKey={2} href="#">
+							<NavItem title="Info B-Pläne" disabled={true} eventKey={2} href="#">
 								<Icon name="question-circle" />
 							</NavItem>
 						</Nav>

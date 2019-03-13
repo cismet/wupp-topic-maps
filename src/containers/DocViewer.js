@@ -123,6 +123,11 @@ export class DocViewer_ extends React.Component {
 			downloadArchivePrepInProgress: false
 		};
 	}
+	componentWillMount() {
+		this.props.gazetteerTopicsActions.loadTopicsData([ 'bplaene' ]).then(() => {
+			console.log('gazDataLoaded');
+		});
+	}
 
 	componentDidMount() {
 		this.componentDidUpdate();
@@ -136,6 +141,7 @@ export class DocViewer_ extends React.Component {
 		const docIndex = fileNumberParam - 1;
 		const pageIndex = pageNumberParam - 1;
 		const currentlyLoading = this.isLoading();
+		document.title = 'Dokumentenansicht | ' + this.props.match.params.docPackageId;
 
 		const keepLatLng = new URLSearchParams(this.props.routing.location.search).get('keepLatLng');
 
@@ -267,13 +273,12 @@ export class DocViewer_ extends React.Component {
 								});
 							}
 							this.props.docsActions.setDocsInformationAndInitializeCaches(docs);
-
 							this.props.docsActions.loadPage(docPackageIdParam, docIndex, pageIndex, () => {
 								setTimeout(() => {
 									if (this.props.docs.docs[docIndex] && this.props.docs.docs[docIndex].meta) {
 										this.gotoWholeDocument();
 									}
-								}, 200);
+								}, 1);
 							});
 						}
 					}
@@ -285,14 +290,15 @@ export class DocViewer_ extends React.Component {
 			(this.props.docs.docIndex !== undefined && this.props.docs.docIndex !== this.props.match.params.file - 1) ||
 			(this.props.docs.pageIndex !== undefined && this.props.docs.pageIndex !== this.props.match.params.page - 1)
 		) {
+			//Existing docPackage but newPage or new documnet but finished with loading
 			if (this.props.docs.docs.length > 0) {
-				this.props.docsActions.loadPage(docPackageIdParam, docIndex, pageIndex, () =>
+				this.props.docsActions.loadPage(docPackageIdParam, docIndex, pageIndex, () => {
 					setTimeout(() => {
 						if (this.props.docs.docs[docIndex] && this.props.docs.docs[docIndex].meta) {
 							this.gotoWholeDocument();
 						}
-					}, 200)
-				);
+					}, 1);
+				});
 			}
 		} else {
 			//console.log('dont load', this.state);
@@ -409,6 +415,9 @@ export class DocViewer_ extends React.Component {
 					maxNativeZoom={layer.meta['layer' + this.props.docs.pageIndex].maxZoom}
 				/>
 			);
+			if (this.leafletRoutedMap) {
+				this.leafletRoutedMap.leafletMap.leafletElement.invalidateSize();
+			}
 		} else {
 		}
 
@@ -670,10 +679,7 @@ export class DocViewer_ extends React.Component {
 										zoomDelta={1}
 										onclick={(e) => {}}
 									>
-										{this.getLayer() &&
-										this.getLayer().layerBounds && (
-											<Rectangle bounds={this.getLayer().layerBounds} color="#D8D8D8D8" />
-										)}
+										{this.documentBoundsRectangle()}
 										{docLayer}
 										{this.props.docs.docIndex !== undefined &&
 										this.props.docs.docs.length > 0 &&
@@ -804,10 +810,12 @@ export class DocViewer_ extends React.Component {
 	};
 
 	getOptimalBounds = (forDimension) => {
+		console.log('TCL: DocViewer_ -> getOptimalBounds');
+
 		const meta = this.props.docs.docs[this.props.docs.docIndex].meta;
 		const dimensions = [ meta['layer' + this.props.docs.pageIndex].x, meta['layer' + this.props.docs.pageIndex].y ];
 		//const leafletSize = this.leafletRoutedMap.leafletMap.leafletElement._size; //x,y
-		const leafletSize = { x: this.mapStyle.width - 100, y: this.mapStyle.height };
+		const leafletSize = { x: this.mapStyle.width, y: this.mapStyle.height };
 		if (forDimension) {
 			//const leafletSize = { x: this.mapStyle.width, y: this.mapStyle.height };
 			let layer = this.getLayer();
@@ -861,6 +869,16 @@ export class DocViewer_ extends React.Component {
 		this.leafletRoutedMap.leafletMap.leafletElement.fitBounds(hb);
 	};
 
+	documentBoundsRectangle = () => {
+		if (this.getLayer() && this.getLayer().layerBounds) {
+			const lb = this.getLayer().layerBounds;
+			const bounds = [ [ lb[0][0].lat, lb[0][0].lng ], [ lb[0][1].lat, lb[0][1].lng ] ];
+			return <Rectangle bounds={bounds} color="#D8D8D8D8" />;
+		} else {
+			return null;
+		}
+	};
+
 	replaceUmlauteAndSpaces(str) {
 		const umlautMap = {
 			Ü: 'UE',
@@ -889,7 +907,6 @@ export class DocViewer_ extends React.Component {
 					layerUrl = layerUrl.replace('.pdf/', `.pdf-${this.props.docs.pageIndex}/`);
 				}
 
-				//			 const meta = this.props.docs.docs[this.props.docs.docIndex].pageinfo[this.props.docs.pageIndex];
 				const dimensions = [
 					meta['layer' + this.props.docs.pageIndex].x,
 					meta['layer' + this.props.docs.pageIndex].y

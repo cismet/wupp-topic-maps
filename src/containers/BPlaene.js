@@ -241,6 +241,7 @@ export class BPlaene_ extends React.Component {
 			prevProps.mapping.selectedIndex !== this.props.mapping.selectedIndex ||
 			(JSON.stringify(prevProps.mapping.featureCollection.map((x) => x.id)) !==
 				JSON.stringify(this.props.mapping.featureCollection.map((x) => x.id)) &&
+				this.props.mapping.featureCollection &&
 				this.props.mapping.featureCollection.length > 0)
 		) {
 			if (new URLSearchParams(this.props.routing.location.search).get('syncDocViewer') !== null) {

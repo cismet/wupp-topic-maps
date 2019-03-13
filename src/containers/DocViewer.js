@@ -176,6 +176,7 @@ export class DocViewer_ extends React.Component {
 		}
 
 		if (this.props.docs.docPackageId !== docPackageIdParam || this.props.docs.topic !== topicParam) {
+			this.props.docsActions.initialize();
 			let gazHit;
 			this.props.docsActions.setDelayedLoadingState(docPackageIdParam, docIndex, pageIndex);
 
@@ -272,13 +273,24 @@ export class DocViewer_ extends React.Component {
 									)
 								});
 							}
-							this.props.docsActions.setDocsInformationAndInitializeCaches(docs);
-							this.props.docsActions.loadPage(docPackageIdParam, docIndex, pageIndex, () => {
-								setTimeout(() => {
-									if (this.props.docs.docs[docIndex] && this.props.docs.docs[docIndex].meta) {
-										this.gotoWholeDocument();
-									}
-								}, 1);
+							this.props.docsActions.setDocsInformation(docs, () => {
+								this.props.docsActions.finished(docPackageIdParam, docIndex, pageIndex, () => {
+									setTimeout(() => {
+										if (this.props.docs.docs[docIndex] && this.props.docs.docs[docIndex].meta) {
+											this.gotoWholeDocument();
+										} else {
+											console.log('dont go breaking my heart');
+											console.log(
+												'this.props.docs.docs[docIndex]',
+												this.props.docs.docs[docIndex]
+											);
+											console.log(
+												'this.props.docs.docs[docIndex].meta',
+												this.props.docs.docs[docIndex].meta
+											);
+										}
+									}, 1);
+								});
 							});
 						}
 					}
@@ -292,7 +304,7 @@ export class DocViewer_ extends React.Component {
 		) {
 			//Existing docPackage but newPage or new documnet but finished with loading
 			if (this.props.docs.docs.length > 0) {
-				this.props.docsActions.loadPage(docPackageIdParam, docIndex, pageIndex, () => {
+				this.props.docsActions.finished(docPackageIdParam, docIndex, pageIndex, () => {
 					setTimeout(() => {
 						if (this.props.docs.docs[docIndex] && this.props.docs.docs[docIndex].meta) {
 							this.gotoWholeDocument();
@@ -396,7 +408,12 @@ export class DocViewer_ extends React.Component {
 		}
 
 		let docLayer = <div />;
-		let layer = this.getLayer();
+		let layer = this.getLayer(this.props.match.params.docPackageId);
+		let fallbackPosition = {
+			lat: 0,
+			lng: 0
+		};
+		let fallbackZoom = 2;
 
 		if (layer) {
 			docLayer = (
@@ -417,12 +434,23 @@ export class DocViewer_ extends React.Component {
 			);
 			if (this.leafletRoutedMap) {
 				this.leafletRoutedMap.leafletMap.leafletElement.invalidateSize();
+				fallbackZoom = this.leafletRoutedMap.leafletMap.leafletElement.getBoundsZoom(
+					this.getPureArrayBounds4LatLngBounds(layer.layerBounds)
+				);
 			}
-		} else {
+
+			fallbackPosition = {
+				lat: (layer.layerBounds[0][0].lat + layer.layerBounds[0][1].lat) / 2,
+				lng: (layer.layerBounds[0][0].lng + layer.layerBounds[0][1].lng) / 2
+			};
 		}
 
 		let problemWithDocPreviewAlert = null;
-		if (layer === undefined && this.props.docs.docIndex !== undefined) {
+		if (
+			layer === undefined &&
+			this.props.docs.docIndex !== undefined &&
+			this.props.docs.loadingState === LOADING_FINISHED
+		) {
 			problemWithDocPreviewAlert = (
 				<div
 					style={{
@@ -638,7 +666,7 @@ export class DocViewer_ extends React.Component {
 						)}
 						<Column style={{ width: '100%' }} horizontal="stretch">
 							<Loadable
-								active={this.props.docs.loadingState === LOADING_OVERLAY && false}
+								active={this.props.docs.loadingState === LOADING_OVERLAY}
 								spinner
 								text={this.props.docs.loadingText || 'Laden der Datei ...'}
 								content={<h1>test</h1>}
@@ -651,10 +679,8 @@ export class DocViewer_ extends React.Component {
 											this.leafletRoutedMap = leafletMap;
 										}}
 										style={this.mapStyle}
-										// fallbackPosition={{
-										// 	lat: 0,
-										// 	lng: 0
-										// }}
+										fallbackPosition={fallbackPosition}
+										fallbackZoom={fallbackZoom}
 										ondblclick={this.props.ondblclick}
 										// onclick={this.props.onclick}
 										locationChangedHandler={(location) => {
@@ -670,7 +696,6 @@ export class DocViewer_ extends React.Component {
 											// this.props.mappingBoundsChanged(bbox);
 										}}
 										backgroundlayers={'no'}
-										fallbackZoom={2}
 										fullScreenControlEnabled={true}
 										locateControlEnabled={false}
 										minZoom={1}
@@ -850,6 +875,7 @@ export class DocViewer_ extends React.Component {
 	};
 
 	gotoWholeDocument = () => {
+		console.log('TCL: DocViewer_ -> gotoWholeDocument -> gotoWholeDocument');
 		let wb = this.getOptimalBounds();
 		//this.props.docsActions.setDebugBounds(wb);
 		this.leafletRoutedMap.leafletMap.leafletElement.invalidateSize();
@@ -869,10 +895,14 @@ export class DocViewer_ extends React.Component {
 		this.leafletRoutedMap.leafletMap.leafletElement.fitBounds(hb);
 	};
 
+	getPureArrayBounds4LatLngBounds = (llBounds) => {
+		return [ [ llBounds[0][0].lat, llBounds[0][0].lng ], [ llBounds[0][1].lat, llBounds[0][1].lng ] ];
+	};
+
 	documentBoundsRectangle = () => {
 		if (this.getLayer() && this.getLayer().layerBounds) {
 			const lb = this.getLayer().layerBounds;
-			const bounds = [ [ lb[0][0].lat, lb[0][0].lng ], [ lb[0][1].lat, lb[0][1].lng ] ];
+			const bounds = this.getPureArrayBounds4LatLngBounds(lb);
 			return <Rectangle bounds={bounds} color="#D8D8D8D8" />;
 		} else {
 			return null;
@@ -928,6 +958,7 @@ export class DocViewer_ extends React.Component {
 			return undefined;
 		}
 	};
+
 	pad = (num, size) => {
 		var s = '000000000' + num;
 		return s.substr(s.length - size);

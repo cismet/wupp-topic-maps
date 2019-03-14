@@ -31,6 +31,7 @@ import Loadable from 'react-loading-overlay';
 import { Column, Row } from 'simple-flexbox';
 
 import filesize from 'filesize';
+import scrollIntoViewIfNeeded from 'scroll-into-view-if-needed';
 
 L.RasterCoords = function(map, imgsize, tilesize) {
 	this.map = map;
@@ -131,6 +132,7 @@ export class DocViewer_ extends React.Component {
 
 	componentDidMount() {
 		this.componentDidUpdate();
+		this.selectionDivElement = <div ref={(comp) => (this.selectionDivRef = comp)} />; // add SELECTION+1 as text to the divto see the principle
 	}
 
 	componentDidUpdate(prevProps, prevState) {
@@ -314,6 +316,11 @@ export class DocViewer_ extends React.Component {
 			}
 		} else {
 			//console.log('dont load', this.state);
+		}
+
+		console.log('this.selectionDivRef', this.selectionDivRef);
+		if (this.selectionDivRef) {
+			this.scrollToVisible(this.selectionDivRef);
 		}
 	}
 
@@ -594,7 +601,7 @@ export class DocViewer_ extends React.Component {
 									if (doc.group !== 'Zusatzdokumente') {
 										iconname = 'file-pdf-o';
 									}
-
+									let selectionMarker = undefined;
 									if (index === this.props.match.params.file - 1) {
 										numPages = doc.pages;
 										currentPage = this.props.docs.pageIndex + 1;
@@ -602,14 +609,21 @@ export class DocViewer_ extends React.Component {
 										pageStatus = `${currentPage} / ${numPages}`;
 										progressBar = (
 											<ProgressBar
-												style={{ height: '5px', marginTop: 0, marginBottom: 0 }}
+												style={{
+													height: '5px',
+													marginTop: 0,
+													marginBottom: 0,
+													autofocus: 'true'
+												}}
 												max={numPages}
 												min={0}
 												now={parseInt(currentPage, 10)}
 											/>
 										);
 									}
-
+									if (index === parseInt(this.props.match.params.file, 10)) {
+										selectionMarker = this.selectionDivElement;
+									}
 									return (
 										<div
 											style={{
@@ -651,6 +665,7 @@ export class DocViewer_ extends React.Component {
 																'Info Dateinamen'
 															)}
 													</p>
+													{selectionMarker}
 													{progressBar}
 													<p
 														style={{
@@ -967,6 +982,11 @@ export class DocViewer_ extends React.Component {
 	pad = (num, size) => {
 		var s = '000000000' + num;
 		return s.substr(s.length - size);
+	};
+	scrollToVisible = (element) => {
+		scrollIntoViewIfNeeded(element, false, {
+			duration: 250
+		});
 	};
 }
 

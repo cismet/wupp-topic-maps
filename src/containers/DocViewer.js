@@ -639,23 +639,10 @@ export class DocViewer_ extends React.Component {
 														}}
 													>
 														{doc.file
-															.replace('.pdf', '')
-															.replace('BPL_' + this.props.docs.docPackageId + '_0_', '')
-															.replace('BPL_' + this.props.docs.docPackageId + '_', '')
+															.replace(/.pdf$/, '')
+															.replace(/^BPL_n*\d*_(0_)*/, '')
 															.replace(
-																'BPL_' +
-																	this.pad(this.props.docs.docPackageId, 4) +
-																	'_0_',
-																''
-															)
-															.replace(
-																'BPL_' +
-																	this.pad(this.props.docs.docPackageId, 4) +
-																	'_',
-																''
-															)
-															.replace(
-																'Info_BPlan-Zusatzdokumente_WUP_1-0',
+																/Info_BPlan-Zusatzdokumente_WUP_.*/,
 																'Info Dateinamen'
 															)}
 													</p>

@@ -325,6 +325,7 @@ export class BPlaene_ extends React.Component {
 					searchMaxZoom={18}
 					searchAfterGazetteer={true}
 					gazTopics={[ 'pois', 'bplaene', 'adressen' ]}
+					gazBoxInfoText=" B-Plan-Nr. | Adresse | POI"
 					infoBox={info}
 				/>
 			</div>

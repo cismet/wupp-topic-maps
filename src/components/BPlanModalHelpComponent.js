@@ -121,10 +121,9 @@ export class BPlanModalHelp_ extends React.Component {
 							komplizierten Geltungsbereich zu verschaffen. (Probieren Sie mal die Nummer 150.)
 							<br />
 							Klicken Sie auf&nbsp;
-							<Icon name="search" />
-							, um alle Pl&auml;ne hinzuzuladen, die im jetzt aktuellen Ausschnitt liegen. Damit stellen
-							Sie auch sicher, dass Sie keinen Plan &uuml;bersehen, der sich mit dem zuvor gesuchten
-							&uuml;berlappt.
+							<Icon name="search" />&nbsp;, um alle Pl&auml;ne hinzuzuladen, die im jetzt aktuellen
+							Ausschnitt liegen. Damit stellen Sie auch sicher, dass Sie keinen Plan &uuml;bersehen, der
+							sich mit dem zuvor gesuchten &uuml;berlappt.
 						</Panel>
 						<Panel header="Suche &uuml;ber Adresse oder POI" eventKey="5" bsStyle="success">
 							Um die B-Plan-Situation an einem bestimmten Punkt des Stadtgebietes zu erkunden, geben Sie

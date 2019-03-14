@@ -520,14 +520,19 @@ export class DocViewer_ extends React.Component {
 						<Navbar.Text>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </Navbar.Text>
 						<Nav>
 							<NavItem
-								title="maximale Breite"
+								title="an Fensterbreite anpassen"
 								onClick={() => this.gotoWholeWidth()}
 								eventKey={2}
 								href="#"
 							>
 								<Icon name="arrows-h" />
 							</NavItem>
-							<NavItem title="ganze Seite" onClick={() => this.gotoWholeHeight()} eventKey={1} href="#">
+							<NavItem
+								title="an Fensterhöhe anpassen"
+								onClick={() => this.gotoWholeHeight()}
+								eventKey={1}
+								href="#"
+							>
 								<Icon name="arrows-v" />
 							</NavItem>
 						</Nav>

@@ -18,6 +18,7 @@ import { Icon } from 'react-fa';
 
 import { proj4crs25832def } from '../constants/gis';
 import proj4 from 'proj4';
+// import { WMSTileLayer } from 'react-leaflet';
 
 function mapStateToProps(state) {
 	return {
@@ -327,7 +328,43 @@ export class BPlaene_ extends React.Component {
 					gazTopics={[ 'pois', 'bplaene', 'adressen' ]}
 					gazBoxInfoText=" B-Plan-Nr. | Adresse | POI"
 					infoBox={info}
-				/>
+				>
+					{/* <WMSTileLayer
+						ref={(c) => (this.modelLayer = c)}
+						//http://s10221:9988/rasterfariWMS?
+						// REQUEST=GetMap&
+						// SERVICE=WMS&
+						// SRS=EPSG:25832&
+						// BBOX=372591.0362606519,5678090.733242024,374105.89883934817,5678771.362057976&
+						// WIDTH=1144&
+						// HEIGHT=514&
+						// LAYERS=R156_DBB
+
+						//s10221:9988/rasterfariWMS?
+						// SERVICE=WMS&service=WMS&
+						// request=GetMap&
+						// layers=R156_DBB&
+						// styles=default&
+						// format=image%2Fpng&transparent=true&
+						// version=1.1.1&
+						// tiled=true&
+						// width=256&
+						// height=256&
+						// srs=EPSG%3A25832&
+						// bbox=372978.7138452329,5678096.292841828,373284.46195837285,5678402.04095497
+
+						url="http://s10221:9988/rasterfariWMS?SRS=EPSG:25832&"
+						layers="R156_DBB"
+						//version="1.1.1"
+						transparent="true"
+						format="image/png"
+						tiled="true"
+						styles="default"
+						srs="EPSG:25832"
+						maxZoom={19}
+						opacity={1}
+					/> */}
+				</Cismap>
 			</div>
 		);
 	}

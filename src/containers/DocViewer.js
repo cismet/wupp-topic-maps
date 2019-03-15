@@ -124,11 +124,7 @@ export class DocViewer_ extends React.Component {
 			downloadArchivePrepInProgress: false
 		};
 	}
-	componentWillMount() {
-		this.props.gazetteerTopicsActions.loadTopicsData([ 'bplaene' ]).then(() => {
-			console.log('gazDataLoaded');
-		});
-	}
+	componentWillMount() {}
 
 	componentDidMount() {
 		this.componentDidUpdate();
@@ -136,6 +132,14 @@ export class DocViewer_ extends React.Component {
 	}
 
 	componentDidUpdate(prevProps, prevState) {
+		if (!this.props.allGazetteerTopics.bplaene) {
+			console.log('this.props.allGazetteerTopics', this.props.allGazetteerTopics);
+
+			this.props.gazetteerTopicsActions.loadTopicsData([ 'bplaene' ]).then(() => {
+				console.log('gazDataLoaded');
+			});
+			return;
+		}
 		const topicParam = this.props.match.params.topic;
 		const docPackageIdParam = this.props.match.params.docPackageId;
 		const fileNumberParam = this.props.match.params.file || 1;

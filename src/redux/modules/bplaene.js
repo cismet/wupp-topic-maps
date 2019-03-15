@@ -6,7 +6,7 @@ import { constants as mappingConstants } from './mapping';
 import { getPolygonfromBBox } from '../../utils/gisHelper';
 
 import { WUNDAAPI } from '../../constants/services';
-
+import { INFO_DOC_DATEINAMEN_NAME, INFO_DOC_DATEINAMEN_URL } from '../../constants/bplaene';
 ///TYPES
 export const types = {
 	SET_DOCUMENT_LOADING_INDICATOR: 'BPLAENE/SET_DOCUMENT_LOADING_INDICATOR',
@@ -217,8 +217,8 @@ function convertPropArrayToFeature(propArray, counter) {
 	let docs = [];
 	if (propArray[5] != null) {
 		docs.push({
-			file: 'Info_BPlan-Zusatzdokumente_WUP_1-0.pdf',
-			url: 'https://wunda-geoportal-docs.cismet.de/bplaene_dokumente/Info_BPlan-Zusatzdokumente_WUP_1-0.pdf'
+			file: INFO_DOC_DATEINAMEN_NAME,
+			url: INFO_DOC_DATEINAMEN_URL
 		});
 		const zusatzDocs = JSON.parse(propArray[5]);
 		for (const zd of zusatzDocs) {

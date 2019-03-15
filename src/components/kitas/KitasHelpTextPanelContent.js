@@ -1,44 +1,44 @@
-import React from "react";
-import { Link } from "react-scroll";
-import { Icon } from "react-fa";
-import { Label } from "react-bootstrap";
+import React from 'react';
+import { Link } from 'react-scroll';
+import { Icon } from 'react-fa';
+import { Label } from 'react-bootstrap';
 
 // Since this component is simple and static, there's no parent container for it.
 const KitasHelpTextPanel = () => {
   return (
     <div>
       <div>
-        <Link to="Datengrundlage" containerId="myMenu" style={{ textDecoration: "none" }}>
-          {" "}
-          <Label bsStyle="default">Datengrundlage</Label>{" "}
+        <Link to="Datengrundlage" containerId="myMenu" style={{ textDecoration: 'none' }}>
+          {' '}
+          <Label bsStyle="default">Datengrundlage</Label>{' '}
         </Link>
-        <Link to="KartendarstellungPOI" containerId="myMenu" style={{ textDecoration: "none" }}>
-          {" "}
-          <Label bsStyle="warning">Kartendarstellung der Kitas</Label>{" "}
+        <Link to="KartendarstellungPOI" containerId="myMenu" style={{ textDecoration: 'none' }}>
+          {' '}
+          <Label bsStyle="warning">Kartendarstellung der Kitas</Label>{' '}
         </Link>
-        <Link to="POIauswahluabfragen" containerId="myMenu" style={{ textDecoration: "none" }}>
-          {" "}
-          <Label bsStyle="warning">Kitas auswählen und abfragen</Label>{" "}
+        <Link to="POIauswahluabfragen" containerId="myMenu" style={{ textDecoration: 'none' }}>
+          {' '}
+          <Label bsStyle="warning">Kitas auswählen und abfragen</Label>{' '}
         </Link>
-        <Link to="InKartePositionieren" containerId="myMenu" style={{ textDecoration: "none" }}>
-          {" "}
-          <Label bsStyle="warning">In Karte positionieren</Label>{" "}
+        <Link to="InKartePositionieren" containerId="myMenu" style={{ textDecoration: 'none' }}>
+          {' '}
+          <Label bsStyle="warning">In Karte positionieren</Label>{' '}
         </Link>
-        <Link to="MeinStandort" containerId="myMenu" style={{ textDecoration: "none" }}>
-          {" "}
-          <Label bsStyle="warning">Mein Standort</Label>{" "}
+        <Link to="MeinStandort" containerId="myMenu" style={{ textDecoration: 'none' }}>
+          {' '}
+          <Label bsStyle="warning">Mein Standort</Label>{' '}
         </Link>
-        <Link to="MeinThemenstadtplan" containerId="myMenu" style={{ textDecoration: "none" }}>
-          {" "}
-          <Label bsStyle="primary">Filtern</Label>{" "}
+        <Link to="MeinThemenstadtplan" containerId="myMenu" style={{ textDecoration: 'none' }}>
+          {' '}
+          <Label bsStyle="primary">Filtern</Label>{' '}
         </Link>
-        <Link to="Einstellungen" containerId="myMenu" style={{ textDecoration: "none" }}>
-          {" "}
-          <Label bsStyle="success">Einstellungen</Label>{" "}
+        <Link to="Einstellungen" containerId="myMenu" style={{ textDecoration: 'none' }}>
+          {' '}
+          <Label bsStyle="success">Einstellungen</Label>{' '}
         </Link>
-        <Link to="Personalisierung" containerId="myMenu" style={{ textDecoration: "none" }}>
-          {" "}
-          <Label bsStyle="success">Personalisierung</Label>{" "}
+        <Link to="Personalisierung" containerId="myMenu" style={{ textDecoration: 'none' }}>
+          {' '}
+          <Label bsStyle="success">Personalisierung</Label>{' '}
         </Link>
       </div>
 
@@ -46,8 +46,8 @@ const KitasHelpTextPanel = () => {
         <br />
       </div>
       <h4>
-        Datengrundlage{" "}
-        <Link to="help" containerId="myMenu" style={{ color: "#00000044" }}>
+        Datengrundlage{' '}
+        <Link to="help" containerId="myMenu" style={{ color: '#00000044' }}>
           <Icon name="arrow-circle-up" />
         </Link>
       </h4>
@@ -56,13 +56,13 @@ const KitasHelpTextPanel = () => {
         des Regionalverbandes Ruhrgebiet. Dieses innovative Kartenwerk kombiniert das Straßennetz
         der OpenStreetMap mit den Gebäuden und Flächennutzungen aus dem Fachverfahren ALKIS des
         Liegenschaftskatasters. Das Stadtplanwerk 2.0 wird wöchentlich in einem automatischen
-        Prozess aktualisiert. Zusätzlich nutzt der Kita-Finder den Datensatz{" "}
+        Prozess aktualisiert. Zusätzlich nutzt der Kita-Finder den Datensatz{' '}
         <a
           href="https://offenedaten-wuppertal.de/dataset/kindertageseinrichtungen-wuppertal"
           target="_opendata"
         >
           Kindertageseinrichtungen Wuppertal
-        </a>{" "}
+        </a>{' '}
         des Stadtbetriebs "Tageseinrichtungen für Kinder - Jugendamt" aus dem Open-Data-Angebot der
         Stadt Wuppertal.
       </p>
@@ -71,8 +71,8 @@ const KitasHelpTextPanel = () => {
         <br />
       </div>
       <h4>
-        Kartendarstellung der Kitas{" "}
-        <Link to="help" containerId="myMenu" style={{ color: "#00000044" }}>
+        Kartendarstellung der Kitas{' '}
+        <Link to="help" containerId="myMenu" style={{ color: '#00000044' }}>
           <Icon name="arrow-circle-up" />
         </Link>
       </h4>
@@ -99,8 +99,8 @@ const KitasHelpTextPanel = () => {
         <br />
       </div>
       <h4>
-        Kitas auswählen und abfragen{" "}
-        <Link to="help" containerId="myMenu" style={{ color: "#00000044" }}>
+        Kitas auswählen und abfragen{' '}
+        <Link to="help" containerId="myMenu" style={{ color: '#00000044' }}>
           <Icon name="arrow-circle-up" />
         </Link>
       </h4>
@@ -114,13 +114,13 @@ const KitasHelpTextPanel = () => {
         Betreuungsumfang) werden unten rechts in der Info-Box angezeigt. (Auf einem Tablet-PC wird
         der Fokus durch das erste Antippen des Angebots gesetzt, das zweite Antippen blendet die
         Bezeichnung ein.) Außerdem werden Ihnen in der Info-Box weiterführende (Kommunikations-)
-        Links zur Kita angezeigt: <Icon name="external-link-square" /> Internet und{" "}
+        Links zur Kita angezeigt: <Icon name="external-link-square" /> Internet und{' '}
         <Icon name="phone" /> Telefon.
       </p>
       <p>
         Wenn Sie noch nicht aktiv eine bestimmte Kita im aktuellen Kartenausschnitt selektiert
         haben, wird der Fokus automatisch auf die nördlichste Einrichtung gesetzt. Mit den
-        Funktionen <img alt="Cluster" src="images/vorher_treffer.png" /> vorheriger Treffer und{" "}
+        Funktionen <img alt="Cluster" src="images/vorher_treffer.png" /> vorheriger Treffer und{' '}
         <img alt="Cluster" src="images/nachher_treffer.png" /> nächster Treffer können Sie ausgehend
         von der Kita, auf der gerade der Fokus liegt, in nördlicher bzw. südlicher Richtung alle
         aktuell im Kartenfenster angezeigten Kitas durchmustern.
@@ -130,8 +130,8 @@ const KitasHelpTextPanel = () => {
         <br />
       </div>
       <h4>
-        In Karte positionieren{" "}
-        <Link to="help" containerId="myMenu" style={{ color: "#00000044" }}>
+        In Karte positionieren{' '}
+        <Link to="help" containerId="myMenu" style={{ color: '#00000044' }}>
           <Icon name="arrow-circle-up" />
         </Link>
       </h4>
@@ -141,7 +141,7 @@ const KitasHelpTextPanel = () => {
         Kita-Namens im Eingabefeld links unten ein (mindestens 2 Zeichen). In der inkrementellen
         Auswahlliste werden Ihnen passende Treffer angeboten. (Wenn Sie weitere Zeichen eingeben,
         wird der Inhalt der Auswahlliste angepasst.) Durch das vorangestellte Symbol erkennen Sie,
-        ob es sich dabei um einen <Icon name="circle" /> Stadtbezirk, ein <Icon name="pie-chart" />{" "}
+        ob es sich dabei um einen <Icon name="circle" /> Stadtbezirk, ein <Icon name="pie-chart" />{' '}
         Quartier, eine <Icon name="home" /> Adresse, eine <Icon name="road" /> Straße ohne
         zugeordnete Hausnummern, einen <Icon name="tag" /> POI oder eine <Icon name="child" /> Kita
         handelt.
@@ -149,7 +149,7 @@ const KitasHelpTextPanel = () => {
       <p>
         Nach der Auswahl eines Treffers aus der Liste wird die Karte auf die zugehörige Position
         zentriert. Bei Suchbegriffen mit Punktgeometrie (Adresse, Straße, Kita) wird außerdem ein
-        großer Maßstab (Zoomstufe 14) eingestellt und ein Marker{" "}
+        großer Maßstab (Zoomstufe 14) eingestellt und ein Marker{' '}
         <img alt="Cluster" src="images/AdressMarker.jpg" /> auf der Zielposition platziert. Bei
         Suchbegriffen mit Flächengeometrie (Stadtbezirk, Quartier) wird der Maßstab so eingestellt,
         dass die Fläche vollständig dargestellt werden kann. Zusätzlich wird der Bereich außerhalb
@@ -165,17 +165,17 @@ const KitasHelpTextPanel = () => {
         <br />
       </div>
       <h4>
-        Mein Standort{" "}
-        <Link to="help" containerId="myMenu" style={{ color: "#00000044" }}>
+        Mein Standort{' '}
+        <Link to="help" containerId="myMenu" style={{ color: '#00000044' }}>
           <Icon name="arrow-circle-up" />
         </Link>
       </h4>
       <p>
         Mit der Funktion Mein Standort <Icon name="map-marker" /> können Sie ihren aktuellen
-        Standort mit einem blauen Kreissymbol{" "}
+        Standort mit einem blauen Kreissymbol{' '}
         <img alt="Cluster" src="images/MeinStandpunktMarker.jpg" /> in der Karte anzeigen. Das
         Standortsymbol ist umgeben von einem zweiten Kreis mit transparenter, blauer Füllung, dessen
-        Radius die Unsicherheit der Positionsbestimmung angibt{" "}
+        Radius die Unsicherheit der Positionsbestimmung angibt{' '}
         <img alt="Cluster" src="images/MeinStandpunktMarkerDoppel.jpg" />. Die Richtigkeit der
         Positionsanzeige ist dabei nicht garantiert, ihre Genauigkeit hängt davon ab, mit welcher
         Methode Ihr Endgerät und der von Ihnen verwendete Browser die Position bestimmen.
@@ -189,8 +189,8 @@ const KitasHelpTextPanel = () => {
         <br />
       </div>
       <h4>
-        Filtern{" "}
-        <Link to="help" containerId="myMenu" style={{ color: "#00000044" }}>
+        Filtern{' '}
+        <Link to="help" containerId="myMenu" style={{ color: '#00000044' }}>
           <Icon name="arrow-circle-up" />
         </Link>
       </h4>
@@ -254,13 +254,13 @@ const KitasHelpTextPanel = () => {
         <br />
       </div>
       <h4>
-        Einstellungen{" "}
-        <Link to="help" containerId="myMenu" style={{ color: "#00000044" }}>
+        Einstellungen{' '}
+        <Link to="help" containerId="myMenu" style={{ color: '#00000044' }}>
           <Icon name="arrow-circle-up" />
         </Link>
       </h4>
       <p>
-        Unter "<strong>Einstellungen</strong>" können Sie im Anwendungsmenü <Icon name="bars" />{" "}
+        Unter "<strong>Einstellungen</strong>" können Sie im Anwendungsmenü <Icon name="bars" />{' '}
         festlegen, wie die Kitas und die Hintergrundkarte angezeigt werden sollen. Zu den Kitas
         können Sie auswählen, ob Ihre unter "<strong>Filtern</strong>" festgelegten
         Filterbedingungen in einer Titelzeile ausgeprägt werden oder nicht. Weiter können Sie
@@ -302,8 +302,8 @@ const KitasHelpTextPanel = () => {
         <br />
       </div>
       <h4>
-        Personalisierung{" "}
-        <Link to="help" containerId="myMenu" style={{ color: "#00000044" }}>
+        Personalisierung{' '}
+        <Link to="help" containerId="myMenu" style={{ color: '#00000044' }}>
           <Icon name="arrow-circle-up" />
         </Link>
       </h4>

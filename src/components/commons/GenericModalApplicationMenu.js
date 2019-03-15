@@ -1,9 +1,9 @@
-import React from "react";
-import PropTypes from "prop-types";
-import { Modal, Button, Accordion } from "react-bootstrap";
-import { Icon } from "react-fa";
-import "react-bootstrap-switch/dist/css/bootstrap3/react-bootstrap-switch.min.css";
-import GenericRVRStadtplanwerkMenuFooter from "./GenericRVRStadtplanwerkMenuFooter";
+import React from 'react';
+import PropTypes from 'prop-types';
+import { Modal, Button, Accordion } from 'react-bootstrap';
+import { Icon } from 'react-fa';
+import 'react-bootstrap-switch/dist/css/bootstrap3/react-bootstrap-switch.min.css';
+import GenericRVRStadtplanwerkMenuFooter from './GenericRVRStadtplanwerkMenuFooter';
 
 const GenericModalApplicationMenu = ({
   menuIcon,
@@ -22,8 +22,8 @@ const GenericModalApplicationMenu = ({
   };
 
   const modalBodyStyle = {
-    overflowY: "auto",
-    overflowX: "hidden",
+    overflowY: 'auto',
+    overflowX: 'hidden',
     maxHeight: uiState.height - 200
   };
 
@@ -52,16 +52,16 @@ const GenericModalApplicationMenu = ({
       <Modal.Footer>
         <table
           style={{
-            width: "100%"
+            width: '100%'
           }}
         >
           <tbody>
             <tr>
               <td
                 style={{
-                  textAlign: "left",
-                  verticalAlign: "top",
-                  paddingRight: "30px"
+                  textAlign: 'left',
+                  verticalAlign: 'top',
+                  paddingRight: '30px'
                 }}
               >
                 {menuFooter}
@@ -101,8 +101,8 @@ GenericModalApplicationMenu.propTypes = {
 };
 
 GenericModalApplicationMenu.defaultProps = {
-  menuIcon: "bars",
-  menuTitle: "Einstellungen und Hilfe",
+  menuIcon: 'bars',
+  menuTitle: 'Einstellungen und Hilfe',
   menuSections: [],
   menuFooter: <GenericRVRStadtplanwerkMenuFooter />
 };

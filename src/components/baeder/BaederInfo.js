@@ -1,11 +1,11 @@
-import React from "react";
-import PropTypes from "prop-types";
-import InfoBox from "../commons/InfoBox";
-import { getColorForProperties } from "../../utils/baederHelper";
-import { triggerLightBoxForPOI } from "../../utils/stadtplanHelper";
-import { Well } from "react-bootstrap";
-import { Icon } from "react-fa";
-import IconLink from "../commons/IconLink";
+import React from 'react';
+import PropTypes from 'prop-types';
+import InfoBox from '../commons/InfoBox';
+import { getColorForProperties } from '../../utils/baederHelper';
+import { triggerLightBoxForPOI } from '../../utils/stadtplanHelper';
+import { Well } from 'react-bootstrap';
+import { Icon } from 'react-fa';
+import IconLink from '../commons/IconLink';
 // Since this component is simple and static, there's no parent container for it.
 const BaederInfo = ({
   featureCollection,
@@ -30,11 +30,11 @@ const BaederInfo = ({
 
     let adresse = currentFeature.properties.adresse;
 
-    if (currentFeature.properties.stadt !== "Wuppertal") {
-      adresse += ", " + currentFeature.properties.stadt;
+    if (currentFeature.properties.stadt !== 'Wuppertal') {
+      adresse += ', ' + currentFeature.properties.stadt;
     }
 
-    let info = "";
+    let info = '';
     if (currentFeature.properties.info) {
       info = currentFeature.properties.info;
     }
@@ -45,7 +45,7 @@ const BaederInfo = ({
         <IconLink
           key={`IconLink.tel`}
           tooltip="Anrufen"
-          href={"tel:" + currentFeature.properties.tel}
+          href={'tel:' + currentFeature.properties.tel}
           iconname="phone"
         />
       );
@@ -55,7 +55,7 @@ const BaederInfo = ({
         <IconLink
           key={`IconLink.email`}
           tooltip="E-Mail schreiben"
-          href={"mailto:" + currentFeature.properties.email}
+          href={'mailto:' + currentFeature.properties.email}
           iconname="envelope-square"
         />
       );
@@ -87,10 +87,10 @@ const BaederInfo = ({
 
     if (currentFeature.properties.foto) {
       fotoPreview = (
-        <table style={{ width: "100%" }}>
+        <table style={{ width: '100%' }}>
           <tbody>
             <tr>
-              <td style={{ textAlign: "right", verticalAlign: "top" }}>
+              <td style={{ textAlign: 'right', verticalAlign: 'top' }}>
                 <a
                   onClick={() => {
                     triggerLightBoxForPOI(currentFeature, uiStateActions);
@@ -100,10 +100,10 @@ const BaederInfo = ({
                 >
                   <img
                     alt="Bild"
-                    style={{ paddingBottom: "5px" }}
+                    style={{ paddingBottom: '5px' }}
                     src={currentFeature.properties.foto.replace(
                       /http:\/\/.*fotokraemer-wuppertal\.de/,
-                      "https://wunda-geoportal-fotos.cismet.de/"
+                      'https://wunda-geoportal-fotos.cismet.de/'
                     )}
                     width="150"
                   />
@@ -139,7 +139,7 @@ const BaederInfo = ({
         additionalInfo={info}
         zoomToAllLabel={`${items.length} Bäder in Wuppertal`}
         currentlyShownCountLabel={`${featureCollection.length} ${
-          featureCollection.length === 1 ? "Bad" : "Bäder"
+          featureCollection.length === 1 ? 'Bad' : 'Bäder'
         } angezeigt`}
         fotoPreview={fotoPreview}
       />

@@ -1,4 +1,4 @@
-import objectAssign from "object-assign";
+import objectAssign from 'object-assign';
 
 const makeDataWithMD5CheckDuckFor = (section, substateResolver) => {
   const actionTypes = {
@@ -38,7 +38,7 @@ const makeDataWithMD5CheckDuckFor = (section, substateResolver) => {
           ],
           done: () => {},
           manualReloadRequested: false,
-          dataURL: "/404",
+          dataURL: '/404',
           errorHandler: err => {
             console.err(err);
           }
@@ -47,9 +47,9 @@ const makeDataWithMD5CheckDuckFor = (section, substateResolver) => {
         const state = substateResolver(getState());
         // console.log('state in higherorder duck',state)
         let noCacheHeaders = new Headers();
-        noCacheHeaders.append("pragma", "no-cache");
-        noCacheHeaders.append("cache-control", "no-cache");
-        return fetch(`${config.dataURL}.md5`, { method: "get", headers: noCacheHeaders })
+        noCacheHeaders.append('pragma', 'no-cache');
+        noCacheHeaders.append('cache-control', 'no-cache');
+        return fetch(`${config.dataURL}.md5`, { method: 'get', headers: noCacheHeaders })
           .then(response => {
             if (response.ok) {
               return response.text();
@@ -60,19 +60,19 @@ const makeDataWithMD5CheckDuckFor = (section, substateResolver) => {
           .then(md5value => {
             md5 = md5value.trim();
             if (config.manualReloadRequested) {
-              console.log("Fetch Data because of alwaysRefreshPOIsOnReload Parameter");
-              return "fetchit";
+              console.log('Fetch Data because of alwaysRefreshPOIsOnReload Parameter');
+              return 'fetchit';
             }
 
             if (md5 === state.md5 && constants.DEBUG_ALWAYS_LOADING === false) {
               config.done(dispatch);
-              throw "CACHEHIT";
+              throw 'CACHEHIT';
             } else {
-              return "fetchit";
+              return 'fetchit';
             }
           })
           .then(fetchit => {
-            return fetch(config.dataURL, { method: "get", headers: noCacheHeaders });
+            return fetch(config.dataURL, { method: 'get', headers: noCacheHeaders });
           })
           .then(response => {
             if (response.ok) {
@@ -89,8 +89,8 @@ const makeDataWithMD5CheckDuckFor = (section, substateResolver) => {
             });
           })
           .catch(function(err) {
-            if (err !== "CACHEHIT") {
-              console.log("Problem during DataLoading");
+            if (err !== 'CACHEHIT') {
+              console.log('Problem during DataLoading');
               console.log(err);
               config.errorHandler(err);
             } else {

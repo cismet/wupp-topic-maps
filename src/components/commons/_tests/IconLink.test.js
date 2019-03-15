@@ -1,8 +1,8 @@
-import { shallow, mount, render } from "enzyme";
-import React from "react";
-import IconLink from "../IconLink";
+import { shallow, mount, render } from 'enzyme';
+import React from 'react';
+import IconLink from '../IconLink';
 
-describe("Cismap container", () => {
+describe('Cismap container', () => {
   let wrapper, store;
 
   beforeEach(() => {
@@ -11,10 +11,10 @@ describe("Cismap container", () => {
     );
   });
 
-  it("renders without crashing", () => {
+  it('renders without crashing', () => {
     expect(wrapper.exists()).toBe(true);
   });
-  it("has the correct href", () => {
+  it('has the correct href', () => {
     // expect(wrapper.find('a').href).toBe('www.google.com');
     // console.log(wrapper.find('Icon'));
   });

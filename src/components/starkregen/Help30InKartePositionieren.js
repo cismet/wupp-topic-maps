@@ -1,6 +1,6 @@
-import React from "react";
-import GenericModalMenuSection from "../commons/GenericModalMenuSection";
-import { Icon } from "react-fa";
+import React from 'react';
+import GenericModalMenuSection from '../commons/GenericModalMenuSection';
+import { Icon } from 'react-fa';
 
 const Component = ({ uiState, uiStateActions }) => {
   return (
@@ -20,10 +20,10 @@ const Component = ({ uiState, uiStateActions }) => {
             am Ende dieses Abschnittes der Kompaktanleitung erläutert!) In der inkrementellen
             Auswahlliste werden Ihnen passende Treffer angeboten. (Wenn Sie weitere Zeichen
             eingeben, wird der Inhalt der Auswahlliste angepasst.) Durch das vorangestellte Symbol
-            erkennen Sie, ob es sich dabei um einen <Icon name="circle" /> Stadtbezirk, ein{" "}
-            <Icon name="pie-chart" /> Quartier, eine <Icon name="home" /> Adresse, eine{" "}
+            erkennen Sie, ob es sich dabei um einen <Icon name="circle" /> Stadtbezirk, ein{' '}
+            <Icon name="pie-chart" /> Quartier, eine <Icon name="home" /> Adresse, eine{' '}
             <Icon name="road" /> Straße ohne zugeordnete Hausnummern, einen <Icon name="tag" /> POI,
-            die <Icon name="tags" /> alternative Bezeichnung eines POI oder einen{" "}
+            die <Icon name="tags" /> alternative Bezeichnung eines POI oder einen{' '}
             <Icon name="code-fork" /> GEP-Bereich handelt.
           </p>
           <p>

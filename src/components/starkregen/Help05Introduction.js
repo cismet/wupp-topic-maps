@@ -1,5 +1,5 @@
-import React from "react";
-import { Link } from "react-scroll";
+import React from 'react';
+import { Link } from 'react-scroll';
 
 const Section = ({ uiStateActions }) => {
   return (

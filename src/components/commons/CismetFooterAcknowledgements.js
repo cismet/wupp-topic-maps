@@ -1,25 +1,25 @@
-import React from "react";
-import PropTypes from "prop-types";
-import { getTopicMapVersion } from "../../constants/versions";
+import React from 'react';
+import PropTypes from 'prop-types';
+import { getTopicMapVersion } from '../../constants/versions';
 
 // Since this component is simple and static, there's no parent container for it.
 const Component = () => {
   return (
     <div>
       <b>TopicMaps Wuppertal</b> (Version {getTopicMapVersion()}
-      ):{" "}
+      ):{' '}
       <a href="https://cismet.de/" target="_cismet">
         cismet GmbH
-      </a>{" "}
-      auf Basis von{" "}
+      </a>{' '}
+      auf Basis von{' '}
       <a href="http://leafletjs.com/" target="_more">
         Leaflet
-      </a>{" "}
-      und{" "}
+      </a>{' '}
+      und{' '}
       <a href="https://cismet.de/#refs" target="_cismet">
         cids | WuNDa
-      </a>{" "}
-      |{" "}
+      </a>{' '}
+      |{' '}
       <a
         target="_blank"
         rel="noopener noreferrer"

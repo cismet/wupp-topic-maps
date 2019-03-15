@@ -1,11 +1,11 @@
-import { shallow, mount, render } from "enzyme";
-import React from "react";
-import BPlaene from "../BPlaene";
-import Cismap from "../Cismap";
-import configureStore from "redux-mock-store";
+import { shallow, mount, render } from 'enzyme';
+import React from 'react';
+import BPlaene from '../BPlaene';
+import Cismap from '../Cismap';
+import configureStore from 'redux-mock-store';
 
 const mockStore = configureStore();
-describe("BPlaene container", () => {
+describe('BPlaene container', () => {
   let wrapper, store;
 
   beforeEach(() => {
@@ -30,7 +30,7 @@ describe("BPlaene container", () => {
   // 	expect(store.dispatch).toHaveBeenCalledWith({ type: 'INCREMENT' });
   // });
 
-  it("renders without crashing", () => {
+  it('renders without crashing', () => {
     //expect(wrapper.contains(<Cismap />)).toEqual(true);
   });
 });

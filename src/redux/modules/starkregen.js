@@ -1,19 +1,19 @@
-import objectAssign from "object-assign";
+import objectAssign from 'object-assign';
 
-import { proj4crs25832def } from "../../constants/gis";
-import proj4 from "proj4";
+import { proj4crs25832def } from '../../constants/gis';
+import proj4 from 'proj4';
 
 //TYPES
 export const types = {
-  SET_SIMULATION: "STARKREGEN/SET_SIMULATION",
-  SET_SELECTED_BACKGROUND: "STARKREGEN/SET_SELECTED_BACKGROUND",
-  SET_BACKGROUND_LAYER: "STARKREGEN/SET_BACKGROUND_LAYER",
-  SET_MINIFIED_INFO_BOX: "STARKREGEN/SET_MINIFIED_INFO_BOX",
-  SET_FEATUREINFOMODE_ACTIVATION: "STARKREGEN/SET_FEATUREINFOMODE_ACTIVATION",
-  SET_FEATUREOINFO_VALUE: "STARKREGEN/SET_FEATUREOINFO_VALUE",
-  SET_FEATUREOINFO_POSITION: "STARKREGEN/SET_FEATUREOINFO_POSITION",
-  SET_FEATUREOINFO_SIMULATION: "STARKREGEN/SET_FEATUREOINFO_SIMULATION",
-  SET_MODELLAYERPROBLEM_STATUS: "STARKREGEN/SET_MODELLAYERPROBLEM_STATUS"
+  SET_SIMULATION: 'STARKREGEN/SET_SIMULATION',
+  SET_SELECTED_BACKGROUND: 'STARKREGEN/SET_SELECTED_BACKGROUND',
+  SET_BACKGROUND_LAYER: 'STARKREGEN/SET_BACKGROUND_LAYER',
+  SET_MINIFIED_INFO_BOX: 'STARKREGEN/SET_MINIFIED_INFO_BOX',
+  SET_FEATUREINFOMODE_ACTIVATION: 'STARKREGEN/SET_FEATUREINFOMODE_ACTIVATION',
+  SET_FEATUREOINFO_VALUE: 'STARKREGEN/SET_FEATUREOINFO_VALUE',
+  SET_FEATUREOINFO_POSITION: 'STARKREGEN/SET_FEATUREOINFO_POSITION',
+  SET_FEATUREOINFO_SIMULATION: 'STARKREGEN/SET_FEATUREOINFO_SIMULATION',
+  SET_MODELLAYERPROBLEM_STATUS: 'STARKREGEN/SET_MODELLAYERPROBLEM_STATUS'
 };
 
 export const constants = {};
@@ -31,77 +31,77 @@ export const initialState = {
   selectedBackground: 0,
   simulations: [
     {
-      layer: "R102:50md",
-      name: "Stärke 6",
-      title: "Starkregen SRI 6 (38,5 l/m² in 2h)",
-      icon: "bar-chart",
+      layer: 'R102:50md',
+      name: 'Stärke 6',
+      title: 'Starkregen SRI 6 (38,5 l/m² in 2h)',
+      icon: 'bar-chart',
       subtitle:
-        "Simulation eines zweistündigen Starkregens mit 38,5 Liter/m² Niederschlag (Starkregenindex SRI 6) in ganz Wuppertal, statistische Wiederkehrzeit 50 Jahre"
+        'Simulation eines zweistündigen Starkregens mit 38,5 Liter/m² Niederschlag (Starkregenindex SRI 6) in ganz Wuppertal, statistische Wiederkehrzeit 50 Jahre'
     },
     {
-      layer: "R102:100md",
-      name: "Stärke 7",
-      icon: "bar-chart",
-      title: "Starkregen SRI 7 (42 l/m² in 2h)",
+      layer: 'R102:100md',
+      name: 'Stärke 7',
+      icon: 'bar-chart',
+      title: 'Starkregen SRI 7 (42 l/m² in 2h)',
       subtitle:
-        "Simulation eines zweistündigen Starkregens mit 42 Liter/m² Niederschlag (Starkregenindex SRI 7) in ganz Wuppertal, statistische Wiederkehrzeit 100 Jahre"
+        'Simulation eines zweistündigen Starkregens mit 42 Liter/m² Niederschlag (Starkregenindex SRI 7) in ganz Wuppertal, statistische Wiederkehrzeit 100 Jahre'
     },
     {
-      layer: "R102:90md",
-      name: "Stärke 10",
-      icon: "bitbucket",
-      title: "Starkregen SRI 10 (90 l/m² in 1h)",
+      layer: 'R102:90md',
+      name: 'Stärke 10',
+      icon: 'bitbucket',
+      title: 'Starkregen SRI 10 (90 l/m² in 1h)',
       subtitle:
-        "Simulation eines einstündigen Starkregens mit 90 Liter/m² Niederschlag (Starkregenindex SRI 10) in ganz Wuppertal"
+        'Simulation eines einstündigen Starkregens mit 90 Liter/m² Niederschlag (Starkregenindex SRI 10) in ganz Wuppertal'
     },
     {
-      layer: "R102:SRmd",
-      name: "29.05.18",
-      icon: "calendar",
-      title: "Regen vom 29.05.2018 (SRI 11)",
+      layer: 'R102:SRmd',
+      name: '29.05.18',
+      icon: 'calendar',
+      title: 'Regen vom 29.05.2018 (SRI 11)',
       subtitle:
-        "Simulation des Starkregens vom 29.05.2018 (Starkregenindex SRI 11) für das gesamte Stadtgebiet anhand gemessener Niederschlagsmengen"
+        'Simulation des Starkregens vom 29.05.2018 (Starkregenindex SRI 11) für das gesamte Stadtgebiet anhand gemessener Niederschlagsmengen'
     }
   ],
   backgrounds: [
     {
-      layerkey: "hillshade|bplan_abkg@30|wupp-plan-live@20",
-      src: "/images/rain-hazard-map-bg/topo.png",
-      title: "Top. Karte"
+      layerkey: 'hillshade|bplan_abkg@30|wupp-plan-live@20',
+      src: '/images/rain-hazard-map-bg/topo.png',
+      title: 'Top. Karte'
     },
     {
-      layerkey: "trueOrtho2018@50|rvrSchrift@100|wupp-plan-live@20",
-      src: "/images/rain-hazard-map-bg/ortho.png",
-      title: "Luftbildkarte"
+      layerkey: 'trueOrtho2018@50|rvrSchrift@100|wupp-plan-live@20',
+      src: '/images/rain-hazard-map-bg/ortho.png',
+      title: 'Luftbildkarte'
     },
     {
-      layerkey: "wupp-plan-live@40",
-      src: "/images/rain-hazard-map-bg/citymap.png",
-      title: "Stadtplan"
+      layerkey: 'wupp-plan-live@40',
+      src: '/images/rain-hazard-map-bg/citymap.png',
+      title: 'Stadtplan'
     }
   ],
   backgroundsCached: [
     {
-      layerkey: "hillshadeCached|bplan_abkg@30 ",
-      src: "/images/rain-hazard-map-bg/topo.png",
-      title: "Top. Karte"
+      layerkey: 'hillshadeCached|bplan_abkg@30 ',
+      src: '/images/rain-hazard-map-bg/topo.png',
+      title: 'Top. Karte'
     },
     {
-      layerkey: "trueOrtho2018Cached@50|rvrSchrift@100",
-      src: "/images/rain-hazard-map-bg/ortho.png",
-      title: "Luftbildkarte"
+      layerkey: 'trueOrtho2018Cached@50|rvrSchrift@100',
+      src: '/images/rain-hazard-map-bg/ortho.png',
+      title: 'Luftbildkarte'
     },
     {
-      layerkey: "wupp-plan-live@40",
-      src: "/images/rain-hazard-map-bg/citymap.png",
-      title: "Stadtplan"
+      layerkey: 'wupp-plan-live@40',
+      src: '/images/rain-hazard-map-bg/citymap.png',
+      title: 'Stadtplan'
     }
   ],
   legend: [
-    { title: "> 10 cm", lt: 0.1, bg: "#AFCFF9" },
-    { title: "> 30 cm", lt: 0.3, bg: "#FED27B" },
-    { title: "> 50 cm", lt: 0.4, bg: "#E9B279" },
-    { title: "> 100 cm", lt: 1.0, bg: "#DD8C7B" }
+    { title: '> 10 cm', lt: 0.1, bg: '#AFCFF9' },
+    { title: '> 30 cm', lt: 0.3, bg: '#FED27B' },
+    { title: '> 50 cm', lt: 0.4, bg: '#E9B279' },
+    { title: '> 100 cm', lt: 1.0, bg: '#DD8C7B' }
   ]
 };
 ///REDUCER
@@ -212,7 +212,7 @@ function getFeatureInfo(mapEvent) {
         return;
       }
     } else {
-      pos = proj4(proj4.defs("EPSG:4326"), proj4crs25832def, [
+      pos = proj4(proj4.defs('EPSG:4326'), proj4crs25832def, [
         mapEvent.latlng.lng,
         mapEvent.latlng.lat
       ]);
@@ -235,9 +235,9 @@ function getFeatureInfo(mapEvent) {
       `layers=${selectedSimulation}&` +
       `QUERY_LAYERS=${selectedSimulation}&` +
       `INFO_FORMAT=application/vnd.ogc.gml`;
-    let valueKey = "ll:value";
+    let valueKey = 'll:value';
     if (/Edge/.test(navigator.userAgent)) {
-      valueKey = "value";
+      valueKey = 'value';
     }
 
     fetch(getFetureInfoRequestUrl)
@@ -250,14 +250,14 @@ function getFeatureInfo(mapEvent) {
       })
       .then(data => {
         const parser = new DOMParser();
-        const xmlDoc = parser.parseFromString(data, "text/xml");
+        const xmlDoc = parser.parseFromString(data, 'text/xml');
         const value = parseFloat(xmlDoc.getElementsByTagName(valueKey)[0].textContent, 10);
         dispatch(setCurrentFeaturSelectedSimulation(localState.selectedSimulation));
         dispatch(setCurrentFeatureInfoValue(value));
         dispatch(setCurrentFeatureInfoPosition(pos));
       })
       .catch(error => {
-        console.log("error during fetch", error);
+        console.log('error during fetch', error);
       });
   };
 }

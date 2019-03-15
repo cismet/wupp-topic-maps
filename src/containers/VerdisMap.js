@@ -1,18 +1,18 @@
-import PropTypes from "prop-types";
-import React from "react";
+import PropTypes from 'prop-types';
+import React from 'react';
 //import { render } from 'react-dom';
-import { connect } from "react-redux";
-import "proj4leaflet";
+import { connect } from 'react-redux';
+import 'proj4leaflet';
 //import { Ortho2014, StadtgrundKarteABK, Osm } from './Layers';
-import { Layers } from "../components/Layers";
-import ProjGeoJson from "../components/ProjGeoJson";
-import { crs25832, proj4crs25832def } from "../constants/gis";
-import proj4 from "proj4";
-import { actions as MappingActions } from "../redux/modules/mapping";
-import { bindActionCreators } from "redux";
+import { Layers } from '../components/Layers';
+import ProjGeoJson from '../components/ProjGeoJson';
+import { crs25832, proj4crs25832def } from '../constants/gis';
+import proj4 from 'proj4';
+import { actions as MappingActions } from '../redux/modules/mapping';
+import { bindActionCreators } from 'redux';
 //import  CismapBaseMap  from './CismapBaseMap';
-import RoutedMap from "./RoutedMap";
-import L from "leaflet";
+import RoutedMap from './RoutedMap';
+import L from 'leaflet';
 
 const position = [51.272399, 7.199712];
 
@@ -67,7 +67,7 @@ export class Cismap_ extends React.Component {
     return (
       <RoutedMap
         ref="leafletRoutedMap"
-        key={"leafletRoutedMap"}
+        key={'leafletRoutedMap'}
         layers=""
         crs={crs25832}
         style={mapStyle}
@@ -80,7 +80,7 @@ export class Cismap_ extends React.Component {
           if (layer.enabled) {
             return Layers.get(layer.key)(layer.opacity);
           } else {
-            return <div key={"empty_div_for_disabled_layer" + JSON.stringify(layer)} />;
+            return <div key={'empty_div_for_disabled_layer' + JSON.stringify(layer)} />;
           }
         })}
         <ProjGeoJson

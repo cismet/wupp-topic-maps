@@ -1,7 +1,7 @@
-import React from "react";
-import PropTypes from "prop-types";
-import { FormGroup, Radio, ControlLabel } from "react-bootstrap";
-import objectAssign from "object-assign";
+import React from 'react';
+import PropTypes from 'prop-types';
+import { FormGroup, Radio, ControlLabel } from 'react-bootstrap';
+import objectAssign from 'object-assign';
 
 // Since this component is simple and static, there's no parent container for it.
 const SymbolSizeChooser = ({
@@ -31,8 +31,8 @@ const SymbolSizeChooser = ({
           <tr>
             <td
               style={{
-                width: "50px",
-                textAlign: "center"
+                width: '50px',
+                textAlign: 'center'
               }}
             >
               <a onClick={() => changeMarkerSymbolSize(config.smallSize)}>
@@ -41,8 +41,8 @@ const SymbolSizeChooser = ({
             </td>
             <td
               style={{
-                width: "50px",
-                textAlign: "center"
+                width: '50px',
+                textAlign: 'center'
               }}
             >
               <a onClick={() => changeMarkerSymbolSize(config.midSize)}>
@@ -51,8 +51,8 @@ const SymbolSizeChooser = ({
             </td>
             <td
               style={{
-                width: "50px",
-                textAlign: "center"
+                width: '50px',
+                textAlign: 'center'
               }}
             >
               <a onClick={() => changeMarkerSymbolSize(config.largeSize)}>
@@ -60,19 +60,19 @@ const SymbolSizeChooser = ({
               </a>
             </td>
           </tr>
-          <tr border={0} style={{ verticalAlign: "top" }}>
-            <td style={{ textAlign: "center" }}>
+          <tr border={0} style={{ verticalAlign: 'top' }}>
+            <td style={{ textAlign: 'center' }}>
               <Radio
-                style={{ marginTop: "0px", marginLeft: "6px" }}
+                style={{ marginTop: '0px', marginLeft: '6px' }}
                 readOnly={true}
                 onClick={() => changeMarkerSymbolSize(config.smallSize)}
                 name="symbolSizeSmall"
                 checked={currentMarkerSize <= config.smallSize}
               />
             </td>
-            <td style={{ textAlign: "center" }}>
+            <td style={{ textAlign: 'center' }}>
               <Radio
-                style={{ marginTop: "0px", marginLeft: "6px" }}
+                style={{ marginTop: '0px', marginLeft: '6px' }}
                 readOnly={true}
                 onClick={() => changeMarkerSymbolSize(config.midSize)}
                 name="symbolSizeMid"
@@ -81,9 +81,9 @@ const SymbolSizeChooser = ({
                 }
               />
             </td>
-            <td style={{ textAlign: "center" }}>
+            <td style={{ textAlign: 'center' }}>
               <Radio
-                style={{ marginTop: "0px", marginLeft: "7px" }}
+                style={{ marginTop: '0px', marginLeft: '7px' }}
                 readOnly={true}
                 onClick={() => changeMarkerSymbolSize(config.largeSize)}
                 name="symbolSizeLarge"
@@ -109,8 +109,8 @@ SymbolSizeChooser.propTypes = {
 };
 
 SymbolSizeChooser.defaultProps = {
-  title: "Symbolgröße:",
+  title: 'Symbolgröße:',
   config: {},
-  symbolColor: "#00A0B0",
+  symbolColor: '#00A0B0',
   sizeMulitplier: 0.9
 };

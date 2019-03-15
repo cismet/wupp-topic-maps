@@ -1,7 +1,7 @@
-import React from "react";
-import PropTypes from "prop-types";
-import { bindActionCreators } from "redux";
-import { connect } from "react-redux";
+import React from 'react';
+import PropTypes from 'prop-types';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
 import {
   Modal,
   Button,
@@ -12,28 +12,28 @@ import {
   Radio,
   ControlLabel,
   Label
-} from "react-bootstrap";
-import { actions as UiStateActions } from "../redux/modules/uiState";
+} from 'react-bootstrap';
+import { actions as UiStateActions } from '../redux/modules/uiState';
 
-import { getColorFromLebenslagenCombination } from "../utils/stadtplanHelper";
+import { getColorFromLebenslagenCombination } from '../utils/stadtplanHelper';
 
-import { Icon } from "react-fa";
-import "react-bootstrap-switch/dist/css/bootstrap3/react-bootstrap-switch.min.css";
-import queryString from "query-string";
+import { Icon } from 'react-fa';
+import 'react-bootstrap-switch/dist/css/bootstrap3/react-bootstrap-switch.min.css';
+import queryString from 'query-string';
 
-import MultiToggleButton from "./MultiToggleButton";
+import MultiToggleButton from './MultiToggleButton';
 
-import { Link } from "react-scroll";
+import { Link } from 'react-scroll';
 
-import Chart from "chart.js";
+import Chart from 'chart.js';
 
-import { removeQueryPart, modifyQueryPart } from "../utils/routingHelper";
-import { getInternetExplorerVersion } from "../utils/browserHelper";
+import { removeQueryPart, modifyQueryPart } from '../utils/routingHelper';
+import { getInternetExplorerVersion } from '../utils/browserHelper';
 
-import { routerActions } from "react-router-redux";
+import { routerActions } from 'react-router-redux';
 
-import ReactChartkick, { PieChart } from "react-chartkick";
-import GenericRVRStadtplanwerkMenuFooter from "./commons/GenericRVRStadtplanwerkMenuFooter";
+import ReactChartkick, { PieChart } from 'react-chartkick';
+import GenericRVRStadtplanwerkMenuFooter from './commons/GenericRVRStadtplanwerkMenuFooter';
 
 ReactChartkick.addAdapter(Chart);
 
@@ -64,55 +64,55 @@ export class StadtplanModalApplicationMenu_ extends React.Component {
   createOverviewRows(apps) {
     let rows = [];
     for (let item of this.props.lebenslagen) {
-      let buttonValue = "two"; // neutral state
+      let buttonValue = 'two'; // neutral state
 
       if (this.props.filter.positiv.indexOf(item) !== -1) {
-        buttonValue = "one";
+        buttonValue = 'one';
       } else if (this.props.filter.negativ.indexOf(item) !== -1) {
-        buttonValue = "three";
+        buttonValue = 'three';
       }
 
       let footnote;
       if (apps.has(item)) {
-        footnote = " *"; //(<div title="Themenspezifische Karte verfügbar"> *</div>);
+        footnote = ' *'; //(<div title="Themenspezifische Karte verfügbar"> *</div>);
       }
       let cb = (
-        <tr key={"tr.for.mtbutton.lebenslagen." + item}>
+        <tr key={'tr.for.mtbutton.lebenslagen.' + item}>
           <td
-            key={"td1.for.mtbutton.lebenslagen." + item}
+            key={'td1.for.mtbutton.lebenslagen.' + item}
             style={{
-              textAlign: "left",
-              verticalAlign: "top",
-              padding: "5px"
+              textAlign: 'left',
+              verticalAlign: 'top',
+              padding: '5px'
             }}
           >
-            <span style={{ whiteSpace: "nowrap" }}>
+            <span style={{ whiteSpace: 'nowrap' }}>
               {item}
               {footnote}
             </span>
           </td>
           <td
-            key={"td2.for.mtbutton.lebenslagen." + item}
+            key={'td2.for.mtbutton.lebenslagen.' + item}
             style={{
-              textAlign: "left",
-              verticalAlign: "top",
-              padding: "5px"
+              textAlign: 'left',
+              verticalAlign: 'top',
+              padding: '5px'
             }}
           >
             <MultiToggleButton
-              key={"mtbutton.lebenslagen." + item}
+              key={'mtbutton.lebenslagen.' + item}
               value={buttonValue}
               valueChanged={selectedValue => {
-                if (selectedValue === "one") {
-                  this.props.stadtplanActions.toggleFilter("positiv", item);
-                } else if (selectedValue === "three") {
-                  this.props.stadtplanActions.toggleFilter("negativ", item);
+                if (selectedValue === 'one') {
+                  this.props.stadtplanActions.toggleFilter('positiv', item);
+                } else if (selectedValue === 'three') {
+                  this.props.stadtplanActions.toggleFilter('negativ', item);
                 } else {
                   //deselect existing selection
-                  if (buttonValue === "one") {
-                    this.props.stadtplanActions.toggleFilter("positiv", item);
-                  } else if (buttonValue === "three") {
-                    this.props.stadtplanActions.toggleFilter("negativ", item);
+                  if (buttonValue === 'one') {
+                    this.props.stadtplanActions.toggleFilter('positiv', item);
+                  } else if (buttonValue === 'three') {
+                    this.props.stadtplanActions.toggleFilter('negativ', item);
                   }
                 }
               }}
@@ -127,20 +127,20 @@ export class StadtplanModalApplicationMenu_ extends React.Component {
 
   changePoiSymbolSize(size) {
     this.props.stadtplanActions.setPoiSvgSize(size);
-    this.props.mappingActions.setFeatureCollectionKeyPostfix("PoiSvgSize:" + size);
+    this.props.mappingActions.setFeatureCollectionKeyPostfix('PoiSvgSize:' + size);
   }
 
   render() {
     let modalBodyStyle = {
-      overflowY: "auto",
-      overflowX: "hidden",
+      overflowY: 'auto',
+      overflowX: 'hidden',
       maxHeight: this.props.uiState.height - 200
     };
 
     let clusteredPOIs = queryString.parse(this.props.routing.location.search).unclustered !== null;
     let customTitle = queryString.parse(this.props.routing.location.search).title;
     let titleDisplay = customTitle !== undefined;
-    let namedMapStyle = queryString.parse(this.props.routing.location.search).mapStyle || "default";
+    let namedMapStyle = queryString.parse(this.props.routing.location.search).mapStyle || 'default';
 
     let llOptions = [];
     let apps = new Map();
@@ -148,7 +148,7 @@ export class StadtplanModalApplicationMenu_ extends React.Component {
     for (let ll of this.props.lebenslagen) {
       llOptions.push({
         label: ll,
-        cat: "lebenslage",
+        cat: 'lebenslage',
         value: ll
       });
       for (const app of this.props.apps) {
@@ -162,13 +162,13 @@ export class StadtplanModalApplicationMenu_ extends React.Component {
     let stats = {};
     let colormodel = {};
     for (let poi of this.props.filteredPois) {
-      if (stats[poi.mainlocationtype.lebenslagen.join(", ")] === undefined) {
-        const key = poi.mainlocationtype.lebenslagen.join(", ");
+      if (stats[poi.mainlocationtype.lebenslagen.join(', ')] === undefined) {
+        const key = poi.mainlocationtype.lebenslagen.join(', ');
         stats[key] = 1;
         colormodel[key] = getColorFromLebenslagenCombination(key);
       } else {
-        stats[poi.mainlocationtype.lebenslagen.join(", ")] =
-          stats[poi.mainlocationtype.lebenslagen.join(", ")] + 1;
+        stats[poi.mainlocationtype.lebenslagen.join(', ')] =
+          stats[poi.mainlocationtype.lebenslagen.join(', ')] + 1;
       }
     }
 
@@ -201,32 +201,32 @@ export class StadtplanModalApplicationMenu_ extends React.Component {
     let poiPreviewName;
     if (clusteredPOIs) {
       if (this.props.poiSvgSize === 45) {
-        poiPreviewName = "poi.preview.clustered.l.png";
+        poiPreviewName = 'poi.preview.clustered.l.png';
       } else if (this.props.poiSvgSize === 35) {
-        poiPreviewName = "poi.preview.clustered.m.png";
+        poiPreviewName = 'poi.preview.clustered.m.png';
       } else {
-        poiPreviewName = "poi.preview.clustered.s.png";
+        poiPreviewName = 'poi.preview.clustered.s.png';
       }
     } else {
       if (this.props.poiSvgSize === 45) {
-        poiPreviewName = "poi.preview.unclustered.l.png";
+        poiPreviewName = 'poi.preview.unclustered.l.png';
       } else if (this.props.poiSvgSize === 35) {
-        poiPreviewName = "poi.preview.unclustered.m.png";
+        poiPreviewName = 'poi.preview.unclustered.m.png';
       } else {
-        poiPreviewName = "poi.preview.unclustered.s.png";
+        poiPreviewName = 'poi.preview.unclustered.s.png';
       }
     }
 
     let titlePreview = null;
     if (titleDisplay) {
       titlePreview = (
-        <div style={{ align: "center", width: "100%" }}>
-          <div style={{ height: "10px" }} />
+        <div style={{ align: 'center', width: '100%' }}>
+          <div style={{ height: '10px' }} />
           <table
             style={{
-              width: "96%",
-              height: "30px",
-              margin: "0 auto",
+              width: '96%',
+              height: '30px',
+              margin: '0 auto',
               //position: 'absolute',
               // left: 54,
               top: 12
@@ -237,12 +237,12 @@ export class StadtplanModalApplicationMenu_ extends React.Component {
               <tr>
                 <td
                   style={{
-                    textAlign: "center",
-                    verticalAlign: "middle",
-                    background: "#ffffff",
-                    color: "black",
-                    opacity: "0.9",
-                    paddingleft: "10px"
+                    textAlign: 'center',
+                    verticalAlign: 'middle',
+                    background: '#ffffff',
+                    color: 'black',
+                    opacity: '0.9',
+                    paddingleft: '10px'
                   }}
                 >
                   <b>Mein Themenstadtplan: </b> Kultur ohne Gesellschaft
@@ -268,9 +268,9 @@ export class StadtplanModalApplicationMenu_ extends React.Component {
                 ",url('/images/map.preview." +
                 namedMapStyle +
                 ".png')",
-              width: "100%",
-              height: "250px",
-              backgroundPosition: "center"
+              width: '100%',
+              height: '250px',
+              backgroundPosition: 'center'
             }}
           >
             {titlePreview}
@@ -311,15 +311,15 @@ export class StadtplanModalApplicationMenu_ extends React.Component {
           usedApps.push(app.name);
           additionalAppArray.push(
             <a
-              key={"appLink_" + app.name}
-              style={{ textDecoration: "none" }}
+              key={'appLink_' + app.name}
+              style={{ textDecoration: 'none' }}
               href={app.link}
               target={app.target}
               rel="noopener noreferrer"
             >
               <Label
                 bsStyle={app.bsStyle}
-                style={{ backgroundColor: app.backgroundColor, marginRight: "5px" }}
+                style={{ backgroundColor: app.backgroundColor, marginRight: '5px' }}
               >
                 {app.name}
               </Label>
@@ -334,7 +334,7 @@ export class StadtplanModalApplicationMenu_ extends React.Component {
         <div>
           <hr />
           <strong>* Themenspezifische Karten:</strong>
-          {"  "}
+          {'  '}
           <h4>{additionalAppArray}</h4>
         </div>
       );
@@ -365,60 +365,60 @@ export class StadtplanModalApplicationMenu_ extends React.Component {
           <span>
             Verwandeln Sie den Wuppertaler Online-Stadtplan in Ihren persönlichen Themenstadtplan.
             <br />
-            W&auml;hlen Sie dazu unter{" "}
+            W&auml;hlen Sie dazu unter{' '}
             <Link
               to="filter"
               containerId="myMenu"
               smooth={true}
               delay={100}
-              onClick={() => this.props.uiActions.setApplicationMenuActiveKey("filter")}
+              onClick={() => this.props.uiActions.setApplicationMenuActiveKey('filter')}
             >
               Mein Themenstadtplan
-            </Link>{" "}
+            </Link>{' '}
             die Themenfelder aus, zu denen Sie die Points Of Interest (POI) anzeigen oder ausblenden
-            möchten. Über{" "}
+            möchten. Über{' '}
             <Link
               to="settings"
               containerId="myMenu"
               smooth={true}
               delay={100}
-              onClick={() => this.props.uiActions.setApplicationMenuActiveKey("settings")}
+              onClick={() => this.props.uiActions.setApplicationMenuActiveKey('settings')}
             >
               Einstellungen
-            </Link>{" "}
-            können Sie die Karten- und POI-Darstellung an Ihre Vorlieben anpassen. W&auml;hlen Sie{" "}
+            </Link>{' '}
+            können Sie die Karten- und POI-Darstellung an Ihre Vorlieben anpassen. W&auml;hlen Sie{' '}
             <Link
               to="help"
               containerId="myMenu"
               smooth={true}
               delay={100}
-              onClick={() => this.props.uiActions.setApplicationMenuActiveKey("help")}
+              onClick={() => this.props.uiActions.setApplicationMenuActiveKey('help')}
             >
               Kompaktanleitung
-            </Link>{" "}
+            </Link>{' '}
             für detailliertere Bedienungsinformationen.
           </span>
           <br />
           <br />
 
           <Accordion
-            key={"filter"}
-            defaultActiveKey={this.props.uiState.applicationMenuActiveKey || "filter"}
+            key={'filter'}
+            defaultActiveKey={this.props.uiState.applicationMenuActiveKey || 'filter'}
             onSelect={() => {
-              if (this.props.uiState.applicationMenuActiveKey === "filter") {
-                this.props.uiActions.setApplicationMenuActiveKey("none");
+              if (this.props.uiState.applicationMenuActiveKey === 'filter') {
+                this.props.uiActions.setApplicationMenuActiveKey('none');
               } else {
-                this.props.uiActions.setApplicationMenuActiveKey("filter");
+                this.props.uiActions.setApplicationMenuActiveKey('filter');
               }
             }}
           >
             <Panel
               header={
-                "Mein Themenstadtplan (" +
+                'Mein Themenstadtplan (' +
                 this.props.filteredPois.length +
-                " POI gefunden, davon " +
+                ' POI gefunden, davon ' +
                 this.props.featureCollectionCount +
-                " in der Karte)"
+                ' in der Karte)'
               }
               eventKey="filter"
               bsStyle="primary"
@@ -428,8 +428,8 @@ export class StadtplanModalApplicationMenu_ extends React.Component {
                   style={{ margin: 4, marginLeft: 0 }}
                   bsSize="small"
                   onClick={() => {
-                    this.props.stadtplanActions.clearFilter("negativ");
-                    this.props.stadtplanActions.setAllLebenslagenToFilter("positiv");
+                    this.props.stadtplanActions.clearFilter('negativ');
+                    this.props.stadtplanActions.setAllLebenslagenToFilter('positiv');
                   }}
                 >
                   alle Themen ausw&auml;hlen
@@ -438,7 +438,7 @@ export class StadtplanModalApplicationMenu_ extends React.Component {
                   style={{ margin: 4 }}
                   bsSize="small"
                   onClick={() => {
-                    this.props.stadtplanActions.clearFilter("positiv");
+                    this.props.stadtplanActions.clearFilter('positiv');
                   }}
                 >
                   keine Themen ausw&auml;hlen
@@ -447,7 +447,7 @@ export class StadtplanModalApplicationMenu_ extends React.Component {
                   style={{ margin: 4 }}
                   bsSize="small"
                   onClick={() => {
-                    this.props.stadtplanActions.clearFilter("negativ");
+                    this.props.stadtplanActions.clearFilter('negativ');
                   }}
                 >
                   keine Themen ausschlie&szlig;en
@@ -472,13 +472,13 @@ export class StadtplanModalApplicationMenu_ extends React.Component {
           </Accordion>
 
           <Accordion
-            key={"settings"}
+            key={'settings'}
             defaultActiveKey={this.props.uiState.applicationMenuActiveKey}
             onSelect={() => {
-              if (this.props.uiState.applicationMenuActiveKey === "settings") {
-                this.props.uiActions.setApplicationMenuActiveKey("none");
+              if (this.props.uiState.applicationMenuActiveKey === 'settings') {
+                this.props.uiActions.setApplicationMenuActiveKey('none');
               } else {
-                this.props.uiActions.setApplicationMenuActiveKey("settings");
+                this.props.uiActions.setApplicationMenuActiveKey('settings');
               }
             }}
           >
@@ -486,27 +486,27 @@ export class StadtplanModalApplicationMenu_ extends React.Component {
               <table border={0} width="100%">
                 <tbody>
                   <tr>
-                    <td valign="top" style={{ width: "330px" }}>
+                    <td valign="top" style={{ width: '330px' }}>
                       <FormGroup>
                         <ControlLabel>POI-Einstellungen:</ControlLabel>
                         <br />
                         <Checkbox
                           readOnly={true}
-                          key={"title.checkbox" + titleDisplay}
+                          key={'title.checkbox' + titleDisplay}
                           checked={titleDisplay}
                           onClick={e => {
                             if (e.target.checked === false) {
                               this.props.routingActions.push(
                                 this.props.routing.location.pathname +
-                                  removeQueryPart(this.props.routing.location.search, "title")
+                                  removeQueryPart(this.props.routing.location.search, 'title')
                               );
                             } else {
                               this.props.routingActions.push(
                                 this.props.routing.location.pathname +
-                                  (this.props.routing.location.search !== ""
+                                  (this.props.routing.location.search !== ''
                                     ? this.props.routing.location.search
-                                    : "?") +
-                                  "&title"
+                                    : '?') +
+                                  '&title'
                               );
                             }
                           }}
@@ -517,20 +517,20 @@ export class StadtplanModalApplicationMenu_ extends React.Component {
                         <br />
                         <Checkbox
                           readOnly={true}
-                          key={"clustered.checkbox" + clusteredPOIs}
+                          key={'clustered.checkbox' + clusteredPOIs}
                           onClick={e => {
                             if (e.target.checked === true) {
                               this.props.routingActions.push(
                                 this.props.routing.location.pathname +
-                                  removeQueryPart(this.props.routing.location.search, "unclustered")
+                                  removeQueryPart(this.props.routing.location.search, 'unclustered')
                               );
                             } else {
                               this.props.routingActions.push(
                                 this.props.routing.location.pathname +
-                                  (this.props.routing.location.search !== ""
+                                  (this.props.routing.location.search !== ''
                                     ? this.props.routing.location.search
-                                    : "?") +
-                                  "&unclustered"
+                                    : '?') +
+                                  '&unclustered'
                               );
                             }
                             this.props.stadtplanActions.createFeatureCollectionFromPOIs();
@@ -553,16 +553,16 @@ export class StadtplanModalApplicationMenu_ extends React.Component {
                               if (e.target.checked === true) {
                                 this.props.routingActions.push(
                                   this.props.routing.location.pathname +
-                                    removeQueryPart(this.props.routing.location.search, "mapStyle")
+                                    removeQueryPart(this.props.routing.location.search, 'mapStyle')
                                 );
                               }
                             }}
-                            checked={namedMapStyle === "default"}
+                            checked={namedMapStyle === 'default'}
                             name="mapBackground"
                             inline
                           >
                             Tag
-                          </Radio>{" "}
+                          </Radio>{' '}
                           <Radio
                             readOnly={true}
                             onClick={e => {
@@ -570,17 +570,17 @@ export class StadtplanModalApplicationMenu_ extends React.Component {
                                 this.props.routingActions.push(
                                   this.props.routing.location.pathname +
                                     modifyQueryPart(this.props.routing.location.search, {
-                                      mapStyle: "night"
+                                      mapStyle: 'night'
                                     })
                                 );
                               }
                             }}
                             name="mapBackground"
-                            checked={namedMapStyle === "night"}
+                            checked={namedMapStyle === 'night'}
                             inline
                           >
                             Nacht
-                          </Radio>{" "}
+                          </Radio>{' '}
                         </FormGroup>
                       )}
                       <FormGroup>
@@ -591,12 +591,12 @@ export class StadtplanModalApplicationMenu_ extends React.Component {
                         <table border={0}>
                           <tbody>
                             <tr>
-                              <td style={{ paddingLeft: "6px", paddingRight: "15px" }}>
+                              <td style={{ paddingLeft: '6px', paddingRight: '15px' }}>
                                 <a onClick={() => this.changePoiSymbolSize(25)}>
                                   <img alt="minimal" src="images/poi.25.png" />
                                 </a>
                               </td>
-                              <td style={{ paddingLeft: "3px", paddingRight: "15px" }}>
+                              <td style={{ paddingLeft: '3px', paddingRight: '15px' }}>
                                 <a onClick={() => this.changePoiSymbolSize(35)}>
                                   <img alt="minimal" src="images/poi.35.png" />
                                 </a>
@@ -607,28 +607,28 @@ export class StadtplanModalApplicationMenu_ extends React.Component {
                                 </a>
                               </td>
                             </tr>
-                            <tr border={1} style={{ verticalAlign: "top" }}>
-                              <td style={{ textAlign: "center" }}>
+                            <tr border={1} style={{ verticalAlign: 'top' }}>
+                              <td style={{ textAlign: 'center' }}>
                                 <Radio
-                                  style={{ marginTop: "0px" }}
+                                  style={{ marginTop: '0px' }}
                                   readOnly={true}
                                   onClick={() => this.changePoiSymbolSize(25)}
                                   name="poiSize25"
                                   checked={this.props.poiSvgSize === 25}
                                 />
                               </td>
-                              <td style={{ textAlign: "center" }}>
+                              <td style={{ textAlign: 'center' }}>
                                 <Radio
-                                  style={{ marginTop: "0px", marginLeft: "0px" }}
+                                  style={{ marginTop: '0px', marginLeft: '0px' }}
                                   readOnly={true}
                                   onClick={() => this.changePoiSymbolSize(35)}
                                   name="poiSize35"
                                   checked={this.props.poiSvgSize === 35}
                                 />
                               </td>
-                              <td style={{ textAlign: "center" }}>
+                              <td style={{ textAlign: 'center' }}>
                                 <Radio
-                                  style={{ marginTop: "0px", marginLeft: "7px" }}
+                                  style={{ marginTop: '0px', marginLeft: '7px' }}
                                   readOnly={true}
                                   onClick={() => this.changePoiSymbolSize(45)}
                                   name="poiSize45"
@@ -649,65 +649,65 @@ export class StadtplanModalApplicationMenu_ extends React.Component {
           </Accordion>
           <Accordion
             name="help"
-            key={"helptext" + this.props.uiState.applicationMenuActiveKey}
+            key={'helptext' + this.props.uiState.applicationMenuActiveKey}
             defaultActiveKey={this.props.uiState.applicationMenuActiveKey}
             onSelect={() => {
-              if (this.props.uiState.applicationMenuActiveKey === "help") {
-                this.props.uiActions.setApplicationMenuActiveKey("none");
+              if (this.props.uiState.applicationMenuActiveKey === 'help') {
+                this.props.uiActions.setApplicationMenuActiveKey('none');
               } else {
-                this.props.uiActions.setApplicationMenuActiveKey("help");
+                this.props.uiActions.setApplicationMenuActiveKey('help');
               }
             }}
           >
             <Panel header="Kompaktanleitung" eventKey="help" bsStyle="default">
               <div>
-                <Link to="Datengrundlage" containerId="myMenu" style={{ textDecoration: "none" }}>
-                  {" "}
-                  <Label bsStyle="warning">Datengrundlage</Label>{" "}
+                <Link to="Datengrundlage" containerId="myMenu" style={{ textDecoration: 'none' }}>
+                  {' '}
+                  <Label bsStyle="warning">Datengrundlage</Label>{' '}
                 </Link>
                 <Link
                   to="KartendarstellungPOI"
                   containerId="myMenu"
-                  style={{ textDecoration: "none" }}
+                  style={{ textDecoration: 'none' }}
                 >
-                  {" "}
-                  <Label bsStyle="warning">Kartendarstellung der POI</Label>{" "}
+                  {' '}
+                  <Label bsStyle="warning">Kartendarstellung der POI</Label>{' '}
                 </Link>
                 <Link
                   to="POIauswahluabfragen"
                   containerId="myMenu"
-                  style={{ textDecoration: "none" }}
+                  style={{ textDecoration: 'none' }}
                 >
-                  {" "}
-                  <Label bsStyle="default">POI auswählen und abfragen</Label>{" "}
+                  {' '}
+                  <Label bsStyle="default">POI auswählen und abfragen</Label>{' '}
                 </Link>
                 <Link
                   to="InKartePositionieren"
                   containerId="myMenu"
-                  style={{ textDecoration: "none" }}
+                  style={{ textDecoration: 'none' }}
                 >
-                  {" "}
-                  <Label bsStyle="default">In Karte positionieren</Label>{" "}
+                  {' '}
+                  <Label bsStyle="default">In Karte positionieren</Label>{' '}
                 </Link>
-                <Link to="MeinStandort" containerId="myMenu" style={{ textDecoration: "none" }}>
-                  {" "}
-                  <Label bsStyle="default">Mein Standort</Label>{" "}
+                <Link to="MeinStandort" containerId="myMenu" style={{ textDecoration: 'none' }}>
+                  {' '}
+                  <Label bsStyle="default">Mein Standort</Label>{' '}
                 </Link>
                 <Link
                   to="MeinThemenstadtplan"
                   containerId="myMenu"
-                  style={{ textDecoration: "none" }}
+                  style={{ textDecoration: 'none' }}
                 >
-                  {" "}
-                  <Label bsStyle="primary">Mein Themenstadtplan</Label>{" "}
+                  {' '}
+                  <Label bsStyle="primary">Mein Themenstadtplan</Label>{' '}
                 </Link>
-                <Link to="Einstellungen" containerId="myMenu" style={{ textDecoration: "none" }}>
-                  {" "}
-                  <Label bsStyle="success">Einstellungen</Label>{" "}
+                <Link to="Einstellungen" containerId="myMenu" style={{ textDecoration: 'none' }}>
+                  {' '}
+                  <Label bsStyle="success">Einstellungen</Label>{' '}
                 </Link>
-                <Link to="Personalisierung" containerId="myMenu" style={{ textDecoration: "none" }}>
-                  {" "}
-                  <Label bsStyle="success">Personalisierung</Label>{" "}
+                <Link to="Personalisierung" containerId="myMenu" style={{ textDecoration: 'none' }}>
+                  {' '}
+                  <Label bsStyle="success">Personalisierung</Label>{' '}
                 </Link>
               </div>
 
@@ -715,8 +715,8 @@ export class StadtplanModalApplicationMenu_ extends React.Component {
                 <br />
               </div>
               <h4>
-                Datengrundlage{" "}
-                <Link to="help" containerId="myMenu" style={{ color: "#00000044" }}>
+                Datengrundlage{' '}
+                <Link to="help" containerId="myMenu" style={{ color: '#00000044' }}>
                   <Icon name="arrow-circle-up" />
                 </Link>
               </h4>
@@ -726,13 +726,13 @@ export class StadtplanModalApplicationMenu_ extends React.Component {
                 Straßennetz der OpenStreetMap mit den Gebäuden und Flächennutzungen aus dem
                 Fachverfahren ALKIS des Liegenschaftskatasters. Das Stadtplanwerk 2.0 wird
                 wöchentlich in einem automatischen Prozess aktualisiert. Zusätzlich nutzt der
-                Online-Stadtplan den Datensatz{" "}
+                Online-Stadtplan den Datensatz{' '}
                 <a
                   href="https://offenedaten-wuppertal.de/dataset/interessante-orte-wuppertal-poi"
                   target="_opendata"
                 >
                   Interessante Orte Wuppertal (POI)
-                </a>{" "}
+                </a>{' '}
                 aus dem Open-Data-Angebot der Stadt Wuppertal.
               </p>
 
@@ -740,8 +740,8 @@ export class StadtplanModalApplicationMenu_ extends React.Component {
                 <br />
               </div>
               <h4>
-                Kartendarstellung der POI{" "}
-                <Link to="help" containerId="myMenu" style={{ color: "#00000044" }}>
+                Kartendarstellung der POI{' '}
+                <Link to="help" containerId="myMenu" style={{ color: '#00000044' }}>
                   <Icon name="arrow-circle-up" />
                 </Link>
               </h4>
@@ -754,7 +754,7 @@ export class StadtplanModalApplicationMenu_ extends React.Component {
               </p>
               <p>
                 Räumlich nah beieinander liegende Angebote werden standardmäßig maßstabsabhängig zu
-                größeren Punkten zusammengefasst, mit der Anzahl der repräsentierten POI im Zentrum{" "}
+                größeren Punkten zusammengefasst, mit der Anzahl der repräsentierten POI im Zentrum{' '}
                 <img alt="Cluster" src="images/poi_zusammen.png" />. Vergrößern Sie ein paar Mal
                 durch direktes Anklicken eines solchen Punktes oder mit <Icon name="plus" /> die
                 Darstellung, so werden die zusammengefassten POI Schritt für Schritt in die
@@ -767,8 +767,8 @@ export class StadtplanModalApplicationMenu_ extends React.Component {
                 <br />
               </div>
               <h4>
-                POI auswählen und abfragen{" "}
-                <Link to="help" containerId="myMenu" style={{ color: "#00000044" }}>
+                POI auswählen und abfragen{' '}
+                <Link to="help" containerId="myMenu" style={{ color: '#00000044' }}>
                   <Icon name="arrow-circle-up" />
                 </Link>
               </h4>
@@ -780,7 +780,7 @@ export class StadtplanModalApplicationMenu_ extends React.Component {
                 (unten rechts) angezeigt. (Auf einem Tablet-PC wird der Fokus durch das erste
                 Antippen des Angebots gesetzt, das zweite Antippen blendet die Bezeichnung ein.)
                 Außerdem werden Ihnen in der Info-Box weiterführende (Kommunikations-) Links zum POI
-                angezeigt: <Icon name="external-link-square" /> Internet,{" "}
+                angezeigt: <Icon name="external-link-square" /> Internet,{' '}
                 <Icon name="envelope-square" /> E-Mail und <Icon name="phone" /> Telefon.
               </p>
               <p>
@@ -803,8 +803,8 @@ export class StadtplanModalApplicationMenu_ extends React.Component {
                 <br />
               </div>
               <h4>
-                In Karte positionieren{" "}
-                <Link to="help" containerId="myMenu" style={{ color: "#00000044" }}>
+                In Karte positionieren{' '}
+                <Link to="help" containerId="myMenu" style={{ color: '#00000044' }}>
                   <Icon name="arrow-circle-up" />
                 </Link>
               </h4>
@@ -814,16 +814,16 @@ export class StadtplanModalApplicationMenu_ extends React.Component {
                 eines POI im Eingabefeld links unten ein (mindestens 2 Zeichen). In der
                 inkrementellen Auswahlliste werden Ihnen passende Treffer angeboten. (Wenn Sie
                 weitere Zeichen eingeben, wird der Inhalt der Auswahlliste angepasst.) Durch das
-                vorangestellte Symbol erkennen Sie, ob es sich dabei um einen <Icon name="circle" />{" "}
-                Stadtbezirk, ein <Icon name="pie-chart" /> Quartier, eine <Icon name="home" />{" "}
-                Adresse, eine <Icon name="road" /> Straße ohne zugeordnete Hausnummern, einen{" "}
+                vorangestellte Symbol erkennen Sie, ob es sich dabei um einen <Icon name="circle" />{' '}
+                Stadtbezirk, ein <Icon name="pie-chart" /> Quartier, eine <Icon name="home" />{' '}
+                Adresse, eine <Icon name="road" /> Straße ohne zugeordnete Hausnummern, einen{' '}
                 <Icon name="tag" /> POI oder die <Icon name="tags" /> alternative Bezeichnung eines
                 POI handelt.
               </p>
               <p>
                 Nach der Auswahl eines Treffers aus der Liste wird die Karte auf die zugehörige
                 Position zentriert. Bei Suchbegriffen mit Punktgeometrie (Adresse, Straße, POI) wird
-                außerdem ein großer Maßstab (Zoomstufe 14) eingestellt und ein Marker{" "}
+                außerdem ein großer Maßstab (Zoomstufe 14) eingestellt und ein Marker{' '}
                 <img alt="Cluster" src="images/AdressMarker.jpg" /> auf der Zielposition platziert.
                 Bei Suchbegriffen mit Flächengeometrie (Stadtbezirk, Quartier) wird der Maßstab so
                 eingestellt, dass die Fläche vollständig dargestellt werden kann. Zusätzlich wird
@@ -839,17 +839,17 @@ export class StadtplanModalApplicationMenu_ extends React.Component {
                 <br />
               </div>
               <h4>
-                Mein Standort{" "}
-                <Link to="help" containerId="myMenu" style={{ color: "#00000044" }}>
+                Mein Standort{' '}
+                <Link to="help" containerId="myMenu" style={{ color: '#00000044' }}>
                   <Icon name="arrow-circle-up" />
                 </Link>
               </h4>
               <p>
                 Mit der Funktion 'Mein Standort' <Icon name="map-marker" /> können Sie ihren
-                aktuellen Standort mit einem blauen Kreissymbol{" "}
+                aktuellen Standort mit einem blauen Kreissymbol{' '}
                 <img alt="Cluster" src="images/MeinStandpunktMarker.jpg" /> in der Karte anzeigen.
                 Das Standortsymbol ist umgeben von einem zweiten Kreis mit transparenter, blauer
-                Füllung, dessen Radius die Unsicherheit der Positionsbestimmung angibt{" "}
+                Füllung, dessen Radius die Unsicherheit der Positionsbestimmung angibt{' '}
                 <img alt="Cluster" src="images/MeinStandpunktMarkerDoppel.jpg" />. Die Richtigkeit
                 der Positionsanzeige ist dabei nicht garantiert, ihre Genauigkeit hängt davon ab,
                 mit welcher Methode Ihr Endgerät und der von Ihnen verwendete Browser die Position
@@ -864,15 +864,15 @@ export class StadtplanModalApplicationMenu_ extends React.Component {
                 <br />
               </div>
               <h4>
-                Mein Themenstadtplan{" "}
-                <Link to="help" containerId="myMenu" style={{ color: "#00000044" }}>
+                Mein Themenstadtplan{' '}
+                <Link to="help" containerId="myMenu" style={{ color: '#00000044' }}>
                   <Icon name="arrow-circle-up" />
                 </Link>
               </h4>
               <p>
-                Unter "<strong>Mein Themenstadtplan</strong>" können Sie im Anwendungsmenü{" "}
+                Unter "<strong>Mein Themenstadtplan</strong>" können Sie im Anwendungsmenü{' '}
                 <Icon name="bars" /> auswählen, welche POI-Kategorien in der Karte dargestellt
-                werden. Über die Schaltfläche{" "}
+                werden. Über die Schaltfläche{' '}
                 <img alt="Cluster" src="images/sf_keinethemenausw.png" /> können Sie die POI
                 vollständig ausblenden - auch die Info-Box wird dann nicht mehr angezeigt.
               </p>
@@ -900,13 +900,13 @@ export class StadtplanModalApplicationMenu_ extends React.Component {
                 <br />
               </div>
               <h4>
-                Einstellungen{" "}
-                <Link to="help" containerId="myMenu" style={{ color: "#00000044" }}>
+                Einstellungen{' '}
+                <Link to="help" containerId="myMenu" style={{ color: '#00000044' }}>
                   <Icon name="arrow-circle-up" />
                 </Link>
               </h4>
               <p>
-                Unter "<strong>Einstellungen</strong>" können Sie im Anwendungsmenü{" "}
+                Unter "<strong>Einstellungen</strong>" können Sie im Anwendungsmenü{' '}
                 <Icon name="bars" /> festlegen, wie die POI und die Hintergrundkarte angezeigt
                 werden sollen. Zu den POI können Sie auswählen, ob Ihre unter "
                 <strong>Mein Themenstadtplan</strong>" festgelegte Lebenslagen-Filterung in einer
@@ -944,8 +944,8 @@ export class StadtplanModalApplicationMenu_ extends React.Component {
                 <br />
               </div>
               <h4>
-                Personalisierung{" "}
-                <Link to="help" containerId="myMenu" style={{ color: "#00000044" }}>
+                Personalisierung{' '}
+                <Link to="help" containerId="myMenu" style={{ color: '#00000044' }}>
                   <Icon name="arrow-circle-up" />
                 </Link>
               </h4>
@@ -962,16 +962,16 @@ export class StadtplanModalApplicationMenu_ extends React.Component {
         <Modal.Footer>
           <table
             style={{
-              width: "100%"
+              width: '100%'
             }}
           >
             <tbody>
               <tr>
                 <td
                   style={{
-                    textAlign: "left",
-                    verticalAlign: "top",
-                    paddingRight: "30px"
+                    textAlign: 'left',
+                    verticalAlign: 'top',
+                    paddingRight: '30px'
                   }}
                 >
                   <GenericRVRStadtplanwerkMenuFooter />

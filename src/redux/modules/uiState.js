@@ -1,18 +1,18 @@
-import objectAssign from "object-assign";
+import objectAssign from 'object-assign';
 
 ///TYPES
 export const types = {
-  SCREEN_RESIZE: "UISTATE/SCREEN_RESIZE",
-  SHOW_APPLICATION_MENU: "UISTATE/SHOW_APPLICATION_MENU",
-  SET_GAZBOX_ENABLED: "UISTATE/SET_GAZBOX_ENABLED",
-  SET_GAZBOX_INFO_TEXT: "UISTATE/SET_GAZBOX_INFO_TEXT",
-  SET_GAZBOX_VISIBLE: "UISTATE/SET_GAZBOX_VISIBLE",
-  SET_APPLICATION_MENU_ACTIVE_KEY: "UISTATE/SET_APPLICATION_MENU_ACTIVE_KEY",
-  SET_LIGHTBOX_VISIBLE: "UISTATE/SET_LIGHTBOX_VISIBLE",
-  SET_LIGHTBOX_INDEX: "UISTATE/SET_LIGHTBOX_INDEX",
-  SET_LIGHTBOX_URLS: "UISTATE/SET_LIGHTBOX_URLS",
-  SET_LIGHTBOX_TITLE: "UISTATE/SET_LIGHTBOX_TITLE",
-  SET_LIGHTBOX_CAPTION: "UISTATE/SET_LIGHTBOX_CAPTION"
+  SCREEN_RESIZE: 'UISTATE/SCREEN_RESIZE',
+  SHOW_APPLICATION_MENU: 'UISTATE/SHOW_APPLICATION_MENU',
+  SET_GAZBOX_ENABLED: 'UISTATE/SET_GAZBOX_ENABLED',
+  SET_GAZBOX_INFO_TEXT: 'UISTATE/SET_GAZBOX_INFO_TEXT',
+  SET_GAZBOX_VISIBLE: 'UISTATE/SET_GAZBOX_VISIBLE',
+  SET_APPLICATION_MENU_ACTIVE_KEY: 'UISTATE/SET_APPLICATION_MENU_ACTIVE_KEY',
+  SET_LIGHTBOX_VISIBLE: 'UISTATE/SET_LIGHTBOX_VISIBLE',
+  SET_LIGHTBOX_INDEX: 'UISTATE/SET_LIGHTBOX_INDEX',
+  SET_LIGHTBOX_URLS: 'UISTATE/SET_LIGHTBOX_URLS',
+  SET_LIGHTBOX_TITLE: 'UISTATE/SET_LIGHTBOX_TITLE',
+  SET_LIGHTBOX_CAPTION: 'UISTATE/SET_LIGHTBOX_CAPTION'
 };
 
 ///INITIAL STATE
@@ -21,15 +21,15 @@ const initialState = {
   height: null,
   applicationMenuVisible: false,
   applicationMenuActiveKey: null,
-  gazeteerBoxInfoText: "Geben Sie einen Suchbegriff ein. XXX",
+  gazeteerBoxInfoText: 'Geben Sie einen Suchbegriff ein. XXX',
   gazeteerBoxVisible: true,
   gazetteerBoxEnabled: false,
   lightboxurls: [
-    "http://www.fotokraemer-wuppertal.de/images/Schloss%20Luentenbeck-016-02-24-004%20(1).jpg",
-    "http://www.fotokraemer-wuppertal.de/images/Schloss%20Luentenbeck-016-02-24-005.jpg",
-    "http://www.fotokraemer-wuppertal.de/images/Schloss%20Luentenbeck-016-02-24-001.jpg",
-    "http://www.fotokraemer-wuppertal.de/images/Schloss%20Luentenbeck-016-02-24-003.jpg",
-    "http://www.fotokraemer-wuppertal.de/images/Schloss%20Luentenbeck-016-02-24-009%20(1).jpg"
+    'http://www.fotokraemer-wuppertal.de/images/Schloss%20Luentenbeck-016-02-24-004%20(1).jpg',
+    'http://www.fotokraemer-wuppertal.de/images/Schloss%20Luentenbeck-016-02-24-005.jpg',
+    'http://www.fotokraemer-wuppertal.de/images/Schloss%20Luentenbeck-016-02-24-001.jpg',
+    'http://www.fotokraemer-wuppertal.de/images/Schloss%20Luentenbeck-016-02-24-003.jpg',
+    'http://www.fotokraemer-wuppertal.de/images/Schloss%20Luentenbeck-016-02-24-009%20(1).jpg'
   ],
   lightboxindex: 0,
   lightboxvisible: false,

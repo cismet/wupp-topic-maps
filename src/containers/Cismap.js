@@ -1,43 +1,43 @@
-import React from "react";
-import PropTypes from "prop-types";
-import { Map, ZoomControl } from "react-leaflet";
-import { connect } from "react-redux";
-import "proj4leaflet";
-import { Layers } from "../components/Layers";
-import FeatureCollectionDisplay from "../components/FeatureCollectionDisplay";
-import GazetteerHitDisplay from "../components/GazetteerHitDisplay";
-import { crs25832, proj4crs25832def } from "../constants/gis";
-import proj4 from "proj4";
-import { bindActionCreators } from "redux";
-import FullscreenControl from "../components/FullscreenControl";
-import NewWindowControl from "../components/NewWindowControl";
-import queryString from "query-string";
+import React from 'react';
+import PropTypes from 'prop-types';
+import { Map, ZoomControl } from 'react-leaflet';
+import { connect } from 'react-redux';
+import 'proj4leaflet';
+import { Layers } from '../components/Layers';
+import FeatureCollectionDisplay from '../components/FeatureCollectionDisplay';
+import GazetteerHitDisplay from '../components/GazetteerHitDisplay';
+import { crs25832, proj4crs25832def } from '../constants/gis';
+import proj4 from 'proj4';
+import { bindActionCreators } from 'redux';
+import FullscreenControl from '../components/FullscreenControl';
+import NewWindowControl from '../components/NewWindowControl';
+import queryString from 'query-string';
 
-import Control from "react-leaflet-control";
-import { Button, OverlayTrigger, Tooltip } from "react-bootstrap";
+import Control from 'react-leaflet-control';
+import { Button, OverlayTrigger, Tooltip } from 'react-bootstrap';
 
-import { routerActions } from "react-router-redux";
-import { modifyQueryPart } from "../utils/routingHelper";
-import { actions as mappingActions, constants as mappingConstants } from "../redux/modules/mapping";
-import { Icon } from "react-fa";
-import { actions as uiStateActions } from "../redux/modules/uiState";
+import { routerActions } from 'react-router-redux';
+import { modifyQueryPart } from '../utils/routingHelper';
+import { actions as mappingActions, constants as mappingConstants } from '../redux/modules/mapping';
+import { Icon } from 'react-fa';
+import { actions as uiStateActions } from '../redux/modules/uiState';
 import {
   actions as gazetteerTopicsActions,
   getGazDataForTopicIds
-} from "../redux/modules/gazetteerTopics";
-import "url-search-params-polyfill";
-import { WUNDAAPI } from "../constants/services";
+} from '../redux/modules/gazetteerTopics';
+import 'url-search-params-polyfill';
+import { WUNDAAPI } from '../constants/services';
 
 // need to have this import
 // eslint-disable-next-line
-import markerClusterGroup from "leaflet.markercluster";
+import markerClusterGroup from 'leaflet.markercluster';
 
-import ProjSingleGeoJson from "../components/ProjSingleGeoJson";
+import ProjSingleGeoJson from '../components/ProjSingleGeoJson';
 
-import LocateControl from "../components/LocateControl";
-import GazetteerSearchControl from "../components/commons/GazetteerSearchControl";
+import LocateControl from '../components/LocateControl';
+import GazetteerSearchControl from '../components/commons/GazetteerSearchControl';
 
-import { builtInGazetteerHitTrigger } from "../utils/gazetteerHelper";
+import { builtInGazetteerHitTrigger } from '../utils/gazetteerHelper';
 
 function mapStateToProps(state) {
   return {
@@ -88,11 +88,11 @@ export class Cismap_ extends React.Component {
     //Über uiStateActions anzeigen dass die Combobox nocht nicht funktionsfähig ist
 
     this.props.uiStateActions.setGazetteerBoxEnabled(false);
-    this.props.uiStateActions.setGazetteerBoxInfoText("Ortsinformationen werden geladen ...");
+    this.props.uiStateActions.setGazetteerBoxInfoText('Ortsinformationen werden geladen ...');
 
     this.props.gazetteerTopicsActions.loadTopicsData(this.props.gazTopics).then(() => {
       if (this.props.gazetteerTopics.adressen === undefined) {
-        console.log("this.props.gazetteerTopics.adressen === undefined");
+        console.log('this.props.gazetteerTopics.adressen === undefined');
       }
 
       this.gazData = getGazDataForTopicIds(this.props.gazetteerTopics, this.props.gazTopics);
@@ -105,17 +105,17 @@ export class Cismap_ extends React.Component {
   }
 
   componentDidMount() {
-    this.refs.leafletMap.leafletElement.on("moveend", () => {
+    this.refs.leafletMap.leafletElement.on('moveend', () => {
       const zoom = this.refs.leafletMap.leafletElement.getZoom();
       const center = this.refs.leafletMap.leafletElement.getCenter();
       const latFromUrl = parseFloat(
-        new URLSearchParams(this.props.routing.location.search).get("lat")
+        new URLSearchParams(this.props.routing.location.search).get('lat')
       );
       const lngFromUrl = parseFloat(
-        new URLSearchParams(this.props.routing.location.search).get("lng")
+        new URLSearchParams(this.props.routing.location.search).get('lng')
       );
       const zoomFromUrl = parseInt(
-        new URLSearchParams(this.props.routing.location.search).get("zoom"),
+        new URLSearchParams(this.props.routing.location.search).get('zoom'),
         10
       );
       var lat = center.lat;
@@ -160,7 +160,7 @@ export class Cismap_ extends React.Component {
   }
 
   componentDidUpdate() {
-    if (typeof this.refs.leafletMap !== "undefined" && this.refs.leafletMap != null) {
+    if (typeof this.refs.leafletMap !== 'undefined' && this.refs.leafletMap != null) {
       if (this.props.mapping.autoFitBounds) {
         if (this.props.mapping.autoFitMode === mappingConstants.AUTO_FIT_MODE_NO_ZOOM_IN) {
           if (
@@ -181,11 +181,11 @@ export class Cismap_ extends React.Component {
   storeBoundingBox() {
     //store the projected bounds in the store
     const bounds = this.refs.leafletMap.leafletElement.getBounds();
-    const projectedNE = proj4(proj4.defs("EPSG:4326"), proj4crs25832def, [
+    const projectedNE = proj4(proj4.defs('EPSG:4326'), proj4crs25832def, [
       bounds._northEast.lng,
       bounds._northEast.lat
     ]);
-    const projectedSW = proj4(proj4.defs("EPSG:4326"), proj4crs25832def, [
+    const projectedSW = proj4(proj4.defs('EPSG:4326'), proj4crs25832def, [
       bounds._southWest.lng,
       bounds._southWest.lat
     ]);
@@ -242,11 +242,11 @@ export class Cismap_ extends React.Component {
       <div key={option.sorter}>
         <Icon
           style={{
-            marginRight: "10px",
-            width: "18px"
+            marginRight: '10px',
+            width: '18px'
           }}
           name={option.glyph}
-          size={"lg"}
+          size={'lg'}
         />
         <span>{option.string}</span>
       </div>
@@ -261,17 +261,17 @@ export class Cismap_ extends React.Component {
     let queryO = {
       list: [
         {
-          key: "input",
+          key: 'input',
           value: query
         }
       ]
     };
     fetch(
-      WUNDAAPI + "/searches/WUNDA_BLAU.BPlanAPIGazeteerSearch/results?role=all&limit=100&offset=0",
+      WUNDAAPI + '/searches/WUNDA_BLAU.BPlanAPIGazeteerSearch/results?role=all&limit=100&offset=0',
       {
-        method: "post",
+        method: 'post',
         headers: {
-          "Content-Type": "application/json"
+          'Content-Type': 'application/json'
         },
         body: JSON.stringify(queryO)
       }
@@ -296,16 +296,16 @@ export class Cismap_ extends React.Component {
     //    const zoomByUrl= parseInt(this.props.routing.locationBeforeTransitions.query.zoom)||14
 
     const positionByUrl = [
-      parseFloat(new URLSearchParams(this.props.routing.location.search).get("lat")) ||
+      parseFloat(new URLSearchParams(this.props.routing.location.search).get('lat')) ||
         this.props.fallbackposition.lat,
-      parseFloat(new URLSearchParams(this.props.routing.location.search).get("lng")) ||
+      parseFloat(new URLSearchParams(this.props.routing.location.search).get('lng')) ||
         this.props.fallbackposition.lng
     ];
     const zoomByUrl =
-      parseInt(new URLSearchParams(this.props.routing.location.search).get("zoom"), 10) ||
+      parseInt(new URLSearchParams(this.props.routing.location.search).get('zoom'), 10) ||
       this.props.initialZoom;
 
-    const layerArr = this.props.layers.split("|");
+    const layerArr = this.props.layers.split('|');
 
     //      <Icon name='search' />
 
@@ -321,21 +321,21 @@ export class Cismap_ extends React.Component {
     let width = this.props.uiState.width;
     let gap = 25;
 
-    let infoBoxControlPosition = "bottomright";
-    let searchControlPosition = "bottomleft";
+    let infoBoxControlPosition = 'bottomright';
+    let searchControlPosition = 'bottomleft';
     let searchControlWidth = 300;
     let widthLeft = searchControlWidth;
     let infoStyle = {
-      opacity: "0.9",
+      opacity: '0.9',
       width: this.props.infoBox.props.pixelwidth
     };
 
     if (width - gap - widthLeft - widthRight <= 0) {
-      infoBoxControlPosition = "bottomleft";
+      infoBoxControlPosition = 'bottomleft';
       searchControlWidth = width - gap;
       infoStyle = {
         ...infoStyle,
-        width: searchControlWidth + "px"
+        width: searchControlWidth + 'px'
       };
     }
 
@@ -388,9 +388,9 @@ export class Cismap_ extends React.Component {
     let inIframe = window.self !== window.top;
     let simulateInIframe = false;
     let simulateInIOS = false;
-    let iosClass = "no-iOS-device";
+    let iosClass = 'no-iOS-device';
     if (simulateInIOS || iOS) {
-      iosClass = "iOS-device";
+      iosClass = 'iOS-device';
       if (simulateInIframe || inIframe) {
         fullscreenControl = (
           // <OverlayTrigger placement="left" overlay={(<Tooltip>Maximiert in neuem Browser-Tab öffnen.</Tooltip>)}>
@@ -419,13 +419,13 @@ export class Cismap_ extends React.Component {
     }
     let namedMapStyle = queryString.parse(this.props.routing.location.search).mapStyle;
 
-    if (namedMapStyle === undefined || namedMapStyle === "default") {
-      namedMapStyle = "";
+    if (namedMapStyle === undefined || namedMapStyle === 'default') {
+      namedMapStyle = '';
     } else {
-      namedMapStyle = "." + namedMapStyle;
+      namedMapStyle = '.' + namedMapStyle;
     }
 
-    const mykey = "leafletMap.Layers:" + JSON.stringify(layerArr);
+    const mykey = 'leafletMap.Layers:' + JSON.stringify(layerArr);
     return (
       <div className={iosClass}>
         <Map
@@ -448,12 +448,12 @@ export class Cismap_ extends React.Component {
         >
           {overlayFeature}
           {layerArr.map(layerWithOptions => {
-            const layOp = layerWithOptions.split("@");
+            const layOp = layerWithOptions.split('@');
             if (!isNaN(parseInt(layOp[1], 10))) {
               const layerGetter = Layers.get(layOp[0] + namedMapStyle);
               if (layerGetter) {
                 return layerGetter({
-                  opacity: parseInt(layOp[1] || "100", 10) / 100.0
+                  opacity: parseInt(layOp[1] || '100', 10) / 100.0
                 });
               } else {
                 return null;
@@ -471,7 +471,7 @@ export class Cismap_ extends React.Component {
               } catch (error) {
                 console.error(error);
                 console.error(
-                  "Problems during parsing of the layer options. Skip options. You will get the 100% Layer:" +
+                  'Problems during parsing of the layer options. Skip options. You will get the 100% Layer:' +
                     layOp[0]
                 );
                 const layerGetter = Layers.get(layOp[0] + namedMapStyle);
@@ -491,16 +491,16 @@ export class Cismap_ extends React.Component {
             }
           })}
           <GazetteerHitDisplay
-            key={"gazHit" + JSON.stringify(this.props.mapping.gazetteerHit)}
+            key={'gazHit' + JSON.stringify(this.props.mapping.gazetteerHit)}
             mappingProps={this.props.mapping}
           />
           <FeatureCollectionDisplay
             key={
               JSON.stringify(this.props.mapping.featureCollection) +
               this.props.featureKeySuffixCreator() +
-              "clustered:" +
+              'clustered:' +
               this.props.clustered +
-              ".customPostfix:" +
+              '.customPostfix:' +
               this.props.mapping.featureCollectionKeyPostfix
             }
             mappingProps={this.props.mapping}
@@ -539,11 +539,11 @@ export class Cismap_ extends React.Component {
             setView="once"
             flyTo={true}
             strings={{
-              title: "Mein Standort",
-              metersUnit: "Metern",
-              feetUnit: "Feet",
-              popup: "Sie befinden sich im Umkreis von {distance} {unit} um diesen Punkt.",
-              outsideMapBoundsMsg: "Sie gefinden sich wahrscheinlich außerhalb der Kartengrenzen."
+              title: 'Mein Standort',
+              metersUnit: 'Metern',
+              feetUnit: 'Feet',
+              popup: 'Sie befinden sich im Umkreis von {distance} {unit} um diesen Punkt.',
+              outsideMapBoundsMsg: 'Sie gefinden sich wahrscheinlich außerhalb der Kartengrenzen.'
             }}
           />
           {this.props.children}
@@ -592,7 +592,7 @@ Cismap_.propTypes = {
 };
 
 Cismap_.defaultProps = {
-  layers: "bplan_abkg_uncached",
+  layers: 'bplan_abkg_uncached',
   ondblclick: function() {},
   gazeteerHitTrigger: function() {},
   searchButtonTrigger: function() {},
@@ -637,8 +637,8 @@ Cismap_.defaultProps = {
   searchMaxZoom: 18,
   gazTopics: [],
   searchAfterGazetteer: false,
-  gazBoxInfoText: "Geben Sie einen Suchbegriff ein.",
-  applicationMenuIcon: "bars",
+  gazBoxInfoText: 'Geben Sie einen Suchbegriff ein.',
+  applicationMenuIcon: 'bars',
   clustered: false,
   clusterOptions: {
     spiderfyOnMaxZoom: false,
@@ -650,7 +650,7 @@ Cismap_.defaultProps = {
     cismapZoomTillSpiderfy: 12,
     selectionSpiderfyMinZoom: 12
   },
-  featureKeySuffixCreator: () => "",
+  featureKeySuffixCreator: () => '',
   fallbackposition: {
     lat: 51.272399,
     lng: 7.199712

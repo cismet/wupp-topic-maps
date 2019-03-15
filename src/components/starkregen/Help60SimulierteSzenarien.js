@@ -1,5 +1,5 @@
-import React from "react";
-import GenericModalMenuSection from "../commons/GenericModalMenuSection";
+import React from 'react';
+import GenericModalMenuSection from '../commons/GenericModalMenuSection';
 
 const Component = ({ uiState, uiStateActions }) => {
   return (
@@ -26,14 +26,14 @@ const Component = ({ uiState, uiStateActions }) => {
             in dieser Zeit fallende Niederschlagsmenge (in Liter pro Quadratmeter, abgekürzt "l/m²")
             und den zeitlichen Verlauf der Regenintensität definiert. Für den Intensitätsverlauf
             gibt es zwei Modelle: beim sog. <strong>Blockregen</strong> ist die Intensität über die
-            gesamte Dauer des Regenereignisses konstant. Beim <strong>Eulerregen Typ II</strong>{" "}
+            gesamte Dauer des Regenereignisses konstant. Beim <strong>Eulerregen Typ II</strong>{' '}
             werden in 5 Minuten-Abschnitten unterschiedliche Intensitäten angenommen, die bis zur
             maximalen Intensität schnell und gleichmäßig ansteigen, dann stark abfallen und danach
             allmählich abklingen.
           </p>
 
           <p>
-            Zur Einteilung der Starkregen dient der ortsbezogene{" "}
+            Zur Einteilung der Starkregen dient der ortsbezogene{' '}
             <strong>Starkregenindex (SRI)</strong>, der Niederschläge in eine Skala von 1 bis 12
             einteilt, vergleichbar mit der Klassifizierung von Erdbeben nach Mercalli. (Das Ereignis
             vom 29.05.2018 entsprach im Zentrum des Unwetters dem SRI 11.) Der Starkregenindex wird
@@ -59,7 +59,7 @@ const Component = ({ uiState, uiStateActions }) => {
 
             <li>
               <strong>Stärke 7</strong>: außergewöhnliches Starkregenereignis, Dauer 2 h,
-              Niederschlag 42 l/m², Eulerregen Typ II, SRI 7, 100-jährliche Wiederkehrzeit{" "}
+              Niederschlag 42 l/m², Eulerregen Typ II, SRI 7, 100-jährliche Wiederkehrzeit{' '}
             </li>
 
             <li>

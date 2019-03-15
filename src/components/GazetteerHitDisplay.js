@@ -1,26 +1,26 @@
-import React from "react";
-import PropTypes from "prop-types";
-import AwesomeMarker from "./AwesomeMarker";
-import { proj4crs25832def } from "../constants/gis";
-import proj4 from "proj4";
+import React from 'react';
+import PropTypes from 'prop-types';
+import AwesomeMarker from './AwesomeMarker';
+import { proj4crs25832def } from '../constants/gis';
+import proj4 from 'proj4';
 
 const GazetteerHitDisplay = ({ mappingProps, style, labeler, featureClickHandler, mapRef }) => {
   let gazMarker = null;
 
   if (mappingProps.gazetteerHit != null) {
-    const pos = proj4(proj4crs25832def, proj4.defs("EPSG:4326"), [
+    const pos = proj4(proj4crs25832def, proj4.defs('EPSG:4326'), [
       mappingProps.gazetteerHit.x,
       mappingProps.gazetteerHit.y
     ]);
     let markerOptions = {
       icon: mappingProps.gazetteerHit.glyph,
-      markerColor: "blue",
+      markerColor: 'blue',
       spin: false,
-      prefix: "fa"
+      prefix: 'fa'
     };
     gazMarker = (
       <AwesomeMarker
-        key={"gazmarker." + JSON.stringify(mappingProps.gazetteerHit)}
+        key={'gazmarker.' + JSON.stringify(mappingProps.gazetteerHit)}
         markerOptions={markerOptions}
         position={[pos[1], pos[0]]}
       />

@@ -1,5 +1,5 @@
-import React from "react";
-import GenericModalMenuSection from "../commons/GenericModalMenuSection";
+import React from 'react';
+import GenericModalMenuSection from '../commons/GenericModalMenuSection';
 
 const Component = ({ uiState, uiStateActions, showModalMenu }) => {
   return (
@@ -16,7 +16,7 @@ const Component = ({ uiState, uiStateActions, showModalMenu }) => {
             Stand der Technik entsprechen. Die Berechnungen basieren auf einem vereinfachten Modell
             der tatsächlichen Verhältnisse. Für eine noch differenzierte Modellierung fehlen zum
             einen die Daten, zum anderen ließe sich die automatisierte Berechnung nicht mehr in
-            erlebbarer Zeit durchführen!{" "}
+            erlebbarer Zeit durchführen!{' '}
           </p>
 
           <p>Was sind die wichtigsten Vereinfachungen, die wir vornehmen mussten?</p>
@@ -31,7 +31,7 @@ const Component = ({ uiState, uiStateActions, showModalMenu }) => {
             </li>
 
             <li>
-              Teile des Regenwassers würden in der Realität durch <strong>Versickerung</strong> oder{" "}
+              Teile des Regenwassers würden in der Realität durch <strong>Versickerung</strong> oder{' '}
               <strong>Verdunstung</strong> verschwinden. Diese Effekte haben wir aus fachlichen
               Gründen bewusst vernachlässigt. Die Verdunstung spielt im Starkregenfall nur eine
               untergeordnete Rolle und die Versickerung ist stark von den Ausgangsbedingungen
@@ -43,13 +43,13 @@ const Component = ({ uiState, uiStateActions, showModalMenu }) => {
             <strong>
               Die Vereinfachungen bewirken, dass die Simulationen den schlimmsten anzunehmenden Fall
               zeigen.
-            </strong>{" "}
+            </strong>{' '}
             Wenn es z. B. in den Tagen vor dem angenommenen Starkregenereignis schon so viel
             geregnet hätte, dass der Boden mit Wasser gesättigt ist, würde der Effekt der
             Versickerung ja tatsächlich wegfallen! Es bleibt aber eine gewisse Tendenz zur lokalen
             Überzeichnung der Wasserstände, die sich bei einem realen Regen der angenommenen Stärke
-            einstellen würden. Um diesem Umstand Rechnung zu tragen, geben wir bei der{" "}
-            <a onClick={() => showModalMenu("wasserstand")}>Abfrage des maximalen Wasserstandes</a>{" "}
+            einstellen würden. Um diesem Umstand Rechnung zu tragen, geben wir bei der{' '}
+            <a onClick={() => showModalMenu('wasserstand')}>Abfrage des maximalen Wasserstandes</a>{' '}
             ab einem Berechnungsergebnis von 150 cm nur noch "größer als 150 cm" (> 150 cm) als
             Ergebnis an.
           </p>
@@ -63,8 +63,8 @@ const Component = ({ uiState, uiStateActions, showModalMenu }) => {
           <p>
             Auch das Digitale Geländemodell (DGM), das für die Simulationen verwendet wird, kann
             Fehler aufweisen. Helfen Sie uns dabei, das DGM sukzessive zu verbessern, indem Sie uns
-            vermutete{" "}
-            <a onClick={() => showModalMenu("modellfehlermelden")}>
+            vermutete{' '}
+            <a onClick={() => showModalMenu('modellfehlermelden')}>
               Fehler im Geländemodell melden
             </a>
             ! Zuletzt kann es sein, dass ein bestehendes Gebäude in den Simulationen nicht

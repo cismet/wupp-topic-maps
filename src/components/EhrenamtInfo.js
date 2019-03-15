@@ -1,8 +1,8 @@
-import React from "react";
-import PropTypes from "prop-types";
-import { OverlayTrigger, Well, Tooltip } from "react-bootstrap";
-import { Icon } from "react-fa";
-import { constants as ehrenamtConstants } from "../redux/modules/ehrenamt";
+import React from 'react';
+import PropTypes from 'prop-types';
+import { OverlayTrigger, Well, Tooltip } from 'react-bootstrap';
+import { Icon } from 'react-fa';
+import { constants as ehrenamtConstants } from '../redux/modules/ehrenamt';
 
 // Since this component is simple and static, there's no parent container for it.
 const EhrenamtInfo = ({
@@ -28,9 +28,9 @@ const EhrenamtInfo = ({
     //console.log(JSON.stringify(currentFeature));
   };
 
-  let angebotOrAngebote = "Angebote werden";
+  let angebotOrAngebote = 'Angebote werden';
   if (featureCollection.length === 1) {
-    angebotOrAngebote = "Angebot wird";
+    angebotOrAngebote = 'Angebot wird';
   }
   let filterstatus = <div />;
 
@@ -44,29 +44,29 @@ const EhrenamtInfo = ({
     filter.negativ.kenntnisse.length +
     filter.negativ.zielgruppen.length;
 
-  let modalMenuTarget = "filtertab";
-  let filterText = "Filter aktiviert (" + (positiv + negativ) + ")";
-  let filterColor = "grey";
-  let bookmarksTooltip = "Filterliste öffnen";
+  let modalMenuTarget = 'filtertab';
+  let filterText = 'Filter aktiviert (' + (positiv + negativ) + ')';
+  let filterColor = 'grey';
+  let bookmarksTooltip = 'Filterliste öffnen';
   if (filterMode === ehrenamtConstants.CART_FILTER) {
-    modalMenuTarget = "cart";
-    filterText = "Merklistenfilter aktiviert";
-    filterColor = "#A5695A";
-    bookmarksTooltip = "Merkliste öffnen";
+    modalMenuTarget = 'cart';
+    filterText = 'Merklistenfilter aktiviert';
+    filterColor = '#A5695A';
+    bookmarksTooltip = 'Merkliste öffnen';
   }
 
   if (positiv + negativ > 0 || filterMode === ehrenamtConstants.CART_FILTER) {
     filterstatus = (
-      <table style={{ width: "100%" }}>
+      <table style={{ width: '100%' }}>
         <tbody>
           <tr>
             <td
               style={{
-                textAlign: "left",
-                verticalAlign: "top",
+                textAlign: 'left',
+                verticalAlign: 'top',
                 background: filterColor,
-                opacity: "0.9",
-                padding: "3px"
+                opacity: '0.9',
+                padding: '3px'
               }}
             >
               <OverlayTrigger
@@ -77,7 +77,7 @@ const EhrenamtInfo = ({
                   </Tooltip>
                 }
               >
-                <a onClick={() => showModalMenu(modalMenuTarget)} style={{ color: "black" }}>
+                <a onClick={() => showModalMenu(modalMenuTarget)} style={{ color: 'black' }}>
                   <Icon name="filter" />
                   &nbsp;
                   {filterText}
@@ -86,11 +86,11 @@ const EhrenamtInfo = ({
             </td>
             <td
               style={{
-                textAlign: "right",
-                verticalAlign: "top",
+                textAlign: 'right',
+                verticalAlign: 'top',
                 background: filterColor,
-                opacity: "0.9",
-                padding: "3px"
+                opacity: '0.9',
+                padding: '3px'
               }}
             >
               <OverlayTrigger
@@ -101,7 +101,7 @@ const EhrenamtInfo = ({
                   </Tooltip>
                 }
               >
-                <a onClick={resetFilter} style={{ color: "black" }}>
+                <a onClick={resetFilter} style={{ color: 'black' }}>
                   <Icon name="close" />
                 </a>
               </OverlayTrigger>
@@ -116,10 +116,10 @@ const EhrenamtInfo = ({
     let offerLink;
     if (filteredOffers.length > 0) {
       offerLink = (
-        <table style={{ width: "100%" }}>
+        <table style={{ width: '100%' }}>
           <tbody>
             <tr>
-              <td style={{ textAlign: "center", verticalAlign: "top" }}>
+              <td style={{ textAlign: 'center', verticalAlign: 'top' }}>
                 <a onClick={fitAll}>{filteredOffers.length} Angebote in Wuppertal</a>
               </td>
             </tr>
@@ -138,10 +138,10 @@ const EhrenamtInfo = ({
           <p>
             Für mehr Angebote, Ansicht mit <Icon name="minus-square" /> verkleinern. Um nach
             Aufgabenfeldern, T&auml;tigkeiten oder Zielgruppen zu filtern, das
-            <a onClick={() => showModalMenu("filtertab")}>
-              {" "}
+            <a onClick={() => showModalMenu('filtertab')}>
+              {' '}
               Men&uuml;&nbsp;
-              <Icon name="bars" style={{ color: "black" }} /> &ouml;ffnen.
+              <Icon name="bars" style={{ color: 'black' }} /> &ouml;ffnen.
             </a>
           </p>
           {offerLink}
@@ -153,13 +153,13 @@ const EhrenamtInfo = ({
           {filterstatus}
           <h5>Keine Angebote gefunden!</h5>
           <p>
-            Für mehr Angebote Ansicht mit <Icon name="minus-square" /> verkleinern oder Filter mit{" "}
+            Für mehr Angebote Ansicht mit <Icon name="minus-square" /> verkleinern oder Filter mit{' '}
             <Icon name="close" /> deaktivieren. Um nach Aufgabenfeldern, T&auml;tigkeiten oder
             Zielgruppen zu filtern, das
-            <a onClick={() => showModalMenu("filtertab")}>
-              {" "}
+            <a onClick={() => showModalMenu('filtertab')}>
+              {' '}
               Men&uuml;&nbsp;
-              <Icon name="bars" style={{ color: "black" }} /> &ouml;ffnen.
+              <Icon name="bars" style={{ color: 'black' }} /> &ouml;ffnen.
             </a>
           </p>
           {offerLink}
@@ -167,31 +167,31 @@ const EhrenamtInfo = ({
       );
     }
   } else {
-    let toggleFilterTooltip = "Angebot merken";
-    let cartIcon = "plus-square";
-    let bookmarkColor = "#DDDDDD";
+    let toggleFilterTooltip = 'Angebot merken';
+    let cartIcon = 'plus-square';
+    let bookmarkColor = '#DDDDDD';
     if (cart.find(x => x.id === currentFeature.id) !== undefined) {
-      cartIcon = "check-square";
-      toggleFilterTooltip = "Angebot aus Merkliste entfernen";
+      cartIcon = 'check-square';
+      toggleFilterTooltip = 'Angebot aus Merkliste entfernen';
     }
     if (cart.length > 0) {
-      bookmarkColor = "#666666";
+      bookmarkColor = '#666666';
     }
     return (
       <div>
         <Well bsSize="small" onClick={logCurrentFeature}>
           {filterstatus}
-          <table style={{ width: "100%" }}>
+          <table style={{ width: '100%' }}>
             <tbody>
               <tr>
-                <td style={{ textAlign: "left", verticalAlign: "top" }}>
-                  <table style={{ width: "100%" }}>
+                <td style={{ textAlign: 'left', verticalAlign: 'top' }}>
+                  <table style={{ width: '100%' }}>
                     <tbody>
                       <tr>
-                        <td style={{ textAlign: "left" }}>
+                        <td style={{ textAlign: 'left' }}>
                           <h5>Angebot Nr. {currentFeature.id}</h5>
                         </td>
-                        <td style={{ textAlign: "right" }}>
+                        <td style={{ textAlign: 'right' }}>
                           <OverlayTrigger
                             placement="left"
                             overlay={
@@ -201,14 +201,14 @@ const EhrenamtInfo = ({
                             }
                           >
                             <a
-                              key={"ico.bookmark." + bookmarkColor}
-                              onClick={() => showModalMenu("cart")}
+                              key={'ico.bookmark.' + bookmarkColor}
+                              onClick={() => showModalMenu('cart')}
                               style={{ color: bookmarkColor }}
                             >
                               <Icon
-                                style={{ width: "26px", textAlign: "center" }}
+                                style={{ width: '26px', textAlign: 'center' }}
                                 size="2x"
-                                name={"bookmark"}
+                                name={'bookmark'}
                               />
                             </a>
                           </OverlayTrigger>
@@ -216,13 +216,13 @@ const EhrenamtInfo = ({
                       </tr>
                     </tbody>
                   </table>
-                  <table style={{ width: "100%" }}>
+                  <table style={{ width: '100%' }}>
                     <tbody>
                       <tr>
-                        <td style={{ textAlign: "left" }}>
+                        <td style={{ textAlign: 'left' }}>
                           <h6>{currentFeature.text}</h6>
                         </td>
-                        <td style={{ textAlign: "right" }}>
+                        <td style={{ textAlign: 'right' }}>
                           <OverlayTrigger
                             ref={c => (this.togglecartTooltip = c)}
                             placement="left"
@@ -237,14 +237,14 @@ const EhrenamtInfo = ({
                                 if (this.togglecartTooltip) {
                                   this.togglecartTooltip.hide();
                                 } else {
-                                  console.log("no togglecartTooltip");
+                                  console.log('no togglecartTooltip');
                                 }
                                 toggleCartFromFeature(currentFeature);
                               }}
-                              style={{ color: "black" }}
+                              style={{ color: 'black' }}
                             >
                               <Icon
-                                style={{ width: "26px", textAlign: "center" }}
+                                style={{ width: '26px', textAlign: 'center' }}
                                 size="2x"
                                 name={cartIcon}
                               />
@@ -258,11 +258,11 @@ const EhrenamtInfo = ({
               </tr>
             </tbody>
           </table>
-          <table style={{ width: "100%" }}>
+          <table style={{ width: '100%' }}>
             <tbody>
               <tr>
                 <td />
-                <td style={{ textAlign: "center", verticalAlign: "center" }}>
+                <td style={{ textAlign: 'center', verticalAlign: 'center' }}>
                   <a onClick={fitAll}>{filteredOffers.length} Angebote in Wuppertal</a>
                 </td>
 
@@ -270,20 +270,20 @@ const EhrenamtInfo = ({
               </tr>
             </tbody>
           </table>
-          <table style={{ width: "100%" }}>
+          <table style={{ width: '100%' }}>
             <tbody>
               <tr>
-                <td style={{ textAlign: "left", verticalAlign: "center" }}>
+                <td style={{ textAlign: 'left', verticalAlign: 'center' }}>
                   <a title="vorheriger Treffer" onClick={previous}>
                     &lt;&lt;
                   </a>
                 </td>
 
-                <td style={{ textAlign: "center", verticalAlign: "center" }}>
+                <td style={{ textAlign: 'center', verticalAlign: 'center' }}>
                   {featureCollection.length} {angebotOrAngebote} angezeigt
                 </td>
 
-                <td style={{ textAlign: "right", verticalAlign: "center" }}>
+                <td style={{ textAlign: 'right', verticalAlign: 'center' }}>
                   <a title="nächster Treffer" onClick={next}>
                     &gt;&gt;
                   </a>

@@ -1,6 +1,6 @@
-import PropTypes from "prop-types";
-import React from "react";
-import { connect } from "react-redux";
+import PropTypes from 'prop-types';
+import React from 'react';
+import { connect } from 'react-redux';
 
 export class Layout_ extends React.Component {
   render() {

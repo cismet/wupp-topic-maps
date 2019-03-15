@@ -1,23 +1,23 @@
-import objectAssign from "object-assign";
-import { actions as mappingActions } from "./mapping";
-import { predicateBy } from "../../utils/stringHelper";
-import kdbush from "kdbush";
-import { addSVGToPOI } from "../../utils/stadtplanHelper";
-import makeDataDuck from "../higherorderduckfactories/dataWithMD5Check";
-import { combineReducers } from "redux";
-import { persistReducer } from "redux-persist";
-import localForage from "localforage";
+import objectAssign from 'object-assign';
+import { actions as mappingActions } from './mapping';
+import { predicateBy } from '../../utils/stringHelper';
+import kdbush from 'kdbush';
+import { addSVGToPOI } from '../../utils/stadtplanHelper';
+import makeDataDuck from '../higherorderduckfactories/dataWithMD5Check';
+import { combineReducers } from 'redux';
+import { persistReducer } from 'redux-persist';
+import localForage from 'localforage';
 //TYPES
 export const types = {
   //   SET_POI_GAZ_HIT: "STADTPLAN/SET_POI_GAZ_HIT",
   //   CLEAR_POI_GAZ_HIT: "STADTPLAN/CLEAR_POI_GAZ_HIT",
-  SET_FILTERED_POIS: "STADTPLAN/SET_FILTERED_POIS",
-  SET_FILTER: "STADTPLAN/SET_FILTER",
+  SET_FILTERED_POIS: 'STADTPLAN/SET_FILTERED_POIS',
+  SET_FILTER: 'STADTPLAN/SET_FILTER',
 
-  SET_TYPES: "STADTPLAN/SET_TYPES",
-  SET_LEBENSLAGEN: "STADTPLAN/SET_LEBENSLAGEN",
+  SET_TYPES: 'STADTPLAN/SET_TYPES',
+  SET_LEBENSLAGEN: 'STADTPLAN/SET_LEBENSLAGEN',
 
-  SET_POI_SVG_SIZE: "STADTPLAN/SET_POI_SVG_SIZE"
+  SET_POI_SVG_SIZE: 'STADTPLAN/SET_POI_SVG_SIZE'
 };
 
 export const constants = {
@@ -25,7 +25,7 @@ export const constants = {
 };
 
 //HIGHER ORDER DUCKS
-const dataDuck = makeDataDuck("POIS", state => state.stadtplan.dataState);
+const dataDuck = makeDataDuck('POIS', state => state.stadtplan.dataState);
 
 ///INITIAL STATE
 const initialState = {
@@ -36,40 +36,40 @@ const initialState = {
   poitypes: [],
   filter: {
     positiv: [
-      "Freizeit",
-      "Sport",
-      "Mobilität",
-      "Religion",
-      "Erholung",
-      "Gesellschaft",
-      "Gesundheit",
-      "Kultur",
-      "öffentliche Dienstleistungen",
-      "Dienstleistungen",
-      "Orientierung",
-      "Bildung",
-      "Stadtbild",
-      "Kinderbetreuung"
+      'Freizeit',
+      'Sport',
+      'Mobilität',
+      'Religion',
+      'Erholung',
+      'Gesellschaft',
+      'Gesundheit',
+      'Kultur',
+      'öffentliche Dienstleistungen',
+      'Dienstleistungen',
+      'Orientierung',
+      'Bildung',
+      'Stadtbild',
+      'Kinderbetreuung'
     ],
     negativ: []
   },
   poiSvgSize: 35,
   apps: [
     {
-      on: ["Kinderbetreuung"],
-      name: "Kita-Finder",
-      bsStyle: "success",
+      on: ['Kinderbetreuung'],
+      name: 'Kita-Finder',
+      bsStyle: 'success',
       backgroundColor: null,
-      link: "/#/kitas",
-      target: "_kitas"
+      link: '/#/kitas',
+      target: '_kitas'
     },
     {
-      on: ["Sport", "Freizeit"],
-      name: "Schwimmbäder",
-      bsStyle: "primary",
+      on: ['Sport', 'Freizeit'],
+      name: 'Schwimmbäder',
+      bsStyle: 'primary',
       backgroundColor: null,
-      link: "/#/baeder",
-      target: "_baeder"
+      link: '/#/baeder',
+      target: '_baeder'
     }
     // {
     //   on: ["Sport"],
@@ -138,14 +138,14 @@ const localStadtplanReducer = (state = initialState, action) => {
 };
 
 const localStateStorageConfig = {
-  key: "stadtplanPOIs",
+  key: 'stadtplanPOIs',
   storage: localForage,
-  whitelist: ["pois", "poisMD5", "filter", "poitypes", "lebenslagen", "poiSvgSize"]
+  whitelist: ['pois', 'poisMD5', 'filter', 'poitypes', 'lebenslagen', 'poiSvgSize']
 };
 const dataStateStorageConfig = {
-  key: "stadtplanPOIData",
+  key: 'stadtplanPOIData',
   storage: localForage,
-  whitelist: ["items", "md5"]
+  whitelist: ['items', 'md5']
 };
 
 const stadtplanReducer = combineReducers({
@@ -202,7 +202,7 @@ function loadPOIs() {
     dispatch(
       dataDuck.actions.load({
         manualReloadRequested: manualReloadRequest,
-        dataURL: "/data/poi.data.json",
+        dataURL: '/data/poi.data.json',
         prepare: (dispatch, data) => {
           let lebenslagen = new Set();
           let poitypes = [];
@@ -224,7 +224,7 @@ function loadPOIs() {
             }
           }
 
-          dispatch(setTypes(Array.from(poitypes).sort(predicateBy("name"))));
+          dispatch(setTypes(Array.from(poitypes).sort(predicateBy('name'))));
           dispatch(setLebenslagen(Array.from(lebenslagen).sort()));
           let svgResolvingPromises = data.map(function(poi) {
             return addSVGToPOI(poi, manualReloadRequest);
@@ -252,17 +252,17 @@ function toggleFilter(kind, filter) {
       filterGroupSet.delete(filter);
     } else {
       filterGroupSet.add(filter);
-      if (kind === "positiv") {
+      if (kind === 'positiv') {
         if (filterState.negativ.indexOf(filter) !== -1) {
-          let otherFilterGroupSet = new Set(filterState["negativ"]);
+          let otherFilterGroupSet = new Set(filterState['negativ']);
           otherFilterGroupSet.delete(filter);
-          filterState["negativ"] = Array.from(otherFilterGroupSet);
+          filterState['negativ'] = Array.from(otherFilterGroupSet);
         }
       } else {
         if (filterState.positiv.indexOf(filter) !== -1) {
-          let otherFilterGroupSet = new Set(filterState["positiv"]);
+          let otherFilterGroupSet = new Set(filterState['positiv']);
           otherFilterGroupSet.delete(filter);
-          filterState["positiv"] = Array.from(otherFilterGroupSet);
+          filterState['positiv'] = Array.from(otherFilterGroupSet);
         }
       }
     }
@@ -437,7 +437,7 @@ export const getApps = state => state.localState.apps;
 //HELPER FUNCTIONS
 function convertPOIToFeature(poi, index) {
   const id = poi.id;
-  const type = "Feature";
+  const type = 'Feature';
   const selected = false;
   const geometry = poi.geojson;
   const text = poi.name;
@@ -450,9 +450,9 @@ function convertPOIToFeature(poi, index) {
     selected,
     geometry,
     crs: {
-      type: "name",
+      type: 'name',
       properties: {
-        name: "urn:ogc:def:crs:EPSG::25832"
+        name: 'urn:ogc:def:crs:EPSG::25832'
       }
     },
     properties: poi

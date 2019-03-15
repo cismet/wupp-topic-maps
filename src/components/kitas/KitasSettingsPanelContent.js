@@ -1,12 +1,12 @@
-import React from "react";
-import { FormGroup, Checkbox, Radio, ControlLabel } from "react-bootstrap";
-import { removeQueryPart } from "../../utils/routingHelper";
-import { getInternetExplorerVersion } from "../../utils/browserHelper";
-import { constants as kitasConstants } from "../../redux/modules/kitas";
-import { getChildSVG } from "../../utils/kitasHelper";
-import SymbolSizeChooser from "../commons/SymbolSizeChooser";
-import NamedMapStyleChooser from "../commons/NamedMapStyleChooser";
-import SettingsPanelWithPreviewSection from "../commons/SettingsPanelWithPreviewSection";
+import React from 'react';
+import { FormGroup, Checkbox, Radio, ControlLabel } from 'react-bootstrap';
+import { removeQueryPart } from '../../utils/routingHelper';
+import { getInternetExplorerVersion } from '../../utils/browserHelper';
+import { constants as kitasConstants } from '../../redux/modules/kitas';
+import { getChildSVG } from '../../utils/kitasHelper';
+import SymbolSizeChooser from '../commons/SymbolSizeChooser';
+import NamedMapStyleChooser from '../commons/NamedMapStyleChooser';
+import SettingsPanelWithPreviewSection from '../commons/SettingsPanelWithPreviewSection';
 
 // Since this component is simple and static, there's no parent container for it.
 const KitasSettingsPanel = ({
@@ -22,48 +22,48 @@ const KitasSettingsPanel = ({
   featureRendering,
   setFeatureRendering
 }) => {
-  let markerPreviewPrefix = "kitas.preview";
+  let markerPreviewPrefix = 'kitas.preview';
   let markerPreviewName;
   let markerPreviewRendering;
   let markerPreviewClustering;
   let markerPreviewSize;
   if (featureRendering === kitasConstants.FEATURE_RENDERING_BY_TRAEGERTYP) {
-    markerPreviewRendering = "typ";
+    markerPreviewRendering = 'typ';
   } else {
-    markerPreviewRendering = "profil";
+    markerPreviewRendering = 'profil';
   }
   if (clusteredMarkers) {
-    markerPreviewClustering = "clustered";
+    markerPreviewClustering = 'clustered';
   } else {
-    markerPreviewClustering = "unclustered";
+    markerPreviewClustering = 'unclustered';
   }
   if (markerSize >= 45) {
-    markerPreviewSize = "l";
+    markerPreviewSize = 'l';
   } else if (markerSize <= 25) {
-    markerPreviewSize = "s";
+    markerPreviewSize = 's';
   } else {
-    markerPreviewSize = "m";
+    markerPreviewSize = 'm';
   }
 
   markerPreviewName =
     markerPreviewPrefix +
-    "." +
+    '.' +
     markerPreviewRendering +
-    "." +
+    '.' +
     markerPreviewClustering +
-    "." +
+    '.' +
     markerPreviewSize +
-    ".png";
+    '.png';
   let titlePreview = null;
   if (titleDisplay) {
     titlePreview = (
-      <div style={{ align: "center", width: "100%" }}>
-        <div style={{ height: "10px" }} />
+      <div style={{ align: 'center', width: '100%' }}>
+        <div style={{ height: '10px' }} />
         <table
           style={{
-            width: "96%",
-            height: "30px",
-            margin: "0 auto",
+            width: '96%',
+            height: '30px',
+            margin: '0 auto',
             //position: 'absolute',
             // left: 54,
             top: 12
@@ -74,12 +74,12 @@ const KitasSettingsPanel = ({
             <tr>
               <td
                 style={{
-                  textAlign: "center",
-                  verticalAlign: "middle",
-                  background: "#ffffff",
-                  color: "black",
-                  opacity: "0.9",
-                  paddingleft: "10px"
+                  textAlign: 'center',
+                  verticalAlign: 'middle',
+                  background: '#ffffff',
+                  color: 'black',
+                  opacity: '0.9',
+                  paddingleft: '10px'
                 }}
               >
                 <b>Mein Kita-Finder: </b> alle Kitas | unter 2 + ab 2 Jahre | 35h pro Woche
@@ -104,9 +104,9 @@ const KitasSettingsPanel = ({
               ",url('/images/map.preview." +
               namedMapStyle +
               ".png')",
-            width: "100%",
-            height: "250px",
-            backgroundPosition: "center"
+            width: '100%',
+            height: '250px',
+            backgroundPosition: 'center'
           }}
         >
           {titlePreview}
@@ -125,21 +125,21 @@ const KitasSettingsPanel = ({
           <br />
           <Checkbox
             readOnly={true}
-            key={"title.checkbox" + titleDisplay}
+            key={'title.checkbox' + titleDisplay}
             checked={titleDisplay}
             onClick={e => {
-              console.log("routing.location.search");
+              console.log('routing.location.search');
               console.log(routing.location.search);
 
               if (e.target.checked === false) {
                 routingActions.push(
-                  routing.location.pathname + removeQueryPart(routing.location.search, "title")
+                  routing.location.pathname + removeQueryPart(routing.location.search, 'title')
                 );
               } else {
                 routingActions.push(
                   routing.location.pathname +
-                    (routing.location.search !== "" ? routing.location.search : "?") +
-                    "&title"
+                    (routing.location.search !== '' ? routing.location.search : '?') +
+                    '&title'
                 );
               }
             }}
@@ -150,18 +150,18 @@ const KitasSettingsPanel = ({
           <br />
           <Checkbox
             readOnly={true}
-            key={"clustered.checkbox" + clusteredMarkers}
+            key={'clustered.checkbox' + clusteredMarkers}
             onClick={e => {
               if (e.target.checked === true) {
                 routingActions.push(
                   routing.location.pathname +
-                    removeQueryPart(routing.location.search, "unclustered")
+                    removeQueryPart(routing.location.search, 'unclustered')
                 );
               } else {
                 routingActions.push(
                   routing.location.pathname +
-                    (routing.location.search !== "" ? routing.location.search : "?") +
-                    "&unclustered"
+                    (routing.location.search !== '' ? routing.location.search : '?') +
+                    '&unclustered'
                 );
               }
               refreshFeatureCollection();
@@ -172,7 +172,7 @@ const KitasSettingsPanel = ({
             Kitas ma&szlig;stabsabh&auml;ngig zusammenfassen
           </Checkbox>
         </FormGroup>,
-        <FormGroup key={"featureRenderingCombos." + featureRendering}>
+        <FormGroup key={'featureRenderingCombos.' + featureRendering}>
           <ControlLabel>Zeichenvorschrift:</ControlLabel>
           <br />
           <Radio
@@ -187,7 +187,7 @@ const KitasSettingsPanel = ({
             inline
           >
             nach Trägertyp
-          </Radio>{" "}
+          </Radio>{' '}
           <br />
           <Radio
             readOnly={true}
@@ -201,7 +201,7 @@ const KitasSettingsPanel = ({
             inline
           >
             nach Profil (Inklusionsschwerpunkt j/n)
-          </Radio>{" "}
+          </Radio>{' '}
         </FormGroup>,
         getInternetExplorerVersion() === -1 && (
           <NamedMapStyleChooser

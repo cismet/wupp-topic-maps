@@ -1,17 +1,17 @@
-import PropTypes from "prop-types";
-import "leaflet-easybutton";
-import "leaflet-easybutton/src/easy-button.css";
-import "../EasyButtonOverrides.css";
+import PropTypes from 'prop-types';
+import 'leaflet-easybutton';
+import 'leaflet-easybutton/src/easy-button.css';
+import '../EasyButtonOverrides.css';
 
-import { MapControl } from "react-leaflet";
-import L from "leaflet";
+import { MapControl } from 'react-leaflet';
+import L from 'leaflet';
 
 class ContactButton extends MapControl {
   componentWillMount() {
     let that = this;
 
     this.leafletElement = L.easyButton(
-      "fa-comment",
+      'fa-comment',
       function(btn, map) {
         that.props.action();
       },
@@ -31,10 +31,10 @@ ContactButton.propTypes = {
 };
 
 ContactButton.defaultProps = {
-  position: "topleft",
-  title: "",
+  position: 'topleft',
+  title: '',
   action: () => {},
-  id: "ContactButton"
+  id: 'ContactButton'
 };
 
 export default ContactButton;

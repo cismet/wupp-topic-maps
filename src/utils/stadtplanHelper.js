@@ -1,13 +1,13 @@
-import React from "react";
-import ColorHash from "color-hash";
-import Color from "color";
-import L from "leaflet";
-import createSVGPie from "create-svg-pie";
-import createElement from "svg-create-element";
-import poiColors from "../constants/poiColors.js";
-import store from "../redux/store";
-import queryString from "query-string";
-import { Icon } from "react-fa";
+import React from 'react';
+import ColorHash from 'color-hash';
+import Color from 'color';
+import L from 'leaflet';
+import createSVGPie from 'create-svg-pie';
+import createElement from 'svg-create-element';
+import poiColors from '../constants/poiColors.js';
+import store from '../redux/store';
+import queryString from 'query-string';
+import { Icon } from 'react-fa';
 
 const fallbackSVG = `
     <svg xmlns="http://www.w3.org/2000/svg" width="311.668" height="311.668">
@@ -131,7 +131,7 @@ export const getPoiClusterIconCreatorFunction = (
     const pie = createSVGPie(values, r, colors);
 
     let canvasSize = (svgSize / 3.0) * 5.0;
-    let background = createElement("svg", {
+    let background = createElement('svg', {
       width: canvasSize,
       height: canvasSize,
       viewBox: `0 0 ${canvasSize} ${canvasSize}`
@@ -139,19 +139,19 @@ export const getPoiClusterIconCreatorFunction = (
 
     //Kleiner Kreis in der Mitte
     // (blau wenn selektion)
-    let innerCircleColor = "#ffffff";
+    let innerCircleColor = '#ffffff';
     if (containsSelection) {
-      innerCircleColor = "rgb(67, 149, 254)";
+      innerCircleColor = 'rgb(67, 149, 254)';
     }
 
     //inner circle
     pie.appendChild(
-      createElement("circle", {
+      createElement('circle', {
         cx: r,
         cy: r,
         r: svgSize / 3.0,
-        "stroke-width": 0,
-        opacity: "0.5",
+        'stroke-width': 0,
+        opacity: '0.5',
         fill: innerCircleColor
       })
     );
@@ -173,50 +173,50 @@ export const getPoiClusterIconCreatorFunction = (
 
     // Umrandung
     background.appendChild(
-      createElement("circle", {
+      createElement('circle', {
         cx: canvasSize / 2.0,
         cy: canvasSize / 2.0,
         r: r,
-        "stroke-width": 2,
-        stroke: "#000000",
-        opacity: "0.5",
-        fill: "none"
+        'stroke-width': 2,
+        stroke: '#000000',
+        opacity: '0.5',
+        fill: 'none'
       })
     );
 
     if (inCart) {
       background
         .appendChild(
-          createElement("text", {
-            x: "50%",
-            y: "50%",
-            "text-anchor": "middle",
-            "font-family": "FontAwesome",
-            fill: "#fff",
-            "font-size": "26",
-            dy: ".4em",
-            opacity: "0.5"
+          createElement('text', {
+            x: '50%',
+            y: '50%',
+            'text-anchor': 'middle',
+            'font-family': 'FontAwesome',
+            fill: '#fff',
+            'font-size': '26',
+            dy: '.4em',
+            opacity: '0.5'
           })
         )
-        .appendChild(document.createTextNode("\uf005"));
+        .appendChild(document.createTextNode('\uf005'));
     }
 
     background
       .appendChild(
-        createElement("text", {
-          x: "50%",
-          y: "50%",
-          "text-anchor": "middle",
-          dy: ".3em"
+        createElement('text', {
+          x: '50%',
+          y: '50%',
+          'text-anchor': 'middle',
+          dy: '.3em'
         })
       )
       .appendChild(document.createTextNode(childCount));
 
-    pie.setAttribute("x", (canvasSize - r * 2) / 2.0);
-    pie.setAttribute("y", (canvasSize - r * 2) / 2.0);
+    pie.setAttribute('x', (canvasSize - r * 2) / 2.0);
+    pie.setAttribute('y', (canvasSize - r * 2) / 2.0);
 
     var divIcon = L.divIcon({
-      className: "leaflet-data-marker",
+      className: 'leaflet-data-marker',
       html: background.outerHTML || new XMLSerializer().serializeToString(background), //IE11 Compatibility
       iconAnchor: [canvasSize / 2.0, canvasSize / 2.0],
       iconSize: [canvasSize, canvasSize]
@@ -230,7 +230,7 @@ export const getColorForProperties = properties => {
   let { mainlocationtype } = properties;
   let ll = mainlocationtype.lebenslagen;
   //console.log(colorHash.hex("" + JSON.stringify({ll})));
-  return getColorFromLebenslagenCombination(ll.join(", "));
+  return getColorFromLebenslagenCombination(ll.join(', '));
   //return "#A83F6A";
 };
 export const getColorFromLebenslagenCombination = combination => {
@@ -272,7 +272,7 @@ export const getColorFromLebenslagenCombination = combination => {
 };
 
 export const featureHoverer = feature => {
-  return "<div>" + feature.text + "</div>";
+  return '<div>' + feature.text + '</div>';
 };
 
 const getSignatur = properties => {
@@ -281,17 +281,17 @@ const getSignatur = properties => {
   } else if (properties.mainlocationtype.signatur) {
     return properties.mainlocationtype.signatur;
   }
-  return "Platz.svg"; //TODO sinnvoller default
+  return 'Platz.svg'; //TODO sinnvoller default
 };
 
 export const addSVGToPOI = (poi, manualReloadRequested) => {
   return new Promise(function(fulfilled, rejected) {
     let cacheHeaders = new Headers();
     if (manualReloadRequested) {
-      cacheHeaders.append("pragma", "no-cache");
-      cacheHeaders.append("cache-control", "no-cache");
+      cacheHeaders.append('pragma', 'no-cache');
+      cacheHeaders.append('cache-control', 'no-cache');
     }
-    fetch("/poi-signaturen/" + getSignatur(poi), { method: "get", headers: cacheHeaders })
+    fetch('/poi-signaturen/' + getSignatur(poi), { method: 'get', headers: cacheHeaders })
       .then(response => {
         if (response.ok) {
           return response.text();
@@ -300,13 +300,13 @@ export const addSVGToPOI = (poi, manualReloadRequested) => {
         }
       })
       .then(svgText => {
-        const svgDocument = new DOMParser().parseFromString(svgText, "application/xml");
+        const svgDocument = new DOMParser().parseFromString(svgText, 'application/xml');
         const svgObject = svgDocument.documentElement;
-        if (svgObject.tagName === "svg") {
+        if (svgObject.tagName === 'svg') {
           poi.svgBadge = svgText;
           poi.svgBadgeDimension = {
-            width: svgObject.getAttribute("width"),
-            height: svgObject.getAttribute("height")
+            width: svgObject.getAttribute('width'),
+            height: svgObject.getAttribute('height')
           };
           fulfilled(poi);
         } else {
@@ -314,16 +314,16 @@ export const addSVGToPOI = (poi, manualReloadRequested) => {
         }
       })
       .catch(function(error) {
-        console.error("Problem bei /pois/signaturen/" + getSignatur(poi));
+        console.error('Problem bei /pois/signaturen/' + getSignatur(poi));
         console.error(error);
 
         //fallback SVG
-        console.log("Will use fallbackSVG for " + getSignatur(poi));
+        console.log('Will use fallbackSVG for ' + getSignatur(poi));
 
         poi.svgBadge = fallbackSVG;
         poi.svgBadgeDimension = {
-          width: "311.668",
-          height: "311.668"
+          width: '311.668',
+          height: '311.668'
         };
         fulfilled(poi);
       });
@@ -334,12 +334,12 @@ export const triggerLightBoxForPOI = (currentFeature, uiStateActions) => {
   if (
     currentFeature.properties.fotostrecke === undefined ||
     currentFeature.properties.fotostrecke === null ||
-    currentFeature.properties.fotostrecke.indexOf("&noparse") !== -1
+    currentFeature.properties.fotostrecke.indexOf('&noparse') !== -1
   ) {
     uiStateActions.setLightboxUrls([
       currentFeature.properties.foto.replace(
         /http:\/\/.*fotokraemer-wuppertal\.de/,
-        "https://wunda-geoportal-fotos.cismet.de/"
+        'https://wunda-geoportal-fotos.cismet.de/'
       )
     ]);
     uiStateActions.setLightboxTitle(currentFeature.text);
@@ -347,7 +347,7 @@ export const triggerLightBoxForPOI = (currentFeature, uiStateActions) => {
     if (currentFeature.properties.fotostrecke) {
       linkUrl = currentFeature.properties.fotostrecke;
     } else {
-      linkUrl = "http://www.fotokraemer-wuppertal.de/";
+      linkUrl = 'http://www.fotokraemer-wuppertal.de/';
     }
     uiStateActions.setLightboxCaption(
       <a href={linkUrl} target="_fotos">
@@ -360,10 +360,10 @@ export const triggerLightBoxForPOI = (currentFeature, uiStateActions) => {
     fetch(
       currentFeature.properties.fotostrecke.replace(
         /http:\/\/.*fotokraemer-wuppertal\.de/,
-        "https://wunda-geoportal-fotos.cismet.de/"
+        'https://wunda-geoportal-fotos.cismet.de/'
       ),
       {
-        method: "get"
+        method: 'get'
       }
     )
       .then(function(response) {
@@ -375,13 +375,13 @@ export const triggerLightBoxForPOI = (currentFeature, uiStateActions) => {
         let urls = [];
         let counter = 0;
         let mainfotoname = decodeURIComponent(currentFeature.properties.foto)
-          .split("/")
+          .split('/')
           .pop()
           .trim();
         let selectionWish = 0;
-        for (let el of tmp.getElementsByClassName("bilderrahmen")) {
-          let query = queryString.parse(el.getElementsByTagName("a")[0].getAttribute("href"));
-          urls.push("https://wunda-geoportal-fotos.cismet.de/images/" + query.dateiname_bild);
+        for (let el of tmp.getElementsByClassName('bilderrahmen')) {
+          let query = queryString.parse(el.getElementsByTagName('a')[0].getAttribute('href'));
+          urls.push('https://wunda-geoportal-fotos.cismet.de/images/' + query.dateiname_bild);
           if (mainfotoname === query.dateiname_bild) {
             selectionWish = counter;
           }

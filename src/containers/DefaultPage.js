@@ -1,16 +1,16 @@
-import React from "react";
-import PropTypes from "prop-types";
-import TopicMap from "../containers/TopicMap";
-import { connect } from "react-redux";
-import { bindActionCreators } from "redux";
+import React from 'react';
+import PropTypes from 'prop-types';
+import TopicMap from '../containers/TopicMap';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 
-import { Well } from "react-bootstrap";
-import { actions as UIStateActions } from "../redux/modules/uiState";
+import { Well } from 'react-bootstrap';
+import { actions as UIStateActions } from '../redux/modules/uiState';
 
-import GenericModalApplicationMenu from "../components/commons/GenericModalApplicationMenu";
-import DemoMenuIntroduction from "../components/demo/DemoMenuIntroduction";
-import DemoMenuSettingsSection from "../components/demo/DemoMenuSettingsSection";
-import DemoMenuHelpSection from "../components/demo/DemoMenuHelpSection";
+import GenericModalApplicationMenu from '../components/commons/GenericModalApplicationMenu';
+import DemoMenuIntroduction from '../components/demo/DemoMenuIntroduction';
+import DemoMenuSettingsSection from '../components/demo/DemoMenuSettingsSection';
+import DemoMenuHelpSection from '../components/demo/DemoMenuHelpSection';
 
 function mapStateToProps(state) {
   return {

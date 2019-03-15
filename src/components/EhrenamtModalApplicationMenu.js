@@ -1,7 +1,7 @@
-import React from "react";
-import PropTypes from "prop-types";
-import { bindActionCreators } from "redux";
-import { connect } from "react-redux";
+import React from 'react';
+import PropTypes from 'prop-types';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
 import {
   Modal,
   Button,
@@ -14,24 +14,24 @@ import {
   Tooltip,
   Alert,
   Label
-} from "react-bootstrap";
-import { actions as UiStateActions } from "../redux/modules/uiState";
+} from 'react-bootstrap';
+import { actions as UiStateActions } from '../redux/modules/uiState';
 import {
   constants as ehrenamtConstants,
   actions as EhrenamtActions
-} from "../redux/modules/ehrenamt";
+} from '../redux/modules/ehrenamt';
 
-import { Icon } from "react-fa";
-import "react-bootstrap-switch/dist/css/bootstrap3/react-bootstrap-switch.min.css";
+import { Icon } from 'react-fa';
+import 'react-bootstrap-switch/dist/css/bootstrap3/react-bootstrap-switch.min.css';
 
-import Select from "react-select-plus";
-import "react-select-plus/dist/react-select-plus.css";
-import MultiToggleButton from "./MultiToggleButton";
+import Select from 'react-select-plus';
+import 'react-select-plus/dist/react-select-plus.css';
+import MultiToggleButton from './MultiToggleButton';
 
-import { Link } from "react-scroll";
+import { Link } from 'react-scroll';
 
-import copy from "copy-to-clipboard";
-import GenericRVRStadtplanwerkMenuFooter from "./commons/GenericRVRStadtplanwerkMenuFooter";
+import copy from 'copy-to-clipboard';
+import GenericRVRStadtplanwerkMenuFooter from './commons/GenericRVRStadtplanwerkMenuFooter';
 
 function mapStateToProps(state) {
   return {
@@ -100,47 +100,47 @@ export class EhrenamtModalApplicationMenu_ extends React.Component {
   createSectionRows(section) {
     let rows = [];
     for (let item of this.props[section]) {
-      let buttonValue = "two"; // neutral state
+      let buttonValue = 'two'; // neutral state
 
       if (this.props.filterX.positiv[section].indexOf(item) !== -1) {
-        buttonValue = "one";
+        buttonValue = 'one';
       } else if (this.props.filterX.negativ[section].indexOf(item) !== -1) {
-        buttonValue = "three";
+        buttonValue = 'three';
       }
       let cb = (
-        <tr key={"tr.for.mtbutton." + section + "." + item}>
+        <tr key={'tr.for.mtbutton.' + section + '.' + item}>
           <td
-            key={"td1.for.mtbutton." + section + "." + item}
+            key={'td1.for.mtbutton.' + section + '.' + item}
             style={{
-              textAlign: "left",
-              verticalAlign: "top",
-              padding: "5px"
+              textAlign: 'left',
+              verticalAlign: 'top',
+              padding: '5px'
             }}
           >
             {item}
           </td>
           <td
-            key={"td2.for.mtbutton." + section + "." + item}
+            key={'td2.for.mtbutton.' + section + '.' + item}
             style={{
-              textAlign: "left",
-              verticalAlign: "top",
-              padding: "5px"
+              textAlign: 'left',
+              verticalAlign: 'top',
+              padding: '5px'
             }}
           >
             <MultiToggleButton
-              key={"mtbutton." + section + "." + item}
+              key={'mtbutton.' + section + '.' + item}
               value={buttonValue}
               valueChanged={selectedValue => {
-                if (selectedValue === "one") {
-                  this.props.ehrenamtActions.toggleFilter("positiv", section, item);
-                } else if (selectedValue === "three") {
-                  this.props.ehrenamtActions.toggleFilter("negativ", section, item);
+                if (selectedValue === 'one') {
+                  this.props.ehrenamtActions.toggleFilter('positiv', section, item);
+                } else if (selectedValue === 'three') {
+                  this.props.ehrenamtActions.toggleFilter('negativ', section, item);
                 } else {
                   //deselect existing selection
-                  if (buttonValue === "one") {
-                    this.props.ehrenamtActions.toggleFilter("positiv", section, item);
-                  } else if (buttonValue === "three") {
-                    this.props.ehrenamtActions.toggleFilter("negativ", section, item);
+                  if (buttonValue === 'one') {
+                    this.props.ehrenamtActions.toggleFilter('positiv', section, item);
+                  } else if (buttonValue === 'three') {
+                    this.props.ehrenamtActions.toggleFilter('negativ', section, item);
                   }
                 }
               }}
@@ -207,8 +207,8 @@ export class EhrenamtModalApplicationMenu_ extends React.Component {
     this.state = newState;
 
     let modalBodyStyle = {
-      overflowY: "auto",
-      overflowX: "hidden",
+      overflowY: 'auto',
+      overflowX: 'hidden',
       maxHeight: this.props.uiState.height - 200
     };
 
@@ -219,7 +219,7 @@ export class EhrenamtModalApplicationMenu_ extends React.Component {
     for (let zg of this.props.zielgruppen) {
       zgOptions.push({
         label: zg,
-        cat: "zielgruppen",
+        cat: 'zielgruppen',
         value: zg
       });
     }
@@ -227,7 +227,7 @@ export class EhrenamtModalApplicationMenu_ extends React.Component {
     for (let k of this.props.kenntnisse) {
       ktOptions.push({
         label: k,
-        cat: "kenntnisse",
+        cat: 'kenntnisse',
         value: k
       });
     }
@@ -235,45 +235,45 @@ export class EhrenamtModalApplicationMenu_ extends React.Component {
     for (let b of this.props.globalbereiche) {
       berOptions.push({
         label: b,
-        cat: "globalbereiche",
+        cat: 'globalbereiche',
         value: b
       });
     }
 
     let options = [
       {
-        label: "Aufgabenfeld",
-        cat: "group",
+        label: 'Aufgabenfeld',
+        cat: 'group',
         options: berOptions
       },
       {
-        label: "Tätigkeit",
-        cat: "group",
+        label: 'Tätigkeit',
+        cat: 'group',
         options: ktOptions
       },
       {
-        label: "Zielgruppe",
-        cat: "group",
+        label: 'Zielgruppe',
+        cat: 'group',
         options: zgOptions
       }
     ];
 
-    let zgRows = this.createSectionRows("zielgruppen");
-    let kenRows = this.createSectionRows("kenntnisse");
-    let glbRows = this.createSectionRows("globalbereiche");
+    let zgRows = this.createSectionRows('zielgruppen');
+    let kenRows = this.createSectionRows('kenntnisse');
+    let glbRows = this.createSectionRows('globalbereiche');
 
     let cartOffers = [];
     let mailCartOffer =
-      "Sehr geehrte Damen und Herren," +
-      "%0D%0Dich habe in einer ersten Recherche folgende, für mich interessante Angebote entdeckt:%0D";
+      'Sehr geehrte Damen und Herren,' +
+      '%0D%0Dich habe in einer ersten Recherche folgende, für mich interessante Angebote entdeckt:%0D';
 
     for (let cartOffer of this.props.ehrenamtState.cart) {
-      mailCartOffer += "%0D * Angebot Nr. " + cartOffer.id;
-      mailCartOffer += "%0D   " + cartOffer.text;
-      mailCartOffer += "%0D";
+      mailCartOffer += '%0D * Angebot Nr. ' + cartOffer.id;
+      mailCartOffer += '%0D   ' + cartOffer.text;
+      mailCartOffer += '%0D';
 
       let o = (
-        <li key={"cart.li." + cartOffer.id}>
+        <li key={'cart.li.' + cartOffer.id}>
           <h5>
             Angebot Nr. {cartOffer.id}
             &nbsp;&nbsp;&nbsp;
@@ -286,7 +286,7 @@ export class EhrenamtModalApplicationMenu_ extends React.Component {
               }
             >
               <a
-                style={{ color: "black" }}
+                style={{ color: 'black' }}
                 onClick={() => {
                   this.props.centerOnPoint(cartOffer.geo_x, cartOffer.geo_y, 13);
                   //ugly winning: select offer doenst work when the map has to be moved
@@ -307,7 +307,7 @@ export class EhrenamtModalApplicationMenu_ extends React.Component {
               }
             >
               <a
-                style={{ color: "#C33D17" }}
+                style={{ color: '#C33D17' }}
                 onClick={() => {
                   this.props.ehrenamtActions.toggleCartFromOffer(cartOffer);
                 }}
@@ -322,26 +322,26 @@ export class EhrenamtModalApplicationMenu_ extends React.Component {
       cartOffers.push(o);
     }
 
-    mailCartOffer += "%0D";
-    mailCartOffer += "%0D";
-    mailCartOffer += "%0D";
-    mailCartOffer += "%0DMit freundlichen Grüßen";
-    mailCartOffer += "%0D";
-    mailCartOffer += "%0D";
-    mailCartOffer += "%0D";
-    mailCartOffer += "%0D";
-    mailCartOffer += "%0D";
-    mailCartOffer += "%0D";
-    mailCartOffer += "%0D";
-    mailCartOffer += "%0D";
-    mailCartOffer += "%0DLink zur Anwendung:%0D";
+    mailCartOffer += '%0D';
+    mailCartOffer += '%0D';
+    mailCartOffer += '%0D';
+    mailCartOffer += '%0DMit freundlichen Grüßen';
+    mailCartOffer += '%0D';
+    mailCartOffer += '%0D';
+    mailCartOffer += '%0D';
+    mailCartOffer += '%0D';
+    mailCartOffer += '%0D';
+    mailCartOffer += '%0D';
+    mailCartOffer += '%0D';
+    mailCartOffer += '%0D';
+    mailCartOffer += '%0DLink zur Anwendung:%0D';
     let mailToHref =
-      "mailto:post@zfgt.de?subject=Merkliste&body=" +
+      'mailto:post@zfgt.de?subject=Merkliste&body=' +
       mailCartOffer +
-      encodeURI(window.location.href.replace(/&/g, "%26"));
-    let angebotOrAngebote = "Angebote";
+      encodeURI(window.location.href.replace(/&/g, '%26'));
+    let angebotOrAngebote = 'Angebote';
     if (this.props.filteredOffersCount === 1) {
-      angebotOrAngebote = "Angebot";
+      angebotOrAngebote = 'Angebot';
     }
     return (
       <Modal
@@ -366,71 +366,71 @@ export class EhrenamtModalApplicationMenu_ extends React.Component {
           key={this.props.uiState.applicationMenuActiveKey}
         >
           <span>
-            W&auml;hlen Sie Ihre Such- und Ausschlussbedingungen in den{" "}
+            W&auml;hlen Sie Ihre Such- und Ausschlussbedingungen in den{' '}
             <Link
               to="filter"
               containerId="myMenu"
               smooth={true}
               delay={100}
-              onClick={() => this.props.uiActions.setApplicationMenuActiveKey("filtertab")}
+              onClick={() => this.props.uiActions.setApplicationMenuActiveKey('filtertab')}
             >
               Filtern
-            </Link>{" "}
+            </Link>{' '}
             aus, um die angezeigten Angebote an Ihre Interessen anzupassen (alternativ &uuml;ber die
-            Einstellungen unter den darunter folgenden Leitfragen). Über{" "}
+            Einstellungen unter den darunter folgenden Leitfragen). Über{' '}
             <Link
               to="cart"
               containerId="myMenu"
               smooth={true}
               delay={100}
-              onClick={() => this.props.uiActions.setApplicationMenuActiveKey("cart")}
+              onClick={() => this.props.uiActions.setApplicationMenuActiveKey('cart')}
             >
               meine Merkliste
-            </Link>{" "}
-            erreichen Sie die Liste der Angebote, die Sie festgehalten haben. W&auml;hlen Sie{" "}
+            </Link>{' '}
+            erreichen Sie die Liste der Angebote, die Sie festgehalten haben. W&auml;hlen Sie{' '}
             <Link
               to="help"
               containerId="myMenu"
               smooth={true}
               delay={100}
-              onClick={() => this.props.uiActions.setApplicationMenuActiveKey("help")}
+              onClick={() => this.props.uiActions.setApplicationMenuActiveKey('help')}
             >
               Kompaktanleitung
-            </Link>{" "}
+            </Link>{' '}
             f&uuml;r detailliertere Bedienungsinformationen.
           </span>
           <br />
           <br />
           <Accordion
             name="filter"
-            key={"acc.filter." + this.props.uiState.applicationMenuActiveKey}
-            defaultActiveKey={this.props.uiState.applicationMenuActiveKey || "filtertab"}
+            key={'acc.filter.' + this.props.uiState.applicationMenuActiveKey}
+            defaultActiveKey={this.props.uiState.applicationMenuActiveKey || 'filtertab'}
             onSelect={() => {
-              if (this.props.uiState.applicationMenuActiveKey === "filtertab") {
-                this.props.uiActions.setApplicationMenuActiveKey("none");
+              if (this.props.uiState.applicationMenuActiveKey === 'filtertab') {
+                this.props.uiActions.setApplicationMenuActiveKey('none');
               } else {
-                this.props.uiActions.setApplicationMenuActiveKey("filtertab");
+                this.props.uiActions.setApplicationMenuActiveKey('filtertab');
               }
             }}
           >
             <Panel
               height="auto"
               header={
-                "Filtern (" +
+                'Filtern (' +
                 this.props.filteredOffersCount +
-                " " +
+                ' ' +
                 angebotOrAngebote +
-                " gefunden, davon " +
+                ' gefunden, davon ' +
                 this.props.featureCollectionCount +
-                " in der Karte)"
+                ' in der Karte)'
               }
               eventKey="filtertab"
               bsStyle="primary"
             >
               <h4>Ich suche nach:</h4>
               <Select
-                id={"pos"}
-                key={"Filtercombo.pos." + JSON.stringify(this.props.filterX.positiv)}
+                id={'pos'}
+                key={'Filtercombo.pos.' + JSON.stringify(this.props.filterX.positiv)}
                 className="pos-select"
                 clearAllText="alle entfernen"
                 noResultsText="keine Kategorien gefunden"
@@ -446,7 +446,7 @@ export class EhrenamtModalApplicationMenu_ extends React.Component {
                   return <div style={{}}>{option.label}</div>;
                 }}
                 optionRenderer={option => {
-                  if (option.cat !== "group") {
+                  if (option.cat !== 'group') {
                     return <div style={{}}>{option.label}</div>;
                   } else {
                     return <div>{option.label}</div>;
@@ -455,8 +455,8 @@ export class EhrenamtModalApplicationMenu_ extends React.Component {
               />
               <h4>Ich schlie&szlig;e aus:</h4>
               <Select
-                id={"neg"}
-                key={"Filtercombo.neg." + JSON.stringify(this.props.filterX.negativ)}
+                id={'neg'}
+                key={'Filtercombo.neg.' + JSON.stringify(this.props.filterX.negativ)}
                 className="neg-select"
                 clearAllText="alle entfernen"
                 noResultsText="keine Kategorien gefunden"
@@ -472,17 +472,17 @@ export class EhrenamtModalApplicationMenu_ extends React.Component {
                   return <div>{option.label}</div>;
                 }}
                 optionRenderer={option => {
-                  if (option.cat !== "group") {
+                  if (option.cat !== 'group') {
                     return <div>{option.label}</div>;
                   } else {
                     return <div>{option.label}</div>;
                   }
                 }}
-                menuStyle={{ height: "400px" }}
+                menuStyle={{ height: '400px' }}
               />
             </Panel>
           </Accordion>
-          <Accordion key={"ACC"} defaultActiveKey="none">
+          <Accordion key={'ACC'} defaultActiveKey="none">
             <Panel
               header="Welches Aufgabenfeld interessiert mich?"
               eventKey="bereiche_adv_filter"
@@ -509,18 +509,18 @@ export class EhrenamtModalApplicationMenu_ extends React.Component {
           </Accordion>
           <Accordion
             name="cart"
-            key={"cart" + this.props.uiState.applicationMenuActiveKey}
+            key={'cart' + this.props.uiState.applicationMenuActiveKey}
             defaultActiveKey={this.props.uiState.applicationMenuActiveKey}
             onSelect={() => {
-              if (this.props.uiState.applicationMenuActiveKey === "cart") {
-                this.props.uiActions.setApplicationMenuActiveKey("none");
+              if (this.props.uiState.applicationMenuActiveKey === 'cart') {
+                this.props.uiActions.setApplicationMenuActiveKey('none');
               } else {
-                this.props.uiActions.setApplicationMenuActiveKey("cart");
+                this.props.uiActions.setApplicationMenuActiveKey('cart');
               }
             }}
           >
             <Panel
-              header={"meine Merkliste (" + this.props.ehrenamtState.cart.length + ")"}
+              header={'meine Merkliste (' + this.props.ehrenamtState.cart.length + ')'}
               eventKey="cart"
               bsStyle="primary"
             >
@@ -534,8 +534,8 @@ export class EhrenamtModalApplicationMenu_ extends React.Component {
                     </td>
                     <td
                       style={{
-                        textAlign: "right",
-                        verticalAlign: "top"
+                        textAlign: 'right',
+                        verticalAlign: 'top'
                       }}
                     >
                       <ButtonGroup bsStyle="default">
@@ -580,7 +580,7 @@ export class EhrenamtModalApplicationMenu_ extends React.Component {
                             bsStyle="default"
                             title="title"
                             key="DropdownButton"
-                            id={"DropdownButton"}
+                            id={'DropdownButton'}
                             icon="share"
                             pullRight
                           >
@@ -602,7 +602,7 @@ export class EhrenamtModalApplicationMenu_ extends React.Component {
                               <MenuItem
                                 disabled={true}
                                 eventKey="3"
-                                onClick={() => console.log("copy")}
+                                onClick={() => console.log('copy')}
                               >
                                 <Icon name="print" /> Merkliste drucken
                               </MenuItem>
@@ -617,7 +617,7 @@ export class EhrenamtModalApplicationMenu_ extends React.Component {
               <Alert style={{ marginBottom: 0, marginTop: 5 }} bsStyle="warning">
                 <div>
                   Haben Sie interessante Angebote gefunden? Dann treten Sie mit uns in Kontakt
-                  (Telefon +49-(0)202-946-20445 oder E-Mail{" "}
+                  (Telefon +49-(0)202-946-20445 oder E-Mail{' '}
                   <a href="mailto:post@zfgt.de">post@zfgt.de</a>
                   ). Wir werden Sie bei den weiteren Schritten beraten.
                 </div>
@@ -626,60 +626,60 @@ export class EhrenamtModalApplicationMenu_ extends React.Component {
           </Accordion>
           <Accordion
             name="help"
-            key={"helptext" + this.props.uiState.applicationMenuActiveKey}
+            key={'helptext' + this.props.uiState.applicationMenuActiveKey}
             defaultActiveKey={this.props.uiState.applicationMenuActiveKey}
             onSelect={() => {
-              if (this.props.uiState.applicationMenuActiveKey === "help") {
-                this.props.uiActions.setApplicationMenuActiveKey("none");
+              if (this.props.uiState.applicationMenuActiveKey === 'help') {
+                this.props.uiActions.setApplicationMenuActiveKey('none');
               } else {
-                this.props.uiActions.setApplicationMenuActiveKey("help");
+                this.props.uiActions.setApplicationMenuActiveKey('help');
               }
             }}
           >
             <Panel header="Kompaktanleitung" eventKey="help" bsStyle="default">
               <div>
-                <Link to="Datengrundlage" containerId="myMenu" style={{ textDecoration: "none" }}>
-                  {" "}
-                  <Label bsStyle="default">Datengrundlage</Label>{" "}
+                <Link to="Datengrundlage" containerId="myMenu" style={{ textDecoration: 'none' }}>
+                  {' '}
+                  <Label bsStyle="default">Datengrundlage</Label>{' '}
                 </Link>
                 <Link
                   to="Kartendarstellung"
                   containerId="myMenu"
-                  style={{ textDecoration: "none" }}
+                  style={{ textDecoration: 'none' }}
                 >
-                  {" "}
-                  <Label bsStyle="success">Kartendarstellung der Angebote</Label>{" "}
+                  {' '}
+                  <Label bsStyle="success">Kartendarstellung der Angebote</Label>{' '}
                 </Link>
-                <Link to="positionieren" containerId="myMenu" style={{ textDecoration: "none" }}>
-                  {" "}
-                  <Label bsStyle="success">In Karte positionieren</Label>{" "}
+                <Link to="positionieren" containerId="myMenu" style={{ textDecoration: 'none' }}>
+                  {' '}
+                  <Label bsStyle="success">In Karte positionieren</Label>{' '}
                 </Link>
-                <Link to="MeinStandort" containerId="myMenu" style={{ textDecoration: "none" }}>
-                  {" "}
-                  <Label bsStyle="success">Mein Standort</Label>{" "}
+                <Link to="MeinStandort" containerId="myMenu" style={{ textDecoration: 'none' }}>
+                  {' '}
+                  <Label bsStyle="success">Mein Standort</Label>{' '}
                 </Link>
-                <Link to="selektieren" containerId="myMenu" style={{ textDecoration: "none" }}>
-                  {" "}
-                  <Label bsStyle="info">Angebote selektieren</Label>{" "}
+                <Link to="selektieren" containerId="myMenu" style={{ textDecoration: 'none' }}>
+                  {' '}
+                  <Label bsStyle="info">Angebote selektieren</Label>{' '}
                 </Link>
-                <Link to="merken" containerId="myMenu" style={{ textDecoration: "none" }}>
-                  {" "}
-                  <Label bsStyle="info">Angebote merken</Label>{" "}
+                <Link to="merken" containerId="myMenu" style={{ textDecoration: 'none' }}>
+                  {' '}
+                  <Label bsStyle="info">Angebote merken</Label>{' '}
                 </Link>
-                <Link to="Merkliste" containerId="myMenu" style={{ textDecoration: "none" }}>
-                  {" "}
-                  <Label bsStyle="primary">Merkliste öffnen</Label>{" "}
+                <Link to="Merkliste" containerId="myMenu" style={{ textDecoration: 'none' }}>
+                  {' '}
+                  <Label bsStyle="primary">Merkliste öffnen</Label>{' '}
                 </Link>
                 <Link
                   to="FunktionenMerkliste"
                   containerId="myMenu"
-                  style={{ textDecoration: "none" }}
+                  style={{ textDecoration: 'none' }}
                 >
-                  <Label bsStyle="primary">Funktionen der Merkliste</Label>{" "}
+                  <Label bsStyle="primary">Funktionen der Merkliste</Label>{' '}
                 </Link>
-                <Link to="filtern" containerId="myMenu" style={{ textDecoration: "none" }}>
-                  {" "}
-                  <Label bsStyle="warning">Angebote filtern</Label>{" "}
+                <Link to="filtern" containerId="myMenu" style={{ textDecoration: 'none' }}>
+                  {' '}
+                  <Label bsStyle="warning">Angebote filtern</Label>{' '}
                 </Link>
               </div>
 
@@ -687,8 +687,8 @@ export class EhrenamtModalApplicationMenu_ extends React.Component {
                 <br />
               </div>
               <h4>
-                Datengrundlage{" "}
-                <Link to="help" containerId="myMenu" style={{ color: "#00000044" }}>
+                Datengrundlage{' '}
+                <Link to="help" containerId="myMenu" style={{ color: '#00000044' }}>
                   <Icon name="arrow-circle-up" />
                 </Link>
               </h4>
@@ -696,7 +696,7 @@ export class EhrenamtModalApplicationMenu_ extends React.Component {
                 Diese Anwendung gibt Ihnen einen Überblick über die angebotenen Ehrenamtsstellen aus
                 der Datenbank des Zentrums für gute Taten. Die Darstellung der Einsatzorte als Karte
                 macht es Ihnen dabei leicht, Ehrenamtsstellen in Ihrer Nähe zu finden. Einer
-                Ehrenamtsstelle sind im Allgemeinfall mehrere <em>Aufgabenfelder</em>,{" "}
+                Ehrenamtsstelle sind im Allgemeinfall mehrere <em>Aufgabenfelder</em>,{' '}
                 <em>Tätigkeiten</em> und <em>Zielgruppen</em> zugeordnet.
               </p>
 
@@ -704,19 +704,19 @@ export class EhrenamtModalApplicationMenu_ extends React.Component {
                 <br />
               </div>
               <h4>
-                Kartendarstellung der Angebote{" "}
-                <Link to="help" containerId="myMenu" style={{ color: "#00000044" }}>
+                Kartendarstellung der Angebote{' '}
+                <Link to="help" containerId="myMenu" style={{ color: '#00000044' }}>
                   <Icon name="arrow-circle-up" />
                 </Link>
               </h4>
               <p>
                 Die in der Karte für die Punktdarstellungen der Angebote verwendeten Farben stehen
-                jeweils für eine bestimmte Kombination der Kategorisierungen in den Bereichen{" "}
+                jeweils für eine bestimmte Kombination der Kategorisierungen in den Bereichen{' '}
                 <em>Aufgabenfelder</em>, <em>Tätigkeiten</em> und <em>Zielgruppen</em>.<br />
                 Eng beieinander liegende Angebote werden maßstabsabhängig zu größeren Punkten
-                zusammengefasst, mit der Anzahl der repräsentierten Angebote im Zentrum{" "}
+                zusammengefasst, mit der Anzahl der repräsentierten Angebote im Zentrum{' '}
                 <img alt="Cluster" src="images/colorcircle_k.jpg" />.<br />
-                Vergrößern Sie ein paar Mal durch direktes Anklicken eines solchen Punktes oder mit{" "}
+                Vergrößern Sie ein paar Mal durch direktes Anklicken eines solchen Punktes oder mit{' '}
                 <Icon name="plus" /> die Darstellung, so werden die zusammengefassten Angebote
                 Schritt für Schritt in die kleineren Punktdarstellungen für die konkreten
                 Einzelangebote zerlegt. Nur Angebote, die sich auf denselben Standort beziehen,
@@ -729,8 +729,8 @@ export class EhrenamtModalApplicationMenu_ extends React.Component {
                 <br />
               </div>
               <h4>
-                In Karte positionieren{" "}
-                <Link to="help" containerId="myMenu" style={{ color: "#00000044" }}>
+                In Karte positionieren{' '}
+                <Link to="help" containerId="myMenu" style={{ color: '#00000044' }}>
                   <Icon name="arrow-circle-up" />
                 </Link>
               </h4>
@@ -741,16 +741,16 @@ export class EhrenamtModalApplicationMenu_ extends React.Component {
                 oder kurz POI genannt) im Eingabefeld ein (mindestens 2 Zeichen). In der
                 inkrementellen Auswahlliste werden Ihnen passende Treffer angeboten. (Wenn sie
                 weitere Zeichen eingeben, wird der Inhalt der Auswahlliste angepasst.) Durch das
-                vorangestellte Symbol erkennen Sie, ob es sich dabei um einen <Icon name="circle" />{" "}
-                Stadtbezirk, ein <Icon name="pie-chart" /> Quartier, eine <Icon name="home" />{" "}
-                Adresse, eine <Icon name="road" /> Straße ohne zugeordnete Hausnummern, einen{" "}
+                vorangestellte Symbol erkennen Sie, ob es sich dabei um einen <Icon name="circle" />{' '}
+                Stadtbezirk, ein <Icon name="pie-chart" /> Quartier, eine <Icon name="home" />{' '}
+                Adresse, eine <Icon name="road" /> Straße ohne zugeordnete Hausnummern, einen{' '}
                 <Icon name="tag" /> POI oder die <Icon name="tags" /> alternative Bezeichnung eines
                 POI handelt.
               </p>
               <p>
                 Nach der Auswahl eines Treffers aus der Liste wird die Karte auf die zugehörige
                 Position zentriert. Bei Suchbegriffen mit Punktgeometrie (Adresse, Straße, POI) wird
-                außerdem ein großer Maßstab (Zoomstufe 14) eingestellt und ein Marker{" "}
+                außerdem ein großer Maßstab (Zoomstufe 14) eingestellt und ein Marker{' '}
                 <img alt="Cluster" src="images/AdressMarker.jpg" /> auf der Zielposition platziert.
                 Bei Suchbegriffen mit Flächengeometrie (Stadtbezirk, Quartier) wird der Maßstab so
                 eingestellt, dass die Fläche vollständig dargestellt werden kann. Zusätzlich wird
@@ -766,17 +766,17 @@ export class EhrenamtModalApplicationMenu_ extends React.Component {
                 <br />
               </div>
               <h4>
-                Mein Standort{" "}
-                <Link to="help" containerId="myMenu" style={{ color: "#00000044" }}>
+                Mein Standort{' '}
+                <Link to="help" containerId="myMenu" style={{ color: '#00000044' }}>
                   <Icon name="arrow-circle-up" />
                 </Link>
               </h4>
               <p>
                 Mit der Funktion "<em>Mein Standort</em>" <Icon name="map-marker" /> können Sie
-                ihren aktuellen Standort mit einem blauen Kreissymbol{" "}
+                ihren aktuellen Standort mit einem blauen Kreissymbol{' '}
                 <img alt="Cluster" src="images/MeinStandpunktMarker.jpg" /> in der Karte anzeigen.
                 Das Standortsymbol ist umgeben von einem zweiten Kreis mit transparenter, blauer
-                Füllung, dessen Radius die Unsicherheit der Positionsbestimmung angibt{" "}
+                Füllung, dessen Radius die Unsicherheit der Positionsbestimmung angibt{' '}
                 <img alt="Cluster" src="images/MeinStandpunktMarkerDoppel.jpg" />. Die Richtigkeit
                 der Positionsanzeige ist dabei nicht garantiert, ihre Genauigkeit hängt davon ab,
                 mit welcher Methode Ihr Endgerät und der von Ihnen verwendete Browser die Position
@@ -791,8 +791,8 @@ export class EhrenamtModalApplicationMenu_ extends React.Component {
                 <br />
               </div>
               <h4>
-                Angebote selektieren{" "}
-                <Link to="help" containerId="myMenu" style={{ color: "#00000044" }}>
+                Angebote selektieren{' '}
+                <Link to="help" containerId="myMenu" style={{ color: '#00000044' }}>
                   <Icon name="arrow-circle-up" />
                 </Link>
               </h4>
@@ -813,8 +813,8 @@ export class EhrenamtModalApplicationMenu_ extends React.Component {
                 <br />
               </div>
               <h4>
-                Angebote merken{" "}
-                <Link to="help" containerId="myMenu" style={{ color: "#00000044" }}>
+                Angebote merken{' '}
+                <Link to="help" containerId="myMenu" style={{ color: '#00000044' }}>
                   <Icon name="arrow-circle-up" />
                 </Link>
               </h4>
@@ -827,7 +827,7 @@ export class EhrenamtModalApplicationMenu_ extends React.Component {
                 sie mindestens ein Angebot umfassen, das Sie in Ihre Merkliste aufgenommen haben.
                 <br />
                 Wenn Sie den Fokus auf ein Angebot setzen, das sich bereits in Ihrer Merkliste
-                befindet, verwandelt sind das Werkzeug <Icon name="plus-square" /> in{" "}
+                befindet, verwandelt sind das Werkzeug <Icon name="plus-square" /> in{' '}
                 <Icon name="check-square" />. Mit einem Klick hierauf entfernen Sie das Angebot aus
                 Ihrer Merkliste.
               </p>
@@ -836,8 +836,8 @@ export class EhrenamtModalApplicationMenu_ extends React.Component {
                 <br />
               </div>
               <h4>
-                Merkliste öffnen{" "}
-                <Link to="help" containerId="myMenu" style={{ color: "#00000044" }}>
+                Merkliste öffnen{' '}
+                <Link to="help" containerId="myMenu" style={{ color: '#00000044' }}>
                   <Icon name="arrow-circle-up" />
                 </Link>
               </h4>
@@ -851,15 +851,15 @@ export class EhrenamtModalApplicationMenu_ extends React.Component {
                 In Ihrer Merkliste finden Sie eine Auflistung aller Angebote, die Sie in die
                 Merkliste eingestellt haben. Der Inhalt Ihrer Merkliste bleibt auch nach einem
                 Neustart der Anwendung erhalten. (Es sei denn, Sie löschen den Browser-Verlauf
-                einschließlich der gehosteten App-Daten.){" "}
+                einschließlich der gehosteten App-Daten.){' '}
               </p>
 
               <div name="FunktionenMerkliste">
                 <br />
               </div>
               <h4>
-                Funktionen der Merkliste{" "}
-                <Link to="help" containerId="myMenu" style={{ color: "#00000044" }}>
+                Funktionen der Merkliste{' '}
+                <Link to="help" containerId="myMenu" style={{ color: '#00000044' }}>
                   <Icon name="arrow-circle-up" />
                 </Link>
               </h4>
@@ -874,10 +874,10 @@ export class EhrenamtModalApplicationMenu_ extends React.Component {
                 </li>
 
                 <li>
-                  Mit{" "}
+                  Mit{' '}
                   <font color="#C33D17">
                     <Icon name="minus-square" />
-                  </font>{" "}
+                  </font>{' '}
                   können Sie das zugehörige Angebot aus Ihrer Merkliste entfernen.
                 </li>
               </ul>
@@ -894,7 +894,7 @@ export class EhrenamtModalApplicationMenu_ extends React.Component {
                   Mit <Icon name="map" /> aktivieren Sie einen Modus, in dem Ihnen in der Karte nur
                   die Angebote aus Ihrer Merkliste angezeigt werden. Dieser Modus wird Ihnen durch
                   ein rotes Banner <img alt="Merkliste" src="images/merkliste_akt.jpg" /> oben in
-                  der Info-Box signalisiert. Dort können Sie den Merklistenfilter durch Klicken auf{" "}
+                  der Info-Box signalisiert. Dort können Sie den Merklistenfilter durch Klicken auf{' '}
                   <Icon name="times" /> auch wieder ausschalten.
                 </li>
 
@@ -925,8 +925,8 @@ export class EhrenamtModalApplicationMenu_ extends React.Component {
                 <br />
               </div>
               <h4>
-                Angebote filtern{" "}
-                <Link to="help" containerId="myMenu" style={{ color: "#00000044" }}>
+                Angebote filtern{' '}
+                <Link to="help" containerId="myMenu" style={{ color: '#00000044' }}>
                   <Icon name="arrow-circle-up" />
                 </Link>
               </h4>
@@ -934,7 +934,7 @@ export class EhrenamtModalApplicationMenu_ extends React.Component {
                 Über das Anwendungsmenü <Icon name="bars" /> in der rechten oberen Ecke können Sie
                 Filter einstellen, um die in der Karte angezeigten Angebote an Ihre Interessen
                 anzupassen. Dazu werden Ihnen in der Auswahlliste "<em>Ich suche nach</em>" alle
-                Kategorisierungen in den Bereichen <em>Aufgabenfelder</em>, <em>Tätigkeiten</em> und{" "}
+                Kategorisierungen in den Bereichen <em>Aufgabenfelder</em>, <em>Tätigkeiten</em> und{' '}
                 <em>Zielgruppen</em> zur Auswahl angeboten. Es werden alle Angebote gefunden, die
                 vom Zentrum für Gute Taten mit mindestens einem der von Ihnen ausgewählten Begriffe
                 kategorisiert worden sind (logisches "oder"). Die Treffermenge steigt dadurch bei
@@ -950,12 +950,12 @@ export class EhrenamtModalApplicationMenu_ extends React.Component {
                 mit <Icon name="thumbs-up" /> oder <Icon name="thumbs-down" /> als Such- oder
                 Ausschlussbegriffe markieren. Die Filter-Auswahllisten und Einstellungen unter den
                 Leitfragen sind vollständig miteinander synchronisiert. Wenn Sie Filtereinstellungen
-                festgelegt haben, wird Ihnen dies durch ein graues Banner{" "}
+                festgelegt haben, wird Ihnen dies durch ein graues Banner{' '}
                 <img alt="Filter-Banner" src="images/filter_akt.jpg" /> oben in der Info-Box
                 signalisiert. Die in Klammern angezeigte Zahl ist die Anzahl der aktuell von Ihnen
                 zur Filterung verwendeten Such- und Ausschlussbegriffe.
                 <br />
-                Über das Banner können Sie die Filterung durch Klicken auf <Icon name="times" />{" "}
+                Über das Banner können Sie die Filterung durch Klicken auf <Icon name="times" />{' '}
                 wieder zurücksetzen.
               </p>
             </Panel>
@@ -965,16 +965,16 @@ export class EhrenamtModalApplicationMenu_ extends React.Component {
         <Modal.Footer>
           <table
             style={{
-              width: "100%"
+              width: '100%'
             }}
           >
             <tbody>
               <tr>
                 <td
                   style={{
-                    textAlign: "left",
-                    verticalAlign: "top",
-                    paddingRight: "30px"
+                    textAlign: 'left',
+                    verticalAlign: 'top',
+                    paddingRight: '30px'
                   }}
                 >
                   <GenericRVRStadtplanwerkMenuFooter />

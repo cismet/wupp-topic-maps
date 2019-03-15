@@ -1,5 +1,5 @@
-import React from "react";
-import GenericModalMenuSection from "../commons/GenericModalMenuSection";
+import React from 'react';
+import GenericModalMenuSection from '../commons/GenericModalMenuSection';
 
 const Component = ({ uiState, uiStateActions, showModalMenu }) => {
   return (
@@ -31,16 +31,16 @@ const Component = ({ uiState, uiStateActions, showModalMenu }) => {
             Anfang 2015). Das DGM wurde um die Gebäude aus dem Wuppertaler Liegenschaftskataster und
             das Kanalnetz inklusive verrohrter Gewässerabschnitte aus der Kanalnetzdatenbank der WSW
             Energie &amp; Wasser AG ergänzt, um eine hydrologisch korrekte Abflussberechnung zu
-            gewährleisten.{" "}
+            gewährleisten.{' '}
           </p>
 
           <p>
             Darüber hinaus ist das Ergebnis der Simulation natürlich von der Dauer und Intensität
             des Regens abhängig, der für die Simulation angenommen wird. Wir bieten Ihnen hierzu
-            vier unterschiedliche{" "}
-            <a onClick={() => showModalMenu("szenarien")}>simulierte Szenarien</a> an, drei
+            vier unterschiedliche{' '}
+            <a onClick={() => showModalMenu('szenarien')}>simulierte Szenarien</a> an, drei
             "Modellregen" sowie das anhand der Niederschlagsmessungen desselben Tages nachgestellte
-            Starkregenereignis vom 29.05.2018.{" "}
+            Starkregenereignis vom 29.05.2018.{' '}
           </p>
 
           <p>
@@ -63,7 +63,7 @@ const Component = ({ uiState, uiStateActions, showModalMenu }) => {
               (12/2008 und 01/2009) mit ergänztem Gebäudebestand (Auflösung 25cm x 25cm), ausgeführt
               in 2012 vom Ingenieurbüro Reinhard Beck GmbH &amp; Co. KG / Wuppertal.) © Wuppertaler
               Stadtwerke WSW Energie &amp; Wasser AG. (2) Kartendienst (WMS) des Bundesamtes für
-              Kartographie und Geodäsie (BKG). Datengrundlage:{" "}
+              Kartographie und Geodäsie (BKG). Datengrundlage:{' '}
               <strong>
                 <a
                   target="_more"
@@ -71,7 +71,7 @@ const Component = ({ uiState, uiStateActions, showModalMenu }) => {
                 >
                   WebAtlasDE
                 </a>
-              </strong>{" "}
+              </strong>{' '}
               © GeoBasis-DE / BKG 2018
             </li>
 
@@ -88,7 +88,7 @@ const Component = ({ uiState, uiStateActions, showModalMenu }) => {
               >
                 NB-GDIKOM C
               </a>
-              ). (2) Kartendienst (WMS) des Regionalverbandes Ruhr (RVR). Datengrundlage:{" "}
+              ). (2) Kartendienst (WMS) des Regionalverbandes Ruhr (RVR). Datengrundlage:{' '}
               <strong>Kartenschrift des Stadtplanwerk 2.0 Beta</strong>. (Details s.
               Hintergrundkarte <strong>Stadtplan</strong>
               ).
@@ -103,15 +103,15 @@ const Component = ({ uiState, uiStateActions, showModalMenu }) => {
               <a target="_more" href="https://creativecommons.org/licenses/by/4.0/legalcode.de">
                 CC BY 4.0
               </a>
-              ). Lizenzen der Ausgangsprodukte: Land NRW (2018){" "}
+              ). Lizenzen der Ausgangsprodukte: Land NRW (2018){' '}
               <a target="_more" href="http://www.govdata.de/dl-de/by-2-0">
                 Datenlizenz Deutschland - Namensnennung - Version 2.0
-              </a>{" "}
+              </a>{' '}
               und OpenStreetMap contributors (
               <a target="_more" href="http://www.opendatacommons.org/licenses/odbl/1.0/">
                 ODbL
               </a>
-              ).{" "}
+              ).{' '}
             </li>
           </ul>
         </div>

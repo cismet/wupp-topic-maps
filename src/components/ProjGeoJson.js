@@ -1,15 +1,15 @@
-import L from "leaflet";
-import { isFunction } from "lodash";
-import PropTypes from "prop-types";
-import "proj4leaflet";
+import L from 'leaflet';
+import { isFunction } from 'lodash';
+import PropTypes from 'prop-types';
+import 'proj4leaflet';
 
-import { connect } from "react-redux";
-import { bindActionCreators } from "redux";
-import { actions as mappingActions } from "../redux/modules/mapping";
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import { actions as mappingActions } from '../redux/modules/mapping';
 
-import { Path } from "react-leaflet";
+import { Path } from 'react-leaflet';
 
-require("react-leaflet-markercluster/dist/styles.min.css");
+require('react-leaflet-markercluster/dist/styles.min.css');
 
 function mapStateToProps(state) {
   return {
@@ -36,7 +36,7 @@ export class ProjGeoJson_ extends Path {
 
       //TODO set a offset so that the Tooltip is shown in the current map
       layer.feature = feature;
-      layer.on("click", props.featureClickHandler);
+      layer.on('click', props.featureClickHandler);
       let zoffset = new L.point(0, 0);
       if (feature.selected) {
         //ugly winning: a direct call of bringToFront has no effect -.-
@@ -48,36 +48,36 @@ export class ProjGeoJson_ extends Path {
           }
           if (props.labeler) {
             layer.bindTooltip(props.labeler(feature), {
-              className: "customGeoJSONFeatureTooltipClass",
+              className: 'customGeoJSONFeatureTooltipClass',
               permanent: true,
-              direction: "center",
+              direction: 'center',
               offset: zoffset,
-              opacity: "0.9"
+              opacity: '0.9'
             });
           }
         }, 10);
       } else {
         if (props.labeler) {
           layer.bindTooltip(props.labeler(feature), {
-            className: "customGeoJSONFeatureTooltipClass",
+            className: 'customGeoJSONFeatureTooltipClass',
             permanent: true,
-            direction: "center",
+            direction: 'center',
             offset: zoffset,
-            opacity: "0.9"
+            opacity: '0.9'
           });
         }
       }
       if (props.hoverer) {
         let theStyle = props.style(feature, mappingProps.featureStylerScalableImageSize);
 
-        layer.bindTooltip("" + props.hoverer(feature), {
+        layer.bindTooltip('' + props.hoverer(feature), {
           offset: L.point(theStyle.radius, 0),
-          direction: "right"
+          direction: 'right'
         });
-        layer.on("mouseover", function() {
+        layer.on('mouseover', function() {
           layer.openPopup();
         });
-        layer.on("mouseout", function() {
+        layer.on('mouseout', function() {
           layer.closePopup();
         });
       }
@@ -89,7 +89,7 @@ export class ProjGeoJson_ extends Path {
         let marker = null;
         if (theStyle.svg) {
           var divIcon = L.divIcon({
-            className: "leaflet-data-marker",
+            className: 'leaflet-data-marker',
             html: theStyle.svg,
             iconAnchor: [theStyle.svgSize / 2, theStyle.svgSize / 2],
             iconSize: [theStyle.svgSize, theStyle.svgSize]
@@ -133,7 +133,7 @@ export class ProjGeoJson_ extends Path {
         //console.log(e);
       }
 
-      this.clusteredMarkers.on("clusterclick", function(a) {
+      this.clusteredMarkers.on('clusterclick', function(a) {
         let zoomLevel = that.props.mapRef.leafletElement.getZoom();
         if (zoomLevel < (that.props.clusterOptions.cismapZoomTillSpiderfy || 11)) {
           that.props.mapRef.leafletElement.setZoomAround(a.latlng, zoomLevel + 1);

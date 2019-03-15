@@ -1,16 +1,16 @@
-import React from "react";
-import Datengrundlage from "./Help10Datengrundlage";
-import Introduction from "./Help05Introduction";
-import Karteninhalt from "./Help20Karteninhalt";
-import InKartePositionieren from "./Help30InKartePositionieren";
-import MeinStandort from "./Help40MeinStandort";
-import WasserstandAbfragen from "./Help50WasserstandAbfragen";
-import SimulierteSzenarien from "./Help60SimulierteSzenarien";
-import Aussagekraft from "./Help70AussagekraftDerSimulationen";
-import ModellfehlerMelden from "./Help80ModellfehlerMelden";
+import React from 'react';
+import Datengrundlage from './Help10Datengrundlage';
+import Introduction from './Help05Introduction';
+import Karteninhalt from './Help20Karteninhalt';
+import InKartePositionieren from './Help30InKartePositionieren';
+import MeinStandort from './Help40MeinStandort';
+import WasserstandAbfragen from './Help50WasserstandAbfragen';
+import SimulierteSzenarien from './Help60SimulierteSzenarien';
+import Aussagekraft from './Help70AussagekraftDerSimulationen';
+import ModellfehlerMelden from './Help80ModellfehlerMelden';
 
-import GenericModalApplicationMenu from "../commons/GenericModalApplicationMenu";
-import Footer from "./Help99Footer";
+import GenericModalApplicationMenu from '../commons/GenericModalApplicationMenu';
+import Footer from './Help99Footer';
 const ModalHelpAndInfo = ({ uiState, uiStateActions }) => {
   const showModalMenu = section =>
     uiStateActions.showApplicationMenuAndActivateSection(true, section);

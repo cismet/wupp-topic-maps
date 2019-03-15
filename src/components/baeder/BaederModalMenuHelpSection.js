@@ -1,41 +1,41 @@
-import React from "react";
-import { Link } from "react-scroll";
-import { Icon } from "react-fa";
-import { Label } from "react-bootstrap";
-import GenericModalMenuSection from "../commons/GenericModalMenuSection";
-import MeinStandortHelpText from "../commons/GenericHelpTextForMyLocation";
-import { getColorForProperties, getBadSVG } from "../../utils/baederHelper";
+import React from 'react';
+import { Link } from 'react-scroll';
+import { Icon } from 'react-fa';
+import { Label } from 'react-bootstrap';
+import GenericModalMenuSection from '../commons/GenericModalMenuSection';
+import MeinStandortHelpText from '../commons/GenericHelpTextForMyLocation';
+import { getColorForProperties, getBadSVG } from '../../utils/baederHelper';
 
 const helpSVGSize = 18;
-const hallenBadSVG = getBadSVG(helpSVGSize, "#565B5E", "Hallenbad", "helpTextSVG0");
-const freibadBadSVG = getBadSVG(helpSVGSize, "#565B5E", "Freibad", "helpTextSVG1");
+const hallenBadSVG = getBadSVG(helpSVGSize, '#565B5E', 'Hallenbad', 'helpTextSVG0');
+const freibadBadSVG = getBadSVG(helpSVGSize, '#565B5E', 'Freibad', 'helpTextSVG1');
 
 const staedtischesFreibadSVG = getBadSVG(
   helpSVGSize,
   getColorForProperties({
-    more: { zugang: "öffentlich", betreiber: "Stadt" },
-    mainlocationtype: { lebenslagen: ["Freizeit", "Sport"] }
+    more: { zugang: 'öffentlich', betreiber: 'Stadt' },
+    mainlocationtype: { lebenslagen: ['Freizeit', 'Sport'] }
   }),
-  "Freibad",
-  "helpTextSVG2"
+  'Freibad',
+  'helpTextSVG2'
 );
 const oeffentlichesVereinsbadSVG = getBadSVG(
   helpSVGSize,
   getColorForProperties({
-    more: { zugang: "öffentlich", betreiber: "Verein" },
-    mainlocationtype: { lebenslagen: ["Freizeit", "Sport"] }
+    more: { zugang: 'öffentlich', betreiber: 'Verein' },
+    mainlocationtype: { lebenslagen: ['Freizeit', 'Sport'] }
   }),
-  "Freibad",
-  "helpTextSVG3"
+  'Freibad',
+  'helpTextSVG3'
 );
 const nichtOeffentlichesVereinsbadSVG = getBadSVG(
   helpSVGSize,
   getColorForProperties({
-    more: { zugang: "nicht öffentlich", betreiber: "Verein" },
-    mainlocationtype: { lebenslagen: ["Freizeit", "Sport"] }
+    more: { zugang: 'nicht öffentlich', betreiber: 'Verein' },
+    mainlocationtype: { lebenslagen: ['Freizeit', 'Sport'] }
   }),
-  "Freibad",
-  "helpTextSVG4"
+  'Freibad',
+  'helpTextSVG4'
 );
 
 // Zur Darstellung der Schwimmbäder in der Karte werden unterschiedliche Symbole für Hallenbäder
@@ -63,65 +63,65 @@ const BaederModalMenuHelpSection = ({ uiState, uiStateActions }) => {
               id="lnkHelpHeader_datengrundlage"
               to="Datengrundlage"
               containerId="myMenu"
-              style={{ textDecoration: "none" }}
+              style={{ textDecoration: 'none' }}
             >
-              {" "}
-              <Label bsStyle="default">Datengrundlage</Label>{" "}
+              {' '}
+              <Label bsStyle="default">Datengrundlage</Label>{' '}
             </Link>
 
             <Link
               id="lnkHelpHeader_auswahl"
               to="POIauswahluabfragen"
               containerId="myMenu"
-              style={{ textDecoration: "none" }}
+              style={{ textDecoration: 'none' }}
             >
-              {" "}
-              <Label bsStyle="danger">Bäder auswählen und abfragen</Label>{" "}
+              {' '}
+              <Label bsStyle="danger">Bäder auswählen und abfragen</Label>{' '}
             </Link>
             <Link
               id="lnkHelpHeader_styling"
               to="kartendarstellung"
               containerId="myMenu"
-              style={{ textDecoration: "none" }}
+              style={{ textDecoration: 'none' }}
             >
-              {" "}
-              <Label bsStyle="primary">Kartendarstellung</Label>{" "}
+              {' '}
+              <Label bsStyle="primary">Kartendarstellung</Label>{' '}
             </Link>
             <Link
               id="lnkHelpHeader_positionieren"
               to="InKartePositionieren"
               containerId="myMenu"
-              style={{ textDecoration: "none" }}
+              style={{ textDecoration: 'none' }}
             >
-              {" "}
-              <Label bsStyle="warning">In Karte positionieren</Label>{" "}
+              {' '}
+              <Label bsStyle="warning">In Karte positionieren</Label>{' '}
             </Link>
             <Link
               id="lnkHelpHeader_standort"
               to="MeinStandort"
               containerId="myMenu"
-              style={{ textDecoration: "none" }}
+              style={{ textDecoration: 'none' }}
             >
-              {" "}
-              <Label bsStyle="info">Mein Standort</Label>{" "}
+              {' '}
+              <Label bsStyle="info">Mein Standort</Label>{' '}
             </Link>
             <Link
               id="lnkHelpHeader_settings"
               to="Einstellungen"
               containerId="myMenu"
-              style={{ textDecoration: "none" }}
+              style={{ textDecoration: 'none' }}
             >
-              {" "}
-              <Label bsStyle="success">Einstellungen</Label>{" "}
+              {' '}
+              <Label bsStyle="success">Einstellungen</Label>{' '}
             </Link>
             <Link
               id="lnkHelpHeader_personalisierung"
               to="Personalisierung"
               containerId="myMenu"
-              style={{ textDecoration: "none" }}
+              style={{ textDecoration: 'none' }}
             >
-              {" "}
-              <Label bsStyle="success">Personalisierung</Label>{" "}
+              {' '}
+              <Label bsStyle="success">Personalisierung</Label>{' '}
             </Link>
           </div>
 
@@ -129,12 +129,12 @@ const BaederModalMenuHelpSection = ({ uiState, uiStateActions }) => {
             <br />
           </div>
           <h4>
-            Datengrundlage{" "}
+            Datengrundlage{' '}
             <Link
               id="lnkUpInHelp_datengrundlage"
               to="help"
               containerId="myMenu"
-              style={{ color: "#00000044" }}
+              style={{ color: '#00000044' }}
             >
               <Icon name="arrow-circle-up" />
             </Link>
@@ -145,20 +145,20 @@ const BaederModalMenuHelpSection = ({ uiState, uiStateActions }) => {
             Straßennetz der OpenStreetMap mit den Gebäuden und Flächennutzungen aus dem
             Fachverfahren ALKIS des Liegenschaftskatasters. Das Stadtplanwerk 2.0 wird wöchentlich
             in einem automatischen Prozess aktualisiert. Zusätzlich nutzt die Bäder-Karte den
-            Datensatz{" "}
+            Datensatz{' '}
             <a
               href="https://offenedaten-wuppertal.de/dataset/interessante-orte-wuppertal-poi"
               target="_opendata"
             >
               POI Wuppertal
-            </a>{" "}
-            des{" "}
+            </a>{' '}
+            des{' '}
             <a
               href="https://www.wuppertal.de/rathaus-buergerservice/karten_vermessung/index.php"
               target="_r102"
             >
               Ressorts Vermessung, Katasteramt und Geodaten
-            </a>{" "}
+            </a>{' '}
             aus dem Open-Data-Angebot der Stadt Wuppertal, der auch die Wuppertaler Schwimmbäder
             umfasst.
           </p>
@@ -167,12 +167,12 @@ const BaederModalMenuHelpSection = ({ uiState, uiStateActions }) => {
             <br />
           </div>
           <h4>
-            Bäder auswählen und abfragen{" "}
+            Bäder auswählen und abfragen{' '}
             <Link
               id="lnkUpInHelp_auswahl"
               to="help"
               containerId="myMenu"
-              style={{ color: "#00000044" }}
+              style={{ color: '#00000044' }}
             >
               <Icon name="arrow-circle-up" />
             </Link>
@@ -184,11 +184,11 @@ const BaederModalMenuHelpSection = ({ uiState, uiStateActions }) => {
             Kurzinformation, Straße und Hausnummer) werden unten rechts in der Info-Box angezeigt.
             (Auf einem Tablet-PC wird der Fokus durch das erste Antippen des Schwimmbad-Symbols
             gesetzt, das zweite Antippen blendet den Namen ein.) Außerdem werden Ihnen in der
-            Info-Box weiterführende (Kommunikations-) Links zu diesem Schwimmbad angezeigt:{" "}
-            <Icon name="external-link-square" /> Internet,{" "}
-            <span style={{ whiteSpace: "nowrap" }}>
+            Info-Box weiterführende (Kommunikations-) Links zu diesem Schwimmbad angezeigt:{' '}
+            <Icon name="external-link-square" /> Internet,{' '}
+            <span style={{ whiteSpace: 'nowrap' }}>
               <Icon name="envelope-square" /> E-Mail
-            </span>{" "}
+            </span>{' '}
             und <Icon name="phone" />
             Telefon. Durch Anklicken des Kalender-Symbols <Icon name="calendar" /> gelangen Sie bei
             einigen städtischen Bädern zum Aqua-Aktiv-Kursprogramm des Sport- und Bäderamtes. Dort
@@ -196,8 +196,8 @@ const BaederModalMenuHelpSection = ({ uiState, uiStateActions }) => {
           </p>
           <p>
             Wenn Sie noch kein Schwimmbad im aktuellen Kartenausschnitt selektiert haben, wird der
-            Fokus automatisch auf das nördlichste Bad gesetzt. Mit den Funktionen{" "}
-            <img alt="Cluster" src="images/vorher_treffer.png" /> vorheriger Treffer und{" "}
+            Fokus automatisch auf das nördlichste Bad gesetzt. Mit den Funktionen{' '}
+            <img alt="Cluster" src="images/vorher_treffer.png" /> vorheriger Treffer und{' '}
             <img alt="Cluster" src="images/nachher_treffer.png" /> nächster Treffer können Sie
             ausgehend von dem Schwimmbad, auf dem gerade der Fokus liegt, in nördlicher bzw.
             südlicher Richtung alle aktuell im Kartenfenster angezeigten Bäder durchmustern.
@@ -213,12 +213,12 @@ const BaederModalMenuHelpSection = ({ uiState, uiStateActions }) => {
             <br />
           </div>
           <h4>
-            Kartendarstellung der Schwimmbäder{" "}
+            Kartendarstellung der Schwimmbäder{' '}
             <Link
               id="lnkUpInHelp_styling"
               to="help"
               containerId="myMenu"
-              style={{ color: "#00000044" }}
+              style={{ color: '#00000044' }}
             >
               <Icon name="arrow-circle-up" />
             </Link>
@@ -227,8 +227,8 @@ const BaederModalMenuHelpSection = ({ uiState, uiStateActions }) => {
             Zur Darstellung der Schwimmbäder in der Karte werden unterschiedliche Symbole für
             Hallenbäder {hallenBadSVG} und Freibäder {freibadBadSVG} verwendet. Dabei werden 3
             unterschiedliche Hintergrundfarben verwendet: {staedtischesFreibadSVG} steht für
-            städtische Bäder, die alle öffentlich zugänglich sind. {oeffentlichesVereinsbadSVG}{" "}
-            kennzeichnet öffentlich zugängliche Bäder in Vereinsregie und{" "}
+            städtische Bäder, die alle öffentlich zugänglich sind. {oeffentlichesVereinsbadSVG}{' '}
+            kennzeichnet öffentlich zugängliche Bäder in Vereinsregie und{' '}
             {nichtOeffentlichesVereinsbadSVG} wird für nicht öffentlich zugängliche Vereinsbäder
             eingesetzt. Diese Farben werden in der Titelzeile der Info-Box aufgegriffen. Zusätzlich
             werden dort die Informationen zusammengefasst, die für die Kartendarstellung relevant
@@ -238,12 +238,12 @@ const BaederModalMenuHelpSection = ({ uiState, uiStateActions }) => {
             <br />
           </div>
           <h4>
-            In Karte positionieren{" "}
+            In Karte positionieren{' '}
             <Link
               id="lnkUpInHelp_positionieren"
               to="help"
               containerId="myMenu"
-              style={{ color: "#00000044" }}
+              style={{ color: '#00000044' }}
             >
               <Icon name="arrow-circle-up" />
             </Link>
@@ -254,15 +254,15 @@ const BaederModalMenuHelpSection = ({ uiState, uiStateActions }) => {
             Straßennamens oder eines POI im Eingabefeld links unten ein (mindestens 2 Zeichen). In
             der inkrementellen Auswahlliste werden Ihnen passende Treffer angeboten. (Wenn Sie
             weitere Zeichen eingeben, wird der Inhalt der Auswahlliste angepasst.) Durch das
-            vorangestellte Symbol erkennen Sie, ob es sich dabei um einen <Icon name="circle" />{" "}
+            vorangestellte Symbol erkennen Sie, ob es sich dabei um einen <Icon name="circle" />{' '}
             Stadtbezirk, ein <Icon name="pie-chart" /> Quartier, eine <Icon name="home" /> Adresse,
-            eine <Icon name="road" /> Straße ohne zugeordnete Hausnummern, einen <Icon name="tag" />{" "}
+            eine <Icon name="road" /> Straße ohne zugeordnete Hausnummern, einen <Icon name="tag" />{' '}
             POI oder die <Icon name="tags" /> alternative Bezeichnung eines POI handelt.
           </p>
           <p>
             Nach der Auswahl eines Treffers aus der Liste wird die Karte auf die zugehörige Position
             zentriert. Bei Suchbegriffen mit Punktgeometrie (Adresse, Straße, POI) wird außerdem ein
-            großer Maßstab (Zoomstufe 14) eingestellt und ein Marker{" "}
+            großer Maßstab (Zoomstufe 14) eingestellt und ein Marker{' '}
             <img alt="Cluster" src="images/AdressMarker.jpg" /> auf der Zielposition platziert. Bei
             Suchbegriffen mit Flächengeometrie (Stadtbezirk, Quartier) wird der Maßstab so
             eingestellt, dass die Fläche vollständig dargestellt werden kann. Zusätzlich wird der
@@ -284,8 +284,8 @@ const BaederModalMenuHelpSection = ({ uiState, uiStateActions }) => {
             <br />
           </div>
           <h4>
-            Mein Standort{" "}
-            <Link to="help" containerId="myMenu" style={{ color: "#00000044" }}>
+            Mein Standort{' '}
+            <Link to="help" containerId="myMenu" style={{ color: '#00000044' }}>
               <Icon id="lnkUpInHelp_standort" name="arrow-circle-up" />
             </Link>
           </h4>
@@ -294,13 +294,13 @@ const BaederModalMenuHelpSection = ({ uiState, uiStateActions }) => {
             <br />
           </div>
           <h4>
-            Einstellungen{" "}
-            <Link to="help" containerId="myMenu" style={{ color: "#00000044" }}>
+            Einstellungen{' '}
+            <Link to="help" containerId="myMenu" style={{ color: '#00000044' }}>
               <Icon id="lnkUpInHelp_settings" name="arrow-circle-up" />
             </Link>
           </h4>
           <p>
-            Unter "<strong>Einstellungen</strong>" können Sie im Anwendungsmenü <Icon name="bars" />{" "}
+            Unter "<strong>Einstellungen</strong>" können Sie im Anwendungsmenü <Icon name="bars" />{' '}
             festlegen, wie die Kitas und die Hintergrundkarte und die Schwimmbäder angezeigt werden
             sollen.
           </p>
@@ -339,8 +339,8 @@ const BaederModalMenuHelpSection = ({ uiState, uiStateActions }) => {
             <br />
           </div>
           <h4>
-            Personalisierung{" "}
-            <Link to="help" containerId="myMenu" style={{ color: "#00000044" }}>
+            Personalisierung{' '}
+            <Link to="help" containerId="myMenu" style={{ color: '#00000044' }}>
               <Icon id="lnkUpInHelp_personalisierung" name="arrow-circle-up" />
             </Link>
           </h4>

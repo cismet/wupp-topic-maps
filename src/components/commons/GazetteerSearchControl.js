@@ -1,15 +1,15 @@
-import React from "react";
-import PropTypes from "prop-types";
-import { connect } from "react-redux";
-import { bindActionCreators } from "redux";
+import React from 'react';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 
-import { Icon } from "react-fa";
-import Control from "react-leaflet-control";
-import { Form, FormGroup, InputGroup, Button, OverlayTrigger, Tooltip } from "react-bootstrap";
-import { Typeahead } from "react-bootstrap-typeahead";
+import { Icon } from 'react-fa';
+import Control from 'react-leaflet-control';
+import { Form, FormGroup, InputGroup, Button, OverlayTrigger, Tooltip } from 'react-bootstrap';
+import { Typeahead } from 'react-bootstrap-typeahead';
 
-import { actions as uiStateActions } from "../../redux/modules/uiState";
-import { actions as mappingActions } from "../../redux/modules/mapping";
+import { actions as uiStateActions } from '../../redux/modules/uiState';
+import { actions as mappingActions } from '../../redux/modules/mapping';
 
 function mapStateToProps(state) {
   return {
@@ -105,7 +105,7 @@ export class GazetteerSearchControl_ extends React.Component {
       <Control pixelwidth={this.props.pixelwidth} position={this.props.searchControlPosition}>
         <Form
           style={{
-            width: this.props.pixelwidth + "px"
+            width: this.props.pixelwidth + 'px'
           }}
           action="#"
         >
@@ -126,12 +126,12 @@ export class GazetteerSearchControl_ extends React.Component {
                 filterBy={(option, text) => {
                   return option.string.toLowerCase().startsWith(text.toLowerCase());
                 }}
-                align={"justify"}
-                emptyLabel={"Keine Treffer gefunden"}
-                paginationText={"Mehr Treffer anzeigen"}
+                align={'justify'}
+                emptyLabel={'Keine Treffer gefunden'}
+                paginationText={'Mehr Treffer anzeigen'}
                 autoFocus={true}
                 submitFormOnEnter={true}
-                searchText={"suchen ..."}
+                searchText={'suchen ...'}
                 renderMenuItemChildren={this.props.renderMenuItemChildren}
               />
             </InputGroup>
@@ -167,9 +167,9 @@ GazetteerSearchControl_.propTypes = {
 
 GazetteerSearchControl_.defaultProps = {
   enabled: true,
-  placeholder: "Geben Sie einen Suchbegriff ein",
+  placeholder: 'Geben Sie einen Suchbegriff ein',
   pixelwidth: 300,
-  searchControlPosition: "bottomleft",
+  searchControlPosition: 'bottomleft',
   gazData: [],
   gazeteerHitTrigger: () => {},
   searchTooltipProvider: function() {
@@ -198,11 +198,11 @@ GazetteerSearchControl_.defaultProps = {
     <div key={option.sorter}>
       <Icon
         style={{
-          marginRight: "10px",
-          width: "18px"
+          marginRight: '10px',
+          width: '18px'
         }}
         name={option.glyph}
-        size={"lg"}
+        size={'lg'}
       />
       <span>{option.string}</span>
     </div>

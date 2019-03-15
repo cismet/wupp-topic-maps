@@ -1,13 +1,13 @@
-import L from "leaflet";
-import { connect } from "react-redux";
-import PropTypes from "prop-types";
+import L from 'leaflet';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 
-import { Marker } from "react-leaflet";
-import "drmonty-leaflet-awesome-markers/css/leaflet.awesome-markers.css";
+import { Marker } from 'react-leaflet';
+import 'drmonty-leaflet-awesome-markers/css/leaflet.awesome-markers.css';
 
 // need to have this import because of CSS sziss
 // eslint-disable-next-line
-import AwesomeMarkers from "drmonty-leaflet-awesome-markers";
+import AwesomeMarkers from 'drmonty-leaflet-awesome-markers';
 
 function mapStateToProps(state) {
   return {

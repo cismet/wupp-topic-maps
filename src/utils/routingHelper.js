@@ -1,13 +1,13 @@
-import queryString from "query-string";
-import objectAssign from "object-assign";
+import queryString from 'query-string';
+import objectAssign from 'object-assign';
 
-import "url-search-params-polyfill";
+import 'url-search-params-polyfill';
 
 export function modifyQueryPart(search, modifiedParts) {
   let query = queryString.parse(search);
   let newQuery = objectAssign(query, modifiedParts);
   return (
-    "?" +
+    '?' +
     queryString.stringify(newQuery, {
       sort: (m, n) => {
         return getOrderOfQueryPart(m) >= getOrderOfQueryPart(n);
@@ -20,7 +20,7 @@ export function removeQueryPart(search, partTobeRemoved) {
   let query = queryString.parse(search);
   delete query[partTobeRemoved];
   return (
-    "?" +
+    '?' +
     queryString.stringify(query, {
       sort: (m, n) => {
         return getOrderOfQueryPart(m) >= getOrderOfQueryPart(n);
@@ -30,7 +30,7 @@ export function removeQueryPart(search, partTobeRemoved) {
 }
 
 function getOrderOfQueryPart(part) {
-  const order = ["lat", "lng", "zoom"];
+  const order = ['lat', 'lng', 'zoom'];
   let pos = order.indexOf(part);
   if (pos === -1) {
     return 1000000;

@@ -1,9 +1,9 @@
-import PropTypes from "prop-types";
-import { MapControl } from "react-leaflet";
-import L from "leaflet";
+import PropTypes from 'prop-types';
+import { MapControl } from 'react-leaflet';
+import L from 'leaflet';
 
-import "leaflet-fullscreen-custom-container-fork/dist/leaflet.fullscreen.css";
-import "leaflet-fullscreen-custom-container-fork";
+import 'leaflet-fullscreen-custom-container-fork/dist/leaflet.fullscreen.css';
+import 'leaflet-fullscreen-custom-container-fork';
 
 class FullscreenControl extends MapControl {
   componentWillMount() {

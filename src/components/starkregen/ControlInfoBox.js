@@ -1,12 +1,12 @@
-import React from "react";
-import PropTypes from "prop-types";
-import ReactDOM from "react-dom";
+import React from 'react';
+import PropTypes from 'prop-types';
+import ReactDOM from 'react-dom';
 
-import { Icon } from "react-fa";
-import { Well, Button } from "react-bootstrap";
-import Legend from "./Legend";
-import { Map, Control, DomUtil, DomEvent } from "leaflet";
-import L from "leaflet";
+import { Icon } from 'react-fa';
+import { Well, Button } from 'react-bootstrap';
+import Legend from './Legend';
+import { Map, Control, DomUtil, DomEvent } from 'leaflet';
+import L from 'leaflet';
 
 // Since this component is simple and static, there's no parent container for it.
 const InfoBox = ({
@@ -28,7 +28,7 @@ const InfoBox = ({
   mapCursor
 }) => {
   const legend = <Legend legendObjects={legendObject} />;
-  let headerColor = "#7e7e7e";
+  let headerColor = '#7e7e7e';
   if (featureInfoValue) {
     for (const item of legendObject) {
       if (featureInfoValue > item.lt) {
@@ -43,7 +43,7 @@ const InfoBox = ({
   const featureInfoModeButton = (
     <div
       key="featureInfoModeButton"
-      style={{ marginBottom: 5, textAlign: "right", pointerEvents: "auto" }}
+      style={{ marginBottom: 5, textAlign: 'right', pointerEvents: 'auto' }}
     >
       <Button
         id="cmdShowGetFeatureInfo"
@@ -63,47 +63,47 @@ const InfoBox = ({
       onClick={e => e.stopPropagation()}
       key="featureInfoModeBox"
       style={{
-        pointerEvents: "auto",
+        pointerEvents: 'auto',
         marginBottom: 5,
-        float: "right",
-        width: "60%",
-        height_: "145px"
+        float: 'right',
+        width: '60%',
+        height_: '145px'
       }}
     >
-      <table style={{ width: "100%" }}>
+      <table style={{ width: '100%' }}>
         <tbody>
           <tr>
             <td
               style={{
-                opacity: "0.9",
-                paddingLeft: "2px",
-                paddingRight: "15px",
-                paddingTop: "0px",
-                paddingBottom: "0px",
+                opacity: '0.9',
+                paddingLeft: '2px',
+                paddingRight: '15px',
+                paddingTop: '0px',
+                paddingBottom: '0px',
                 background: headerColor,
-                textAlign: "left"
+                textAlign: 'left'
               }}
             >
               Maximaler Wasserstand
             </td>
             <td
               style={{
-                opacity: "0.9",
-                paddingLeft: "0px",
-                paddingTop: "0px",
-                paddingRight: "2px",
-                paddingBottom: "0px",
+                opacity: '0.9',
+                paddingLeft: '0px',
+                paddingTop: '0px',
+                paddingRight: '2px',
+                paddingBottom: '0px',
                 background: headerColor,
-                textAlign: "right"
+                textAlign: 'right'
               }}
             >
               <a
                 onClick={() => {
                   setFeatureInfoModeActivation(false);
                 }}
-                style={{ color: "black" }}
+                style={{ color: 'black' }}
               >
-                <Icon name="close" />{" "}
+                <Icon name="close" />{' '}
               </a>
             </td>
           </tr>
@@ -112,23 +112,23 @@ const InfoBox = ({
       <Well
         bsSize="small"
         style={{
-          opacity: "0.9",
-          paddingBottom: "0px"
+          opacity: '0.9',
+          paddingBottom: '0px'
         }}
       >
-        <table style={{ width: "100%", paddingBottom: "0px" }}>
+        <table style={{ width: '100%', paddingBottom: '0px' }}>
           <tbody>
             <tr>
               <td
                 style={{
-                  opacity: "0.9",
-                  paddingLeft: "0px",
-                  paddingTop: "0px",
-                  paddingBottom: "0px"
+                  opacity: '0.9',
+                  paddingLeft: '0px',
+                  paddingTop: '0px',
+                  paddingBottom: '0px'
                 }}
               >
                 {featureInfoValue !== undefined && (
-                  <h2 style={{ marginTop: 0, marginBottom: 0, textAlign: "center" }}>
+                  <h2 style={{ marginTop: 0, marginBottom: 0, textAlign: 'center' }}>
                     {getRoundedValueStringForValue(featureInfoValue)}
                   </h2>
                 )}
@@ -141,14 +141,14 @@ const InfoBox = ({
               <tr>
                 <td
                   style={{
-                    opacity: "0.9",
-                    paddingLeft: "0px",
-                    paddingTop: "0px",
-                    paddingBottom: "2px",
-                    textAlign: "center"
+                    opacity: '0.9',
+                    paddingLeft: '0px',
+                    paddingTop: '0px',
+                    paddingBottom: '2px',
+                    textAlign: 'center'
                   }}
                 >
-                  <a onClick={() => showModalMenu("aussagekraft")}>Information zur Aussagekraft</a>
+                  <a onClick={() => showModalMenu('aussagekraft')}>Information zur Aussagekraft</a>
                 </td>
               </tr>
             )}
@@ -159,15 +159,15 @@ const InfoBox = ({
   );
 
   const legendTable = (
-    <table onClick={e => e.stopPropagation()} key="legendTable" style={{ width: "100%" }}>
+    <table onClick={e => e.stopPropagation()} key="legendTable" style={{ width: '100%' }}>
       <tbody>
         <tr>
           <td
             style={{
-              opacity: "0.9",
-              paddingLeft: "0px",
-              paddingTop: "0px",
-              paddingBottom: "0px"
+              opacity: '0.9',
+              paddingLeft: '0px',
+              paddingTop: '0px',
+              paddingBottom: '0px'
             }}
           >
             {legend}
@@ -182,39 +182,39 @@ const InfoBox = ({
       onClick={e => e.stopPropagation()}
       key="mainInfoBox"
       bsSize="small"
-      style={{ pointerEvents: "auto" }}
+      style={{ pointerEvents: 'auto' }}
     >
-      <table border={0} style={{ width: "100%" }}>
+      <table border={0} style={{ width: '100%' }}>
         <tbody>
           <tr>
             <td
               style={{
-                opacity: "0.9",
-                paddingLeft: "0px",
-                paddingTop: "0px",
-                paddingBottom: "0px",
-                textAlign: "left"
+                opacity: '0.9',
+                paddingLeft: '0px',
+                paddingTop: '0px',
+                paddingBottom: '0px',
+                textAlign: 'left'
               }}
             >
-              <h4 style={{ margin: 0, paddingBottom: "10px" }}>
-                <Icon name={selectedSimulation.icon} /> {selectedSimulation.title} {"   "}
+              <h4 style={{ margin: 0, paddingBottom: '10px' }}>
+                <Icon name={selectedSimulation.icon} /> {selectedSimulation.title} {'   '}
               </h4>
             </td>
             <td
               style={{
-                textAlign: "right",
-                opacity: "0.9",
-                paddingLeft: "0px",
-                paddingTop: "0px",
-                paddingBottom: "0px"
+                textAlign: 'right',
+                opacity: '0.9',
+                paddingLeft: '0px',
+                paddingTop: '0px',
+                paddingBottom: '0px'
               }}
             >
               <h4 style={{ margin: 0 }}>
-                <a style={{ textDecoration: "none" }}>
+                <a style={{ textDecoration: 'none' }}>
                   <Icon
                     onClick={() => minify(!minified)}
-                    style={{ color: "#7e7e7e" }}
-                    name={minified ? "chevron-circle-up" : "chevron-circle-down"}
+                    style={{ color: '#7e7e7e' }}
+                    name={minified ? 'chevron-circle-up' : 'chevron-circle-down'}
                   />
                 </a>
               </h4>
@@ -224,28 +224,28 @@ const InfoBox = ({
       </table>
       {!minified && (
         <p style={{ marginBottom: 5 }}>
-          {selectedSimulation.subtitle} <a onClick={() => showModalMenu("szenarien")}>(mehr)</a>
+          {selectedSimulation.subtitle} <a onClick={() => showModalMenu('szenarien')}>(mehr)</a>
           {/* <a>
 			<Icon style={{ paddingLeft: 3, fontSize: 16 }} name="info-circle" />
 		</a> */}
         </p>
       )}
       {!minified && (
-        <table border={0} style={{ width: "100%" }}>
+        <table border={0} style={{ width: '100%' }}>
           <tbody>
             <tr>
               <td
                 style={{
-                  textAlign: "center",
-                  paddingLeft: "0px",
-                  paddingTop: "0px",
-                  paddingBottom: "0px"
+                  textAlign: 'center',
+                  paddingLeft: '0px',
+                  paddingTop: '0px',
+                  paddingBottom: '0px'
                 }}
               >
                 <h5
                   style={{
-                    textAlign: "center",
-                    margin: "4px"
+                    textAlign: 'center',
+                    margin: '4px'
                   }}
                 >
                   <b>Simulation</b>
@@ -253,16 +253,16 @@ const InfoBox = ({
               </td>
               <td
                 style={{
-                  textAlign: "center",
-                  paddingLeft: "0px",
-                  paddingTop: "0px",
-                  paddingBottom: "5px"
+                  textAlign: 'center',
+                  paddingLeft: '0px',
+                  paddingTop: '0px',
+                  paddingBottom: '5px'
                 }}
               >
                 <h5
                   style={{
-                    textAlign: "center",
-                    margin: "4px"
+                    textAlign: 'center',
+                    margin: '4px'
                   }}
                 >
                   <b>Karte</b>
@@ -272,24 +272,24 @@ const InfoBox = ({
             <tr>
               <td
                 style={{
-                  textAlign: "center",
-                  paddingLeft: "0px",
-                  paddingTop: "0px",
-                  paddingBottom: "0px"
+                  textAlign: 'center',
+                  paddingLeft: '0px',
+                  paddingTop: '0px',
+                  paddingBottom: '0px'
                 }}
               >
                 <table
                   border={0}
                   style={{
-                    width: "100%"
+                    width: '100%'
                   }}
                 >
                   <tbody>
                     <tr>
-                      <td style={{ textAlign: "center", verticalAlign: "center" }}>
+                      <td style={{ textAlign: 'center', verticalAlign: 'center' }}>
                         {simulationLabels[0]} {simulationLabels[1]}
                       </td>
-                      <td style={{ textAlign: "center", verticalAlign: "center" }} />
+                      <td style={{ textAlign: 'center', verticalAlign: 'center' }} />
                     </tr>
                     <tr>
                       <td>
@@ -300,19 +300,19 @@ const InfoBox = ({
                 </table>
               </td>
               <td
-                key={"bgprev" + selectedBackgroundIndex}
+                key={'bgprev' + selectedBackgroundIndex}
                 style={{
-                  textAlign: "center",
-                  paddingLeft: "0px",
-                  paddingTop: "0px",
-                  paddingBottom: "0px"
+                  textAlign: 'center',
+                  paddingLeft: '0px',
+                  paddingTop: '0px',
+                  paddingBottom: '0px'
                 }}
               >
                 {backgrounds.map((item, index) => {
                   let style;
                   if (selectedBackgroundIndex === index) {
                     style = {
-                      border: "3px solid #5f83b8",
+                      border: '3px solid #5f83b8',
                       marginLeft: 7
                     };
                   } else {
@@ -323,7 +323,7 @@ const InfoBox = ({
                   }
                   return (
                     <a
-                      key={"backgroundChanger." + index}
+                      key={'backgroundChanger.' + index}
                       title={item.title}
                       onClick={() => {
                         setBackgroundIndex(index);

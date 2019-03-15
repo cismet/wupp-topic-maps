@@ -1,19 +1,19 @@
-import React from "react";
-import { FormGroup, ControlLabel } from "react-bootstrap";
+import React from 'react';
+import { FormGroup, ControlLabel } from 'react-bootstrap';
 
-import GenericModalMenuSection from "../commons/GenericModalMenuSection";
-import SymbolSizeChooser from "../commons/SymbolSizeChooser";
-import NamedMapStyleChooser from "../commons/NamedMapStyleChooser";
-import SettingsPanelWithPreviewSection from "../commons/SettingsPanelWithPreviewSection";
-import { getInternetExplorerVersion } from "../../utils/browserHelper";
-import "url-search-params-polyfill";
-import { getColorForProperties, getBadSVG } from "../../utils/baederHelper";
-import { MappingConstants, FeatureCollectionDisplay, getLayersByName } from "react-cismap";
+import GenericModalMenuSection from '../commons/GenericModalMenuSection';
+import SymbolSizeChooser from '../commons/SymbolSizeChooser';
+import NamedMapStyleChooser from '../commons/NamedMapStyleChooser';
+import SettingsPanelWithPreviewSection from '../commons/SettingsPanelWithPreviewSection';
+import { getInternetExplorerVersion } from '../../utils/browserHelper';
+import 'url-search-params-polyfill';
+import { getColorForProperties, getBadSVG } from '../../utils/baederHelper';
+import { MappingConstants, FeatureCollectionDisplay, getLayersByName } from 'react-cismap';
 
-import { Map } from "react-leaflet";
-import previewFeatureCollection from "./BaederPreviewFeatureCollection";
+import { Map } from 'react-leaflet';
+import previewFeatureCollection from './BaederPreviewFeatureCollection';
 
-import { getFeatureStyler } from "../../utils/stadtplanHelper";
+import { getFeatureStyler } from '../../utils/stadtplanHelper';
 
 const BaederModalMenuSettingsSection = ({
   uiState,
@@ -26,9 +26,9 @@ const BaederModalMenuSettingsSection = ({
   currentMarkerSize,
   topicMapRef
 }) => {
-  let namedMapStyle = new URLSearchParams(urlSearch).get("mapStyle") || "default";
+  let namedMapStyle = new URLSearchParams(urlSearch).get('mapStyle') || 'default';
   let zoom = 7;
-  let layers = "";
+  let layers = '';
   if (topicMapRef) {
     layers = topicMapRef.wrappedInstance.props.backgroundlayers;
   }
@@ -54,7 +54,7 @@ const BaederModalMenuSettingsSection = ({
       {getLayersByName(layers, namedMapStyle)}
       <FeatureCollectionDisplay
         key={
-          "FeatureCollectionDisplayPreview." + currentMarkerSize
+          'FeatureCollectionDisplayPreview.' + currentMarkerSize
           // +
           //   this.props.featureKeySuffixCreator() +
           //   "clustered:" +
@@ -111,7 +111,7 @@ const BaederModalMenuSettingsSection = ({
                 pathname={urlPathname}
                 search={urlSearch}
                 pushNewRoute={pushNewRoute}
-                modes={[{ title: "mehrfarbig", mode: "default" }, { title: "blau", mode: "blue" }]}
+                modes={[{ title: 'mehrfarbig', mode: 'default' }, { title: 'blau', mode: 'blue' }]}
               />
             ),
             <SymbolSizeChooser
@@ -119,7 +119,7 @@ const BaederModalMenuSettingsSection = ({
               currentMarkerSize={currentMarkerSize}
               getSymbolSVG={getBadSVG}
               symbolColor={getColorForProperties({
-                more: { zugang: "öffentlich", betreiber: "Verein" }
+                more: { zugang: 'öffentlich', betreiber: 'Verein' }
               })}
             />
           ]}

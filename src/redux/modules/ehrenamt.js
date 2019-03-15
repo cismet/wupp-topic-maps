@@ -1,45 +1,45 @@
-import objectAssign from "object-assign";
-import { actions as mappingActions } from "./mapping";
-import { routerActions } from "react-router-redux";
+import objectAssign from 'object-assign';
+import { actions as mappingActions } from './mapping';
+import { routerActions } from 'react-router-redux';
 
-import { convertPoint } from "../../utils/gisHelper";
-import { getCartStringForAdding, getCartStringForRemoving } from "../../utils/ehrenamtHelper";
-import { modifyQueryPart } from "../../utils/routingHelper";
+import { convertPoint } from '../../utils/gisHelper';
+import { getCartStringForAdding, getCartStringForRemoving } from '../../utils/ehrenamtHelper';
+import { modifyQueryPart } from '../../utils/routingHelper';
 
-import kdbush from "kdbush";
+import kdbush from 'kdbush';
 
 ///TYPES
 export const types = {
-  SET_OFFERS: "EHRENAMT/SET_OFFERS",
-  SET_FILTERED_OFFERS: "EHRENAMT/SET_FILTERED_OFFERS",
-  SET_GLOBALBEREICHE: "EHRENAMT/SET_GLOBALBEREICHE",
-  SET_KENNTNISSE: "EHRENAMT/SET_KENNTNISSE",
-  SET_ZIELGRUPPEN: "EHRENAMT/SET_ZIELGRUPPEN",
-  SET_FILTER: "EHRENAMT/SET_FILTER",
-  SET_IGNORED_FILTERGROUPS: "EHRENAMT/SET_IGNORED_FILTERGROUPS",
-  ADD_TO_CART: "EHRENAMT/ADD_TO_CART",
-  REMOVE_FROM_CART: "EHRENAMT/REMOVE_FROM_CART",
-  CLEAR_CART: "EHRENAMT/CLEAR_CART",
-  SET_MODE: "EHRENAMT/SET_MODE",
-  SET_CART: "EHRENAMT/SET_CART"
+  SET_OFFERS: 'EHRENAMT/SET_OFFERS',
+  SET_FILTERED_OFFERS: 'EHRENAMT/SET_FILTERED_OFFERS',
+  SET_GLOBALBEREICHE: 'EHRENAMT/SET_GLOBALBEREICHE',
+  SET_KENNTNISSE: 'EHRENAMT/SET_KENNTNISSE',
+  SET_ZIELGRUPPEN: 'EHRENAMT/SET_ZIELGRUPPEN',
+  SET_FILTER: 'EHRENAMT/SET_FILTER',
+  SET_IGNORED_FILTERGROUPS: 'EHRENAMT/SET_IGNORED_FILTERGROUPS',
+  ADD_TO_CART: 'EHRENAMT/ADD_TO_CART',
+  REMOVE_FROM_CART: 'EHRENAMT/REMOVE_FROM_CART',
+  CLEAR_CART: 'EHRENAMT/CLEAR_CART',
+  SET_MODE: 'EHRENAMT/SET_MODE',
+  SET_CART: 'EHRENAMT/SET_CART'
 };
 
 export const constants = {
-  FILTER_FILTER: "EHRENAMT/FILTER_FILTER",
-  CART_FILTER: "EHRENAMT/CART_FILTER",
-  OR_FILTER: "EHRENAMT/OR_FILTER",
-  AND_FILTER: "EHRENAMT/AND_FILTER",
-  IGNORE_FILTER: "EHRENAMT/IGNORE_FILTER",
-  KENTNISSE_FILTER: "EHRENAMT/KENTNISSE_FILTER",
-  ZIELGRUPPEN_FILTER: "EHRENAMT/ZIELGRUPPEN_FILTER",
-  GLOBALBEREICHE_FILTER: "EHRENAMT/GLOBALBEREICHE_FILTER"
+  FILTER_FILTER: 'EHRENAMT/FILTER_FILTER',
+  CART_FILTER: 'EHRENAMT/CART_FILTER',
+  OR_FILTER: 'EHRENAMT/OR_FILTER',
+  AND_FILTER: 'EHRENAMT/AND_FILTER',
+  IGNORE_FILTER: 'EHRENAMT/IGNORE_FILTER',
+  KENTNISSE_FILTER: 'EHRENAMT/KENTNISSE_FILTER',
+  ZIELGRUPPEN_FILTER: 'EHRENAMT/ZIELGRUPPEN_FILTER',
+  GLOBALBEREICHE_FILTER: 'EHRENAMT/GLOBALBEREICHE_FILTER'
 };
 
 ///INITIAL STATE
 const initialState = {
   mode: constants.FILTER_FILTER,
   offers: [],
-  offersMD5: "",
+  offersMD5: '',
   filteredOffers: [],
   filteredOfferIndex: null,
   globalbereiche: [],
@@ -321,17 +321,17 @@ function toggleFilter(kind, filtergroup, filter) {
       filterGroupSet.delete(filter);
     } else {
       filterGroupSet.add(filter);
-      if (kind === "positiv") {
+      if (kind === 'positiv') {
         if (filterState.negativ[filtergroup].indexOf(filter) !== -1) {
-          let otherFilterGroupSet = new Set(filterState["negativ"][filtergroup]);
+          let otherFilterGroupSet = new Set(filterState['negativ'][filtergroup]);
           otherFilterGroupSet.delete(filter);
-          filterState["negativ"][filtergroup] = Array.from(otherFilterGroupSet);
+          filterState['negativ'][filtergroup] = Array.from(otherFilterGroupSet);
         }
       } else {
         if (filterState.positiv[filtergroup].indexOf(filter) !== -1) {
-          let otherFilterGroupSet = new Set(filterState["positiv"][filtergroup]);
+          let otherFilterGroupSet = new Set(filterState['positiv'][filtergroup]);
           otherFilterGroupSet.delete(filter);
-          filterState["positiv"][filtergroup] = Array.from(otherFilterGroupSet);
+          filterState['positiv'][filtergroup] = Array.from(otherFilterGroupSet);
         }
       }
     }
@@ -421,10 +421,10 @@ function loadOffers() {
     let currentOffer = null;
     const state = getState();
     let noCacheHeaders = new Headers();
-    noCacheHeaders.append("pragma", "no-cache");
-    noCacheHeaders.append("cache-control", "no-cache");
+    noCacheHeaders.append('pragma', 'no-cache');
+    noCacheHeaders.append('cache-control', 'no-cache');
 
-    return fetch("/ehrenamt/data.json.md5", { method: "get", headers: noCacheHeaders })
+    return fetch('/ehrenamt/data.json.md5', { method: 'get', headers: noCacheHeaders })
       .then(response => {
         if (response.ok) {
           return response.text();
@@ -438,13 +438,13 @@ function loadOffers() {
           dispatch(applyFilter());
           dispatch(createFeatureCollectionFromOffers());
 
-          throw "CACHEHIT";
+          throw 'CACHEHIT';
         } else {
-          return "fetchit";
+          return 'fetchit';
         }
       })
       .then(fetchit => {
-        return fetch("/ehrenamt/data.json", { method: "get", headers: noCacheHeaders });
+        return fetch('/ehrenamt/data.json', { method: 'get', headers: noCacheHeaders });
       })
       .then(response => {
         if (response.ok) {
@@ -486,8 +486,8 @@ function loadOffers() {
         dispatch(createFeatureCollectionFromOffers());
       })
       .catch(function(err) {
-        if (err !== "CACHEHIT") {
-          console.log("Problem during OfferLoading");
+        if (err !== 'CACHEHIT') {
+          console.log('Problem during OfferLoading');
           console.log(currentOffer);
           console.log(err);
         }
@@ -556,13 +556,13 @@ function createFeatureCollectionFromOffers(boundingBox) {
 function getFilterSelectorForConstant(constant) {
   switch (constant) {
     case constants.GLOBALBEREICHE_FILTER: {
-      return "globalbereiche";
+      return 'globalbereiche';
     }
     case constants.KENTNISSE_FILTER: {
-      return "kenntnisse";
+      return 'kenntnisse';
     }
     case constants.ZIELGRUPPEN_FILTER: {
-      return "zielgruppen";
+      return 'zielgruppen';
     }
     default: {
       return undefined;
@@ -584,7 +584,7 @@ function clearCart() {
       routerActions.push(
         state.routing.location.pathname +
           modifyQueryPart(state.routing.location.search, {
-            cart: ""
+            cart: ''
           })
       )
     );
@@ -632,11 +632,11 @@ export const actions = {
 //HELPER FUNCTIONS
 function convertOfferToFeature(offer, index) {
   const id = offer.id;
-  const type = "Feature";
+  const type = 'Feature';
   const selected = false;
   const point = offer.point25832; //convertPoint(offer.geo_x, offer.geo_y)
   const geometry = {
-    type: "Point",
+    type: 'Point',
     coordinates: [point[0], point[1]]
   };
   const text = offer.text;
@@ -649,9 +649,9 @@ function convertOfferToFeature(offer, index) {
     selected,
     geometry,
     crs: {
-      type: "name",
+      type: 'name',
       properties: {
-        name: "urn:ogc:def:crs:EPSG::25832"
+        name: 'urn:ogc:def:crs:EPSG::25832'
       }
     },
     properties: offer

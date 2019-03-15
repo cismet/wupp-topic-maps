@@ -242,6 +242,7 @@ export class BPlaene_ extends React.Component {
 
 	componentDidUpdate(prevProps) {
 		if (!this.props.allGazetteerTopics.bplaene) {
+			//loading of gaz not completed
 			return;
 		}
 		if (

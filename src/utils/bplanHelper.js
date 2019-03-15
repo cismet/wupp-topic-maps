@@ -16,14 +16,14 @@ export const getColorFromFeature = (feature) => {
 	let color = '#ff0000';
 	switch (feature.properties.status) {
 		case 'rechtskräftig':
-			color = '#2AFF0040';
+			color = '#2AFF00'; //40';
 			break;
 		case 'nicht rechtskräftig':
-			color = '#FC000040';
+			color = '#FC0000'; //40';
 			break;
 		default:
 			//beides
-			color = '#2AFF0040';
+			color = '#2AFF00'; //40';
 	}
 	return color;
 };

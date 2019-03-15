@@ -6,7 +6,7 @@ import { Modal, Button, Accordion, Panel } from 'react-bootstrap';
 import { actions as UiStateActions } from '../redux/modules/uiState';
 import { Icon } from 'react-fa';
 import CismetFooterAcks from './commons/CismetFooterAcknowledgements';
-
+import { INFO_DOC_DATEINAMEN_URL } from '../constants/bplaene';
 function mapStateToProps(state) {
 	return { uiState: state.uiState };
 }
@@ -166,24 +166,40 @@ export class BPlanModalHelp_ extends React.Component {
 							&nbsp; k&ouml;nnen Sie den Kartenausschnitt zuvor so anpassen, dass alle Pl&auml;ne der
 							Treffermenge vollst&auml;ndig angezeigt werden.
 						</Panel>
-						<Panel header="B-Pl&auml;ne herunterladen" eventKey="7" bsStyle="info">
-							Zum Download einer PDF-Datei des Plans, der gerade den Fokus hat, klicken Sie auf den
-							Link&nbsp;
-							<a>Plan</a>.<br />
-							Umfasst der B-Plan mehrere Planteile, werden diese als mehrseitiges PDF-Dokument (multi-page
-							PDF) bereitgestellt. (Der Link lautet dann&nbsp;
-							<a>Pl&auml;ne</a>
-							.)
-							<br />
-							Wenn zu einem B-Plan-Verfahren weitere verfahrensbegleitende Dokumente verf&uuml;gbar sind,
-							wird zus&auml;tzlich der Link&nbsp;
-							<a>alles</a>
-							&nbsp;zum Download eines zip-Archivs mit allen Planteilen und allen verfahrensbegleitenden
-							Dokumenten angeboten.
-							<br />
-							Ob die heruntergeladene Datei nach dem Download sofort mit einem geeigneten Programm
-							(PDF-Viewer oder Dateimanager) ge&ouml;ffnet wird, h&auml;ngt von Ihren Betriebssystem-
-							und/oder Browsereinstellungen ab.
+						<Panel header="B-Plan-Dokumente betrachten" eventKey="7" bsStyle="info">
+							<p>
+								Durch Anklicken des Links "Dokumente" in der Info-Box oder des PDF-Symbols direkt
+								darüber wird in einer neuen Registerkarte Ihres Browsers ein Dokumentenviewer geöffnet,
+								in dem die Dokumente zu demjenigen B-Plan betrachtet werden können, der gerade den Fokus
+								hat. Wenn zu dem B-Plan mehrere Dokumente verfügbar sind, werden diese in einer
+								Navigationsleiste am linken Rand des Dokumentenviewers angeboten. Klicken Sie auf eines
+								der Symbole in der Navigationsleiste, um das zugehörige Dokument in den Anzeigebereich
+								des Dokumentenviewers zu laden. Mit den Werkzeugen <Icon name="chevron-left" />{' '}
+								"vorherige Seite" und <Icon name="chevron-right" /> "nächste Seite" in der
+								Werkzeugleiste am oberen Rand des Dokumentenviewers können Sie in mehrseitigen
+								Dokumenten vor- und zurückblättern.
+							</p>
+							<p>
+								Mehrere Dokumente werden angezeigt, wenn der B-Plan mehrere Planteile umfasst oder wenn
+								die verfahrensbegleitenden Zusatzdokumente bereits in digitaler Form vorliegen. Die
+								Bereitstellung dieser Dokumente ist ein laufendes Vorhaben der Stadtverwaltung
+								Wuppertal, Stand 03/2019 sind sie für rund 60% der Wuppertaler B-Pläne verfügbar. Die
+								Namenskonventionen für die vielfältigen Zusatzdateien sind im Dokument{' '}
+								<a href="INFO_DOC_DATEINAMEN_URL" target="_info">
+									Info Dateinamen
+								</a>{' '}
+								beschrieben, das in der Navigationsleiste als oberstes Zusatzdokument angeboten wird.
+							</p>
+							<p>
+								Im Anzeigebereich können Sie das Dokument durch Ziehen mit der Maus verschieben. Mit den
+								Werkzeugen <Icon name="plus" /> und <Icon name="minus" /> können Sie die Darstellung
+								vergrößern bzw. verkleinern. Darüber hinaus finden Sie in der Werkzeugleiste mit{' '}
+								<Icon name="arrows-h" /> "an Fensterbreite anpassen" und <Icon name="arrows-v" /> "an
+								Fensterhöhe anpassen" zwei Möglichkeiten zur schnellen Optimierung der
+								Dokumentdarstellung. Wenn Sie für weitere B-Pläne aus dem Kartenfenster zur
+								Dokumentbetrachtung wechseln, wird eine ggf. bereits zuvor für den Dokumentenviewer
+								geöffnete Registerkarte Ihres Browsers angesteuert.
+							</p>
 						</Panel>
 					</Accordion>
 				</Modal.Body>

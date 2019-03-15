@@ -185,7 +185,7 @@ export class BPlanModalHelp_ extends React.Component {
 								Bereitstellung dieser Dokumente ist ein laufendes Vorhaben der Stadtverwaltung
 								Wuppertal, Stand 03/2019 sind sie für rund 60% der Wuppertaler B-Pläne verfügbar. Die
 								Namenskonventionen für die vielfältigen Zusatzdateien sind im Dokument{' '}
-								<a href="INFO_DOC_DATEINAMEN_URL" target="_info">
+								<a href={INFO_DOC_DATEINAMEN_URL} target="_info">
 									Info Dateinamen
 								</a>{' '}
 								beschrieben, das in der Navigationsleiste als oberstes Zusatzdokument angeboten wird.

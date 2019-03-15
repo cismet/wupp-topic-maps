@@ -127,7 +127,7 @@ export class BPlanModalHelp_ extends React.Component {
 						</Panel>
 						<Panel header="Suche &uuml;ber Adresse oder POI" eventKey="5" bsStyle="success">
 							Um die B-Plan-Situation an einem bestimmten Punkt des Stadtgebietes zu erkunden, geben Sie
-							den Anfang einer Stra&szlig;ennamens oder eines interessanten Ortes (auch Point of Interest
+							den Anfang eines Stra&szlig;ennamens oder eines interessanten Ortes (auch Point of Interest
 							oder kurz POI genannt) im Eingabefeld ein (mindestens 2 Zeichen). In der inkrementellen
 							Auswahlliste werden Ihnen passende Treffer angeboten. (Wenn sie weitere Zeichen eingeben,
 							wird der Inhalt der Auswahlliste angepasst.)
@@ -199,6 +199,20 @@ export class BPlanModalHelp_ extends React.Component {
 								Dokumentdarstellung. Wenn Sie für weitere B-Pläne aus dem Kartenfenster zur
 								Dokumentbetrachtung wechseln, wird eine ggf. bereits zuvor für den Dokumentenviewer
 								geöffnete Registerkarte Ihres Browsers angesteuert.
+							</p>
+						</Panel>
+						<Panel header="B-Pläne herunterladen" eventKey="8" bsStyle="info">
+							<p>
+								Das Herunterladen der Dokumente zu einem B-Plan-Verfahren erfolgt aus dem
+								Dokumentenviewer. Dazu finden Sie in der Werkzeugleiste zwei Möglichkeiten. Mit dem
+								immer verfügbaren Werkzeug <Icon name="download" /> "Dokument herunterladen (pdf)"
+								können Sie das aktuell im Anzeigebereich dargestellte Dokument als PDF-Datei
+								herunterladen.
+							</p>
+							<p>
+								Wenn mehr als ein Dokument vorhanden ist, können Sie ein ZIP-Archiv aller Dokumente mit
+								dem zweiten Werkzeug <Icon name="file-archive-o" /> "alles herunterladen (zip)"
+								herunterladen.
 							</p>
 						</Panel>
 					</Accordion>

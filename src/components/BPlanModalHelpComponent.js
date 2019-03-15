@@ -175,7 +175,7 @@ export class BPlanModalHelp_ extends React.Component {
 								Navigationsleiste am linken Rand des Dokumentenviewers angeboten. Klicken Sie auf eines
 								der Symbole in der Navigationsleiste, um das zugehörige Dokument in den Anzeigebereich
 								des Dokumentenviewers zu laden. Mit den Werkzeugen <Icon name="chevron-left" />{' '}
-								"vorherige Seite" und <Icon name="chevron-right" /> "nächste Seite" in der
+								<i>"vorherige Seite"</i> und <Icon name="chevron-right" /> <i>"nächste Seite"</i> in der
 								Werkzeugleiste am oberen Rand des Dokumentenviewers können Sie in mehrseitigen
 								Dokumenten vor- und zurückblättern.
 							</p>
@@ -194,25 +194,39 @@ export class BPlanModalHelp_ extends React.Component {
 								Im Anzeigebereich können Sie das Dokument durch Ziehen mit der Maus verschieben. Mit den
 								Werkzeugen <Icon name="plus" /> und <Icon name="minus" /> können Sie die Darstellung
 								vergrößern bzw. verkleinern. Darüber hinaus finden Sie in der Werkzeugleiste mit{' '}
-								<Icon name="arrows-h" /> "an Fensterbreite anpassen" und <Icon name="arrows-v" /> "an
-								Fensterhöhe anpassen" zwei Möglichkeiten zur schnellen Optimierung der
-								Dokumentdarstellung. Wenn Sie für weitere B-Pläne aus dem Kartenfenster zur
-								Dokumentbetrachtung wechseln, wird eine ggf. bereits zuvor für den Dokumentenviewer
-								geöffnete Registerkarte Ihres Browsers angesteuert.
+								<Icon name="arrows-h" /> <i>"an Fensterbreite anpassen"</i> und{' '}
+								<span style={{ whiteSpace: 'nowrap' }}>
+									<Icon name="arrows-v" /> <i>"an Fensterhöhe anpassen"</i>
+								</span>{' '}
+								zwei Möglichkeiten zur schnellen Optimierung der Dokumentdarstellung. Wenn Sie für
+								weitere B-Pläne aus dem Kartenfenster zur Dokumentbetrachtung wechseln, wird eine ggf.
+								bereits zuvor für den Dokumentenviewer geöffnete Registerkarte Ihres Browsers
+								angesteuert.
 							</p>
 						</Panel>
 						<Panel header="B-Pläne herunterladen" eventKey="8" bsStyle="info">
 							<p>
 								Das Herunterladen der Dokumente zu einem B-Plan-Verfahren erfolgt aus dem
 								Dokumentenviewer. Dazu finden Sie in der Werkzeugleiste zwei Möglichkeiten. Mit dem
-								immer verfügbaren Werkzeug <Icon name="download" /> "Dokument herunterladen (pdf)"
+								immer verfügbaren Werkzeug <Icon name="download" />{' '}
+								<i>"Dokument herunterladen (pdf)"</i>
 								können Sie das aktuell im Anzeigebereich dargestellte Dokument als PDF-Datei
-								herunterladen.
+								herunterladen. Das zweite Werkzeug<Icon name="file-archive-o" />{' '}
+								<i>"alles herunterladen (zip)"</i>dient zum Download eines zip-Archivs mit allen
+								Planteilen und verfahrensbegleitenden Zusatzdokumenten einschließlich des Info-Dokuments
+								zu den Namenskonventionen für die Zusatzdokumente. Es lässt sich nur aktivieren, wenn zu
+								dem aktuell betrachteten B-Plan mehrere Dokumente verfügbar sind.
 							</p>
 							<p>
-								Wenn mehr als ein Dokument vorhanden ist, können Sie ein ZIP-Archiv aller Dokumente mit
-								dem zweiten Werkzeug <Icon name="file-archive-o" /> "alles herunterladen (zip)"
-								herunterladen.
+								Unten rechts im Anzeigebereich finden Sie stets den Dateinamen, unter dem das gerade
+								dargestellte Dokument heruntergeladen wird. Diese Dateinamen sind etwas länger als die
+								in der Navigationsleiste verwendeten Bezeichnungen, wo die für alle Dokumente eines
+								B-Plans gleichen Namensbestandteile ausgeblendet werden.
+							</p>
+							<p>
+								Ob eine heruntergeladene Datei nach dem Download sofort mit einem geeigneten Programm
+								(PDF-Viewer oder Dateimanager) geöffnet wird, hängt von Ihren Betriebssystem- und/oder
+								Browsereinstellungen ab.
 							</p>
 						</Panel>
 					</Accordion>

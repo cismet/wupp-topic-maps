@@ -353,7 +353,7 @@ export class BPlaene_ extends React.Component {
 						// srs=EPSG%3A25832&
 						// bbox=372978.7138452329,5678096.292841828,373284.46195837285,5678402.04095497
 
-						url="http://s10221:9988/rasterfariWMS?SRS=EPSG:25832&"
+						url="http://s10221:8081/rasterfariWMS?SRS=EPSG:25832&"
 						layers="R156_DBB"
 						//version="1.1.1"
 						transparent="true"

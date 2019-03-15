@@ -553,6 +553,14 @@ export class DocViewer_ extends React.Component {
 							>
 								<Icon name="download" />
 							</NavItem>
+							{/* <NavItem
+								title="Dokument drucken"
+								disabled={false && !downloadAvailable}
+								onClick={() => printJS(downloadURL)}
+								target="_blank"
+							>
+								<Icon name="print" />
+							</NavItem> */}
 
 							<NavItem
 								disabled={!downloadAvailable || this.props.docs.docs.length < 2}
@@ -987,6 +995,23 @@ export class DocViewer_ extends React.Component {
 		scrollIntoViewIfNeeded(element, false, {
 			duration: 250
 		});
+	};
+	printPdf = (url) => {
+		var iframe = this._printIframe;
+		if (!this._printIframe) {
+			iframe = this._printIframe = document.createElement('iframe');
+			document.body.appendChild(iframe);
+
+			iframe.style.display = 'none';
+			iframe.onload = function() {
+				setTimeout(function() {
+					iframe.focus();
+					iframe.contentWindow.print();
+				}, 1);
+			};
+		}
+
+		iframe.src = url;
 	};
 }
 

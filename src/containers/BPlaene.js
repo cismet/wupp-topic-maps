@@ -12,7 +12,7 @@ import { getGazDataForTopicIds } from '../redux/modules/gazetteerTopics';
 import { bindActionCreators } from 'redux';
 import { bplanFeatureStyler, bplanLabeler } from '../utils/bplanHelper';
 import { downloadSingleFile, prepareDownloadMultipleFiles, prepareMergeMultipleFiles } from '../utils/downloadHelper';
-import BPlanModalHelp from '../components/BPlanModalHelpComponent';
+import BPlanModalHelp from '../components/bplaene/Help00MainComponent';
 import BPlanInfo from '../components/BPlanInfo';
 import { Icon } from 'react-fa';
 
@@ -298,7 +298,11 @@ export class BPlaene_ extends React.Component {
 
 		return (
 			<div>
-				<BPlanModalHelp key={'BPlanModalHelp.visible:' + this.props.ui.applicationMenuVisible} />
+				<BPlanModalHelp
+					//key={'BPlanModalHelp.visible:' + this.props.ui.applicationMenuVisible}
+					uiState={this.props.ui}
+					uiStateActions={this.props.uiStateActions}
+				/>
 
 				<Cismap
 					layers={this.props.match.params.layers || 'uwBPlan|wupp-plan-live@20'}

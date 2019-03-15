@@ -13,7 +13,7 @@ import { bindActionCreators } from 'redux';
 import { bplanFeatureStyler, bplanLabeler } from '../utils/bplanHelper';
 import { downloadSingleFile, prepareDownloadMultipleFiles, prepareMergeMultipleFiles } from '../utils/downloadHelper';
 import BPlanModalHelp from '../components/bplaene/Help00MainComponent';
-import BPlanInfo from '../components/BPlanInfo';
+import BPlanInfo from '../components/bplaene/BPlanInfo';
 import { Icon } from 'react-fa';
 
 import { proj4crs25832def } from '../constants/gis';

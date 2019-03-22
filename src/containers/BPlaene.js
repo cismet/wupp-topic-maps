@@ -323,7 +323,7 @@ export class BPlaene_ extends React.Component {
 								}}
 								id='helpTooltip'
 							>
-								Kompaktanleitung azeigen
+								Kompaktanleitung anzeigen
 							</Tooltip>
 						);
 					}}

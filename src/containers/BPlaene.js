@@ -26,6 +26,7 @@ import { Icon } from 'react-fa';
 import { proj4crs25832def } from '../constants/gis';
 import proj4 from 'proj4';
 // import { WMSTileLayer } from 'react-leaflet';
+/* eslint-disable jsx-a11y/anchor-is-valid */
 
 function mapStateToProps(state) {
 	return {

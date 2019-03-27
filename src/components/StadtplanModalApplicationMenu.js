@@ -35,6 +35,8 @@ import { routerActions } from 'react-router-redux';
 import ReactChartkick, { PieChart } from 'react-chartkick';
 import GenericRVRStadtplanwerkMenuFooter from './commons/GenericRVRStadtplanwerkMenuFooter';
 
+/* eslint-disable jsx-a11y/anchor-is-valid */
+
 ReactChartkick.addAdapter(Chart);
 
 function mapStateToProps(state) {

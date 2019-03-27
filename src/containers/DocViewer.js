@@ -49,6 +49,7 @@ import { Column, Row } from 'simple-flexbox';
 
 import filesize from 'filesize';
 import scrollIntoViewIfNeeded from 'scroll-into-view-if-needed';
+/* eslint-disable jsx-a11y/anchor-is-valid */
 
 L.RasterCoords = function(map, imgsize, tilesize) {
 	this.map = map;

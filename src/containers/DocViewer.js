@@ -3,14 +3,31 @@ import React from 'react';
 import objectAssign from 'object-assign';
 
 import { connect } from 'react-redux';
-import { Navbar, Nav, NavItem, OverlayTrigger, Tooltip, MenuItem, Well, ProgressBar, Alert } from 'react-bootstrap';
+import {
+	Navbar,
+	Nav,
+	NavItem,
+	OverlayTrigger,
+	Tooltip,
+	MenuItem,
+	Well,
+	ProgressBar,
+	Alert
+} from 'react-bootstrap';
 import { RoutedMap, MappingConstants, FeatureCollectionDisplay } from 'react-cismap';
 import { routerActions as RoutingActions } from 'react-router-redux';
 import { WMSTileLayer, Marker, Popup, Rectangle, TileLayer } from 'react-leaflet';
 import Control from 'react-leaflet-control';
 import { actions as bplanActions } from '../redux/modules/bplaene';
-import { actions as gazetteerTopicsActions, getGazDataForTopicIds } from '../redux/modules/gazetteerTopics';
-import { downloadSingleFile, prepareDownloadMultipleFiles, prepareMergeMultipleFiles } from '../utils/downloadHelper';
+import {
+	actions as gazetteerTopicsActions,
+	getGazDataForTopicIds
+} from '../redux/modules/gazetteerTopics';
+import {
+	downloadSingleFile,
+	prepareDownloadMultipleFiles,
+	prepareMergeMultipleFiles
+} from '../utils/downloadHelper';
 
 import L from 'leaflet';
 import { bindActionCreators } from 'redux';
@@ -149,11 +166,14 @@ export class DocViewer_ extends React.Component {
 		const currentlyLoading = this.isLoading();
 		document.title = 'Dokumentenansicht | ' + this.props.match.params.docPackageId;
 
-		const keepLatLng = new URLSearchParams(this.props.routing.location.search).get('keepLatLng');
+		const keepLatLng = new URLSearchParams(this.props.routing.location.search).get(
+			'keepLatLng'
+		);
 
 		if (keepLatLng !== null && prevProps) {
 			const newUrl =
-				this.props.routing.location.pathname + removeQueryPart(prevProps.routing.location.search, 'keepLatLng');
+				this.props.routing.location.pathname +
+				removeQueryPart(prevProps.routing.location.search, 'keepLatLng');
 			console.log('keepLatLng');
 
 			this.props.routingActions.push(newUrl);
@@ -174,14 +194,20 @@ export class DocViewer_ extends React.Component {
 		) {
 			return;
 		}
-		if (this.props.match.params.file === undefined || this.props.match.params.page === undefined) {
+		if (
+			this.props.match.params.file === undefined ||
+			this.props.match.params.page === undefined
+		) {
 			// not necessary to check file && page || page cause if file is undefined page must beundefined too
 			// this corrects a url like http://localhost:3000/#/docs/bplaene/599 to http://localhost:3000/#/docs/bplaene/599/3/1
 			this.pushRouteForPage(topicParam, docPackageIdParam, fileNumberParam, pageNumberParam);
 			return;
 		}
 
-		if (this.props.docs.docPackageId !== docPackageIdParam || this.props.docs.topic !== topicParam) {
+		if (
+			this.props.docs.docPackageId !== docPackageIdParam ||
+			this.props.docs.topic !== topicParam
+		) {
 			this.props.docsActions.initialize();
 			let gazHit;
 			this.props.docsActions.setDelayedLoadingState(docPackageIdParam, docIndex, pageIndex);
@@ -231,12 +257,16 @@ export class DocViewer_ extends React.Component {
 										'https://wunda-geoportal-docs.cismet.de/'
 									),
 									layer: this.replaceUmlauteAndSpaces(
-										doc.url.replace('https://wunda-geoportal-docs.cismet.de/', tileservice) +
-											'/{z}/{x}/{y}.png'
+										doc.url.replace(
+											'https://wunda-geoportal-docs.cismet.de/',
+											tileservice
+										) + '/{z}/{x}/{y}.png'
 									),
 									meta: this.replaceUmlauteAndSpaces(
-										doc.url.replace('https://wunda-geoportal-docs.cismet.de/', tileservice) +
-											'/meta.json'
+										doc.url.replace(
+											'https://wunda-geoportal-docs.cismet.de/',
+											tileservice
+										) + '/meta.json'
 									)
 								});
 							}
@@ -250,12 +280,16 @@ export class DocViewer_ extends React.Component {
 									),
 
 									layer: this.replaceUmlauteAndSpaces(
-										doc.url.replace('https://wunda-geoportal-docs.cismet.de/', tileservice) +
-											'/{z}/{x}/{y}.png'
+										doc.url.replace(
+											'https://wunda-geoportal-docs.cismet.de/',
+											tileservice
+										) + '/{z}/{x}/{y}.png'
 									),
 									meta: this.replaceUmlauteAndSpaces(
-										doc.url.replace('https://wunda-geoportal-docs.cismet.de/', tileservice) +
-											'/meta.json'
+										doc.url.replace(
+											'https://wunda-geoportal-docs.cismet.de/',
+											tileservice
+										) + '/meta.json'
 									)
 								});
 							}
@@ -269,44 +303,59 @@ export class DocViewer_ extends React.Component {
 									),
 									hideInDocViewer: doc.hideInDocViewer,
 									layer: this.replaceUmlauteAndSpaces(
-										doc.url.replace('https://wunda-geoportal-docs.cismet.de/', tileservice) +
-											'/{z}/{x}/{y}.png'
+										doc.url.replace(
+											'https://wunda-geoportal-docs.cismet.de/',
+											tileservice
+										) + '/{z}/{x}/{y}.png'
 									),
 
 									meta: this.replaceUmlauteAndSpaces(
-										doc.url.replace('https://wunda-geoportal-docs.cismet.de/', tileservice) +
-											'/meta.json'
+										doc.url.replace(
+											'https://wunda-geoportal-docs.cismet.de/',
+											tileservice
+										) + '/meta.json'
 									)
 								});
 							}
 							this.props.docsActions.setDocsInformation(docs, () => {
-								this.props.docsActions.finished(docPackageIdParam, docIndex, pageIndex, () => {
-									setTimeout(() => {
-										if (this.props.docs.docs[docIndex] && this.props.docs.docs[docIndex].meta) {
-											this.gotoWholeDocument();
-										} else {
-											console.log('dont go breaking my heart');
-											console.log(
-												'this.props.docs.docs[docIndex]',
-												this.props.docs.docs[docIndex]
-											);
-											console.log(
-												'this.props.docs.docs[docIndex].meta',
+								this.props.docsActions.finished(
+									docPackageIdParam,
+									docIndex,
+									pageIndex,
+									() => {
+										setTimeout(() => {
+											if (
+												this.props.docs.docs[docIndex] &&
 												this.props.docs.docs[docIndex].meta
-											);
-										}
-									}, 1);
-								});
+											) {
+												this.gotoWholeDocument();
+											} else {
+												console.log('dont go breaking my heart');
+												console.log(
+													'this.props.docs.docs[docIndex]',
+													this.props.docs.docs[docIndex]
+												);
+												console.log(
+													'this.props.docs.docs[docIndex].meta',
+													this.props.docs.docs[docIndex].meta
+												);
+											}
+										}, 1);
+									}
+								);
 							});
 						}
 					}
 				);
 			}
 		} else if (
-			(this.props.docs.loadingState === LOADING_FINISHED && this.props.docs.docIndex === undefined) ||
+			(this.props.docs.loadingState === LOADING_FINISHED &&
+				this.props.docs.docIndex === undefined) ||
 			// (this.props.docs.docPackageId !== undefined && this.props.docs.docPackageId !== this.props.match.params.docPackageId - 1) ||
-			(this.props.docs.docIndex !== undefined && this.props.docs.docIndex !== this.props.match.params.file - 1) ||
-			(this.props.docs.pageIndex !== undefined && this.props.docs.pageIndex !== this.props.match.params.page - 1)
+			(this.props.docs.docIndex !== undefined &&
+				this.props.docs.docIndex !== this.props.match.params.file - 1) ||
+			(this.props.docs.pageIndex !== undefined &&
+				this.props.docs.pageIndex !== this.props.match.params.page - 1)
 		) {
 			//Existing docPackage but newPage or new documnet but finished with loading
 			if (this.props.docs.docs.length > 0) {
@@ -407,13 +456,18 @@ export class DocViewer_ extends React.Component {
 
 		let numPages;
 
-		if (this.props.docs.docs && this.props.docs.docIndex && this.props.docs.docs[this.props.docs.docIndex]) {
+		if (
+			this.props.docs.docs &&
+			this.props.docs.docIndex &&
+			this.props.docs.docs[this.props.docs.docIndex]
+		) {
 			numPages = ' / ' + this.props.docs.docs[this.props.docs.docIndex].pages;
 		}
 		let downloadURL;
-		const downloadAvailable = this.props.docs.docs.length > 0 && this.props.docs.docIndex !== undefined;
+		const downloadAvailable =
+			this.props.docs.docs.length > 0 && this.props.docs.docIndex !== undefined;
 
-		if (downloadAvailable) {
+		if (downloadAvailable && this.props.docs.docs[this.props.docs.docIndex]) {
 			downloadURL = this.props.docs.docs[this.props.docs.docIndex].url;
 		}
 
@@ -466,7 +520,9 @@ export class DocViewer_ extends React.Component {
 				<div
 					style={{
 						zIndex: 234098,
-						left: (this.props.uiState.width - 130) / 2 - (this.props.uiState.width - 130) * 0.2,
+						left:
+							(this.props.uiState.width - 130) / 2 -
+							(this.props.uiState.width - 130) * 0.2,
 						top: '30%',
 						width: '100%',
 						height: '100%',
@@ -477,8 +533,8 @@ export class DocViewer_ extends React.Component {
 					<Alert style={{ width: '40%' }} variant='danger'>
 						<h4>Vorschau nicht verfügbar.</h4>
 						<p>
-							Im Moment kann die Vorschau des Dokumentes nicht angezeigt werden. Sie können das Dokument
-							aber{' '}
+							Im Moment kann die Vorschau des Dokumentes nicht angezeigt werden. Sie
+							können das Dokument aber{' '}
 							<a href={downloadURL} target='_blank'>
 								hier <Icon name='download' />
 							</a>{' '}
@@ -498,7 +554,10 @@ export class DocViewer_ extends React.Component {
 								onClick={() => this.showMainDoc()}
 								disabled={this.props.docs.loadingState !== LOADING_FINISHED}
 							>
-								{'BPlan ' + (this.props.docs.docPackageId || this.props.docs.futuredocPackageId || '')}
+								{'BPlan ' +
+									(this.props.docs.docPackageId ||
+										this.props.docs.futuredocPackageId ||
+										'')}
 							</a>
 						</Navbar.Brand>
 						<Navbar.Toggle />
@@ -516,7 +575,9 @@ export class DocViewer_ extends React.Component {
 							</NavItem>
 							<NavItem onClick={() => this.gotoWholeDocument()} eventKey={1} href='#'>
 								{/* {this.state.docIndex + 1} / {this.props.docs.docs.length} -  */}
-								{(this.props.docs.pageIndex || this.props.docs.futurePageIndex) + 1} {numPages}
+								{(this.props.docs.pageIndex || this.props.docs.futurePageIndex) +
+									1}{' '}
+								{numPages}
 							</NavItem>
 							<NavItem
 								onClick={() => this.nextPage()}
@@ -590,7 +651,11 @@ export class DocViewer_ extends React.Component {
 				</Navbar>
 
 				<div>
-					<Row vertical='stretch' horizontal='spaced' style={{ width: '100%', height: mapHeight }}>
+					<Row
+						vertical='stretch'
+						horizontal='spaced'
+						style={{ width: '100%', height: mapHeight }}
+					>
 						{(this.props.docs.docs || []).length > 1 && (
 							<Column
 								style={{
@@ -718,10 +783,14 @@ export class DocViewer_ extends React.Component {
 										locationChangedHandler={(location) => {
 											this.props.routingActions.push(
 												this.props.routing.location.pathname +
-													modifyQueryPart(this.props.routing.location.search, location)
+													modifyQueryPart(
+														this.props.routing.location.search,
+														location
+													)
 											);
 										}}
-										autoFitProcessedHandler={() => this.props.mappingActions.setAutoFit(false)}
+										autoFitProcessedHandler={() =>
+											this.props.mappingActions.setAutoFit(false)}
 										urlSearchParams={urlSearchParams}
 										boundingBoxChangedHandler={(bbox) => {
 											// this.props.mappingActions.mappingBoundsChanged(bbox);
@@ -742,8 +811,17 @@ export class DocViewer_ extends React.Component {
 										this.props.docs.docs.length > 0 &&
 										!this.isLoading() && (
 											<Control position='bottomright'>
-												<p style={{ backgroundColor: '#D8D8D8D8', padding: '5px' }}>
-													{this.props.docs.docs[this.props.docs.docIndex].file}
+												<p
+													style={{
+														backgroundColor: '#D8D8D8D8',
+														padding: '5px'
+													}}
+												>
+													{
+														this.props.docs.docs[
+															this.props.docs.docIndex
+														].file
+													}
 												</p>
 											</Control>
 										)}
@@ -794,11 +872,19 @@ export class DocViewer_ extends React.Component {
 	};
 
 	showMainDoc = () => {
-		this.pushRouteForPage(this.props.match.params.topic, this.props.match.params.docPackageId, 1, 1);
+		this.pushRouteForPage(
+			this.props.match.params.topic,
+			this.props.match.params.docPackageId,
+			1,
+			1
+		);
 	};
 
 	nextPage = () => {
-		if (parseInt(this.props.match.params.page, 10) < this.props.docs.docs[this.props.docs.docIndex].pages) {
+		if (
+			parseInt(this.props.match.params.page, 10) <
+			this.props.docs.docs[this.props.docs.docIndex].pages
+		) {
 			this.pushRouteForPage(
 				this.props.match.params.topic,
 				this.props.match.params.docPackageId,
@@ -814,7 +900,12 @@ export class DocViewer_ extends React.Component {
 					1
 				);
 			} else {
-				this.pushRouteForPage(this.props.match.params.topic, this.props.match.params.docPackageId, 1, 1);
+				this.pushRouteForPage(
+					this.props.match.params.topic,
+					this.props.match.params.docPackageId,
+					1,
+					1
+				);
 			}
 		}
 	};
@@ -844,31 +935,39 @@ export class DocViewer_ extends React.Component {
 			}
 		}
 	};
-	getDocInfoWithHead = (doc, index) => {
-		return fetch(
-			`http://localhost:8081/rasterfariWMS?SRS=EPSG:25832&service=WMS&request=GetMap&layers=${doc.url}&styles=default&format=image%2Fpng&transparent=true&version=1.1.1&tiled=true&width=256&height=256&srs=undefined&bbox=-0.5,-0.5,0.5,0.5`,
-			{
-				method: 'head'
-			}
-		).then((response) => {
-			if (response.ok) {
-				return {
-					index,
-					height: response.headers.get('X-Rasterfari-pageHeight'),
-					width: response.headers.get('X-Rasterfari-pageWidth'),
-					numOfPages: response.headers.get('X-Rasterfari-numOfPages'),
-					fileSize: response.headers.get('X-Rasterfari-fileSize'),
-					currentPage: response.headers.get('X-Rasterfari-currentPage')
-				};
-			} else {
-				throw new Error("Server md5 response wasn't OK");
-			}
-		});
-	};
+	// getDocInfoWithHead = (doc, index) => {
+	// 	return fetch(
+	// 		`http://localhost:8081/rasterfariWMS?SRS=EPSG:25832&service=WMS&request=GetMap&layers=${doc.url}&styles=default&format=image%2Fpng&transparent=true&version=1.1.1&tiled=true&width=256&height=256&srs=undefined&bbox=-0.5,-0.5,0.5,0.5`,
+	// 		{
+	// 			method: 'head'
+	// 		}
+	// 	).then((response) => {
+	// 		if (response.ok) {
+	// 			return {
+	// 				index,
+	// 				height: response.headers.get('X-Rasterfari-pageHeight'),
+	// 				width: response.headers.get('X-Rasterfari-pageWidth'),
+	// 				numOfPages: response.headers.get('X-Rasterfari-numOfPages'),
+	// 				fileSize: response.headers.get('X-Rasterfari-fileSize'),
+	// 				currentPage: response.headers.get('X-Rasterfari-currentPage')
+	// 			};
+	// 		} else {
+	// 			throw new Error("Server md5 response wasn't OK");
+	// 		}
+	// 	});
+	// };
 
 	getOptimalBounds = (forDimension) => {
 		const meta = this.props.docs.docs[this.props.docs.docIndex].meta;
-		const dimensions = [ meta['layer' + this.props.docs.pageIndex].x, meta['layer' + this.props.docs.pageIndex].y ];
+		let dimensions;
+		try {
+			dimensions = [
+				meta['layer' + this.props.docs.pageIndex].x,
+				meta['layer' + this.props.docs.pageIndex].y
+			];
+		} catch (e) {
+			dimensions = [ 2000, 2000 ];
+		}
 		//const leafletSize = this.leafletRoutedMap.leafletMap.leafletElement._size; //x,y
 		const leafletSize = { x: this.mapStyle.width, y: this.mapStyle.height };
 		if (forDimension) {
@@ -878,28 +977,68 @@ export class DocViewer_ extends React.Component {
 			if (leafletSize.x / leafletSize.y < 1) {
 				if (forDimension === WIDTH) {
 					let targetDimensions = [ dimensions[0], dimensions[1] ];
-					let rc = new L.RasterCoords(this.leafletRoutedMap.leafletMap.leafletElement, targetDimensions);
-					return [ [ rc.unproject([ 0, 0 ]), rc.unproject([ targetDimensions[0], targetDimensions[1] ]) ] ];
+					let rc = new L.RasterCoords(
+						this.leafletRoutedMap.leafletMap.leafletElement,
+						targetDimensions
+					);
+					return [
+						[
+							rc.unproject([ 0, 0 ]),
+							rc.unproject([ targetDimensions[0], targetDimensions[1] ])
+						]
+					];
 				} else if (forDimension === HEIGHT) {
-					let targetDimensions = [ dimensions[1] * leafletSize.x / leafletSize.y, dimensions[1] ];
-					let rc = new L.RasterCoords(this.leafletRoutedMap.leafletMap.leafletElement, targetDimensions);
-					return [ [ rc.unproject([ 0, 0 ]), rc.unproject([ targetDimensions[0], targetDimensions[1] ]) ] ];
+					let targetDimensions = [
+						dimensions[1] * leafletSize.x / leafletSize.y,
+						dimensions[1]
+					];
+					let rc = new L.RasterCoords(
+						this.leafletRoutedMap.leafletMap.leafletElement,
+						targetDimensions
+					);
+					return [
+						[
+							rc.unproject([ 0, 0 ]),
+							rc.unproject([ targetDimensions[0], targetDimensions[1] ])
+						]
+					];
 				}
 			} else {
 				if (forDimension === WIDTH) {
-					let targetDimensions = [ dimensions[0], dimensions[0] * leafletSize.y / leafletSize.x ];
-					let rc = new L.RasterCoords(this.leafletRoutedMap.leafletMap.leafletElement, targetDimensions);
-					return [ [ rc.unproject([ 0, 0 ]), rc.unproject([ targetDimensions[0], targetDimensions[1] ]) ] ];
+					let targetDimensions = [
+						dimensions[0],
+						dimensions[0] * leafletSize.y / leafletSize.x
+					];
+					let rc = new L.RasterCoords(
+						this.leafletRoutedMap.leafletMap.leafletElement,
+						targetDimensions
+					);
+					return [
+						[
+							rc.unproject([ 0, 0 ]),
+							rc.unproject([ targetDimensions[0], targetDimensions[1] ])
+						]
+					];
 				} else if (forDimension === HEIGHT) {
 					let targetDimensions = [ dimensions[0], dimensions[1] ];
-					let rc = new L.RasterCoords(this.leafletRoutedMap.leafletMap.leafletElement, targetDimensions);
-					return [ [ rc.unproject([ 0, 0 ]), rc.unproject([ targetDimensions[0], targetDimensions[1] ]) ] ];
+					let rc = new L.RasterCoords(
+						this.leafletRoutedMap.leafletMap.leafletElement,
+						targetDimensions
+					);
+					return [
+						[
+							rc.unproject([ 0, 0 ]),
+							rc.unproject([ targetDimensions[0], targetDimensions[1] ])
+						]
+					];
 				}
 			}
 		}
 		// const meta = {};
 		const rc = new L.RasterCoords(this.leafletRoutedMap.leafletMap.leafletElement, dimensions);
-		const layerBounds = [ [ rc.unproject([ 0, 0 ]), rc.unproject([ dimensions[0], dimensions[1] ]) ] ];
+		const layerBounds = [
+			[ rc.unproject([ 0, 0 ]), rc.unproject([ dimensions[0], dimensions[1] ]) ]
+		];
 
 		return layerBounds;
 	};
@@ -925,7 +1064,10 @@ export class DocViewer_ extends React.Component {
 	};
 
 	getPureArrayBounds4LatLngBounds = (llBounds) => {
-		return [ [ llBounds[0][0].lat, llBounds[0][0].lng ], [ llBounds[0][1].lat, llBounds[0][1].lng ] ];
+		return [
+			[ llBounds[0][0].lat, llBounds[0][0].lng ],
+			[ llBounds[0][1].lat, llBounds[0][1].lng ]
+		];
 	};
 
 	documentBoundsRectangle = () => {
@@ -954,36 +1096,48 @@ export class DocViewer_ extends React.Component {
 				var big = umlautMap[a.slice(0, 1)];
 				return big.charAt(0) + big.charAt(1) + a.slice(1);
 			})
-			.replace(new RegExp('[' + Object.keys(umlautMap).join('|') + ']', 'g'), (a) => umlautMap[a]);
+			.replace(
+				new RegExp('[' + Object.keys(umlautMap).join('|') + ']', 'g'),
+				(a) => umlautMap[a]
+			);
 		// console.log('in', str);
 		// console.log('out', ret);
 		return ret;
 	}
 	getLayer = () => {
 		if (this.props.docs.docIndex !== undefined && this.props.docs.docs.length > 0) {
-			let layerUrl = this.props.docs.docs[this.props.docs.docIndex].layer;
-			const meta = this.props.docs.docs[this.props.docs.docIndex].meta;
+			try {
+				let layerUrl = this.props.docs.docs[this.props.docs.docIndex].layer;
+				const meta = this.props.docs.docs[this.props.docs.docIndex].meta;
 
-			if (meta) {
-				if (meta.pages > 1) {
-					layerUrl = layerUrl.replace('.pdf/', `.pdf-${this.props.docs.pageIndex}/`);
+				if (meta) {
+					if (meta.pages > 1) {
+						layerUrl = layerUrl.replace('.pdf/', `.pdf-${this.props.docs.pageIndex}/`);
+					}
+
+					const dimensions = [
+						meta['layer' + this.props.docs.pageIndex].x,
+						meta['layer' + this.props.docs.pageIndex].y
+					];
+					// const meta = {};
+					const rc = new L.RasterCoords(
+						this.leafletRoutedMap.leafletMap.leafletElement,
+						dimensions
+					);
+					const layerBounds = [
+						[ rc.unproject([ 0, 0 ]), rc.unproject([ dimensions[0], dimensions[1] ]) ]
+					];
+					const layer = {
+						layerUrl,
+						meta,
+						layerBounds
+					};
+
+					return layer;
+				} else {
+					return undefined;
 				}
-
-				const dimensions = [
-					meta['layer' + this.props.docs.pageIndex].x,
-					meta['layer' + this.props.docs.pageIndex].y
-				];
-				// const meta = {};
-				const rc = new L.RasterCoords(this.leafletRoutedMap.leafletMap.leafletElement, dimensions);
-				const layerBounds = [ [ rc.unproject([ 0, 0 ]), rc.unproject([ dimensions[0], dimensions[1] ]) ] ];
-				const layer = {
-					layerUrl,
-					meta,
-					layerBounds
-				};
-
-				return layer;
-			} else {
+			} catch (e) {
 				return undefined;
 			}
 		} else {
@@ -1000,23 +1154,23 @@ export class DocViewer_ extends React.Component {
 			duration: 250
 		});
 	};
-	printPdf = (url) => {
-		var iframe = this._printIframe;
-		if (!this._printIframe) {
-			iframe = this._printIframe = document.createElement('iframe');
-			document.body.appendChild(iframe);
+	// printPdf = (url) => {
+	// 	var iframe = this._printIframe;
+	// 	if (!this._printIframe) {
+	// 		iframe = this._printIframe = document.createElement('iframe');
+	// 		document.body.appendChild(iframe);
 
-			iframe.style.display = 'none';
-			iframe.onload = function() {
-				setTimeout(function() {
-					iframe.focus();
-					iframe.contentWindow.print();
-				}, 1);
-			};
-		}
+	// 		iframe.style.display = 'none';
+	// 		iframe.onload = function() {
+	// 			setTimeout(function() {
+	// 				iframe.focus();
+	// 				iframe.contentWindow.print();
+	// 			}, 1);
+	// 		};
+	// 	}
 
-		iframe.src = url;
-	};
+	// 	iframe.src = url;
+	// };
 }
 
 const DocViewer = connect(mapStateToProps, mapDispatchToProps, null, { withRef: true })(DocViewer_);

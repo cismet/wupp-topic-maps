@@ -7,11 +7,18 @@ import { Well, Tooltip } from 'react-bootstrap';
 import { actions as bplanActions } from '../redux/modules/bplaene';
 import { actions as mappingActions } from '../redux/modules/mapping';
 import { actions as uiStateActions } from '../redux/modules/uiState';
-import { getGazDataForTopicIds, actions as gazetteerTopicsActions } from '../redux/modules/gazetteerTopics';
+import {
+	getGazDataForTopicIds,
+	actions as gazetteerTopicsActions
+} from '../redux/modules/gazetteerTopics';
 
 import { bindActionCreators } from 'redux';
 import { bplanFeatureStyler, bplanLabeler } from '../utils/bplanHelper';
-import { downloadSingleFile, prepareDownloadMultipleFiles, prepareMergeMultipleFiles } from '../utils/downloadHelper';
+import {
+	downloadSingleFile,
+	prepareDownloadMultipleFiles,
+	prepareMergeMultipleFiles
+} from '../utils/downloadHelper';
 import BPlanModalHelp from '../components/bplaene/Help00MainComponent';
 import BPlanInfo from '../components/bplaene/BPlanInfo';
 import { Icon } from 'react-fa';
@@ -58,7 +65,9 @@ export class BPlaene_ extends React.Component {
 
 	componentDidMount() {
 		this.props.gazetteerTopicsActions.loadTopicsData([ 'bplaene' ]).then(() => {
-			this.bplaeneGazData = getGazDataForTopicIds(this.props.allGazetteerTopics, [ 'bplaene' ]);
+			this.bplaeneGazData = getGazDataForTopicIds(this.props.allGazetteerTopics, [
+				'bplaene'
+			]);
 		});
 		document.title = 'B-Plan-Auskunft Wuppertal';
 	}
@@ -81,7 +90,10 @@ export class BPlaene_ extends React.Component {
 	}
 
 	doubleMapClick(event) {
-		const pos = proj4(proj4.defs('EPSG:4326'), proj4crs25832def, [ event.latlng.lng, event.latlng.lat ]);
+		const pos = proj4(proj4.defs('EPSG:4326'), proj4crs25832def, [
+			event.latlng.lng,
+			event.latlng.lat
+		]);
 		let wkt = `POINT(${pos[0]} ${pos[1]})`;
 		this.props.bplanActions.searchForPlans(null, wkt);
 	}
@@ -100,7 +112,9 @@ export class BPlaene_ extends React.Component {
 	}
 
 	openDocViewer() {
-		const currentFeature = this.props.mapping.featureCollection[this.props.mapping.selectedIndex];
+		const currentFeature = this.props.mapping.featureCollection[
+			this.props.mapping.selectedIndex
+		];
 		try {
 			let link = document.createElement('a');
 			document.body.appendChild(link);
@@ -130,8 +144,14 @@ export class BPlaene_ extends React.Component {
 	}
 
 	downloadPlan() {
-		const currentFeature = this.props.mapping.featureCollection[this.props.mapping.selectedIndex];
-		if (currentFeature.properties.plaene_rk.length + currentFeature.properties.plaene_nrk.length === 1) {
+		const currentFeature = this.props.mapping.featureCollection[
+			this.props.mapping.selectedIndex
+		];
+		if (
+			currentFeature.properties.plaene_rk.length +
+				currentFeature.properties.plaene_nrk.length ===
+			1
+		) {
 			if (currentFeature.properties.plaene_rk.length === 1) {
 				downloadSingleFile(currentFeature.properties.plaene_rk[0]);
 			} else {
@@ -163,7 +183,9 @@ export class BPlaene_ extends React.Component {
 
 	downloadEverything() {
 		this.props.bplanActions.setDocumentLoadingIndicator(true);
-		const currentFeature = this.props.mapping.featureCollection[this.props.mapping.selectedIndex];
+		const currentFeature = this.props.mapping.featureCollection[
+			this.props.mapping.selectedIndex
+		];
 		// downloadMultipleFiles(
 		//     [
 		//       {"folder":"rechtskraeftig/","downloads":currentFeature.properties.plaene_rk},
@@ -252,7 +274,10 @@ export class BPlaene_ extends React.Component {
 				this.props.mapping.featureCollection &&
 				this.props.mapping.featureCollection.length > 0)
 		) {
-			if (new URLSearchParams(this.props.routing.location.search).get('syncDocViewer') !== null) {
+			if (
+				new URLSearchParams(this.props.routing.location.search).get('syncDocViewer') !==
+				null
+			) {
 				this.openDocViewer();
 			}
 		}
@@ -286,18 +311,20 @@ export class BPlaene_ extends React.Component {
 							<b>einen B-Plan laden:</b> Doppelklick auf Plan in Hintergrundkarte
 						</li>
 						<li>
-							<b>alle B-Pl&auml;ne im Kartenausschnitt laden:</b> <Icon name='search' />
+							<b>alle B-Pl&auml;ne im Kartenausschnitt laden:</b>{' '}
+							<Icon name='search' />
 						</li>
 						<li>
-							<b>bekannten B-Plan laden:</b> Nummer als Suchbegriff eingeben, Auswahl aus Vorschlagsliste
+							<b>bekannten B-Plan laden:</b> Nummer als Suchbegriff eingeben, Auswahl
+							aus Vorschlagsliste
 						</li>
 						<li>
-							<b>Suche nach B-Pl&auml;nen:</b> Adresse oder POI als Suchbegriff eingeben, Auswahl aus
-							Vorschlagsliste
+							<b>Suche nach B-Pl&auml;nen:</b> Adresse oder POI als Suchbegriff
+							eingeben, Auswahl aus Vorschlagsliste
 						</li>
 					</ul>
 					<a onClick={() => this.props.uiStateActions.showApplicationMenu(true)}>
-						vollst&auml;ndige Bedienungsanleitung
+						Kompaktanleitung
 					</a>
 				</Well>
 			);

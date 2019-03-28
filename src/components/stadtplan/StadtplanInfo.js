@@ -3,11 +3,14 @@ import PropTypes from 'prop-types';
 import { Well } from 'react-bootstrap';
 import { Icon } from 'react-fa';
 import queryString from 'query-string';
-import { getColorForProperties } from '../utils/stadtplanHelper';
+import { getColorForProperties } from '../../utils/stadtplanHelper';
 import Color from 'color';
+import IconLink from '../commons/IconLink';
+
 /* eslint-disable jsx-a11y/anchor-is-valid */
 
-// Since this component is simple and static, there's no parent container for it.
+// Since this component is simple and static, there's no parent container for
+// it.
 const StadtplanInfo = ({
 	featureCollection,
 	filteredPOIs,
@@ -28,7 +31,7 @@ const StadtplanInfo = ({
 	let maillink = null;
 	let urllink = null;
 	let phonelink = null;
-
+	let eventlink = null;
 	if (currentFeature) {
 		if (currentFeature.properties.info) {
 			info = currentFeature.properties.info;
@@ -42,7 +45,11 @@ const StadtplanInfo = ({
 					href={'tel:' + currentFeature.properties.tel}
 				>
 					<Icon
-						style={{ color: 'grey', width: '26px', textAlign: 'center' }}
+						style={{
+							color: 'grey',
+							width: '26px',
+							textAlign: 'center'
+						}}
 						size='2x'
 						name={'phone'}
 					/>
@@ -57,7 +64,11 @@ const StadtplanInfo = ({
 					href={'mailto:' + currentFeature.properties.email}
 				>
 					<Icon
-						style={{ color: 'grey', width: '26px', textAlign: 'center' }}
+						style={{
+							color: 'grey',
+							width: '26px',
+							textAlign: 'center'
+						}}
 						size='2x'
 						name={'envelope-square'}
 					/>
@@ -74,11 +85,27 @@ const StadtplanInfo = ({
 					rel='noopener noreferrer'
 				>
 					<Icon
-						style={{ color: 'grey', width: '26px', textAlign: 'center' }}
+						style={{
+							color: 'grey',
+							width: '26px',
+							textAlign: 'center'
+						}}
 						size='2x'
 						name={'external-link-square'}
 					/>
 				</a>
+			);
+		}
+
+		if (currentFeature.properties.wup_live_url) {
+			eventlink = (
+				<IconLink
+					key={`IconLink.wupplive`}
+					tooltip='Programm anzeigen'
+					href={currentFeature.properties.wup_live_url}
+					target='wupplive'
+					iconname='calendar'
+				/>
 			);
 		}
 	}
@@ -91,7 +118,11 @@ const StadtplanInfo = ({
 			textColor = 'white';
 		}
 		let llVis = (
-			<table style={{ width: '100%' }}>
+			<table
+				style={{
+					width: '100%'
+				}}
+			>
 				<tbody>
 					<tr>
 						<td
@@ -134,7 +165,8 @@ const StadtplanInfo = ({
 				}
 				uiStateActions.setLightboxCaption(
 					<a href={linkUrl} target='_fotos'>
-						<Icon name='copyright' /> Peter Kr&auml;mer - Fotografie
+						<Icon name='copyright' />
+						Peter Kr&auml;mer - Fotografie
 					</a>
 				);
 				uiStateActions.setLightboxIndex(0);
@@ -145,9 +177,7 @@ const StadtplanInfo = ({
 						/http:\/\/.*fotokraemer-wuppertal\.de/,
 						'https://wunda-geoportal-fotos.cismet.de/'
 					),
-					{
-						method: 'get'
-					}
+					{ method: 'get' }
 				)
 					.then(function(response) {
 						return response.text();
@@ -179,7 +209,8 @@ const StadtplanInfo = ({
 						uiStateActions.setLightboxTitle(currentFeature.text);
 						uiStateActions.setLightboxCaption(
 							<a href={currentFeature.properties.fotostrecke} target='_fotos'>
-								<Icon name='copyright' /> Peter Kr&auml;mer - Fotografie
+								<Icon name='copyright' />
+								Peter Kr&auml;mer - Fotografie
 							</a>
 						);
 						uiStateActions.setLightboxIndex(selectionWish);
@@ -194,10 +225,19 @@ const StadtplanInfo = ({
 		let fotoDiv;
 		if (currentFeature.properties.foto) {
 			fotoDiv = (
-				<table style={{ width: '100%' }}>
+				<table
+					style={{
+						width: '100%'
+					}}
+				>
 					<tbody>
 						<tr>
-							<td style={{ textAlign: 'right', verticalAlign: 'top' }}>
+							<td
+								style={{
+									textAlign: 'right',
+									verticalAlign: 'top'
+								}}
+							>
 								<a
 									onClick={openlightbox}
 									hrefx={
@@ -208,7 +248,9 @@ const StadtplanInfo = ({
 								>
 									<img
 										alt='Bild'
-										style={{ paddingBottom: '5px' }}
+										style={{
+											paddingBottom: '5px'
+										}}
 										src={currentFeature.properties.foto.replace(
 											/http:\/\/.*fotokraemer-wuppertal\.de/,
 											'https://wunda-geoportal-fotos.cismet.de/'
@@ -235,30 +277,60 @@ const StadtplanInfo = ({
 				{llVis}
 				<Well bsSize='small' onClick={panelClick}>
 					<div>
-						<table style={{ width: '100%' }}>
+						<table
+							style={{
+								width: '100%'
+							}}
+						>
 							<tbody>
 								<tr>
-									<td style={{ textAlign: 'left', verticalAlign: 'top' }}>
-										<table style={{ width: '100%' }}>
+									<td
+										style={{
+											textAlign: 'left',
+											verticalAlign: 'top'
+										}}
+									>
+										<table
+											style={{
+												width: '100%'
+											}}
+										>
 											<tbody>
 												<tr>
-													<td style={{ textAlign: 'left' }}>
+													<td
+														style={{
+															textAlign: 'left'
+														}}
+													>
 														<h5>
 															<b>{currentFeature.text}</b>
 														</h5>
 													</td>
-													<td style={{ textAlign: 'right' }}>
+													<td
+														style={{
+															textAlign: 'right'
+														}}
+													>
 														{urllink}
 														{maillink}
 														{phonelink}
+														{eventlink}
 													</td>
 												</tr>
 											</tbody>
 										</table>
-										<table style={{ width: '100%' }}>
+										<table
+											style={{
+												width: '100%'
+											}}
+										>
 											<tbody>
 												<tr>
-													<td style={{ textAlign: 'left' }}>
+													<td
+														style={{
+															textAlign: 'left'
+														}}
+													>
 														<h6>
 															{info.split('\n').map((item, key) => {
 																return (
@@ -279,35 +351,61 @@ const StadtplanInfo = ({
 							</tbody>
 						</table>
 
-						<table style={{ width: '100%' }}>
+						<table
+							style={{
+								width: '100%'
+							}}
+						>
 							<tbody>
 								<tr>
 									<td />
-									<td style={{ textAlign: 'center', verticalAlign: 'center' }}>
+									<td
+										style={{
+											textAlign: 'center',
+											verticalAlign: 'center'
+										}}
+									>
 										<a onClick={fitAll}>
-											{filteredPOIs.length} POI in Wuppertal
+											{filteredPOIs.length}
+											POI in Wuppertal
 										</a>
 									</td>
 									<td />
 								</tr>
 							</tbody>
 						</table>
-						<table style={{ width: '100%' }}>
+						<table
+							style={{
+								width: '100%'
+							}}
+						>
 							<tbody>
 								<tr>
 									<td
 										title='vorheriger Treffer'
-										style={{ textAlign: 'left', verticalAlign: 'center' }}
+										style={{
+											textAlign: 'left',
+											verticalAlign: 'center'
+										}}
 									>
 										<a onClick={previous}>&lt;&lt;</a>
 									</td>
-									<td style={{ textAlign: 'center', verticalAlign: 'center' }}>
-										{featureCollection.length} POI angezeigt
+									<td
+										style={{
+											textAlign: 'center',
+											verticalAlign: 'center'
+										}}
+									>
+										{featureCollection.length}
+										POI angezeigt
 									</td>
 
 									<td
 										title='nächster Treffer'
-										style={{ textAlign: 'right', verticalAlign: 'center' }}
+										style={{
+											textAlign: 'right',
+											verticalAlign: 'center'
+										}}
 									>
 										<a onClick={next}>&gt;&gt;</a>
 									</td>
@@ -323,16 +421,26 @@ const StadtplanInfo = ({
 			<Well bsSize='small' pixelwidth={250}>
 				<h5>Keine POI gefunden!</h5>
 				<p>
-					Für mehr POI, Ansicht mit <Icon name='minus-square' /> verkleinern. Um nach
-					Themenfeldern zu filtern, das
+					Für mehr POI, Ansicht mit
+					<Icon name='minus-square' />
+					verkleinern. Um nach Themenfeldern zu filtern, das
 					<a onClick={() => showModalMenu('filter')}>
 						{' '}
 						Men&uuml;&nbsp;
-						<Icon name='bars' style={{ color: 'black' }} /> &ouml;ffnen.
+						<Icon
+							name='bars'
+							style={{
+								color: 'black'
+							}}
+						/>
+						&ouml;ffnen.
 					</a>
 				</p>
 				<div align='center'>
-					<a onClick={fitAll}>{filteredPOIs.length} POI in Wuppertal</a>
+					<a onClick={fitAll}>
+						{filteredPOIs.length}
+						POI in Wuppertal
+					</a>
 				</div>
 			</Well>
 		);

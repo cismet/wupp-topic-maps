@@ -1,17 +1,17 @@
-import React from "react";
-import { TileLayer } from "react-leaflet";
-import StyledWMSTileLayer from "./StyledWMSTileLayer";
-import objectAssign from "object-assign";
+import React from 'react';
+import { TileLayer } from 'react-leaflet';
+import StyledWMSTileLayer from './StyledWMSTileLayer';
+import objectAssign from 'object-assign';
 
 export const Layers = new Map();
 
 let defaultOptions = { opacity: 1.0 };
 let defaultNightOptions = {
   opacity: 0.9,
-  "css-filter": "filter:grayscale(0.9)brightness(0.9)invert(1);"
+  'css-filter': 'filter:grayscale(0.9)brightness(0.9)invert(1);'
 };
 
-Layers.set("nrwDOP20", (options = defaultOptions) => {
+Layers.set('nrwDOP20', (options = defaultOptions) => {
   return (
     <StyledWMSTileLayer
       key="nrwDOP20"
@@ -22,12 +22,12 @@ Layers.set("nrwDOP20", (options = defaultOptions) => {
       //crs={L.CRS.EPSG3857}
       maxZoom={19}
       opacity={options.opacity}
-      cssFilter={options["css-filter"]}
+      cssFilter={options['css-filter']}
     />
   );
 });
 
-Layers.set("osm", (options = defaultOptions) => {
+Layers.set('osm', (options = defaultOptions) => {
   return (
     <StyledWMSTileLayer
       key="Mundialis OSM"
@@ -36,12 +36,12 @@ Layers.set("osm", (options = defaultOptions) => {
       format="image/png"
       maxZoom={19}
       opacity={options.opacity}
-      cssFilter={options["css-filter"]}
+      cssFilter={options['css-filter']}
       version="1.1.1"
     />
   );
 });
-Layers.set("osm.night", (options = defaultNightOptions) => {
+Layers.set('osm.night', (options = defaultNightOptions) => {
   let mergedOptions = objectAssign({}, defaultNightOptions, options);
   return (
     <StyledWMSTileLayer
@@ -51,13 +51,13 @@ Layers.set("osm.night", (options = defaultNightOptions) => {
       format="image/png"
       maxZoom={19}
       opacity={mergedOptions.opacity}
-      cssFilter={mergedOptions["css-filter"]}
+      cssFilter={mergedOptions['css-filter']}
       version="1.1.1"
     />
   );
 });
 
-Layers.set("osm2", (options = defaultOptions) => {
+Layers.set('osm2', (options = defaultOptions) => {
   return (
     <StyledWMSTileLayer
       key="terrestris OSM"
@@ -66,12 +66,12 @@ Layers.set("osm2", (options = defaultOptions) => {
       format="image/png"
       maxZoom={19}
       opacity={options.opacity}
-      cssFilter={options["css-filter"]}
+      cssFilter={options['css-filter']}
       version="1.1.1"
     />
   );
 });
-Layers.set("osm2.night", (options = defaultNightOptions) => {
+Layers.set('osm2.night', (options = defaultNightOptions) => {
   let mergedOptions = objectAssign({}, defaultNightOptions, options);
   return (
     <StyledWMSTileLayer
@@ -81,13 +81,13 @@ Layers.set("osm2.night", (options = defaultNightOptions) => {
       format="image/png"
       maxZoom={19}
       opacity={mergedOptions.opacity}
-      cssFilter={mergedOptions["css-filter"]}
+      cssFilter={mergedOptions['css-filter']}
       version="1.1.1"
     />
   );
 });
 
-Layers.set("abkf", (options = defaultOptions) => {
+Layers.set('abkf', (options = defaultOptions) => {
   return (
     <StyledWMSTileLayer
       key="abkf"
@@ -97,12 +97,12 @@ Layers.set("abkf", (options = defaultOptions) => {
       tiled="true"
       maxZoom={19}
       opacity={options.opacity}
-      cssFilter={options["css-filter"]}
+      cssFilter={options['css-filter']}
     />
   );
 });
 
-Layers.set("nrs", (options = defaultOptions) => {
+Layers.set('nrs', (options = defaultOptions) => {
   return (
     <StyledWMSTileLayer
       key="nrs"
@@ -113,12 +113,12 @@ Layers.set("nrs", (options = defaultOptions) => {
       tiled="true"
       maxZoom={19}
       opacity={options.opacity}
-      cssFilter={options["css-filter"]}
+      cssFilter={options['css-filter']}
     />
   );
 });
 
-Layers.set("abkg", (options = defaultOptions) => {
+Layers.set('abkg', (options = defaultOptions) => {
   return (
     <StyledWMSTileLayer
       key="abkf"
@@ -128,11 +128,11 @@ Layers.set("abkg", (options = defaultOptions) => {
       tiled="true"
       maxZoom={19}
       opacity={options.opacity}
-      cssFilter={options["css-filter"]}
+      cssFilter={options['css-filter']}
     />
   );
 });
-Layers.set("bplan_abkg", (options = defaultOptions) => {
+Layers.set('bplan_abkg', (options = defaultOptions) => {
   return (
     <StyledWMSTileLayer
       key="bplan_abkg"
@@ -142,12 +142,12 @@ Layers.set("bplan_abkg", (options = defaultOptions) => {
       tiled="true"
       maxZoom={19}
       opacity={options.opacity}
-      cssFilter={options["css-filter"]}
+      cssFilter={options['css-filter']}
     />
   );
 });
 
-Layers.set("bplan_abkg", (options = defaultOptions) => {
+Layers.set('bplan_abkg', (options = defaultOptions) => {
   return (
     <StyledWMSTileLayer
       key="bplan_abkg"
@@ -157,12 +157,12 @@ Layers.set("bplan_abkg", (options = defaultOptions) => {
       tiled="true"
       maxZoom={19}
       opacity={options.opacity}
-      cssFilter={options["css-filter"]}
+      cssFilter={options['css-filter']}
     />
   );
 });
 
-Layers.set("bplan_abkg_uncached", (options = defaultOptions) => {
+Layers.set('bplan_abkg_uncached', (options = defaultOptions) => {
   return (
     <StyledWMSTileLayer
       key="bplan_abkg_uncached"
@@ -172,12 +172,12 @@ Layers.set("bplan_abkg_uncached", (options = defaultOptions) => {
       tiled="true"
       maxZoom={19}
       opacity={options.opacity}
-      cssFilter={options["css-filter"]}
+      cssFilter={options['css-filter']}
     />
   );
 });
 
-Layers.set("bplan_ovl", (options = defaultOptions) => {
+Layers.set('bplan_ovl', (options = defaultOptions) => {
   return (
     <StyledWMSTileLayer
       key="bplan_ovl"
@@ -188,12 +188,12 @@ Layers.set("bplan_ovl", (options = defaultOptions) => {
       transparent="true"
       maxZoom={19}
       opacity={options.opacity}
-      cssFilter={options["css-filter"]}
+      cssFilter={options['css-filter']}
     />
   );
 });
 
-Layers.set("bplan_ovl_cached", (options = defaultOptions) => {
+Layers.set('bplan_ovl_cached', (options = defaultOptions) => {
   return (
     <StyledWMSTileLayer
       key="bplan_ovl_cached"
@@ -204,12 +204,12 @@ Layers.set("bplan_ovl_cached", (options = defaultOptions) => {
       transparent="true"
       maxZoom={19}
       opacity={options.opacity}
-      cssFilter={options["css-filter"]}
+      cssFilter={options['css-filter']}
     />
   );
 });
 
-Layers.set("abkIntra", (options = defaultOptions) => {
+Layers.set('abkIntra', (options = defaultOptions) => {
   return (
     <StyledWMSTileLayer
       key="StadtgrundKarteABK"
@@ -219,12 +219,12 @@ Layers.set("abkIntra", (options = defaultOptions) => {
       tiled="true"
       maxZoom={19}
       opacity={options.opacity}
-      cssFilter={options["css-filter"]}
+      cssFilter={options['css-filter']}
     />
   );
 });
 
-Layers.set("uwBPlan", (options = defaultOptions) => {
+Layers.set('uwBPlan', (options = defaultOptions) => {
   return (
     <StyledWMSTileLayer
       key="BPlanreihe auf Umwis"
@@ -234,12 +234,12 @@ Layers.set("uwBPlan", (options = defaultOptions) => {
       tiled="true"
       maxZoom={19}
       opacity={options.opacity}
-      cssFilter={options["css-filter"]}
+      cssFilter={options['css-filter']}
     />
   );
 });
 
-Layers.set("uwBPlanCached", (options = defaultOptions) => {
+Layers.set('uwBPlanCached', (options = defaultOptions) => {
   return (
     <StyledWMSTileLayer
       key="BPlanreihe auf Umwis"
@@ -249,12 +249,12 @@ Layers.set("uwBPlanCached", (options = defaultOptions) => {
       tiled="true"
       maxZoom={19}
       opacity={options.opacity}
-      cssFilter={options["css-filter"]}
+      cssFilter={options['css-filter']}
     />
   );
 });
 
-Layers.set("webatlas", (options = defaultOptions) => {
+Layers.set('webatlas', (options = defaultOptions) => {
   return (
     <StyledWMSTileLayer
       key="webatlas"
@@ -265,12 +265,12 @@ Layers.set("webatlas", (options = defaultOptions) => {
       version="1.1.1"
       maxZoom={19}
       opacity={options.opacity}
-      cssFilter={options["css-filter"]}
+      cssFilter={options['css-filter']}
     />
   );
 });
 
-Layers.set("webatlas.night", (options = defaultNightOptions) => {
+Layers.set('webatlas.night', (options = defaultNightOptions) => {
   let mergedOptions = objectAssign({}, defaultNightOptions, options);
   return (
     <StyledWMSTileLayer
@@ -282,12 +282,12 @@ Layers.set("webatlas.night", (options = defaultNightOptions) => {
       version="1.1.1"
       maxZoom={19}
       opacity={mergedOptions.opacity}
-      cssFilter={mergedOptions["css-filter"]}
+      cssFilter={mergedOptions['css-filter']}
     />
   );
 });
 
-Layers.set("rvrWMS", (options = defaultOptions) => {
+Layers.set('rvrWMS', (options = defaultOptions) => {
   return (
     <StyledWMSTileLayer
       key="stadtplan_rvr"
@@ -298,12 +298,12 @@ Layers.set("rvrWMS", (options = defaultOptions) => {
       version="1.3.0"
       maxZoom={19}
       opacity={options.opacity}
-      cssFilter={options["css-filter"]}
+      cssFilter={options['css-filter']}
     />
   );
 });
 
-Layers.set("rvrWMS.night", (options = defaultNightOptions) => {
+Layers.set('rvrWMS.night', (options = defaultNightOptions) => {
   let mergedOptions = objectAssign({}, defaultNightOptions, options);
   return (
     <StyledWMSTileLayer
@@ -315,12 +315,12 @@ Layers.set("rvrWMS.night", (options = defaultNightOptions) => {
       version="1.3.0"
       maxZoom={19}
       opacity={mergedOptions.opacity}
-      cssFilter={mergedOptions["css-filter"]}
+      cssFilter={mergedOptions['css-filter']}
     />
   );
 });
 
-Layers.set("ruhrWMS", (options = defaultOptions) => {
+Layers.set('ruhrWMS', (options = defaultOptions) => {
   return (
     <StyledWMSTileLayer
       key="ruhr_stadtplan_rvr"
@@ -331,12 +331,12 @@ Layers.set("ruhrWMS", (options = defaultOptions) => {
       version="1.3.0"
       maxZoom={19}
       opacity={options.opacity}
-      cssFilter={options["css-filter"]}
+      cssFilter={options['css-filter']}
     />
   );
 });
 
-Layers.set("ruhrWMS.night", (options = defaultNightOptions) => {
+Layers.set('ruhrWMS.night', (options = defaultNightOptions) => {
   let mergedOptions = objectAssign({}, defaultNightOptions, options);
   return (
     <StyledWMSTileLayer
@@ -348,12 +348,12 @@ Layers.set("ruhrWMS.night", (options = defaultNightOptions) => {
       version="1.3.0"
       maxZoom={19}
       opacity={mergedOptions.opacity}
-      cssFilter={mergedOptions["css-filter"]}
+      cssFilter={mergedOptions['css-filter']}
     />
   );
 });
 
-Layers.set("wupp-plan-live", (options = defaultOptions) => {
+Layers.set('wupp-plan-live', (options = defaultOptions) => {
   return (
     <StyledWMSTileLayer
       key="wupp-plan-live"
@@ -364,12 +364,12 @@ Layers.set("wupp-plan-live", (options = defaultOptions) => {
       version="1.3.0"
       maxZoom={19}
       opacity={options.opacity}
-      cssFilter={options["css-filter"]}
+      cssFilter={options['css-filter']}
     />
   );
 });
 
-Layers.set("wupp-plan-live.night", (options = defaultNightOptions) => {
+Layers.set('wupp-plan-live.night', (options = defaultNightOptions) => {
   let mergedOptions = objectAssign({}, defaultNightOptions, options);
   // console.log(mergedOptions);
   return (
@@ -382,12 +382,12 @@ Layers.set("wupp-plan-live.night", (options = defaultNightOptions) => {
       version="1.3.0"
       maxZoom={19}
       opacity={mergedOptions.opacity}
-      cssFilter={mergedOptions["css-filter"]}
+      cssFilter={mergedOptions['css-filter']}
     />
   );
 });
 
-Layers.set("orthoIntra", (options = defaultOptions) => {
+Layers.set('orthoIntra', (options = defaultOptions) => {
   return (
     <StyledWMSTileLayer
       key="Ortho2014"
@@ -397,12 +397,12 @@ Layers.set("orthoIntra", (options = defaultOptions) => {
       tiled="true"
       maxZoom={19}
       opacity={options.opacity}
-      cssFilter={options["css-filter"]}
+      cssFilter={options['css-filter']}
     />
   );
 });
 
-Layers.set("ESRILayer", (options = defaultOptions) => {
+Layers.set('ESRILayer', (options = defaultOptions) => {
   return (
     <TileLayer
       key="ESRILayer"
@@ -418,7 +418,7 @@ Layers.set("ESRILayer", (options = defaultOptions) => {
   );
 });
 
-Layers.set("CartoLayer", (options = defaultOptions) => {
+Layers.set('CartoLayer', (options = defaultOptions) => {
   return (
     <TileLayer
       key="CartoLayer"
@@ -434,7 +434,7 @@ Layers.set("CartoLayer", (options = defaultOptions) => {
   );
 });
 
-Layers.set("CartoLayer", (options = defaultOptions) => {
+Layers.set('CartoLayer', (options = defaultOptions) => {
   return (
     <TileLayer
       key="CartoLayer"

@@ -1,24 +1,24 @@
-import PropTypes from "prop-types";
-import React from "react";
-import { connect } from "react-redux";
+import PropTypes from 'prop-types';
+import React from 'react';
+import { connect } from 'react-redux';
 
-import { bindActionCreators } from "redux";
-import { actions as MappingActions } from "../redux/modules/mapping";
-import { actions as UIStateActions } from "../redux/modules/uiState";
+import { bindActionCreators } from 'redux';
+import { actions as MappingActions } from '../redux/modules/mapping';
+import { actions as UIStateActions } from '../redux/modules/uiState';
 import {
   actions as BaederActions,
   getBaeder,
   getBaederFeatureCollection,
   getBadSvgSize,
   getBaederFeatureCollectionSelectedIndex
-} from "../redux/modules/baeder";
+} from '../redux/modules/baeder';
 
-import { routerActions as RoutingActions } from "react-router-redux";
-import { getFeatureStyler, featureHoverer } from "../utils/stadtplanHelper";
-import { getColorForProperties } from "../utils/baederHelper";
-import BaederInfo from "../components/baeder/BaederInfo";
-import BaederModalMenu from "../components/baeder/BaederModalMenu";
-import TopicMap from "../containers/TopicMap";
+import { routerActions as RoutingActions } from 'react-router-redux';
+import { getFeatureStyler, featureHoverer } from '../utils/stadtplanHelper';
+import { getColorForProperties } from '../utils/baederHelper';
+import BaederInfo from '../components/baeder/BaederInfo';
+import BaederModalMenu from '../components/baeder/BaederModalMenu';
+import TopicMap from '../containers/TopicMap';
 function mapStateToProps(state) {
   return {
     uiState: state.uiState,
@@ -47,7 +47,9 @@ export class Baeder_ extends React.Component {
       this.props.baederActions.refreshFeatureCollection(bbox)
     );
   }
-
+  componentDidMount() {
+    document.title = 'Bäderkarte Wuppertal';
+  }
   gotoHome() {
     if (this.topicMap) {
       this.topicMap.wrappedInstance.gotoHome();
@@ -56,13 +58,13 @@ export class Baeder_ extends React.Component {
 
   changeMarkerSymbolSize(size) {
     this.props.baederActions.setBadSvgSize(size);
-    this.props.mappingActions.setFeatureCollectionKeyPostfix("MarkerSvgSize:" + size);
+    this.props.mappingActions.setFeatureCollectionKeyPostfix('MarkerSvgSize:' + size);
   }
 
   render() {
     let info = (
       <BaederInfo
-        key={"BaederInfo." + (getBaederFeatureCollectionSelectedIndex(this.props.baeder) || 0)}
+        key={'BaederInfo.' + (getBaederFeatureCollectionSelectedIndex(this.props.baeder) || 0)}
         pixelwidth={300}
         featureCollection={getBaederFeatureCollection(this.props.baeder)}
         items={getBaeder(this.props.baeder)}
@@ -90,7 +92,7 @@ export class Baeder_ extends React.Component {
         panelClick={e => {}}
       />
     );
-    console.log();
+
     return (
       <TopicMap
         ref={comp => {
@@ -103,7 +105,7 @@ export class Baeder_ extends React.Component {
         gazetteerSearchBoxPlaceholdertext="Stadtteil | Adresse | POI"
         photoLightBox
         infoBox={info}
-        backgroundlayers={this.props.match.params.layers || "wupp-plan-live"}
+        backgroundlayers={this.props.match.params.layers || 'wupp-plan-live'}
         dataLoader={this.props.baederActions.loadBaeder}
         getFeatureCollectionForData={() => {
           return getBaederFeatureCollection(this.props.baeder);

@@ -1,21 +1,22 @@
-import React from "react";
-import { persistStore } from "redux-persist";
-import { Route, Switch } from "react-router-dom";
-import NotFoundPage from "./components/NotFoundPage";
-import Layout from "./components/Layout";
-import DefaultPage from "./containers/DefaultPage";
-import BPlaene from "./containers/BPlaene";
-import Ehrenamt from "./containers/Ehrenamt";
-import Stadtplan from "./containers/Stadtplan";
-import Baeder from "./containers/Baeder";
-import Starkregen from "./containers/Starkregen";
-import Kitas from "./containers/Kitas";
-import Experiments from "./containers/Experiments";
-import Reset from "./containers/Reset";
+import React from 'react';
+import { persistStore } from 'redux-persist';
+import { Route, Switch } from 'react-router-dom';
+import NotFoundPage from './components/NotFoundPage';
+import Layout from './components/Layout';
+import DefaultPage from './containers/DefaultPage';
+import BPlaene from './containers/BPlaene';
+import Ehrenamt from './containers/Ehrenamt';
+import Stadtplan from './containers/Stadtplan';
+import Baeder from './containers/Baeder';
+import Starkregen from './containers/Starkregen';
+import Kitas from './containers/Kitas';
+import Experiments from './containers/Experiments';
+import Reset from './containers/Reset';
+import DocViewer from './containers/DocViewer';
 
-import store from "./redux/store";
-import ReactLoading from "react-loading";
-import {getTopicMapVersion, getTopicMapHash} from './constants/versions';
+import store from './redux/store';
+import ReactLoading from 'react-loading';
+import { getTopicMapVersion, getTopicMapHash } from './constants/versions';
 
 export default class App extends React.Component {
   constructor() {
@@ -24,11 +25,15 @@ export default class App extends React.Component {
   }
 
   componentWillMount() {
-    console.log("............................................................................................")
-    console.log("....................... TopicMaps Wuppertal ("+getTopicMapVersion()+")")
-    console.log("....................... BuildNumber: "+getTopicMapHash())
-    console.log("............................................................................................")
-    
+    console.log(
+      '............................................................................................'
+    );
+    console.log('....................... TopicMaps Wuppertal (' + getTopicMapVersion() + ')');
+    console.log('....................... BuildNumber: ' + getTopicMapHash());
+    console.log(
+      '............................................................................................'
+    );
+
     persistStore(store, null, () => {
       let thisHere = this;
       setTimeout(() => {
@@ -43,7 +48,7 @@ export default class App extends React.Component {
         <div>
           <main>
             <ReactLoading
-              style={{ margin: "auto", width: "30%", height: "60%", padding: "50px" }}
+              style={{ margin: 'auto', width: '30%', height: '60%', padding: '50px' }}
               type="spin"
               color="#444"
             />
@@ -66,7 +71,11 @@ export default class App extends React.Component {
               <Route exact path="/experiments" component={Experiments} />
               <Route exact path="/default(/:layers)(/:bplannummer)" component={DefaultPage} />
               <Route exact path="/reset" component={Reset} />
-
+              <Route
+                exact
+                path="/docs/:topic?/:docPackageId?/:file?/:page?"
+                component={DocViewer}
+              />
               <Route component={NotFoundPage} />
             </Switch>
           </main>

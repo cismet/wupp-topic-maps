@@ -1,5 +1,5 @@
-import objectAssign from "object-assign";
-import kdbush from "kdbush";
+import objectAssign from 'object-assign';
+import kdbush from 'kdbush';
 
 const makePointFeatureCollectionWithIndexDuck = (
   section,

@@ -1,17 +1,17 @@
-import objectAssign from "object-assign";
-import { actions as mappingActions } from "./mapping";
-import * as turfHelpers from "@turf/helpers";
-import inside from "@turf/inside";
-import { constants as mappingConstants } from "./mapping";
-import { getPolygonfromBBox } from "../../utils/gisHelper";
+import objectAssign from 'object-assign';
+import { actions as mappingActions } from './mapping';
+import * as turfHelpers from '@turf/helpers';
+import inside from '@turf/inside';
+import { constants as mappingConstants } from './mapping';
+import { getPolygonfromBBox } from '../../utils/gisHelper';
 
-import { WUNDAAPI } from "../../constants/services";
-
+import { WUNDAAPI } from '../../constants/services';
+import { INFO_DOC_DATEINAMEN_NAME, INFO_DOC_DATEINAMEN_URL } from '../../constants/bplaene';
 ///TYPES
 export const types = {
-  SET_DOCUMENT_LOADING_INDICATOR: "BPLAENE/SET_DOCUMENT_LOADING_INDICATOR",
-  SET_DOCUMENT_HAS_LOADING_ERROR: "BPLAENE/SET_DOCUMENT_HAS_LOADING_ERROR",
-  SET_PREPARED_DOWNLOAD: "BPLAENE/SET_PREPARED_DOWNLOAD"
+  SET_DOCUMENT_LOADING_INDICATOR: 'BPLAENE/SET_DOCUMENT_LOADING_INDICATOR',
+  SET_DOCUMENT_HAS_LOADING_ERROR: 'BPLAENE/SET_DOCUMENT_HAS_LOADING_ERROR',
+  SET_PREPARED_DOWNLOAD: 'BPLAENE/SET_PREPARED_DOWNLOAD'
 };
 
 ///INITIAL STATE
@@ -71,15 +71,20 @@ function setPreparedDownload(download) {
 
 //COMPLEXACTIONS
 
-export function searchForPlans(gazObject, overriddenWKT) {
+export function searchForPlans(
+  gazObject,
+  overriddenWKT,
+  cfg = { skipMappingActions: false, done: () => {} }
+) {
   return function(dispatch, getState) {
-    dispatch(mappingActions.setSearchProgressIndicator(true));
+    if (!cfg.skipMappingActions) {
+      dispatch(mappingActions.setSearchProgressIndicator(true));
+    }
     const state = getState();
     let wkt;
     if (overriddenWKT) {
       wkt = overriddenWKT;
     } else if (Array.isArray(gazObject) && gazObject[0].more.v) {
-      console.log("BPLAN QUERY " + gazObject[0].x + " ," + gazObject[0].y);
       wkt = `POINT (${gazObject[0].x} ${gazObject[0].y} )`;
     } else {
       wkt = getPolygonfromBBox(state.mapping.boundingBox);
@@ -87,29 +92,29 @@ export function searchForPlans(gazObject, overriddenWKT) {
     let query = {
       list: [
         {
-          key: "wktString",
+          key: 'wktString',
           value: wkt
         },
         {
-          key: "status",
-          value: ""
+          key: 'status',
+          value: ''
         },
         {
-          key: "srs",
+          key: 'srs',
           value: 25832
         },
         {
-          key: "urlprefix",
-          value: "https://wunda-geoportal-docs.cismet.de"
+          key: 'urlprefix',
+          value: 'https://wunda-geoportal-docs.cismet.de'
         }
       ]
     };
     //console.log(WUNDAAPI + '/searches/WUNDA_BLAU.BPlanAPISearch/results?role=all&limit=100&offset=0')
     //console.log(JSON.stringify(query));
-    fetch(WUNDAAPI + "/searches/WUNDA_BLAU.BPlanAPISearch/results?role=all&limit=100&offset=0", {
-      method: "post",
+    fetch(WUNDAAPI + '/searches/WUNDA_BLAU.BPlanAPISearch/results?role=all&limit=100&offset=0', {
+      method: 'post',
       headers: {
-        "Content-Type": "application/json"
+        'Content-Type': 'application/json'
       },
       body: JSON.stringify(query)
     }).then(function(response) {
@@ -140,12 +145,12 @@ export function searchForPlans(gazObject, overriddenWKT) {
             //should be the only feature in the resultset
 
             if (gazObject != null && gazObject.length === 1 && gazObject[0] != null) {
-              const gazHitWithStatus = gazObject[0].string.indexOf("(") !== -1;
+              const gazHitWithStatus = gazObject[0].string.indexOf('(') !== -1;
               const gazHitMatchesObjectVerfahrensnummer =
                 gazObject[0].more.v === feature.properties.nummer;
               const embeddedStatusInGazHit = gazObject[0].string.substring(
-                gazObject[0].string.indexOf("(") + 1,
-                gazObject[0].string.indexOf(")")
+                gazObject[0].string.indexOf('(') + 1,
+                gazObject[0].string.indexOf(')')
               );
               const gazHitMatchesEmbeddedStatus =
                 embeddedStatusInGazHit === feature.properties.status;
@@ -170,27 +175,32 @@ export function searchForPlans(gazObject, overriddenWKT) {
             lastFeature = feature;
             counter++;
           }
+          cfg.done(featureArray);
+          if (!cfg.skipMappingActions) {
+            dispatch(mappingActions.setSearchProgressIndicator(false));
+            dispatch(mappingActions.setFeatureCollection(featureArray));
+            if (featureArray.length > 0) {
+              dispatch(mappingActions.setSelectedFeatureIndex(selectionIndexWish));
+            }
 
-          dispatch(mappingActions.setSearchProgressIndicator(false));
-          dispatch(mappingActions.setFeatureCollection(featureArray));
-          if (featureArray.length > 0) {
-            dispatch(mappingActions.setSelectedFeatureIndex(selectionIndexWish));
-          }
-          if (gazObject != null && gazObject.length === 1 && gazObject[0] != null) {
-            //let p=turf.point([gazObject[0].x,gazObject[0].y]);
-            if (planMatch) {
-              //vorher turf.inside(p,featureArray[selectionIndexWish])
-              dispatch(
-                mappingActions.fitFeatureBounds(
-                  featureArray[selectionIndexWish],
-                  mappingConstants.AUTO_FIT_MODE_STRICT
-                )
-              );
+            if (gazObject != null && gazObject.length === 1 && gazObject[0] != null) {
+              //let p=turf.point([gazObject[0].x,gazObject[0].y]);
+              if (planMatch) {
+                //vorher turf.inside(p,featureArray[selectionIndexWish])
+                dispatch(
+                  mappingActions.fitFeatureBounds(
+                    featureArray[selectionIndexWish],
+                    mappingConstants.AUTO_FIT_MODE_STRICT
+                  )
+                );
+              }
             }
           }
         });
       } else if (response.status === 401) {
-        dispatch(mappingActions.setSearchProgressIndicator(false));
+        if (!cfg.skipMappingActions) {
+          dispatch(mappingActions.setSearchProgressIndicator(false));
+        }
       }
     });
   };
@@ -211,26 +221,32 @@ function convertPropArrayToFeature(propArray, counter) {
   } else {
     plaene_nrk = [];
   }
-  let docs;
+  let docs = [];
   if (propArray[5] != null) {
-    docs = JSON.parse(propArray[5]);
     docs.push({
-      file: "_Info_BPlan-Zusatzdokumente_WUP_1-0.pdf",
-      url:
-        "https://wunda-geoportal-docs.cismet.de/bplaene_dokumente/Info_BPlan-Zusatzdokumente_WUP_1-0.pdf"
+      file: INFO_DOC_DATEINAMEN_NAME,
+      url: INFO_DOC_DATEINAMEN_URL
     });
+    const zusatzDocs = JSON.parse(propArray[5]);
+    for (const zd of zusatzDocs) {
+      docs.push(zd);
+    }
+    //docs.push(zusatzDocs);
   } else {
     docs = [];
   }
+  // console.log('plaene_rk', JSON.stringify(plaene_rk));
+  // console.log('plaene_nrk', JSON.stringify(plaene_nrk));
+  // console.log('docs', JSON.stringify(docs));
   return {
-    id: propArray[0] + "." + counter,
-    type: "Feature",
+    id: propArray[0] + '.' + counter,
+    type: 'Feature',
     selected: false,
     geometry: geom,
     crs: {
-      type: "name",
+      type: 'name',
       properties: {
-        name: "urn:ogc:def:crs:EPSG::25832"
+        name: 'urn:ogc:def:crs:EPSG::25832'
       }
     },
     properties: {

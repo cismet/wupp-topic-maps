@@ -1,7 +1,7 @@
-import React from "react";
-import PropTypes from "prop-types";
-import { FormGroup, Radio, ControlLabel } from "react-bootstrap";
-import { removeQueryPart, modifyQueryPart } from "../../utils/routingHelper";
+import React from 'react';
+import PropTypes from 'prop-types';
+import { FormGroup, Radio, ControlLabel } from 'react-bootstrap';
+import { removeQueryPart, modifyQueryPart } from '../../utils/routingHelper';
 
 // Since this component is simple and static, there's no parent container for it.
 const NamedMapStyleChooser = ({
@@ -19,13 +19,13 @@ const NamedMapStyleChooser = ({
       {modes.map((item, key) => {
         return (
           <Radio
-            id={"cboMapStyleChooser_"+item}
+            id={'cboMapStyleChooser_' + item}
             key={key}
             readOnly={true}
             onClick={e => {
               if (e.target.checked === true) {
-                if (item.mode === "default") {
-                  pushNewRoute(pathname + removeQueryPart(search, "mapStyle"));
+                if (item.mode === 'default') {
+                  pushNewRoute(pathname + removeQueryPart(search, 'mapStyle'));
                 } else {
                   pushNewRoute(
                     pathname +
@@ -59,6 +59,6 @@ NamedMapStyleChooser.propTypes = {
 };
 
 NamedMapStyleChooser.defaultProps = {
-  title: "Kartendarstellung:",
-  modes: [{ title: "Tag", mode: "default" }, { title: "Nacht", mode: "night" }]
+  title: 'Kartendarstellung:',
+  modes: [{ title: 'Tag', mode: 'default' }, { title: 'Nacht', mode: 'night' }]
 };

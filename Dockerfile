@@ -21,12 +21,16 @@ RUN yarn install
 RUN yarn cache clean
 COPY .docker-files/turf-jsts-package.json ./node_modules/turf-jsts/package.json
 COPY . .
+RUN rm /app/public/data && mkdir /app/public/data
+RUN rm /app/public/ehrenamt && mkdir /app/public/ehrenamt
+RUN rm /app/public/gaz && mkdir /app/public/gaz
+RUN rm /app/public/kitas && mkdir /app/public/kitas
+RUN rm /app/public/pois && mkdir /app/public/pois
 RUN VERSION=`cat .version`; sed -i "s/%TOPICMAP_VERSION%/$VERSION/" src/constants/versions.js
 RUN HASH=`cat .githash`; sed -i "s/%TOPICMAP_HASH%/$HASH/" src/constants/versions.js
 RUN yarn run build
 
 # ---
-
 
 # runner container
 #  - nginx, to serve static built Vue app

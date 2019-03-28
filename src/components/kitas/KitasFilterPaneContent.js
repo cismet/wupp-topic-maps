@@ -1,10 +1,10 @@
-import React from "react";
+import React from 'react';
 
-import { Icon } from "react-fa";
-import { FormGroup, Checkbox, Radio, ControlLabel, Button } from "react-bootstrap";
-import { constants as kitasConstants } from "../../redux/modules/kitas";
-import KitasProfileMapVisSymbol from "./KitasProfileMapVisSymbol";
-import KitasTraegertypMapVisSymbol from "./KitasTraegertypMapVisSymbol";
+import { Icon } from 'react-fa';
+import { FormGroup, Checkbox, Radio, ControlLabel, Button } from 'react-bootstrap';
+import { constants as kitasConstants } from '../../redux/modules/kitas';
+import KitasProfileMapVisSymbol from './KitasProfileMapVisSymbol';
+import KitasTraegertypMapVisSymbol from './KitasTraegertypMapVisSymbol';
 // Since this component is simple and static, there's no parent container for it.
 const KitasFilterPanel = ({
   width,
@@ -16,12 +16,12 @@ const KitasFilterPanel = ({
   pieChart
 }) => {
   const traegertypMap = [
-    { text: "städtisch", c: kitasConstants.TRAEGERTYP_STAEDTISCH },
-    { text: "evangelisch", c: kitasConstants.TRAEGERTYP_EVANGELISCH },
-    { text: "katholisch", c: kitasConstants.TRAEGERTYP_KATHOLISCH },
-    { text: "Elterninitiative", c: kitasConstants.TRAEGERTYP_ELTERNINITIATIVE },
-    { text: "Betrieb", c: kitasConstants.TRAEGERTYP_BETRIEBSKITA },
-    { text: "andere freie Träger", c: kitasConstants.TRAEGERTYP_ANDERE }
+    { text: 'städtisch', c: kitasConstants.TRAEGERTYP_STAEDTISCH },
+    { text: 'evangelisch', c: kitasConstants.TRAEGERTYP_EVANGELISCH },
+    { text: 'katholisch', c: kitasConstants.TRAEGERTYP_KATHOLISCH },
+    { text: 'Elterninitiative', c: kitasConstants.TRAEGERTYP_ELTERNINITIATIVE },
+    { text: 'Betrieb', c: kitasConstants.TRAEGERTYP_BETRIEBSKITA },
+    { text: 'andere freie Träger', c: kitasConstants.TRAEGERTYP_ANDERE }
   ];
   let widePieChartPlaceholder = null;
   let narrowPieChartPlaceholder = null;
@@ -36,9 +36,10 @@ const KitasFilterPanel = ({
   } else {
     widePieChartPlaceholder = <td>{pieChart}</td>;
   }
-  
-  let injectQueryParameter="&inject="+window.btoa(JSON.stringify([{action:"setFilterAndApply", payload: filter}]));
-  if (new URLSearchParams(window.location.href).get('getinjectorstring')){
+
+  let injectQueryParameter =
+    '&inject=' + window.btoa(JSON.stringify([{ action: 'setFilterAndApply', payload: filter }]));
+  if (new URLSearchParams(window.location.href).get('getinjectorstring')) {
     console.log(injectQueryParameter);
   }
   return (
@@ -46,38 +47,38 @@ const KitasFilterPanel = ({
       <table border={0} width="100%">
         <tbody>
           <tr>
-            <td valign="center" style={{ width: "330px" }}>
+            <td valign="center" style={{ width: '330px' }}>
               <FormGroup>
                 <ControlLabel>
                   Trägertyp
-                  {"  "}
+                  {'  '}
                   <Icon
                     style={{
-                      color: "grey",
-                      width: "30px",
-                      textAlign: "center"
+                      color: 'grey',
+                      width: '30px',
+                      textAlign: 'center'
                     }}
                     size="2x"
-                    name={"home"}
+                    name={'home'}
                   />
                 </ControlLabel>
                 {traegertypMap.map(item => {
                   return (
-                    <div key={"filter.kita.traeger.div." + item.c}>
+                    <div key={'filter.kita.traeger.div.' + item.c}>
                       <Checkbox
                         readOnly={true}
-                        key={"filter.kita.traeger." + item.c}
+                        key={'filter.kita.traeger.' + item.c}
                         onClick={e => {
                           if (e.target.checked === false) {
-                            removeFilterFor("traeger", item.c);
+                            removeFilterFor('traeger', item.c);
                           } else {
-                            addFilterFor("traeger", item.c);
+                            addFilterFor('traeger', item.c);
                           }
                         }}
                         checked={filter.traeger.indexOf(item.c) !== -1}
                         inline
                       >
-                        {item.text}{" "}
+                        {item.text}{' '}
                         <KitasTraegertypMapVisSymbol
                           visible={
                             featureRenderingOption ===
@@ -94,26 +95,26 @@ const KitasFilterPanel = ({
               <FormGroup>
                 <ControlLabel>
                   Profil
-                  {"  "}
+                  {'  '}
                   <Icon
                     style={{
-                      color: "grey",
-                      width: "30px",
-                      textAlign: "center"
+                      color: 'grey',
+                      width: '30px',
+                      textAlign: 'center'
                     }}
                     size="2x"
-                    name={"child"}
+                    name={'child'}
                   />
                 </ControlLabel>
                 <br />
                 <Checkbox
                   readOnly={true}
-                  key={"filter.kita.inklusion.checkbox"}
+                  key={'filter.kita.inklusion.checkbox'}
                   onClick={e => {
                     if (e.target.checked === false) {
-                      removeFilterFor("profil", kitasConstants.PROFIL_INKLUSION);
+                      removeFilterFor('profil', kitasConstants.PROFIL_INKLUSION);
                     } else {
-                      addFilterFor("profil", kitasConstants.PROFIL_INKLUSION);
+                      addFilterFor('profil', kitasConstants.PROFIL_INKLUSION);
                     }
                   }}
                   checked={filter.profil.indexOf(kitasConstants.PROFIL_INKLUSION) !== -1}
@@ -121,7 +122,7 @@ const KitasFilterPanel = ({
                 >
                   Schwerpunkt Inklusion
                 </Checkbox>
-                {"  "}
+                {'  '}
                 <KitasProfileMapVisSymbol
                   inklusion={true}
                   visible={featureRenderingOption === kitasConstants.FEATURE_RENDERING_BY_PROFIL}
@@ -129,12 +130,12 @@ const KitasFilterPanel = ({
                 <br />
                 <Checkbox
                   readOnly={true}
-                  key={"filter.kita.normal.checkbox"}
+                  key={'filter.kita.normal.checkbox'}
                   onClick={e => {
                     if (e.target.checked === false) {
-                      removeFilterFor("profil", kitasConstants.PROFIL_NORMAL);
+                      removeFilterFor('profil', kitasConstants.PROFIL_NORMAL);
                     } else {
-                      addFilterFor("profil", kitasConstants.PROFIL_NORMAL);
+                      addFilterFor('profil', kitasConstants.PROFIL_NORMAL);
                     }
                   }}
                   checked={filter.profil.indexOf(kitasConstants.PROFIL_NORMAL) !== -1}
@@ -142,7 +143,7 @@ const KitasFilterPanel = ({
                 >
                   ohne Schwerpunkt Inklusion
                 </Checkbox>
-                {"  "}
+                {'  '}
                 <KitasProfileMapVisSymbol
                   inklusion={false}
                   visible={featureRenderingOption === kitasConstants.FEATURE_RENDERING_BY_PROFIL}
@@ -151,26 +152,26 @@ const KitasFilterPanel = ({
               <FormGroup>
                 <br />
                 <ControlLabel>
-                  Kindesalter{" "}
+                  Kindesalter{' '}
                   <Icon
                     style={{
-                      color: "grey",
-                      width: "30px",
-                      textAlign: "center"
+                      color: 'grey',
+                      width: '30px',
+                      textAlign: 'center'
                     }}
                     size="2x"
-                    name={"user"}
+                    name={'user'}
                   />
                 </ControlLabel>
                 <br />
                 <Radio
                   readOnly={true}
-                  key={"filter.kita.alter.unter2"}
+                  key={'filter.kita.alter.unter2'}
                   onClick={e => {
                     if (e.target.checked === true) {
-                      addFilterFor("alter", kitasConstants.ALTER_UNTER2);
-                      removeFilterFor("alter", kitasConstants.ALTER_AB2);
-                      removeFilterFor("alter", kitasConstants.ALTER_AB3);
+                      addFilterFor('alter', kitasConstants.ALTER_UNTER2);
+                      removeFilterFor('alter', kitasConstants.ALTER_AB2);
+                      removeFilterFor('alter', kitasConstants.ALTER_AB3);
                     }
                   }}
                   checked={filter.alter.indexOf(kitasConstants.ALTER_UNTER2) !== -1}
@@ -181,12 +182,12 @@ const KitasFilterPanel = ({
                 <br />
                 <Radio
                   readOnly={true}
-                  key={"filter.kita.alter.ab2"}
+                  key={'filter.kita.alter.ab2'}
                   onClick={e => {
                     if (e.target.checked === true) {
-                      addFilterFor("alter", kitasConstants.ALTER_AB2);
-                      removeFilterFor("alter", kitasConstants.ALTER_UNTER2);
-                      removeFilterFor("alter", kitasConstants.ALTER_AB3);
+                      addFilterFor('alter', kitasConstants.ALTER_AB2);
+                      removeFilterFor('alter', kitasConstants.ALTER_UNTER2);
+                      removeFilterFor('alter', kitasConstants.ALTER_AB3);
                     }
                   }}
                   checked={filter.alter.indexOf(kitasConstants.ALTER_AB2) !== -1}
@@ -197,12 +198,12 @@ const KitasFilterPanel = ({
                 <br />
                 <Radio
                   readOnly={true}
-                  key={"filter.kita.alter.ab3"}
+                  key={'filter.kita.alter.ab3'}
                   onClick={e => {
                     if (e.target.checked === true) {
-                      addFilterFor("alter", kitasConstants.ALTER_AB3);
-                      removeFilterFor("alter", kitasConstants.ALTER_AB2);
-                      removeFilterFor("alter", kitasConstants.ALTER_UNTER2);
+                      addFilterFor('alter', kitasConstants.ALTER_AB3);
+                      removeFilterFor('alter', kitasConstants.ALTER_AB2);
+                      removeFilterFor('alter', kitasConstants.ALTER_UNTER2);
                     }
                   }}
                   checked={filter.alter.indexOf(kitasConstants.ALTER_AB3) !== -1}
@@ -214,15 +215,15 @@ const KitasFilterPanel = ({
               <FormGroup>
                 <br />
                 <ControlLabel>
-                  Betreuungsumfang{" "}
+                  Betreuungsumfang{' '}
                   <Icon
                     style={{
-                      color: "grey",
-                      width: "40px",
-                      textAlign: "center"
+                      color: 'grey',
+                      width: '40px',
+                      textAlign: 'center'
                     }}
                     size="2x"
-                    name={"calendar"}
+                    name={'calendar'}
                   />
                 </ControlLabel>
                 <br />
@@ -231,9 +232,9 @@ const KitasFilterPanel = ({
                   readOnly={true}
                   onClick={e => {
                     if (e.target.checked === false) {
-                      removeFilterFor("umfang", kitasConstants.STUNDEN_FILTER_35);
+                      removeFilterFor('umfang', kitasConstants.STUNDEN_FILTER_35);
                     } else {
-                      addFilterFor("umfang", kitasConstants.STUNDEN_FILTER_35);
+                      addFilterFor('umfang', kitasConstants.STUNDEN_FILTER_35);
                     }
                   }}
                   checked={filter.umfang.indexOf(kitasConstants.STUNDEN_FILTER_35) !== -1}
@@ -241,16 +242,16 @@ const KitasFilterPanel = ({
                   inline
                 >
                   35 Stunden pro Woche
-                </Checkbox>{" "}
+                </Checkbox>{' '}
                 <br />
                 <Checkbox
                   key="filter.kita.umfang.45h"
                   readOnly={true}
                   onClick={e => {
                     if (e.target.checked === false) {
-                      removeFilterFor("umfang", kitasConstants.STUNDEN_FILTER_45);
+                      removeFilterFor('umfang', kitasConstants.STUNDEN_FILTER_45);
                     } else {
-                      addFilterFor("umfang", kitasConstants.STUNDEN_FILTER_45);
+                      addFilterFor('umfang', kitasConstants.STUNDEN_FILTER_45);
                     }
                   }}
                   name="mapBackground"

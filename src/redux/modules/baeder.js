@@ -1,13 +1,13 @@
-import { addSVGToPOI } from "../../utils/stadtplanHelper";
-import makeDataDuck from "../higherorderduckfactories/dataWithMD5Check";
-import makePointFeatureCollectionWithIndexDuck from "../higherorderduckfactories/pointFeatureCollectionWithIndex";
-import makeMarkerSizeDuck from "../higherorderduckfactories/markerSize";
-import { combineReducers } from "redux";
-import { persistReducer } from "redux-persist";
-import localForage from "localforage";
+import { addSVGToPOI } from '../../utils/stadtplanHelper';
+import makeDataDuck from '../higherorderduckfactories/dataWithMD5Check';
+import makePointFeatureCollectionWithIndexDuck from '../higherorderduckfactories/pointFeatureCollectionWithIndex';
+import makeMarkerSizeDuck from '../higherorderduckfactories/markerSize';
+import { combineReducers } from 'redux';
+import { persistReducer } from 'redux-persist';
+import localForage from 'localforage';
 //TYPES
 export const types = {
-  SET_MARKER_SVG_SIZE: "STADTPLAN/SET_POI_SVG_SIZE"
+  SET_MARKER_SVG_SIZE: 'STADTPLAN/SET_POI_SVG_SIZE'
 };
 
 export const constants = {
@@ -15,10 +15,10 @@ export const constants = {
 };
 
 //HIGHER ORDER DUCKS
-const dataDuck = makeDataDuck("BAEDER", state => state.baeder.dataState);
-const markerSizeDuck = makeMarkerSizeDuck("BAEDER", state => state.baeder.markerSizeState);
+const dataDuck = makeDataDuck('BAEDER', state => state.baeder.dataState);
+const markerSizeDuck = makeMarkerSizeDuck('BAEDER', state => state.baeder.markerSizeState);
 const featureCollectionDuck = makePointFeatureCollectionWithIndexDuck(
-  "BAEDER",
+  'BAEDER',
   state => state.baeder.featureCollectionState,
   state => state.mapping.boundingBox,
   convertBadToFeature
@@ -27,12 +27,12 @@ const featureCollectionDuck = makePointFeatureCollectionWithIndexDuck(
 //no local Reducer needed
 
 const markerSizeStorageConfig = {
-  key: "baederMarkerSize",
+  key: 'baederMarkerSize',
   storage: localForage,
-  whitelist: ["markerSize"]
+  whitelist: ['markerSize']
 };
 const dataStateStorageConfig = {
-  key: "baederData",
+  key: 'baederData',
   storage: localForage,
   whitelist: [] //["items", "md5"]
 };
@@ -55,7 +55,7 @@ function loadBaeder() {
     dispatch(
       dataDuck.actions.load({
         manualReloadRequested: manualReloadRequest,
-        dataURL: "/data/baeder.data.json",
+        dataURL: '/data/baeder.data.json',
         done: (dispatch, data, md5) => {
           dispatch(actions.setFeatureCollectionDataSource(data));
           dispatch(actions.createFeatureCollection());
@@ -97,7 +97,7 @@ export const getBadSvgSize = state => markerSizeDuck.selectors.getMarkerSize(sta
 //HELPER FUNCTIONS
 function convertBadToFeature(bad, index) {
   const id = bad.id;
-  const type = "Feature";
+  const type = 'Feature';
   const selected = false;
   const geometry = bad.geojson;
   const text = bad.name;
@@ -110,9 +110,9 @@ function convertBadToFeature(bad, index) {
     selected,
     geometry,
     crs: {
-      type: "name",
+      type: 'name',
       properties: {
-        name: "urn:ogc:def:crs:EPSG::25832"
+        name: 'urn:ogc:def:crs:EPSG::25832'
       }
     },
     properties: bad

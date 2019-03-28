@@ -1,7 +1,7 @@
-import proj4 from "proj4";
-import L from "leaflet";
+import proj4 from 'proj4';
+import L from 'leaflet';
 
-export const proj4crs25832def = "+proj=utm +zone=32 +ellps=GRS80 +units=m +no_defs";
+export const proj4crs25832def = '+proj=utm +zone=32 +ellps=GRS80 +units=m +no_defs';
 const origin = proj4(
   proj4crs25832def,
   // Upper left corner of the tile orign based on the WMTSCapabilities layer BBox
@@ -31,7 +31,7 @@ const resolutions = [
   66.6477995,
   33.32389975
 ];
-export const crs25832 = new L.Proj.CRS("EPSG:25832", proj4crs25832def, {
+export const crs25832 = new L.Proj.CRS('EPSG:25832', proj4crs25832def, {
   origin: [origin[0], origin[1]],
   resolutions: resolutions.map(function(value) {
     return value * 0.00028;

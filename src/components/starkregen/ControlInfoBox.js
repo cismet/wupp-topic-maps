@@ -1,12 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import ReactDOM from "react-dom";
+import ReactDOM from 'react-dom';
 
 import { Icon } from 'react-fa';
 import { Well, Button } from 'react-bootstrap';
 import Legend from './Legend';
-import { Map,Control, DomUtil, DomEvent } from 'leaflet';
+import { Map, Control, DomUtil, DomEvent } from 'leaflet';
 import L from 'leaflet';
+/* eslint-disable jsx-a11y/anchor-is-valid */
 
 // Since this component is simple and static, there's no parent container for it.
 const InfoBox = ({
@@ -41,22 +42,35 @@ const InfoBox = ({
 	}
 
 	const featureInfoModeButton = (
-		<div key="featureInfoModeButton" style={{ marginBottom: 5, textAlign: 'right', pointerEvents: 'auto' }}>
+		<div
+			key='featureInfoModeButton'
+			style={{ marginBottom: 5, textAlign: 'right', pointerEvents: 'auto' }}
+		>
 			<Button
-				id="cmdShowGetFeatureInfo"
-				title="Maximalen Wasserstand abfragen"
+				id='cmdShowGetFeatureInfo'
+				title='Maximalen Wasserstand abfragen'
 				onClick={(e) => {
 					e.stopPropagation();
 					setFeatureInfoModeActivation(true);
 				}}
 			>
-				<Icon name="crosshairs" />
+				<Icon name='crosshairs' />
 			</Button>
 		</div>
 	);
 
 	const featureInfoModeBox = (
-		<div onClick={(e) => e.stopPropagation()} key="featureInfoModeBox" style={{ pointerEvents: 'auto', marginBottom: 5, float: 'right', width: '60%', height_: '145px' }}>
+		<div
+			onClick={(e) => e.stopPropagation()}
+			key='featureInfoModeBox'
+			style={{
+				pointerEvents: 'auto',
+				marginBottom: 5,
+				float: 'right',
+				width: '60%',
+				height_: '145px'
+			}}
+		>
 			<table style={{ width: '100%' }}>
 				<tbody>
 					<tr>
@@ -90,14 +104,14 @@ const InfoBox = ({
 								}}
 								style={{ color: 'black' }}
 							>
-								<Icon name="close" />{' '}
+								<Icon name='close' />{' '}
 							</a>
 						</td>
 					</tr>
 				</tbody>
 			</table>
 			<Well
-				bsSize="small"
+				bsSize='small'
 				style={{
 					opacity: '0.9',
 					paddingBottom: '0px'
@@ -115,12 +129,21 @@ const InfoBox = ({
 								}}
 							>
 								{featureInfoValue !== undefined && (
-									<h2 style={{ marginTop: 0, marginBottom: 0, textAlign: 'center' }}>
+									<h2
+										style={{
+											marginTop: 0,
+											marginBottom: 0,
+											textAlign: 'center'
+										}}
+									>
 										{getRoundedValueStringForValue(featureInfoValue)}
 									</h2>
 								)}
 								{featureInfoValue === undefined && (
-									<p>Klick in die Karte zur Abfrage des simulierten max. Wasserstandes</p>
+									<p>
+										Klick in die Karte zur Abfrage des simulierten max.
+										Wasserstandes
+									</p>
 								)}
 							</td>
 						</tr>
@@ -135,7 +158,9 @@ const InfoBox = ({
 										textAlign: 'center'
 									}}
 								>
-									<a onClick={() => showModalMenu('aussagekraft')}>Information zur Aussagekraft</a>
+									<a onClick={() => showModalMenu('aussagekraft')}>
+										Information zur Aussagekraft
+									</a>
 								</td>
 							</tr>
 						)}
@@ -146,7 +171,7 @@ const InfoBox = ({
 	);
 
 	const legendTable = (
-		<table onClick={(e) => e.stopPropagation()}  key="legendTable" style={{ width: '100%' }}>
+		<table onClick={(e) => e.stopPropagation()} key='legendTable' style={{ width: '100%' }}>
 			<tbody>
 				<tr>
 					<td
@@ -165,7 +190,12 @@ const InfoBox = ({
 	);
 
 	const mainInfoBox = (
-		<Well onClick={(e) => e.stopPropagation()} key="mainInfoBox" bsSize="small" style={{ pointerEvents: 'auto' }}>
+		<Well
+			onClick={(e) => e.stopPropagation()}
+			key='mainInfoBox'
+			bsSize='small'
+			style={{ pointerEvents: 'auto' }}
+		>
 			<table border={0} style={{ width: '100%' }}>
 				<tbody>
 					<tr>
@@ -179,7 +209,8 @@ const InfoBox = ({
 							}}
 						>
 							<h4 style={{ margin: 0, paddingBottom: '10px' }}>
-								<Icon name={selectedSimulation.icon} /> {selectedSimulation.title} {'   '}
+								<Icon name={selectedSimulation.icon} /> {selectedSimulation.title}{' '}
+								{'   '}
 							</h4>
 						</td>
 						<td
@@ -196,7 +227,9 @@ const InfoBox = ({
 									<Icon
 										onClick={() => minify(!minified)}
 										style={{ color: '#7e7e7e' }}
-										name={minified ? 'chevron-circle-up' : 'chevron-circle-down'}
+										name={
+											minified ? 'chevron-circle-up' : 'chevron-circle-down'
+										}
 									/>
 								</a>
 							</h4>
@@ -206,7 +239,8 @@ const InfoBox = ({
 			</table>
 			{!minified && (
 				<p style={{ marginBottom: 5 }}>
-					{selectedSimulation.subtitle} <a onClick={() => showModalMenu('szenarien')}>(mehr)</a>
+					{selectedSimulation.subtitle}{' '}
+					<a onClick={() => showModalMenu('szenarien')}>(mehr)</a>
 					{/* <a>
 			<Icon style={{ paddingLeft: 3, fontSize: 16 }} name="info-circle" />
 		</a> */}
@@ -268,10 +302,20 @@ const InfoBox = ({
 								>
 									<tbody>
 										<tr>
-											<td style={{ textAlign: 'center', verticalAlign: 'center' }}>
+											<td
+												style={{
+													textAlign: 'center',
+													verticalAlign: 'center'
+												}}
+											>
 												{simulationLabels[0]} {simulationLabels[1]}
 											</td>
-											<td style={{ textAlign: 'center', verticalAlign: 'center' }} />
+											<td
+												style={{
+													textAlign: 'center',
+													verticalAlign: 'center'
+												}}
+											/>
 										</tr>
 										<tr>
 											<td>
@@ -311,7 +355,7 @@ const InfoBox = ({
 												setBackgroundIndex(index);
 											}}
 										>
-											<img style={style} width="36px" src={item.src} />
+											<img style={style} width='36px' src={item.src} />
 										</a>
 									);
 								})}
@@ -333,12 +377,13 @@ const InfoBox = ({
 	infoComps.push(mainInfoBox);
 
 	return (
-		<div ref={(c)=>(this.chaos=c)} id="giveittoleaflet"
+		<div
+			id='giveittoleaflet'
 			onClick={(e) => {
-				if (mapRef){
-					let point = L.point(e.clientX,e.clientY); // x=0,y=0
+				if (mapRef) {
+					let point = L.point(e.clientX, e.clientY); // x=0,y=0
 					let latlng = mapRef.containerPointToLatLng(point);
-					mapClickListener({latlng})
+					mapClickListener({ latlng });
 				}
 			}}
 			style={{ cursor: mapCursor }}

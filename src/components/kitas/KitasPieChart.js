@@ -1,9 +1,9 @@
-import React from "react";
-import { getColorForProperties } from "../../utils/kitasHelper";
-import { constants as kitasConstants } from "../../redux/modules/kitas";
+import React from 'react';
+import { getColorForProperties } from '../../utils/kitasHelper';
+import { constants as kitasConstants } from '../../redux/modules/kitas';
 
-import ReactChartkick, { PieChart } from "react-chartkick";
-import Chart from "chart.js";
+import ReactChartkick, { PieChart } from 'react-chartkick';
+import Chart from 'chart.js';
 
 ReactChartkick.addAdapter(Chart);
 
@@ -14,21 +14,21 @@ const KitasPieChart = ({ filteredKitas, renderingOption, visible = true }) => {
     let piechartData = [];
     let piechartColor = [];
     if (renderingOption === kitasConstants.FEATURE_RENDERING_BY_PROFIL) {
-      stats["Kita mit Inklusionsschwerpunkt"] = 0;
-      stats["Kita"] = 0;
+      stats['Kita mit Inklusionsschwerpunkt'] = 0;
+      stats['Kita'] = 0;
       for (let kita of filteredKitas) {
         if (kita.plaetze_fuer_behinderte === true) {
-          stats["Kita mit Inklusionsschwerpunkt"] += 1;
-          if (stats["Kita mit Inklusionsschwerpunkt"] === 1) {
-            colormodel["Kita mit Inklusionsschwerpunkt"] = getColorForProperties(
+          stats['Kita mit Inklusionsschwerpunkt'] += 1;
+          if (stats['Kita mit Inklusionsschwerpunkt'] === 1) {
+            colormodel['Kita mit Inklusionsschwerpunkt'] = getColorForProperties(
               kita,
               renderingOption
             );
           }
         } else {
-          stats["Kita"] += 1;
-          if (stats["Kita"] === 1) {
-            colormodel["Kita"] = getColorForProperties(kita, renderingOption);
+          stats['Kita'] += 1;
+          if (stats['Kita'] === 1) {
+            colormodel['Kita'] = getColorForProperties(kita, renderingOption);
           }
         }
       }

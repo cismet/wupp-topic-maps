@@ -1,11 +1,11 @@
-import { DRPROCESSOR } from "../constants/services";
+import { DRPROCESSOR } from '../constants/services';
 
-import "whatwg-fetch";
+import 'whatwg-fetch';
 
 export const downloadFile = (url, success) => {
   let xhr = new XMLHttpRequest();
-  xhr.open("GET", url, true);
-  xhr.responseType = "blob";
+  xhr.open('GET', url, true);
+  xhr.responseType = 'blob';
   xhr.onreadystatechange = function() {
     if (xhr.readyState === 4) {
       if (success) success(xhr.response);
@@ -15,10 +15,10 @@ export const downloadFile = (url, success) => {
 };
 
 export const prepareMergeMultipleFiles = (mergeConf, done) => {
-  fetch(DRPROCESSOR + "/api/pdfmerge/and/wait/for/status", {
-    method: "post",
+  fetch(DRPROCESSOR + '/api/pdfmerge/and/wait/for/status', {
+    method: 'post',
     headers: {
-      "Content-Type": "application/json"
+      'Content-Type': 'application/json'
     },
     body: JSON.stringify(mergeConf)
   })
@@ -26,31 +26,30 @@ export const prepareMergeMultipleFiles = (mergeConf, done) => {
       if (response.status >= 200 && response.status < 300) {
         response.json().then(function(result) {
           done({
-            file: mergeConf.name + ".pdf",
-            url: DRPROCESSOR + "/api/download/pdfmerge/" + result.id + "/" + mergeConf.name
+            file: mergeConf.name + '.pdf',
+            url: DRPROCESSOR + '/api/download/pdfmerge/' + result.id + '/' + mergeConf.name
           });
         });
       } else {
         //TODO Error
         done({
-          error: ":-("
+          error: ':-('
         });
       }
     })
     .catch(e => {
       console.log(e);
       done({
-        error: ":-("
+        error: ':-('
       });
     });
 };
 
 export const prepareDownloadMultipleFiles = (mergeConf, done) => {
-  console.log("prepareDownloadMultipleFiles");
-  fetch(DRPROCESSOR + "/api/zip/and/wait/for/status", {
-    method: "post",
+  fetch(DRPROCESSOR + '/api/zip/and/wait/for/status', {
+    method: 'post',
     headers: {
-      "Content-Type": "application/json"
+      'Content-Type': 'application/json'
     },
     body: JSON.stringify(mergeConf)
   })
@@ -58,23 +57,23 @@ export const prepareDownloadMultipleFiles = (mergeConf, done) => {
       if (response.status >= 200 && response.status < 300) {
         return response.json();
       } else {
-        console.log("Error:" + response.status + " -> " + response.statusText);
+        console.log('Error:' + response.status + ' -> ' + response.statusText);
         done({
-          error: response.status + " -> " + response.statusText
+          error: response.status + ' -> ' + response.statusText
         });
       }
     })
     .catch(e => {
       console.log(e);
       done({
-        error: ":-("
+        error: ':-('
       });
     })
     .then(result => {
       if (result && !result.error) {
         done({
-          file: mergeConf.name + ".zip",
-          url: DRPROCESSOR + "/api/download/zip/" + result.id + "/" + mergeConf.name
+          file: mergeConf.name + '.zip',
+          url: DRPROCESSOR + '/api/download/zip/' + result.id + '/' + mergeConf.name
         });
       }
     });
@@ -90,15 +89,15 @@ export const prepareDownloadMultipleFiles = (mergeConf, done) => {
 
 export const downloadSingleFile = (downloadOptions, done) => {
   try {
-    console.log("downloadSingleFile:" + downloadOptions.url);
+    console.log('downloadSingleFile:' + downloadOptions.url);
     console.log(downloadOptions);
-    let link = document.createElement("a");
+    let link = document.createElement('a');
     document.body.appendChild(link);
-    link.setAttribute("type", "hidden");
+    link.setAttribute('type', 'hidden');
     link.href = downloadOptions.url;
     //link.href="https://cismet.de";
     //link.download = downloadOptions.file;
-    link.target = "_blank";
+    link.target = '_blank';
     link.click();
     if (done) {
       done();

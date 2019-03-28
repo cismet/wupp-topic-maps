@@ -1,9 +1,9 @@
-import { proj4crs25832def } from "../constants/gis";
-import proj4 from "proj4";
-import objectAssign from "object-assign";
-import bboxCreator from "@turf/bbox";
-import * as turfHelpers from "@turf/helpers";
-import * as gisHelpers from "./gisHelper";
+import { proj4crs25832def } from '../constants/gis';
+import proj4 from 'proj4';
+import objectAssign from 'object-assign';
+import bboxCreator from '@turf/bbox';
+import * as turfHelpers from '@turf/helpers';
+import * as gisHelpers from './gisHelper';
 
 export const builtInGazetteerHitTrigger = (
   hit,
@@ -18,7 +18,7 @@ export const builtInGazetteerHitTrigger = (
     hit[0].x !== undefined &&
     hit[0].y !== undefined
   ) {
-    const pos = proj4(proj4crs25832def, proj4.defs("EPSG:4326"), [hit[0].x, hit[0].y]);
+    const pos = proj4(proj4crs25832def, proj4.defs('EPSG:4326'), [hit[0].x, hit[0].y]);
     //console.log(pos)
     leafletElement.panTo([pos[1], pos[0]], {
       animate: false
@@ -39,8 +39,8 @@ export const builtInGazetteerHitTrigger = (
       var feature = turfHelpers.feature(hitObject.more.g);
       if (!feature.crs) {
         feature.crs = {
-          type: "name",
-          properties: { name: "urn:ogc:def:crs:EPSG::25832" }
+          type: 'name',
+          properties: { name: 'urn:ogc:def:crs:EPSG::25832' }
         };
       }
       var bb = bboxCreator(feature);

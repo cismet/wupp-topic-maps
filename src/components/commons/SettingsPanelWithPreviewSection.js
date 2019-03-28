@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 
 const SettingsPanelWithPreviewSection = ({ settingsSections, width, preview }) => {
   let widePreviewPlaceholder = null;
@@ -19,7 +19,7 @@ const SettingsPanelWithPreviewSection = ({ settingsSections, width, preview }) =
       <table border={0} width="100%">
         <tbody>
           <tr>
-            <td valign="top" style={{ width: "330px" }}>
+            <td valign="top" style={{ width: '330px' }}>
               {settingsSections.map((item, key) => {
                 return (
                   <div key={key}>

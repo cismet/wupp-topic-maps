@@ -1,7 +1,7 @@
-import PropTypes from "prop-types";
-import "leaflet-easybutton";
-import "leaflet-easybutton/src/easy-button.css";
-import "./EasyButtonOverrides.css";
+import PropTypes from 'prop-types';
+import 'leaflet-easybutton';
+import 'leaflet-easybutton/src/easy-button.css';
+import './EasyButtonOverrides.css';
 
 // const NewWindowControl = ({url}) => {
 
@@ -13,18 +13,18 @@ import "./EasyButtonOverrides.css";
 // }
 
 // import PropTypes from 'prop-types';
-import { MapControl } from "react-leaflet";
-import L from "leaflet";
+import { MapControl } from 'react-leaflet';
+import L from 'leaflet';
 
 class NewWindowControl extends MapControl {
   componentWillMount() {
     let that = this;
     this.leafletElement = L.easyButton(
-      "fa-external-link-square",
+      'fa-external-link-square',
       function(btn, map) {
         window.open(
           document.location.origin +
-            "/#" +
+            '/#' +
             that.props.routing.location.pathname +
             that.props.routing.location.search
         );

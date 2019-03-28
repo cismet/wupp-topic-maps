@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { OverlayTrigger, Well, Tooltip } from 'react-bootstrap';
 import Loadable from 'react-loading-overlay';
 import { Icon } from 'react-fa';
+/* eslint-disable jsx-a11y/anchor-is-valid */
 
 // Since this component is simple and static, there's no parent container for it.
 const BPlanInfo = ({
@@ -29,20 +30,29 @@ const BPlanInfo = ({
 	let planOrPlanteile_nrk;
 	let dokumentArt = '';
 
-	if (currentFeature.properties.plaene_rk.length + currentFeature.properties.plaene_nrk.length > 1) {
+	if (
+		currentFeature.properties.plaene_rk.length + currentFeature.properties.plaene_nrk.length >
+		1
+	) {
 		planOrPlaene = 'Pläne';
-		dokumentArt = 'PDF Dokument';
+		dokumentArt = 'PDF Dokumente';
 	} else {
 		planOrPlaene = 'Plan';
 		dokumentArt = 'PDF Dokument';
 	}
 
-	if (currentFeature.properties.plaene_rk.length > 1 || currentFeature.properties.plaene_rk.length === 0) {
+	if (
+		currentFeature.properties.plaene_rk.length > 1 ||
+		currentFeature.properties.plaene_rk.length === 0
+	) {
 		planOrPlanteile_rk = 'rechtskräftigen Planteilen';
 	} else {
 		planOrPlanteile_rk = 'rechtskräftigem Plan';
 	}
-	if (currentFeature.properties.plaene_nrk.length > 1 || currentFeature.properties.plaene_nrk.length === 0) {
+	if (
+		currentFeature.properties.plaene_nrk.length > 1 ||
+		currentFeature.properties.plaene_nrk.length === 0
+	) {
 		planOrPlanteile_nrk = 'nicht rechtskräftigen Planteilen';
 	} else {
 		planOrPlanteile_nrk = 'nicht rechtskräftigem Plan';
@@ -52,12 +62,6 @@ const BPlanInfo = ({
 	if (currentFeature.properties.plaene_nrk.length > 0) {
 		nichtRK = ' und ' + currentFeature.properties.plaene_nrk.length + ' ' + planOrPlanteile_nrk;
 	}
-
-	const planTooltip = (
-		<Tooltip style={{ zIndex: 3000000000 }} id="planTooltip">
-			{dokumentArt} mit {currentFeature.properties.plaene_rk.length + ' ' + planOrPlanteile_rk + nichtRK}
-		</Tooltip>
-	);
 
 	let docsEnabled;
 	let docOrDocs;
@@ -72,9 +76,26 @@ const BPlanInfo = ({
 		docOrDocs = 'Zusatzdokument';
 	}
 
+	let zusatzdokumente = '';
+	if (currentFeature.properties.docs.length > 0) {
+		zusatzdokumente = ' und ' + currentFeature.properties.docs.length + ' ' + docOrDocs;
+	}
+
+	const planTooltip = (
+		<Tooltip style={{ zIndex: 3000000000 }} id='planTooltip'>
+			{dokumentArt} mit{' '}
+			{currentFeature.properties.plaene_rk.length +
+				' ' +
+				planOrPlanteile_rk +
+				nichtRK +
+				zusatzdokumente}
+		</Tooltip>
+	);
+
 	const docsTooltip = (
-		<Tooltip style={{ zIndex: 3000000000 }} id="docsTooltip">
-			ZIP Archiv mit allen Plänen und {currentFeature.properties.docs.length + ' ' + docOrDocs}
+		<Tooltip style={{ zIndex: 3000000000 }} id='docsTooltip'>
+			ZIP Archiv mit allen Plänen und{' '}
+			{currentFeature.properties.docs.length + ' ' + docOrDocs}
 		</Tooltip>
 	);
 
@@ -82,7 +103,7 @@ const BPlanInfo = ({
 	if (docsEnabled) {
 		docDownload = (
 			<h6>
-				<OverlayTrigger placement="left" overlay={docsTooltip}>
+				<OverlayTrigger placement='left' overlay={docsTooltip}>
 					<a onClick={downloadEverything}>alles</a>
 				</OverlayTrigger>
 			</h6>
@@ -95,24 +116,24 @@ const BPlanInfo = ({
 	let status = currentFeature.properties.status;
 	//let rk=(<FontAwesome name='check-circle-o' />);
 	let rktt = (
-		<Tooltip style={{ zIndex: 3000000000 }} id="rktt">
+		<Tooltip style={{ zIndex: 3000000000 }} id='rktt'>
 			rechtswirksam
 		</Tooltip>
 	);
 	let nrktt = (
-		<Tooltip style={{ zIndex: 3000000000 }} id="nrktt">
+		<Tooltip style={{ zIndex: 3000000000 }} id='nrktt'>
 			laufendes Verfahren
 		</Tooltip>
 	);
 
 	let rk = (
-		<OverlayTrigger placement="top" overlay={rktt}>
-			<Icon style={{ color: 'green', opacity: 0.5 }} name="check-circle-o" />
+		<OverlayTrigger placement='top' overlay={rktt}>
+			<Icon style={{ color: 'green', opacity: 0.5 }} name='check-circle-o' />
 		</OverlayTrigger>
 	);
 	let nrk = (
-		<OverlayTrigger placement="top" overlay={nrktt}>
-			<Icon style={{ color: 'red', opacity: 0.5 }} name="times-circle-o" />
+		<OverlayTrigger placement='top' overlay={nrktt}>
+			<Icon style={{ color: 'red', opacity: 0.5 }} name='times-circle-o' />
 		</OverlayTrigger>
 	);
 	if (status === 'rechtskräftig') {
@@ -165,23 +186,31 @@ const BPlanInfo = ({
 				/>
 				<div style={{ position: 'absolute', top: 5, right: 5 }}>
 					{' '}
-					<a onClick={() => resetPreparedDownload()} style={{ color: 'rgba(255, 255, 255, 0.8)' }}>
-						<Icon name="close" />
+					<a
+						onClick={() => resetPreparedDownload()}
+						style={{ color: 'rgba(255, 255, 255, 0.8)' }}
+					>
+						<Icon name='close' />
 					</a>
 				</div>
 				<a
-					style={{ textAlign: 'center', verticalAlign: 'center', height: '100%', width: '100%' }}
+					style={{
+						textAlign: 'center',
+						verticalAlign: 'center',
+						height: '100%',
+						width: '100%'
+					}}
 					onClick={() => {
 						//downloadSingleFile(preparedDownload);
 						resetPreparedDownload();
 					}}
 					href={preparedDownload.url}
 					download={preparedDownload.file}
-					target="_blank"
+					target='_blank'
 				>
 					<h1>
-						<Icon name="arrow-circle-o-down" />
-						<Icon name="check" />
+						<Icon name='arrow-circle-o-down' />
+						<Icon name='check' />
 					</h1>
 				</a>
 
@@ -194,8 +223,9 @@ const BPlanInfo = ({
 					}}
 				>
 					<p style={{ paddingLeft: '8px', paddingRight: '8px', paddingBottom: '4px' }}>
-						Die Zusammenstellung Ihrer Dokumente kann jetzt abgeholt werden. Dazu einfach auf das
-						Downloadsymbol klicken oder alternativ den Prozess mit <Icon name="close" /> abbrechen.
+						Die Zusammenstellung Ihrer Dokumente kann jetzt abgeholt werden. Dazu
+						einfach auf das Downloadsymbol klicken oder alternativ den Prozess mit{' '}
+						<Icon name='close' /> abbrechen.
 					</p>
 				</div>
 			</div>
@@ -216,7 +246,7 @@ const BPlanInfo = ({
 			text={loadableText}
 			background={LoadableBackground}
 		>
-			<Well bsSize="small" onClick={logCurrentFeature}>
+			<Well bsSize='small' onClick={logCurrentFeature}>
 				<div>
 					<table border={0} style={{ width: '100%' }}>
 						<tbody>
@@ -226,7 +256,7 @@ const BPlanInfo = ({
 										textAlign: 'left',
 										verticalAlign: 'top',
 										padding: '5px',
-										maxWidth: '190px',
+										maxWidth: '160px',
 										overflowWrap: 'break-word'
 									}}
 								>
@@ -236,16 +266,27 @@ const BPlanInfo = ({
 									</h4>
 									<h6>{currentFeature.properties.name}</h6>
 								</td>
-								<td style={{ textAlign: 'right', verticalAlign: 'top', padding: '5px' }}>
-									<h4>
-										<Icon name="arrow-circle-o-down" />
-									</h4>
-									<h6>
-										<OverlayTrigger placement="left" overlay={planTooltip}>
-											<a onClick={downloadPlan}>{planOrPlaene}</a>
+								<td
+									style={{
+										textAlign: 'center',
+										verticalAlign: 'top',
+										padding: '5px',
+										paddingTop: '1px'
+									}}
+								>
+									<a style={{ color: '#333' }} onClick={downloadPlan}>
+										<h4 style={{ marginLeft: 5, marginRight: 5 }}>
+											<font size='30'>
+												<Icon
+													style={{ textDecoration: 'none' }}
+													name='file-pdf-o'
+												/>
+											</font>
+										</h4>
+										<OverlayTrigger placement='left' overlay={planTooltip}>
+											<div>Dokumente</div>
 										</OverlayTrigger>
-									</h6>
-									{docDownload}
+									</a>
 								</td>
 							</tr>
 						</tbody>
@@ -253,17 +294,23 @@ const BPlanInfo = ({
 					<br />
 					<table style={{ width: '100%' }}>
 						<tbody>
-							<tr >
+							<tr>
 								<td style={{ textAlign: 'left', verticalAlign: 'center' }}>
-									<a title="vorheriger Treffer" onClick={previous}>&lt;&lt;</a>
+									<a title='vorheriger Treffer' onClick={previous}>
+										&lt;&lt;
+									</a>
 								</td>
 
 								<td style={{ textAlign: 'center', verticalAlign: 'center' }}>
-									<a onClick={fitAll}>alle {featureCollection.length} Treffer anzeigen</a>
+									<a onClick={fitAll}>
+										alle {featureCollection.length} Treffer anzeigen
+									</a>
 								</td>
-									<td style={{ textAlign: 'right', verticalAlign: 'center' }}>
-										<a title="nächster Treffer" onClick={next}>&gt;&gt;</a>
-									</td>
+								<td style={{ textAlign: 'right', verticalAlign: 'center' }}>
+									<a title='nächster Treffer' onClick={next}>
+										&gt;&gt;
+									</a>
+								</td>
 							</tr>
 						</tbody>
 					</table>

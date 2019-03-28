@@ -1,10 +1,10 @@
-import React from "react";
-import Color from "color";
-import L from "leaflet";
-import createSVGPie from "create-svg-pie";
-import createElement from "svg-create-element";
-import { constants as kitasConstants } from "../redux/modules/kitas";
-import SVGInline from "react-svg-inline";
+import React from 'react';
+import Color from 'color';
+import L from 'leaflet';
+import createSVGPie from 'create-svg-pie';
+import createElement from 'svg-create-element';
+import { constants as kitasConstants } from '../redux/modules/kitas';
+import SVGInline from 'react-svg-inline';
 
 const childSVG = `
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 600">
@@ -16,7 +16,7 @@ const childSVG = `
 
 `;
 
-export const getChildSVG = (svgSize = 30, bg = "#FF0000") => {
+export const getChildSVG = (svgSize = 30, bg = '#FF0000') => {
   let bdim = {
     width: 24,
     height: 24
@@ -179,7 +179,7 @@ export const getKitaClusterIconCreatorFunction = (svgSize = 24, featureRendering
     const pie = createSVGPie(values, r, colors);
 
     let canvasSize = (svgSize / 3.0) * 5.0;
-    let background = createElement("svg", {
+    let background = createElement('svg', {
       width: canvasSize,
       height: canvasSize,
       viewBox: `0 0 ${canvasSize} ${canvasSize}`
@@ -187,19 +187,19 @@ export const getKitaClusterIconCreatorFunction = (svgSize = 24, featureRendering
 
     //Kleiner Kreis in der Mitte
     // (blau wenn selektion)
-    let innerCircleColor = "#ffffff";
+    let innerCircleColor = '#ffffff';
     if (containsSelection) {
-      innerCircleColor = "rgb(67, 149, 254)";
+      innerCircleColor = 'rgb(67, 149, 254)';
     }
 
     //inner circle
     pie.appendChild(
-      createElement("circle", {
+      createElement('circle', {
         cx: r,
         cy: r,
         r: svgSize / 3.0,
-        "stroke-width": 0,
-        opacity: "0.5",
+        'stroke-width': 0,
+        opacity: '0.5',
         fill: innerCircleColor
       })
     );
@@ -221,50 +221,50 @@ export const getKitaClusterIconCreatorFunction = (svgSize = 24, featureRendering
 
     // Umrandung
     background.appendChild(
-      createElement("circle", {
+      createElement('circle', {
         cx: canvasSize / 2.0,
         cy: canvasSize / 2.0,
         r: r,
-        "stroke-width": 2,
-        stroke: "#000000",
-        opacity: "0.5",
-        fill: "none"
+        'stroke-width': 2,
+        stroke: '#000000',
+        opacity: '0.5',
+        fill: 'none'
       })
     );
 
     if (inCart) {
       background
         .appendChild(
-          createElement("text", {
-            x: "50%",
-            y: "50%",
-            "text-anchor": "middle",
-            "font-family": "FontAwesome",
-            fill: "#fff",
-            "font-size": "26",
-            dy: ".4em",
-            opacity: "0.5"
+          createElement('text', {
+            x: '50%',
+            y: '50%',
+            'text-anchor': 'middle',
+            'font-family': 'FontAwesome',
+            fill: '#fff',
+            'font-size': '26',
+            dy: '.4em',
+            opacity: '0.5'
           })
         )
-        .appendChild(document.createTextNode("\uf005"));
+        .appendChild(document.createTextNode('\uf005'));
     }
 
     background
       .appendChild(
-        createElement("text", {
-          x: "50%",
-          y: "50%",
-          "text-anchor": "middle",
-          dy: ".3em"
+        createElement('text', {
+          x: '50%',
+          y: '50%',
+          'text-anchor': 'middle',
+          dy: '.3em'
         })
       )
       .appendChild(document.createTextNode(childCount));
 
-    pie.setAttribute("x", (canvasSize - r * 2) / 2.0);
-    pie.setAttribute("y", (canvasSize - r * 2) / 2.0);
+    pie.setAttribute('x', (canvasSize - r * 2) / 2.0);
+    pie.setAttribute('y', (canvasSize - r * 2) / 2.0);
 
     var divIcon = L.divIcon({
-      className: "leaflet-data-marker",
+      className: 'leaflet-data-marker',
       html: background.outerHTML || new XMLSerializer().serializeToString(background), //IE11 Compatibility
       iconAnchor: [canvasSize / 2.0, canvasSize / 2.0],
       iconSize: [canvasSize, canvasSize]
@@ -278,19 +278,19 @@ const opts = [];
 const kC = kitasConstants;
 
 opts.push({});
-opts[opts.length - 1][kC.TRAEGERTYP.indexOf(kC.TRAEGERTYP_STAEDTISCH)] = "#00A0B0";
-opts[opts.length - 1][kC.TRAEGERTYP.indexOf(kC.TRAEGERTYP_ANDERE)] = "#A1BBC1";
-opts[opts.length - 1][kC.TRAEGERTYP.indexOf(kC.TRAEGERTYP_BETRIEBSKITA)] = "#594F4F";
-opts[opts.length - 1][kC.TRAEGERTYP.indexOf(kC.TRAEGERTYP_ELTERNINITIATIVE)] = "#9DE0AD";
-opts[opts.length - 1][kC.TRAEGERTYP.indexOf(kC.TRAEGERTYP_KATHOLISCH)] = "#7FBCB5";
-opts[opts.length - 1][kC.TRAEGERTYP.indexOf(kC.TRAEGERTYP_EVANGELISCH)] = "#547980";
+opts[opts.length - 1][kC.TRAEGERTYP.indexOf(kC.TRAEGERTYP_STAEDTISCH)] = '#00A0B0';
+opts[opts.length - 1][kC.TRAEGERTYP.indexOf(kC.TRAEGERTYP_ANDERE)] = '#A1BBC1';
+opts[opts.length - 1][kC.TRAEGERTYP.indexOf(kC.TRAEGERTYP_BETRIEBSKITA)] = '#594F4F';
+opts[opts.length - 1][kC.TRAEGERTYP.indexOf(kC.TRAEGERTYP_ELTERNINITIATIVE)] = '#9DE0AD';
+opts[opts.length - 1][kC.TRAEGERTYP.indexOf(kC.TRAEGERTYP_KATHOLISCH)] = '#7FBCB5';
+opts[opts.length - 1][kC.TRAEGERTYP.indexOf(kC.TRAEGERTYP_EVANGELISCH)] = '#547980';
 
 export const getColorForProperties = (properties, featureRendering) => {
   if (featureRendering === kitasConstants.FEATURE_RENDERING_BY_PROFIL) {
     if (properties.plaetze_fuer_behinderte === true) {
-      return "#00B4CC";
+      return '#00B4CC';
     } else {
-      return "#A83F6A";
+      return '#A83F6A';
     }
   } else if (featureRendering === kitasConstants.FEATURE_RENDERING_BY_TRAEGERTYP) {
     const lookup = opts[0];
@@ -298,7 +298,7 @@ export const getColorForProperties = (properties, featureRendering) => {
     if (color) {
       return color;
     } else {
-      return "#AAAAAA";
+      return '#AAAAAA';
     }
   } else if (featureRendering === kitasConstants.FEATURE_RENDERING_BY_TRAEGERTYP2) {
     const lookup = opts[1];
@@ -306,7 +306,7 @@ export const getColorForProperties = (properties, featureRendering) => {
     if (color) {
       return color;
     } else {
-      return "#AAAAAA";
+      return '#AAAAAA';
     }
   } else if (featureRendering === kitasConstants.FEATURE_RENDERING_BY_TRAEGERTYP3) {
     const lookup = opts[2];
@@ -314,36 +314,36 @@ export const getColorForProperties = (properties, featureRendering) => {
     if (color) {
       return color;
     } else {
-      return "#AAAAAA";
+      return '#AAAAAA';
     }
   } else {
-    return "#333333";
+    return '#333333';
   }
 };
 
 export const getAgeString = properties => {
   switch (kitasConstants.ALTER[properties.alter]) {
     case kitasConstants.ALTER_UNTER2:
-      return "unter 2 Jahre";
+      return 'unter 2 Jahre';
     case kitasConstants.ALTER_AB2:
-      return "ab 2 Jahre";
+      return 'ab 2 Jahre';
     case kitasConstants.ALTER_AB3:
-      return "ab 3 Jahre";
+      return 'ab 3 Jahre';
     default:
-      return "keine Angabe";
+      return 'keine Angabe';
   }
 };
 
 export const getHoursString = properties => {
   switch (kitasConstants.STUNDEN[properties.stunden]) {
     case kitasConstants.STUNDEN_NUR_35:
-      return "nur 35h pro Woche";
+      return 'nur 35h pro Woche';
     case kitasConstants.STUNDEN_NUR_35_u_45:
-      return "35h oder 45h pro Woche";
+      return '35h oder 45h pro Woche';
     case kitasConstants.STUNDEN_NUR_45:
-      return "nur 45h pro Woche";
+      return 'nur 45h pro Woche';
     default:
-      return "keine Angabe";
+      return 'keine Angabe';
   }
 };
 
@@ -351,56 +351,56 @@ export const getDescription = properties => {
   switch (kitasConstants.TRAEGERTYP[properties.traegertyp]) {
     case kitasConstants.TRAEGERTYP_STAEDTISCH:
       return (
-        "Kindertageseinrichtung mit " + properties.plaetze + " Plätzen in städtischer Trägerschaft"
+        'Kindertageseinrichtung mit ' + properties.plaetze + ' Plätzen in städtischer Trägerschaft'
       );
     case kitasConstants.TRAEGERTYP_EVANGELISCH:
       return (
-        "Kindertageseinrichtung mit " +
+        'Kindertageseinrichtung mit ' +
         properties.plaetze +
-        " Plätzen in kirchlicher Trägerschaft (evangelisch)"
+        ' Plätzen in kirchlicher Trägerschaft (evangelisch)'
       );
     case kitasConstants.TRAEGERTYP_KATHOLISCH:
       return (
-        "Kindertageseinrichtung mit " +
+        'Kindertageseinrichtung mit ' +
         properties.plaetze +
-        " Plätzen in kirchlicher Trägerschaft (katholisch)"
+        ' Plätzen in kirchlicher Trägerschaft (katholisch)'
       );
     case kitasConstants.TRAEGERTYP_ELTERNINITIATIVE:
       return (
-        "Kindertageseinrichtung mit " +
+        'Kindertageseinrichtung mit ' +
         properties.plaetze +
-        " Plätzen in Trägerschaft einer Elterninitiative"
+        ' Plätzen in Trägerschaft einer Elterninitiative'
       );
     case kitasConstants.TRAEGERTYP_ANDERE:
-      return "Kindertageseinrichtung mit " + properties.plaetze + " Plätzen in freier Trägerschaft";
+      return 'Kindertageseinrichtung mit ' + properties.plaetze + ' Plätzen in freier Trägerschaft';
     case kitasConstants.TRAEGERTYP_BETRIEBSKITA:
-      return "Betriebskindertageseinrichtung mit " + properties.plaetze + " Plätzen";
+      return 'Betriebskindertageseinrichtung mit ' + properties.plaetze + ' Plätzen';
     default:
-      return "keine Angabe";
+      return 'keine Angabe';
   }
 };
 
 export const featureHoverer = feature => {
-  return "<div>" + feature.properties.kurzname + "</div>";
+  return '<div>' + feature.properties.kurzname + '</div>';
 };
 
 export const getFilterDescription = filter => {
   let profileDesc;
   let ageDesc;
   let umfangDesc;
-  let traegerDesc = "";
+  let traegerDesc = '';
 
   const chkProfilInklusion = filter.profil.indexOf(kitasConstants.PROFIL_INKLUSION) !== -1;
   const chkProfilNormal = filter.profil.indexOf(kitasConstants.PROFIL_NORMAL) !== -1;
 
   if (chkProfilInklusion && chkProfilNormal) {
-    profileDesc = "alle Kitas";
+    profileDesc = 'alle Kitas';
   } else if (chkProfilInklusion) {
-    profileDesc = "Kitas mit Schwerpunkt Inklusion";
+    profileDesc = 'Kitas mit Schwerpunkt Inklusion';
   } else if (chkProfilNormal) {
-    profileDesc = "Kitas ohne Schwerpunkt Inklusion";
+    profileDesc = 'Kitas ohne Schwerpunkt Inklusion';
   } else {
-    return "Kein Kita-Profil ausgewählt.";
+    return 'Kein Kita-Profil ausgewählt.';
   }
 
   if (filter.traeger.length < kitasConstants.TRAEGERTYP.length) {
@@ -417,19 +417,19 @@ export const getFilterDescription = filter => {
 
     if (filter.traeger.length > 3) {
       traegerDesc =
-        "| ohne " +
+        '| ohne ' +
         Array.from(remainingTraeger)
           .map(t => kitasConstants.TRAEGERTEXT_FOR_DESCRIPTION[t])
-          .join(" und ");
+          .join(' und ');
     } else {
       let joiner;
       if (filteredTraeger.size === 2) {
-        joiner = " und ";
+        joiner = ' und ';
       } else {
-        joiner = ", ";
+        joiner = ', ';
       }
       traegerDesc =
-        "| nur " +
+        '| nur ' +
         Array.from(filteredTraeger)
           .map(t => kitasConstants.TRAEGERTEXT_FOR_DESCRIPTION[t])
           .join(joiner);
@@ -441,24 +441,24 @@ export const getFilterDescription = filter => {
   //onst radioAgeAb3=(filter.profil.indexOf(kitasConstants.ALTER_AB3) !== -1);
 
   if (radioAgeUnter2) {
-    ageDesc = "Kinder unter 2 Jahre";
+    ageDesc = 'Kinder unter 2 Jahre';
   } else if (radioAgeAb2) {
-    ageDesc = "Kinder ab 2 Jahre";
+    ageDesc = 'Kinder ab 2 Jahre';
   } else {
-    ageDesc = "Kinder ab 3 Jahre";
+    ageDesc = 'Kinder ab 3 Jahre';
   }
 
   const chkUmfang35h = filter.umfang.indexOf(kitasConstants.STUNDEN_FILTER_35) !== -1;
   const chkUmfang45h = filter.umfang.indexOf(kitasConstants.STUNDEN_FILTER_45) !== -1;
 
   if (chkUmfang35h && chkUmfang45h) {
-    umfangDesc = "35h oder 45h pro Woche";
+    umfangDesc = '35h oder 45h pro Woche';
   } else if (chkUmfang35h) {
-    umfangDesc = "35h pro Woche";
+    umfangDesc = '35h pro Woche';
   } else if (chkUmfang45h) {
-    umfangDesc = "45h pro Woche";
+    umfangDesc = '45h pro Woche';
   } else {
-    return "Kein Stundenumfang ausgewählt.";
+    return 'Kein Stundenumfang ausgewählt.';
   }
 
   return `${profileDesc} ${traegerDesc} | ${ageDesc} | ${umfangDesc}`;

@@ -6,6 +6,9 @@ import { triggerLightBoxForPOI } from '../../utils/stadtplanHelper';
 import { Well } from 'react-bootstrap';
 import { Icon } from 'react-fa';
 import IconLink from '../commons/IconLink';
+
+/* eslint-disable jsx-a11y/anchor-is-valid */
+
 // Since this component is simple and static, there's no parent container for it.
 const BaederInfo = ({
 	featureCollection,
@@ -43,9 +46,9 @@ const BaederInfo = ({
 			links.push(
 				<IconLink
 					key={`IconLink.tel`}
-					tooltip="Anrufen"
+					tooltip='Anrufen'
 					href={'tel:' + currentFeature.properties.tel}
-					iconname="phone"
+					iconname='phone'
 				/>
 			);
 		}
@@ -53,9 +56,9 @@ const BaederInfo = ({
 			links.push(
 				<IconLink
 					key={`IconLink.email`}
-					tooltip="E-Mail schreiben"
+					tooltip='E-Mail schreiben'
 					href={'mailto:' + currentFeature.properties.email}
-					iconname="envelope-square"
+					iconname='envelope-square'
 				/>
 			);
 		}
@@ -63,10 +66,10 @@ const BaederInfo = ({
 			links.push(
 				<IconLink
 					key={`IconLink.web`}
-					tooltip="Zur Homepage"
+					tooltip='Zur Homepage'
 					href={currentFeature.properties.url}
-					target="_blank"
-					iconname="external-link-square"
+					target='_blank'
+					iconname='external-link-square'
 				/>
 			);
 		}
@@ -74,10 +77,10 @@ const BaederInfo = ({
 			links.push(
 				<IconLink
 					key={`IconLink.coursemanager`}
-					tooltip="Kurs buchen"
+					tooltip='Kurs buchen'
 					href={currentFeature.properties.more.coursemanager}
-					target="coursemanager"
-					iconname="calendar"
+					target='coursemanager'
+					iconname='calendar'
 				/>
 			);
 		}
@@ -94,17 +97,20 @@ const BaederInfo = ({
 									onClick={() => {
 										triggerLightBoxForPOI(currentFeature, uiStateActions);
 									}}
-									hrefx={currentFeature.properties.fotostrecke || currentFeature.properties.foto}
-									target="_fotos"
+									hrefx={
+										currentFeature.properties.fotostrecke ||
+										currentFeature.properties.foto
+									}
+									target='_fotos'
 								>
 									<img
-										alt="Bild"
+										alt='Bild'
 										style={{ paddingBottom: '5px' }}
 										src={currentFeature.properties.foto.replace(
 											/http:\/\/.*fotokraemer-wuppertal\.de/,
 											'https://wunda-geoportal-fotos.cismet.de/'
 										)}
-										width="150"
+										width='150'
 									/>
 								</a>
 							</td>
@@ -137,7 +143,8 @@ const BaederInfo = ({
 				subtitle={adresse}
 				additionalInfo={info}
 				zoomToAllLabel={`${items.length} Bäder in Wuppertal`}
-				currentlyShownCountLabel={`${featureCollection.length} ${featureCollection.length === 1
+				currentlyShownCountLabel={`${featureCollection.length} ${featureCollection.length ===
+				1
 					? 'Bad'
 					: 'Bäder'} angezeigt`}
 				fotoPreview={fotoPreview}
@@ -145,13 +152,13 @@ const BaederInfo = ({
 		);
 	} else {
 		return (
-			<Well bsSize="small" pixelwidth={250}>
+			<Well bsSize='small' pixelwidth={250}>
 				<h5>Keine Bäder gefunden!</h5>
 				<p>
-					Für mehr Bäder, Ansicht mit <Icon name="minus-square" /> verkleinern oder mit dem untenstehenden
-					Link auf das komplette Stadtgebiet zoomen.
+					Für mehr Bäder, Ansicht mit <Icon name='minus-square' /> verkleinern oder mit
+					dem untenstehenden Link auf das komplette Stadtgebiet zoomen.
 				</p>
-				<div align="center">
+				<div align='center'>
 					<a onClick={fitAll}>{items.length} Bäder in Wuppertal</a>
 				</div>
 			</Well>

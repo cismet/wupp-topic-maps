@@ -1,28 +1,28 @@
-import React from "react";
-import PropTypes from "prop-types";
-import Cismap from "../containers/Cismap";
+import React from 'react';
+import PropTypes from 'prop-types';
+import Cismap from '../containers/Cismap';
 
-import { connect } from "react-redux";
-import { Tooltip } from "react-bootstrap";
+import { connect } from 'react-redux';
+import { Tooltip } from 'react-bootstrap';
 
-import { actions as mappingActions } from "../redux/modules/mapping";
-import { actions as uiStateActions } from "../redux/modules/uiState";
+import { actions as mappingActions } from '../redux/modules/mapping';
+import { actions as uiStateActions } from '../redux/modules/uiState';
 import {
   actions as ehrenamtActions,
   constants as ehrenamtConstants
-} from "../redux/modules/ehrenamt";
-import { routerActions } from "react-router-redux";
+} from '../redux/modules/ehrenamt';
+import { routerActions } from 'react-router-redux';
 
-import { bindActionCreators } from "redux";
-import EhrenamtModalApplicationMenu from "../components/EhrenamtModalApplicationMenu";
-import EhrenamtInfo from "../components/EhrenamtInfo";
+import { bindActionCreators } from 'redux';
+import EhrenamtModalApplicationMenu from '../components/EhrenamtModalApplicationMenu';
+import EhrenamtInfo from '../components/EhrenamtInfo';
 
-import { featureStyler, featureHoverer, ehrenAmtClusterIconCreator } from "../utils/ehrenamtHelper";
+import { featureStyler, featureHoverer, ehrenAmtClusterIconCreator } from '../utils/ehrenamtHelper';
 
-import Loadable from "react-loading-overlay";
-import queryString from "query-string";
+import Loadable from 'react-loading-overlay';
+import queryString from 'query-string';
 
-import { modifyQueryPart } from "../utils/routingHelper";
+import { modifyQueryPart } from '../utils/routingHelper';
 
 function mapStateToProps(state) {
   return {
@@ -63,6 +63,10 @@ export class Ehrenamt_ extends React.Component {
       this.createfeatureCollectionByBoundingBox
     );
   }
+
+  componentDidMount() {
+    document.title = 'Ehrenamtskarte Wuppertal';
+  }
   componentWillUnmount() {
     // console.log("Ehrenamt unmount")
   }
@@ -73,7 +77,7 @@ export class Ehrenamt_ extends React.Component {
     this.loadTheOffers().then(data => {
       this.dataLoaded = true;
     });
-    this.props.uiStateActions.setApplicationMenuActiveKey("filtertab");
+    this.props.uiStateActions.setApplicationMenuActiveKey('filtertab');
   }
   componentWillUpdate() {
     if (this.props.ehrenamt.offers.length === 0) {
@@ -82,7 +86,7 @@ export class Ehrenamt_ extends React.Component {
     let urlCart = queryString.parse(this.props.routing.location.search).cart;
     let urlCartIds = new Set();
     if (urlCart) {
-      urlCartIds = new Set(urlCart.split(",").sort((a, b) => parseInt(a, 10) - parseInt(b, 10)));
+      urlCartIds = new Set(urlCart.split(',').sort((a, b) => parseInt(a, 10) - parseInt(b, 10)));
     }
     let cartIds = new Set(
       this.props.ehrenamt.cart.map(x => x.id).sort((a, b) => parseInt(a, 10) - parseInt(b, 10))
@@ -101,15 +105,15 @@ export class Ehrenamt_ extends React.Component {
 
     if (urlCart !== newUrlCart && newUrlCart.length > 0) {
       let pn = this.props.routing.location.pathname;
-      if (pn.indexOf("ehrenamt") === -1) {
-        pn = "/ehrenamt"; //in certain conditions the pathname does not contain ehrenamt. fix that.
+      if (pn.indexOf('ehrenamt') === -1) {
+        pn = '/ehrenamt'; //in certain conditions the pathname does not contain ehrenamt. fix that.
       }
       let newRoute =
         pn +
         modifyQueryPart(this.props.routing.location.search, {
           cart: newUrlCart
         });
-      console.log("push new route:" + newRoute);
+      console.log('push new route:' + newRoute);
       this.props.routingActions.push(newRoute);
     }
   }
@@ -118,7 +122,7 @@ export class Ehrenamt_ extends React.Component {
     var promise = new Promise((resolve, reject) => {
       setTimeout(() => {
         this.props.ehrenamtActions.loadOffers();
-        resolve("ok");
+        resolve('ok');
       }, 100);
     });
     return promise;
@@ -184,9 +188,9 @@ export class Ehrenamt_ extends React.Component {
     info = (
       <EhrenamtInfo
         key={
-          "ehrenamtInfo." +
+          'ehrenamtInfo.' +
           (this.props.mapping.selectedIndex || 0) +
-          ".cart:+JSON.stringify(this.props.ehrenamt.cart"
+          '.cart:+JSON.stringify(this.props.ehrenamt.cart'
         }
         pixelwidth={250}
         featureCollection={this.props.mapping.featureCollection}
@@ -224,7 +228,7 @@ export class Ehrenamt_ extends React.Component {
     return (
       <div>
         <EhrenamtModalApplicationMenu
-          key={"EhrenamtModalApplicationMenu.visible:" + this.props.uiState.applicationMenuVisible}
+          key={'EhrenamtModalApplicationMenu.visible:' + this.props.uiState.applicationMenuVisible}
           zielgruppen={this.props.ehrenamt.zielgruppen}
           kenntnisse={this.props.ehrenamt.kenntnisse}
           globalbereiche={this.props.ehrenamt.globalbereiche}
@@ -240,7 +244,7 @@ export class Ehrenamt_ extends React.Component {
             ref={cismap => {
               this.cismapRef = cismap;
             }}
-            layers={this.props.match.params.layers || "wupp-plan-live@75"}
+            layers={this.props.match.params.layers || 'wupp-plan-live@75'}
             gazeteerHitTrigger={this.gazeteerhHit}
             searchButtonTrigger={this.searchButtonHit}
             featureStyler={featureStyler}
@@ -250,7 +254,7 @@ export class Ehrenamt_ extends React.Component {
             searchTooltipProvider={this.searchTooltip}
             searchMinZoom={99}
             searchMaxZoom={98}
-            gazTopics={["pois", "bezirke", "quartiere", "adressen"]}
+            gazTopics={['pois', 'bezirke', 'quartiere', 'adressen']}
             clustered={true}
             clusterOptions={{
               spiderfyOnMaxZoom: false,

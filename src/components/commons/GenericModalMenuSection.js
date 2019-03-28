@@ -1,5 +1,5 @@
-import React from "react";
-import { Accordion, Panel } from "react-bootstrap";
+import React from 'react';
+import { Accordion, Panel } from 'react-bootstrap';
 
 const GenericModalMenuSection = ({
   sectionKey,
@@ -13,11 +13,11 @@ const GenericModalMenuSection = ({
     <Accordion
       key={sectionKey}
       name={sectionKey}
-      style={{marginBottom:6}}
+      style={{ marginBottom: 6 }}
       defaultActiveKey={uiState.applicationMenuActiveKey || sectionKey}
       onSelect={() => {
         if (uiState.applicationMenuActiveKey === sectionKey) {
-          uiStateActions.setApplicationMenuActiveKey("none");
+          uiStateActions.setApplicationMenuActiveKey('none');
         } else {
           uiStateActions.setApplicationMenuActiveKey(sectionKey);
         }

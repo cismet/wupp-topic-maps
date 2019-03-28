@@ -1,38 +1,38 @@
-import objectAssign from "object-assign";
-import { actions as mappingActions } from "./mapping";
-import kdbush from "kdbush";
-import queryString from "query-string";
+import objectAssign from 'object-assign';
+import { actions as mappingActions } from './mapping';
+import kdbush from 'kdbush';
+import queryString from 'query-string';
 
 //TYPES
 export const types = {
-  SET_KITAS: "KITAS/SET_KITAS",
-  SET_KITA_GAZ_HIT: "KITAS/SET_KITA_GAZ_HIT",
-  CLEAR_KITA_GAZ_HIT: "KITAS/CLEAR_KITA_GAZ_HIT",
-  SET_FILTERED_KITAS: "KITAS/SET_FILTERED_KITAS",
-  SET_FILTER: "KITAS/SET_FILTER",
-  SET_SVG_SIZE: "KITAS/SET_SVG_SIZE",
-  SET_FEATURE_RENDERING: "KITAS/SET_FEATURE_RENDERING"
+  SET_KITAS: 'KITAS/SET_KITAS',
+  SET_KITA_GAZ_HIT: 'KITAS/SET_KITA_GAZ_HIT',
+  CLEAR_KITA_GAZ_HIT: 'KITAS/CLEAR_KITA_GAZ_HIT',
+  SET_FILTERED_KITAS: 'KITAS/SET_FILTERED_KITAS',
+  SET_FILTER: 'KITAS/SET_FILTER',
+  SET_SVG_SIZE: 'KITAS/SET_SVG_SIZE',
+  SET_FEATURE_RENDERING: 'KITAS/SET_FEATURE_RENDERING'
 };
 
 export const constants = {
-  TRAEGERTYP_ANDERE: "KITAS/CONSTS/TRAEGERTYP_ANDERE",
-  TRAEGERTYP_BETRIEBSKITA: "KITAS/CONSTS/TRAEGERTYP_BETRIEBSKITA",
-  TRAEGERTYP_STAEDTISCH: "KITAS/CONSTS/TRAEGERTYP_STAEDTISCH",
-  TRAEGERTYP_ELTERNINITIATIVE: "KITAS/CONSTS/TRAEGERTYP_ELTERNINITIATIVE",
-  TRAEGERTYP_EVANGELISCH: "KITAS/CONSTS/TRAEGERTYP_EVANGELISCH",
-  TRAEGERTYP_KATHOLISCH: "KITAS/CONSTS/TRAEGERTYP_KATHOLISCH",
-  ALTER_UNTER2: "KITAS/CONSTS/ALTER_UNTER2",
-  ALTER_AB2: "KITAS/CONSTS/ALTER_AB2",
-  ALTER_AB3: "KITAS/CONSTS/ALTER_AB3",
-  STUNDEN_NUR_35: "KITAS/CONSTS/STUNDEN_NUR_35",
-  STUNDEN_NUR_35_u_45: "KITAS/CONSTS/STUNDEN_NUR_35_u_45",
-  STUNDEN_NUR_45: "KITAS/CONSTS/STUNDEN_NUR_45",
-  PROFIL_INKLUSION: "KITAS/CONSTS/PROFIL_INKLUSION",
-  PROFIL_NORMAL: "KITAS/CONSTS/PROFIL_NORMAL",
-  STUNDEN_FILTER_35: "KITAS/CONSTS/STUNDEN_FILTER_35",
-  STUNDEN_FILTER_45: "KITAS/CONSTS/STUNDEN_FILTER_45",
-  FEATURE_RENDERING_BY_PROFIL: "KITAS/CONSTS/FEATURE_RENDERING_BY_PROFIL",
-  FEATURE_RENDERING_BY_TRAEGERTYP: "KITAS/CONSTS/FEATURE_RENDERING_BY_TRAEGERTYP",
+  TRAEGERTYP_ANDERE: 'KITAS/CONSTS/TRAEGERTYP_ANDERE',
+  TRAEGERTYP_BETRIEBSKITA: 'KITAS/CONSTS/TRAEGERTYP_BETRIEBSKITA',
+  TRAEGERTYP_STAEDTISCH: 'KITAS/CONSTS/TRAEGERTYP_STAEDTISCH',
+  TRAEGERTYP_ELTERNINITIATIVE: 'KITAS/CONSTS/TRAEGERTYP_ELTERNINITIATIVE',
+  TRAEGERTYP_EVANGELISCH: 'KITAS/CONSTS/TRAEGERTYP_EVANGELISCH',
+  TRAEGERTYP_KATHOLISCH: 'KITAS/CONSTS/TRAEGERTYP_KATHOLISCH',
+  ALTER_UNTER2: 'KITAS/CONSTS/ALTER_UNTER2',
+  ALTER_AB2: 'KITAS/CONSTS/ALTER_AB2',
+  ALTER_AB3: 'KITAS/CONSTS/ALTER_AB3',
+  STUNDEN_NUR_35: 'KITAS/CONSTS/STUNDEN_NUR_35',
+  STUNDEN_NUR_35_u_45: 'KITAS/CONSTS/STUNDEN_NUR_35_u_45',
+  STUNDEN_NUR_45: 'KITAS/CONSTS/STUNDEN_NUR_45',
+  PROFIL_INKLUSION: 'KITAS/CONSTS/PROFIL_INKLUSION',
+  PROFIL_NORMAL: 'KITAS/CONSTS/PROFIL_NORMAL',
+  STUNDEN_FILTER_35: 'KITAS/CONSTS/STUNDEN_FILTER_35',
+  STUNDEN_FILTER_45: 'KITAS/CONSTS/STUNDEN_FILTER_45',
+  FEATURE_RENDERING_BY_PROFIL: 'KITAS/CONSTS/FEATURE_RENDERING_BY_PROFIL',
+  FEATURE_RENDERING_BY_TRAEGERTYP: 'KITAS/CONSTS/FEATURE_RENDERING_BY_TRAEGERTYP',
   TRAEGERTEXT: {},
   TRAEGERTEXT_FOR_DESCRIPTION: {}
 };
@@ -52,28 +52,28 @@ constants.STUNDEN = [
   constants.STUNDEN_NUR_45
 ];
 
-constants.TRAEGERTEXT[constants.TRAEGERTYP_ANDERE] = "andere freie Träger";
-constants.TRAEGERTEXT[constants.TRAEGERTYP_BETRIEBSKITA] = "Betrieb";
-constants.TRAEGERTEXT[constants.TRAEGERTYP_STAEDTISCH] = "städtisch";
-constants.TRAEGERTEXT[constants.TRAEGERTYP_ELTERNINITIATIVE] = "Elterninitiative";
-constants.TRAEGERTEXT[constants.TRAEGERTYP_EVANGELISCH] = "evangelisch";
-constants.TRAEGERTEXT[constants.TRAEGERTYP_KATHOLISCH] = "katholisch";
+constants.TRAEGERTEXT[constants.TRAEGERTYP_ANDERE] = 'andere freie Träger';
+constants.TRAEGERTEXT[constants.TRAEGERTYP_BETRIEBSKITA] = 'Betrieb';
+constants.TRAEGERTEXT[constants.TRAEGERTYP_STAEDTISCH] = 'städtisch';
+constants.TRAEGERTEXT[constants.TRAEGERTYP_ELTERNINITIATIVE] = 'Elterninitiative';
+constants.TRAEGERTEXT[constants.TRAEGERTYP_EVANGELISCH] = 'evangelisch';
+constants.TRAEGERTEXT[constants.TRAEGERTYP_KATHOLISCH] = 'katholisch';
 
 constants.TRAEGERTEXT_FOR_DESCRIPTION[constants.TRAEGERTYP_ANDERE] =
-  "andere Einrichtungen in freier Trägerschaft";
-constants.TRAEGERTEXT_FOR_DESCRIPTION[constants.TRAEGERTYP_BETRIEBSKITA] = "Betriebskitas";
-constants.TRAEGERTEXT_FOR_DESCRIPTION[constants.TRAEGERTYP_STAEDTISCH] = "städtische Einrichtungen";
-constants.TRAEGERTEXT_FOR_DESCRIPTION[constants.TRAEGERTYP_ELTERNINITIATIVE] = "Elterninitiativen";
+  'andere Einrichtungen in freier Trägerschaft';
+constants.TRAEGERTEXT_FOR_DESCRIPTION[constants.TRAEGERTYP_BETRIEBSKITA] = 'Betriebskitas';
+constants.TRAEGERTEXT_FOR_DESCRIPTION[constants.TRAEGERTYP_STAEDTISCH] = 'städtische Einrichtungen';
+constants.TRAEGERTEXT_FOR_DESCRIPTION[constants.TRAEGERTYP_ELTERNINITIATIVE] = 'Elterninitiativen';
 constants.TRAEGERTEXT_FOR_DESCRIPTION[constants.TRAEGERTYP_EVANGELISCH] =
-  "evangelische Einrichtungen";
+  'evangelische Einrichtungen';
 constants.TRAEGERTEXT_FOR_DESCRIPTION[constants.TRAEGERTYP_KATHOLISCH] =
-  "katholische Einrichtungen";
+  'katholische Einrichtungen';
 
 ///INITIAL STATE
 const initialState = {
   kitas: [],
   kitaGazHitId: null,
-  kitasMD5: "",
+  kitasMD5: '',
   filteredKitas: [],
   filteredKitasIndex: null,
   filter: {
@@ -186,14 +186,14 @@ function loadKitas() {
     let currentKita = null;
     const state = getState();
     let noCacheHeaders = new Headers();
-    noCacheHeaders.append("pragma", "no-cache");
-    noCacheHeaders.append("cache-control", "no-cache");
+    noCacheHeaders.append('pragma', 'no-cache');
+    noCacheHeaders.append('cache-control', 'no-cache');
 
     const manualReloadRequested =
       queryString.parse(state.routing.location.search).alwaysRefreshKitasOnReload !== undefined;
 
-    return fetch("/kitas/kitas.data.json.md5", {
-      method: "get",
+    return fetch('/kitas/kitas.data.json.md5', {
+      method: 'get',
       headers: noCacheHeaders
     })
       .then(response => {
@@ -206,21 +206,21 @@ function loadKitas() {
       .then(md5value => {
         md5 = md5value.trim();
         if (manualReloadRequested) {
-          console.log("Fetch Kitas because of alwaysRefreshKitasOnReload Parameter");
-          return "fetchit";
+          console.log('Fetch Kitas because of alwaysRefreshKitasOnReload Parameter');
+          return 'fetchit';
         }
 
         if (md5 === state.kitas.kitasMD5 && constants.DEBUG_ALWAYS_LOADING === false) {
           dispatch(applyFilter());
           dispatch(createFeatureCollectionFromKitas());
-          throw "CACHEHIT";
+          throw 'CACHEHIT';
         } else {
-          return "fetchit";
+          return 'fetchit';
         }
       })
       .then(fetchit => {
-        return fetch("/kitas/kitas.data.json", {
-          method: "get",
+        return fetch('/kitas/kitas.data.json', {
+          method: 'get',
           headers: noCacheHeaders
         });
       })
@@ -237,8 +237,8 @@ function loadKitas() {
         dispatch(createFeatureCollectionFromKitas());
       })
       .catch(function(err) {
-        if (err !== "CACHEHIT") {
-          console.log("Problem during KitasLoading");
+        if (err !== 'CACHEHIT') {
+          console.log('Problem during KitasLoading');
           console.log(currentKita);
           console.log(err);
         }
@@ -430,7 +430,7 @@ export const actions = {
 //HELPER FUNCTIONS
 function convertKitaToFeature(kita, index) {
   const id = kita.id;
-  const type = "Feature";
+  const type = 'Feature';
   const selected = false;
   const geometry = kita.geojson;
   const text = kita.name;
@@ -443,9 +443,9 @@ function convertKitaToFeature(kita, index) {
     selected,
     geometry,
     crs: {
-      type: "name",
+      type: 'name',
       properties: {
-        name: "urn:ogc:def:crs:EPSG::25832"
+        name: 'urn:ogc:def:crs:EPSG::25832'
       }
     },
     properties: kita

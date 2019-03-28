@@ -1,11 +1,11 @@
-import React from "react";
-import { connect } from "react-redux";
-import ReactLoading from "react-loading";
-import { bindActionCreators } from "redux";
-import { routerActions } from "react-router-redux";
-import { resetAll } from "../redux/reducer";
-import queryString from "query-string";
-import { actions as UiStateActions } from "../redux/modules/uiState";
+import React from 'react';
+import { connect } from 'react-redux';
+import ReactLoading from 'react-loading';
+import { bindActionCreators } from 'redux';
+import { routerActions } from 'react-router-redux';
+import { resetAll } from '../redux/reducer';
+import queryString from 'query-string';
+import { actions as UiStateActions } from '../redux/modules/uiState';
 
 function mapStateToProps(state) {
   return {
@@ -29,10 +29,10 @@ export class Reset_ extends React.Component {
         <main>
           <ReactLoading
             style={{
-              margin: "auto",
-              width: "30%",
-              height: "60%",
-              padding: "50px"
+              margin: 'auto',
+              width: '30%',
+              height: '60%',
+              padding: '50px'
             }}
             type="spin"
             color="#444"
@@ -48,15 +48,15 @@ export class Reset_ extends React.Component {
     const uiActions = this.props.uiStateActions;
     let pushRoute = this.props.routingActions.push;
     setTimeout(() => {
-      console.log("RESETTING");
+      console.log('RESETTING');
       this.props.rootActions.resetAll();
       setTimeout(() => {
-        console.log("Redirecting to " + redirectingTo);
+        console.log('Redirecting to ' + redirectingTo);
         uiActions.screenResize(window.innerHeight, window.innerWidth);
         if (redirectingTo) {
           pushRoute(redirectingTo);
         } else {
-          console.log("no redirect set");
+          console.log('no redirect set');
         }
       }, 1000);
     }, 2000);

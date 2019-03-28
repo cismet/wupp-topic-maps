@@ -1,8 +1,8 @@
-import React from "react";
-import BaederModalMenuIntroduction from "./BaederModalMenuIntroduction";
-import BaederModalMenuHelpSection from "./BaederModalMenuHelpSection";
-import GenericModalApplicationMenu from "../commons/GenericModalApplicationMenu";
-import BaederModalMenuSettingsPanel from "./BaederModalMenuSettingsPanel";
+import React from 'react';
+import BaederModalMenuIntroduction from './BaederModalMenuIntroduction';
+import BaederModalMenuHelpSection from './BaederModalMenuHelpSection';
+import GenericModalApplicationMenu from '../commons/GenericModalApplicationMenu';
+import BaederModalMenuSettingsPanel from './BaederModalMenuSettingsPanel';
 
 const BaederModalMenu = ({
   uiState,

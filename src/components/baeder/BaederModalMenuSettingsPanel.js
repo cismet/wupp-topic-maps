@@ -34,9 +34,9 @@ const BaederModalMenuSettingsSection = ({
 	}
 	const mapPreview = (
 		<Map
-			ref={(leafletMap) => {
-				this.leafletMap = leafletMap;
-			}}
+			// ref={leafletMap => {
+			//   this.leafletMap = leafletMap;
+			// }}
 			crs={MappingConstants.crs25832}
 			style={{ height: 300 }}
 			center={{
@@ -66,7 +66,7 @@ const BaederModalMenuSettingsSection = ({
 				clusteringEnabled={false}
 				style={getFeatureStyler(currentMarkerSize, getColorForProperties)}
 				featureStylerScalableImageSize={currentMarkerSize}
-				mapRef={this.leafletMap}
+				//mapRef={topicMapRef} // commented out because there cannot be a ref in a functional comp and it is bnot needed
 				showMarkerCollection={false}
 			/>
 		</Map>
@@ -97,9 +97,9 @@ const BaederModalMenuSettingsSection = ({
 		<GenericModalMenuSection
 			uiState={uiState}
 			uiStateActions={uiStateActions}
-			sectionKey="settings"
-			sectionTitle="Einstellungen"
-			sectionBsStyle="primary"
+			sectionKey='settings'
+			sectionTitle='Einstellungen'
+			sectionBsStyle='primary'
 			sectionContent={
 				<SettingsPanelWithPreviewSection
 					width={width}

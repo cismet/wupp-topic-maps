@@ -82,11 +82,17 @@ function loadTopicData(topicKey) {
 				md5 = md5value.trim();
 				if (debugMsg)
 					console.log(
-						'Check: ' + topicKey + ' : ' + state.gazetteerTopics[topicKey + '-md5'] + '===' + md5 + '  ???'
+						'Check: ' +
+							topicKey +
+							' : ' +
+							state.gazetteerTopics[topicKey + '-md5'] +
+							'===' +
+							md5 +
+							'  ???'
 					);
 				if (md5 === state.gazetteerTopics[topicKey + '-md5']) {
 					if (debugMsg) console.log('already in store. no need to fetch');
-					throw 'CACHEHIT';
+					throw 'CACHEHIT'; // eslint-disable-line no-throw-literal
 				} else {
 					if (debugMsg) console.log(topicKey + ' not in store. need to fetch');
 					md5 = md5value.trim();
@@ -109,12 +115,15 @@ function loadTopicData(topicKey) {
 			})
 			.then((result) => {
 				let resultString = JSON.stringify(result);
-				if (debugMsg) console.log(topicKey + 'resultstring ready length:' + resultString.length);
+				if (debugMsg)
+					console.log(topicKey + 'resultstring ready length:' + resultString.length);
 				return dispatch(setTopicData(topicKey, resultString, md5));
 			})
 			.catch(function(err) {
 				if (err !== 'CACHEHIT') {
-					console.log('Error during loading of Topic Data. There will be Problems with the Gazetteer-Box.');
+					console.log(
+						'Error during loading of Topic Data. There will be Problems with the Gazetteer-Box.'
+					);
 				}
 			});
 	};
@@ -126,7 +135,7 @@ export const getGazDataForTopicIds = (state, topics) => {
 
 	let gazData = [];
 	for (let topic of topics) {
-		if (topic==='pois') {
+		if (topic === 'pois') {
 			let pois = JSON.parse(state.pois);
 			for (let i = 0; i < pois.length; ++i) {
 				let topicItem = pois[i];
@@ -140,8 +149,8 @@ export const getGazDataForTopicIds = (state, topics) => {
 				};
 				gazData.push(g);
 			}
-    }
-    if (topic==='quartiere') {
+		}
+		if (topic === 'quartiere') {
 			let quartiere = JSON.parse(state.quartiere);
 			for (let i = 0; i < quartiere.length; ++i) {
 				let topicItem = quartiere[i];
@@ -156,7 +165,7 @@ export const getGazDataForTopicIds = (state, topics) => {
 				gazData.push(g);
 			}
 		}
-    if (topic==='bezirke') {
+		if (topic === 'bezirke') {
 			let bezirke = JSON.parse(state.bezirke);
 			for (let i = 0; i < bezirke.length; ++i) {
 				let topicItem = bezirke[i];
@@ -170,8 +179,8 @@ export const getGazDataForTopicIds = (state, topics) => {
 				};
 				gazData.push(g);
 			}
-    }
-    if (topic==='kitas') {
+		}
+		if (topic === 'kitas') {
 			let kitas = JSON.parse(state.kitas);
 			for (let i = 0; i < kitas.length; ++i) {
 				let topicItem = kitas[i];
@@ -186,7 +195,7 @@ export const getGazDataForTopicIds = (state, topics) => {
 				gazData.push(g);
 			}
 		}
-    if (topic==='adressen') {
+		if (topic === 'adressen') {
 			let adressen = JSON.parse(state.adressen);
 			for (let i = 0; i < adressen.length; ++i) {
 				let topicItem = adressen[i];
@@ -208,8 +217,9 @@ export const getGazDataForTopicIds = (state, topics) => {
 				gazData.push(g);
 			}
 		}
-    if (topic==='bplaene') {
+		if (topic === 'bplaene') {
 			let bplaene = JSON.parse(state.bplaene);
+
 			for (let i = 0; i < bplaene.length; ++i) {
 				let topicItem = bplaene[i];
 				let g = {
@@ -223,37 +233,36 @@ export const getGazDataForTopicIds = (state, topics) => {
 				gazData.push(g);
 			}
 		}
-    if (topic==='geps') {
-      let geps = JSON.parse(state.geps);
+		if (topic === 'geps') {
+			let geps = JSON.parse(state.geps);
 			for (let i = 0; i < geps.length; ++i) {
 				let topicItem = geps[i];
 				let g = {
 					sorter: sorter++,
 					string: topicItem.s,
-					glyph: "code-fork", //topicItem.g,
+					glyph: 'code-fork', //topicItem.g,
 					x: topicItem.x,
 					y: topicItem.y,
 					more: topicItem.m
-        };
+				};
 				gazData.push(g);
 			}
-    }
-    if (topic==='geps_reverse') {
-      let geps_reverse = JSON.parse(state.geps_reverse);
+		}
+		if (topic === 'geps_reverse') {
+			let geps_reverse = JSON.parse(state.geps_reverse);
 			for (let i = 0; i < geps_reverse.length; ++i) {
 				let topicItem = geps_reverse[i];
 				let g = {
 					sorter: sorter++,
 					string: topicItem.s,
-					glyph: "code-fork",//topicItem.g,
+					glyph: 'code-fork', //topicItem.g,
 					x: topicItem.x,
 					y: topicItem.y,
 					more: topicItem.m
-        };
+				};
 				gazData.push(g);
 			}
 		}
-
 	}
 	return gazData;
 };

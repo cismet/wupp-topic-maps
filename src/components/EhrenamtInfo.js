@@ -4,6 +4,8 @@ import { OverlayTrigger, Well, Tooltip } from 'react-bootstrap';
 import { Icon } from 'react-fa';
 import { constants as ehrenamtConstants } from '../redux/modules/ehrenamt';
 
+/* eslint-disable jsx-a11y/anchor-is-valid */
+
 // Since this component is simple and static, there's no parent container for it.
 const EhrenamtInfo = ({
 	featureCollection,
@@ -35,10 +37,14 @@ const EhrenamtInfo = ({
 	let filterstatus = <div />;
 
 	let positiv =
-		filter.positiv.globalbereiche.length + filter.positiv.kenntnisse.length + filter.positiv.zielgruppen.length;
+		filter.positiv.globalbereiche.length +
+		filter.positiv.kenntnisse.length +
+		filter.positiv.zielgruppen.length;
 
 	let negativ =
-		filter.negativ.globalbereiche.length + filter.negativ.kenntnisse.length + filter.negativ.zielgruppen.length;
+		filter.negativ.globalbereiche.length +
+		filter.negativ.kenntnisse.length +
+		filter.negativ.zielgruppen.length;
 
 	let modalMenuTarget = 'filtertab';
 	let filterText = 'Filter aktiviert (' + (positiv + negativ) + ')';
@@ -66,15 +72,18 @@ const EhrenamtInfo = ({
 							}}
 						>
 							<OverlayTrigger
-								placement="left"
+								placement='left'
 								overlay={
-									<Tooltip style={{ zIndex: 3000000000 }} id="bookmarkstt">
+									<Tooltip style={{ zIndex: 3000000000 }} id='bookmarkstt'>
 										{bookmarksTooltip}
 									</Tooltip>
 								}
 							>
-								<a onClick={() => showModalMenu(modalMenuTarget)} style={{ color: 'black' }}>
-									<Icon name="filter" />
+								<a
+									onClick={() => showModalMenu(modalMenuTarget)}
+									style={{ color: 'black' }}
+								>
+									<Icon name='filter' />
 									&nbsp;
 									{filterText}
 								</a>
@@ -90,15 +99,15 @@ const EhrenamtInfo = ({
 							}}
 						>
 							<OverlayTrigger
-								placement="left"
+								placement='left'
 								overlay={
-									<Tooltip style={{ zIndex: 3000000000 }} id="bookmarkstt">
+									<Tooltip style={{ zIndex: 3000000000 }} id='bookmarkstt'>
 										Filter deaktivieren
 									</Tooltip>
 								}
 							>
 								<a onClick={resetFilter} style={{ color: 'black' }}>
-									<Icon name="close" />
+									<Icon name='close' />
 								</a>
 							</OverlayTrigger>
 						</td>
@@ -116,7 +125,9 @@ const EhrenamtInfo = ({
 					<tbody>
 						<tr>
 							<td style={{ textAlign: 'center', verticalAlign: 'top' }}>
-								<a onClick={fitAll}>{filteredOffers.length} Angebote in Wuppertal</a>
+								<a onClick={fitAll}>
+									{filteredOffers.length} Angebote in Wuppertal
+								</a>
 							</td>
 						</tr>
 					</tbody>
@@ -128,16 +139,16 @@ const EhrenamtInfo = ({
 
 		if (positiv + negativ === 0) {
 			return (
-				<Well bsSize="small" pixelwidth={250}>
+				<Well bsSize='small' pixelwidth={250}>
 					{filterstatus}
 					<h5>Keine Angebote gefunden!</h5>
 					<p>
-						Für mehr Angebote, Ansicht mit <Icon name="minus-square" /> verkleinern. Um nach
-						Aufgabenfeldern, T&auml;tigkeiten oder Zielgruppen zu filtern, das
+						Für mehr Angebote, Ansicht mit <Icon name='minus-square' /> verkleinern. Um
+						nach Aufgabenfeldern, T&auml;tigkeiten oder Zielgruppen zu filtern, das
 						<a onClick={() => showModalMenu('filtertab')}>
 							{' '}
 							Men&uuml;&nbsp;
-							<Icon name="bars" style={{ color: 'black' }} /> &ouml;ffnen.
+							<Icon name='bars' style={{ color: 'black' }} /> &ouml;ffnen.
 						</a>
 					</p>
 					{offerLink}
@@ -145,17 +156,17 @@ const EhrenamtInfo = ({
 			);
 		} else {
 			return (
-				<Well bsSize="small" pixelwidth={250}>
+				<Well bsSize='small' pixelwidth={250}>
 					{filterstatus}
 					<h5>Keine Angebote gefunden!</h5>
 					<p>
-						Für mehr Angebote Ansicht mit <Icon name="minus-square" /> verkleinern oder Filter mit{' '}
-						<Icon name="close" /> deaktivieren. Um nach Aufgabenfeldern, T&auml;tigkeiten oder Zielgruppen
-						zu filtern, das
+						Für mehr Angebote Ansicht mit <Icon name='minus-square' /> verkleinern oder
+						Filter mit <Icon name='close' /> deaktivieren. Um nach Aufgabenfeldern,
+						T&auml;tigkeiten oder Zielgruppen zu filtern, das
 						<a onClick={() => showModalMenu('filtertab')}>
 							{' '}
 							Men&uuml;&nbsp;
-							<Icon name="bars" style={{ color: 'black' }} /> &ouml;ffnen.
+							<Icon name='bars' style={{ color: 'black' }} /> &ouml;ffnen.
 						</a>
 					</p>
 					{offerLink}
@@ -175,7 +186,7 @@ const EhrenamtInfo = ({
 		}
 		return (
 			<div>
-				<Well bsSize="small" onClick={logCurrentFeature}>
+				<Well bsSize='small' onClick={logCurrentFeature}>
 					{filterstatus}
 					<table style={{ width: '100%' }}>
 						<tbody>
@@ -189,9 +200,12 @@ const EhrenamtInfo = ({
 												</td>
 												<td style={{ textAlign: 'right' }}>
 													<OverlayTrigger
-														placement="left"
+														placement='left'
 														overlay={
-															<Tooltip style={{ zIndex: 3000000000 }} id="bookmarkstt">
+															<Tooltip
+																style={{ zIndex: 3000000000 }}
+																id='bookmarkstt'
+															>
 																Merkliste &ouml;ffnen
 															</Tooltip>
 														}
@@ -202,8 +216,11 @@ const EhrenamtInfo = ({
 															style={{ color: bookmarkColor }}
 														>
 															<Icon
-																style={{ width: '26px', textAlign: 'center' }}
-																size="2x"
+																style={{
+																	width: '26px',
+																	textAlign: 'center'
+																}}
+																size='2x'
 																name={'bookmark'}
 															/>
 														</a>
@@ -220,28 +237,38 @@ const EhrenamtInfo = ({
 												</td>
 												<td style={{ textAlign: 'right' }}>
 													<OverlayTrigger
-														ref={(c) => (this.togglecartTooltip = c)}
-														placement="left"
+														//ref={(c) => (this.togglecartTooltip = c)}
+														placement='left'
 														overlay={
-															<Tooltip style={{ zIndex: 3000000000 }} id="togglecarttt">
+															<Tooltip
+																style={{ zIndex: 3000000000 }}
+																id='togglecarttt'
+															>
 																{toggleFilterTooltip}
 															</Tooltip>
 														}
 													>
 														<a
 															onClick={() => {
-																if (this.togglecartTooltip) {
-																	this.togglecartTooltip.hide();
-																} else {
-																	console.log('no togglecartTooltip');
-																}
-																toggleCartFromFeature(currentFeature);
+																// if (this.togglecartTooltip) {
+																// 	this.togglecartTooltip.hide();
+																// } else {
+																// 	console.log(
+																// 		'no togglecartTooltip'
+																// 	);
+																// }
+																toggleCartFromFeature(
+																	currentFeature
+																);
 															}}
 															style={{ color: 'black' }}
 														>
 															<Icon
-																style={{ width: '26px', textAlign: 'center' }}
-																size="2x"
+																style={{
+																	width: '26px',
+																	textAlign: 'center'
+																}}
+																size='2x'
 																name={cartIcon}
 															/>
 														</a>
@@ -259,7 +286,9 @@ const EhrenamtInfo = ({
 							<tr>
 								<td />
 								<td style={{ textAlign: 'center', verticalAlign: 'center' }}>
-									<a onClick={fitAll}>{filteredOffers.length} Angebote in Wuppertal</a>
+									<a onClick={fitAll}>
+										{filteredOffers.length} Angebote in Wuppertal
+									</a>
 								</td>
 
 								<td />
@@ -270,7 +299,7 @@ const EhrenamtInfo = ({
 						<tbody>
 							<tr>
 								<td style={{ textAlign: 'left', verticalAlign: 'center' }}>
-									<a title="vorheriger Treffer" onClick={previous}>
+									<a title='vorheriger Treffer' onClick={previous}>
 										&lt;&lt;
 									</a>
 								</td>
@@ -280,7 +309,7 @@ const EhrenamtInfo = ({
 								</td>
 
 								<td style={{ textAlign: 'right', verticalAlign: 'center' }}>
-									<a title="nächster Treffer" onClick={next}>
+									<a title='nächster Treffer' onClick={next}>
 										&gt;&gt;
 									</a>
 								</td>

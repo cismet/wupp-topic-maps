@@ -1,5 +1,5 @@
-import React from "react";
-import GenericModalMenuSection from "../commons/GenericModalMenuSection";
+import React from 'react';
+import GenericModalMenuSection from '../commons/GenericModalMenuSection';
 
 const DemoMenuSettingsSection = ({ uiState, uiStateActions }) => {
   return (

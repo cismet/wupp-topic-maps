@@ -1,32 +1,32 @@
-import PropTypes from "prop-types";
-import React from "react";
-import { connect } from "react-redux";
+import PropTypes from 'prop-types';
+import React from 'react';
+import { connect } from 'react-redux';
 
-import { RoutedMap, MappingConstants, FeatureCollectionDisplay } from "react-cismap";
-import { bindActionCreators } from "redux";
-import { actions as MappingActions } from "../redux/modules/mapping";
-import { actions as UIStateActions } from "../redux/modules/uiState";
+import { RoutedMap, MappingConstants, FeatureCollectionDisplay } from 'react-cismap';
+import { bindActionCreators } from 'redux';
+import { actions as MappingActions } from '../redux/modules/mapping';
+import { actions as UIStateActions } from '../redux/modules/uiState';
 
-import { routerActions as RoutingActions } from "react-router-redux";
-import { modifyQueryPart } from "../utils/routingHelper";
+import { routerActions as RoutingActions } from 'react-router-redux';
+import { modifyQueryPart } from '../utils/routingHelper';
 
-import PhotoLightbox from "./PhotoLightbox";
-import Control from "react-leaflet-control";
+import PhotoLightbox from './PhotoLightbox';
+import Control from 'react-leaflet-control';
 import {
   actions as gazetteerTopicsActions,
   getGazDataForTopicIds
-} from "../redux/modules/gazetteerTopics";
+} from '../redux/modules/gazetteerTopics';
 
-import { Button, OverlayTrigger, Tooltip } from "react-bootstrap";
+import { Button, OverlayTrigger, Tooltip } from 'react-bootstrap';
 
-import ProjSingleGeoJson from "../components/ProjSingleGeoJson";
-import GazetteerHitDisplay from "../components/GazetteerHitDisplay";
-import GazetteerSearchControl from "../components/commons/GazetteerSearchControl";
+import ProjSingleGeoJson from '../components/ProjSingleGeoJson';
+import GazetteerHitDisplay from '../components/GazetteerHitDisplay';
+import GazetteerSearchControl from '../components/commons/GazetteerSearchControl';
 
-import { Icon } from "react-fa";
+import { Icon } from 'react-fa';
 
-import { builtInGazetteerHitTrigger } from "../utils/gazetteerHelper";
-import Loadable from "react-loading-overlay";
+import { builtInGazetteerHitTrigger } from '../utils/gazetteerHelper';
+import Loadable from 'react-loading-overlay';
 
 const position = {
   lat: 51.25533692525824,
@@ -72,10 +72,10 @@ export class TopicMap_ extends React.Component {
 
     if (this.props.gazetteerSearchBox) {
       this.props.uiStateActions.setGazetteerBoxEnabled(false);
-      this.props.uiStateActions.setGazetteerBoxInfoText("Ortsinformationen werden geladen ...");
+      this.props.uiStateActions.setGazetteerBoxInfoText('Ortsinformationen werden geladen ...');
       this.props.gazetteerTopicsActions.loadTopicsData(this.props.gazetteerTopicsList).then(() => {
         if (this.props.gazetteerTopics.adressen === undefined) {
-          console.log("this.props.gazetteerTopics.adressen === undefined");
+          console.log('this.props.gazetteerTopics.adressen === undefined');
         }
         this.gazData = getGazDataForTopicIds(
           this.props.gazetteerTopics,
@@ -99,7 +99,7 @@ export class TopicMap_ extends React.Component {
         if (this.props.dataLoader) {
           this.props.dataLoader();
         }
-        resolve("ok");
+        resolve('ok');
       }, 100);
     });
     return promise;
@@ -145,21 +145,21 @@ export class TopicMap_ extends React.Component {
     let width = this.props.uiState.width;
     let gap = 25;
 
-    let infoBoxControlPosition = "bottomright";
-    let searchControlPosition = "bottomleft";
+    let infoBoxControlPosition = 'bottomright';
+    let searchControlPosition = 'bottomleft';
     let searchControlWidth = 300;
     let widthLeft = searchControlWidth;
     let infoStyle = {
-      opacity: "0.9",
+      opacity: '0.9',
       width: info.props.pixelwidth
     };
 
     if (width - gap - widthLeft - widthRight <= 0) {
-      infoBoxControlPosition = "bottomleft";
+      infoBoxControlPosition = 'bottomleft';
       searchControlWidth = width - gap;
       infoStyle = {
         ...infoStyle,
-        width: searchControlWidth + "px"
+        width: searchControlWidth + 'px'
       };
     }
 
@@ -211,7 +211,7 @@ export class TopicMap_ extends React.Component {
           <div>
             {photoLightBox}
             <RoutedMap
-              key={"leafletRoutedMap"}
+              key={'leafletRoutedMap'}
               referenceSystem={MappingConstants.crs25832}
               referenceSystemDefinition={MappingConstants.proj4crs25832def}
               ref={leafletMap => {
@@ -242,9 +242,7 @@ export class TopicMap_ extends React.Component {
               boundingBoxChangedHandler={bbox => {
                 this.props.mappingActions.mappingBoundsChanged(bbox);
                 this.props.mappingBoundsChanged(bbox);
-              }
-
-              }
+              }}
               backgroundlayers={this.props.backgroundlayers}
               fallbackZoom={this.props.home.zoom}
               fullScreenControlEnabled={this.props.locatorControl}
@@ -252,16 +250,16 @@ export class TopicMap_ extends React.Component {
             >
               {overlayFeature}
               <GazetteerHitDisplay
-                key={"gazHit" + JSON.stringify(this.props.mapping.gazetteerHit)}
+                key={'gazHit' + JSON.stringify(this.props.mapping.gazetteerHit)}
                 mappingProps={this.props.mapping}
               />
               <FeatureCollectionDisplay
                 key={
                   JSON.stringify(this.props.getFeatureCollectionForData()) +
                   this.props.featureKeySuffixCreator() +
-                  "clustered:" +
+                  'clustered:' +
                   this.props.clustered +
-                  ".customPostfix:" +
+                  '.customPostfix:' +
                   this.props.featureCollectionKeyPostfix
                 }
                 featureCollection={this.props.getFeatureCollectionForData()}
@@ -287,7 +285,8 @@ export class TopicMap_ extends React.Component {
                     </Tooltip>
                   }
                 >
-                  <Button id="cmdShowModalApplicationMenu"
+                  <Button
+                    id="cmdShowModalApplicationMenu"
                     onClick={() => {
                       if (this.props.showModalApplicationMenu) {
                         this.props.showModalApplicationMenu();
@@ -343,17 +342,17 @@ TopicMap.propTypes = {
   cursor: PropTypes.string,
   onclick: PropTypes.func,
   locationChangedHandler: PropTypes.func,
-  mappingBoundsChanged: PropTypes.func,
+  mappingBoundsChanged: PropTypes.func
 };
 
 TopicMap.defaultProps = {
   infoBox: <div />,
-  backgroundlayers: "rvrWMS@30",
+  backgroundlayers: 'rvrWMS@30',
   noInitialLoadingText: false,
-  initialLoadingText: "Laden der Daten ...",
+  initialLoadingText: 'Laden der Daten ...',
   gazetteerSearchBox: false,
-  gazetteerTopicsList: ["pois", "kitas", "quartiere", "bezirke", "adressen"],
-  gazetteerSearchBoxPlaceholdertext: "Geben Sie einen Suchbegriff ein.",
+  gazetteerTopicsList: ['pois', 'kitas', 'quartiere', 'bezirke', 'adressen'],
+  gazetteerSearchBoxPlaceholdertext: 'Geben Sie einen Suchbegriff ein.',
   fullScreenControl: false,
   locatorControl: false,
   photoLightBox: false,
@@ -365,13 +364,12 @@ TopicMap.defaultProps = {
     center: [51.25861849982617, 7.15101022370511],
     zoom: 8
   },
-  featureKeySuffixCreator: () => "",
-  featureCollectionKeyPostfix: "",
-  applicationMenuTooltipString: "Einstellungen | Anleitung",
-  applicationMenuIconname: "bars",
-  cursor: "grabbing",
+  featureKeySuffixCreator: () => '',
+  featureCollectionKeyPostfix: '',
+  applicationMenuTooltipString: 'Einstellungen | Anleitung',
+  applicationMenuIconname: 'bars',
+  cursor: 'grabbing',
   onclick: () => {},
   locationChangedHandler: () => {},
-  mappingBoundsChanged:  () => {},
-
+  mappingBoundsChanged: () => {}
 };

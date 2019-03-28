@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { actions as MappingActions } from '../redux/modules/mapping';
 import { actions as UIStateActions } from '../redux/modules/uiState';
-import { actions as StarkregenActions, initialState as starkregenInitialState } from '../redux/modules/starkregen';
+import { actions as StarkregenActions } from '../redux/modules/starkregen';
 import { Icon } from 'react-fa';
 
 import { routerActions as RoutingActions } from 'react-router-redux';
@@ -18,6 +18,7 @@ import InfoBox from '../components/starkregen/ControlInfoBox';
 import ContactButton from '../components/starkregen/ContactButton';
 import HelpAndInfo from '../components/starkregen/Help00MainComponent';
 import { getInternetExplorerVersion } from '../utils/browserHelper';
+/* eslint-disable jsx-a11y/anchor-is-valid */
 
 (function() {
 	// var originalInitTile = L.GridLayer.prototype._initTile;
@@ -94,7 +95,9 @@ export class Starkregen_ extends React.Component {
 		};
 	}
 
-	componentDidMount() {}
+	componentDidMount() {
+		document.title = 'Starkregengefahrenkarte Wuppertal';
+	}
 
 	componentDidUpdate() {
 		this.setSimulationStateFromUrl();
@@ -115,9 +118,9 @@ export class Starkregen_ extends React.Component {
 	}
 
 	setSimulationStateFromUrl() {
-		let selectedSimulationFromUrlQueryValue = new URLSearchParams(this.props.routing.location.search).get(
-			'selectedSimulation'
-		);
+		let selectedSimulationFromUrlQueryValue = new URLSearchParams(
+			this.props.routing.location.search
+		).get('selectedSimulation');
 		if (selectedSimulationFromUrlQueryValue) {
 			let selectedSimulationFromUrl = parseInt(selectedSimulationFromUrlQueryValue, 10);
 			if (selectedSimulationFromUrl !== this.props.starkregen.selectedSimulation) {
@@ -145,7 +148,9 @@ export class Starkregen_ extends React.Component {
 	}
 
 	setBackgroundStateFromUrl() {
-		let urlBackgroundQueryValue = new URLSearchParams(this.props.routing.location.search).get('bg');
+		let urlBackgroundQueryValue = new URLSearchParams(this.props.routing.location.search).get(
+			'bg'
+		);
 		if (urlBackgroundQueryValue) {
 			let urlBackgroundIndex = parseInt(urlBackgroundQueryValue, 10);
 			if (urlBackgroundIndex !== this.props.starkregen.selectedBackground) {
@@ -206,7 +211,8 @@ export class Starkregen_ extends React.Component {
 		let selSim = this.props.starkregen.simulations[this.props.starkregen.selectedSimulation];
 		let leafletMapRef;
 		if (this.topicMap) {
-			leafletMapRef = this.topicMap.wrappedInstance.leafletRoutedMap.leafletMap.leafletElement;
+			leafletMapRef = this.topicMap.wrappedInstance.leafletRoutedMap.leafletMap
+				.leafletElement;
 		}
 
 		let cursor;
@@ -235,7 +241,9 @@ export class Starkregen_ extends React.Component {
 						this.props.starkregenActions.setCurrentFeatureInfoValue(undefined);
 						this.props.starkregenActions.setCurrentFeatureInfoPosition(undefined);
 					} else {
-						let currentZoom = new URLSearchParams(this.props.routing.location.search).get('zoom') || 8;
+						let currentZoom =
+							new URLSearchParams(this.props.routing.location.search).get('zoom') ||
+							8;
 						if (currentZoom < 15) {
 							this.props.routingActions.push(
 								this.props.routing.location.pathname +
@@ -296,7 +304,13 @@ export class Starkregen_ extends React.Component {
 					featureCollection={[ geoJsonObject ]}
 					clusteringEnabled={false}
 					// style={getFeatureStyler(currentMarkerSize, getColorForProperties)}
-					style={() => ({ color: 'black', fillColor: 'black', weight: '0.75', opacity: 1, fillOpacity: 0.3 })}
+					style={() => ({
+						color: 'black',
+						fillColor: 'black',
+						weight: '0.75',
+						opacity: 1,
+						fillOpacity: 0.3
+					})}
 					featureStylerScalableImageSize={30}
 					showMarkerCollection={true}
 					//markerCollectionTransformation={}
@@ -318,17 +332,31 @@ export class Starkregen_ extends React.Component {
 				fullScreenControl
 				locatorControl
 				gazetteerSearchBox
-				gazetteerTopicsList={[ 'geps', 'geps_reverse', 'pois', 'kitas', 'quartiere', 'bezirke', 'adressen' ]}
-				gazetteerSearchBoxPlaceholdertext="Stadtteil | Adresse | POI | GEP"
+				gazetteerTopicsList={[
+					'geps',
+					'geps_reverse',
+					'pois',
+					'kitas',
+					'quartiere',
+					'bezirke',
+					'adressen'
+				]}
+				gazetteerSearchBoxPlaceholdertext='Stadtteil | Adresse | POI | GEP'
 				photoLightBox
 				infoBox={info}
 				backgroundlayers={
-					this.props.match.params.layers || this.props.starkregen.backgrounds[validBackgroundIndex].layerkey
+					this.props.match.params.layers ||
+					this.props.starkregen.backgrounds[validBackgroundIndex].layerkey
 				}
 				onclick={this.getFeatureInfo}
-				applicationMenuTooltipString="Kompaktanleitung | Hintergrundinfo"
-				applicationMenuIconname="info"
-				modalMenu={<HelpAndInfo uiState={this.props.uiState} uiStateActions={this.props.uiStateActions} />}
+				applicationMenuTooltipString='Kompaktanleitung | Hintergrundinfo'
+				applicationMenuIconname='info'
+				modalMenu={
+					<HelpAndInfo
+						uiState={this.props.uiState}
+						uiStateActions={this.props.uiStateActions}
+					/>
+				}
 				cursor={cursor}
 				mappingBoundsChanged={(bbox) => {
 					if (this.props.starkregen.currentFeatureInfoPosition) {
@@ -354,14 +382,17 @@ export class Starkregen_ extends React.Component {
 						'.' +
 						this.props.match.params.layers
 					}
-					url="https://maps.wuppertal.de/deegree/wms"
+					url='https://maps.wuppertal.de/deegree/wms'
 					//url="https://wunda-geoportal-cache.cismet.de/geoportal"
-					layers={this.props.starkregen.simulations[this.props.starkregen.selectedSimulation].layer}
-					version="1.1.1"
-					transparent="true"
-					format="image/png"
-					tiled="true"
-					styles="default"
+					layers={
+						this.props.starkregen.simulations[this.props.starkregen.selectedSimulation]
+							.layer
+					}
+					version='1.1.1'
+					transparent='true'
+					format='image/png'
+					tiled='true'
+					styles='default'
 					maxZoom={19}
 					opacity={1}
 					caching={this.state.caching}
@@ -369,10 +400,10 @@ export class Starkregen_ extends React.Component {
 				{featureInfoLayer}
 
 				<ContactButton
-					id="329487"
-					key="dsjkhfg"
-					position="topleft"
-					title="Fehler im Geländemodell melden"
+					id='329487'
+					key='dsjkhfg'
+					position='topleft'
+					title='Fehler im Geländemodell melden'
 					action={() => {
 						let link = document.createElement('a');
 						link.setAttribute('type', 'hidden');
@@ -380,7 +411,10 @@ export class Starkregen_ extends React.Component {
 
 						let mailToHref =
 							'mailto:starkregen@stadt.wuppertal.de?subject=eventueller Fehler im Geländemodell&body=' +
-							encodeURI(`Sehr geehrte Damen und Herren,${br}${br}` + `in der Starkregengefahrenkarte `) +
+							encodeURI(
+								`Sehr geehrte Damen und Herren,${br}${br}` +
+									`in der Starkregengefahrenkarte `
+							) +
 							encodeURI(`auf${br}${br}`) +
 							`${window.location.href.replace(/&/g, '%26').replace(/#/g, '%23')}` +
 							encodeURI(
@@ -412,7 +446,7 @@ export class Starkregen_ extends React.Component {
 							width: '70%',
 							textAlignment: 'center'
 						}}
-						bsStyle="danger"
+						bsStyle='danger'
 						onDismiss={() => {
 							this.setState({
 								caching: this.state.caching + 1
@@ -420,12 +454,13 @@ export class Starkregen_ extends React.Component {
 						}}
 					>
 						<h5>
-							<Icon name="exclamation-circle" /> Es liegt eine Störung vor. Momentan können leider keine
-							Modellinformationen angezeigt werden. Bitte versuchen Sie es später noch einmal.
+							<Icon name='exclamation-circle' /> Es liegt eine Störung vor. Momentan
+							können leider keine Modellinformationen angezeigt werden. Bitte
+							versuchen Sie es später noch einmal.
 						</h5>
 						<div style={{ textAlign: 'right' }}>
 							<Button
-								bsSize="xsmall"
+								bsSize='xsmall'
 								style={{ opacity: 0.5 }}
 								onClick={() => {
 									this.setState({
@@ -443,7 +478,9 @@ export class Starkregen_ extends React.Component {
 	}
 }
 
-const Starkregen = connect(mapStateToProps, mapDispatchToProps, null, { withRef: true })(Starkregen_);
+const Starkregen = connect(mapStateToProps, mapDispatchToProps, null, { withRef: true })(
+	Starkregen_
+);
 
 export default Starkregen;
 

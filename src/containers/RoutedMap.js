@@ -1,17 +1,17 @@
-import React from "react";
-import PropTypes from "prop-types";
-import { Map, ZoomControl } from "react-leaflet";
-import { connect } from "react-redux";
-import "proj4leaflet";
-import { crs25832, proj4crs25832def } from "../constants/gis";
-import proj4 from "proj4";
-import { bindActionCreators } from "redux";
-import "url-search-params-polyfill";
+import React from 'react';
+import PropTypes from 'prop-types';
+import { Map, ZoomControl } from 'react-leaflet';
+import { connect } from 'react-redux';
+import 'proj4leaflet';
+import { crs25832, proj4crs25832def } from '../constants/gis';
+import proj4 from 'proj4';
+import { bindActionCreators } from 'redux';
+import 'url-search-params-polyfill';
 
-import { routerActions as RoutingActions } from "react-router-redux";
-import { modifyQueryPart, getQueryObject } from "../utils/routingHelper";
-import { actions as MappingActions, constants as MappingConstants } from "../redux/modules/mapping";
-import FullscreenControl from "../components/FullscreenControl";
+import { routerActions as RoutingActions } from 'react-router-redux';
+import { modifyQueryPart, getQueryObject } from '../utils/routingHelper';
+import { actions as MappingActions, constants as MappingConstants } from '../redux/modules/mapping';
+import FullscreenControl from '../components/FullscreenControl';
 
 const fallbackposition = {
   lat: 51.272399,
@@ -41,8 +41,8 @@ export class RoutedMap_ extends React.Component {
     this.featureClick = this.featureClick.bind(this);
   }
   componentDidMount() {
-    this.leafletMap.leafletElement.on("moveend", () => {
-      if (typeof this.leafletMap !== "undefined" && this.leafletMap !== null) {
+    this.leafletMap.leafletElement.on('moveend', () => {
+      if (typeof this.leafletMap !== 'undefined' && this.leafletMap !== null) {
         const zoom = this.leafletMap.leafletElement.getZoom();
         const center = this.leafletMap.leafletElement.getCenter();
         let searchO = getQueryObject(this.props.routing.location.search);
@@ -78,7 +78,7 @@ export class RoutedMap_ extends React.Component {
   }
 
   componentDidUpdate() {
-    if (typeof this.leafletMap !== "undefined" && this.leafletMap != null) {
+    if (typeof this.leafletMap !== 'undefined' && this.leafletMap != null) {
       if (this.props.mapping.autoFitBounds) {
         if (this.props.mapping.autoFitMode === MappingConstants.AUTO_FIT_MODE_NO_ZOOM_IN) {
           if (
@@ -104,11 +104,11 @@ export class RoutedMap_ extends React.Component {
   storeBoundingBox(leafletMap) {
     //store the projected bounds in the store
     const bounds = leafletMap.leafletElement.getBounds();
-    const projectedNE = proj4(proj4.defs("EPSG:4326"), proj4crs25832def, [
+    const projectedNE = proj4(proj4.defs('EPSG:4326'), proj4crs25832def, [
       bounds._northEast.lng,
       bounds._northEast.lat
     ]);
-    const projectedSW = proj4(proj4.defs("EPSG:4326"), proj4crs25832def, [
+    const projectedSW = proj4(proj4.defs('EPSG:4326'), proj4crs25832def, [
       bounds._southWest.lng,
       bounds._southWest.lat
     ]);
@@ -128,20 +128,20 @@ export class RoutedMap_ extends React.Component {
 
   render() {
     const positionByUrl = [
-      parseFloat(new URLSearchParams(this.props.routing.location.search).get("lat")) ||
+      parseFloat(new URLSearchParams(this.props.routing.location.search).get('lat')) ||
         fallbackposition.lat,
-      parseFloat(new URLSearchParams(this.props.routing.location.search).get("lng")) ||
+      parseFloat(new URLSearchParams(this.props.routing.location.search).get('lng')) ||
         fallbackposition.lng
     ];
     const zoomByUrl =
-      parseInt(new URLSearchParams(this.props.routing.location.search).get("zoom"), 10) || 14;
+      parseInt(new URLSearchParams(this.props.routing.location.search).get('zoom'), 10) || 14;
 
     return (
       <Map
         ref={leafletMap => {
           this.leafletMap = leafletMap;
         }}
-        key={"leafletMap"}
+        key={'leafletMap'}
         crs={crs25832}
         style={this.props.style}
         center={positionByUrl}
@@ -181,7 +181,7 @@ RoutedMap_.propTypes = {
 };
 
 RoutedMap_.defaultProps = {
-  layers: "",
+  layers: '',
   gazeteerHitTrigger: function() {},
   searchButtonTrigger: function() {},
   featureClickHandler: function() {},

@@ -1,4 +1,4 @@
-import objectAssign from "object-assign";
+import objectAssign from 'object-assign';
 
 const makeMarkerSizeDuck = (section, substateResolver) => {
   const actionTypes = {

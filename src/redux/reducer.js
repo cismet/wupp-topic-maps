@@ -1,52 +1,54 @@
-import { combineReducers } from "redux";
-import { routerReducer } from "react-router-redux";
-import bplaenenReducer from "./modules/bplaene";
-import ehrenamtReducer from "./modules/ehrenamt";
-import stadtplanReducer from "./modules/stadtplan";
-import baederReducer from "./modules/baeder";
-import starkregenReducer from "./modules/starkregen";
-import kitasReducer from "./modules/kitas";
-import mappingReducer from "./modules/mapping";
-import gazetteerTopicsReducer from "./modules/gazetteerTopics";
-import uiStateReducer from "./modules/uiState";
-import { persistReducer } from "redux-persist";
-import localForage from "localforage";
+import { combineReducers } from 'redux';
+import { routerReducer } from 'react-router-redux';
+import bplaenenReducer from './modules/bplaene';
+import ehrenamtReducer from './modules/ehrenamt';
+import stadtplanReducer from './modules/stadtplan';
+import baederReducer from './modules/baeder';
+import starkregenReducer from './modules/starkregen';
+import kitasReducer from './modules/kitas';
+import mappingReducer from './modules/mapping';
+import gazetteerTopicsReducer from './modules/gazetteerTopics';
+import uiStateReducer from './modules/uiState';
+import docsReducer from './modules/docs';
+
+import { persistReducer } from 'redux-persist';
+import localForage from 'localforage';
 
 const gazetteerTopicsStorageConfig = {
-  key: "gazetteerTopics",
+  key: 'gazetteerTopics',
   storage: localForage
 };
 
 const ehrenamtStorageConfig = {
-  key: "ehrenamtOffers",
+  key: 'ehrenamtOffers',
   storage: localForage,
   whitelist: [
-    "offers",
-    "offersMD5",
-    "globalbereiche",
-    "kenntnisse",
-    "zielgruppen",
-    "filterX",
-    "cart"
+    'offers',
+    'offersMD5',
+    'globalbereiche',
+    'kenntnisse',
+    'zielgruppen',
+    'filterX',
+    'cart'
   ]
 };
 
 const kitasStorageConfig = {
-  key: "kitas",
+  key: 'kitas',
   storage: localForage,
-  whitelist: ["kitas", "kitasMD5", "filter", "kitaSvgSize", "featureRendering"] //['kitas','kitasMD5']
+  whitelist: ['kitas', 'kitasMD5', 'filter', 'kitaSvgSize', 'featureRendering'] //['kitas','kitasMD5']
 };
 
 const starkregenStorageConfig = {
-  key: "starkregen",
+  key: 'starkregen',
   storage: localForage,
-  whitelist: ["selectedBackground", "selectedSimulation"]
+  whitelist: ['selectedBackground', 'selectedSimulation']
 };
 
 const uiStateStorageConfig = {
-  key: "uiState",
+  key: 'uiState',
   storage: localForage,
-  whitelist: ["applicationMenuVisible", "applicationMenuActiveKey"]
+  whitelist: ['applicationMenuVisible', 'applicationMenuActiveKey']
 };
 
 const appReducer = combineReducers({
@@ -60,11 +62,12 @@ const appReducer = combineReducers({
   uiState: persistReducer(uiStateStorageConfig, uiStateReducer),
   routing: routerReducer,
   gazetteerTopics: persistReducer(gazetteerTopicsStorageConfig, gazetteerTopicsReducer),
-  // gazetteerTopics: gazetteerTopicsReducer, // uncomment to skip persitent gazetteer data
+  // gazetteerTopics: gazetteerTopicsReducer, // uncomment to skip persitent gazetteer data,
+  docs: docsReducer
 });
 
 const rootReducer = (state, action) => {
-  if (action.type === "RESET_ALL") {
+  if (action.type === 'RESET_ALL') {
     Object.keys(state).forEach(key => {
       localForage.removeItem(`persist:${key}`);
     });
@@ -76,10 +79,10 @@ const rootReducer = (state, action) => {
 };
 
 export function resetAll() {
-  console.log("RESET_ALL");
+  console.log('RESET_ALL');
   return dispatch => {
     dispatch({
-      type: "RESET_ALL"
+      type: 'RESET_ALL'
     });
   };
 }

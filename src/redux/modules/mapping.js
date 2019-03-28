@@ -1,24 +1,24 @@
-import L from "leaflet";
-import "proj4leaflet";
-import objectAssign from "object-assign";
+import L from 'leaflet';
+import 'proj4leaflet';
+import objectAssign from 'object-assign';
 
 ///TYPES
 export const types = {
-  MAP_BOUNDING_BOX_CHANGED: "MAPPING/MAP_BOUNDING_BOX_CHANGED",
-  FEATURE_COLLECTION_CHANGED: "MAPPING/FEATURE_COLLECTION_CHANGED",
-  FEATURE_SELECTION_INDEX_CHANGED: "MAPPING/FEATURE_SELECTION_INDEX_CHANGED",
-  SET_AUTO_FIT: "MAPPING/SET_AUTO_FIT",
-  SET_SEARCH_PROGRESS_INDICATOR: "MAPPING/SET_SEARCH_PROGRESS_INDICATOR",
-  GAZETTEER_HIT: "MAPPING/GAZETTEER_HIT",
-  SET_MAP_BOUNDING_BOX_CHANGED_TRIGGER: "MAPPING/SET_MAP_BOUNDING_BOX_CHANGED_TRIGGER",
-  CHANGE_FEATURE: "MAPPING/CHANGE_FEATURE",
-  SET_OVERLAY_FEATURE: "MAPPING/SET_OVERLAY_FEATURE",
-  SET_MASKED_OVERLAY: "MAPPING/SET_MASKED_OVERLAY",
-  SET_FEATURE_COLLECTION_KEY_POSTFIX: "MAPPING/SET_FEATURE_COLLECTION_KEY_POSTFIX"
+  MAP_BOUNDING_BOX_CHANGED: 'MAPPING/MAP_BOUNDING_BOX_CHANGED',
+  FEATURE_COLLECTION_CHANGED: 'MAPPING/FEATURE_COLLECTION_CHANGED',
+  FEATURE_SELECTION_INDEX_CHANGED: 'MAPPING/FEATURE_SELECTION_INDEX_CHANGED',
+  SET_AUTO_FIT: 'MAPPING/SET_AUTO_FIT',
+  SET_SEARCH_PROGRESS_INDICATOR: 'MAPPING/SET_SEARCH_PROGRESS_INDICATOR',
+  GAZETTEER_HIT: 'MAPPING/GAZETTEER_HIT',
+  SET_MAP_BOUNDING_BOX_CHANGED_TRIGGER: 'MAPPING/SET_MAP_BOUNDING_BOX_CHANGED_TRIGGER',
+  CHANGE_FEATURE: 'MAPPING/CHANGE_FEATURE',
+  SET_OVERLAY_FEATURE: 'MAPPING/SET_OVERLAY_FEATURE',
+  SET_MASKED_OVERLAY: 'MAPPING/SET_MASKED_OVERLAY',
+  SET_FEATURE_COLLECTION_KEY_POSTFIX: 'MAPPING/SET_FEATURE_COLLECTION_KEY_POSTFIX'
 };
 export const constants = {
-  AUTO_FIT_MODE_STRICT: "MAPPING/AUTO_FIT_MODE_STRICT",
-  AUTO_FIT_MODE_NO_ZOOM_IN: "MAPPING/AUTO_FIT_MODE_NO_ZOOM_IN"
+  AUTO_FIT_MODE_STRICT: 'MAPPING/AUTO_FIT_MODE_STRICT',
+  AUTO_FIT_MODE_NO_ZOOM_IN: 'MAPPING/AUTO_FIT_MODE_NO_ZOOM_IN'
 };
 ///INITIAL STATE
 const initialState = {
@@ -32,8 +32,8 @@ const initialState = {
   gazetteerData: [
     {
       sorter: 1,
-      string: "000 Büro des Oberbürgermeisters",
-      glyph: "tags",
+      string: '000 Büro des Oberbürgermeisters',
+      glyph: 'tags',
       x: 374440.63,
       y: 5681637.71,
       more: {
@@ -42,13 +42,13 @@ const initialState = {
     },
     {
       sorter: 101,
-      string: "1161",
-      glyph: "file",
+      string: '1161',
+      glyph: 'file',
       x: 365016.54,
       y: 5677991.07,
       more: {
         zoomlevel: 18,
-        verfahrensnummer: "1161"
+        verfahrensnummer: '1161'
       }
     }
   ],
@@ -58,7 +58,7 @@ const initialState = {
   overlayFeature: null,
   maskedOverlay: true,
   featureStylerScalableImageSize: 24,
-  featureCollectionKeyPostfix: ""
+  featureCollectionKeyPostfix: ''
 };
 
 ///REDUCER

@@ -4,7 +4,7 @@
     // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
     "version": "0.2.0",
     "configurations": [
-
+    
         {
             "type": "chrome",
             "request": "launch",
@@ -45,6 +45,13 @@
             "request": "launch",
             "name": "Debug Baeder",
             "url": "http://localhost:3000/#/baeder/?lat=51.27179498177712&lng=7.197965721193838&zoom=10&mapStyle=night",
+            "webRoot": "${workspaceRoot}"
+        },
+        {
+            "type": "chrome",
+            "request": "launch",
+            "name": "Debug DocViewer",
+            "url": "http://localhost:3000/#/docs/bplaene/928/2/1",
             "webRoot": "${workspaceRoot}"
         }
     ]

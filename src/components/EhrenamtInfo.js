@@ -237,7 +237,7 @@ const EhrenamtInfo = ({
 												</td>
 												<td style={{ textAlign: 'right' }}>
 													<OverlayTrigger
-														ref={(c) => (this.togglecartTooltip = c)}
+														//ref={(c) => (this.togglecartTooltip = c)}
 														placement='left'
 														overlay={
 															<Tooltip
@@ -250,13 +250,13 @@ const EhrenamtInfo = ({
 													>
 														<a
 															onClick={() => {
-																if (this.togglecartTooltip) {
-																	this.togglecartTooltip.hide();
-																} else {
-																	console.log(
-																		'no togglecartTooltip'
-																	);
-																}
+																// if (this.togglecartTooltip) {
+																// 	this.togglecartTooltip.hide();
+																// } else {
+																// 	console.log(
+																// 		'no togglecartTooltip'
+																// 	);
+																// }
 																toggleCartFromFeature(
 																	currentFeature
 																);

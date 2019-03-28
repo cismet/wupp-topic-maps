@@ -21,6 +21,11 @@ yarn-debug.log*
 yarn-error.log*
 
 #gazetteer data
+public/data
+public/ehrenamt
+public/gaz
+public/kitas
+public/pois
 public/gaz/
 public/ehrenamt/
 public/pois/

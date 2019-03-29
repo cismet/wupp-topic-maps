@@ -282,7 +282,7 @@ export class Stadtplan_ extends React.Component {
           <div>
             <b>Mein Themenstadtplan:
             </b>
-            {themenstadtplanDesc}
+            {' '}{themenstadtplanDesc}
           </div>
         );
       } else {

@@ -253,7 +253,7 @@ export class StadtplanModalApplicationMenu_ extends React.Component {
 									}}
 								>
 									<b>Mein Themenstadtplan:</b>
-									Kultur ohne Gesellschaft
+									{' '}Kultur ohne Gesellschaft
 								</td>
 							</tr>
 						</tbody>

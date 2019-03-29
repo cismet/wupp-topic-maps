@@ -325,8 +325,7 @@ const StadtplanInfo = ({
                     textAlign: 'center',
                     verticalAlign: 'center'
                   }}>
-                    <a onClick={fitAll}>{filteredPOIs.length}
-                      POI in Wuppertal</a>
+                    <a onClick={fitAll}>{filteredPOIs.length} {' '}POI in Wuppertal</a>
                   </td>
                   <td/>
                 </tr>

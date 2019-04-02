@@ -348,12 +348,6 @@ export class Kitas_ extends React.Component {
 							centerOnPoint={this.centerOnPoint}
 						/>
 					}
-					XXminZoom={6}
-					XXgazeteerHitTrigger={this.gazeteerhHit}
-					XXsearchButtonTrigger={this.searchButtonHit}
-					XXfeatureClickHandler={this.featureClick}
-					XXondblclick={this.doubleMapClick}
-					XXsearchTooltipProvider={this.searchTooltip}
 				/>
 			</div>
 		);

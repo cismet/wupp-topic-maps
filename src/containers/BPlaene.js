@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Cismap from '../containers/Cismap';
+import TopicMap from './TopicMap';
 import { connect } from 'react-redux';
 import { Well, Tooltip } from 'react-bootstrap';
 
@@ -13,7 +13,11 @@ import {
 } from '../redux/modules/gazetteerTopics';
 
 import { bindActionCreators } from 'redux';
-import { bplanFeatureStyler, bplanLabeler } from '../utils/bplanHelper';
+import {
+	bplanFeatureStyler,
+	bplanLabeler,
+	getMarkerStyleFromFeatureConsideringSelection as bplanMarkerStyle
+} from '../utils/bplanHelper';
 import {
 	downloadSingleFile,
 	prepareDownloadMultipleFiles,
@@ -333,77 +337,43 @@ export class BPlaene_ extends React.Component {
 
 		return (
 			<div>
-				<BPlanModalHelp
-					//key={'BPlanModalHelp.visible:' + this.props.ui.applicationMenuVisible}
-					uiState={this.props.ui}
-					uiStateActions={this.props.uiStateActions}
-				/>
-
-				<Cismap
-					layers={this.props.match.params.layers || 'uwBPlan|wupp-plan-live@20'}
-					gazeteerHitTrigger={this.bplanGazeteerhHit}
-					searchButtonTrigger={this.bplanSearchButtonHit}
-					applicationMenuTooltipProvider={() => {
-						return (
-							<Tooltip
-								style={{
-									zIndex: 3000000000
-								}}
-								id='helpTooltip'
-							>
-								Kompaktanleitung anzeigen
-							</Tooltip>
-						);
+				<TopicMap
+					noInitialLoadingText
+					home={{
+						center: [ 51.2724, 7.199806 ],
+						zoom: 13
 					}}
-					applicationMenuIcon='info'
+					fullScreenControl
+					locatorControl
+					gazetteerSearchBox
+					gazetteerTopicsList={[ 'pois', 'bplaene', 'adressen' ]}
+					gazetteerSearchBoxPlaceholdertext=' B-Plan-Nr. | Adresse | POI'
+					infoBox={info}
+					backgroundlayers={this.props.match.params.layers || 'uwBPlan|wupp-plan-live@20'}
+					getFeatureCollectionForData={() => {
+						return this.props.mapping.featureCollection;
+					}}
+					setSelectedFeatureIndex={this.props.mappingActions.setSelectedFeatureIndex}
 					featureStyler={bplanFeatureStyler}
-					labeler={bplanLabeler}
+					featureLabeler={bplanLabeler}
+					markerStyle={bplanMarkerStyle}
+					showMarkerCollection={true}
+					applicationMenuTooltipString='Kompaktanleitung anzeigen'
+					modalMenu={
+						<BPlanModalHelp
+							uiState={this.props.ui}
+							uiStateActions={this.props.uiStateActions}
+						/>
+					}
+					applicationMenuIconname='info'
 					featureClickHandler={this.featureClick}
 					ondblclick={this.doubleMapClick}
-					searchTooltipProvider={this.searchTooltip}
 					searchMinZoom={12}
 					searchMaxZoom={18}
+					gazeteerHitTrigger={this.bplanGazeteerhHit}
+					searchButtonTrigger={this.bplanSearchButtonHit}
 					searchAfterGazetteer={true}
-					gazTopics={[ 'pois', 'bplaene', 'adressen' ]}
-					gazBoxInfoText=' B-Plan-Nr. | Adresse | POI'
-					infoBox={info}
-				>
-					{/* <WMSTileLayer
-						ref={(c) => (this.modelLayer = c)}
-						//http://s10221:9988/rasterfariWMS?
-						// REQUEST=GetMap&
-						// SERVICE=WMS&
-						// SRS=EPSG:25832&
-						// BBOX=372591.0362606519,5678090.733242024,374105.89883934817,5678771.362057976&
-						// WIDTH=1144&
-						// HEIGHT=514&
-						// LAYERS=R156_DBB
-
-						//s10221:9988/rasterfariWMS?
-						// SERVICE=WMS&service=WMS&
-						// request=GetMap&
-						// layers=R156_DBB&
-						// styles=default&
-						// format=image%2Fpng&transparent=true&
-						// version=1.1.1&
-						// tiled=true&
-						// width=256&
-						// height=256&
-						// srs=EPSG%3A25832&
-						// bbox=372978.7138452329,5678096.292841828,373284.46195837285,5678402.04095497
-
-						url="http://s10221:8081/rasterfariWMS?SRS=EPSG:25832&"
-						layers="R156_DBB"
-						//version="1.1.1"
-						transparent="true"
-						format="image/png"
-						tiled="true"
-						styles="default"
-						srs="EPSG:25832"
-						maxZoom={19}
-						opacity={1}
-					/> */}
-				</Cismap>
+				/>
 			</div>
 		);
 	}

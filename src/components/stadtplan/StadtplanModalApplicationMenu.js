@@ -589,12 +589,15 @@ export class StadtplanModalApplicationMenu_ extends React.Component {
 											{getInternetExplorerVersion() === -1 && (
 												<FormGroup>
 													<br />
-													<ControlLabel>Kartendarstellung:</ControlLabel>
+													<ControlLabel>Hintergrundkarte:</ControlLabel>
 													<br />
 													<Radio
 														readOnly={true}
 														onClick={(e) => {
 															if (e.target.checked === true) {
+																this.props.mappingActions.setSelectedMappingBackground(
+																	'stadtplan'
+																);
 																this.props.routingActions.push(
 																	this.props.routing.location
 																		.pathname +
@@ -606,7 +609,11 @@ export class StadtplanModalApplicationMenu_ extends React.Component {
 																);
 															}
 														}}
-														checked={namedMapStyle === 'default'}
+														checked={
+															this.props.selectedBackground ===
+																'stadtplan' &&
+															namedMapStyle === 'default'
+														}
 														name='mapBackground'
 														inline
 													>
@@ -617,6 +624,9 @@ export class StadtplanModalApplicationMenu_ extends React.Component {
 														readOnly={true}
 														onClick={(e) => {
 															if (e.target.checked === true) {
+																this.props.mappingActions.setSelectedMappingBackground(
+																	'stadtplan'
+																);
 																this.props.routingActions.push(
 																	this.props.routing.location
 																		.pathname +
@@ -629,7 +639,11 @@ export class StadtplanModalApplicationMenu_ extends React.Component {
 															}
 														}}
 														name='mapBackground'
-														checked={namedMapStyle === 'night'}
+														checked={
+															this.props.selectedBackground ===
+																'stadtplan' &&
+															namedMapStyle === 'night'
+														}
 														inline
 													>
 														Stadtplan (Nacht)
@@ -639,19 +653,26 @@ export class StadtplanModalApplicationMenu_ extends React.Component {
 														readOnly={true}
 														onClick={(e) => {
 															if (e.target.checked === true) {
+																this.props.mappingActions.setSelectedMappingBackground(
+																	'lbk'
+																);
+
 																this.props.routingActions.push(
 																	this.props.routing.location
 																		.pathname +
-																		modifyQueryPart(
+																		removeQueryPart(
 																			this.props.routing
 																				.location.search,
-																			{ mapStyle: 'night' }
+																			'mapStyle'
 																		)
 																);
 															}
 														}}
 														name='mapBackground'
-														checked={namedMapStyle === 'night'}
+														checked={
+															this.props.selectedBackground ===
+																'lbk' && namedMapStyle === 'default'
+														}
 														inline
 													>
 														Luftbildkarte

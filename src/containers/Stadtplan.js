@@ -379,6 +379,8 @@ export class Stadtplan_ extends React.Component {
 							stadtplanActions={this.props.stadtplanActions}
 							mappingActions={this.props.mappingActions}
 							poiSvgSize={getPoiSvgSize(this.props.stadtplan)}
+							selectedBackground={this.props.mapping.selectedBackground}
+							availableBackgrounds={this.props.mapping.backgrounds}
 						/>
 					}
 				/>

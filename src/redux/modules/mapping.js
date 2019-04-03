@@ -327,5 +327,6 @@ export const actions = {
 	changeFeatureById,
 	setOverlayFeature,
 	setMaskedOverlay,
-	setFeatureCollectionKeyPostfix
+	setFeatureCollectionKeyPostfix,
+	setSelectedMappingBackground
 };

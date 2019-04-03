@@ -252,8 +252,7 @@ export class StadtplanModalApplicationMenu_ extends React.Component {
 										paddingleft: '10px'
 									}}
 								>
-									<b>Mein Themenstadtplan:</b>
-									{' '}Kultur ohne Gesellschaft
+									<b>Mein Themenstadtplan:</b> Kultur ohne Gesellschaft
 								</td>
 							</tr>
 						</tbody>
@@ -611,8 +610,9 @@ export class StadtplanModalApplicationMenu_ extends React.Component {
 														name='mapBackground'
 														inline
 													>
-														Tag
-													</Radio>{' '}
+														Stadtplan (Tag)
+													</Radio>
+													<br />
 													<Radio
 														readOnly={true}
 														onClick={(e) => {
@@ -632,8 +632,30 @@ export class StadtplanModalApplicationMenu_ extends React.Component {
 														checked={namedMapStyle === 'night'}
 														inline
 													>
-														Nacht
-													</Radio>{' '}
+														Stadtplan (Nacht)
+													</Radio>
+													<br />
+													<Radio
+														readOnly={true}
+														onClick={(e) => {
+															if (e.target.checked === true) {
+																this.props.routingActions.push(
+																	this.props.routing.location
+																		.pathname +
+																		modifyQueryPart(
+																			this.props.routing
+																				.location.search,
+																			{ mapStyle: 'night' }
+																		)
+																);
+															}
+														}}
+														name='mapBackground'
+														checked={namedMapStyle === 'night'}
+														inline
+													>
+														Luftbildkarte
+													</Radio>
 												</FormGroup>
 											)}
 											<FormGroup>

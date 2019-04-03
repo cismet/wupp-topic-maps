@@ -288,7 +288,7 @@ export class Kitas_ extends React.Component {
 					initialLoadingText='Laden der Kitas ...'
 					home={{
 						center: [ 51.2724, 7.199806 ],
-						zoom: 14
+						zoom: 8
 					}}
 					fullScreenControl
 					locatorControl

@@ -14,8 +14,8 @@ import {
 import { routerActions } from 'react-router-redux';
 
 import { bindActionCreators } from 'redux';
-import EhrenamtModalApplicationMenu from '../components/EhrenamtModalApplicationMenu';
-import EhrenamtInfo from '../components/EhrenamtInfo';
+import EhrenamtModalApplicationMenu from '../components/ehrenamt/EhrenamtModalApplicationMenu';
+import EhrenamtInfo from '../components/ehrenamt/EhrenamtInfo';
 
 import { featureStyler, featureHoverer, ehrenAmtClusterIconCreator } from '../utils/ehrenamtHelper';
 

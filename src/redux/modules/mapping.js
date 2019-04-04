@@ -67,7 +67,7 @@ const initialState = {
 			title: 'Top. Karte'
 		},
 		lbk: {
-			layerkey: 'trueOrtho2018@50|rvrSchrift@100|wupp-plan-live@20',
+			layerkey: 'wupp-plan-live@100|trueOrtho2018@75|rvrSchrift@100',
 			src: '/images/rain-hazard-map-bg/ortho.png',
 			title: 'Luftbildkarte'
 		},

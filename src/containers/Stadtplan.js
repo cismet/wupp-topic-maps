@@ -34,7 +34,7 @@ import Loadable from 'react-loading-overlay';
 import queryString from 'query-string';
 
 import StadtplanInfo from '../components/stadtplan/StadtplanInfo';
-import StadtplanModalApplicationMenu from '../components/stadtplan/StadtplanModalApplicationMenu';
+import StadtplanModalApplicationMenu from '../components/stadtplan/ModalMenu';
 import PhotoLightbox from './PhotoLightbox';
 
 import 'react-image-lightbox/style.css';
@@ -294,21 +294,10 @@ export class Stadtplan_ extends React.Component {
 
 		let reduxBackground = undefined;
 		try {
-			console.log('his.props.mapping.backgrounds', this.props.mapping.backgrounds);
-			console.log(
-				'this.props.mapping.selectedBackground',
-				this.props.mapping.selectedBackground
-			);
-			console.log(
-				'this.props.mapping.backgrounds[this.props.mapping.selectedBackground]',
-				this.props.mapping.backgrounds[this.props.mapping.selectedBackground]
-			);
-
 			reduxBackground = this.props.mapping.backgrounds[this.props.mapping.selectedBackground]
 				.layerkey;
 		} catch (e) {}
 
-		console.log(this.props.mapping.boundingBox);
 		return (
 			<div>
 				<PhotoLightbox /> {title}
@@ -320,7 +309,7 @@ export class Stadtplan_ extends React.Component {
 					initialLoadingText='Laden der POIs ...'
 					home={{
 						center: [ 51.2724, 7.199806 ],
-						zoom: 14
+						zoom: 8
 					}}
 					fullScreenControl
 					locatorControl
@@ -335,6 +324,7 @@ export class Stadtplan_ extends React.Component {
 					getFeatureCollectionForData={() => {
 						return this.props.mapping.featureCollection;
 					}}
+					featureCollectionKeyPostfix={this.props.mapping.featureCollectionKeyPostfix}
 					featureStyler={getFeatureStyler(getPoiSvgSize(this.props.stadtplan))}
 					featureHoverer={featureHoverer}
 					refreshFeatureCollection={() =>
@@ -364,23 +354,43 @@ export class Stadtplan_ extends React.Component {
 					applicationMenuTooltipString='Themenstadtplan | Einstellungen | Anleitung'
 					modalMenu={
 						<StadtplanModalApplicationMenu
-							key={
-								'StadtplanModalApplicationMenu.visible:' +
-								this.props.uiState.applicationMenuVisible
-							}
+							// key={
+							// 	'StadtplanModalApplicationMenu.visible:' +
+							// 	this.props.uiState.applicationMenuVisible
+							// }
 							lebenslagen={getLebenslagen(this.props.stadtplan)}
 							apps={getApps(this.props.stadtplan)}
 							filter={getFilter(this.props.stadtplan)}
 							filterChanged={this.filterChanged}
-							filteredPois={getFilteredPOIs(this.props.stadtplan) || []}
-							featureCollectionCount={this.props.mapping.featureCollection.length}
 							offersMD5={getPOIsMD5(this.props.stadtplan)}
-							centerOnPoint={this.centerOnPoint}
+							// centerOnPoint={this.centerOnPoint}
 							stadtplanActions={this.props.stadtplanActions}
-							mappingActions={this.props.mappingActions}
+							// mappingActions={this.props.mappingActions}
 							poiSvgSize={getPoiSvgSize(this.props.stadtplan)}
+							uiState={this.props.uiState}
+							uiStateActions={this.props.uiStateActions}
+							urlPathname={this.props.routing.location.pathname}
+							urlSearch={this.props.routing.location.search}
+							pushNewRoute={this.props.routingActions.push}
+							currentMarkerSize={getPoiSvgSize(this.props.stadtplan)}
+							changeMarkerSymbolSize={(size) => {
+								this.props.stadtplanActions.setPoiSvgSize(size);
+								this.props.mappingActions.setFeatureCollectionKeyPostfix(
+									'PoiSvgSize:' + size
+								);
+							}}
+							topicMapRef={this.topicMap}
 							selectedBackground={this.props.mapping.selectedBackground}
 							availableBackgrounds={this.props.mapping.backgrounds}
+							filteredPOIs={getFilteredPOIs(this.props.stadtplan) || []}
+							featureCollectionCount={this.props.mapping.featureCollection.length}
+							setLayerByKey={this.props.mappingActions.setSelectedMappingBackground}
+							activeLayerKey={this.props.mapping.selectedBackground}
+							setFeatureCollectionKeyPostfix={(pf) => {
+								console.log('setFeatureCollectionKeyPostfix', pf);
+
+								this.props.mappingActions.setFeatureCollectionKeyPostfix(pf);
+							}}
 						/>
 					}
 				/>

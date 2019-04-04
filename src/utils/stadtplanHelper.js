@@ -8,6 +8,7 @@ import poiColors from '../constants/poiColors.js';
 import store from '../redux/store';
 import queryString from 'query-string';
 import { Icon } from 'react-fa';
+import SVGInline from 'react-svg-inline';
 
 const fallbackSVG = `
     <svg xmlns="http://www.w3.org/2000/svg" width="311.668" height="311.668">
@@ -16,19 +17,24 @@ const fallbackSVG = `
     </svg>
 `;
 
+const pferdeSVG = `<svg xmlns="http://www.w3.org/2000/svg" width="20.0" height="20.0">
+                      <path class="bg-fill" fill="#C32D6A"  d="M0 0h20.008v20.945H0z"/>\r\n    
+                      <path class="fg-fill" fill="#FFF"  stroke-width="0" d="M1.00009e-005 5.53813l9.47799 -5.26555 0.484426 -0.269115 0.484426 0.269115 9.55504 5.30835 0 2.28059 -10.0395 -5.57747 -9.96242 5.53468 0 -2.28059zm8.87015 1.8069l-4.63299 8.47917 0.177307 0.177307 1.2306 0 2.719 -2.26583 0.375775 -0.313149 0.471964 0.10219c0.588385,0.127382 1.26169,0.0379336 1.83716,-0.177867 0.524949,-0.196859 0.926587,-0.462193 1.02639,-0.712847l1.85173 0.734449c-0.312619,0.785134 -1.1592,1.46193 -2.18274,1.84575 -0.750381,0.281386 -1.62234,0.42249 -2.45319,0.341572l-2.65382 2.21152 -0.281276 0.234402 -0.355503 0 -2.00019 0 -0.414099 0 -0.292998 -0.292998 -1.00009 -1.00009 -0.52978 -0.52979 0.361794 -0.657822 6.04839 -10.907 0.696565 2.73108zm-4.09236 0.683064c3.87973,-0.895314 6.85179,-0.990423 9.02785,-0.503307 1.82873,0.409368 3.12734,1.22612 3.95509,2.33342 0.838819,1.12211 1.17199,2.50553 1.06573,4.03896 -0.120111,1.7334 -0.810226,3.66563 -1.96549,5.61248l-1.71892 -1.01572c0.999724,-1.68473 1.59397,-3.31426 1.69205,-4.72959 0.0734969,-1.06067 -0.137153,-1.99112 -0.675073,-2.71069 -0.548962,-0.734349 -1.46003,-1.28718 -2.7831,-1.58335 -1.89794,-0.42486 -4.57412,-0.32253 -8.15277,0.503307l-0.445362 -1.9455zm4.22306 1.96284c0.278876,0 0.53142,0.113091 0.714207,0.295888 0.182797,0.182787 0.295888,0.435331 0.295888,0.714207 0,0.278886 -0.113091,0.53142 -0.295888,0.714207 -0.182787,0.182797 -0.435331,0.295888 -0.714207,0.295888 -0.278886,0 -0.53142,-0.113091 -0.714207,-0.295888 -0.182797,-0.182787 -0.295888,-0.435321 -0.295888,-0.714207 0,-0.278876 0.113091,-0.53142 0.295888,-0.714207 0.182787,-0.182797 0.435321,-0.295888 0.714207,-0.295888zm0.700066 0.310029c-0.179167,-0.179177 -0.4267,-0.290027 -0.700066,-0.290027 -0.273366,0 -0.520899,0.11085 -0.700066,0.290027 -0.179177,0.179167 -0.290027,0.4267 -0.290027,0.700066 0,0.273366 0.11085,0.520899 0.290027,0.700066 0.179167,0.179177 0.4267,0.290027 0.700066,0.290027 0.273366,0 0.520899,-0.11085 0.700066,-0.290027 0.179177,-0.179167 0.290027,-0.4267 0.290027,-0.700066 0,-0.273366 -0.11085,-0.520899 -0.290027,-0.700066zm-0.700066 -0.300028c0.552252,0 1.00009,0.447842 1.00009,1.00009 0,0.552252 -0.447842,1.00009 -1.00009,1.00009 -0.552252,0 -1.00009,-0.447842 -1.00009,-1.00009 0,-0.552252 0.447842,-1.00009 1.00009,-1.00009z"/>
+                  </svg>`;
+
 export const getFeatureStyler = (svgSize = 24, colorizer = getColorForProperties) => {
-  return feature => {
-    var color = Color(colorizer(feature.properties));
-    let radius = svgSize / 2; //needed for the Tooltip Positioning
-    let canvasSize = svgSize;
-    if (feature.selected) {
-      canvasSize = svgSize + 12;
-    }
+	return (feature) => {
+		var color = Color(colorizer(feature.properties));
+		let radius = svgSize / 2; //needed for the Tooltip Positioning
+		let canvasSize = svgSize;
+		if (feature.selected) {
+			canvasSize = svgSize + 12;
+		}
 
-    let selectionBox = canvasSize - 6;
-    let badge = feature.properties.svgBadge || fallbackSVG; //|| `<image x="${(svgSize - 20) / 2}" y="${(svgSize - 20) / 2}" width="20" height="20" xlink:href="/pois/signaturen/`+getSignatur(feature.properties)+`" />`;
+		let selectionBox = canvasSize - 6;
+		let badge = feature.properties.svgBadge || fallbackSVG; //|| `<image x="${(svgSize - 20) / 2}" y="${(svgSize - 20) / 2}" width="20" height="20" xlink:href="/pois/signaturen/`+getSignatur(feature.properties)+`" />`;
 
-    let svg = `<svg id="badgefor_${feature.id}" height="${canvasSize}" width="${canvasSize}"> 
+		let svg = `<svg id="badgefor_${feature.id}" height="${canvasSize}" width="${canvasSize}"> 
                     <style>
                     /* <![CDATA[ */
                         #badgefor_${feature.id} .bg-fill  {
@@ -46,21 +52,21 @@ export const getFeatureStyler = (svgSize = 24, colorizer = getColorForProperties
                     /* ]]> */
                     </style>
                 <svg x="${svgSize / 12}" y="${svgSize / 12}"  width="${svgSize -
-      (2 * svgSize) / 12}" height="${svgSize - (2 * svgSize) / 12}" viewBox="0 0 ${
-      feature.properties.svgBadgeDimension.width
-    } ${feature.properties.svgBadgeDimension.height}">       
+			2 * svgSize / 12}" height="${svgSize - 2 * svgSize / 12}" viewBox="0 0 ${feature
+			.properties.svgBadgeDimension.width} ${feature.properties.svgBadgeDimension
+			.height}">       
                     ${badge}
                 </svg>
                 </svg>  `;
 
-    if (feature.selected) {
-      let selectionOffset = (canvasSize - selectionBox) / 2;
+		if (feature.selected) {
+			let selectionOffset = (canvasSize - selectionBox) / 2;
 
-      let badgeDimension = svgSize - (2 * svgSize) / 12;
-      let innerBadgeOffset = (selectionBox - badgeDimension) / 2;
+			let badgeDimension = svgSize - 2 * svgSize / 12;
+			let innerBadgeOffset = (selectionBox - badgeDimension) / 2;
 
-      svg =
-        `<svg id="badgefor_${feature.id}" height="${canvasSize}" width="${canvasSize}">
+			svg =
+				`<svg id="badgefor_${feature.id}" height="${canvasSize}" width="${canvasSize}">
                     <style>
                     /* <![CDATA[ */
                         #badgefor_${feature.id} .bg-fill  {
@@ -79,326 +85,369 @@ export const getFeatureStyler = (svgSize = 24, colorizer = getColorForProperties
                     </style>
                 <rect x="${selectionOffset}" y="${selectionOffset}" rx="8" ry="8" width="${selectionBox}" height="${selectionBox}" fill="rgba(67, 149, 254, 0.8)" stroke-width="0"/>
                 <svg x="${selectionOffset + innerBadgeOffset}" y="${selectionOffset +
-          innerBadgeOffset}" width="${badgeDimension}" height="${badgeDimension}" viewBox="0 0 ` +
-        feature.properties.svgBadgeDimension.width +
-        ` ` +
-        feature.properties.svgBadgeDimension.height +
-        `">
+					innerBadgeOffset}" width="${badgeDimension}" height="${badgeDimension}" viewBox="0 0 ` +
+				feature.properties.svgBadgeDimension.width +
+				` ` +
+				feature.properties.svgBadgeDimension.height +
+				`">
                 ${badge}
 
                 </svg>
                 </svg>`;
-    }
+		}
 
-    const style = {
-      radius,
-      fillColor: color,
-      color: color.darken(0.5),
-      opacity: 1,
-      fillOpacity: 0.8,
-      svg,
-      svgSize: canvasSize
-    };
-    return style;
-  };
+		const style = {
+			radius,
+			fillColor: color,
+			color: color.darken(0.5),
+			opacity: 1,
+			fillOpacity: 0.8,
+			svg,
+			svgSize: canvasSize
+		};
+		return style;
+	};
 };
 export const getPoiClusterIconCreatorFunction = (
-  svgSize = 24,
-  colorizer = getColorForProperties
+	svgSize = 24,
+	colorizer = getColorForProperties
 ) => {
-  //return a function because the functionCall of the iconCreateFunction cannot be manipulated
-  return cluster => {
-    var childCount = cluster.getChildCount();
-    const values = [];
-    const colors = [];
+	//return a function because the functionCall of the iconCreateFunction cannot be manipulated
+	return (cluster) => {
+		var childCount = cluster.getChildCount();
+		const values = [];
+		const colors = [];
 
-    const r = svgSize / 1.5;
-    // Pie with default colors
-    let childMarkers = cluster.getAllChildMarkers();
+		const r = svgSize / 1.5;
+		// Pie with default colors
+		let childMarkers = cluster.getAllChildMarkers();
 
-    let containsSelection = false;
-    let inCart = false;
-    for (let marker of childMarkers) {
-      values.push(1);
-      colors.push(Color(colorizer(marker.feature.properties)));
-      if (marker.feature.selected === true) {
-        containsSelection = true;
-      }
-      if (marker.feature.inCart) {
-        inCart = true;
-      }
-    }
-    const pie = createSVGPie(values, r, colors);
+		let containsSelection = false;
+		let inCart = false;
+		for (let marker of childMarkers) {
+			values.push(1);
+			colors.push(Color(colorizer(marker.feature.properties)));
+			if (marker.feature.selected === true) {
+				containsSelection = true;
+			}
+			if (marker.feature.inCart) {
+				inCart = true;
+			}
+		}
+		const pie = createSVGPie(values, r, colors);
 
-    let canvasSize = (svgSize / 3.0) * 5.0;
-    let background = createElement('svg', {
-      width: canvasSize,
-      height: canvasSize,
-      viewBox: `0 0 ${canvasSize} ${canvasSize}`
-    });
+		let canvasSize = svgSize / 3.0 * 5.0;
+		let background = createElement('svg', {
+			width: canvasSize,
+			height: canvasSize,
+			viewBox: `0 0 ${canvasSize} ${canvasSize}`
+		});
 
-    //Kleiner Kreis in der Mitte
-    // (blau wenn selektion)
-    let innerCircleColor = '#ffffff';
-    if (containsSelection) {
-      innerCircleColor = 'rgb(67, 149, 254)';
-    }
+		//Kleiner Kreis in der Mitte
+		// (blau wenn selektion)
+		let innerCircleColor = '#ffffff';
+		if (containsSelection) {
+			innerCircleColor = 'rgb(67, 149, 254)';
+		}
 
-    //inner circle
-    pie.appendChild(
-      createElement('circle', {
-        cx: r,
-        cy: r,
-        r: svgSize / 3.0,
-        'stroke-width': 0,
-        opacity: '0.5',
-        fill: innerCircleColor
-      })
-    );
+		//inner circle
+		pie.appendChild(
+			createElement('circle', {
+				cx: r,
+				cy: r,
+				r: svgSize / 3.0,
+				'stroke-width': 0,
+				opacity: '0.5',
+				fill: innerCircleColor
+			})
+		);
 
-    // //Debug Rectangle -should be commnented out
-    // background.appendChild(createElement('rect', {
-    //     x:0,
-    //     y:0,
-    //     width: canvasSize,
-    //     height: canvasSize,
-    //     "stroke-width":1,
-    //     stroke: "#000000",
-    //     opacity: "1",
-    //     fill: "#ff0000"
+		// //Debug Rectangle -should be commnented out
+		// background.appendChild(createElement('rect', {
+		//     x:0,
+		//     y:0,
+		//     width: canvasSize,
+		//     height: canvasSize,
+		//     "stroke-width":1,
+		//     stroke: "#000000",
+		//     opacity: "1",
+		//     fill: "#ff0000"
 
-    // }));
+		// }));
 
-    background.appendChild(pie);
+		background.appendChild(pie);
 
-    // Umrandung
-    background.appendChild(
-      createElement('circle', {
-        cx: canvasSize / 2.0,
-        cy: canvasSize / 2.0,
-        r: r,
-        'stroke-width': 2,
-        stroke: '#000000',
-        opacity: '0.5',
-        fill: 'none'
-      })
-    );
+		// Umrandung
+		background.appendChild(
+			createElement('circle', {
+				cx: canvasSize / 2.0,
+				cy: canvasSize / 2.0,
+				r: r,
+				'stroke-width': 2,
+				stroke: '#000000',
+				opacity: '0.5',
+				fill: 'none'
+			})
+		);
 
-    if (inCart) {
-      background
-        .appendChild(
-          createElement('text', {
-            x: '50%',
-            y: '50%',
-            'text-anchor': 'middle',
-            'font-family': 'FontAwesome',
-            fill: '#fff',
-            'font-size': '26',
-            dy: '.4em',
-            opacity: '0.5'
-          })
-        )
-        .appendChild(document.createTextNode('\uf005'));
-    }
+		if (inCart) {
+			background
+				.appendChild(
+					createElement('text', {
+						x: '50%',
+						y: '50%',
+						'text-anchor': 'middle',
+						'font-family': 'FontAwesome',
+						fill: '#fff',
+						'font-size': '26',
+						dy: '.4em',
+						opacity: '0.5'
+					})
+				)
+				.appendChild(document.createTextNode('\uf005'));
+		}
 
-    background
-      .appendChild(
-        createElement('text', {
-          x: '50%',
-          y: '50%',
-          'text-anchor': 'middle',
-          dy: '.3em'
-        })
-      )
-      .appendChild(document.createTextNode(childCount));
+		background
+			.appendChild(
+				createElement('text', {
+					x: '50%',
+					y: '50%',
+					'text-anchor': 'middle',
+					dy: '.3em'
+				})
+			)
+			.appendChild(document.createTextNode(childCount));
 
-    pie.setAttribute('x', (canvasSize - r * 2) / 2.0);
-    pie.setAttribute('y', (canvasSize - r * 2) / 2.0);
+		pie.setAttribute('x', (canvasSize - r * 2) / 2.0);
+		pie.setAttribute('y', (canvasSize - r * 2) / 2.0);
 
-    var divIcon = L.divIcon({
-      className: 'leaflet-data-marker',
-      html: background.outerHTML || new XMLSerializer().serializeToString(background), //IE11 Compatibility
-      iconAnchor: [canvasSize / 2.0, canvasSize / 2.0],
-      iconSize: [canvasSize, canvasSize]
-    });
-    //console.log(background.outerHtml)
-    return divIcon;
-  };
+		var divIcon = L.divIcon({
+			className: 'leaflet-data-marker',
+			html: background.outerHTML || new XMLSerializer().serializeToString(background), //IE11 Compatibility
+			iconAnchor: [ canvasSize / 2.0, canvasSize / 2.0 ],
+			iconSize: [ canvasSize, canvasSize ]
+		});
+		//console.log(background.outerHtml)
+		return divIcon;
+	};
 };
 
-export const getColorForProperties = properties => {
-  let { mainlocationtype } = properties;
-  let ll = mainlocationtype.lebenslagen;
-  //console.log(colorHash.hex("" + JSON.stringify({ll})));
-  return getColorFromLebenslagenCombination(ll.join(', '));
-  //return "#A83F6A";
+export const getColorForProperties = (properties) => {
+	let { mainlocationtype } = properties;
+	let ll = mainlocationtype.lebenslagen;
+	//console.log(colorHash.hex("" + JSON.stringify({ll})));
+	return getColorFromLebenslagenCombination(ll.join(', '));
+	//return "#A83F6A";
 };
-export const getColorFromLebenslagenCombination = combination => {
-  let qColorRules;
-  let colorCandidate;
-  let lookup = null;
-  try {
-    qColorRules = queryString.parse(store.getState().routing.location.search).colorRules;
+export const getColorFromLebenslagenCombination = (combination) => {
+	let qColorRules;
+	let colorCandidate;
+	let lookup = null;
+	try {
+		qColorRules = queryString.parse(store.getState().routing.location.search).colorRules;
 
-    if (qColorRules) {
-      try {
-        lookup = JSON.parse(qColorRules);
-      } catch (error) {
-        console.error(error);
-      }
-    }
-  } catch (error) {
-    //problem dduring colorRulesn override
-  }
-  if (lookup === null) {
-    lookup = poiColors;
-  }
+		if (qColorRules) {
+			try {
+				lookup = JSON.parse(qColorRules);
+			} catch (error) {
+				console.error(error);
+			}
+		}
+	} catch (error) {
+		//problem dduring colorRulesn override
+	}
+	if (lookup === null) {
+		lookup = poiColors;
+	}
 
-  colorCandidate = lookup[combination];
-  if (colorCandidate) {
-    return colorCandidate;
-  } else {
-    let colorHash = new ColorHash({ saturation: 0.3 });
-    const c = colorHash.hex(combination);
-    console.debug(
-      "Keine vordefinierte Farbe für '" +
-        combination +
-        "' vorhanden. (Ersatz wird automatisch erstellt) --> " +
-        c
-    );
-    return c;
-  }
-  //return "#A83F6A";
-};
-
-export const featureHoverer = feature => {
-  return '<div>' + feature.text + '</div>';
+	colorCandidate = lookup[combination];
+	if (colorCandidate) {
+		return colorCandidate;
+	} else {
+		let colorHash = new ColorHash({ saturation: 0.3 });
+		const c = colorHash.hex(combination);
+		console.debug(
+			"Keine vordefinierte Farbe für '" +
+				combination +
+				"' vorhanden. (Ersatz wird automatisch erstellt) --> " +
+				c
+		);
+		return c;
+	}
+	//return "#A83F6A";
 };
 
-const getSignatur = properties => {
-  if (properties.signatur) {
-    return properties.signatur;
-  } else if (properties.mainlocationtype.signatur) {
-    return properties.mainlocationtype.signatur;
-  }
-  return 'Platz.svg'; //TODO sinnvoller default
+export const featureHoverer = (feature) => {
+	return '<div>' + feature.text + '</div>';
+};
+
+const getSignatur = (properties) => {
+	if (properties.signatur) {
+		return properties.signatur;
+	} else if (properties.mainlocationtype.signatur) {
+		return properties.mainlocationtype.signatur;
+	}
+	return 'Platz.svg'; //TODO sinnvoller default
 };
 
 export const addSVGToPOI = (poi, manualReloadRequested) => {
-  return new Promise(function(fulfilled, rejected) {
-    let cacheHeaders = new Headers();
-    if (manualReloadRequested) {
-      cacheHeaders.append('pragma', 'no-cache');
-      cacheHeaders.append('cache-control', 'no-cache');
-    }
-    fetch('/poi-signaturen/' + getSignatur(poi), { method: 'get', headers: cacheHeaders })
-      .then(response => {
-        if (response.ok) {
-          return response.text();
-        } else {
-          throw new Error("Server svg response wasn't OK");
-        }
-      })
-      .then(svgText => {
-        const svgDocument = new DOMParser().parseFromString(svgText, 'application/xml');
-        const svgObject = svgDocument.documentElement;
-        if (svgObject.tagName === 'svg') {
-          poi.svgBadge = svgText;
-          poi.svgBadgeDimension = {
-            width: svgObject.getAttribute('width'),
-            height: svgObject.getAttribute('height')
-          };
-          fulfilled(poi);
-        } else {
-          throw new Error("Server svg response wasn't a SVG");
-        }
-      })
-      .catch(function(error) {
-        console.error('Problem bei /pois/signaturen/' + getSignatur(poi));
-        console.error(error);
+	return new Promise(function(fulfilled, rejected) {
+		let cacheHeaders = new Headers();
+		if (manualReloadRequested) {
+			cacheHeaders.append('pragma', 'no-cache');
+			cacheHeaders.append('cache-control', 'no-cache');
+		}
+		fetch('/poi-signaturen/' + getSignatur(poi), { method: 'get', headers: cacheHeaders })
+			.then((response) => {
+				if (response.ok) {
+					return response.text();
+				} else {
+					throw new Error("Server svg response wasn't OK");
+				}
+			})
+			.then((svgText) => {
+				const svgDocument = new DOMParser().parseFromString(svgText, 'application/xml');
+				const svgObject = svgDocument.documentElement;
+				if (svgObject.tagName === 'svg') {
+					poi.svgBadge = svgText;
+					poi.svgBadgeDimension = {
+						width: svgObject.getAttribute('width'),
+						height: svgObject.getAttribute('height')
+					};
+					fulfilled(poi);
+				} else {
+					throw new Error("Server svg response wasn't a SVG");
+				}
+			})
+			.catch(function(error) {
+				console.error('Problem bei /pois/signaturen/' + getSignatur(poi));
+				console.error(error);
 
-        //fallback SVG
-        console.log('Will use fallbackSVG for ' + getSignatur(poi));
+				//fallback SVG
+				console.log('Will use fallbackSVG for ' + getSignatur(poi));
 
-        poi.svgBadge = fallbackSVG;
-        poi.svgBadgeDimension = {
-          width: '311.668',
-          height: '311.668'
-        };
-        fulfilled(poi);
-      });
-  });
+				poi.svgBadge = fallbackSVG;
+				poi.svgBadgeDimension = {
+					width: '311.668',
+					height: '311.668'
+				};
+				fulfilled(poi);
+			});
+	});
 };
 
 export const triggerLightBoxForPOI = (currentFeature, uiStateActions) => {
-  if (
-    currentFeature.properties.fotostrecke === undefined ||
-    currentFeature.properties.fotostrecke === null ||
-    currentFeature.properties.fotostrecke.indexOf('&noparse') !== -1
-  ) {
-    uiStateActions.setLightboxUrls([
-      currentFeature.properties.foto.replace(
-        /http:\/\/.*fotokraemer-wuppertal\.de/,
-        'https://wunda-geoportal-fotos.cismet.de/'
-      )
-    ]);
-    uiStateActions.setLightboxTitle(currentFeature.text);
-    let linkUrl;
-    if (currentFeature.properties.fotostrecke) {
-      linkUrl = currentFeature.properties.fotostrecke;
-    } else {
-      linkUrl = 'http://www.fotokraemer-wuppertal.de/';
-    }
-    uiStateActions.setLightboxCaption(
-      <a href={linkUrl} target="_fotos">
-        <Icon name="copyright" /> Peter Kr&auml;mer - Fotografie
-      </a>
-    );
-    uiStateActions.setLightboxIndex(0);
-    uiStateActions.setLightboxVisible(true);
-  } else {
-    fetch(
-      currentFeature.properties.fotostrecke.replace(
-        /http:\/\/.*fotokraemer-wuppertal\.de/,
-        'https://wunda-geoportal-fotos.cismet.de/'
-      ),
-      {
-        method: 'get'
-      }
-    )
-      .then(function(response) {
-        return response.text();
-      })
-      .then(function(data) {
-        var tmp = document.implementation.createHTMLDocument();
-        tmp.body.innerHTML = data;
-        let urls = [];
-        let counter = 0;
-        let mainfotoname = decodeURIComponent(currentFeature.properties.foto)
-          .split('/')
-          .pop()
-          .trim();
-        let selectionWish = 0;
-        for (let el of tmp.getElementsByClassName('bilderrahmen')) {
-          let query = queryString.parse(el.getElementsByTagName('a')[0].getAttribute('href'));
-          urls.push('https://wunda-geoportal-fotos.cismet.de/images/' + query.dateiname_bild);
-          if (mainfotoname === query.dateiname_bild) {
-            selectionWish = counter;
-          }
-          counter += 1;
-        }
-        uiStateActions.setLightboxUrls(urls);
-        uiStateActions.setLightboxTitle(currentFeature.text);
-        uiStateActions.setLightboxCaption(
-          <a href={currentFeature.properties.fotostrecke} target="_fotos">
-            <Icon name="copyright" /> Peter Kr&auml;mer - Fotografie
-          </a>
-        );
-        uiStateActions.setLightboxIndex(selectionWish);
-        uiStateActions.setLightboxVisible(true);
-      })
-      .catch(function(err) {
-        console.log(err);
-      });
-  }
+	if (
+		currentFeature.properties.fotostrecke === undefined ||
+		currentFeature.properties.fotostrecke === null ||
+		currentFeature.properties.fotostrecke.indexOf('&noparse') !== -1
+	) {
+		uiStateActions.setLightboxUrls([
+			currentFeature.properties.foto.replace(
+				/http:\/\/.*fotokraemer-wuppertal\.de/,
+				'https://wunda-geoportal-fotos.cismet.de/'
+			)
+		]);
+		uiStateActions.setLightboxTitle(currentFeature.text);
+		let linkUrl;
+		if (currentFeature.properties.fotostrecke) {
+			linkUrl = currentFeature.properties.fotostrecke;
+		} else {
+			linkUrl = 'http://www.fotokraemer-wuppertal.de/';
+		}
+		uiStateActions.setLightboxCaption(
+			<a href={linkUrl} target='_fotos'>
+				<Icon name='copyright' /> Peter Kr&auml;mer - Fotografie
+			</a>
+		);
+		uiStateActions.setLightboxIndex(0);
+		uiStateActions.setLightboxVisible(true);
+	} else {
+		fetch(
+			currentFeature.properties.fotostrecke.replace(
+				/http:\/\/.*fotokraemer-wuppertal\.de/,
+				'https://wunda-geoportal-fotos.cismet.de/'
+			),
+			{
+				method: 'get'
+			}
+		)
+			.then(function(response) {
+				return response.text();
+			})
+			.then(function(data) {
+				var tmp = document.implementation.createHTMLDocument();
+				tmp.body.innerHTML = data;
+				let urls = [];
+				let counter = 0;
+				let mainfotoname = decodeURIComponent(currentFeature.properties.foto)
+					.split('/')
+					.pop()
+					.trim();
+				let selectionWish = 0;
+				for (let el of tmp.getElementsByClassName('bilderrahmen')) {
+					let query = queryString.parse(
+						el.getElementsByTagName('a')[0].getAttribute('href')
+					);
+					urls.push(
+						'https://wunda-geoportal-fotos.cismet.de/images/' + query.dateiname_bild
+					);
+					if (mainfotoname === query.dateiname_bild) {
+						selectionWish = counter;
+					}
+					counter += 1;
+				}
+				uiStateActions.setLightboxUrls(urls);
+				uiStateActions.setLightboxTitle(currentFeature.text);
+				uiStateActions.setLightboxCaption(
+					<a href={currentFeature.properties.fotostrecke} target='_fotos'>
+						<Icon name='copyright' /> Peter Kr&auml;mer - Fotografie
+					</a>
+				);
+				uiStateActions.setLightboxIndex(selectionWish);
+				uiStateActions.setLightboxVisible(true);
+			})
+			.catch(function(err) {
+				console.log(err);
+			});
+	}
+};
+export const getPOISVG = (
+	svgSize = 30,
+	bg = '#FF0000',
+	kind = '-',
+	svgStyleRelatedId = 'default'
+) => {
+	let bdim = {
+		width: 20,
+		height: 20
+	};
+	let svg = pferdeSVG;
+
+	let svgCode = `<svg  id="${svgStyleRelatedId}" height="${svgSize}" width="${svgSize}"> 
+                    <style>
+                    /* <![CDATA[ */
+                        #${svgStyleRelatedId} .bg-fill  {
+                            fill: ${bg};
+                        }
+                        #${svgStyleRelatedId} .bg-stroke  {
+                            stroke: ${bg};
+                        }
+                        #${svgStyleRelatedId} .fg-fill  {
+                            fill: white;
+                        }
+                        #${svgStyleRelatedId} .fg-stroke  {
+                            stroke: white;
+                        }
+                    /* ]]> */
+                    </style>
+                <svg x="${svgSize / bdim.width / 2}" y="${svgSize /
+		bdim.height /
+		2}"  width="${svgSize - 2 * svgSize / bdim.width / 2}" height="${svgSize -
+		2 * svgSize / bdim.height / 2}" viewBox="0 0 ${bdim.width} ${bdim.height || 24}">       
+                    ${svg}
+                </svg>
+                </svg>  `;
+
+	return <SVGInline svg={svgCode} />;
 };

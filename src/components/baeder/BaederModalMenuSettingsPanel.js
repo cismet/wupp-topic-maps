@@ -24,8 +24,12 @@ const BaederModalMenuSettingsSection = ({
 	pushNewRoute,
 	changeMarkerSymbolSize,
 	currentMarkerSize,
-	topicMapRef
+	topicMapRef,
+	setLayerByKey,
+	activeLayerKey
 }) => {
+	console.log('activeLayerKey', activeLayerKey);
+
 	let namedMapStyle = new URLSearchParams(urlSearch).get('mapStyle') || 'default';
 	let zoom = 7;
 	let layers = '';
@@ -92,6 +96,32 @@ const BaederModalMenuSettingsSection = ({
 			</FormGroup>
 		</div>
 	);
+	let backgroundModes;
+	if (getInternetExplorerVersion() === -1) {
+		backgroundModes = [
+			{
+				title: 'Stadtplan (mehrfarbig)',
+				mode: 'default',
+				layerKey: 'stadtplan'
+			},
+			{
+				title: 'Stadtplan (blau)',
+				mode: 'blue',
+				layerKey: 'stadtplan'
+			},
+			{ title: 'Luftbildkarte', mode: 'default', layerKey: 'lbk' }
+		];
+	} else {
+		backgroundModes = [
+			{
+				title: 'Stadtplan',
+				mode: 'default',
+				layerKey: 'stadtplan'
+			},
+			{ title: 'Luftbildkarte', mode: 'default', layerKey: 'lbk' }
+		];
+	}
+	console.log('setLayerByKey', setLayerByKey);
 
 	return (
 		<GenericModalMenuSection
@@ -105,15 +135,16 @@ const BaederModalMenuSettingsSection = ({
 					width={width}
 					preview={preview}
 					settingsSections={[
-						getInternetExplorerVersion() === -1 && (
-							<NamedMapStyleChooser
-								currentNamedMapStyle={namedMapStyle}
-								pathname={urlPathname}
-								search={urlSearch}
-								pushNewRoute={pushNewRoute}
-								modes={[ { title: 'mehrfarbig', mode: 'default' }, { title: 'blau', mode: 'blue' } ]}
-							/>
-						),
+						<NamedMapStyleChooser
+							currentNamedMapStyle={namedMapStyle}
+							pathname={urlPathname}
+							search={urlSearch}
+							pushNewRoute={pushNewRoute}
+							vertical
+							setLayerByKey={setLayerByKey}
+							activeLayerKey={activeLayerKey}
+							modes={backgroundModes}
+						/>,
 						<SymbolSizeChooser
 							changeMarkerSymbolSize={changeMarkerSymbolSize}
 							currentMarkerSize={currentMarkerSize}

@@ -5,60 +5,75 @@ import { removeQueryPart, modifyQueryPart } from '../../utils/routingHelper';
 
 // Since this component is simple and static, there's no parent container for it.
 const NamedMapStyleChooser = ({
-  title,
-  currentNamedMapStyle,
-  pathname,
-  search,
-  pushNewRoute,
-  modes
+	title,
+	currentNamedMapStyle,
+	pathname,
+	search,
+	pushNewRoute,
+	setLayerByKey = () => {},
+	activeLayerKey = 'none',
+	modes,
+	vertical = false
 }) => {
-  return (
-    <FormGroup>
-      <ControlLabel>{title}</ControlLabel>
-      <br />
-      {modes.map((item, key) => {
-        return (
-          <Radio
-            id={'cboMapStyleChooser_' + item}
-            key={key}
-            readOnly={true}
-            onClick={e => {
-              if (e.target.checked === true) {
-                if (item.mode === 'default') {
-                  pushNewRoute(pathname + removeQueryPart(search, 'mapStyle'));
-                } else {
-                  pushNewRoute(
-                    pathname +
-                      modifyQueryPart(search, {
-                        mapStyle: item.mode
-                      })
-                  );
-                }
-              }
-            }}
-            checked={currentNamedMapStyle === item.mode}
-            name="mapBackground"
-            inline
-          >
-            {item.title} &nbsp;
-          </Radio>
-        );
-      })}
-    </FormGroup>
-  );
+	return (
+		<FormGroup>
+			<ControlLabel>{title}</ControlLabel>
+			<br />
+			{modes.map((item, key) => {
+				return (
+					<span>
+						<Radio
+							id={'cboMapStyleChooser_' + item}
+							key={key}
+							readOnly={true}
+							onClick={(e) => {
+								if (e.target.checked === true) {
+									if (item.layerKey) {
+										setLayerByKey(item.layerKey);
+									}
+									if (item.mode === 'default') {
+										pushNewRoute(
+											pathname + removeQueryPart(search, 'mapStyle')
+										);
+									} else {
+										pushNewRoute(
+											pathname +
+												modifyQueryPart(search, {
+													mapStyle: item.mode
+												})
+										);
+									}
+								}
+							}}
+							checked={
+								currentNamedMapStyle === item.mode &&
+								activeLayerKey === (item.layerKey || 'none')
+							}
+							name='mapBackground'
+							inline
+						>
+							{item.title} &nbsp;
+						</Radio>
+						{vertical !== false && <br />}
+					</span>
+				);
+			})}
+		</FormGroup>
+	);
 };
 
 export default NamedMapStyleChooser;
 NamedMapStyleChooser.propTypes = {
-  title: PropTypes.string,
-  currentNamedMapStyle: PropTypes.string.isRequired,
-  pathname: PropTypes.string.isRequired,
-  search: PropTypes.string.isRequired,
-  pushNewRoute: PropTypes.func.isRequired,
-  modes: PropTypes.array
+	title: PropTypes.string,
+	vertical: PropTypes.bool,
+	currentNamedMapStyle: PropTypes.string.isRequired,
+	pathname: PropTypes.string.isRequired,
+	search: PropTypes.string.isRequired,
+	pushNewRoute: PropTypes.func.isRequired,
+	modes: PropTypes.array
 };
 
 NamedMapStyleChooser.defaultProps = {
-  title: 'Kartendarstellung:',
-  modes: [{ title: 'Tag', mode: 'default' }, { title: 'Nacht', mode: 'night' }]
+	title: 'Kartendarstellung:',
+	modes: [ { title: 'Tag', mode: 'default' }, { title: 'Nacht', mode: 'night' } ]
 };

@@ -161,6 +161,32 @@ const ModalMenuSettingsSection = ({
 		</div>
 	);
 
+	let backgroundModes;
+	if (getInternetExplorerVersion() === -1) {
+		backgroundModes = [
+			{
+				title: 'Stadtplan (Tag)',
+				mode: 'default',
+				layerKey: 'stadtplan'
+			},
+			{
+				title: 'Stadtplan (Nacht)',
+				mode: 'night',
+				layerKey: 'stadtplan'
+			},
+			{ title: 'Luftbildkarte', mode: 'default', layerKey: 'lbk' }
+		];
+	} else {
+		backgroundModes = [
+			{
+				title: 'Stadtplan',
+				mode: 'default',
+				layerKey: 'stadtplan'
+			},
+			{ title: 'Luftbildkarte', mode: 'default', layerKey: 'lbk' }
+		];
+	}
+
 	return (
 		<GenericModalMenuSection
 			uiState={uiState}
@@ -223,30 +249,17 @@ const ModalMenuSettingsSection = ({
 							</Checkbox>
 							<br />
 						</div>,
-						getInternetExplorerVersion() === -1 && (
-							<NamedMapStyleChooser
-								currentNamedMapStyle={namedMapStyle}
-								pathname={urlPathname}
-								search={urlSearch}
-								pushNewRoute={pushNewRoute}
-								vertical
-								setLayerByKey={setLayerByKey}
-								activeLayerKey={activeLayerKey}
-								modes={[
-									{
-										title: 'Stadtplan (Tag)',
-										mode: 'default',
-										layerKey: 'stadtplan'
-									},
-									{
-										title: 'Stadtplan (Nacht)',
-										mode: 'night',
-										layerKey: 'stadtplan'
-									},
-									{ title: 'Luftbildkarte', mode: 'default', layerKey: 'lbk' }
-								]}
-							/>
-						),
+
+						<NamedMapStyleChooser
+							currentNamedMapStyle={namedMapStyle}
+							pathname={urlPathname}
+							search={urlSearch}
+							pushNewRoute={pushNewRoute}
+							vertical
+							setLayerByKey={setLayerByKey}
+							activeLayerKey={activeLayerKey}
+							modes={backgroundModes}
+						/>,
 						<SymbolSizeChooser
 							changeMarkerSymbolSize={changeMarkerSymbolSize}
 							currentMarkerSize={currentMarkerSize}

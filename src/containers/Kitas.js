@@ -276,6 +276,11 @@ export class Kitas_ extends React.Component {
 				);
 			}
 		}
+		let reduxBackground = undefined;
+		try {
+			reduxBackground = this.props.mapping.backgrounds[this.props.mapping.selectedBackground]
+				.layerkey;
+		} catch (e) {}
 
 		return (
 			<div>
@@ -296,7 +301,9 @@ export class Kitas_ extends React.Component {
 					gazetteerTopicsList={[ 'kitas', 'bezirke', 'quartiere', 'adressen' ]}
 					gazetteerSearchBoxPlaceholdertext='Stadtteil | Adresse | Kita'
 					infoBox={info}
-					backgroundlayers={this.props.match.params.layers || 'wupp-plan-live@90'}
+					backgroundlayers={
+						this.props.match.params.layers || reduxBackground || 'wupp-plan-live@90'
+					}
 					dataLoader={this.props.kitasActions.loadKitas}
 					getFeatureCollectionForData={() => {
 						return this.props.mapping.featureCollection;
@@ -328,7 +335,11 @@ export class Kitas_ extends React.Component {
 							this.props.kitas.featureRendering
 						)
 					}}
-					featureCollectionKeyPostfix={this.props.kitas.featureRendering}
+					featureCollectionKeyPostfix={
+						this.props.kitas.featureRendering +
+						'.' +
+						this.props.mapping.featureCollectionKeyPostfix
+					}
 					applicationMenuTooltipString='Filter | Einstellungen | Anleitung'
 					modalMenu={
 						<KitasModalApplicationMenu
@@ -336,16 +347,40 @@ export class Kitas_ extends React.Component {
 								'StadtplanModalApplicationMenu.visible:' +
 								this.props.uiState.applicationMenuVisible
 							}
-							uiState={this.props.uiState}
-							uiActions={this.props.uiStateActions}
 							kitasState={this.props.kitas}
 							kitasActions={this.props.kitasActions}
+							refreshFeatureCollection={
+								this.props.kitasActions.refreshFeatureCollection
+							}
+							featureRendering={this.props.kitas.featureRendering}
+							setFeatureRendering={this.props.kitasActions.setFeatureRendering}
 							mappingState={this.props.mapping}
 							mappingActions={this.props.mappingActions}
 							routingState={this.props.routing}
 							routingActions={this.props.routingActions}
 							filterChanged={this.filterChanged}
 							centerOnPoint={this.centerOnPoint}
+							uiState={this.props.uiState}
+							uiStateActions={this.props.uiStateActions}
+							urlPathname={this.props.routing.location.pathname}
+							urlSearch={this.props.routing.location.search}
+							pushNewRoute={this.props.routingActions.push}
+							currentMarkerSize={this.props.kitas.kitaSvgSize}
+							changeMarkerSymbolSize={(size) => {
+								this.props.kitasActions.setSvgSize(size);
+								this.props.mappingActions.setFeatureCollectionKeyPostfix(
+									'MarkerSvgSize:' + size
+								);
+							}}
+							topicMapRef={this.topicMap}
+							setLayerByKey={this.props.mappingActions.setSelectedMappingBackground}
+							activeLayerKey={this.props.mapping.selectedBackground}
+							setFeatureCollectionKeyPostfix={
+								this.props.mappingActions.setFeatureCollectionKeyPostfix
+							}
+							featureCollectionKeyPostfix={
+								this.props.mapping.featureCollectionKeyPostfix
+							}
 						/>
 					}
 				/>

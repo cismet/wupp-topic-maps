@@ -3,222 +3,325 @@ import { FormGroup, Checkbox, Radio, ControlLabel } from 'react-bootstrap';
 import { removeQueryPart } from '../../utils/routingHelper';
 import { getInternetExplorerVersion } from '../../utils/browserHelper';
 import { constants as kitasConstants } from '../../redux/modules/kitas';
-import { getChildSVG } from '../../utils/kitasHelper';
 import SymbolSizeChooser from '../commons/SymbolSizeChooser';
 import NamedMapStyleChooser from '../commons/NamedMapStyleChooser';
 import SettingsPanelWithPreviewSection from '../commons/SettingsPanelWithPreviewSection';
+import { Map } from 'react-leaflet';
+import { MappingConstants, FeatureCollectionDisplay, getLayersByName } from 'react-cismap';
+import previewFeatureCollection from './PreviewFeatureCollection';
+import {
+	getColorForProperties,
+	getFeatureStyler,
+	getChildSVG,
+	getKitaClusterIconCreatorFunction
+} from '../../utils/kitasHelper';
+import GenericModalMenuSection from '../commons/GenericModalMenuSection';
+import queryString from 'query-string';
 
 // Since this component is simple and static, there's no parent container for it.
 const KitasSettingsPanel = ({
-  width,
-  titleDisplay,
-  clusteredMarkers,
-  markerSize,
-  namedMapStyle,
-  changeMarkerSymbolSize,
-  routing,
-  routingActions,
-  refreshFeatureCollection,
-  featureRendering,
-  setFeatureRendering
+	uiState,
+	uiStateActions,
+	urlPathname,
+	urlSearch,
+	pushNewRoute,
+	currentMarkerSize,
+	topicMapRef,
+	setLayerByKey,
+	activeLayerKey,
+	changeMarkerSymbolSize,
+	featureRendering,
+	setFeatureRendering,
+	refreshFeatureCollection,
+	setFeatureCollectionKeyPostfix,
+	featureCollectionKeyPostfix
 }) => {
-  let markerPreviewPrefix = 'kitas.preview';
-  let markerPreviewName;
-  let markerPreviewRendering;
-  let markerPreviewClustering;
-  let markerPreviewSize;
-  if (featureRendering === kitasConstants.FEATURE_RENDERING_BY_TRAEGERTYP) {
-    markerPreviewRendering = 'typ';
-  } else {
-    markerPreviewRendering = 'profil';
-  }
-  if (clusteredMarkers) {
-    markerPreviewClustering = 'clustered';
-  } else {
-    markerPreviewClustering = 'unclustered';
-  }
-  if (markerSize >= 45) {
-    markerPreviewSize = 'l';
-  } else if (markerSize <= 25) {
-    markerPreviewSize = 's';
-  } else {
-    markerPreviewSize = 'm';
-  }
+	let clusteredMarkers = queryString.parse(urlSearch).unclustered !== null;
+	let namedMapStyle = new URLSearchParams(urlSearch).get('mapStyle') || 'default';
+	let customTitle = queryString.parse(urlSearch).title;
+	let titleDisplay = customTitle !== undefined;
 
-  markerPreviewName =
-    markerPreviewPrefix +
-    '.' +
-    markerPreviewRendering +
-    '.' +
-    markerPreviewClustering +
-    '.' +
-    markerPreviewSize +
-    '.png';
-  let titlePreview = null;
-  if (titleDisplay) {
-    titlePreview = (
-      <div style={{ align: 'center', width: '100%' }}>
-        <div style={{ height: '10px' }} />
-        <table
-          style={{
-            width: '96%',
-            height: '30px',
-            margin: '0 auto',
-            //position: 'absolute',
-            // left: 54,
-            top: 12
-            // zIndex: 999655
-          }}
-        >
-          <tbody>
-            <tr>
-              <td
-                style={{
-                  textAlign: 'center',
-                  verticalAlign: 'middle',
-                  background: '#ffffff',
-                  color: 'black',
-                  opacity: '0.9',
-                  paddingleft: '10px'
-                }}
-              >
-                <b>Mein Kita-Finder: </b> alle Kitas | unter 2 + ab 2 Jahre | 35h pro Woche
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    );
-  }
-  let preview = (
-    <div>
-      <FormGroup>
-        <ControlLabel>Vorschau:</ControlLabel>
-        <br />
-        <div
-          style={{
-            backgroundImage:
-              "url('/images/" +
-              markerPreviewName +
-              "')" +
-              ",url('/images/map.preview." +
-              namedMapStyle +
-              ".png')",
-            width: '100%',
-            height: '250px',
-            backgroundPosition: 'center'
-          }}
-        >
-          {titlePreview}
-        </div>
-      </FormGroup>
-    </div>
-  );
+	let zoom = 8;
+	let layers = '';
+	if (topicMapRef) {
+		layers = topicMapRef.wrappedInstance.props.backgroundlayers;
+	}
+	let titlePreview = (
+		<div
+			style={{
+				align: 'center',
+				width: '100%'
+			}}
+		>
+			<div
+				style={{
+					height: '10px'
+				}}
+			/>
+			<table
+				style={{
+					width: '96%',
+					height: '30px',
+					margin: '0 auto',
+					zIndex: 999655
+				}}
+			>
+				<tbody>
+					<tr>
+						<td
+							style={{
+								textAlign: 'center',
+								verticalAlign: 'middle',
+								background: '#ffffff',
+								color: 'black',
+								opacity: '0.9',
+								paddingleft: '10px'
+							}}
+						>
+							<b>Mein Kita-Finder: </b> alle Kitas | unter 2 + ab 2 Jahre | 35h pro
+							Woche
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	);
 
-  return (
-    <SettingsPanelWithPreviewSection
-      width={width}
-      preview={preview}
-      settingsSections={[
-        <FormGroup>
-          <ControlLabel>Kita-Einstellungen:</ControlLabel>
-          <br />
-          <Checkbox
-            readOnly={true}
-            key={'title.checkbox' + titleDisplay}
-            checked={titleDisplay}
-            onClick={e => {
-              console.log('routing.location.search');
-              console.log(routing.location.search);
+	const mapPreview = (
+		<Map
+			// ref={leafletMap => {
+			//   this.leafletMap = leafletMap;
+			// }}
+			crs={MappingConstants.crs25832}
+			style={{ height: 300 }}
+			center={{
+				lat: 51.26357182763206,
+				lng: 7.176242149341344
+			}}
+			zoomControl={false}
+			attributionControl={false}
+			dragging={false}
+			keyboard={false}
+			zoom={zoom}
+			minZoom={zoom}
+			maxZoom={zoom}
+		>
+			{getLayersByName(layers, namedMapStyle)}
+			<FeatureCollectionDisplay
+				key={
+					'FeatureCollectionDisplayPreview.' +
+					currentMarkerSize +
+					'clustered:' +
+					clusteredMarkers +
+					'.customPostfix:' +
+					featureCollectionKeyPostfix
+				}
+				featureCollection={previewFeatureCollection}
+				clusteringEnabled={clusteredMarkers}
+				clusterOptions={{
+					spiderfyOnMaxZoom: false,
+					spiderfyDistanceMultiplier: currentMarkerSize / 24,
+					showCoverageOnHover: false,
+					zoomToBoundsOnClick: false,
+					maxClusterRadius: 40,
+					disableClusteringAtZoom: 19,
+					animate: false,
+					cismapZoomTillSpiderfy: 12,
+					selectionSpiderfyMinZoom: 12,
+					iconCreateFunction: getKitaClusterIconCreatorFunction(
+						currentMarkerSize,
+						featureRendering
+					)
+				}}
+				style={getFeatureStyler(currentMarkerSize, featureRendering)}
+				featureStylerScalableImageSize={currentMarkerSize}
+				//mapRef={topicMapRef} // commented out because there cannot be a ref in a functional comp and it is bnot needed
+				showMarkerCollection={false}
+			/>
+		</Map>
+	);
+	let marginBottomCorrection = 0;
+	if (titleDisplay) {
+		marginBottomCorrection = -40;
+	}
+	const preview = (
+		<div>
+			<FormGroup>
+				<ControlLabel>Vorschau:</ControlLabel>
+				<div style={{ marginBottom: marginBottomCorrection }}>
+					<div>{mapPreview}</div>
+					{titleDisplay === true && (
+						<div
+							style={{
+								position: 'relative',
+								top: -300,
+								zIndex: 100000
+							}}
+						>
+							{titlePreview}
+						</div>
+					)}
+				</div>
+			</FormGroup>
+		</div>
+	);
 
-              if (e.target.checked === false) {
-                routingActions.push(
-                  routing.location.pathname + removeQueryPart(routing.location.search, 'title')
-                );
-              } else {
-                routingActions.push(
-                  routing.location.pathname +
-                    (routing.location.search !== '' ? routing.location.search : '?') +
-                    '&title'
-                );
-              }
-            }}
-            inline
-          >
-            Titel bei individueller Kita-Filterung anzeigen
-          </Checkbox>
-          <br />
-          <Checkbox
-            readOnly={true}
-            key={'clustered.checkbox' + clusteredMarkers}
-            onClick={e => {
-              if (e.target.checked === true) {
-                routingActions.push(
-                  routing.location.pathname +
-                    removeQueryPart(routing.location.search, 'unclustered')
-                );
-              } else {
-                routingActions.push(
-                  routing.location.pathname +
-                    (routing.location.search !== '' ? routing.location.search : '?') +
-                    '&unclustered'
-                );
-              }
-              refreshFeatureCollection();
-            }}
-            checked={clusteredMarkers}
-            inline
-          >
-            Kitas ma&szlig;stabsabh&auml;ngig zusammenfassen
-          </Checkbox>
-        </FormGroup>,
-        <FormGroup key={'featureRenderingCombos.' + featureRendering}>
-          <ControlLabel>Zeichenvorschrift:</ControlLabel>
-          <br />
-          <Radio
-            readOnly={true}
-            onClick={e => {
-              if (e.target.checked === true) {
-                setFeatureRendering(kitasConstants.FEATURE_RENDERING_BY_TRAEGERTYP);
-              }
-            }}
-            checked={featureRendering === kitasConstants.FEATURE_RENDERING_BY_TRAEGERTYP}
-            name="featureRendering"
-            inline
-          >
-            nach Trägertyp
-          </Radio>{' '}
-          <br />
-          <Radio
-            readOnly={true}
-            onClick={e => {
-              if (e.target.checked === true) {
-                setFeatureRendering(kitasConstants.FEATURE_RENDERING_BY_PROFIL);
-              }
-            }}
-            name="featureRendering"
-            checked={featureRendering === kitasConstants.FEATURE_RENDERING_BY_PROFIL}
-            inline
-          >
-            nach Profil (Inklusionsschwerpunkt j/n)
-          </Radio>{' '}
-        </FormGroup>,
-        getInternetExplorerVersion() === -1 && (
-          <NamedMapStyleChooser
-            currentNamedMapStyle={namedMapStyle}
-            pathname={routing.location.pathname}
-            search={routing.location.search}
-            pushNewRoute={routingActions.push}
-          />
-        ),
-        <SymbolSizeChooser
-          changeMarkerSymbolSize={changeMarkerSymbolSize}
-          currentMarkerSize={markerSize}
-          getSymbolSVG={getChildSVG}
-        />
-      ]}
-    />
-  );
+	let backgroundModes;
+	if (getInternetExplorerVersion() === -1) {
+		backgroundModes = [
+			{
+				title: 'Stadtplan (Tag)',
+				mode: 'default',
+				layerKey: 'stadtplan'
+			},
+			{
+				title: 'Stadtplan (Nacht)',
+				mode: 'night',
+				layerKey: 'stadtplan'
+			},
+			{ title: 'Luftbildkarte', mode: 'default', layerKey: 'lbk' }
+		];
+	} else {
+		backgroundModes = [
+			{
+				title: 'Stadtplan',
+				mode: 'default',
+				layerKey: 'stadtplan'
+			},
+			{ title: 'Luftbildkarte', mode: 'default', layerKey: 'lbk' }
+		];
+	}
+
+	return (
+		<GenericModalMenuSection
+			uiState={uiState}
+			uiStateActions={uiStateActions}
+			sectionKey='settings'
+			sectionTitle='Einstellungen'
+			sectionBsStyle='primary'
+			sectionContent={
+				<SettingsPanelWithPreviewSection
+					width={uiState.width}
+					preview={preview}
+					settingsSections={[
+						<FormGroup>
+							<ControlLabel>Kita-Einstellungen:</ControlLabel>
+							<br />
+							<Checkbox
+								readOnly={true}
+								key={'title.checkbox' + titleDisplay}
+								checked={titleDisplay}
+								onClick={(e) => {
+									if (e.target.checked === false) {
+										pushNewRoute(
+											urlPathname + removeQueryPart(urlSearch, 'title')
+										);
+									} else {
+										pushNewRoute(
+											urlPathname +
+												(urlSearch !== '' ? urlSearch : '?') +
+												'&title'
+										);
+									}
+								}}
+								inline
+							>
+								Titel bei individueller Kita-Filterung anzeigen
+							</Checkbox>
+							<br />
+							<Checkbox
+								readOnly={true}
+								key={'clustered.checkbox' + clusteredMarkers}
+								onClick={(e) => {
+									if (e.target.checked === true) {
+										pushNewRoute(
+											urlPathname + removeQueryPart(urlSearch, 'unclustered')
+										);
+									} else {
+										pushNewRoute(
+											urlPathname +
+												(urlSearch !== '' ? urlSearch : '?') +
+												'&unclustered'
+										);
+									}
+									refreshFeatureCollection();
+									setFeatureCollectionKeyPostfix('clustered:' + e.target.checked);
+								}}
+								checked={clusteredMarkers}
+								inline
+							>
+								Kitas ma&szlig;stabsabh&auml;ngig zusammenfassen
+							</Checkbox>
+						</FormGroup>,
+						<FormGroup key={'featureRenderingCombos.' + featureRendering}>
+							<ControlLabel>Zeichenvorschrift:</ControlLabel>
+							<br />
+							<Radio
+								readOnly={true}
+								onClick={(e) => {
+									if (e.target.checked === true) {
+										setFeatureRendering(
+											kitasConstants.FEATURE_RENDERING_BY_TRAEGERTYP
+										);
+										setFeatureCollectionKeyPostfix(
+											'rendering:' +
+												kitasConstants.FEATURE_RENDERING_BY_TRAEGERTYP
+										);
+									}
+								}}
+								checked={
+									featureRendering ===
+									kitasConstants.FEATURE_RENDERING_BY_TRAEGERTYP
+								}
+								name='featureRendering'
+								inline
+							>
+								nach Trägertyp
+							</Radio>{' '}
+							<br />
+							<Radio
+								readOnly={true}
+								onClick={(e) => {
+									if (e.target.checked === true) {
+										setFeatureRendering(
+											kitasConstants.FEATURE_RENDERING_BY_PROFIL
+										);
+										setFeatureCollectionKeyPostfix(
+											'rendering:' +
+												kitasConstants.FEATURE_RENDERING_BY_PROFIL
+										);
+									}
+								}}
+								name='featureRendering'
+								checked={
+									featureRendering === kitasConstants.FEATURE_RENDERING_BY_PROFIL
+								}
+								inline
+							>
+								nach Profil (Inklusionsschwerpunkt j/n)
+							</Radio>{' '}
+						</FormGroup>,
+						<NamedMapStyleChooser
+							currentNamedMapStyle={namedMapStyle}
+							pathname={urlPathname}
+							search={urlSearch}
+							pushNewRoute={pushNewRoute}
+							vertical
+							setLayerByKey={setLayerByKey}
+							activeLayerKey={activeLayerKey}
+							modes={backgroundModes}
+						/>,
+						<SymbolSizeChooser
+							changeMarkerSymbolSize={changeMarkerSymbolSize}
+							currentMarkerSize={currentMarkerSize}
+							getSymbolSVG={getChildSVG}
+							symbolColor='#2BA1AF'
+						/>
+					]}
+				/>
+			}
+		/>
+	);
 };
 
 export default KitasSettingsPanel;

@@ -21,7 +21,7 @@ const NamedMapStyleChooser = ({
 			<br />
 			{modes.map((item, key) => {
 				return (
-					<span>
+					<span key={'radiobutton.nr.' + key}>
 						<Radio
 							id={'cboMapStyleChooser_' + item}
 							key={key}

@@ -3,6 +3,7 @@ import BaederModalMenuIntroduction from './BaederModalMenuIntroduction';
 import BaederModalMenuHelpSection from './BaederModalMenuHelpSection';
 import GenericModalApplicationMenu from '../commons/GenericModalApplicationMenu';
 import BaederModalMenuSettingsPanel from './BaederModalMenuSettingsPanel';
+import Footer from '../commons/ModalMenuFooter';
 
 const BaederModalMenu = ({
 	uiState,
@@ -44,6 +45,12 @@ const BaederModalMenu = ({
 					uiStateActions={uiStateActions}
 				/>
 			]}
+			menuFooter={
+				<Footer
+					showModalMenu={(section) =>
+						uiStateActions.showApplicationMenuAndActivateSection(true, section)}
+				/>
+			}
 		/>
 	);
 };

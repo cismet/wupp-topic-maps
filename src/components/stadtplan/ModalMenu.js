@@ -4,7 +4,7 @@ import ModalMenuHelpSection from './ModalMenuHelpSection';
 import GenericModalApplicationMenu from '../commons/GenericModalApplicationMenu';
 import ModalMenuSettingsPanel from './ModalMenuSettingsPanel';
 import ModalMenuFilteringPanel from './ModalMenuFilteringPanel';
-
+import Footer from '../commons/ModalMenuFooter';
 const ModalMenu = ({
 	uiState,
 	uiStateActions,
@@ -77,6 +77,12 @@ const ModalMenu = ({
 					uiStateActions={uiStateActions}
 				/>
 			]}
+			menuFooter={
+				<Footer
+					showModalMenu={(section) =>
+						uiStateActions.showApplicationMenuAndActivateSection(true, section)}
+				/>
+			}
 		/>
 	);
 };

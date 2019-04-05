@@ -13,6 +13,7 @@ import KitasSettingsPanelContent from './KitasSettingsPanelContent';
 import KitasHelpTextPanelContent from './KitasHelpTextPanelContent';
 import KitasPieChart from './KitasPieChart';
 import GenericRVRStadtplanwerkMenuFooter from '../commons/GenericRVRStadtplanwerkMenuFooter';
+import Footer from '../commons/ModalMenuFooter';
 
 const KitasModalApplicationMenu = ({
 	uiState,
@@ -213,7 +214,13 @@ const KitasModalApplicationMenu = ({
 									paddingRight: '30px'
 								}}
 							>
-								<GenericRVRStadtplanwerkMenuFooter />
+								<Footer
+									showModalMenu={(section) =>
+										uiStateActions.showApplicationMenuAndActivateSection(
+											true,
+											section
+										)}
+								/>
 							</td>
 							<td>
 								<Button bsStyle='primary' type='submit' onClick={close}>

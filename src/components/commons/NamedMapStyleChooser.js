@@ -74,6 +74,6 @@ NamedMapStyleChooser.propTypes = {
 };
 
 NamedMapStyleChooser.defaultProps = {
-	title: 'Kartendarstellung:',
+	title: 'Hintergrundkarte:',
 	modes: [ { title: 'Tag', mode: 'default' }, { title: 'Nacht', mode: 'night' } ]
 };

@@ -789,7 +789,7 @@ export class EhrenamtModalApplicationMenu_ extends React.Component {
 								<br />
 							</div>
 							<h4>
-								Kartendarstellung der Angebote{' '}
+								Hintergrundkarte der Angebote{' '}
 								<Link to='help' containerId='myMenu' style={{ color: '#00000044' }}>
 									<Icon name='arrow-circle-up' />
 								</Link>

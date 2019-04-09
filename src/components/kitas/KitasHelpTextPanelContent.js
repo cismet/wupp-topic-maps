@@ -88,7 +88,7 @@ const KitasHelpTextPanel = () => {
 				<br />
 			</div>
 			<h4>
-				Kartendarstellung der Kitas{' '}
+				Hintergrundkarte der Kitas{' '}
 				<Link to='help' containerId='myMenu' style={{ color: '#00000044' }}>
 					<Icon name='arrow-circle-up' />
 				</Link>

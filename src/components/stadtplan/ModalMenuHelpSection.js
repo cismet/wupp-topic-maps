@@ -424,7 +424,7 @@ const ModalMenuHelpSection = ({ uiState, uiStateActions }) => {
 					<p>
 						Unter "
 						<em>
-							<strong>Kartendarstellung</strong>
+							<strong>Hintergrundkarte</strong>
 						</em>
 						" können Sie auswählen, ob Sie die standardmäßig aktivierte farbige
 						Hintergrundkarte verwenden möchten ("

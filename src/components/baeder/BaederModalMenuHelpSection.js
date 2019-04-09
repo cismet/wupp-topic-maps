@@ -140,29 +140,74 @@ const BaederModalMenuHelpSection = ({ uiState, uiStateActions }) => {
 						</Link>
 					</h4>
 					<p>
-						Die <strong>Bäder-Karte Wuppertal</strong> benutzt als Kartengrundlage das
-						Stadtplanwerk 2.0 des Regionalverbandes Ruhrgebiet. Dieses innovative
-						Kartenwerk kombiniert das Straßennetz der OpenStreetMap mit den Gebäuden und
-						Flächennutzungen aus dem Fachverfahren ALKIS des Liegenschaftskatasters. Das
-						Stadtplanwerk 2.0 wird wöchentlich in einem automatischen Prozess
-						aktualisiert. Zusätzlich nutzt die Bäder-Karte den Datensatz{' '}
+						Die <strong>Bäderkarte Wuppertal</strong> bietet ihnen die folgenden
+						Hintergrundkarten an, die auf verschiedenen Geodatendiensten und Geodaten
+						basieren:
+					</p>
+
+					<ul>
+						<li>
+							<strong>Stadtplan (mehrfarbig | blau)</strong>: Kartendienst (WMS) des
+							Regionalverbandes Ruhr (RVR). Datengrundlage:{' '}
+							<strong>Stadtplanwerk 2.0 Beta</strong>. (Wöchentlich in einem
+							automatischen Prozess aktualisierte Zusammenführung des Straßennetzes
+							der OpenStreetMap mit Gebäuden und Flächennutzungen aus dem
+							Fachverfahren ALKIS des Liegenschaftskatasters.) © RVR und
+							Kooperationspartner (<a
+								target='_legal'
+								href='https://creativecommons.org/licenses/by/4.0/legalcode.de'
+							>
+								CC BY 4.0
+							</a>). Lizenzen der Ausgangsprodukte: Land NRW (2018){' '}
+							<a target='_legal' href='http://www.govdata.de/dl-de/by-2-0'>
+								Datenlizenz Deutschland - Namensnennung - Version 2.0
+							</a>{' '}
+							und OpenStreetMap contributors (<a
+								target='_legal'
+								href='https://www.opendatacommons.org/licenses/odbl/1.0/'
+							>
+								ODbL
+							</a>).
+						</li>
+
+						<li>
+							<strong>Luftbildkarte</strong>: (1) Kartendienst (WMS) der Stadt
+							Wuppertal. Datengrundlage:{' '}
+							<strong>True Orthophoto aus Bildflug vom 19.04.2018</strong>,
+							hergestellt durch Aerowest GmbH/Dortmund, Bodenauflösung 10 cm. (True
+							Orthophoto: Aus Luftbildern mit hoher Längs- und Querüberdeckung in
+							einem automatisierten Bildverarbeitungsprozess berechnetes Bild in
+							Parallelprojektion, also ohne Gebäudeverkippung und sichttote Bereiche.)
+							© Stadt Wuppertal (<a
+								target='_legal'
+								href='https://www.wuppertal.de/geoportal/Nutzungsbedingungen/NB-GDIKOM-C_Geodaten.pdf'
+							>
+								NB-GDIKOM C
+							</a>). (2) Kartendienste (WMS) des Regionalverbandes Ruhr (RVR).
+							Datengrundlagen: <strong>Stadtplanwerk 2.0 Beta</strong> und{' '}
+							<strong>Kartenschrift aus dem Stadtplanwerk 2.0 Beta</strong>. (Details
+							s. Hintergrundkarte Stadtplan).
+						</li>
+					</ul>
+
+					<p>
+						Zusätzlich nutzt die Bäderkarte den Datensatz{' '}
 						<a
+							target='_legal'
 							href='https://offenedaten-wuppertal.de/dataset/interessante-orte-wuppertal-poi'
-							target='_opendata'
 						>
 							POI Wuppertal
 						</a>{' '}
 						des{' '}
 						<a
+							target='_legal'
 							href='https://www.wuppertal.de/rathaus-buergerservice/karten_vermessung/index.php'
-							target='_r102'
 						>
 							Ressorts Vermessung, Katasteramt und Geodaten
 						</a>{' '}
 						aus dem Open-Data-Angebot der Stadt Wuppertal, der auch die Wuppertaler
 						Schwimmbäder umfasst.
 					</p>
-
 					<div id='anchorDivInHelp_auswahl' name='POIauswahluabfragen'>
 						<br />
 					</div>

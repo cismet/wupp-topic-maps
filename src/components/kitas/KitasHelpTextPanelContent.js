@@ -332,12 +332,14 @@ const KitasHelpTextPanel = () => {
 			</h4>
 
 			<p>
-				Unter "<strong>Einstellungen</strong>" können Sie im Anwendungsmenü{' '}
-				<Icon name='bars' /> festlegen, wie die Kitas und die Hintergrundkarte angezeigt
-				werden sollen. Zu den Kitas können Sie auswählen, ob Ihre unter "<strong>Filtern</strong>"
-				festgelegten Filterbedingungen in einer Titelzeile ausgeprägt werden oder nicht.
-				Weiter können Sie festlegen, ob räumlich nah beieinander liegende Kitas
-				maßstabsabhängig zu einem Punktsymbol zusammengefasst werden oder nicht. "
+				Unter "<em>
+					<strong>Einstellungen</strong>
+				</em>" können Sie im Anwendungsmenü <Icon name='bars' /> festlegen, wie die Kitas
+				und die Hintergrundkarte angezeigt werden sollen. Zu den Kitas können Sie auswählen,
+				ob Ihre unter "<strong>Filtern</strong>" festgelegten Filterbedingungen in einer
+				Titelzeile ausgeprägt werden oder nicht. Weiter können Sie festlegen, ob räumlich
+				nah beieinander liegende Kitas maßstabsabhängig zu einem Punktsymbol zusammengefasst
+				werden oder nicht. "
 				<em>
 					<strong>Zeichenvorschrift</strong>
 				</em>

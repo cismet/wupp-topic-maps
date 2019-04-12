@@ -345,9 +345,10 @@ const BaederModalMenuHelpSection = ({ uiState, uiStateActions }) => {
 						</Link>
 					</h4>
 					<p>
-						Unter "<strong>Einstellungen</strong>" können Sie im Anwendungsmenü{' '}
-						<Icon name='bars' /> festlegen, wie die Kitas und die Hintergrundkarte und
-						die Schwimmbäder angezeigt werden sollen.
+						Unter "<em>
+							<strong>Einstellungen</strong>
+						</em>" können Sie im Anwendungsmenü <Icon name='bars' /> festlegen, wie die
+						Schwimmbäder und die Hintergrundkarte angezeigt werden sollen.
 					</p>
 					<p>
 						Unter "<strong>Hintergrundkarte</strong>" können Sie auswählen, ob Sie die

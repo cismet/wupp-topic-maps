@@ -238,6 +238,11 @@ const ModalMenuHelpSection = ({ uiState, uiStateActions }) => {
 						weiterführende (Kommunikations-) Links zum POI angezeigt:{' '}
 						<Icon name='external-link-square' /> Internet,{' '}
 						<Icon name='envelope-square' /> E-Mail und <Icon name='phone' /> Telefon.
+						Bei POI, zu denen im Terminkalender von{' '}
+						<a href='https://wuppertal-live.de'>www.wuppertal-live.de</a>{' '}
+						Veranstaltungen geführt werden, finden sie zusätzlich noch eine{' '}
+						<Icon name='calendar' /> Verknüpfung zu wuppertal-live.de, wo sie für viele
+						Veranstaltungen auch Online-Tickets erwerben können.
 					</p>
 					<p>
 						Wenn Sie noch nicht aktiv einen bestimmten POI im aktuellen Kartenausschnitt
@@ -255,13 +260,6 @@ const ModalMenuHelpSection = ({ uiState, uiStateActions }) => {
 						Bildbetrachter ("Leuchtkasten") mit dem Foto&nbsp;/&nbsp;der Fotoserie zu
 						öffnen. Aus dem Bildbetrachter gelangen Sie über einen Link im Fußbereich
 						auch zur Foto-Anwendung von Peter Krämer.
-					</p>
-					<p>
-						Bei POI, zu denen im Terminkalender von{' '}
-						<a href='https://wuppertal-live.de'>www.wuppertal-live.de</a>{' '}
-						Veranstaltungen geführt werden, finden sie zusätzlich noch eine{' '}
-						<Icon name='calendar' /> Verknüpfung zu wuppertal-live.de, wo sie für viele
-						Veranstaltungen auch Online-Tickets erwerben können.
 					</p>
 
 					<div name='InKartePositionieren'>
@@ -386,9 +384,11 @@ const ModalMenuHelpSection = ({ uiState, uiStateActions }) => {
 						</Link>
 					</h4>
 					<p>
-						Unter "<strong>Einstellungen</strong>" können Sie im Anwendungsmenü{' '}
-						<Icon name='bars' /> festlegen, wie die POI und die Hintergrundkarte
-						angezeigt werden sollen. Zu den POI können Sie auswählen, ob Ihre unter "
+						Unter "<em>
+							<strong>Einstellungen</strong>
+						</em>" können Sie im Anwendungsmenü <Icon name='bars' /> festlegen, wie die
+						POI und die Hintergrundkarte angezeigt werden sollen. Zu den POI können Sie
+						auswählen, ob Ihre unter "
 						<strong>Mein Themenstadtplan</strong>" festgelegte Lebenslagen-Filterung in
 						einer Titelzeile ausgeprägt wird oder nicht. Weiter können Sie festlegen, ob
 						räumlich nah beieinander liegende POI maßstabsabhängig zu einem Punktsymbol

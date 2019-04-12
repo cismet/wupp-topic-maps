@@ -15,23 +15,23 @@ import {
 	Alert,
 	Label
 } from 'react-bootstrap';
-import { actions as UiStateActions } from '../redux/modules/uiState';
+import { actions as UiStateActions } from '../../redux/modules/uiState';
 import {
 	constants as ehrenamtConstants,
 	actions as EhrenamtActions
-} from '../redux/modules/ehrenamt';
+} from '../../redux/modules/ehrenamt';
 
 import { Icon } from 'react-fa';
 import 'react-bootstrap-switch/dist/css/bootstrap3/react-bootstrap-switch.min.css';
 
 import Select from 'react-select-plus';
 import 'react-select-plus/dist/react-select-plus.css';
-import MultiToggleButton from './MultiToggleButton';
+import MultiToggleButton from '../MultiToggleButton';
 
 import { Link } from 'react-scroll';
 
 import copy from 'copy-to-clipboard';
-import GenericRVRStadtplanwerkMenuFooter from './commons/GenericRVRStadtplanwerkMenuFooter';
+import GenericRVRStadtplanwerkMenuFooter from '../commons/GenericRVRStadtplanwerkMenuFooter';
 /* eslint-disable jsx-a11y/anchor-is-valid */
 
 function mapStateToProps(state) {
@@ -789,7 +789,7 @@ export class EhrenamtModalApplicationMenu_ extends React.Component {
 								<br />
 							</div>
 							<h4>
-								Kartendarstellung der Angebote{' '}
+								Hintergrundkarte der Angebote{' '}
 								<Link to='help' containerId='myMenu' style={{ color: '#00000044' }}>
 									<Icon name='arrow-circle-up' />
 								</Link>

@@ -68,15 +68,57 @@ const KitasHelpTextPanel = () => {
 				</Link>
 			</h4>
 			<p>
-				Der <strong>Kita-Finder Wuppertal</strong> benutzt als Kartengrundlage das
-				Stadtplanwerk 2.0 des Regionalverbandes Ruhrgebiet. Dieses innovative Kartenwerk
-				kombiniert das Straßennetz der OpenStreetMap mit den Gebäuden und Flächennutzungen
-				aus dem Fachverfahren ALKIS des Liegenschaftskatasters. Das Stadtplanwerk 2.0 wird
-				wöchentlich in einem automatischen Prozess aktualisiert. Zusätzlich nutzt der
-				Kita-Finder den Datensatz{' '}
+				Der <strong>Kita-Finder Wuppertal</strong> bietet ihnen die folgenden
+				Hintergrundkarten an, die auf verschiedenen Geodatendiensten und Geodaten basieren:
+			</p>
+
+			<ul>
+				<li>
+					<strong>Stadtplan (Tag | Nacht)</strong>: Kartendienst (WMS) des
+					Regionalverbandes Ruhr (RVR). Datengrundlage:{' '}
+					<strong>Stadtplanwerk 2.0 Beta</strong>. (Wöchentlich in einem automatischen
+					Prozess aktualisierte Zusammenführung des Straßennetzes der OpenStreetMap mit
+					Gebäuden und Flächennutzungen aus dem Fachverfahren ALKIS des
+					Liegenschaftskatasters.) © RVR und Kooperationspartner (<a
+						target='_legal'
+						href='https://creativecommons.org/licenses/by/4.0/legalcode.de'
+					>
+						CC BY 4.0
+					</a>). Lizenzen der Ausgangsprodukte: Land NRW (2018){' '}
+					<a target='_legal' href='http://www.govdata.de/dl-de/by-2-0'>
+						Datenlizenz Deutschland - Namensnennung - Version 2.0
+					</a>{' '}
+					und OpenStreetMap contributors (<a
+						target='_legal'
+						href='https://www.opendatacommons.org/licenses/odbl/1.0/'
+					>
+						ODbL
+					</a>).
+				</li>
+
+				<li>
+					<strong>Luftbildkarte</strong>: (1) Kartendienst (WMS) der Stadt Wuppertal.
+					Datengrundlage: <strong>True Orthophoto aus Bildflug vom 19.04.2018</strong>,
+					hergestellt durch Aerowest GmbH/Dortmund, Bodenauflösung 10 cm. (True
+					Orthophoto: Aus Luftbildern mit hoher Längs- und Querüberdeckung in einem
+					automatisierten Bildverarbeitungsprozess berechnetes Bild in Parallelprojektion,
+					also ohne Gebäudeverkippung und sichttote Bereiche.) © Stadt Wuppertal (<a
+						target='_legal'
+						href='https://www.wuppertal.de/geoportal/Nutzungsbedingungen/NB-GDIKOM-C_Geodaten.pdf'
+					>
+						NB-GDIKOM C
+					</a>). (2) Kartendienste (WMS) des Regionalverbandes Ruhr (RVR).
+					Datengrundlagen: <strong>Stadtplanwerk 2.0 Beta</strong> und{' '}
+					<strong>Kartenschrift aus dem Stadtplanwerk 2.0 Beta</strong>. (Details s.
+					Hintergrundkarte Stadtplan).
+				</li>
+			</ul>
+
+			<p>
+				Zusätzlich nutzt der Kita-Finder den Datensatz{' '}
 				<a
+					target='_legal'
 					href='https://offenedaten-wuppertal.de/dataset/kindertageseinrichtungen-wuppertal'
-					target='_opendata'
 				>
 					Kindertageseinrichtungen Wuppertal
 				</a>{' '}
@@ -288,13 +330,16 @@ const KitasHelpTextPanel = () => {
 					<Icon name='arrow-circle-up' />
 				</Link>
 			</h4>
+
 			<p>
-				Unter "<strong>Einstellungen</strong>" können Sie im Anwendungsmenü{' '}
-				<Icon name='bars' /> festlegen, wie die Kitas und die Hintergrundkarte angezeigt
-				werden sollen. Zu den Kitas können Sie auswählen, ob Ihre unter "<strong>Filtern</strong>"
-				festgelegten Filterbedingungen in einer Titelzeile ausgeprägt werden oder nicht.
-				Weiter können Sie festlegen, ob räumlich nah beieinander liegende Kitas
-				maßstabsabhängig zu einem Punktsymbol zusammengefasst werden oder nicht. "
+				Unter "<em>
+					<strong>Einstellungen</strong>
+				</em>" können Sie im Anwendungsmenü <Icon name='bars' /> festlegen, wie die Kitas
+				und die Hintergrundkarte angezeigt werden sollen. Zu den Kitas können Sie auswählen,
+				ob Ihre unter "<strong>Filtern</strong>" festgelegten Filterbedingungen in einer
+				Titelzeile ausgeprägt werden oder nicht. Weiter können Sie festlegen, ob räumlich
+				nah beieinander liegende Kitas maßstabsabhängig zu einem Punktsymbol zusammengefasst
+				werden oder nicht. "
 				<em>
 					<strong>Zeichenvorschrift</strong>
 				</em>
@@ -309,22 +354,20 @@ const KitasHelpTextPanel = () => {
 				Pixel) Symbolen angezeigt werden.
 			</p>
 			<p>
-				Unter "
-				<em>
-					<strong>Kartendarstellung</strong>
-				</em>
-				" können Sie auswählen, ob Sie die standardmäßig aktivierte farbige Hintergrundkarte
-				verwenden möchten ("
-				<em>Tag</em>
-				") oder lieber eine invertierte Graustufenkarte ("
-				<em>Nacht</em>
-				"), zu der uns die von vielen PKW-Navis bei Dunkelheit eingesetzte Darstellungsweise
-				inspiriert hat. <strong>Hinweis:</strong> Diese Auswahl wird Ihnen nur angeboten,
-				wenn Ihr Browser CSS3-Filtereffekte unterstützt, also z. B. nicht beim Microsoft
-				Internet Explorer. Die Nacht-Karte erzeugt einen deutlicheren Kontrast mit den
-				farbigen Kita-Symbolen, die unterschiedlichen Flächennutzungen in der
-				Hintergrundkarte lassen sich aber nicht mehr so gut unterscheiden wie in der
-				Tag-Karte.
+				Unter "<strong>
+					<em>Hintergrundkarte</em>
+				</strong>" können Sie auswählen, ob Sie die standardmäßig aktivierte farbige
+				Hintergrundkarte verwenden möchten ("<em>Stadtplan (Tag)</em>") oder lieber eine
+				invertierte Graustufenkarte ("<em>Stadtplan (Nacht)</em>"), zu der uns die von
+				vielen PKW-Navis bei Dunkelheit eingesetzte Darstellungsweise inspiriert hat.{' '}
+				<strong>Hinweis:</strong> Der Stadtplan (Nacht) wird Ihnen nur angeboten, wenn Ihr
+				Browser CSS3-Filtereffekte unterstützt, also z. B. nicht beim Microsoft Internet
+				Explorer. Die Nacht-Karte erzeugt einen deutlicheren Kontrast mit den farbigen
+				Kita-Symbolen, die unterschiedlichen Flächennutzungen in der Hintergrundkarte lassen
+				sich aber nicht mehr so gut unterscheiden wie in der Tag-Karte. Als dritte
+				Möglichkeit steht eine Luftbildkarte zur Verfügung, die die Anschaulichkeit des
+				Luftbildes (True Orthophoto aus Bildflug vom 19.04.2018, 10 cm Bodenauflösung) mit
+				der Eindeutigkeit des Stadtplans (Kartenschrift, durchscheinende Linien) verbindet.{' '}
 			</p>
 			<p>Im Vorschaubild sehen Sie direkt die prinzipielle Wirkung ihrer Einstellungen.</p>
 

@@ -1,51 +1,53 @@
 import React from 'react';
-import { FormGroup, Checkbox, Radio, ControlLabel } from 'react-bootstrap';
-import { removeQueryPart } from '../../utils/routingHelper';
-import { getInternetExplorerVersion } from '../../utils/browserHelper';
-import { constants as kitasConstants } from '../../redux/modules/kitas';
+import { FormGroup, ControlLabel, Checkbox } from 'react-bootstrap';
+
+import GenericModalMenuSection from '../commons/GenericModalMenuSection';
 import SymbolSizeChooser from '../commons/SymbolSizeChooser';
 import NamedMapStyleChooser from '../commons/NamedMapStyleChooser';
 import SettingsPanelWithPreviewSection from '../commons/SettingsPanelWithPreviewSection';
-import { Map } from 'react-leaflet';
-import { MappingConstants, FeatureCollectionDisplay, getLayersByName } from 'react-cismap';
-import previewFeatureCollection from './PreviewFeatureCollection';
+import { getInternetExplorerVersion } from '../../utils/browserHelper';
+import 'url-search-params-polyfill';
+
 import {
 	getColorForProperties,
-	getFeatureStyler,
-	getChildSVG,
-	getKitaClusterIconCreatorFunction
-} from '../../utils/kitasHelper';
-import GenericModalMenuSection from '../commons/GenericModalMenuSection';
+	getPOISVG,
+	getPoiClusterIconCreatorFunction
+} from '../../utils/stadtplanHelper';
+
+import { MappingConstants, FeatureCollectionDisplay, getLayersByName } from 'react-cismap';
+
+import { Map } from 'react-leaflet';
+import previewFeatureCollection from './POIPreviewFeatureCollection';
+import { removeQueryPart, modifyQueryPart } from '../../utils/routingHelper';
 import queryString from 'query-string';
 
-// Since this component is simple and static, there's no parent container for it.
-const KitasSettingsPanel = ({
+import { getFeatureStyler } from '../../utils/stadtplanHelper';
+
+const ModalMenuSettingsSection = ({
 	uiState,
 	uiStateActions,
+	width,
 	urlPathname,
 	urlSearch,
 	pushNewRoute,
+	changeMarkerSymbolSize,
 	currentMarkerSize,
 	topicMapRef,
 	setLayerByKey,
 	activeLayerKey,
-	changeMarkerSymbolSize,
-	featureRendering,
-	setFeatureRendering,
-	refreshFeatureCollection,
-	setFeatureCollectionKeyPostfix,
-	featureCollectionKeyPostfix
+	stadtplanActions,
+	setFeatureCollectionKeyPostfix
 }) => {
-	let clusteredMarkers = queryString.parse(urlSearch).unclustered !== null;
 	let namedMapStyle = new URLSearchParams(urlSearch).get('mapStyle') || 'default';
-	let customTitle = queryString.parse(urlSearch).title;
-	let titleDisplay = customTitle !== undefined;
-
-	let zoom = 8;
+	let zoom = 7;
 	let layers = '';
+	let customTitle = queryString.parse(urlSearch).title;
+	let clusteredPOIs = queryString.parse(urlSearch).unclustered !== null;
+	let titleDisplay = customTitle !== undefined;
 	if (topicMapRef) {
 		layers = topicMapRef.wrappedInstance.props.backgroundlayers;
 	}
+
 	let titlePreview = (
 		<div
 			style={{
@@ -78,15 +80,13 @@ const KitasSettingsPanel = ({
 								paddingleft: '10px'
 							}}
 						>
-							<b>Mein Kita-Finder: </b> alle Kitas | unter 2 + ab 2 Jahre | 35h pro
-							Woche
+							<b>Mein Themenstadtplan:</b> Kultur ohne Gesellschaft
 						</td>
 					</tr>
 				</tbody>
 			</table>
 		</div>
 	);
-
 	const mapPreview = (
 		<Map
 			// ref={leafletMap => {
@@ -111,13 +111,14 @@ const KitasSettingsPanel = ({
 				key={
 					'FeatureCollectionDisplayPreview.' +
 					currentMarkerSize +
-					'clustered:' +
-					clusteredMarkers +
-					'.customPostfix:' +
-					featureCollectionKeyPostfix
+					'.clustering' +
+					clusteredPOIs
 				}
 				featureCollection={previewFeatureCollection}
-				clusteringEnabled={clusteredMarkers}
+				clusteringEnabled={clusteredPOIs}
+				style={getFeatureStyler(currentMarkerSize, getColorForProperties)}
+				featureStylerScalableImageSize={currentMarkerSize}
+				showMarkerCollection={false}
 				clusterOptions={{
 					spiderfyOnMaxZoom: false,
 					spiderfyDistanceMultiplier: currentMarkerSize / 24,
@@ -128,15 +129,8 @@ const KitasSettingsPanel = ({
 					animate: false,
 					cismapZoomTillSpiderfy: 12,
 					selectionSpiderfyMinZoom: 12,
-					iconCreateFunction: getKitaClusterIconCreatorFunction(
-						currentMarkerSize,
-						featureRendering
-					)
+					iconCreateFunction: getPoiClusterIconCreatorFunction(currentMarkerSize)
 				}}
-				style={getFeatureStyler(currentMarkerSize, featureRendering)}
-				featureStylerScalableImageSize={currentMarkerSize}
-				//mapRef={topicMapRef} // commented out because there cannot be a ref in a functional comp and it is bnot needed
-				showMarkerCollection={false}
 			/>
 		</Map>
 	);
@@ -148,6 +142,7 @@ const KitasSettingsPanel = ({
 		<div>
 			<FormGroup>
 				<ControlLabel>Vorschau:</ControlLabel>
+				<br />
 				<div style={{ marginBottom: marginBottomCorrection }}>
 					<div>{mapPreview}</div>
 					{titleDisplay === true && (
@@ -198,14 +193,14 @@ const KitasSettingsPanel = ({
 			uiStateActions={uiStateActions}
 			sectionKey='settings'
 			sectionTitle='Einstellungen'
-			sectionBsStyle='primary'
+			sectionBsStyle='success'
 			sectionContent={
 				<SettingsPanelWithPreviewSection
-					width={uiState.width}
+					width={width}
 					preview={preview}
 					settingsSections={[
-						<FormGroup>
-							<ControlLabel>Kita-Einstellungen:</ControlLabel>
+						<div>
+							<ControlLabel>POI-Einstellungen:</ControlLabel>
 							<br />
 							<Checkbox
 								readOnly={true}
@@ -226,12 +221,12 @@ const KitasSettingsPanel = ({
 								}}
 								inline
 							>
-								Titel bei individueller Kita-Filterung anzeigen
+								Titel bei individueller Themenauswahl anzeigen
 							</Checkbox>
 							<br />
 							<Checkbox
 								readOnly={true}
-								key={'clustered.checkbox' + clusteredMarkers}
+								key={'clustered.checkbox' + clusteredPOIs}
 								onClick={(e) => {
 									if (e.target.checked === true) {
 										pushNewRoute(
@@ -244,63 +239,17 @@ const KitasSettingsPanel = ({
 												'&unclustered'
 										);
 									}
-									refreshFeatureCollection();
+									stadtplanActions.createFeatureCollectionFromPOIs();
 									setFeatureCollectionKeyPostfix('clustered:' + e.target.checked);
 								}}
-								checked={clusteredMarkers}
+								checked={clusteredPOIs}
 								inline
 							>
-								Kitas ma&szlig;stabsabh&auml;ngig zusammenfassen
+								POI ma&szlig;stabsabh&auml;ngig zusammenfassen
 							</Checkbox>
-						</FormGroup>,
-						<FormGroup key={'featureRenderingCombos.' + featureRendering}>
-							<ControlLabel>Zeichenvorschrift:</ControlLabel>
 							<br />
-							<Radio
-								readOnly={true}
-								onClick={(e) => {
-									if (e.target.checked === true) {
-										setFeatureRendering(
-											kitasConstants.FEATURE_RENDERING_BY_TRAEGERTYP
-										);
-										setFeatureCollectionKeyPostfix(
-											'rendering:' +
-												kitasConstants.FEATURE_RENDERING_BY_TRAEGERTYP
-										);
-									}
-								}}
-								checked={
-									featureRendering ===
-									kitasConstants.FEATURE_RENDERING_BY_TRAEGERTYP
-								}
-								name='featureRendering'
-								inline
-							>
-								nach Trägertyp
-							</Radio>{' '}
-							<br />
-							<Radio
-								readOnly={true}
-								onClick={(e) => {
-									if (e.target.checked === true) {
-										setFeatureRendering(
-											kitasConstants.FEATURE_RENDERING_BY_PROFIL
-										);
-										setFeatureCollectionKeyPostfix(
-											'rendering:' +
-												kitasConstants.FEATURE_RENDERING_BY_PROFIL
-										);
-									}
-								}}
-								name='featureRendering'
-								checked={
-									featureRendering === kitasConstants.FEATURE_RENDERING_BY_PROFIL
-								}
-								inline
-							>
-								nach Profil (Inklusionsschwerpunkt j/n)
-							</Radio>{' '}
-						</FormGroup>,
+						</div>,
+
 						<NamedMapStyleChooser
 							currentNamedMapStyle={namedMapStyle}
 							pathname={urlPathname}
@@ -314,8 +263,8 @@ const KitasSettingsPanel = ({
 						<SymbolSizeChooser
 							changeMarkerSymbolSize={changeMarkerSymbolSize}
 							currentMarkerSize={currentMarkerSize}
-							getSymbolSVG={getChildSVG}
-							symbolColor='#2BA1AF'
+							getSymbolSVG={getPOISVG}
+							symbolColor={'#1F4761'}
 						/>
 					]}
 				/>
@@ -324,4 +273,4 @@ const KitasSettingsPanel = ({
 	);
 };
 
-export default KitasSettingsPanel;
+export default ModalMenuSettingsSection;

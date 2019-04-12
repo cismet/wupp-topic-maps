@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { OverlayTrigger, Well, Tooltip } from 'react-bootstrap';
 import { Icon } from 'react-fa';
-import { constants as ehrenamtConstants } from '../redux/modules/ehrenamt';
+import { constants as ehrenamtConstants } from '../../redux/modules/ehrenamt';
 
 /* eslint-disable jsx-a11y/anchor-is-valid */
 

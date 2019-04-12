@@ -38,16 +38,6 @@ const nichtOeffentlichesVereinsbadSVG = getBadSVG(
 	'helpTextSVG4'
 );
 
-// Zur Darstellung der Schwimmbäder in der Karte werden unterschiedliche Symbole für Hallenbäder
-// [Signatur städtisches Hallenbad] und Freibäder [Signatur städtisches Freibad] verwendet. Dabei
-// werden 3 unterschiedliche Hintergrundfarben verwendet: [Signatur städtisches Freibad] steht für
-// städtische Bäder, die alle öffentlich zugänglich sind. [Signatur öffentlich zugängliches
-// Vereinsbad] kennzeichnet öffentlich zugängliche Bäder in Vereinsregie und [Signatur nicht
-// öffentlich zugängliches Vereinsbad] wird für nicht öffentlich zugängliche Vereinsbäder
-// eingesetzt. Diese Farben werden in der Titelzeile der Info-Box aufgegriffen. Zusätzlich werden
-// dort die Informationen zusammengefasst, die für die Kartendarstellung relevant sind, z. B.
-// "Hallenbad (Verein), nicht öffentlich".
-
 const BaederModalMenuHelpSection = ({ uiState, uiStateActions }) => {
 	return (
 		<GenericModalMenuSection
@@ -85,7 +75,7 @@ const BaederModalMenuHelpSection = ({ uiState, uiStateActions }) => {
 							style={{ textDecoration: 'none' }}
 						>
 							{' '}
-							<Label bsStyle='primary'>Hintergrundkarten</Label>{' '}
+							<Label bsStyle='primary'>Kartendarstellung</Label>{' '}
 						</Link>
 						<Link
 							id='lnkHelpHeader_positionieren'
@@ -263,7 +253,7 @@ const BaederModalMenuHelpSection = ({ uiState, uiStateActions }) => {
 						<br />
 					</div>
 					<h4>
-						Hintergrundkarte der Schwimmbäder{' '}
+						Kartendarstellung der Bäder{' '}
 						<Link
 							id='lnkUpInHelp_styling'
 							to='help'
@@ -309,8 +299,8 @@ const BaederModalMenuHelpSection = ({ uiState, uiStateActions }) => {
 						Sie, ob es sich dabei um einen <Icon name='circle' /> Stadtbezirk, ein{' '}
 						<Icon name='pie-chart' /> Quartier, eine <Icon name='home' /> Adresse, eine{' '}
 						<Icon name='road' /> Straße ohne zugeordnete Hausnummern, einen{' '}
-						<Icon name='tag' /> POI oder die <Icon name='tags' /> alternative
-						Bezeichnung eines POI handelt.
+						<Icon name='tag' /> POI, die <Icon name='tags' /> alternative Bezeichnung
+						eines POI oder eine <Icon name='child' /> Kindertageseinrichtung handelt.
 					</p>
 					<p>
 						Nach der Auswahl eines Treffers aus der Liste wird die Karte auf die
@@ -360,20 +350,16 @@ const BaederModalMenuHelpSection = ({ uiState, uiStateActions }) => {
 						die Schwimmbäder angezeigt werden sollen.
 					</p>
 					<p>
-						Unter "
-						<em>
-							<strong>Hintergrundkarte</strong>
-						</em>
-						" können Sie auswählen, ob Sie die standardmäßig aktivierte farbige
-						Hintergrundkarte verwenden möchten ("
-						<em>mehrfarbig</em>
-						") oder lieber eine farblich zurückgenommene Karte in Blautönen ("
-						<em>blau</em>
-						"), auf der sich die Schwimmbad-Symbole noch besser abheben. Die
-						unterschiedlichen Flächennutzungen lassen sich dagegen in der Blauton-Karte
-						nicht mehr so gut unterscheiden wie in der mehrfarbigen. Hinweis: Diese
-						Auswahl wird Ihnen nur angeboten, wenn Ihr Browser CSS3-Filtereffekte
-						unterstützt, also z. B. nicht beim Microsoft Internet Explorer.
+						Unter "<strong>Hintergrundkarte</strong>" können Sie auswählen, ob Sie die
+						standardmäßig aktivierte farbige Hintergrundkarte verwenden möchten ("<em>Stadtplan (mehrfarbig)</em>")
+						oder lieber eine farblich zurückgenommene Karte in Blautönen ("<em>Stadtplan (blau)</em>"),
+						auf der sich die Schwimmbad-Symbole noch besser abheben.{' '}
+						<strong>Hinweis:</strong> Der Stadtplan (blau) wird Ihnen nur angeboten,
+						wenn Ihr Browser CSS3-Filtereffekte unterstützt, also z. B. nicht beim
+						Microsoft Internet Explorer. Als dritte Möglichkeit steht eine Luftbildkarte
+						zur Verfügung, die die Anschaulichkeit des Luftbildes (True Orthophoto aus
+						Bildflug vom 19.04.2018, 10 cm Bodenauflösung) mit der Eindeutigkeit des
+						Stadtplans (Kartenschrift, durchscheinende Linien) verbindet.{' '}
 					</p>
 					<p>
 						Unter "

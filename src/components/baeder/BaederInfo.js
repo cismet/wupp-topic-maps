@@ -155,8 +155,8 @@ const BaederInfo = ({
 			<Well bsSize='small' pixelwidth={250}>
 				<h5>Keine Bäder gefunden!</h5>
 				<p>
-					Für mehr Bäder, Ansicht mit <Icon name='minus-square' /> verkleinern oder mit
-					dem untenstehenden Link auf das komplette Stadtgebiet zoomen.
+					Für mehr Bäder Ansicht mit <Icon name='minus-square' /> verkleinern oder mit dem
+					untenstehenden Link auf das komplette Stadtgebiet zoomen.
 				</p>
 				<div align='center'>
 					<a onClick={fitAll}>{items.length} Bäder in Wuppertal</a>

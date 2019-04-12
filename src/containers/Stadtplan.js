@@ -314,6 +314,7 @@ export class Stadtplan_ extends React.Component {
 					fullScreenControl
 					locatorControl
 					gazetteerSearchBox
+					gazeteerHitTrigger={this.gazeteerhHit}
 					gazetteerTopicsList={[ 'pois', 'kitas', 'bezirke', 'quartiere', 'adressen' ]}
 					gazetteerSearchBoxPlaceholdertext='Stadtteil | Adresse | POI'
 					infoBox={info}

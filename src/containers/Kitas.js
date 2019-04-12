@@ -320,6 +320,7 @@ export class Kitas_ extends React.Component {
 						queryString.parse(this.props.routing.location.search).unclustered ===
 						undefined
 					}
+					gazeteerHitTrigger={this.gazeteerhHit}
 					clusterOptions={{
 						spiderfyOnMaxZoom: false,
 						spiderfyDistanceMultiplier: this.props.kitas.kitaSvgSize / 24,

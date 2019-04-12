@@ -394,7 +394,8 @@ TopicMap.propTypes = {
 	locationChangedHandler: PropTypes.func,
 	mappingBoundsChanged: PropTypes.func,
 	clusterOptions: PropTypes.object,
-	clusteringEnabled: PropTypes.bool
+	clusteringEnabled: PropTypes.bool,
+	gazeteerHitTrigger: PropTypes.func
 };
 
 TopicMap.defaultProps = {
@@ -434,5 +435,6 @@ TopicMap.defaultProps = {
 		animate: false,
 		cismapZoomTillSpiderfy: 12,
 		selectionSpiderfyMinZoom: 12
-	}
+	},
+	gazeteerHitTrigger: () => {}
 };

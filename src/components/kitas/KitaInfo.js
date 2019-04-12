@@ -231,7 +231,7 @@ const KitaInfo = ({
 			<Well bsSize='small' pixelwidth={250}>
 				<h5>Keine Kitas gefunden!</h5>
 				<p>
-					Für mehr Kitas, Ansicht mit <Icon name='minus-square' /> verkleinern. Um nach
+					Für mehr Kitas Ansicht mit <Icon name='minus-square' /> verkleinern. Um nach
 					Themenfeldern zu filtern, das
 					<a onClick={() => showModalMenu('filter')}>
 						{' '}

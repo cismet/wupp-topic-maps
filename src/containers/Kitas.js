@@ -341,7 +341,7 @@ export class Kitas_ extends React.Component {
 						'.' +
 						this.props.mapping.featureCollectionKeyPostfix
 					}
-					applicationMenuTooltipString='Filter | Einstellungen | Anleitung'
+					applicationMenuTooltipString='Filter | Einstellungen | Kompaktanleitung'
 					modalMenu={
 						<KitasModalApplicationMenu
 							key={

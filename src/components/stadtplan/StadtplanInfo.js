@@ -419,7 +419,7 @@ const StadtplanInfo = ({
 			<Well bsSize='small' pixelwidth={250}>
 				<h5>Keine POI gefunden!</h5>
 				<p>
-					Für mehr POI, Ansicht mit <Icon name='minus-square' /> verkleinern. Um nach
+					Für mehr POI Ansicht mit <Icon name='minus-square' /> verkleinern. Um nach
 					Themenfeldern zu filtern, das
 					<a onClick={() => showModalMenu('filter')}>
 						{' '}

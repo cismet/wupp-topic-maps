@@ -384,10 +384,10 @@ const ModalMenuHelpSection = ({ uiState, uiStateActions }) => {
 						</Link>
 					</h4>
 					<p>
-						Unter "<em>
-							<strong>Einstellungen</strong>
-						</em>" können Sie im Anwendungsmenü <Icon name='bars' /> festlegen, wie die
-						POI und die Hintergrundkarte angezeigt werden sollen. Zu den POI können Sie
+						Unter "
+						<strong>Einstellungen</strong>
+						" können Sie im Anwendungsmenü <Icon name='bars' /> festlegen, wie die POI
+						und die Hintergrundkarte angezeigt werden sollen. Zu den POI können Sie
 						auswählen, ob Ihre unter "
 						<strong>Mein Themenstadtplan</strong>" festgelegte Lebenslagen-Filterung in
 						einer Titelzeile ausgeprägt wird oder nicht. Weiter können Sie festlegen, ob
@@ -401,20 +401,22 @@ const ModalMenuHelpSection = ({ uiState, uiStateActions }) => {
 						Pixel) oder großen (45 Pixel) Symbolen angezeigt werden.
 					</p>
 					<p>
-						Unter "<strong>Hintergrundkarte</strong>" können Sie auswählen, ob Sie die
-						standardmäßig aktivierte farbige Hintergrundkarte verwenden möchten ("<em>Stadtplan (Tag)</em>")
-						oder lieber eine invertierte Graustufenkarte ("<em>Stadtplan (Nacht)</em>"),
-						zu der uns die von vielen PKW-Navis bei Dunkelheit eingesetzte
-						Darstellungsweise inspiriert hat. <strong>Hinweis:</strong> Der Stadtplan
-						(Nacht) wird Ihnen nur angeboten, wenn Ihr Browser CSS3-Filtereffekte
-						unterstützt, also z. B. nicht beim Microsoft Internet Explorer. Die
-						Nacht-Karte erzeugt einen deutlicheren Kontrast mit den farbigen
-						POI-Symbolen, die unterschiedlichen Flächennutzungen in der Hintergrundkarte
-						lassen sich aber nicht mehr so gut unterscheiden wie in der Tag-Karte. Als
-						dritte Möglichkeit steht eine Luftbildkarte zur Verfügung, die die
-						Anschaulichkeit des Luftbildes (True Orthophoto aus Bildflug vom 19.04.2018,
-						10 cm Bodenauflösung) mit der Eindeutigkeit des Stadtplans (Kartenschrift,
-						durchscheinende Linien) verbindet.{' '}
+						Unter "<em>
+							<strong>Hintergrundkarte</strong>
+						</em>" können Sie auswählen, ob Sie die standardmäßig aktivierte farbige
+						Hintergrundkarte verwenden möchten ("<em>Stadtplan (Tag)</em>") oder lieber
+						eine invertierte Graustufenkarte ("<em>Stadtplan (Nacht)</em>"), zu der uns
+						die von vielen PKW-Navis bei Dunkelheit eingesetzte Darstellungsweise
+						inspiriert hat. <strong>Hinweis:</strong> Der Stadtplan (Nacht) wird Ihnen
+						nur angeboten, wenn Ihr Browser CSS3-Filtereffekte unterstützt, also z. B.
+						nicht beim Microsoft Internet Explorer. Die Nacht-Karte erzeugt einen
+						deutlicheren Kontrast mit den farbigen POI-Symbolen, die unterschiedlichen
+						Flächennutzungen in der Hintergrundkarte lassen sich aber nicht mehr so gut
+						unterscheiden wie in der Tag-Karte. Als dritte Möglichkeit steht eine
+						Luftbildkarte zur Verfügung, die die Anschaulichkeit des Luftbildes (True
+						Orthophoto aus Bildflug vom 19.04.2018, 10 cm Bodenauflösung) mit der
+						Eindeutigkeit des Stadtplans (Kartenschrift, durchscheinende Linien)
+						verbindet.{' '}
 					</p>
 					<p>
 						Im Vorschaubild sehen Sie direkt die prinzipielle Wirkung ihrer

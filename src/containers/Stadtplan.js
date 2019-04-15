@@ -352,7 +352,7 @@ export class Stadtplan_ extends React.Component {
 							getPoiSvgSize(this.props.stadtplan)
 						)
 					}}
-					applicationMenuTooltipString='Themenstadtplan | Einstellungen | Anleitung'
+					applicationMenuTooltipString='Themenstadtplan | Einstellungen | Kompaktanleitung'
 					modalMenu={
 						<StadtplanModalApplicationMenu
 							// key={

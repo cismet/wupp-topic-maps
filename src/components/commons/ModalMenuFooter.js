@@ -4,14 +4,12 @@ import CismetFooterAcks from './CismetFooterAcknowledgements';
 
 const Comp = ({ showModalMenu }) => {
 	return (
-		<div>
-			<span style={{ fontSize: '11px' }}>
-				<b>Hintergrundkarten</b>: Stadtplanwerk 2.0 (Beta) © RVR | True Orthophoto 2018 ©
-				Stadt Wuppertal {' '}
-				<a onClick={() => showModalMenu('help')}>(Details und Nutzungsbedingungen)</a>
-				<br />
-				<CismetFooterAcks />
-			</span>
+		<div style={{ fontSize: '11px' }}>
+			<b>Hintergrundkarten</b>: Stadtplanwerk 2.0 (Beta) © RVR | True Orthophoto 2018 © Stadt
+			Wuppertal {' '}
+			<a onClick={() => showModalMenu('help')}>(Details und Nutzungsbedingungen)</a>
+			<br />
+			<CismetFooterAcks />
 		</div>
 	);
 };

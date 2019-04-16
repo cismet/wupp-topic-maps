@@ -9636,10 +9636,10 @@ react-chartkick@^0.2.0:
   dependencies:
     chartkick "^2.3.6"
 
-react-cismap@^0.2.2:
-  version "0.2.2"
-  resolved "https://registry.yarnpkg.com/react-cismap/-/react-cismap-0.2.2.tgz#a4c57a184249c4d7531c58d1287131407cbfe271"
-  integrity sha512-MqqNDuvxbmaReJCd4AJ/qVEAJ/YMKMeAnb7v7KB63C6LfnXQOEGUZBr2O5sr3DG0zGKDfPEfOvVLWw/RT+0P4A==
+react-cismap@^0.3.1:
+  version "0.3.1"
+  resolved "https://registry.yarnpkg.com/react-cismap/-/react-cismap-0.3.1.tgz#90114676c3ce9c54e359f9a3dc6f37bea9e75d53"
+  integrity sha512-ZJIOn/BTtqATPU0+fku3hQ739tnQdPlZfR38KBcbsNSdPq3U2asaFciyaBBLNtzwH3dvWy4kLsQY7lng1PkZ1A==
   dependencies:
     "@turf/bbox-polygon" "^6.0.1"
     "@turf/intersect" "^6.1.3"
@@ -9743,10 +9743,15 @@ react-input-autosize@^2.1.2:
   dependencies:
     prop-types "^15.5.8"
 
-react-is@^16.3.2, react-is@^16.6.0, react-is@^16.7.0, react-is@^16.8.1, react-is@^16.8.2:
+react-is@^16.3.2, react-is@^16.6.0, react-is@^16.7.0, react-is@^16.8.2:
   version "16.8.2"
   resolved "https://registry.yarnpkg.com/react-is/-/react-is-16.8.2.tgz#09891d324cad1cb0c1f2d91f70a71a4bee34df0f"
   integrity sha512-D+NxhSR2HUCjYky1q1DwpNUD44cDpUXzSmmFyC3ug1bClcU/iDNy0YNn1iwme28fn+NFhpA13IndOd42CrFb+Q==
+
+react-is@^16.8.1:
+  version "16.8.6"
+  resolved "https://registry.yarnpkg.com/react-is/-/react-is-16.8.6.tgz#5bbc1e2d29141c9fbdfed456343fe2bc430a6a16"
+  integrity sha512-aUk3bHfZ2bRSVFFbbeVS4i+lNPZr3/WM5jT2J5omUVV1zzcs1nAaf3l51ctA5FFvCRbhrH0bdAsRRQddFJZPtA==
 
 react-leaflet-control@^1.4.0:
   version "1.4.1"

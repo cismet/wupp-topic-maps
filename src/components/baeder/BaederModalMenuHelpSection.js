@@ -345,15 +345,16 @@ const BaederModalMenuHelpSection = ({ uiState, uiStateActions }) => {
 						</Link>
 					</h4>
 					<p>
-						Unter "<em>
-							<strong>Einstellungen</strong>
-						</em>" können Sie im Anwendungsmenü <Icon name='bars' /> festlegen, wie die
-						Schwimmbäder und die Hintergrundkarte angezeigt werden sollen.
+						Unter "<strong>Einstellungen</strong>" können Sie im Anwendungsmenü{' '}
+						<Icon name='bars' /> festlegen, wie die Schwimmbäder und die
+						Hintergrundkarte angezeigt werden sollen.
 					</p>
 					<p>
-						Unter "<strong>Hintergrundkarte</strong>" können Sie auswählen, ob Sie die
-						standardmäßig aktivierte farbige Hintergrundkarte verwenden möchten ("<em>Stadtplan (mehrfarbig)</em>")
-						oder lieber eine farblich zurückgenommene Karte in Blautönen ("<em>Stadtplan (blau)</em>"),
+						Unter "<em>
+							<strong>Hintergrundkarte</strong>
+						</em>" können Sie auswählen, ob Sie die standardmäßig aktivierte farbige
+						Hintergrundkarte verwenden möchten ("<em>Stadtplan (mehrfarbig)</em>") oder
+						lieber eine farblich zurückgenommene Karte in Blautönen ("<em>Stadtplan (blau)</em>"),
 						auf der sich die Schwimmbad-Symbole noch besser abheben.{' '}
 						<strong>Hinweis:</strong> Der Stadtplan (blau) wird Ihnen nur angeboten,
 						wenn Ihr Browser CSS3-Filtereffekte unterstützt, also z. B. nicht beim

@@ -455,7 +455,7 @@ const StadtplanInfo = ({
 					</div>
 				}
 				onClick={(e) => e.stopPropagation()}
-				keyToUse='Wupp.TopicMaps.Starkregen.mainInfoBox.CollapsibleWell'
+				keyToUse='Wupp.TopicMaps.Stadtplan.mainInfoBox.CollapsibleWell'
 			/>
 		);
 	} else {

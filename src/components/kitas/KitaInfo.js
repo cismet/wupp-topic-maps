@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { Well } from 'react-bootstrap';
 import { Icon } from 'react-fa';
@@ -9,6 +9,7 @@ import {
 	getDescription
 } from '../../utils/kitasHelper';
 import Color from 'color';
+import CollapsibleWell from '../commons/CollapsibleWell';
 
 /* eslint-disable jsx-a11y/anchor-is-valid */
 
@@ -27,6 +28,8 @@ const KitaInfo = ({
 	panelClick,
 	featureRendering
 }) => {
+	const [ collapsedInfoBox, setCollapsedInfoBox ] = useState(false);
+
 	const currentFeature = featureCollection[selectedIndex];
 
 	let urllink = null;
@@ -118,112 +121,130 @@ const KitaInfo = ({
 		return (
 			<div>
 				{llVis}
-				<Well bsSize='small' onClick={panelClick}>
-					<div>
+				<CollapsibleWell
+					collapsed={collapsedInfoBox}
+					setCollapsed={setCollapsedInfoBox}
+					style={{
+						pointerEvents: 'auto',
+						padding: 0,
+						paddingLeft: 9
+					}}
+					debugBorder={0}
+					tableStyle={{ margin: 0 }}
+					fixedRow={true}
+					alwaysVisibleDiv={
 						<table border={0} style={{ width: '100%' }}>
 							<tbody>
 								<tr>
-									<td style={{ textAlign: 'left', verticalAlign: 'top' }}>
-										<table border={0} style={{ width: '100%' }}>
-											<tbody>
-												<tr>
-													<td
-														style={{
-															textAlign: 'left',
-															padding: '5px',
-															maxWidth: '190px',
-															overflowWrap: 'break-word'
-														}}
-													>
-														<h5>
-															<b>
-																{currentFeature.properties.name +
-																	adresse}
-															</b>
-														</h5>
-													</td>
-													<td style={{ textAlign: 'right' }}>
-														{urllink}
-														{phonelink}
-													</td>
-												</tr>
-											</tbody>
-										</table>
-										<table style={{ width: '100%' }}>
-											<tbody>
-												<tr>
-													<td style={{ textAlign: 'left' }}>
-														{/* <h5>{currentFeature.properties.adresse}</h5> */}
-														<p>{description}</p>
-														<p>
-															<Icon
-																style={{
-																	color: 'grey',
-																	width: '30px',
-																	textAlign: 'center'
-																}}
-																size='2x'
-																name={'user'}
-															/>
-															{alter}
-															<Icon
-																style={{
-																	color: 'grey',
-																	width: '40px',
-																	textAlign: 'center'
-																}}
-																size='2x'
-																name={'calendar'}
-															/>
-															{stunden}
-														</p>
-													</td>
-												</tr>
-											</tbody>
-										</table>
-									</td>
-								</tr>
-							</tbody>
-						</table>
-
-						<table style={{ width: '100%' }}>
-							<tbody>
-								<tr>
-									<td />
-									<td style={{ textAlign: 'center', verticalAlign: 'center' }}>
-										<a onClick={fitAll}>
-											{filteredKitas.length} Kitas in Wuppertal
-										</a>
-									</td>
-									<td />
-								</tr>
-							</tbody>
-						</table>
-						<table style={{ width: '100%' }}>
-							<tbody>
-								<tr>
 									<td
-										title='vorheriger Treffer'
-										style={{ textAlign: 'left', verticalAlign: 'center' }}
+										style={{
+											textAlign: 'left',
+											padding: '5px',
+											maxWidth: '190px',
+											overflowWrap: 'break-word'
+										}}
 									>
-										<a onClick={previous}>&lt;&lt;</a>
+										<h5>
+											<b>{currentFeature.properties.name + adresse}</b>
+										</h5>
 									</td>
-
-									<td style={{ textAlign: 'center', verticalAlign: 'center' }}>
-										{featureCollection.length} Kitas angezeigt
-									</td>
-
-									<td
-										title='nächster Treffer'
-										style={{ textAlign: 'right', verticalAlign: 'center' }}
-									>
-										<a onClick={next}>&gt;&gt;</a>
+									<td style={{ textAlign: 'right' }}>
+										{urllink}
+										{phonelink}
 									</td>
 								</tr>
 							</tbody>
 						</table>
-					</div>
-				</Well>
+					}
+					collapsibleDiv={
+						<div style={{ marginBottom: 9, marginRight: 9 }}>
+							<table border={0} style={{ width: '100%' }}>
+								<tbody>
+									<tr>
+										<td style={{ textAlign: 'left', verticalAlign: 'top' }}>
+											<table style={{ width: '100%' }}>
+												<tbody>
+													<tr>
+														<td style={{ textAlign: 'left' }}>
+															{/* <h5>{currentFeature.properties.adresse}</h5> */}
+															<p>{description}</p>
+															<p>
+																<Icon
+																	style={{
+																		color: 'grey',
+																		width: '30px',
+																		textAlign: 'center'
+																	}}
+																	size='2x'
+																	name={'user'}
+																/>
+																{alter}
+																<Icon
+																	style={{
+																		color: 'grey',
+																		width: '40px',
+																		textAlign: 'center'
+																	}}
+																	size='2x'
+																	name={'calendar'}
+																/>
+																{stunden}
+															</p>
+														</td>
+													</tr>
+												</tbody>
+											</table>
+										</td>
+									</tr>
+								</tbody>
+							</table>
+
+							<table style={{ width: '100%' }}>
+								<tbody>
+									<tr>
+										<td />
+										<td
+											style={{ textAlign: 'center', verticalAlign: 'center' }}
+										>
+											<a onClick={fitAll}>
+												{filteredKitas.length} Kitas in Wuppertal
+											</a>
+										</td>
+										<td />
+									</tr>
+								</tbody>
+							</table>
+							<table style={{ width: '100%' }}>
+								<tbody>
+									<tr>
+										<td
+											title='vorheriger Treffer'
+											style={{ textAlign: 'left', verticalAlign: 'center' }}
+										>
+											<a onClick={previous}>&lt;&lt;</a>
+										</td>
+
+										<td
+											style={{ textAlign: 'center', verticalAlign: 'center' }}
+										>
+											{featureCollection.length} Kitas angezeigt
+										</td>
+
+										<td
+											title='nächster Treffer'
+											style={{ textAlign: 'right', verticalAlign: 'center' }}
+										>
+											<a onClick={next}>&gt;&gt;</a>
+										</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					}
+					collapseButtonAreaStyle={{ background: '#cccccc', opacity: '0.9' }}
+					onClick={panelClick}
+					keyToUse='Wupp.TopicMaps.Stadtplan.mainInfoBox.CollapsibleWell'
+				/>
 			</div>
 		);
 	} else if (filteredKitas.length > 0) {

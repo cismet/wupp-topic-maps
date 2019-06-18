@@ -362,16 +362,6 @@ const InfoBox = ({
 				fixedRow={false}
 				alwaysVisibleDiv={alwaysVisibleDiv}
 				collapsibleDiv={collapsibleDiv}
-				upButton={
-					<h4 style={{ margin: 2 }}>
-						<Icon style={{ color: '#7e7e7e' }} name='chevron-circle-up' />
-					</h4>
-				}
-				downButton={
-					<h4 style={{ margin: 2 }}>
-						<Icon style={{ color: '#7e7e7e' }} name='chevron-circle-down' />
-					</h4>
-				}
 				onClick={(e) => e.stopPropagation()}
 				keyToUse='Wupp.TopicMaps.Starkregen.mainInfoBox.CollapsibleWell'
 			/>

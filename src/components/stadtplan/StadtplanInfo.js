@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { Well } from 'react-bootstrap';
 import { Icon } from 'react-fa';
@@ -6,6 +6,7 @@ import queryString from 'query-string';
 import { getColorForProperties } from '../../utils/stadtplanHelper';
 import Color from 'color';
 import IconLink from '../commons/IconLink';
+import CollapsibleWell from '../commons/CollapsibleWell';
 
 /* eslint-disable jsx-a11y/anchor-is-valid */
 
@@ -24,6 +25,7 @@ const StadtplanInfo = ({
 	uiStateActions,
 	panelClick
 }) => {
+	const [ collapsedInfoBox, setCollapsedInfoBox ] = useState(false);
 	const currentFeature = featureCollection[selectedIndex];
 
 	let info = '';
@@ -275,8 +277,18 @@ const StadtplanInfo = ({
 			<div>
 				{fotoDiv}
 				{llVis}
-				<Well bsSize='small' onClick={panelClick}>
-					<div>
+				<CollapsibleWell
+					collapsed={collapsedInfoBox}
+					setCollapsed={setCollapsedInfoBox}
+					style={{
+						pointerEvents: 'auto',
+						padding: 0,
+						paddingLeft: 9
+					}}
+					debugBorder={0}
+					tableStyle={{ margin: 0 }}
+					fixedRow={true}
+					alwaysVisibleDiv={
 						<table
 							style={{
 								width: '100%'
@@ -286,157 +298,165 @@ const StadtplanInfo = ({
 								<tr>
 									<td
 										style={{
-											textAlign: 'left',
-											verticalAlign: 'top'
+											textAlign: 'left'
 										}}
 									>
-										<table
+										<h5>
+											<b>{currentFeature.text}</b>
+										</h5>
+									</td>
+									<td
+										style={{
+											textAlign: 'right'
+										}}
+									>
+										{urllink}
+										{maillink}
+										{phonelink}
+										{eventlink}
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					}
+					collapsibleDiv={
+						<div style={{ marginBottom: 9, marginRight: 9 }}>
+							<table
+								style={{
+									width: '100%'
+								}}
+							>
+								<tbody>
+									<tr>
+										<td
 											style={{
-												width: '100%'
+												textAlign: 'left'
 											}}
 										>
-											<tbody>
-												<tr>
-													<td
-														style={{
-															textAlign: 'left'
-														}}
-													>
-														<h5>
-															<b>{currentFeature.text}</b>
-														</h5>
-													</td>
-													<td
-														style={{
-															textAlign: 'right'
-														}}
-													>
-														{urllink}
-														{maillink}
-														{phonelink}
-														{eventlink}
-													</td>
-												</tr>
-											</tbody>
-										</table>
-										<table
+											<h6>
+												{info.split('\n').map((item, key) => {
+													return (
+														<span key={key}>
+															{item}
+															<br />
+														</span>
+													);
+												})}
+											</h6>
+											<p>{adresse}</p>
+										</td>
+									</tr>
+								</tbody>
+							</table>
+							<table
+								style={{
+									width: '100%'
+								}}
+							>
+								<tbody>
+									<tr>
+										<td />
+										<td
 											style={{
-												width: '100%'
+												textAlign: 'center',
+												verticalAlign: 'center'
 											}}
 										>
-											<tbody>
-												<tr>
-													<td
-														style={{
-															textAlign: 'left'
-														}}
-													>
-														<h6>
-															{info.split('\n').map((item, key) => {
-																return (
-																	<span key={key}>
-																		{item}
-																		<br />
-																	</span>
-																);
-															})}
-														</h6>
-														<p>{adresse}</p>
-													</td>
-												</tr>
-											</tbody>
-										</table>
-									</td>
-								</tr>
-							</tbody>
-						</table>
+											<a onClick={fitAll}>
+												{filteredPOIs.length + ' '}POI in Wuppertal
+											</a>
+										</td>
+										<td />
+									</tr>
+								</tbody>
+							</table>
+							<table
+								style={{
+									width: '100%'
+								}}
+							>
+								<tbody>
+									<tr>
+										<td
+											title='vorheriger Treffer'
+											style={{
+												textAlign: 'left',
+												verticalAlign: 'center'
+											}}
+										>
+											<a onClick={previous}>&lt;&lt;</a>
+										</td>
+										<td
+											style={{
+												textAlign: 'center',
+												verticalAlign: 'center'
+											}}
+										>
+											{featureCollection.length + ' '}POI angezeigt
+										</td>
 
-						<table
-							style={{
-								width: '100%'
-							}}
-						>
-							<tbody>
-								<tr>
-									<td />
-									<td
-										style={{
-											textAlign: 'center',
-											verticalAlign: 'center'
-										}}
-									>
-										<a onClick={fitAll}>
-											{filteredPOIs.length + ' '}POI in Wuppertal
-										</a>
-									</td>
-									<td />
-								</tr>
-							</tbody>
-						</table>
-						<table
-							style={{
-								width: '100%'
-							}}
-						>
-							<tbody>
-								<tr>
-									<td
-										title='vorheriger Treffer'
-										style={{
-											textAlign: 'left',
-											verticalAlign: 'center'
-										}}
-									>
-										<a onClick={previous}>&lt;&lt;</a>
-									</td>
-									<td
-										style={{
-											textAlign: 'center',
-											verticalAlign: 'center'
-										}}
-									>
-										{featureCollection.length + ' '}POI angezeigt
-									</td>
-
-									<td
-										title='nächster Treffer'
-										style={{
-											textAlign: 'right',
-											verticalAlign: 'center'
-										}}
-									>
-										<a onClick={next}>&gt;&gt;</a>
-									</td>
-								</tr>
-							</tbody>
-						</table>
-					</div>
-				</Well>
+										<td
+											title='nächster Treffer'
+											style={{
+												textAlign: 'right',
+												verticalAlign: 'center'
+											}}
+										>
+											<a onClick={next}>&gt;&gt;</a>
+										</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					}
+					collapseButtonAreaStyle={{ background: '#cccccc', opacity: '0.9' }}
+					onClick={panelClick}
+					keyToUse='Wupp.TopicMaps.Stadtplan.mainInfoBox.CollapsibleWell'
+				/>
 			</div>
 		);
 	} else if (filteredPOIs.length > 0) {
 		return (
-			<Well bsSize='small' pixelwidth={250}>
-				<h5>Keine POI gefunden!</h5>
-				<p>
-					Für mehr POI Ansicht mit <Icon name='minus-square' /> verkleinern. Um nach
-					Themenfeldern zu filtern, das
-					<a onClick={() => showModalMenu('filter')}>
-						{' '}
-						Men&uuml;&nbsp;
-						<Icon
-							name='bars'
-							style={{
-								color: 'black'
-							}}
-						/>{' '}
-						&ouml;ffnen.
-					</a>
-				</p>
-				<div align='center'>
-					<a onClick={fitAll}>{filteredPOIs.length + ' '}POI in Wuppertal</a>
-				</div>
-			</Well>
+			<CollapsibleWell
+				collapsed={collapsedInfoBox}
+				setCollapsed={setCollapsedInfoBox}
+				pixelwidth={250}
+				style={{
+					pointerEvents: 'auto'
+					// padding: 0,
+					// paddingLeft: 9,
+					// paddingTop: 9,
+					// paddingBottom: 9
+				}}
+				debugBorder={0}
+				tableStyle={{ margin: 0 }}
+				fixedRow={false}
+				alwaysVisibleDiv={<h5>Keine POI gefunden!</h5>}
+				collapsibleDiv={
+					<div>
+						<p>
+							Für mehr POI Ansicht mit <Icon name='minus-square' /> verkleinern. Um
+							nach Themenfeldern zu filtern, das
+							<a onClick={() => showModalMenu('filter')}>
+								{' '}
+								Men&uuml;&nbsp;
+								<Icon
+									name='bars'
+									style={{
+										color: 'black'
+									}}
+								/>{' '}
+								&ouml;ffnen.
+							</a>
+						</p>
+						<div align='center'>
+							<a onClick={fitAll}>{filteredPOIs.length + ' '}POI in Wuppertal</a>
+						</div>
+					</div>
+				}
+				onClick={(e) => e.stopPropagation()}
+				keyToUse='Wupp.TopicMaps.Starkregen.mainInfoBox.CollapsibleWell'
+			/>
 		);
 	} else {
 		return null;

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import InfoBox from '../commons/InfoBox';
 import { getColorForProperties } from '../../utils/baederHelper';
@@ -6,6 +6,7 @@ import { triggerLightBoxForPOI } from '../../utils/stadtplanHelper';
 import { Well } from 'react-bootstrap';
 import { Icon } from 'react-fa';
 import IconLink from '../commons/IconLink';
+import CollapsibleWell from '../commons/CollapsibleWell';
 
 /* eslint-disable jsx-a11y/anchor-is-valid */
 
@@ -25,6 +26,8 @@ const BaederInfo = ({
 	panelClick,
 	pixelwidth
 }) => {
+	const [ collapsedInfoBox, setCollapsedInfoBox ] = useState(false);
+
 	const currentFeature = featureCollection[selectedIndex];
 	if (currentFeature) {
 		let header = `${currentFeature.properties.more.typ} (${currentFeature.properties.more
@@ -148,20 +151,40 @@ const BaederInfo = ({
 					? 'Bad'
 					: 'Bäder'} angezeigt`}
 				fotoPreview={fotoPreview}
+				collapsedInfoBox={collapsedInfoBox}
+				setCollapsedInfoBox={setCollapsedInfoBox}
 			/>
 		);
 	} else {
 		return (
-			<Well bsSize='small' pixelwidth={250}>
-				<h5>Keine Bäder gefunden!</h5>
-				<p>
-					Für mehr Bäder Ansicht mit <Icon name='minus-square' /> verkleinern oder mit dem
-					untenstehenden Link auf das komplette Stadtgebiet zoomen.
-				</p>
-				<div align='center'>
-					<a onClick={fitAll}>{items.length} Bäder in Wuppertal</a>
-				</div>
-			</Well>
+			<CollapsibleWell
+				externalCollapsedState={true}
+				collapsed={collapsedInfoBox}
+				setCollapsed={setCollapsedInfoBox}
+				pixelwidth={250}
+				style={{
+					pointerEvents: 'auto',
+					padding: 0,
+					paddingLeft: 9
+				}}
+				debugBorder={0}
+				tableStyle={{ margin: 0 }}
+				fixedRow={true}
+				alwaysVisibleDiv={<h5>Keine Bäder gefunden!</h5>}
+				collapsibleDiv={
+					<div style={{ marginRight: 9 }}>
+						<p>
+							Für mehr Bäder Ansicht mit <Icon name='minus-square' /> verkleinern oder
+							mit dem untenstehenden Link auf das komplette Stadtgebiet zoomen.
+						</p>
+						<div align='center'>
+							<a onClick={fitAll}>{items.length} Bäder in Wuppertal</a>
+						</div>
+					</div>
+				}
+				collapseButtonAreaStyle={{ background: '#cccccc', opacity: '0.9' }}
+				keyToUse='Wupp.TopicMaps.Baeder.mainInfoBox.CollapsibleWell'
+			/>
 		);
 	}
 };

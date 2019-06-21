@@ -15,76 +15,83 @@ import { persistReducer } from 'redux-persist';
 import localForage from 'localforage';
 
 const gazetteerTopicsStorageConfig = {
-  key: 'gazetteerTopics',
-  storage: localForage
+	key: 'gazetteerTopics',
+	storage: localForage
 };
 
 const ehrenamtStorageConfig = {
-  key: 'ehrenamtOffers',
-  storage: localForage,
-  whitelist: [
-    'offers',
-    'offersMD5',
-    'globalbereiche',
-    'kenntnisse',
-    'zielgruppen',
-    'filterX',
-    'cart'
-  ]
+	key: 'ehrenamtOffers',
+	storage: localForage,
+	whitelist: [
+		'offers',
+		'offersMD5',
+		'globalbereiche',
+		'kenntnisse',
+		'zielgruppen',
+		'filterX',
+		'cart'
+	]
 };
 
 const kitasStorageConfig = {
-  key: 'kitas',
-  storage: localForage,
-  whitelist: ['kitas', 'kitasMD5', 'filter', 'kitaSvgSize', 'featureRendering'] //['kitas','kitasMD5']
+	key: 'kitas',
+	storage: localForage,
+	whitelist: [
+		'kitas',
+		'kitasMD5',
+		'filter',
+		'kitaSvgSize',
+		'featureRendering',
+		'minifiedInfoBox'
+	] //['kitas','kitasMD5']
 };
 
 const starkregenStorageConfig = {
-  key: 'starkregen',
-  storage: localForage,
-  whitelist: ['selectedBackground', 'selectedSimulation']
+	key: 'starkregen',
+	storage: localForage,
+	whitelist: [ 'selectedBackground', 'selectedSimulation', 'minifiedInfoBox' ]
 };
 
 const uiStateStorageConfig = {
-  key: 'uiState',
-  storage: localForage,
-  whitelist: ['applicationMenuVisible', 'applicationMenuActiveKey']
+	key: 'uiState',
+	storage: localForage,
+	whitelist: [ 'applicationMenuVisible', 'applicationMenuActiveKey' ]
 };
 
 const appReducer = combineReducers({
-  bplaene: bplaenenReducer,
-  starkregen: persistReducer(starkregenStorageConfig, starkregenReducer),
-  ehrenamt: persistReducer(ehrenamtStorageConfig, ehrenamtReducer),
-  stadtplan: stadtplanReducer,
-  baeder: baederReducer,
-  kitas: persistReducer(kitasStorageConfig, kitasReducer),
-  mapping: mappingReducer,
-  uiState: persistReducer(uiStateStorageConfig, uiStateReducer),
-  routing: routerReducer,
-  gazetteerTopics: persistReducer(gazetteerTopicsStorageConfig, gazetteerTopicsReducer),
-  // gazetteerTopics: gazetteerTopicsReducer, // uncomment to skip persitent gazetteer data,
-  docs: docsReducer
+	bplaene: bplaenenReducer,
+	starkregen: persistReducer(starkregenStorageConfig, starkregenReducer),
+	ehrenamt: persistReducer(ehrenamtStorageConfig, ehrenamtReducer),
+	stadtplan: stadtplanReducer,
+	baeder: baederReducer,
+	kitas: persistReducer(kitasStorageConfig, kitasReducer),
+	mapping: mappingReducer,
+	uiState: persistReducer(uiStateStorageConfig, uiStateReducer),
+	routing: routerReducer,
+	gazetteerTopics: persistReducer(gazetteerTopicsStorageConfig, gazetteerTopicsReducer),
+	// gazetteerTopics: gazetteerTopicsReducer, // uncomment to skip persitent gazetteer data,
+	docs: docsReducer
 });
 
 const rootReducer = (state, action) => {
-  if (action.type === 'RESET_ALL') {
-    Object.keys(state).forEach(key => {
-      localForage.removeItem(`persist:${key}`);
-    });
+	if (action.type === 'RESET_ALL') {
+		Object.keys(state).forEach((key) => {
+			localForage.removeItem(`persist:${key}`);
+		});
 
-    return appReducer(undefined, action);
-  }
+		return appReducer(undefined, action);
+	}
 
-  return appReducer(state, action);
+	return appReducer(state, action);
 };
 
 export function resetAll() {
-  console.log('RESET_ALL');
-  return dispatch => {
-    dispatch({
-      type: 'RESET_ALL'
-    });
-  };
+	console.log('RESET_ALL');
+	return (dispatch) => {
+		dispatch({
+			type: 'RESET_ALL'
+		});
+	};
 }
 
 export default rootReducer;

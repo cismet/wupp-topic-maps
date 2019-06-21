@@ -206,7 +206,7 @@ export class Kitas_ extends React.Component {
 		info = (
 			<KitaInfo
 				key={'kitaInfo.' + (this.props.mapping.selectedIndex || 0)}
-				pixelwidth={300}
+				pixelwidth={325}
 				featureCollection={this.props.mapping.featureCollection}
 				filteredKitas={this.props.kitas.filteredKitas}
 				selectedIndex={this.props.mapping.selectedIndex || 0}
@@ -221,6 +221,8 @@ export class Kitas_ extends React.Component {
 					//this.props.kitasActions.refreshFeatureCollection();
 				}}
 				featureRendering={this.props.kitas.featureRendering}
+				minified={this.props.kitas.minifiedInfoBox}
+				minify={this.props.kitasActions.setMinifiedInfoBox}
 			/>
 		);
 

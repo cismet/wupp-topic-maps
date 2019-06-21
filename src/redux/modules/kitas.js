@@ -2,6 +2,7 @@ import objectAssign from 'object-assign';
 import { actions as mappingActions } from './mapping';
 import kdbush from 'kdbush';
 import queryString from 'query-string';
+import makeInfoBoxStateDuck from '../higherorderduckfactories/minifiedInfoBoxState';
 
 //TYPES
 export const types = {
@@ -11,7 +12,8 @@ export const types = {
 	SET_FILTERED_KITAS: 'KITAS/SET_FILTERED_KITAS',
 	SET_FILTER: 'KITAS/SET_FILTER',
 	SET_SVG_SIZE: 'KITAS/SET_SVG_SIZE',
-	SET_FEATURE_RENDERING: 'KITAS/SET_FEATURE_RENDERING'
+	SET_FEATURE_RENDERING: 'KITAS/SET_FEATURE_RENDERING',
+	SET_MINIFIED_INFO_BOX: 'STARKREGEN/SET_MINIFIED_INFO_BOX'
 };
 
 export const constants = {
@@ -90,7 +92,8 @@ const initialState = {
 		]
 	},
 	kitaSvgSize: 35,
-	featureRendering: constants.FEATURE_RENDERING_BY_TRAEGERTYP
+	featureRendering: constants.FEATURE_RENDERING_BY_TRAEGERTYP,
+	minifiedInfoBox: false
 };
 ///REDUCER
 export default function kitaReducer(state = initialState, action) {
@@ -137,6 +140,11 @@ export default function kitaReducer(state = initialState, action) {
 			newState.featureRendering = action.rendering;
 			return newState;
 		}
+		case types.SET_MINIFIED_INFO_BOX: {
+			newState = objectAssign({}, state);
+			newState.minifiedInfoBox = action.minified;
+			return newState;
+		}
 		default:
 			return state;
 	}
@@ -164,6 +172,9 @@ function setSvgSize(size) {
 }
 function setFeatureRendering(rendering) {
 	return { type: types.SET_FEATURE_RENDERING, rendering };
+}
+function setMinifiedInfoBox(minified) {
+	return { type: types.SET_MINIFIED_INFO_BOX, minified };
 }
 //COMPLEXACTIONS
 
@@ -428,6 +439,7 @@ export const actions = {
 	setFilter,
 	setSvgSize,
 	setFeatureRendering,
+	setMinifiedInfoBox,
 
 	loadKitas,
 	setSelectedKita,

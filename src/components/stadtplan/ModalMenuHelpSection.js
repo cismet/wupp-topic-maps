@@ -254,6 +254,15 @@ const ModalMenuHelpSection = ({ uiState, uiStateActions }) => {
 						Kartenfenster angezeigten POI durchmustern.
 					</p>
 					<p>
+						Mit der Schaltfläche <Icon name='chevron-circle-up' /> im dunkelgrau
+						abgesetzten rechten Rand der Info-Box lässt sich diese so verkleinern, dass
+						nur noch die thematische Zuordnung und die Bezeichnung des POI sowie die
+						Link-Symbole angezeigt werden - nützlich für Endgeräte mit kleinem Display.
+						Mit der Schaltfläche <Icon name='chevron-circle-down' /> an derselben Stelle
+						können Sie die Info-Box dann wieder vollständig einblenden.
+					</p>
+
+					<p>
 						Zu einigen POI bieten wir Ihnen Fotos oder Fotoserien des bekannten
 						Wuppertaler Fotographen Peter Krämer an. Sie finden dann ein Vorschaubild
 						direkt über der Info-Box. Klicken Sie auf das Vorschaubild, um einen

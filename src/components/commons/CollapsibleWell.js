@@ -43,7 +43,8 @@ const COMP = ({
 	debugBorder = 0,
 	tableStyle = {},
 	collapsed,
-	setCollapsed
+	setCollapsed,
+	isCollapsible = true
 }) => {
 	const [ internalCollapsed, setInternalCollapsed ] = useState(
 		//keyToUse + '.collapsedState'
@@ -65,18 +66,20 @@ const COMP = ({
 					<tbody>
 						<tr>
 							<th style={{ verticalAlign: 'middle' }}>{alwaysVisibleDiv}</th>
-							<th
-								rowSpan='2'
-								style={{
-									verticalAlign: 'middle',
-									textAlign: 'center',
-									...collapseButtonAreaStyle
-								}}
-							>
-								{buttonInUse}
-							</th>
+							{isCollapsible && (
+								<th
+									rowSpan='2'
+									style={{
+										verticalAlign: 'middle',
+										textAlign: 'center',
+										...collapseButtonAreaStyle
+									}}
+								>
+									{buttonInUse}
+								</th>
+							)}
 						</tr>
-						{!collapsed === true && (
+						{(!isCollapsible || !collapsed === true) && (
 							<tr>
 								<td>{collapsibleDiv}</td>
 							</tr>
@@ -92,17 +95,19 @@ const COMP = ({
 					<tbody>
 						<tr>
 							<th style={{ verticalAlign: 'middle' }}>{alwaysVisibleDiv}</th>
-							<th
-								style={{
-									verticalAlign: 'middle',
-									textAlign: 'center',
-									...collapseButtonAreaStyle
-								}}
-							>
-								{buttonInUse}
-							</th>
+							{isCollapsible && (
+								<th
+									style={{
+										verticalAlign: 'middle',
+										textAlign: 'center',
+										...collapseButtonAreaStyle
+									}}
+								>
+									{buttonInUse}
+								</th>
+							)}
 						</tr>
-						{!collapsed === true && (
+						{(!isCollapsible || !collapsed === true) && (
 							<tr>
 								<td colSpan='2'>{collapsibleDiv}</td>
 							</tr>

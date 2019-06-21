@@ -69,7 +69,7 @@ export class Baeder_ extends React.Component {
 					'BaederInfo.' +
 					(getBaederFeatureCollectionSelectedIndex(this.props.baeder) || 0)
 				}
-				pixelwidth={300}
+				pixelwidth={325}
 				featureCollection={getBaederFeatureCollection(this.props.baeder)}
 				items={getBaeder(this.props.baeder)}
 				selectedIndex={getBaederFeatureCollectionSelectedIndex(this.props.baeder) || 0}

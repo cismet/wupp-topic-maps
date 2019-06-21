@@ -361,7 +361,6 @@ const InfoBox = ({
 				alwaysVisibleDiv={alwaysVisibleDiv}
 				collapsibleDiv={collapsibleDiv}
 				onClick={(e) => e.stopPropagation()}
-				keyToUse='Wupp.TopicMaps.Starkregen.mainInfoBox.CollapsibleWell'
 			/>
 		</div>
 	);

@@ -7,6 +7,8 @@ import { getColorForProperties } from '../../utils/stadtplanHelper';
 import Color from 'color';
 import IconLink from '../commons/IconLink';
 import CollapsibleWell from '../commons/CollapsibleWell';
+import InfoBox from '../commons/InfoBox';
+import { triggerLightBoxForPOI } from '../../utils/stadtplanHelper';
 
 /* eslint-disable jsx-a11y/anchor-is-valid */
 
@@ -30,18 +32,19 @@ const StadtplanInfo = ({
 	const currentFeature = featureCollection[selectedIndex];
 
 	let info = '';
-
+	let links = [];
 	let maillink = null;
 	let urllink = null;
 	let phonelink = null;
 	let eventlink = null;
+	let title, headerText, poiColor, adresse, fotoDiv;
 	if (currentFeature) {
 		if (currentFeature.properties.info) {
 			info = currentFeature.properties.info;
 		}
 
 		if (currentFeature.properties.tel) {
-			phonelink = (
+			links.push(
 				<a
 					title='Anrufen'
 					key={'stadtplan.poi.phone.action.'}
@@ -60,7 +63,7 @@ const StadtplanInfo = ({
 			);
 		}
 		if (currentFeature.properties.email) {
-			maillink = (
+			links.push(
 				<a
 					title='E-Mail schreiben'
 					key={'stadtplan.poi.mail.action.'}
@@ -79,7 +82,7 @@ const StadtplanInfo = ({
 			);
 		}
 		if (currentFeature.properties.url) {
-			urllink = (
+			links.push(
 				<a
 					title='Zur Homepage'
 					key={'stadtplan.poi.url.action.'}
@@ -101,7 +104,7 @@ const StadtplanInfo = ({
 		}
 
 		if (currentFeature.properties.wup_live_url) {
-			eventlink = (
+			links.push(
 				<IconLink
 					key={`IconLink.wupplive`}
 					tooltip='Programm anzeigen'
@@ -114,118 +117,9 @@ const StadtplanInfo = ({
 	}
 
 	if (currentFeature) {
-		let poiColor = Color(getColorForProperties(currentFeature.properties));
+		poiColor = Color(getColorForProperties(currentFeature.properties));
+		headerText = currentFeature.properties.mainlocationtype.lebenslagen.join(', ');
 
-		let textColor = 'black';
-		if (poiColor.isDark()) {
-			textColor = 'white';
-		}
-		let llVis = (
-			<table
-				style={{
-					width: '100%'
-				}}
-			>
-				<tbody>
-					<tr>
-						<td
-							style={{
-								textAlign: 'left',
-								verticalAlign: 'top',
-								background: poiColor,
-								color: textColor,
-								opacity: '0.9',
-								paddingLeft: '3px',
-								paddingTop: '0px',
-								paddingBottom: '0px'
-							}}
-						>
-							{currentFeature.properties.mainlocationtype.lebenslagen.join(', ')}
-						</td>
-					</tr>
-				</tbody>
-			</table>
-		);
-
-		let openlightbox = (e) => {
-			if (
-				currentFeature.properties.fotostrecke === undefined ||
-				currentFeature.properties.fotostrecke === null ||
-				currentFeature.properties.fotostrecke.indexOf('&noparse') !== -1
-			) {
-				uiStateActions.setLightboxUrls([
-					currentFeature.properties.foto.replace(
-						/http:\/\/.*fotokraemer-wuppertal\.de/,
-						'https://wunda-geoportal-fotos.cismet.de/'
-					)
-				]);
-				uiStateActions.setLightboxTitle(currentFeature.text);
-				let linkUrl;
-				if (currentFeature.properties.fotostrecke) {
-					linkUrl = currentFeature.properties.fotostrecke;
-				} else {
-					linkUrl = 'http://www.fotokraemer-wuppertal.de/';
-				}
-				uiStateActions.setLightboxCaption(
-					<a href={linkUrl} target='_fotos'>
-						<Icon name='copyright' />
-						Peter Kr&auml;mer - Fotografie
-					</a>
-				);
-				uiStateActions.setLightboxIndex(0);
-				uiStateActions.setLightboxVisible(true);
-			} else {
-				fetch(
-					currentFeature.properties.fotostrecke.replace(
-						/http:\/\/.*fotokraemer-wuppertal\.de/,
-						'https://wunda-geoportal-fotos.cismet.de/'
-					),
-					{ method: 'get' }
-				)
-					.then(function(response) {
-						return response.text();
-					})
-					.then(function(data) {
-						var tmp = document.implementation.createHTMLDocument();
-						tmp.body.innerHTML = data;
-						let urls = [];
-						let counter = 0;
-						let mainfotoname = decodeURIComponent(currentFeature.properties.foto)
-							.split('/')
-							.pop()
-							.trim();
-						let selectionWish = 0;
-						for (let el of tmp.getElementsByClassName('bilderrahmen')) {
-							let query = queryString.parse(
-								el.getElementsByTagName('a')[0].getAttribute('href')
-							);
-							urls.push(
-								'https://wunda-geoportal-fotos.cismet.de/images/' +
-									query.dateiname_bild
-							);
-							if (mainfotoname === query.dateiname_bild) {
-								selectionWish = counter;
-							}
-							counter += 1;
-						}
-						uiStateActions.setLightboxUrls(urls);
-						uiStateActions.setLightboxTitle(currentFeature.text);
-						uiStateActions.setLightboxCaption(
-							<a href={currentFeature.properties.fotostrecke} target='_fotos'>
-								<Icon name='copyright' />
-								Peter Kr&auml;mer - Fotografie
-							</a>
-						);
-						uiStateActions.setLightboxIndex(selectionWish);
-						uiStateActions.setLightboxVisible(true);
-					})
-					.catch(function(err) {
-						console.log(err);
-					});
-			}
-		};
-
-		let fotoDiv;
 		if (currentFeature.properties.foto) {
 			fotoDiv = (
 				<table
@@ -242,7 +136,9 @@ const StadtplanInfo = ({
 								}}
 							>
 								<a
-									onClick={openlightbox}
+									onClick={() => {
+										triggerLightBoxForPOI(currentFeature, uiStateActions);
+									}}
 									hrefx={
 										currentFeature.properties.fotostrecke ||
 										currentFeature.properties.foto
@@ -274,201 +170,61 @@ const StadtplanInfo = ({
 			adresse += ', ' + currentFeature.properties.stadt;
 		}
 
-		return (
-			<div>
-				{fotoDiv}
-				{llVis}
-				<CollapsibleWell
-					collapsed={minified}
-					setCollapsed={minify}
-					style={{
-						pointerEvents: 'auto',
-						padding: 0,
-						paddingLeft: 9
-					}}
-					debugBorder={0}
-					tableStyle={{ margin: 0 }}
-					fixedRow={true}
-					alwaysVisibleDiv={
-						<table
-							style={{
-								width: '100%'
-							}}
-						>
-							<tbody>
-								<tr>
-									<td
-										style={{
-											textAlign: 'left',
-											width: '100%'
-										}}
-									>
-										<h5>
-											<b>{currentFeature.text}</b>
-										</h5>
-									</td>
-									<td
-										style={{
-											textAlign: 'right'
-										}}
-									>
-										<table border={0}>
-											<tbody>
-												<tr>
-													<td>{urllink}</td>
-													<td>{maillink}</td>
-													<td>{phonelink}</td>
-													<td>{eventlink}</td>
-												</tr>
-											</tbody>
-										</table>
-									</td>
-								</tr>
-							</tbody>
-						</table>
-					}
-					collapsibleDiv={
-						<div style={{ marginBottom: 9, marginRight: 9 }}>
-							<table
-								style={{
-									width: '100%'
-								}}
-							>
-								<tbody>
-									<tr>
-										<td
-											style={{
-												textAlign: 'left'
-											}}
-										>
-											<h6>
-												{info.split('\n').map((item, key) => {
-													return (
-														<span key={key}>
-															{item}
-															<br />
-														</span>
-													);
-												})}
-											</h6>
-											<p>{adresse}</p>
-										</td>
-									</tr>
-								</tbody>
-							</table>
-							<table
-								style={{
-									width: '100%'
-								}}
-							>
-								<tbody>
-									<tr>
-										<td />
-										<td
-											style={{
-												textAlign: 'center',
-												verticalAlign: 'center'
-											}}
-										>
-											<a onClick={fitAll}>
-												{filteredPOIs.length + ' '}POI in Wuppertal
-											</a>
-										</td>
-										<td />
-									</tr>
-								</tbody>
-							</table>
-							<table
-								style={{
-									width: '100%'
-								}}
-							>
-								<tbody>
-									<tr>
-										<td
-											title='vorheriger Treffer'
-											style={{
-												textAlign: 'left',
-												verticalAlign: 'center'
-											}}
-										>
-											<a onClick={previous}>&lt;&lt;</a>
-										</td>
-										<td
-											style={{
-												textAlign: 'center',
-												verticalAlign: 'center'
-											}}
-										>
-											{featureCollection.length + ' '}POI angezeigt
-										</td>
-
-										<td
-											title='nächster Treffer'
-											style={{
-												textAlign: 'right',
-												verticalAlign: 'center'
-											}}
-										>
-											<a onClick={next}>&gt;&gt;</a>
-										</td>
-									</tr>
-								</tbody>
-							</table>
-						</div>
-					}
-					collapseButtonAreaStyle={{ background: '#cccccc', opacity: '0.9', width: 25 }}
-					onClick={panelClick}
-					keyToUse='Wupp.TopicMaps.Stadtplan.mainInfoBox.CollapsibleWell'
-				/>
-			</div>
-		);
-	} else if (filteredPOIs.length > 0) {
-		return (
-			<CollapsibleWell
-				collapsed={minified}
-				setCollapsed={minify}
-				pixelwidth={250}
-				style={{
-					pointerEvents: 'auto'
-					// padding: 0,
-					// paddingLeft: 9,
-					// paddingTop: 9,
-					// paddingBottom: 9
-				}}
-				debugBorder={0}
-				tableStyle={{ margin: 0 }}
-				fixedRow={false}
-				alwaysVisibleDiv={<h5>Keine POI gefunden!</h5>}
-				collapsibleDiv={
-					<div>
-						<p>
-							Für mehr POI Ansicht mit <Icon name='minus-square' /> verkleinern. Um
-							nach Themenfeldern zu filtern, das
-							<a onClick={() => showModalMenu('filter')}>
-								{' '}
-								Men&uuml;&nbsp;
-								<Icon
-									name='bars'
-									style={{
-										color: 'black'
-									}}
-								/>{' '}
-								&ouml;ffnen.
-							</a>
-						</p>
-						<div align='center'>
-							<a onClick={fitAll}>{filteredPOIs.length + ' '}POI in Wuppertal</a>
-						</div>
-					</div>
-				}
-				onClick={(e) => e.stopPropagation()}
-				keyToUse='Wupp.TopicMaps.Stadtplan.mainInfoBox.CollapsibleWell'
-			/>
-		);
-	} else {
-		return null;
+		title = currentFeature.text;
 	}
+	return (
+		<InfoBox
+			isCollapsible={currentFeature !== undefined}
+			featureCollection={featureCollection}
+			items={filteredPOIs}
+			selectedIndex={selectedIndex}
+			next={next}
+			previous={previous}
+			fitAll={fitAll}
+			loadingIndicator={loadingIndicator}
+			showModalMenu={showModalMenu}
+			uiState={uiState}
+			uiStateActions={uiStateActions}
+			linksAndActions={links}
+			panelClick={panelClick}
+			colorize={getColorForProperties}
+			pixelwidth={250}
+			header={headerText}
+			headerColor={poiColor}
+			links={links}
+			title={title}
+			subtitle={adresse}
+			additionalInfo={info}
+			zoomToAllLabel={`${filteredPOIs.length} POI in Wuppertal`}
+			currentlyShownCountLabel={`${featureCollection.length} POI angezeigt`}
+			fotoPreview={fotoDiv}
+			collapsedInfoBox={minified}
+			setCollapsedInfoBox={minify}
+			noCurrentFeatureTitle={<h5>Keine POI gefunden!</h5>}
+			noCurrentFeatureContent={
+				<div>
+					<p>
+						Für mehr POI Ansicht mit <Icon name='minus-square' /> verkleinern. Um nach
+						Themenfeldern zu filtern, das
+						<a onClick={() => showModalMenu('filter')}>
+							{' '}
+							Men&uuml;&nbsp;
+							<Icon
+								name='bars'
+								style={{
+									color: 'black'
+								}}
+							/>{' '}
+							&ouml;ffnen.
+						</a>
+					</p>
+					<div align='center'>
+						<a onClick={fitAll}>{filteredPOIs.length + ' '}POI in Wuppertal</a>
+					</div>
+				</div>
+			}
+		/>
+	);
 };
 
 export default StadtplanInfo;

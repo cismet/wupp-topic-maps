@@ -29,22 +29,27 @@ const BaederInfo = ({
 	minify
 }) => {
 	const currentFeature = featureCollection[selectedIndex];
+
+	let header, links, adresse, info, fotoPreview, headerColor, title;
+	if (items && items.length === 0) {
+		return null;
+	}
+
 	if (currentFeature) {
-		let header = `${currentFeature.properties.more.typ} (${currentFeature.properties.more
+		header = `${currentFeature.properties.more.typ} (${currentFeature.properties.more
 			.betreiber}), ${currentFeature.properties.more.zugang}`;
 
-		let adresse = currentFeature.properties.adresse;
+		adresse = currentFeature.properties.adresse;
 
 		if (currentFeature.properties.stadt !== 'Wuppertal') {
 			adresse += ', ' + currentFeature.properties.stadt;
 		}
 
-		let info = '';
+		info = '';
 		if (currentFeature.properties.info) {
 			info = currentFeature.properties.info;
 		}
-
-		let links = [];
+		links = [];
 		if (currentFeature.properties.tel) {
 			links.push(
 				<IconLink
@@ -88,8 +93,6 @@ const BaederInfo = ({
 			);
 		}
 
-		let fotoPreview;
-
 		if (currentFeature.properties.foto) {
 			fotoPreview = (
 				<table style={{ width: '100%' }}>
@@ -123,70 +126,53 @@ const BaederInfo = ({
 			);
 		}
 
-		return (
-			<InfoBox
-				featureCollection={featureCollection}
-				items={items}
-				selectedIndex={selectedIndex}
-				next={next}
-				previous={previous}
-				fitAll={fitAll}
-				loadingIndicator={loadingIndicator}
-				showModalMenu={showModalMenu}
-				uiState={uiState}
-				uiStateActions={uiStateActions}
-				linksAndActions={linksAndActions}
-				panelClick={panelClick}
-				colorize={getColorForProperties}
-				pixelwidth={pixelwidth}
-				header={header}
-				headerColor={getColorForProperties(currentFeature.properties)}
-				links={links}
-				title={currentFeature.text}
-				subtitle={adresse}
-				additionalInfo={info}
-				zoomToAllLabel={`${items.length} Bäder in Wuppertal`}
-				currentlyShownCountLabel={`${featureCollection.length} ${featureCollection.length ===
-				1
-					? 'Bad'
-					: 'Bäder'} angezeigt`}
-				fotoPreview={fotoPreview}
-				collapsedInfoBox={minified}
-				setCollapsedInfoBox={minify}
-			/>
-		);
-	} else {
-		return (
-			<CollapsibleWell
-				externalCollapsedState={true}
-				collapsed={minified}
-				setCollapsed={minify}
-				pixelwidth={250}
-				style={{
-					pointerEvents: 'auto',
-					padding: 0,
-					paddingLeft: 9
-				}}
-				debugBorder={0}
-				tableStyle={{ margin: 0 }}
-				fixedRow={true}
-				alwaysVisibleDiv={<h5>Keine Bäder gefunden!</h5>}
-				collapsibleDiv={
-					<div style={{ marginRight: 9 }}>
-						<p>
-							Für mehr Bäder Ansicht mit <Icon name='minus-square' /> verkleinern oder
-							mit dem untenstehenden Link auf das komplette Stadtgebiet zoomen.
-						</p>
-						<div align='center'>
-							<a onClick={fitAll}>{items.length} Bäder in Wuppertal</a>
-						</div>
-					</div>
-				}
-				collapseButtonAreaStyle={{ background: '#cccccc', opacity: '0.9' }}
-				keyToUse='Wupp.TopicMaps.Baeder.mainInfoBox.CollapsibleWell'
-			/>
-		);
+		headerColor = getColorForProperties(currentFeature.properties);
+		title = currentFeature.text;
 	}
+	return (
+		<InfoBox
+			isCollapsible={currentFeature !== undefined}
+			featureCollection={featureCollection}
+			items={items}
+			selectedIndex={selectedIndex}
+			next={next}
+			previous={previous}
+			fitAll={fitAll}
+			loadingIndicator={loadingIndicator}
+			showModalMenu={showModalMenu}
+			uiState={uiState}
+			uiStateActions={uiStateActions}
+			linksAndActions={linksAndActions}
+			panelClick={panelClick}
+			colorize={getColorForProperties}
+			pixelwidth={pixelwidth}
+			header={header}
+			headerColor={headerColor}
+			links={links}
+			title={title}
+			subtitle={adresse}
+			additionalInfo={info}
+			zoomToAllLabel={`${items.length} Bäder in Wuppertal`}
+			currentlyShownCountLabel={`${featureCollection.length} ${featureCollection.length === 1
+				? 'Bad'
+				: 'Bäder'} angezeigt`}
+			fotoPreview={fotoPreview}
+			collapsedInfoBox={minified}
+			setCollapsedInfoBox={minify}
+			noCurrentFeatureTitle={<h5>Keine Bäder gefunden!</h5>}
+			noCurrentFeatureContent={
+				<div style={{ marginRight: 9 }}>
+					<p>
+						Für mehr Bäder Ansicht mit <Icon name='minus-square' /> verkleinern oder mit
+						dem untenstehenden Link auf das komplette Stadtgebiet zoomen.
+					</p>
+					<div align='center'>
+						<a onClick={fitAll}>{items.length} Bäder in Wuppertal</a>
+					</div>
+				</div>
+			}
+		/>
+	);
 };
 
 export default BaederInfo;

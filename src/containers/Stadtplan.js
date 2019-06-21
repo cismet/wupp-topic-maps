@@ -17,7 +17,8 @@ import {
 	getLebenslagen,
 	getFilter,
 	getPoiSvgSize,
-	getApps
+	getApps,
+	hasMinifiedInfoBox
 } from '../redux/modules/stadtplan';
 
 import { routerActions } from 'react-router-redux';
@@ -216,6 +217,8 @@ export class Stadtplan_ extends React.Component {
 				panelClick={(e) => {
 					this.props.stadtplanActions.refreshFeatureCollection();
 				}}
+				minified={hasMinifiedInfoBox(this.props.stadtplan)}
+				minify={(minified) => this.props.stadtplanActions.setMinifiedInfoBox(minified)}
 			/>
 		);
 

@@ -348,8 +348,8 @@ const InfoBox = ({
 			{infoCompButton}
 			{legendTable}
 			<CollapsibleWell
-				collapsed={collapsedInfoBox}
-				setCollapsed={setCollapsedInfoBox}
+				collapsed={minified}
+				setCollapsed={minify}
 				style={{
 					pointerEvents: 'auto'
 					// padding: 0,

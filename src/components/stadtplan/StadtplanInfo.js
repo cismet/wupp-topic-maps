@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { Well } from 'react-bootstrap';
 import { Icon } from 'react-fa';
@@ -23,9 +23,10 @@ const StadtplanInfo = ({
 	showModalMenu,
 	uiState,
 	uiStateActions,
-	panelClick
+	panelClick,
+	minified,
+	minify
 }) => {
-	const [ collapsedInfoBox, setCollapsedInfoBox ] = useState(false);
 	const currentFeature = featureCollection[selectedIndex];
 
 	let info = '';
@@ -278,8 +279,8 @@ const StadtplanInfo = ({
 				{fotoDiv}
 				{llVis}
 				<CollapsibleWell
-					collapsed={collapsedInfoBox}
-					setCollapsed={setCollapsedInfoBox}
+					collapsed={minified}
+					setCollapsed={minify}
 					style={{
 						pointerEvents: 'auto',
 						padding: 0,
@@ -418,8 +419,8 @@ const StadtplanInfo = ({
 	} else if (filteredPOIs.length > 0) {
 		return (
 			<CollapsibleWell
-				collapsed={collapsedInfoBox}
-				setCollapsed={setCollapsedInfoBox}
+				collapsed={minified}
+				setCollapsed={minify}
 				pixelwidth={250}
 				style={{
 					pointerEvents: 'auto'

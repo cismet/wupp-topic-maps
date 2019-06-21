@@ -242,6 +242,14 @@ const BaederModalMenuHelpSection = ({ uiState, uiStateActions }) => {
 						angezeigten Bäder durchmustern.
 					</p>
 					<p>
+						Mit der Schaltfläche <Icon name='chevron-circle-down' /> im dunkelgrau
+						abgesetzten rechten Rand der Info-Box lässt sich diese so verkleinern, dass
+						nur noch die thematische Zuordnung und der Name des Schwimmbades sowie die
+						Link-Symbole angezeigt werden - nützlich für Endgeräte mit kleinem Display.
+						Mit der Schaltfläche <Icon name='chevron-circle-up' /> an derselben Stelle
+						können Sie die Info-Box dann wieder vollständig einblenden.
+					</p>
+					<p>
 						Zu einigen Schwimmbädern bieten wir Ihnen Fotos oder Fotoserien an. Sie
 						finden dann ein Vorschaubild direkt über der Info-Box. Klicken Sie auf das
 						Vorschaubild, um einen Bildbetrachter ("Leuchtkasten") mit dem Foto / der

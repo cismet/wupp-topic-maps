@@ -189,6 +189,13 @@ const KitasHelpTextPanel = () => {
 				in nördlicher bzw. südlicher Richtung alle aktuell im Kartenfenster angezeigten
 				Kitas durchmustern.
 			</p>
+			<p>
+				Mit der Schaltfläche <Icon name='chevron-circle-down' /> im dunkelgrau abgesetzten
+				rechten Rand der Info-Box lässt sich diese so verkleinern, dass nur noch der Name
+				der Kita und die Link-Symbole angezeigt werden - nützlich für Endgeräte mit kleinem
+				Display. Mit der Schaltfläche <Icon name='chevron-circle-up' /> an derselben Stelle
+				können Sie die Info-Box dann wieder vollständig einblenden.
+			</p>
 
 			<div name='InKartePositionieren'>
 				<br />

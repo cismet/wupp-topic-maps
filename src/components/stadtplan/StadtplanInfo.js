@@ -299,7 +299,8 @@ const StadtplanInfo = ({
 								<tr>
 									<td
 										style={{
-											textAlign: 'left'
+											textAlign: 'left',
+											width: '100%'
 										}}
 									>
 										<h5>
@@ -311,10 +312,16 @@ const StadtplanInfo = ({
 											textAlign: 'right'
 										}}
 									>
-										{urllink}
-										{maillink}
-										{phonelink}
-										{eventlink}
+										<table border={0}>
+											<tbody>
+												<tr>
+													<td>{urllink}</td>
+													<td>{maillink}</td>
+													<td>{phonelink}</td>
+													<td>{eventlink}</td>
+												</tr>
+											</tbody>
+										</table>
 									</td>
 								</tr>
 							</tbody>
@@ -410,7 +417,7 @@ const StadtplanInfo = ({
 							</table>
 						</div>
 					}
-					collapseButtonAreaStyle={{ background: '#cccccc', opacity: '0.9' }}
+					collapseButtonAreaStyle={{ background: '#cccccc', opacity: '0.9', width: 25 }}
 					onClick={panelClick}
 					keyToUse='Wupp.TopicMaps.Stadtplan.mainInfoBox.CollapsibleWell'
 				/>

@@ -10,7 +10,8 @@ import {
 	getBaeder,
 	getBaederFeatureCollection,
 	getBadSvgSize,
-	getBaederFeatureCollectionSelectedIndex
+	getBaederFeatureCollectionSelectedIndex,
+	hasMinifiedInfoBox
 } from '../redux/modules/baeder';
 
 import { routerActions as RoutingActions } from 'react-router-redux';
@@ -92,6 +93,8 @@ export class Baeder_ extends React.Component {
 				uiState={this.props.uiState}
 				uiStateActions={this.props.uiStateActions}
 				panelClick={(e) => {}}
+				minified={hasMinifiedInfoBox(this.props.baeder)}
+				minify={(minified) => this.props.baederActions.setMinifiedInfoBox(minified)}
 			/>
 		);
 		let reduxBackground = undefined;

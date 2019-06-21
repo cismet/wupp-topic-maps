@@ -36,7 +36,14 @@ const ehrenamtStorageConfig = {
 const kitasStorageConfig = {
 	key: 'kitas',
 	storage: localForage,
-	whitelist: [ 'kitas', 'kitasMD5', 'filter', 'kitaSvgSize', 'featureRendering' ] //['kitas','kitasMD5']
+	whitelist: [
+		'kitas',
+		'kitasMD5',
+		'filter',
+		'kitaSvgSize',
+		'featureRendering',
+		'minifiedInfoBox'
+	] //['kitas','kitasMD5']
 };
 
 const starkregenStorageConfig = {

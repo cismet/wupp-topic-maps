@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { Well } from 'react-bootstrap';
 import { Icon } from 'react-fa';
@@ -26,10 +26,10 @@ const KitaInfo = ({
 	uiState,
 	uiStateActions,
 	panelClick,
-	featureRendering
+	featureRendering,
+	minified,
+	minify
 }) => {
-	const [ collapsedInfoBox, setCollapsedInfoBox ] = useState(false);
-
 	const currentFeature = featureCollection[selectedIndex];
 
 	let urllink = null;
@@ -122,8 +122,8 @@ const KitaInfo = ({
 			<div>
 				{llVis}
 				<CollapsibleWell
-					collapsed={collapsedInfoBox}
-					setCollapsed={setCollapsedInfoBox}
+					collapsed={minified}
+					setCollapsed={minify}
 					style={{
 						pointerEvents: 'auto',
 						padding: 0,

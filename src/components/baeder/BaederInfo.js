@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import InfoBox from '../commons/InfoBox';
 import { getColorForProperties } from '../../utils/baederHelper';
@@ -24,10 +24,10 @@ const BaederInfo = ({
 	uiStateActions,
 	linksAndActions,
 	panelClick,
-	pixelwidth
+	pixelwidth,
+	minified,
+	minify
 }) => {
-	const [ collapsedInfoBox, setCollapsedInfoBox ] = useState(false);
-
 	const currentFeature = featureCollection[selectedIndex];
 	if (currentFeature) {
 		let header = `${currentFeature.properties.more.typ} (${currentFeature.properties.more
@@ -151,16 +151,16 @@ const BaederInfo = ({
 					? 'Bad'
 					: 'Bäder'} angezeigt`}
 				fotoPreview={fotoPreview}
-				collapsedInfoBox={collapsedInfoBox}
-				setCollapsedInfoBox={setCollapsedInfoBox}
+				collapsedInfoBox={minified}
+				setCollapsedInfoBox={minify}
 			/>
 		);
 	} else {
 		return (
 			<CollapsibleWell
 				externalCollapsedState={true}
-				collapsed={collapsedInfoBox}
-				setCollapsed={setCollapsedInfoBox}
+				collapsed={minified}
+				setCollapsed={minify}
 				pixelwidth={250}
 				style={{
 					pointerEvents: 'auto',

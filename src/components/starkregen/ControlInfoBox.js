@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import ReactDOM from 'react-dom';
 
@@ -29,8 +29,6 @@ const InfoBox = ({
 	mapRef,
 	mapCursor
 }) => {
-	const [ collapsedInfoBox, setCollapsedInfoBox ] = useState(false);
-
 	const legend = <Legend legendObjects={legendObject} />;
 	let headerColor = '#7e7e7e';
 	if (featureInfoValue) {

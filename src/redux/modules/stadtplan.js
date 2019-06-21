@@ -30,7 +30,6 @@ export const constants = {
 //HIGHER ORDER DUCKS
 const dataDuck = makeDataDuck('POIS', (state) => state.stadtplan.dataState);
 const infoBoxStateDuck = makeInfoBoxStateDuck('POIS', (state) => state.stadtplan.infoBoxState);
-console.log('XXXXXXXXXXXXXXXXXXXx');
 
 ///INITIAL STATE
 const initialState = {
@@ -392,11 +391,6 @@ function createFeatureCollectionFromPOIs(boundingBox) {
 		}
 	};
 }
-function setMinifiedInfoBox(minified) {
-	return (dispatch, getState) => {
-		dispatch(infoBoxStateDuck.actions.setMinifiedInfoBoxState(minified));
-	};
-}
 
 //EXPORT ACTIONS
 export const actions = {
@@ -410,7 +404,7 @@ export const actions = {
 	clearFilter,
 	refreshFeatureCollection,
 	setPoiSvgSize,
-	setMinifiedInfoBox
+	setMinifiedInfoBox: infoBoxStateDuck.actions.setMinifiedInfoBoxState
 };
 
 //EXPORT SELECTORS

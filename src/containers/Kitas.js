@@ -221,6 +221,8 @@ export class Kitas_ extends React.Component {
 					//this.props.kitasActions.refreshFeatureCollection();
 				}}
 				featureRendering={this.props.kitas.featureRendering}
+				minified={this.props.kitas.minifiedInfoBox}
+				minify={this.props.kitasActions.setMinifiedInfoBox}
 			/>
 		);
 

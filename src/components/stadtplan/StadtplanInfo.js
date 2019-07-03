@@ -164,7 +164,7 @@ const StadtplanInfo = ({
 			);
 		}
 
-		let adresse = currentFeature.properties.adresse;
+		adresse = currentFeature.properties.adresse;
 
 		if (currentFeature.properties.stadt !== 'Wuppertal') {
 			adresse += ', ' + currentFeature.properties.stadt;

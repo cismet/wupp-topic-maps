@@ -3,6 +3,7 @@ import { routerReducer } from 'react-router-redux';
 import bplaenenReducer from './modules/bplaene';
 import ehrenamtReducer from './modules/ehrenamt';
 import stadtplanReducer from './modules/stadtplan';
+import kulturstadtplanReducer from './modules/kulturstadtplan';
 import baederReducer from './modules/baeder';
 import starkregenReducer from './modules/starkregen';
 import kitasReducer from './modules/kitas';
@@ -63,6 +64,7 @@ const appReducer = combineReducers({
 	starkregen: persistReducer(starkregenStorageConfig, starkregenReducer),
 	ehrenamt: persistReducer(ehrenamtStorageConfig, ehrenamtReducer),
 	stadtplan: stadtplanReducer,
+	kulturstadtplan: kulturstadtplanReducer,
 	baeder: baederReducer,
 	kitas: persistReducer(kitasStorageConfig, kitasReducer),
 	mapping: mappingReducer,

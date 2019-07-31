@@ -4,7 +4,7 @@ import Color from 'color';
 import L from 'leaflet';
 import createSVGPie from 'create-svg-pie';
 import createElement from 'svg-create-element';
-import poiColors from '../constants/poiColors.js';
+import { poiColors } from '../constants/colors.js';
 import store from '../redux/store';
 import queryString from 'query-string';
 import { Icon } from 'react-fa';

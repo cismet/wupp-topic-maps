@@ -19,9 +19,10 @@ const ModalMenu = ({
 	queryString,
 	setLayerByKey,
 	activeLayerKey,
-	lebenslagen,
+	veranstaltungsarten,
 	apps,
 	filter,
+	filtermode,
 	filterchanged,
 	offersMD5,
 	stadtplanActions,
@@ -32,7 +33,7 @@ const ModalMenu = ({
 			uiState={uiState}
 			uiStateActions={uiStateActions}
 			menuIntroduction={<ModalMenuIntroduction uiStateActions={uiStateActions} />}
-			menuTitle='Filterung, Einstellungen und Kompaktanleitung'
+			menuTitle='Kulturstadtplan, Einstellungen und Kompaktanleitung'
 			menuSections={[
 				<ModalMenuFilteringPanel
 					key='ModalMenuFilteringPanel'
@@ -47,9 +48,10 @@ const ModalMenu = ({
 					topicMapRef={topicMapRef}
 					filteredPOIs={filteredPOIs}
 					featureCollectionCount={featureCollectionCount}
-					lebenslagen={lebenslagen}
+					veranstaltungsarten={veranstaltungsarten}
 					apps={apps}
 					filter={filter}
+					filtermode={filtermode}
 					filterchanged={filterchanged}
 					offersMD5={offersMD5}
 					stadtplanActions={stadtplanActions}

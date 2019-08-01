@@ -20,24 +20,8 @@ export const getColorForProperties = (properties) => {
 
 export const getHeaderTextForProperties = (properties) => {
 	let mltName = properties.mainlocationtype.name;
-	let qColorRules;
 	let colorCandidate;
-	let lookup = null;
-	try {
-		qColorRules = queryString.parse(store.getState().routing.location.search).colorRules;
-		if (qColorRules) {
-			try {
-				lookup = JSON.parse(qColorRules);
-			} catch (error) {
-				console.error(error);
-			}
-		}
-	} catch (error) {
-		//problem dduring colorRules override
-	}
-	if (lookup === null) {
-		lookup = veranstaltungsorteColors;
-	}
+	let lookup = getLookup();
 	colorCandidate = lookup[mltName];
 	if (colorCandidate) {
 		return mltName;
@@ -45,25 +29,55 @@ export const getHeaderTextForProperties = (properties) => {
 		return lookup.default + ' (' + mltName + ')';
 	}
 };
-export const getColorFromMainlocationTypeName = (mltName) => {
-	let qColorRules;
-	let colorCandidate;
-	let lookup = null;
-	try {
-		qColorRules = queryString.parse(store.getState().routing.location.search).colorRules;
-		if (qColorRules) {
-			try {
-				lookup = JSON.parse(qColorRules);
-			} catch (error) {
-				console.error(error);
+
+const textConversionDictionary = [
+	{ from: 'Milongas', to: 'Milongas (Tango Argentino)' },
+	{ from: 'Veranstaltungsorte', to: 'Sonstige Veranstaltungsorte' }
+];
+
+export const getAllEinrichtungen = () => {
+	let lookup = getLookup();
+	let einrichtungen = [];
+	Object.entries(lookup).map((entry) => {
+		if (entry[0] != 'default') {
+			einrichtungen.push(entry[0]);
+		}
+	});
+	return einrichtungen;
+};
+
+export const textConversion = (input, direction = 'FORWARD') => {
+	if (direction === 'FORWARD') {
+		for (let rule of textConversionDictionary) {
+			if (rule.from === input) {
+				return rule.to;
 			}
 		}
-	} catch (error) {
-		//problem dduring colorRules override
+	} else {
+		for (let rule of textConversionDictionary) {
+			if (rule.to === input) {
+				return rule.from;
+			}
+		}
 	}
-	if (lookup === null) {
-		lookup = veranstaltungsorteColors;
+	return input;
+};
+
+export const classifyMainlocationTypeName = (mltName) => {
+	let lookup = getLookup();
+	// console.log('search for ' + mltName + ' in', lookup);
+	// console.log('lookup[mltName]', lookup[mltName]);
+
+	if (lookup[mltName] !== undefined) {
+		return mltName;
+	} else {
+		return lookup.default;
 	}
+};
+
+export const getColorFromMainlocationTypeName = (mltName) => {
+	let colorCandidate;
+	let lookup = getLookup();
 
 	colorCandidate = lookup[mltName];
 
@@ -89,4 +103,24 @@ export const getColorFromMainlocationTypeName = (mltName) => {
 	return c;
 
 	//return "#A83F6A";
+};
+
+const getLookup = () => {
+	let lookup = null;
+	try {
+		let qColorRules = queryString.parse(store.getState().routing.location.search).colorRules;
+		if (qColorRules) {
+			try {
+				lookup = JSON.parse(qColorRules);
+			} catch (error) {
+				console.error(error);
+			}
+		}
+	} catch (error) {
+		//problem dduring colorRules override
+	}
+	if (lookup === null) {
+		lookup = veranstaltungsorteColors;
+	}
+	return lookup;
 };

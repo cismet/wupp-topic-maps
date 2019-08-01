@@ -22,11 +22,11 @@ let poiColors = {
 
 let veranstaltungsorteColors = {
 	default: 'Veranstaltungsorte',
-	Veranstaltungsorte: '#CF872E',
+	Clubs: '#BF2A23',
 	Filmtheater: '#8A211D',
 	'Museen und Galerien': '#A6AD3C',
 	Theater: '#F0CE4E',
-	Clubs: '#BF2A23'
+	Veranstaltungsorte: '#CF872E'
 };
 
 export { poiColors, veranstaltungsorteColors };

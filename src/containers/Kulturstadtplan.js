@@ -13,8 +13,10 @@ import {
 	getPOIs,
 	getPOIsMD5,
 	getFilteredPOIs,
+	getVeranstaltungsarten,
 	getLebenslagen,
 	getFilter,
+	getFilterMode,
 	getPoiSvgSize,
 	getApps,
 	hasMinifiedInfoBox
@@ -46,7 +48,7 @@ function mapStateToProps(state) {
 		uiState: state.uiState,
 		mapping: state.mapping,
 		routing: state.routing,
-		stadtplan: state.stadtplan
+		stadtplan: state.kulturstadtplan
 	};
 }
 
@@ -200,11 +202,11 @@ export class Stadtplan_ extends React.Component {
 			headerColor = getColorForProperties(veranstaltungsort);
 			headerText = getHeaderTextForProperties(veranstaltungsort);
 		} else {
-			console.log(
-				'nix da',
-				this.props.mapping.selectedIndex,
-				this.props.mapping.featureCollection
-			);
+			// console.log(
+			// 	'kein selectedIndex oder keine featureCollection',
+			// 	this.props.mapping.selectedIndex,
+			// 	this.props.mapping.featureCollection
+			// );
 		}
 		info = (
 			<StadtplanInfo
@@ -367,16 +369,17 @@ export class Stadtplan_ extends React.Component {
 							getColorForProperties
 						)
 					}}
-					applicationMenuTooltipString='Filterung | Einstellungen | Kompaktanleitung'
+					applicationMenuTooltipString='Kulturstadtplan | Einstellungen | Kompaktanleitung'
 					modalMenu={
 						<StadtplanModalApplicationMenu
 							// key={
 							// 	'StadtplanModalApplicationMenu.visible:' +
 							// 	this.props.uiState.applicationMenuVisible
 							// }
-							lebenslagen={getLebenslagen(this.props.stadtplan)}
+							veranstaltungsarten={getVeranstaltungsarten(this.props.stadtplan)}
 							apps={getApps(this.props.stadtplan)}
 							filter={getFilter(this.props.stadtplan)}
+							filtermode={getFilterMode(this.props.stadtplan)}
 							filterChanged={this.filterChanged}
 							offersMD5={getPOIsMD5(this.props.stadtplan)}
 							// centerOnPoint={this.centerOnPoint}

@@ -283,7 +283,7 @@ export class Stadtplan_ extends React.Component {
 				}
 
 				if (filter[filterMode].length === 1) {
-					themenstadtplanDesc = 'alle Orte für ' + filter[filterMode][0];
+					themenstadtplanDesc = 'alle ' + einrichtungsEinschub + filter[filterMode][0];
 				} else if (filter[filterMode].length > 0 && filter[filterMode].length < 3) {
 					themenstadtplanDesc =
 						'alle ' +

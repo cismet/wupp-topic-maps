@@ -59,12 +59,11 @@ const ModalMenuFilteringSection = ({
 	offersMD5,
 	stadtplanActions
 }) => {
-	console.log('filter', filter);
-
-	let altOverviewRows = (
-		<div>
+	let filterUI = (
+		<div style={{ width: '100%' }}>
 			<h4> Filtern nach</h4>
 			<Tabs
+				style={{ width: '100%' }}
 				id='controlled-tab-example'
 				activeKey={filtermode}
 				onSelect={(key) => {
@@ -190,94 +189,6 @@ const ModalMenuFilteringSection = ({
 		</div>
 	);
 
-	let overviewRows = (
-		<div>
-			<FormGroup>
-				<ControlLabel>
-					Einrichtungen
-					{'  '}
-					{/* <Icon
-						style={{
-							color: 'grey',
-							width: '30px',
-							textAlign: 'center'
-						}}
-						size='2x'
-						name={'pie-chart'}
-					/> */}
-				</ControlLabel>
-				<br />
-				{getAllEinrichtungen().map((einrichtung) => {
-					return (
-						<div key={'filter.kulturstadtplan.kategorien.div.' + einrichtung}>
-							<Checkbox
-								readOnly={true}
-								key={'filter.kulturstadtplan.kategorie.' + einrichtung}
-								onClick={(e) => {
-									stadtplanActions.setFilterValueFor(
-										'einrichtungen',
-										einrichtung,
-										e.target.checked
-									);
-								}}
-								checked={filter.einrichtungen.indexOf(einrichtung) !== -1}
-								inline
-							>
-								{textConversion(einrichtung)}{' '}
-								<Icon
-									style={{
-										color: getColorFromMainlocationTypeName(einrichtung),
-										width: '30px',
-										textAlign: 'center'
-									}}
-									name={'circle'}
-								/>
-							</Checkbox>
-						</div>
-					);
-				})}
-				<br />
-			</FormGroup>
-			<FormGroup>
-				<ControlLabel>
-					Veranstaltungen
-					{'  '}
-					{/* <Icon
-						style={{
-							color: 'grey',
-							width: '30px',
-							textAlign: 'center'
-						}}
-						size='2x'
-						name={'signal'}
-					/> */}
-				</ControlLabel>
-				{veranstaltungsarten.map((art) => {
-					return (
-						<div>
-							<Checkbox
-								readOnly={true}
-								key={'filter.kulturstadtplan.veranstaltungsart.' + art}
-								onClick={(e) => {
-									stadtplanActions.setFilterValueFor(
-										'veranstaltungen',
-										art,
-										e.target.checked
-									);
-								}}
-								checked={filter.veranstaltungen.indexOf(art) !== -1}
-								inline
-							>
-								{textConversion(art)}
-							</Checkbox>
-						</div>
-					);
-				})}
-				<br />
-			</FormGroup>
-		</div>
-	);
-
 	let zoom = 7;
 	let layers = '';
 	if (topicMapRef) {
@@ -324,8 +235,6 @@ const ModalMenuFilteringSection = ({
 		piechartData.push([ key, stats[key] ]);
 		piechartColor.push(getColorFromMainlocationTypeName(key));
 	}
-
-	console.log('piechartData', piechartData);
 
 	let pieChart = (
 		<PieChart
@@ -412,60 +321,16 @@ const ModalMenuFilteringSection = ({
 			sectionBsStyle='primary'
 			sectionContent={
 				<div>
-					{/* <div align='center'>
-						<Button
-							style={{
-								margin: 4,
-								marginLeft: 0
-							}}
-							bsSize='small'
-							onClick={() => {
-								stadtplanActions.setAllToFilter('einrichtungen');
-							}}
-						>
-							alle Einrichtungen ausw&auml;hlen
-						</Button>
-						<Button
-							style={{
-								margin: 4
-							}}
-							bsSize='small'
-							onClick={() => {
-								stadtplanActions.clearFilter('einrichtungen');
-							}}
-						>
-							keine Einrichtungen ausw&auml;hlen
-						</Button>
-						<Button
-							style={{
-								margin: 4
-							}}
-							bsSize='small'
-							onClick={() => {
-								stadtplanActions.setAllToFilter('veranstaltungen');
-							}}
-						>
-							alle Veranstaltungen ausw&auml;hlen
-						</Button>
-						<Button
-							style={{
-								margin: 4
-							}}
-							bsSize='small'
-							onClick={() => {
-								stadtplanActions.clearFilter('veranstaltungen');
-							}}
-						>
-							keine Veranstaltungen ausw&auml;hlen
-						</Button>
-					</div>
-					<br /> */}
 					<table border={0} width='100%'>
 						<tbody>
 							<tr>
 								<td align={filterAlignment} valign='top'>
-									<table border={0}>
-										<tbody valign='top'>{altOverviewRows}</tbody>
+									<table width='100%' border={0}>
+										<tr>
+											<tbody style={{ width: '100%' }} valign='top'>
+												{filterUI}
+											</tbody>
+										</tr>
 									</table>
 								</td>
 								<td>{widePieChartPlaceholder}</td>

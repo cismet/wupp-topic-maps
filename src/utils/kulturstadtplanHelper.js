@@ -32,7 +32,9 @@ export const getHeaderTextForProperties = (properties) => {
 
 const textConversionDictionary = [
 	{ from: 'Milongas', to: 'Milongas (Tango Argentino)' },
-	{ from: 'Veranstaltungsorte', to: 'Sonstige Veranstaltungsorte' }
+	{ from: 'Veranstaltungsorte', to: 'Sonstige Veranstaltungsorte' },
+	{ from: 'veranstaltungen', to: 'Veranstaltungsarten' },
+	{ from: 'einrichtungen', to: 'Einrichtungskategorien' }
 ];
 
 export const getAllEinrichtungen = () => {

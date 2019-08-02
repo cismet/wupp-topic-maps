@@ -32,7 +32,12 @@ import {
 	getPoiClusterIconCreatorFunction
 } from '../utils/stadtplanHelper';
 
-import { getColorForProperties, getHeaderTextForProperties } from '../utils/kulturstadtplanHelper';
+import {
+	getColorForProperties,
+	getHeaderTextForProperties,
+	getAllEinrichtungen,
+	textConversion
+} from '../utils/kulturstadtplanHelper';
 
 import Loadable from 'react-loading-overlay';
 import queryString from 'query-string';
@@ -96,7 +101,7 @@ export class Stadtplan_ extends React.Component {
 	}
 
 	componentDidMount() {
-		document.title = 'Kultur-Stadtplan Wuppertal';
+		document.title = 'Kulturstadtplan Wuppertal';
 	}
 
 	componentWillUpdate() {
@@ -235,37 +240,67 @@ export class Stadtplan_ extends React.Component {
 		let title = null;
 		let themenstadtplanDesc = '';
 		let titleContent;
+		let prefix = 'Mein Kulturstadtplan:';
 		let qTitle = queryString.parse(this.props.routing.location.search).title;
 		if (qTitle !== undefined) {
 			if (qTitle === null || qTitle === '') {
-				if (
-					getFilter(this.props.stadtplan).positiv.length > 0 &&
-					getFilter(this.props.stadtplan).positiv.length <
-						getLebenslagen(this.props.stadtplan).length
+				// if (
+				// 	getFilter(this.props.stadtplan).positiv.length > 0 &&
+				// 	getFilter(this.props.stadtplan).positiv.length <
+				// 		getLebenslagen(this.props.stadtplan).length
+				// ) {
+				// 	if (getFilter(this.props.stadtplan).positiv.length <= 4) {
+				// 		themenstadtplanDesc += getFilter(this.props.stadtplan).positiv.join(', ');
+				// 	} else {
+				// 		themenstadtplanDesc +=
+				// 			getFilter(this.props.stadtplan).positiv.length + ' Themen';
+				// 	}
+				// 	if (getFilter(this.props.stadtplan).negativ.length > 0) {
+				// 		if (getFilter(this.props.stadtplan).negativ.length <= 3) {
+				// 			themenstadtplanDesc += ' ohne ';
+				// 			themenstadtplanDesc += getFilter(this.props.stadtplan).negativ.join(
+				// 				', '
+				// 			);
+				// 		} else {
+				// 			themenstadtplanDesc +=
+				// 				' (' +
+				// 				getFilter(this.props.stadtplan).negativ.length +
+				// 				' Themen ausgeschlossen)';
+				// 		}
+				// 	}
+				// }
+
+				const filterMode = getFilterMode(this.props.stadtplan);
+				const filter = getFilter(this.props.stadtplan);
+				let maxFilterCount;
+				let einrichtungsEinschub;
+				if (filterMode === 'einrichtungen') {
+					maxFilterCount = getAllEinrichtungen().length;
+					einrichtungsEinschub = '';
+				} else {
+					einrichtungsEinschub = 'Orte für ';
+					maxFilterCount = getVeranstaltungsarten(this.props.stadtplan).length;
+				}
+
+				if (filter[filterMode].length === 1) {
+					themenstadtplanDesc = 'alle Orte für ' + filter[filterMode][0];
+				} else if (filter[filterMode].length > 0 && filter[filterMode].length < 3) {
+					themenstadtplanDesc =
+						'alle ' +
+						einrichtungsEinschub +
+						filter[filterMode][0] +
+						' und ' +
+						filter[filterMode][1];
+				} else if (
+					filter[filterMode].length > 0 &&
+					filter[filterMode].length < maxFilterCount
 				) {
-					if (getFilter(this.props.stadtplan).positiv.length <= 4) {
-						themenstadtplanDesc += getFilter(this.props.stadtplan).positiv.join(', ');
-					} else {
-						themenstadtplanDesc +=
-							getFilter(this.props.stadtplan).positiv.length + ' Themen';
-					}
-					if (getFilter(this.props.stadtplan).negativ.length > 0) {
-						if (getFilter(this.props.stadtplan).negativ.length <= 3) {
-							themenstadtplanDesc += ' ohne ';
-							themenstadtplanDesc += getFilter(this.props.stadtplan).negativ.join(
-								', '
-							);
-						} else {
-							themenstadtplanDesc +=
-								' (' +
-								getFilter(this.props.stadtplan).negativ.length +
-								' Themen ausgeschlossen)';
-						}
-					}
+					themenstadtplanDesc =
+						filter[filterMode].length + ' ' + textConversion(filterMode);
 				}
 				titleContent = (
 					<div>
-						<b>Mein Themenstadtplan:</b> {themenstadtplanDesc}
+						<b>{prefix}</b> {themenstadtplanDesc}
 					</div>
 				);
 			} else {

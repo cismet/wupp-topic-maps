@@ -291,6 +291,9 @@ export class Stadtplan_ extends React.Component {
 						filter[filterMode][0] +
 						' und ' +
 						filter[filterMode][1];
+					if (themenstadtplanDesc.split(' und ').length - 1 > 1) {
+						themenstadtplanDesc = themenstadtplanDesc.replace(' und ', ', ');
+					}
 				} else if (
 					filter[filterMode].length > 0 &&
 					filter[filterMode].length < maxFilterCount

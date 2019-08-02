@@ -416,13 +416,20 @@ export const getPOISVG = (
 	svgSize = 30,
 	bg = '#FF0000',
 	kind = '-',
-	svgStyleRelatedId = 'default'
+	svgStyleRelatedId = 'default',
+	svg = pferdeSVG
 ) => {
+	console.log('getPOISVG', {
+		svgSize,
+		bg,
+		kind,
+		svgStyleRelatedId
+	});
+
 	let bdim = {
 		width: 20,
 		height: 20
 	};
-	let svg = pferdeSVG;
 
 	let svgCode = `<svg  id="${svgStyleRelatedId}" height="${svgSize}" width="${svgSize}"> 
                     <style>

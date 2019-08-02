@@ -8,11 +8,9 @@ import SettingsPanelWithPreviewSection from '../commons/SettingsPanelWithPreview
 import { getInternetExplorerVersion } from '../../utils/browserHelper';
 import 'url-search-params-polyfill';
 
-import {
-	getColorForProperties,
-	getPOISVG,
-	getPoiClusterIconCreatorFunction
-} from '../../utils/stadtplanHelper';
+import { getPOISVG, getPoiClusterIconCreatorFunction } from '../../utils/stadtplanHelper';
+
+import { getColorForProperties } from '../../utils/kulturstadtplanHelper';
 
 import { MappingConstants, FeatureCollectionDisplay, getLayersByName } from 'react-cismap';
 
@@ -80,7 +78,7 @@ const ModalMenuSettingsSection = ({
 								paddingleft: '10px'
 							}}
 						>
-							<b>Mein Themenstadtplan:</b> Kultur ohne Gesellschaft
+							<b>Mein Kulturstadtplan:</b> alle Museen, Galerien und Theater
 						</td>
 					</tr>
 				</tbody>
@@ -129,7 +127,10 @@ const ModalMenuSettingsSection = ({
 					animate: false,
 					cismapZoomTillSpiderfy: 12,
 					selectionSpiderfyMinZoom: 12,
-					iconCreateFunction: getPoiClusterIconCreatorFunction(currentMarkerSize)
+					iconCreateFunction: getPoiClusterIconCreatorFunction(
+						currentMarkerSize,
+						getColorForProperties
+					)
 				}}
 			/>
 		</Map>
@@ -263,8 +264,27 @@ const ModalMenuSettingsSection = ({
 						<SymbolSizeChooser
 							changeMarkerSymbolSize={changeMarkerSymbolSize}
 							currentMarkerSize={currentMarkerSize}
-							getSymbolSVG={getPOISVG}
-							symbolColor={'#1F4761'}
+							getSymbolSVG={(
+								svgSize = 30,
+								bg = '#FF0000',
+								kind = '-',
+								svgStyleRelatedId = 'default',
+								svg
+							) => {
+								const museum = `<svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" width="20" height="20" shape-rendering="geometricPrecision" text-rendering="geometricPrecision" image-rendering="optimizeQuality" fill-rule="evenodd" clip-rule="evenodd"
+								viewBox="0 0 200.019 200.019"
+								 xmlns:xlink="http://www.w3.org/1999/xlink">
+								 <g id="Ebene_x0020_1">
+								  <metadata id="CorelCorpID_0Corel-Layer"/>
+								  <polygon class="bg-fill" fill="#C32D6A" points="-0,0 200.019,0 200.019,200.019 -0,200.014 "/>
+								  <path class="fg-fill" fill="#FFF" d="M11.7584 186.017l176.156 0 -12.8982 -25.0024 -0.000100009 0 -9.39908 0 0 -102.496 -41.1769 0 -24.3707 70.9875 -24.6554 -70.9875 -41.0821 0 0 102.496 -9.32988 0 -13.244 25.0024zm128.38 -25.0024l-26.4826 0 26.4826 -80.3522 0 80.3522zm-53.9385 0l-26.3896 0 0 -80.3522 26.3896 80.3522z"/>
+								  <polygon fill="white" points="100.01,11.001 187.841,50.0047 12.8502,50.0047 "/>
+								 </g>
+								</svg>
+								`;
+								return getPOISVG(svgSize, bg, kind, svgStyleRelatedId, museum);
+							}}
+							symbolColor={'#A6AD3C'}
 						/>
 					]}
 				/>

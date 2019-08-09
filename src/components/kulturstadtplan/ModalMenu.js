@@ -33,7 +33,7 @@ const ModalMenu = ({
 			uiState={uiState}
 			uiStateActions={uiStateActions}
 			menuIntroduction={<ModalMenuIntroduction uiStateActions={uiStateActions} />}
-			menuTitle='Kulturstadtplan, Einstellungen und Kompaktanleitung'
+			menuTitle='Mein Kulturstadtplan, Einstellungen und Kompaktanleitung'
 			menuSections={[
 				<ModalMenuFilteringPanel
 					key='ModalMenuFilteringPanel'

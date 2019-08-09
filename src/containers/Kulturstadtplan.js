@@ -407,7 +407,7 @@ export class Stadtplan_ extends React.Component {
 							getColorForProperties
 						)
 					}}
-					applicationMenuTooltipString='Kulturstadtplan | Einstellungen | Kompaktanleitung'
+					applicationMenuTooltipString='Mein Kulturstadtplan | Einstellungen | Kompaktanleitung'
 					modalMenu={
 						<StadtplanModalApplicationMenu
 							// key={

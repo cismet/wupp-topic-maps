@@ -458,8 +458,8 @@ const ModalMenuHelpSection = ({ uiState, uiStateActions }) => {
 					<p>
 						Ihre Filterauswahl und Einstellungen bleiben auch nach einem Neustart der
 						Anwendung erhalten. (Es sei denn, Sie löschen den Browser-Verlauf
-						einschließlich der gehosteten App-Daten.) Damit können Sie mit wenigen
-						Klicks einen dauerhaft für Sie optimierten Kulturstadtplan machen.
+						einschließlich der gehosteten App-Daten.) Damit können Sie unseren
+						Kulturstadtplan mit wenigen Klicks dauerhaft für sich optimieren.
 					</p>
 				</div>
 			}

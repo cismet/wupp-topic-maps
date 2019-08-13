@@ -513,34 +513,41 @@ export class EhrenamtModalApplicationMenu_ extends React.Component {
 							/>
 						</Panel>
 					</Accordion>
+
 					<Accordion key={'ACC'} defaultActiveKey='none'>
-						<Panel
-							header='Welches Aufgabenfeld interessiert mich?'
-							eventKey='bereiche_adv_filter'
-							bsStyle='warning'
-						>
-							<table border={0}>
-								<tbody>{glbRows}</tbody>
-							</table>
-						</Panel>
-						<Panel
-							header='Was will ich tun?'
-							eventKey='kenntnisse_adv_filter'
-							bsStyle='info'
-						>
-							<table border={0}>
-								<tbody>{kenRows}</tbody>
-							</table>
-						</Panel>
-						<Panel
-							header='Mit wem möchte ich arbeiten?'
-							eventKey='Zielgruppen_adv_filter'
-							bsStyle='success'
-						>
-							<table border={0}>
-								<tbody>{zgRows}</tbody>
-							</table>
-						</Panel>
+						{this.props.ehrenamtState.globalbereiche.length > 0 && (
+							<Panel
+								header='Welches Aufgabenfeld interessiert mich?'
+								eventKey='bereiche_adv_filter'
+								bsStyle='warning'
+							>
+								<table border={0}>
+									<tbody>{glbRows}</tbody>
+								</table>
+							</Panel>
+						)}
+						{this.props.ehrenamtState.kenntnisse.length > 0 && (
+							<Panel
+								header='Was will ich tun?'
+								eventKey='kenntnisse_adv_filter'
+								bsStyle='info'
+							>
+								<table border={0}>
+									<tbody>{kenRows}</tbody>
+								</table>
+							</Panel>
+						)}
+						{this.props.ehrenamtState.zielgruppen.length > 0 && (
+							<Panel
+								header='Mit wem möchte ich arbeiten?'
+								eventKey='Zielgruppen_adv_filter'
+								bsStyle='success'
+							>
+								<table border={0}>
+									<tbody>{zgRows}</tbody>
+								</table>
+							</Panel>
+						)}
 					</Accordion>
 					<Accordion
 						name='cart'

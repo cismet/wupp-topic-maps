@@ -200,11 +200,10 @@ const ModalMenuHelpSection = ({ uiState, uiStateActions }) => {
 						".
 					</p>
 					<p>
-						Räumlich nah beieinander liegende Angebote werden standardmäßig
-						maßstabsabhängig zu größeren Punkten zusammengefasst, mit der Anzahl der
-						repräsentierten POI im Zentrum{' '}
-						<img alt='Cluster' src='images/poi_zusammen.png' />. Vergrößern Sie ein paar
-						Mal durch direktes Anklicken eines solchen Punktes oder mit{' '}
+						Räumlich nah beieinander liegende POI werden standardmäßig maßstabsabhängig
+						zu größeren Punkten zusammengefasst, mit der Anzahl der repräsentierten POI
+						im Zentrum <img alt='Cluster' src='images/poi_zusammen.png' />. Vergrößern
+						Sie ein paar Mal durch direktes Anklicken eines solchen Punktes oder mit{' '}
 						<Icon name='plus' /> die Darstellung, so werden die zusammengefassten POI
 						Schritt für Schritt in die kleineren Symbole für die konkreten Einzel-POI
 						zerlegt. Ab einer bestimmten Maßstabsstufe (Zoomstufe 12) führt ein weiterer
@@ -254,11 +253,11 @@ const ModalMenuHelpSection = ({ uiState, uiStateActions }) => {
 						Kartenfenster angezeigten POI durchmustern.
 					</p>
 					<p>
-						Mit der Schaltfläche <Icon name='chevron-circle-up' /> im dunkelgrau
+						Mit der Schaltfläche <Icon name='chevron-circle-down' /> im dunkelgrau
 						abgesetzten rechten Rand der Info-Box lässt sich diese so verkleinern, dass
 						nur noch die thematische Zuordnung und die Bezeichnung des POI sowie die
 						Link-Symbole angezeigt werden - nützlich für Endgeräte mit kleinem Display.
-						Mit der Schaltfläche <Icon name='chevron-circle-down' /> an derselben Stelle
+						Mit der Schaltfläche <Icon name='chevron-circle-up' /> an derselben Stelle
 						können Sie die Info-Box dann wieder vollständig einblenden.
 					</p>
 
@@ -359,18 +358,18 @@ const ModalMenuHelpSection = ({ uiState, uiStateActions }) => {
 						Zur Filterung der POI-Kategorien bieten wir Ihnen die oben beschriebenen
 						Themenfelder an. Wählen Sie z. B. mit <Icon name='thumbs-up' />{' '}
 						ausschließlich das Thema "<em>Kultur</em>" aus. Als Vorschau wird Ihnen ein
-						Tortendiagramm angezeigt, das die Anzahl der zugehörigen POI und deren
+						Donut-Diagramm angezeigt, das die Anzahl der zugehörigen POI und deren
 						Verteilung auf die Themen-Kombinationen (hier "<em>Kultur, Gesellschaft</em>"
 						und "<em>Kultur, Freizeit</em>
 						") anzeigt. Bewegen Sie dazu den Mauszeiger auf eines der farbigen Segmente
-						des Tortendiagramms. (Bei einem Gerät mit Touchscreen tippen Sie auf eines
+						des Donutdiagramms. (Bei einem Gerät mit Touchscreen tippen Sie auf eines
 						der farbigen Segmente.)
 					</p>
 					<p>
 						Mit <Icon name='thumbs-down' /> können Sie die POI, die dem entsprechenden
 						Thema zugeordnet sind, ausblenden und dadurch die Treffermenge reduzieren.
 						Schließen Sie jetzt z. B. das Thema "<em>Gesellschaft</em>" aus. Im
-						Tortendiagramm werden Ihnen dann nur noch die POI mit der Themen-Kombination
+						Donut-Diagramm werden Ihnen dann nur noch die POI mit der Themen-Kombination
 						"<em>Kultur, Freizeit</em>" angezeigt (Theater, Museen etc.). Die POI mit
 						der Kombination "
 						<em>Kultur, Gesellschaft</em>" (Standorte von Verlagen und anderen
@@ -422,8 +421,7 @@ const ModalMenuHelpSection = ({ uiState, uiStateActions }) => {
 						deutlicheren Kontrast mit den farbigen POI-Symbolen, die unterschiedlichen
 						Flächennutzungen in der Hintergrundkarte lassen sich aber nicht mehr so gut
 						unterscheiden wie in der Tag-Karte. Als dritte Möglichkeit steht eine
-						Luftbildkarte zur Verfügung, die die Anschaulichkeit des Luftbildes (True
-						Orthophoto aus Bildflug vom 19.04.2018, 10 cm Bodenauflösung) mit der
+						Luftbildkarte zur Verfügung, die die Anschaulichkeit des Luftbildes mit der
 						Eindeutigkeit des Stadtplans (Kartenschrift, durchscheinende Linien)
 						verbindet.{' '}
 					</p>

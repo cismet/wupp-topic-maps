@@ -367,9 +367,8 @@ const BaederModalMenuHelpSection = ({ uiState, uiStateActions }) => {
 						<strong>Hinweis:</strong> Der Stadtplan (blau) wird Ihnen nur angeboten,
 						wenn Ihr Browser CSS3-Filtereffekte unterstützt, also z. B. nicht beim
 						Microsoft Internet Explorer. Als dritte Möglichkeit steht eine Luftbildkarte
-						zur Verfügung, die die Anschaulichkeit des Luftbildes (True Orthophoto aus
-						Bildflug vom 19.04.2018, 10 cm Bodenauflösung) mit der Eindeutigkeit des
-						Stadtplans (Kartenschrift, durchscheinende Linien) verbindet.{' '}
+						zur Verfügung, die die Anschaulichkeit des Luftbildes mit der Eindeutigkeit
+						des Stadtplans (Kartenschrift, durchscheinende Linien) verbindet.{' '}
 					</p>
 					<p>
 						Unter "

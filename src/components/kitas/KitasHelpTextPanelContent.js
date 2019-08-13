@@ -320,9 +320,9 @@ const KitasHelpTextPanel = () => {
 			</p>
 			<p>
 				Ihre Einstellungen werden direkt in der blauen Titelzeile des Bereichs "
-				<strong>Filtern</strong>" und in dem Tortendiagramm, das Sie rechts neben oder unter
+				<strong>Filtern</strong>" und in dem Donut-Diagramm, das Sie rechts neben oder unter
 				den Filteroptionen finden, ausgewertet. Die Titelzeile zeigt die Gesamtanzahl der
-				Kitas, die den von Ihnen gesetzten Filterbedingungen entsprechen. Das Tortendiagramm
+				Kitas, die den von Ihnen gesetzten Filterbedingungen entsprechen. Das Donut-Diagramm
 				zeigt zusätzlich die Verteilung auf die Kategorien der aktuell gewählten
 				Zeichenvorschrift. Bewegen Sie dazu den Mauszeiger auf eines der farbigen Segmente
 				des Diagramms.
@@ -373,8 +373,8 @@ const KitasHelpTextPanel = () => {
 				Kita-Symbolen, die unterschiedlichen Flächennutzungen in der Hintergrundkarte lassen
 				sich aber nicht mehr so gut unterscheiden wie in der Tag-Karte. Als dritte
 				Möglichkeit steht eine Luftbildkarte zur Verfügung, die die Anschaulichkeit des
-				Luftbildes (True Orthophoto aus Bildflug vom 19.04.2018, 10 cm Bodenauflösung) mit
-				der Eindeutigkeit des Stadtplans (Kartenschrift, durchscheinende Linien) verbindet.{' '}
+				Luftbildes mit der Eindeutigkeit des Stadtplans (Kartenschrift, durchscheinende
+				Linien) verbindet.{' '}
 			</p>
 			<p>Im Vorschaubild sehen Sie direkt die prinzipielle Wirkung ihrer Einstellungen.</p>
 

@@ -206,8 +206,6 @@ function loadPOIs() {
 					let currentPOI;
 					for (let poi of data) {
 						currentPOI = poi;
-						console.log('poi', poi);
-
 						// poi.point25832 = convertPoint(poi.geo_x, offer.geo_y) zuesrt mainlocationtype
 						if (poi.mainlocationtype) {
 							let type = poi.mainlocationtype;

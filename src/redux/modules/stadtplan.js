@@ -74,6 +74,14 @@ const initialState = {
 			backgroundColor: null,
 			link: '/#/baeder',
 			target: '_baeder'
+		},
+		{
+			on: [ 'Kultur' ],
+			name: 'Kulturstadtplan',
+			bsStyle: 'warning',
+			backgroundColor: null,
+			link: '/#/kulturstadtplan',
+			target: '_kulturstadtplan'
 		}
 		// {   on: ["Sport"],   name: "Sporthallen",   bsStyle: "default",
 		// backgroundColor: null,   link: "/#/ehrenamt",   target: "_hallen" }

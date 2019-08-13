@@ -10,7 +10,6 @@ import { Map } from 'react-leaflet';
 import { MappingConstants, FeatureCollectionDisplay, getLayersByName } from 'react-cismap';
 import previewFeatureCollection from './PreviewFeatureCollection';
 import {
-	getColorForProperties,
 	getFeatureStyler,
 	getChildSVG,
 	getKitaClusterIconCreatorFunction

@@ -202,9 +202,7 @@ function loadPOIs() {
 				prepare: (dispatch, data) => {
 					let lebenslagen = new Set();
 					let poitypes = [];
-					let currentPOI;
 					for (let poi of data) {
-						currentPOI = poi;
 						// poi.point25832 = convertPoint(poi.geo_x, offer.geo_y) zuesrt mainlocationtype
 						if (poi.mainlocationtype) {
 							let type = poi.mainlocationtype;

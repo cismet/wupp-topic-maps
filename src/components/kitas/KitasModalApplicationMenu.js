@@ -4,7 +4,6 @@ import { Modal, Button, Accordion, Panel } from 'react-bootstrap';
 
 import { Icon } from 'react-fa';
 import 'react-bootstrap-switch/dist/css/bootstrap3/react-bootstrap-switch.min.css';
-import queryString from 'query-string';
 
 import { Link } from 'react-scroll';
 
@@ -12,7 +11,6 @@ import KitasFilterPanelContent from './KitasFilterPaneContent';
 import KitasSettingsPanelContent from './KitasSettingsPanelContent';
 import KitasHelpTextPanelContent from './KitasHelpTextPanelContent';
 import KitasPieChart from './KitasPieChart';
-import GenericRVRStadtplanwerkMenuFooter from '../commons/GenericRVRStadtplanwerkMenuFooter';
 import Footer from '../commons/ModalMenuFooter';
 
 const KitasModalApplicationMenu = ({
@@ -64,7 +62,6 @@ const KitasModalApplicationMenu = ({
 		.length} ${kitaOrKitas} gefunden, davon ${mappingState.featureCollection
 		.length} in der Karte)`;
 
-	let customTitle = queryString.parse(routingState.location.search).title;
 	return (
 		<Modal
 			style={{

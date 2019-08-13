@@ -25,7 +25,6 @@ const BPlanInfo = ({
 		//console.log(JSON.stringify(currentFeature));
 	};
 
-	let planOrPlaene;
 	let planOrPlanteile_rk;
 	let planOrPlanteile_nrk;
 	let dokumentArt = '';
@@ -34,10 +33,8 @@ const BPlanInfo = ({
 		currentFeature.properties.plaene_rk.length + currentFeature.properties.plaene_nrk.length >
 		1
 	) {
-		planOrPlaene = 'Pläne';
 		dokumentArt = 'PDF Dokumente';
 	} else {
-		planOrPlaene = 'Plan';
 		dokumentArt = 'PDF Dokument';
 	}
 
@@ -63,16 +60,12 @@ const BPlanInfo = ({
 		nichtRK = ' und ' + currentFeature.properties.plaene_nrk.length + ' ' + planOrPlanteile_nrk;
 	}
 
-	let docsEnabled;
 	let docOrDocs;
 	if (currentFeature.properties.docs.length === 0) {
-		docsEnabled = false;
 		docOrDocs = 'Dokumente';
 	} else if (currentFeature.properties.docs.length > 0) {
-		docsEnabled = true;
 		docOrDocs = 'Zusatzdokumenten';
 	} else {
-		docsEnabled = true;
 		docOrDocs = 'Zusatzdokument';
 	}
 
@@ -91,26 +84,6 @@ const BPlanInfo = ({
 				zusatzdokumente}
 		</Tooltip>
 	);
-
-	const docsTooltip = (
-		<Tooltip style={{ zIndex: 3000000000 }} id='docsTooltip'>
-			ZIP Archiv mit allen Plänen und{' '}
-			{currentFeature.properties.docs.length + ' ' + docOrDocs}
-		</Tooltip>
-	);
-
-	let docDownload = null;
-	if (docsEnabled) {
-		docDownload = (
-			<h6>
-				<OverlayTrigger placement='left' overlay={docsTooltip}>
-					<a onClick={downloadEverything}>alles</a>
-				</OverlayTrigger>
-			</h6>
-		);
-	} else {
-		docDownload = <h6>&nbsp;</h6>;
-	}
 
 	let statusGlyphs = null;
 	let status = currentFeature.properties.status;
@@ -207,6 +180,7 @@ const BPlanInfo = ({
 					href={preparedDownload.url}
 					download={preparedDownload.file}
 					target='_blank'
+					rel='noopener noreferrer'
 				>
 					<h1>
 						<Icon name='arrow-circle-o-down' />

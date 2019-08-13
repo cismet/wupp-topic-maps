@@ -33,10 +33,6 @@ import { Icon } from 'react-fa';
 import { builtInGazetteerHitTrigger } from '../utils/gazetteerHelper';
 import Loadable from 'react-loading-overlay';
 
-const position = {
-	lat: 51.25533692525824,
-	lng: 7.182187127378716
-};
 function mapStateToProps(state) {
 	return {
 		uiState: state.uiState,

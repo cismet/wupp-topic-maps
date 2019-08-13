@@ -217,7 +217,6 @@ function getFeatureInfo(mapEvent) {
 				mapEvent.latlng.lat
 			]);
 		}
-		const wkt = `POINT(${pos[0]} ${pos[1]})`;
 		const minimalBoxSize = 0.0001;
 		const selectedSimulation = localState.simulations[localState.selectedSimulation].layer;
 		const getFetureInfoRequestUrl =

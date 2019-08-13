@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import TopicMap from '../containers/TopicMap';
 
 import { connect } from 'react-redux';
-import { Tooltip } from 'react-bootstrap';
 
 import { actions as mappingActions } from '../redux/modules/mapping';
 import { actions as uiStateActions } from '../redux/modules/uiState';
@@ -19,7 +18,6 @@ import EhrenamtInfo from '../components/ehrenamt/EhrenamtInfo';
 
 import { featureStyler, featureHoverer, ehrenAmtClusterIconCreator } from '../utils/ehrenamtHelper';
 
-import Loadable from 'react-loading-overlay';
 import queryString from 'query-string';
 
 import { modifyQueryPart } from '../utils/routingHelper';

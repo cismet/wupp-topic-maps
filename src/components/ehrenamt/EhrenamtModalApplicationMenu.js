@@ -221,7 +221,10 @@ export class EhrenamtModalApplicationMenu_ extends React.Component {
 		let newState = { pos, neg };
 		// should be done with this.setState(newState) in componentWillMount()
 		// but then > refresh problem
+		// TODO / DANGER
+		/*eslint-disable */
 		this.state = newState;
+		/*eslint-anable */
 
 		let modalBodyStyle = {
 			overflowY: 'auto',

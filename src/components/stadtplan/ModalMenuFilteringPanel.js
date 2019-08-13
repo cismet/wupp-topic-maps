@@ -1,23 +1,11 @@
 import React from 'react';
-import { FormGroup, ControlLabel, Button, Label } from 'react-bootstrap';
+import { Button, Label } from 'react-bootstrap';
 
 import GenericModalMenuSection from '../commons/GenericModalMenuSection';
-import SymbolSizeChooser from '../commons/SymbolSizeChooser';
-import NamedMapStyleChooser from '../commons/NamedMapStyleChooser';
-import SettingsPanelWithPreviewSection from '../commons/SettingsPanelWithPreviewSection';
-import { getInternetExplorerVersion } from '../../utils/browserHelper';
 import 'url-search-params-polyfill';
-import { getColorForProperties, getBadSVG } from '../../utils/baederHelper';
 import { getColorFromLebenslagenCombination } from '../../utils/stadtplanHelper';
 
-import { MappingConstants, FeatureCollectionDisplay, getLayersByName } from 'react-cismap';
 import MultiToggleButton from '../MultiToggleButton';
-import queryString from 'query-string';
-
-// import { Map } from 'react-leaflet';
-
-import { getFeatureStyler } from '../../utils/stadtplanHelper';
-
 import Chart from 'chart.js';
 import ReactChartkick, { PieChart } from 'react-chartkick';
 ReactChartkick.addAdapter(Chart);
@@ -110,29 +98,10 @@ const ModalMenuFilteringSection = ({
 		return rows;
 	};
 
-	let zoom = 7;
-	let layers = '';
-	if (topicMapRef) {
-		layers = topicMapRef.wrappedInstance.props.backgroundlayers;
-	}
-
 	let appsMap = new Map();
 
-	let widePieChartPlaceholder = null;
-	let narrowPieChartPlaceholder = null;
-	let widePreviewPlaceholder = null;
-	let narrowPreviewPlaceholder = null;
-
-	let modalBodyStyle = {
-		overflowY: 'auto',
-		overflowX: 'hidden',
-		maxHeight: height - 200
-	};
-
-	let clusteredPOIs = queryString.parse(urlSearch).unclustered !== null;
-	let customTitle = queryString.parse(urlSearch).title;
-	let titleDisplay = customTitle !== undefined;
-	let namedMapStyle = new URLSearchParams(urlSearch).get('mapStyle') || 'default';
+	let widePieChartPlaceholder;
+	let narrowPieChartPlaceholder;
 
 	let llOptions = [];
 
@@ -176,49 +145,6 @@ const ModalMenuFilteringSection = ({
 			colors={piechartColor}
 		/>
 	);
-
-	let titlePreview = null;
-	if (titleDisplay) {
-		titlePreview = (
-			<div
-				style={{
-					align: 'center',
-					width: '100%'
-				}}
-			>
-				<div
-					style={{
-						height: '10px'
-					}}
-				/>
-				<table
-					style={{
-						width: '96%',
-						height: '30px',
-						margin: '0 auto',
-						zIndex: 999655
-					}}
-				>
-					<tbody>
-						<tr>
-							<td
-								style={{
-									textAlign: 'center',
-									verticalAlign: 'middle',
-									background: '#ffffff',
-									color: 'black',
-									opacity: '0.9',
-									paddingleft: '10px'
-								}}
-							>
-								<b>Mein Themenstadtplan:</b> Kultur ohne Gesellschaft
-							</td>
-						</tr>
-					</tbody>
-				</table>
-			</div>
-		);
-	}
 
 	if (width < 995) {
 		narrowPieChartPlaceholder = (

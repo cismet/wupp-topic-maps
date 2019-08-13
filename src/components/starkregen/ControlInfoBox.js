@@ -1,11 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import ReactDOM from 'react-dom';
 
 import { Icon } from 'react-fa';
 import { Well, Button } from 'react-bootstrap';
 import Legend from './Legend';
-import { Map, Control, DomUtil, DomEvent } from 'leaflet';
 import L from 'leaflet';
 import CollapsibleWell from '../commons/CollapsibleWell';
 /* eslint-disable jsx-a11y/anchor-is-valid */
@@ -313,7 +311,7 @@ const InfoBox = ({
 											setBackgroundIndex(index);
 										}}
 									>
-										<img style={style} width='36px' src={item.src} />
+										<img alt='' style={style} width='36px' src={item.src} />
 									</a>
 								);
 							})}

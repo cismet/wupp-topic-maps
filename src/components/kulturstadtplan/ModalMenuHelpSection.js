@@ -3,9 +3,8 @@ import { Link } from 'react-scroll';
 import { Icon } from 'react-fa';
 import { Label } from 'react-bootstrap';
 import GenericModalMenuSection from '../commons/GenericModalMenuSection';
-import MeinStandortHelpText from '../commons/GenericHelpTextForMyLocation';
-import { getColorForProperties, getBadSVG } from '../../utils/baederHelper';
 import MeinStandort from '../commons/GenericHelpTextForMyLocation';
+/* eslint-disable jsx-a11y/anchor-is-valid*/
 const ModalMenuHelpSection = ({ uiState, uiStateActions }) => {
 	return (
 		<GenericModalMenuSection

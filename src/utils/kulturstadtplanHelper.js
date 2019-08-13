@@ -1,18 +1,10 @@
-import React from 'react';
 import ColorHash from 'color-hash';
-import Color from 'color';
-import L from 'leaflet';
-import createSVGPie from 'create-svg-pie';
-import createElement from 'svg-create-element';
 import { veranstaltungsorteColors } from '../constants/colors.js';
 import store from '../redux/store';
 import queryString from 'query-string';
-import { Icon } from 'react-fa';
-import SVGInline from 'react-svg-inline';
 
 export const getColorForProperties = (properties) => {
 	let { mainlocationtype } = properties;
-	let ll = mainlocationtype.lebenslagen;
 
 	//console.log(colorHash.hex("" + JSON.stringify({ll})));
 	return getColorFromMainlocationTypeName(mainlocationtype.name);
@@ -40,8 +32,8 @@ const textConversionDictionary = [
 export const getAllEinrichtungen = () => {
 	let lookup = getLookup();
 	let einrichtungen = [];
-	Object.entries(lookup).map((entry) => {
-		if (entry[0] != 'default') {
+	Object.entries(lookup).forEach((entry) => {
+		if (entry[0] !== 'default') {
 			einrichtungen.push(entry[0]);
 		}
 	});

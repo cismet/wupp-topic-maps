@@ -203,9 +203,7 @@ function loadPOIs() {
 					let lebenslagen = new Set();
 					let veranstaltungsarten = new Set();
 					let poitypes = [];
-					let currentPOI;
 					for (let poi of data) {
-						currentPOI = poi;
 						// poi.point25832 = convertPoint(poi.geo_x, offer.geo_y) zuesrt mainlocationtype
 						if (poi.mainlocationtype) {
 							let type = poi.mainlocationtype;
@@ -329,30 +327,6 @@ function setFilterValueFor(kind, item, value) {
 				filterStateSet.delete(item);
 				filterState[kind] = Array.from(filterStateSet);
 			}
-		}
-		dispatch(setFilterAndApply(filterState));
-	};
-}
-
-function addFilterFor(kind, item) {
-	return (dispatch, getState) => {
-		let state = getState();
-		let filterState = JSON.parse(JSON.stringify(state.kulturstadtplan.localState.filter));
-		if (filterState[kind].indexOf(item) === -1) {
-			filterState[kind].push(item);
-		}
-		dispatch(setFilterAndApply(filterState));
-	};
-}
-
-function removeFilterFor(kind, item) {
-	return (dispatch, getState) => {
-		let state = getState();
-		let filterState = JSON.parse(JSON.stringify(state.kulturstadtplan.localState.filter));
-		if (filterState[kind].indexOf(item) !== -1) {
-			let filterStateSet = new Set(filterState[kind]);
-			filterStateSet.delete(item);
-			filterState[kind] = Array.from(filterStateSet);
 		}
 		dispatch(setFilterAndApply(filterState));
 	};

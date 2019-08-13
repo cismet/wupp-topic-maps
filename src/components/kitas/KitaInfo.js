@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Well } from 'react-bootstrap';
 import { Icon } from 'react-fa';
 import {
 	getColorForProperties,
@@ -9,7 +8,6 @@ import {
 	getDescription
 } from '../../utils/kitasHelper';
 import Color from 'color';
-import CollapsibleWell from '../commons/CollapsibleWell';
 import InfoBox from '../commons/InfoBox';
 
 /* eslint-disable jsx-a11y/anchor-is-valid */
@@ -38,8 +36,6 @@ const KitaInfo = ({
 
 	const currentFeature = featureCollection[selectedIndex];
 
-	let urllink = null;
-	let phonelink = null;
 	let links = [];
 	let headerText, title, adresse, poiColor, alter, stunden, description;
 
@@ -54,6 +50,7 @@ const KitaInfo = ({
 					key={'kitas.url.action.'}
 					href={currentFeature.properties.url}
 					target='_blank'
+					rel='noopener noreferrer'
 				>
 					<Icon
 						style={{ color: 'grey', width: '26px', textAlign: 'center' }}
@@ -86,12 +83,6 @@ const KitaInfo = ({
 			adresse = '';
 		}
 		title = currentFeature.properties.name + adresse;
-		let category;
-		if (currentFeature.properties.plaetze_fuer_behinderte === true) {
-			category = 'Kita mit Schwerpunkt Inklusion';
-		} else {
-			category = 'Kita';
-		}
 
 		description = getDescription(currentFeature.properties);
 		alter = getAgeString(currentFeature.properties);

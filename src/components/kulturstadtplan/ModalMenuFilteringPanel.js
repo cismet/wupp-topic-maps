@@ -1,42 +1,21 @@
 import React from 'react';
-import {
-	Tabs,
-	Tab,
-	FormGroup,
-	ControlLabel,
-	Button,
-	Label,
-	Checkbox,
-	Radio
-} from 'react-bootstrap';
+import { Tabs, Tab, Checkbox } from 'react-bootstrap';
 import { Icon } from 'react-fa';
 
 import GenericModalMenuSection from '../commons/GenericModalMenuSection';
-import SymbolSizeChooser from '../commons/SymbolSizeChooser';
-import NamedMapStyleChooser from '../commons/NamedMapStyleChooser';
-import SettingsPanelWithPreviewSection from '../commons/SettingsPanelWithPreviewSection';
-import { getInternetExplorerVersion } from '../../utils/browserHelper';
 import 'url-search-params-polyfill';
-import { getColorForProperties, getBadSVG } from '../../utils/baederHelper';
-import { getColorFromLebenslagenCombination } from '../../utils/stadtplanHelper';
 import {
 	textConversion,
 	getColorFromMainlocationTypeName,
 	classifyMainlocationTypeName,
 	getAllEinrichtungen
 } from '../../utils/kulturstadtplanHelper';
-import { MappingConstants, FeatureCollectionDisplay, getLayersByName } from 'react-cismap';
-import MultiToggleButton from '../MultiToggleButton';
-import queryString from 'query-string';
-
-// import { Map } from 'react-leaflet';
-
-import { getFeatureStyler } from '../../utils/stadtplanHelper';
-// import {veranstaltungsorteColors} from '../../utils/kulturstadtplanHelper';
 
 import Chart from 'chart.js';
 import ReactChartkick, { PieChart } from 'react-chartkick';
 ReactChartkick.addAdapter(Chart);
+
+/* eslint-disable jsx-a11y/anchor-is-valid */
 
 const ModalMenuFilteringSection = ({
 	uiState,
@@ -60,160 +39,141 @@ const ModalMenuFilteringSection = ({
 	stadtplanActions
 }) => {
 	let filterUI = (
-		<div style={{ width: '100%' }}>
-			<h4> Filtern nach</h4>
-			<Tabs
-				style={{ width: '100%' }}
-				id='controlled-tab-example'
-				activeKey={filtermode}
-				onSelect={(key) => {
-					stadtplanActions.setFilterMode(key);
-				}}
-			>
-				<Tab eventKey='einrichtungen' title='Einrichtungen'>
-					<table style={{ width: '100%', margin: 8 }}>
-						<tbody>
-							<td align='center'>
-								<a
-									style={{
-										margin: 4
-									}}
-									bsSize='small'
-									onClick={() => {
-										stadtplanActions.setAllToFilter('einrichtungen');
-									}}
-								>
-									alle
-								</a>
-							</td>
-							<td align='center'>
-								<a
-									style={{
-										margin: 4
-									}}
-									bsSize='small'
-									onClick={() => {
-										stadtplanActions.clearFilter('einrichtungen');
-									}}
-								>
-									keine
-								</a>
-							</td>
-						</tbody>
-					</table>
+		<td>
+			<div style={{ width: '100%' }}>
+				<h4> Filtern nach</h4>
+				<Tabs
+					style={{ width: '100%' }}
+					id='controlled-tab-example'
+					activeKey={filtermode}
+					onSelect={(key) => {
+						stadtplanActions.setFilterMode(key);
+					}}
+				>
+					<Tab eventKey='einrichtungen' title='Einrichtungen'>
+						<table style={{ width: '100%', margin: 8 }}>
+							<tbody>
+								<tr>
+									<td align='center'>
+										<a
+											style={{
+												margin: 4
+											}}
+											onClick={() => {
+												stadtplanActions.setAllToFilter('einrichtungen');
+											}}
+										>
+											alle
+										</a>
+									</td>
+									<td align='center'>
+										<a
+											style={{
+												margin: 4
+											}}
+											onClick={() => {
+												stadtplanActions.clearFilter('einrichtungen');
+											}}
+										>
+											keine
+										</a>
+									</td>
+								</tr>
+							</tbody>
+						</table>
 
-					{getAllEinrichtungen().map((einrichtung) => {
-						return (
-							<div key={'filter.kulturstadtplan.kategorien.div.' + einrichtung}>
-								<Checkbox
-									readOnly={true}
-									key={'filter.kulturstadtplan.kategorie.' + einrichtung}
-									onClick={(e) => {
-										stadtplanActions.setFilterValueFor(
-											'einrichtungen',
-											einrichtung,
-											e.target.checked
-										);
-									}}
-									checked={filter.einrichtungen.indexOf(einrichtung) !== -1}
-									inline
-								>
-									{textConversion(einrichtung)}{' '}
-									<Icon
-										style={{
-											color: getColorFromMainlocationTypeName(einrichtung),
-											width: '30px',
-											textAlign: 'center'
+						{getAllEinrichtungen().map((einrichtung) => {
+							return (
+								<div key={'filter.kulturstadtplan.kategorien.div.' + einrichtung}>
+									<Checkbox
+										readOnly={true}
+										key={'filter.kulturstadtplan.kategorie.' + einrichtung}
+										onClick={(e) => {
+											stadtplanActions.setFilterValueFor(
+												'einrichtungen',
+												einrichtung,
+												e.target.checked
+											);
 										}}
-										name={'circle'}
-									/>
-								</Checkbox>
-							</div>
-						);
-					})}
-				</Tab>
-				<Tab eventKey='veranstaltungen' title='Veranstaltungen'>
-					<table style={{ width: '100%', margin: 8 }}>
-						<tbody>
-							<td align='center'>
-								<a
-									style={{
-										margin: 4
-									}}
-									bsSize='small'
-									onClick={() => {
-										stadtplanActions.setAllToFilter('veranstaltungen');
-									}}
-								>
-									alle
-								</a>
-							</td>
-							<td align='center'>
-								<a
-									style={{
-										margin: 4
-									}}
-									bsSize='small'
-									onClick={() => {
-										stadtplanActions.clearFilter('veranstaltungen');
-									}}
-								>
-									keine
-								</a>
-							</td>
-						</tbody>
-					</table>
-					{veranstaltungsarten.map((art) => {
-						return (
-							<div>
-								<Checkbox
-									readOnly={true}
-									key={'filter.kulturstadtplan.veranstaltungsart.' + art}
-									onClick={(e) => {
-										stadtplanActions.setFilterValueFor(
-											'veranstaltungen',
-											art,
-											e.target.checked
-										);
-									}}
-									checked={filter.veranstaltungen.indexOf(art) !== -1}
-									inline
-								>
-									{textConversion(art)}
-								</Checkbox>
-							</div>
-						);
-					})}
-				</Tab>
-			</Tabs>
-		</div>
+										checked={filter.einrichtungen.indexOf(einrichtung) !== -1}
+										inline
+									>
+										{textConversion(einrichtung)}{' '}
+										<Icon
+											style={{
+												color: getColorFromMainlocationTypeName(
+													einrichtung
+												),
+												width: '30px',
+												textAlign: 'center'
+											}}
+											name={'circle'}
+										/>
+									</Checkbox>
+								</div>
+							);
+						})}
+					</Tab>
+					<Tab eventKey='veranstaltungen' title='Veranstaltungen'>
+						<table style={{ width: '100%', margin: 8 }}>
+							<tbody>
+								<tr>
+									<td align='center'>
+										<a
+											style={{
+												margin: 4
+											}}
+											onClick={() => {
+												stadtplanActions.setAllToFilter('veranstaltungen');
+											}}
+										>
+											alle
+										</a>
+									</td>
+									<td align='center'>
+										<a
+											style={{
+												margin: 4
+											}}
+											onClick={() => {
+												stadtplanActions.clearFilter('veranstaltungen');
+											}}
+										>
+											keine
+										</a>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+						{veranstaltungsarten.map((art) => {
+							return (
+								<div key={'div.filter.kulturstadtplan.veranstaltungsart.' + art}>
+									<Checkbox
+										readOnly={true}
+										key={'filter.kulturstadtplan.veranstaltungsart.' + art}
+										onClick={(e) => {
+											stadtplanActions.setFilterValueFor(
+												'veranstaltungen',
+												art,
+												e.target.checked
+											);
+										}}
+										checked={filter.veranstaltungen.indexOf(art) !== -1}
+										inline
+									>
+										{textConversion(art)}
+									</Checkbox>
+								</div>
+							);
+						})}
+					</Tab>
+				</Tabs>
+			</div>
+		</td>
 	);
 
-	let zoom = 7;
-	let layers = '';
-	if (topicMapRef) {
-		layers = topicMapRef.wrappedInstance.props.backgroundlayers;
-	}
-
-	let appsMap = new Map();
-
-	let widePieChartPlaceholder = null;
 	let narrowPieChartPlaceholder = null;
-	let widePreviewPlaceholder = null;
-	let narrowPreviewPlaceholder = null;
-
-	let modalBodyStyle = {
-		overflowY: 'auto',
-		overflowX: 'hidden',
-		maxHeight: height - 200
-	};
-
-	let clusteredPOIs = queryString.parse(urlSearch).unclustered !== null;
-	let customTitle = queryString.parse(urlSearch).title;
-	let titleDisplay = customTitle !== undefined;
-	let namedMapStyle = new URLSearchParams(urlSearch).get('mapStyle') || 'default';
-
-	let llOptions = [];
+	let widePieChartPlaceholder = null;
 
 	let stats = {};
 	for (let poi of filteredPOIs) {
@@ -248,48 +208,6 @@ const ModalMenuFilteringSection = ({
 		// <div style={{ width: 400 }} />
 	);
 
-	let titlePreview = null;
-	if (titleDisplay) {
-		titlePreview = (
-			<div
-				style={{
-					align: 'center',
-					width: '100%'
-				}}
-			>
-				<div
-					style={{
-						height: '10px'
-					}}
-				/>
-				<table
-					style={{
-						width: '96%',
-						height: '30px',
-						margin: '0 auto',
-						zIndex: 999655
-					}}
-				>
-					<tbody>
-						<tr>
-							<td
-								style={{
-									textAlign: 'center',
-									verticalAlign: 'middle',
-									background: '#ffffff',
-									color: 'black',
-									opacity: '0.9',
-									paddingleft: '10px'
-								}}
-							>
-								<b>Mein Kulturstadtplan:</b> Kultur ohne Gesellschaft
-							</td>
-						</tr>
-					</tbody>
-				</table>
-			</div>
-		);
-	}
 	let filterAlignment = 'left';
 	if (width < 995) {
 		narrowPieChartPlaceholder = (
@@ -299,12 +217,16 @@ const ModalMenuFilteringSection = ({
 		);
 		filterAlignment = 'center';
 	} else {
-		widePieChartPlaceholder = <td>{pieChart}</td>;
+		widePieChartPlaceholder = (
+			<table>
+				<tbody>
+					<tr>
+						<td>{pieChart}</td>
+					</tr>
+				</tbody>
+			</table>
+		);
 	}
-
-	let additionalApps;
-	let additionalAppArray = [];
-	let usedApps = [];
 
 	return (
 		<GenericModalMenuSection
@@ -326,11 +248,9 @@ const ModalMenuFilteringSection = ({
 							<tr>
 								<td align={filterAlignment} valign='top'>
 									<table width='100%' border={0}>
-										<tr>
-											<tbody style={{ width: '100%' }} valign='top'>
-												{filterUI}
-											</tbody>
-										</tr>
+										<tbody style={{ width: '100%' }} valign='top'>
+											<tr>{filterUI}</tr>
+										</tbody>
 									</table>
 								</td>
 								<td>{widePieChartPlaceholder}</td>
@@ -338,7 +258,6 @@ const ModalMenuFilteringSection = ({
 						</tbody>
 					</table>
 					{narrowPieChartPlaceholder}
-					{additionalApps}
 				</div>
 			}
 		/>

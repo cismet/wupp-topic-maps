@@ -1,12 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Well } from 'react-bootstrap';
 import { Icon } from 'react-fa';
-import queryString from 'query-string';
 import { getColorForProperties } from '../../utils/stadtplanHelper';
 import Color from 'color';
 import IconLink from '../commons/IconLink';
-import CollapsibleWell from '../commons/CollapsibleWell';
 import InfoBox from '../commons/InfoBox';
 import { triggerLightBoxForPOI } from '../../utils/stadtplanHelper';
 
@@ -35,10 +32,6 @@ const StadtplanInfo = ({
 
 	let info = '';
 	let links = [];
-	let maillink = null;
-	let urllink = null;
-	let phonelink = null;
-	let eventlink = null;
 	let title, localHeaderText, poiColor, adresse, fotoDiv;
 	if (currentFeature) {
 		if (currentFeature.properties.info) {

@@ -29,8 +29,6 @@ import { Icon } from 'react-fa';
 
 import { proj4crs25832def } from '../constants/gis';
 import proj4 from 'proj4';
-// import { WMSTileLayer } from 'react-leaflet';
-/* eslint-disable jsx-a11y/anchor-is-valid */
 
 function mapStateToProps(state) {
 	return {
@@ -127,7 +125,12 @@ export class BPlaene_ extends React.Component {
 
 			if (this.bplaeneGazData) {
 				const found = this.bplaeneGazData.find((gazEntry) => {
+					//TODO
+					//dont know if the implicit type conversion ist needed
+					// therefore
+					/*eslint-disable */
 					return gazEntry.string == currentFeature.properties.nummer;
+					/*eslint-enable */
 				});
 				if (found) {
 					link.href = '/#/docs/bplaene/' + currentFeature.properties.nummer + '/1/1'; //keepLatLng';
@@ -308,6 +311,8 @@ export class BPlaene_ extends React.Component {
 				/>
 			);
 		} else {
+			//TODO better way to follow the jsx-a11y/anchor-is-valid rule
+			/* eslint-disable */
 			info = (
 				<Well bsSize='small' pixelwidth={350}>
 					<h5>Aktuell keine Bebauungspl&auml;ne geladen.</h5>
@@ -333,6 +338,7 @@ export class BPlaene_ extends React.Component {
 					</a>
 				</Well>
 			);
+			/* eslint-ensable */
 		}
 
 		return (

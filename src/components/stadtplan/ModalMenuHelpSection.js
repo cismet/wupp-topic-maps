@@ -3,8 +3,6 @@ import { Link } from 'react-scroll';
 import { Icon } from 'react-fa';
 import { Label } from 'react-bootstrap';
 import GenericModalMenuSection from '../commons/GenericModalMenuSection';
-import MeinStandortHelpText from '../commons/GenericHelpTextForMyLocation';
-import { getColorForProperties, getBadSVG } from '../../utils/baederHelper';
 import MeinStandort from '../commons/GenericHelpTextForMyLocation';
 const ModalMenuHelpSection = ({ uiState, uiStateActions }) => {
 	return (

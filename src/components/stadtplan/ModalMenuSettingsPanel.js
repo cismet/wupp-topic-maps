@@ -18,7 +18,7 @@ import { MappingConstants, FeatureCollectionDisplay, getLayersByName } from 'rea
 
 import { Map } from 'react-leaflet';
 import previewFeatureCollection from './POIPreviewFeatureCollection';
-import { removeQueryPart, modifyQueryPart } from '../../utils/routingHelper';
+import { removeQueryPart } from '../../utils/routingHelper';
 import queryString from 'query-string';
 
 import { getFeatureStyler } from '../../utils/stadtplanHelper';

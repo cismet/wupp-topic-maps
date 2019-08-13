@@ -4,7 +4,6 @@ import PropTypes from 'prop-types';
 import TopicMap from './TopicMap';
 
 import { connect } from 'react-redux';
-import { Tooltip } from 'react-bootstrap';
 
 import { actions as mappingActions } from '../redux/modules/mapping';
 import { actions as uiStateActions } from '../redux/modules/uiState';
@@ -31,7 +30,6 @@ import {
 	getPoiClusterIconCreatorFunction
 } from '../utils/stadtplanHelper';
 
-import Loadable from 'react-loading-overlay';
 import queryString from 'query-string';
 
 import StadtplanInfo from '../components/stadtplan/StadtplanInfo';

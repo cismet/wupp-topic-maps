@@ -360,7 +360,7 @@ const ModalMenuHelpSection = ({ uiState, uiStateActions }) => {
 						Verteilung auf die Themen-Kombinationen (hier "<em>Kultur, Gesellschaft</em>"
 						und "<em>Kultur, Freizeit</em>
 						") anzeigt. Bewegen Sie dazu den Mauszeiger auf eines der farbigen Segmente
-						des Donutdiagramms. (Bei einem Gerät mit Touchscreen tippen Sie auf eines
+						des Donut-Diagramms. (Bei einem Gerät mit Touchscreen tippen Sie auf eines
 						der farbigen Segmente.)
 					</p>
 					<p>

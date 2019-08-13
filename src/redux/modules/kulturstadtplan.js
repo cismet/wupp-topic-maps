@@ -17,16 +17,16 @@ import makeInfoBoxStateDuck from '../higherorderduckfactories/minifiedInfoBoxSta
 export const types = {
 	//   SET_POI_GAZ_HIT: "STADTPLAN/SET_POI_GAZ_HIT",   CLEAR_POI_GAZ_HIT:
 	// "STADTPLAN/CLEAR_POI_GAZ_HIT",
-	SET_FILTERED_POIS: 'STADTPLAN/SET_FILTERED_POIS',
-	SET_FILTER: 'STADTPLAN/SET_FILTER',
+	SET_FILTERED_POIS: 'KULTURSTADTPLAN/SET_FILTERED_POIS',
+	SET_FILTER: 'KULTURSTADTPLAN/SET_FILTER',
 
-	SET_TYPES: 'STADTPLAN/SET_TYPES',
-	SET_LEBENSLAGEN: 'STADTPLAN/SET_LEBENSLAGEN',
-	SET_FILTERMODE: 'STADTPLAN/SET_FILTERMODE',
-	SET_VERANSTALTUNGSARTEN: 'STADTPLAN/SET_VERANSTALTUNGSARTEN',
-	SET_MINIFIED_INFO_BOX: 'STADTPLAN/SET_MINIFIED_INFO_BOX',
+	SET_TYPES: 'KULTURSTADTPLAN/SET_TYPES',
+	SET_LEBENSLAGEN: 'KULTURSTADTPLAN/SET_LEBENSLAGEN',
+	SET_FILTERMODE: 'KULTURSTADTPLAN/SET_FILTERMODE',
+	SET_VERANSTALTUNGSARTEN: 'KULTURSTADTPLAN/SET_VERANSTALTUNGSARTEN',
+	SET_MINIFIED_INFO_BOX: 'KULTURSTADTPLAN/SET_MINIFIED_INFO_BOX',
 
-	SET_POI_SVG_SIZE: 'STADTPLAN/SET_POI_SVG_SIZE'
+	SET_POI_SVG_SIZE: 'KULTURSTADTPLAN/SET_POI_SVG_SIZE'
 };
 
 export const constants = {
@@ -37,7 +37,7 @@ export const constants = {
 const dataDuck = makeDataDuck('VERANSTALTUNGSORTE', (state) => state.kulturstadtplan.dataState);
 const infoBoxStateDuck = makeInfoBoxStateDuck(
 	'VERANSTALTUNGSORTE',
-	(state) => state.stadtplan.infoBoxState
+	(state) => state.kulturstadtplan.infoBoxState
 );
 
 ///INITIAL STATE
@@ -257,7 +257,7 @@ function loadPOIs() {
 function toggleFilter(kind, filter) {
 	return (dispatch, getState) => {
 		let state = getState();
-		let filterState = JSON.parse(JSON.stringify(state.stadtplan.localState.filter));
+		let filterState = JSON.parse(JSON.stringify(state.kulturstadtplan.localState.filter));
 		let filterGroupSet = new Set(filterState[kind]);
 		if (filterGroupSet.has(filter)) {
 			filterGroupSet.delete(filter);
@@ -411,7 +411,7 @@ function refreshFeatureCollection() {
 function createFeatureCollectionFromPOIs(boundingBox) {
 	return (dispatch, getState) => {
 		let state = getState();
-		if (state.stadtplan.localState.filteredPoisIndex) {
+		if (state.kulturstadtplan.localState.filteredPoisIndex) {
 			let currentSelectedFeature = {
 				id: -1
 			};
@@ -428,7 +428,7 @@ function createFeatureCollectionFromPOIs(boundingBox) {
 				bb = state.mapping.boundingBox;
 			}
 
-			let resultIds = state.stadtplan.localState.filteredPoisIndex.range(
+			let resultIds = state.kulturstadtplan.localState.filteredPoisIndex.range(
 				bb.left,
 				bb.bottom,
 				bb.right,
@@ -439,7 +439,7 @@ function createFeatureCollectionFromPOIs(boundingBox) {
 			let results = [];
 
 			for (let id of resultIds) {
-				results.push(state.stadtplan.localState.filteredPois[id]);
+				results.push(state.kulturstadtplan.localState.filteredPois[id]);
 			}
 
 			results.sort((a, b) => {

@@ -200,27 +200,34 @@ export class Stadtplan_ extends React.Component {
 
 	render() {
 		let info = null;
-		info = (
-			<StadtplanInfo
-				key={'stadtplanInfo.' + (this.props.mapping.selectedIndex || 0)}
-				pixelwidth={325}
-				featureCollection={this.props.mapping.featureCollection}
-				filteredPOIs={getFilteredPOIs(this.props.stadtplan)}
-				selectedIndex={this.props.mapping.selectedIndex || 0}
-				next={this.selectNextIndex}
-				previous={this.selectPreviousIndex}
-				fitAll={this.gotoHome}
-				showModalMenu={(section) =>
-					this.props.uiStateActions.showApplicationMenuAndActivateSection(true, section)}
-				uiState={this.props.uiState}
-				uiStateActions={this.props.uiStateActions}
-				panelClick={(e) => {
-					this.props.stadtplanActions.refreshFeatureCollection();
-				}}
-				minified={hasMinifiedInfoBox(this.props.stadtplan)}
-				minify={(minified) => this.props.stadtplanActions.setMinifiedInfoBox(minified)}
-			/>
-		);
+		if (getFilter(this.props.stadtplan).positiv.length > 0) {
+			info = (
+				<StadtplanInfo
+					key={'stadtplanInfo.' + (this.props.mapping.selectedIndex || 0)}
+					pixelwidth={325}
+					featureCollection={this.props.mapping.featureCollection}
+					filteredPOIs={getFilteredPOIs(this.props.stadtplan)}
+					selectedIndex={this.props.mapping.selectedIndex || 0}
+					next={this.selectNextIndex}
+					previous={this.selectPreviousIndex}
+					fitAll={this.gotoHome}
+					showModalMenu={(section) =>
+						this.props.uiStateActions.showApplicationMenuAndActivateSection(
+							true,
+							section
+						)}
+					uiState={this.props.uiState}
+					uiStateActions={this.props.uiStateActions}
+					panelClick={(e) => {
+						this.props.stadtplanActions.refreshFeatureCollection();
+					}}
+					minified={hasMinifiedInfoBox(this.props.stadtplan)}
+					minify={(minified) => this.props.stadtplanActions.setMinifiedInfoBox(minified)}
+				/>
+			);
+		} else {
+			info = <div />;
+		}
 
 		let title = null;
 		let themenstadtplanDesc = '';

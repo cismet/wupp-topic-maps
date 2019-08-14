@@ -3,11 +3,10 @@ import PropTypes from 'prop-types';
 import TopicMap from './TopicMap';
 
 import { connect } from 'react-redux';
-import { Tooltip } from 'react-bootstrap';
 
 import { actions as MappingActions } from '../redux/modules/mapping';
 import { actions as UIStateActions } from '../redux/modules/uiState';
-import { actions as KitasActions, constants as kitaConstants } from '../redux/modules/kitas';
+import { actions as KitasActions } from '../redux/modules/kitas';
 import { routerActions } from 'react-router-redux';
 
 import { bindActionCreators } from 'redux';
@@ -19,7 +18,6 @@ import {
 	getFilterDescription
 } from '../utils/kitasHelper';
 
-import Loadable from 'react-loading-overlay';
 import queryString from 'query-string';
 
 import KitaInfo from '../components/kitas/KitaInfo';
@@ -27,7 +25,6 @@ import KitasModalApplicationMenu from '../components/kitas/KitasModalApplication
 
 import 'react-image-lightbox/style.css';
 import { removeQueryPart } from '../utils/routingHelper';
-import { catchError } from 'rxjs/operators';
 
 function mapStateToProps(state) {
 	return {
@@ -189,19 +186,6 @@ export class Kitas_ extends React.Component {
 	}
 
 	render() {
-		let state = {
-			profil: [ kitaConstants.PROFIL_NORMAL, kitaConstants.PROFIL_INKLUSION ],
-			alter: [ kitaConstants.ALTER_AB3 ],
-			umfang: [ kitaConstants.STUNDEN_FILTER_35, kitaConstants.STUNDEN_FILTER_45 ],
-			traeger: [
-				kitaConstants.TRAEGERTYP_ANDERE,
-				kitaConstants.TRAEGERTYP_BETRIEBSKITA
-				// kitaConstants.TRAEGERTYP_STAEDTISCH,
-				// kitaConstants.TRAEGERTYP_ELTERNINITIATIVE,
-				// kitaConstants.TRAEGERTYP_EVANGELISCH,
-				// kitaConstants.TRAEGERTYP_KATHOLISCH
-			]
-		};
 		let info = null;
 		info = (
 			<KitaInfo

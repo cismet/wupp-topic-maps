@@ -1,7 +1,5 @@
 import objectAssign from 'object-assign';
 
-import L from 'leaflet';
-
 ///TYPES
 export const types = {
 	SET_LOADING_STATE: 'SET_LOADING_STATE',
@@ -122,33 +120,28 @@ function renderingFinished(docPackageId, docIndex, pageIndex, pdfdoc, canvas) {
 function setDocsInfo(docs) {
 	return { type: types.SET_DOCS_INFO, docs };
 }
-function clearDocs() {
-	return { type: types.CLEAR_DOCS };
-}
+
 function setSizes(sizes) {
 	return { type: types.SET_SIZES, sizes };
 }
-function setSize(index, size) {
-	return { type: types.SET_SIZE, index, size };
-}
+
 function setTopic(topic, topicData) {
 	return { type: types.SET_TOPIC, topic, topicData };
 }
-function setLoadingText(loadingText) {
-	return { type: types.SET_LOADING_TEXT, loadingText };
-}
+
 function setDebugBounds(debugBounds) {
 	return { type: types.SET_DEBUG_BOUNDS, debugBounds };
 }
 //COMPLEXACTIONS
 function setDelayedLoadingState(docPackageId, docIndex, pageIndex) {
 	return (dispatch, getState) => {
-		const state = getState().docs;
 		dispatch(setLoadingState(constants.LOADING_STARTED, docPackageId, docIndex, pageIndex));
 		setTimeout(() => {
 			const istate = getState().docs;
 			if (istate.loadingState === constants.LOADING_STARTED) {
-				dispatch(setLoadingState(constants.LOADING_OVERLAY, docPackageId, docIndex, pageIndex));
+				dispatch(
+					setLoadingState(constants.LOADING_OVERLAY, docPackageId, docIndex, pageIndex)
+				);
 			}
 		}, constants.OVERLAY_DELAY);
 	};
@@ -213,15 +206,3 @@ export const actions = {
 };
 
 //HELPER FUNCTIONS
-
-function getCachedPdfDoc(cacheState, docPackageId, docIndex) {
-	return cacheState.pdfDocCache.get(docPackageId + '.' + docIndex);
-}
-
-function getCachedPage(cacheState, docPackageId, docIndex, pageIndex) {
-	return cacheState.pdfPageCache.get(docPackageId + '.' + docIndex + '.' + pageIndex);
-}
-
-function getCachedCanvas(cacheState, docPackageId, docIndex, pageIndex) {
-	return cacheState.canvasCache.get(docPackageId + '.' + docIndex + '.' + pageIndex);
-}

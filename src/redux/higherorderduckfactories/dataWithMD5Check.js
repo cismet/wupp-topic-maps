@@ -69,7 +69,12 @@ const makeDataWithMD5CheckDuckFor = (section, substateResolver) => {
 
 						if (md5 === state.md5 && constants.DEBUG_ALWAYS_LOADING === false) {
 							config.done(dispatch);
+							// TODO
+							// don't know another way yet
+							//therefore
+							/* eslint-disable */
 							throw 'CACHEHIT';
+							/* eslint-enable */
 						} else {
 							return 'fetchit';
 						}

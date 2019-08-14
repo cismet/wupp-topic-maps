@@ -1,12 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Well } from 'react-bootstrap';
 import { Icon } from 'react-fa';
-import queryString from 'query-string';
 import { getColorForProperties } from '../../utils/stadtplanHelper';
 import Color from 'color';
 import IconLink from '../commons/IconLink';
-import CollapsibleWell from '../commons/CollapsibleWell';
 import InfoBox from '../commons/InfoBox';
 import { triggerLightBoxForPOI } from '../../utils/stadtplanHelper';
 
@@ -27,17 +24,15 @@ const StadtplanInfo = ({
 	uiStateActions,
 	panelClick,
 	minified,
-	minify
+	minify,
+	headerText,
+	headerColor
 }) => {
 	const currentFeature = featureCollection[selectedIndex];
 
 	let info = '';
 	let links = [];
-	let maillink = null;
-	let urllink = null;
-	let phonelink = null;
-	let eventlink = null;
-	let title, headerText, poiColor, adresse, fotoDiv;
+	let title, localHeaderText, poiColor, adresse, fotoDiv;
 	if (currentFeature) {
 		if (currentFeature.properties.info) {
 			info = currentFeature.properties.info;
@@ -117,8 +112,9 @@ const StadtplanInfo = ({
 	}
 
 	if (currentFeature) {
-		poiColor = Color(getColorForProperties(currentFeature.properties));
-		headerText = currentFeature.properties.mainlocationtype.lebenslagen.join(', ');
+		poiColor = headerColor || Color(getColorForProperties(currentFeature.properties));
+		localHeaderText =
+			headerText || currentFeature.properties.mainlocationtype.lebenslagen.join(', ');
 
 		if (currentFeature.properties.foto) {
 			fotoDiv = (
@@ -189,7 +185,7 @@ const StadtplanInfo = ({
 			panelClick={panelClick}
 			colorize={getColorForProperties}
 			pixelwidth={250}
-			header={headerText}
+			header={localHeaderText}
 			headerColor={poiColor}
 			links={links}
 			title={title}

@@ -2,7 +2,6 @@ import objectAssign from 'object-assign';
 import { actions as mappingActions } from './mapping';
 import kdbush from 'kdbush';
 import queryString from 'query-string';
-import makeInfoBoxStateDuck from '../higherorderduckfactories/minifiedInfoBoxState';
 
 //TYPES
 export const types = {
@@ -225,7 +224,13 @@ function loadKitas() {
 				if (md5 === state.kitas.kitasMD5 && constants.DEBUG_ALWAYS_LOADING === false) {
 					dispatch(applyFilter());
 					dispatch(createFeatureCollectionFromKitas());
+					//TODO
+					// don't know another way yet
+					//therefore
+					/*eslint-disable */
+
 					throw 'CACHEHIT';
+					/*eslint-enable */
 				} else {
 					return 'fetchit';
 				}

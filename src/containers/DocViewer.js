@@ -1,53 +1,33 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import objectAssign from 'object-assign';
 
 import { connect } from 'react-redux';
-import {
-	Navbar,
-	Nav,
-	NavItem,
-	OverlayTrigger,
-	Tooltip,
-	MenuItem,
-	Well,
-	ProgressBar,
-	Alert
-} from 'react-bootstrap';
-import { RoutedMap, MappingConstants, FeatureCollectionDisplay } from 'react-cismap';
+import { Navbar, Nav, NavItem, Well, ProgressBar, Alert } from 'react-bootstrap';
+import { RoutedMap } from 'react-cismap';
 import { routerActions as RoutingActions } from 'react-router-redux';
-import { WMSTileLayer, Marker, Popup, Rectangle, TileLayer } from 'react-leaflet';
+import { Rectangle, TileLayer } from 'react-leaflet';
 import Control from 'react-leaflet-control';
 import { actions as bplanActions } from '../redux/modules/bplaene';
 import {
 	actions as gazetteerTopicsActions,
 	getGazDataForTopicIds
 } from '../redux/modules/gazetteerTopics';
-import {
-	downloadSingleFile,
-	prepareDownloadMultipleFiles,
-	prepareMergeMultipleFiles
-} from '../utils/downloadHelper';
+import { downloadSingleFile, prepareDownloadMultipleFiles } from '../utils/downloadHelper';
 
 import L from 'leaflet';
 import { bindActionCreators } from 'redux';
 import { modifyQueryPart, removeQueryPart } from '../utils/routingHelper';
-import { Simple as ownSimpleCRS } from '../utils/gisHelper';
 
 import 'url-search-params-polyfill';
 import { actions as UIStateActions } from '../redux/modules/uiState';
-import { actions as DocsActions, getCanvas, getPdfDoc } from '../redux/modules/docs';
+import { actions as DocsActions } from '../redux/modules/docs';
 
 import { Icon } from 'react-fa';
-//import PDFLayer from '../components/mapping/PDFLayer';
-import Coords from '../components/mapping/CoordLayer';
 
-import { isThisQuarter } from 'date-fns';
 import Loadable from 'react-loading-overlay';
 
 import { Column, Row } from 'simple-flexbox';
 
-import filesize from 'filesize';
 import scrollIntoViewIfNeeded from 'scroll-into-view-if-needed';
 /* eslint-disable jsx-a11y/anchor-is-valid */
 
@@ -96,21 +76,11 @@ L.RasterCoords.prototype = {
 
 const WIDTH = 'WIDTH';
 const HEIGHT = 'HEIGHT';
-const BOTH = 'BOTH';
-const OVERLAY_DELAY = 500;
 
-const LOADING_STARTED = 'LOADING_STARTED';
 const LOADING_FINISHED = 'LOADING_FINISHED';
 const LOADING_OVERLAY = 'LOADING_OVERLAY';
 
-const horizontalPanelHeight = 150;
 const sidebarWidth = 130;
-
-const detailsStyle = {
-	backgroundColor: '#F6F6F6',
-	padding: '5px 5px 5px 5px',
-	overflow: 'auto'
-};
 
 const tileservice = 'https://aaa.cismet.de/tiles/';
 
@@ -429,13 +399,6 @@ export class DocViewer_ extends React.Component {
 		}
 		let urlSearchParams = new URLSearchParams(this.props.routing.location.search);
 
-		let leafletContext;
-		if (this.leafletRoutedMap) {
-			leafletContext = {
-				map: this.leafletRoutedMap.leafletMap.leafletElement
-			};
-		}
-
 		let w;
 		if ((this.props.docs.docs || []).length > 1) {
 			w = this.props.uiState.width - sidebarWidth + 17;
@@ -449,11 +412,6 @@ export class DocViewer_ extends React.Component {
 			cursor: this.props.cursor,
 			backgroundColor: 'white'
 		};
-
-		let menuIsHidden = false;
-		if (this.props.uiState.width < 768) {
-			menuIsHidden = true;
-		}
 
 		let numPages;
 
@@ -536,7 +494,7 @@ export class DocViewer_ extends React.Component {
 						<p>
 							Im Moment kann die Vorschau des Dokumentes nicht angezeigt werden. Sie
 							können das Dokument aber{' '}
-							<a href={downloadURL} target='_blank'>
+							<a href={downloadURL} target='_blank' rel='noopener noreferrer'>
 								hier <Icon name='download' />
 							</a>{' '}
 							herunterladen.
@@ -973,7 +931,6 @@ export class DocViewer_ extends React.Component {
 		const leafletSize = { x: this.mapStyle.width, y: this.mapStyle.height };
 		if (forDimension) {
 			//const leafletSize = { x: this.mapStyle.width, y: this.mapStyle.height };
-			let layer = this.getLayer();
 
 			if (leafletSize.x / leafletSize.y < 1) {
 				if (forDimension === WIDTH) {

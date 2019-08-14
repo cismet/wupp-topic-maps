@@ -1,24 +1,24 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-//import Cismap from '../containers/Cismap';
 import TopicMap from './TopicMap';
 
 import { connect } from 'react-redux';
 
 import { actions as mappingActions } from '../redux/modules/mapping';
 import { actions as uiStateActions } from '../redux/modules/uiState';
-import { actions as stadtplanActions } from '../redux/modules/stadtplan';
+import { actions as stadtplanActions } from '../redux/modules/kulturstadtplan';
 
 import {
 	getPOIs,
 	getPOIsMD5,
 	getFilteredPOIs,
-	getLebenslagen,
+	getVeranstaltungsarten,
 	getFilter,
+	getFilterMode,
 	getPoiSvgSize,
 	getApps,
 	hasMinifiedInfoBox
-} from '../redux/modules/stadtplan';
+} from '../redux/modules/kulturstadtplan';
 
 import { routerActions } from 'react-router-redux';
 
@@ -30,10 +30,17 @@ import {
 	getPoiClusterIconCreatorFunction
 } from '../utils/stadtplanHelper';
 
+import {
+	getColorForProperties,
+	getHeaderTextForProperties,
+	getAllEinrichtungen,
+	textConversion
+} from '../utils/kulturstadtplanHelper';
+
 import queryString from 'query-string';
 
 import StadtplanInfo from '../components/stadtplan/StadtplanInfo';
-import StadtplanModalApplicationMenu from '../components/stadtplan/ModalMenu';
+import StadtplanModalApplicationMenu from '../components/kulturstadtplan/ModalMenu';
 import PhotoLightbox from './PhotoLightbox';
 
 import 'react-image-lightbox/style.css';
@@ -43,7 +50,7 @@ function mapStateToProps(state) {
 		uiState: state.uiState,
 		mapping: state.mapping,
 		routing: state.routing,
-		stadtplan: state.stadtplan
+		stadtplan: state.kulturstadtplan
 	};
 }
 
@@ -91,30 +98,13 @@ export class Stadtplan_ extends React.Component {
 	}
 
 	componentDidMount() {
-		document.title = 'Online-Stadtplan Wuppertal';
+		document.title = 'Kulturstadtplan Wuppertal';
 	}
 
 	componentWillUpdate() {
 		if (getPOIs(this.props.stadtplan).length === 0) {
 			return;
 		}
-		// let urlCart=queryString.parse(this.props.routing.location.search).cart; let
-		// urlCartIds=new Set(); if (urlCart){     urlCartIds=new
-		// Set(urlCart.split(",").sort((a,b)=>parseInt(a,10)-parseInt(b,10))); } let
-		// cartIds=new
-		// Set(this.props.ehrenamt.cart.map(x=>x.id).sort((a,b)=>parseInt(a,10)-parseInt
-		// ( b,10))); let missingIdsInCart=new Set([...urlCartIds].filter(x =>
-		// !cartIds.has(x))); if (missingIdsInCart.size>0) {
-		// this.props.ehrenamtActions.addToCartByIds(Array.from(missingIdsInCart)); }
-		// let
-		// newUrlCartArr=Array.from(cartIds).sort((a,b)=>parseInt(a,10)-parseInt(b,10));
-		// let newUrlCart=newUrlCartArr.join(); if (urlCart!==newUrlCart &&
-		// newUrlCart.length>0){     let pn=this.props.routing.location.pathname;     if
-		// (pn.indexOf("stadtplan")===-1){         pn="/stadtplan"; //in certain
-		// conditions the pathname does not contain ehrenamt. fix that.     }     let
-		// newRoute= pn + modifyQueryPart(this.props.routing.location.search, { cart:
-		// newUrlCart     });     console.log("push new route:"+newRoute);
-		// this.props.routingActions.push(newRoute); }
 	}
 
 	loadThePOIs() {
@@ -198,69 +188,119 @@ export class Stadtplan_ extends React.Component {
 
 	render() {
 		let info = null;
-		if (getFilter(this.props.stadtplan).positiv.length > 0) {
-			info = (
-				<StadtplanInfo
-					key={'stadtplanInfo.' + (this.props.mapping.selectedIndex || 0)}
-					pixelwidth={325}
-					featureCollection={this.props.mapping.featureCollection}
-					filteredPOIs={getFilteredPOIs(this.props.stadtplan)}
-					selectedIndex={this.props.mapping.selectedIndex || 0}
-					next={this.selectNextIndex}
-					previous={this.selectPreviousIndex}
-					fitAll={this.gotoHome}
-					showModalMenu={(section) =>
-						this.props.uiStateActions.showApplicationMenuAndActivateSection(
-							true,
-							section
-						)}
-					uiState={this.props.uiState}
-					uiStateActions={this.props.uiStateActions}
-					panelClick={(e) => {
-						this.props.stadtplanActions.refreshFeatureCollection();
-					}}
-					minified={hasMinifiedInfoBox(this.props.stadtplan)}
-					minify={(minified) => this.props.stadtplanActions.setMinifiedInfoBox(minified)}
-				/>
-			);
+		let headerText = '';
+		let headerColor = undefined;
+		if (
+			this.props.mapping.selectedIndex !== undefined &&
+			this.props.mapping.featureCollection[this.props.mapping.selectedIndex] &&
+			this.props.mapping.featureCollection[this.props.mapping.selectedIndex].properties &&
+			this.props.mapping.featureCollection[this.props.mapping.selectedIndex].properties
+				.mainlocationtype
+		) {
+			let veranstaltungsort = this.props.mapping.featureCollection[
+				this.props.mapping.selectedIndex
+			].properties;
+
+			headerColor = getColorForProperties(veranstaltungsort);
+			headerText = getHeaderTextForProperties(veranstaltungsort);
 		} else {
-			info = <div />;
+			// console.log(
+			// 	'kein selectedIndex oder keine featureCollection',
+			// 	this.props.mapping.selectedIndex,
+			// 	this.props.mapping.featureCollection
+			// );
 		}
+		info = (
+			<StadtplanInfo
+				key={'stadtplanInfo.' + (this.props.mapping.selectedIndex || 0)}
+				pixelwidth={325}
+				featureCollection={this.props.mapping.featureCollection}
+				filteredPOIs={getFilteredPOIs(this.props.stadtplan)}
+				selectedIndex={this.props.mapping.selectedIndex || 0}
+				next={this.selectNextIndex}
+				previous={this.selectPreviousIndex}
+				fitAll={this.gotoHome}
+				showModalMenu={(section) =>
+					this.props.uiStateActions.showApplicationMenuAndActivateSection(true, section)}
+				uiState={this.props.uiState}
+				uiStateActions={this.props.uiStateActions}
+				panelClick={(e) => {
+					this.props.stadtplanActions.refreshFeatureCollection();
+				}}
+				minified={hasMinifiedInfoBox(this.props.stadtplan)}
+				minify={(minified) => this.props.stadtplanActions.setMinifiedInfoBox(minified)}
+				headerText={headerText}
+				headerColor={headerColor}
+			/>
+		);
 
 		let title = null;
 		let themenstadtplanDesc = '';
 		let titleContent;
+		let prefix = 'Mein Kulturstadtplan:';
 		let qTitle = queryString.parse(this.props.routing.location.search).title;
 		if (qTitle !== undefined) {
 			if (qTitle === null || qTitle === '') {
-				if (
-					getFilter(this.props.stadtplan).positiv.length > 0 &&
-					getFilter(this.props.stadtplan).positiv.length <
-						getLebenslagen(this.props.stadtplan).length
+				// if (
+				// 	getFilter(this.props.stadtplan).positiv.length > 0 &&
+				// 	getFilter(this.props.stadtplan).positiv.length <
+				// 		getLebenslagen(this.props.stadtplan).length
+				// ) {
+				// 	if (getFilter(this.props.stadtplan).positiv.length <= 4) {
+				// 		themenstadtplanDesc += getFilter(this.props.stadtplan).positiv.join(', ');
+				// 	} else {
+				// 		themenstadtplanDesc +=
+				// 			getFilter(this.props.stadtplan).positiv.length + ' Themen';
+				// 	}
+				// 	if (getFilter(this.props.stadtplan).negativ.length > 0) {
+				// 		if (getFilter(this.props.stadtplan).negativ.length <= 3) {
+				// 			themenstadtplanDesc += ' ohne ';
+				// 			themenstadtplanDesc += getFilter(this.props.stadtplan).negativ.join(
+				// 				', '
+				// 			);
+				// 		} else {
+				// 			themenstadtplanDesc +=
+				// 				' (' +
+				// 				getFilter(this.props.stadtplan).negativ.length +
+				// 				' Themen ausgeschlossen)';
+				// 		}
+				// 	}
+				// }
+
+				const filterMode = getFilterMode(this.props.stadtplan);
+				const filter = getFilter(this.props.stadtplan);
+				let maxFilterCount;
+				let einrichtungsEinschub;
+				if (filterMode === 'einrichtungen') {
+					maxFilterCount = getAllEinrichtungen().length;
+					einrichtungsEinschub = '';
+				} else {
+					einrichtungsEinschub = 'Orte für ';
+					maxFilterCount = getVeranstaltungsarten(this.props.stadtplan).length;
+				}
+
+				if (filter[filterMode].length === 1) {
+					themenstadtplanDesc = 'alle ' + einrichtungsEinschub + filter[filterMode][0];
+				} else if (filter[filterMode].length > 0 && filter[filterMode].length < 3) {
+					themenstadtplanDesc =
+						'alle ' +
+						einrichtungsEinschub +
+						filter[filterMode][0] +
+						' und ' +
+						filter[filterMode][1];
+					if (themenstadtplanDesc.split(' und ').length - 1 > 1) {
+						themenstadtplanDesc = themenstadtplanDesc.replace(' und ', ', ');
+					}
+				} else if (
+					filter[filterMode].length > 0 &&
+					filter[filterMode].length < maxFilterCount
 				) {
-					if (getFilter(this.props.stadtplan).positiv.length <= 4) {
-						themenstadtplanDesc += getFilter(this.props.stadtplan).positiv.join(', ');
-					} else {
-						themenstadtplanDesc +=
-							getFilter(this.props.stadtplan).positiv.length + ' Themen';
-					}
-					if (getFilter(this.props.stadtplan).negativ.length > 0) {
-						if (getFilter(this.props.stadtplan).negativ.length <= 3) {
-							themenstadtplanDesc += ' ohne ';
-							themenstadtplanDesc += getFilter(this.props.stadtplan).negativ.join(
-								', '
-							);
-						} else {
-							themenstadtplanDesc +=
-								' (' +
-								getFilter(this.props.stadtplan).negativ.length +
-								' Themen ausgeschlossen)';
-						}
-					}
+					themenstadtplanDesc =
+						filter[filterMode].length + ' ' + textConversion(filterMode);
 				}
 				titleContent = (
 					<div>
-						<b>Mein Themenstadtplan:</b> {themenstadtplanDesc}
+						<b>{prefix}</b> {themenstadtplanDesc}
 					</div>
 				);
 			} else {
@@ -314,7 +354,7 @@ export class Stadtplan_ extends React.Component {
 						this.cismapRef = cismap;
 						this.topicMap = cismap;
 					}}
-					initialLoadingText='Laden der POIs ...'
+					initialLoadingText='Laden der Veranstaltungsorte...'
 					home={{
 						center: [ 51.2724, 7.199806 ],
 						zoom: 8
@@ -334,7 +374,10 @@ export class Stadtplan_ extends React.Component {
 						return this.props.mapping.featureCollection;
 					}}
 					featureCollectionKeyPostfix={this.props.mapping.featureCollectionKeyPostfix}
-					featureStyler={getFeatureStyler(getPoiSvgSize(this.props.stadtplan))}
+					featureStyler={getFeatureStyler(
+						getPoiSvgSize(this.props.stadtplan),
+						getColorForProperties
+					)}
 					featureHoverer={featureHoverer}
 					refreshFeatureCollection={() =>
 						this.props.stadtplanActions.createFeatureCollectionFromPOIs(
@@ -357,19 +400,21 @@ export class Stadtplan_ extends React.Component {
 						cismapZoomTillSpiderfy: 12,
 						selectionSpiderfyMinZoom: 12,
 						iconCreateFunction: getPoiClusterIconCreatorFunction(
-							getPoiSvgSize(this.props.stadtplan)
+							getPoiSvgSize(this.props.stadtplan),
+							getColorForProperties
 						)
 					}}
-					applicationMenuTooltipString='Themenstadtplan | Einstellungen | Kompaktanleitung'
+					applicationMenuTooltipString='Mein Kulturstadtplan | Einstellungen | Kompaktanleitung'
 					modalMenu={
 						<StadtplanModalApplicationMenu
 							// key={
 							// 	'StadtplanModalApplicationMenu.visible:' +
 							// 	this.props.uiState.applicationMenuVisible
 							// }
-							lebenslagen={getLebenslagen(this.props.stadtplan)}
+							veranstaltungsarten={getVeranstaltungsarten(this.props.stadtplan)}
 							apps={getApps(this.props.stadtplan)}
 							filter={getFilter(this.props.stadtplan)}
+							filtermode={getFilterMode(this.props.stadtplan)}
 							filterChanged={this.filterChanged}
 							offersMD5={getPOIsMD5(this.props.stadtplan)}
 							// centerOnPoint={this.centerOnPoint}

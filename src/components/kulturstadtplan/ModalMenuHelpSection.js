@@ -4,6 +4,7 @@ import { Icon } from 'react-fa';
 import { Label } from 'react-bootstrap';
 import GenericModalMenuSection from '../commons/GenericModalMenuSection';
 import MeinStandort from '../commons/GenericHelpTextForMyLocation';
+/* eslint-disable jsx-a11y/anchor-is-valid*/
 const ModalMenuHelpSection = ({ uiState, uiStateActions }) => {
 	return (
 		<GenericModalMenuSection
@@ -73,7 +74,7 @@ const ModalMenuHelpSection = ({ uiState, uiStateActions }) => {
 							}}
 						>
 							{' '}
-							<Label bsStyle='primary'>Mein Themenstadtplan</Label>{' '}
+							<Label bsStyle='primary'>Mein Kulturstadtplan</Label>{' '}
 						</Link>
 						<Link
 							to='Einstellungen'
@@ -113,7 +114,7 @@ const ModalMenuHelpSection = ({ uiState, uiStateActions }) => {
 						</Link>
 					</h4>
 					<p>
-						Der <strong>Online-Stadtplan Wuppertal</strong> bietet ihnen die folgenden
+						Der <strong>Kulturstadtplan Wuppertal</strong> bietet ihnen die folgenden
 						Hintergrundkarten an, die auf verschiedenen Geodatendiensten und Geodaten
 						basieren:
 					</p>
@@ -164,13 +165,12 @@ const ModalMenuHelpSection = ({ uiState, uiStateActions }) => {
 					</ul>
 
 					<p>
-						Zusätzlich nutzt der Online-Stadtplan für die Themendarstellung den
-						Datensatz{' '}
+						Zusätzlich nutzt der Kulturstadtplan für die Themendarstellung den Datensatz{' '}
 						<a
 							target='_legal'
-							href='https://offenedaten-wuppertal.de/dataset/interessante-orte-wuppertal-poi'
+							href='https://offenedaten-wuppertal.de/dataset/veranstaltungsorte-wuppertal'
 						>
-							Interessante Orte Wuppertal (POI)
+							Veranstaltungsorte Wuppertal
 						</a>{' '}
 						aus dem Open-Data-Angebot der Stadt Wuppertal.
 					</p>
@@ -191,22 +191,35 @@ const ModalMenuHelpSection = ({ uiState, uiStateActions }) => {
 						</Link>
 					</h4>
 					<p>
-						Jeder POI (Point of Interest, 'Interessanter Ort') ist einem oder mehreren
-						übergeordneten Themenfeldern wie z. B. "<em>Freizeit</em>" oder "<em>Erholung</em>"
-						zugeordnet. Die Hintergrundfarben der POI-Symbole stehen jeweils für eine
-						eindeutige Kombination dieser Themenfelder, z. B. Hellgrün für "<em>Freizeit, Erholung</em>
-						".
+						Die POI der kulturellen Einrichtungen werden in der Karte durch Punktsymbole
+						in Form von Piktogrammen mit farbigem Hintergrund dargestellt. Für einige
+						klar definier- und unterscheidbare Kategorien (Clubs, Filmtheater, Museen
+						und Galerien, Theater) verwenden wir feste Kombinationen von Piktogramm und
+						Hintergrundfarbe. In der Kategorie "Sonstige Veranstaltungsorte" werden
+						dagegen verschiedene Piktogramme mit der gleichen Hintergrundfarbe (Ocker)
+						verwendet. Hierunter fallen zum einen Einrichtungen mit einem individuellen
+						Profil, die unterschiedlichen Veranstaltungsarten Raum geben{' '}
+						<img alt='Cluster' height='20' src='images/kontakthof.png' />. Zum anderen
+						umfasst diese Kategorie alle POI, die nur in zweiter Linie
+						Veranstaltungsorte sind. So ist z. B. die Bergische Musikschule{' '}
+						<img alt='Cluster' height='20' src='images/bergische_musikschule.png' /> in
+						erster Linie als Bildungseinrichtung eingestuft, in der aber auch Konzerte,
+						Lesungen und Theateraufführungen stattfinden.
 					</p>
 					<p>
-						Räumlich nah beieinander liegende POI werden standardmäßig maßstabsabhängig
-						zu größeren Punkten zusammengefasst, mit der Anzahl der repräsentierten POI
-						im Zentrum <img alt='Cluster' src='images/poi_zusammen.png' />. Vergrößern
-						Sie ein paar Mal durch direktes Anklicken eines solchen Punktes oder mit{' '}
-						<Icon name='plus' /> die Darstellung, so werden die zusammengefassten POI
-						Schritt für Schritt in die kleineren Symbole für die konkreten Einzel-POI
-						zerlegt. Ab einer bestimmten Maßstabsstufe (Zoomstufe 12) führt ein weiterer
-						Klick dazu, dass eine Explosionsgraphik der zusammengefassten POI angezeigt
-						wird.
+						Räumlich nah beieinander liegende Veranstaltungsorte werden standardmäßig
+						maßstabsabhängig zu größeren Punkten zusammengefasst, mit der Anzahl der
+						repräsentierten POI im Zentrum{' '}
+						<img
+							alt='Cluster'
+							height='30'
+							src='images/veranstaltungsorte_zusammen.png'
+						/>. Vergrößern Sie ein paar Mal durch direktes Anklicken eines solchen
+						Punktes oder mit <Icon name='plus' /> die Darstellung, so werden die
+						zusammengefassten POI Schritt für Schritt in die kleineren Symbole für die
+						konkreten Einzel-POI zerlegt. Ab einer bestimmten Maßstabsstufe (Zoomstufe
+						12) führt ein weiterer Klick dazu, dass eine Explosionsgraphik der
+						zusammengefassten POI angezeigt wird.
 					</p>
 
 					<div name='POIauswahluabfragen'>
@@ -253,7 +266,7 @@ const ModalMenuHelpSection = ({ uiState, uiStateActions }) => {
 					<p>
 						Mit der Schaltfläche <Icon name='chevron-circle-down' /> im dunkelgrau
 						abgesetzten rechten Rand der Info-Box lässt sich diese so verkleinern, dass
-						nur noch die thematische Zuordnung und die Bezeichnung des POI sowie die
+						nur noch die Kategorisierung und die Bezeichnung des POI sowie die
 						Link-Symbole angezeigt werden - nützlich für Endgeräte mit kleinem Display.
 						Mit der Schaltfläche <Icon name='chevron-circle-up' /> an derselben Stelle
 						können Sie die Info-Box dann wieder vollständig einblenden.
@@ -334,7 +347,7 @@ const ModalMenuHelpSection = ({ uiState, uiStateActions }) => {
 						<br />
 					</div>
 					<h4>
-						Mein Themenstadtplan{' '}
+						Mein Kulturstadtplan{' '}
 						<Link
 							to='help'
 							containerId='myMenu'
@@ -346,32 +359,30 @@ const ModalMenuHelpSection = ({ uiState, uiStateActions }) => {
 						</Link>
 					</h4>
 					<p>
-						Unter "<strong>Mein Themenstadtplan</strong>" können Sie im Anwendungsmenü{' '}
-						<Icon name='bars' /> auswählen, welche POI-Kategorien in der Karte
-						dargestellt werden. Über die Schaltfläche{' '}
-						<img alt='Cluster' src='images/sf_keinethemenausw.png' /> können Sie die POI
-						vollständig ausblenden - auch die Info-Box wird dann nicht mehr angezeigt.
+						Unter "<strong>Mein Kulturstadtplan</strong>" finden sie im Anwendungsmenü
+						zwei alternative Möglichkeiten vor, die Menge der angezeigten POI gemäß
+						Ihren Vorlieben einzuschränken. Auf zwei angedeuteten Karteikarten wird zum
+						einen das Filtern nach Kategorien von Einrichtungen angeboten, zum anderen
+						das Filtern nach Kategorien von Veranstaltungen, die an den zugehörigen POI
+						typischerweise angeboten werden. Der Titel der gerade nicht sichtbaren
+						Karteikarte wird als <a>Hyperlink</a> dargestellt Zum Wechsel zwischen den
+						beiden Karteikarten klicken Sie auf den jeweils verfügbaren Link.
 					</p>
 					<p>
-						Zur Filterung der POI-Kategorien bieten wir Ihnen die oben beschriebenen
-						Themenfelder an. Wählen Sie z. B. mit <Icon name='thumbs-up' />{' '}
-						ausschließlich das Thema "<em>Kultur</em>" aus. Als Vorschau wird Ihnen ein
-						Donut-Diagramm angezeigt, das die Anzahl der zugehörigen POI und deren
-						Verteilung auf die Themen-Kombinationen (hier "<em>Kultur, Gesellschaft</em>"
-						und "<em>Kultur, Freizeit</em>
-						") anzeigt. Bewegen Sie dazu den Mauszeiger auf eines der farbigen Segmente
-						des Donut-Diagramms. (Bei einem Gerät mit Touchscreen tippen Sie auf eines
-						der farbigen Segmente.)
+						Auf den beiden Karteikarten wird Ihnen eine Liste von Einrichtungs- bzw.
+						Veranstaltungskategorien angeboten. Die Auswahl erfolgt durch Anklicken des
+						(leeren) Kontrollkästchens vor dem jeweiligen Listenelement, die Abwahl
+						durch erneutes Anklicken dieses Kästchens. Die beiden Filterbereiche werden
+						nicht logisch miteinander verknüpft. Für die Filterung wird immer nur die
+						Auswahl auf der im Anwendungsmenü sichtbaren Karteikarte ausgewertet.
 					</p>
 					<p>
-						Mit <Icon name='thumbs-down' /> können Sie die POI, die dem entsprechenden
-						Thema zugeordnet sind, ausblenden und dadurch die Treffermenge reduzieren.
-						Schließen Sie jetzt z. B. das Thema "<em>Gesellschaft</em>" aus. Im
-						Donut-Diagramm werden Ihnen dann nur noch die POI mit der Themen-Kombination
-						"<em>Kultur, Freizeit</em>" angezeigt (Theater, Museen etc.). Die POI mit
-						der Kombination "
-						<em>Kultur, Gesellschaft</em>" (Standorte von Verlagen und anderen
-						Medienunternehmungen) wurden dagegen entfernt.
+						Als Vorschau für die Wirkung ihrer Filtereinstellungen wird Ihnen auf beiden
+						Karteikarten ein Donut-Diagramm angezeigt, das die Anzahl der
+						herausgefilterten POI und ihre Verteilung auf die Einrichtungskategorien
+						anzeigt. Bewegen Sie dazu den Mauszeiger auf eines der farbigen Segmente des
+						Diagramms. (Bei einem Gerät mit Touchscreen tippen Sie auf eines der
+						farbigen Segmente.)
 					</p>
 
 					<div name='Einstellungen'>
@@ -395,8 +406,8 @@ const ModalMenuHelpSection = ({ uiState, uiStateActions }) => {
 						" können Sie im Anwendungsmenü <Icon name='bars' /> festlegen, wie die POI
 						und die Hintergrundkarte angezeigt werden sollen. Zu den POI können Sie
 						auswählen, ob Ihre unter "
-						<strong>Mein Themenstadtplan</strong>" festgelegte Lebenslagen-Filterung in
-						einer Titelzeile ausgeprägt wird oder nicht. Weiter können Sie festlegen, ob
+						<strong>Mein Kulturstadtplan</strong>" festgelegte Filterung in einer
+						Titelzeile ausgeprägt wird oder nicht. Weiter können Sie festlegen, ob
 						räumlich nah beieinander liegende POI maßstabsabhängig zu einem Punktsymbol
 						zusammengefasst werden oder nicht. Unter "
 						<em>
@@ -444,11 +455,10 @@ const ModalMenuHelpSection = ({ uiState, uiStateActions }) => {
 						</Link>
 					</h4>
 					<p>
-						Ihre Themenauswahl und Einstellungen bleiben auch nach einem Neustart der
+						Ihre Filterauswahl und Einstellungen bleiben auch nach einem Neustart der
 						Anwendung erhalten. (Es sei denn, Sie löschen den Browser-Verlauf
-						einschließlich der gehosteten App-Daten.) Damit können Sie mit wenigen
-						Klicks aus unserem Online-Stadtplan einen dauerhaft für Sie optimierten
-						Themenstadtplan machen.
+						einschließlich der gehosteten App-Daten.) Damit können Sie unseren
+						Kulturstadtplan mit wenigen Klicks dauerhaft für sich optimieren.
 					</p>
 				</div>
 			}

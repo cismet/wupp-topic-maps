@@ -1,6 +1,10 @@
 import objectAssign from 'object-assign';
 import { actions as mappingActions } from './mapping';
 import { predicateBy } from '../../utils/stringHelper';
+import {
+	getAllEinrichtungen,
+	classifyMainlocationTypeName
+} from '../../utils/kulturstadtplanHelper';
 import kdbush from 'kdbush';
 import { addSVGToPOI } from '../../utils/stadtplanHelper';
 import makeDataDuck from '../higherorderduckfactories/dataWithMD5Check';
@@ -13,14 +17,16 @@ import makeInfoBoxStateDuck from '../higherorderduckfactories/minifiedInfoBoxSta
 export const types = {
 	//   SET_POI_GAZ_HIT: "STADTPLAN/SET_POI_GAZ_HIT",   CLEAR_POI_GAZ_HIT:
 	// "STADTPLAN/CLEAR_POI_GAZ_HIT",
-	SET_FILTERED_POIS: 'STADTPLAN/SET_FILTERED_POIS',
-	SET_FILTER: 'STADTPLAN/SET_FILTER',
+	SET_FILTERED_POIS: 'KULTURSTADTPLAN/SET_FILTERED_POIS',
+	SET_FILTER: 'KULTURSTADTPLAN/SET_FILTER',
 
-	SET_TYPES: 'STADTPLAN/SET_TYPES',
-	SET_LEBENSLAGEN: 'STADTPLAN/SET_LEBENSLAGEN',
-	SET_MINIFIED_INFO_BOX: 'STADTPLAN/SET_MINIFIED_INFO_BOX',
+	SET_TYPES: 'KULTURSTADTPLAN/SET_TYPES',
+	SET_LEBENSLAGEN: 'KULTURSTADTPLAN/SET_LEBENSLAGEN',
+	SET_FILTERMODE: 'KULTURSTADTPLAN/SET_FILTERMODE',
+	SET_VERANSTALTUNGSARTEN: 'KULTURSTADTPLAN/SET_VERANSTALTUNGSARTEN',
+	SET_MINIFIED_INFO_BOX: 'KULTURSTADTPLAN/SET_MINIFIED_INFO_BOX',
 
-	SET_POI_SVG_SIZE: 'STADTPLAN/SET_POI_SVG_SIZE'
+	SET_POI_SVG_SIZE: 'KULTURSTADTPLAN/SET_POI_SVG_SIZE'
 };
 
 export const constants = {
@@ -28,8 +34,11 @@ export const constants = {
 };
 
 //HIGHER ORDER DUCKS
-const dataDuck = makeDataDuck('POIS', (state) => state.stadtplan.dataState);
-const infoBoxStateDuck = makeInfoBoxStateDuck('POIS', (state) => state.stadtplan.infoBoxState);
+const dataDuck = makeDataDuck('VERANSTALTUNGSORTE', (state) => state.kulturstadtplan.dataState);
+const infoBoxStateDuck = makeInfoBoxStateDuck(
+	'VERANSTALTUNGSORTE',
+	(state) => state.kulturstadtplan.infoBoxState
+);
 
 ///INITIAL STATE
 const initialState = {
@@ -37,52 +46,15 @@ const initialState = {
 	filteredPois: [],
 	filteredPoisIndex: null,
 	lebenslagen: [],
+	veranstaltungsarten: [],
 	poitypes: [],
 	filter: {
-		positiv: [
-			'Freizeit',
-			'Sport',
-			'Mobilität',
-			'Religion',
-			'Erholung',
-			'Gesellschaft',
-			'Gesundheit',
-			'Kultur',
-			'öffentliche Dienstleistungen',
-			'Dienstleistungen',
-			'Orientierung',
-			'Bildung',
-			'Stadtbild',
-			'Kinderbetreuung'
-		],
-		negativ: []
+		einrichtungen: undefined,
+		veranstaltungen: undefined
 	},
+	filtermode: 'einrichtungen',
 	poiSvgSize: 35,
 	apps: [
-		{
-			on: [ 'Kinderbetreuung' ],
-			name: 'Kita-Finder',
-			bsStyle: 'success',
-			backgroundColor: null,
-			link: '/#/kitas',
-			target: '_kitas'
-		},
-		{
-			on: [ 'Sport', 'Freizeit' ],
-			name: 'Bäderkarte',
-			bsStyle: 'primary',
-			backgroundColor: null,
-			link: '/#/baeder',
-			target: '_baeder'
-		},
-		{
-			on: [ 'Kultur' ],
-			name: 'Kulturstadtplan',
-			bsStyle: 'warning',
-			backgroundColor: null,
-			link: '/#/kulturstadtplan',
-			target: '_kulturstadtplan'
-		}
 		// {   on: ["Sport"],   name: "Sporthallen",   bsStyle: "default",
 		// backgroundColor: null,   link: "/#/ehrenamt",   target: "_hallen" }
 	]
@@ -118,9 +90,19 @@ const localStadtplanReducer = (state = initialState, action) => {
 			newState.lebenslagen = action.lebenslagen;
 			return newState;
 		}
+		case types.SET_VERANSTALTUNGSARTEN: {
+			newState = objectAssign({}, state);
+			newState.veranstaltungsarten = action.veranstaltungsarten;
+			return newState;
+		}
 		case types.SET_FILTER: {
 			newState = objectAssign({}, state);
 			newState.filter = action.filter;
+			return newState;
+		}
+		case types.SET_FILTERMODE: {
+			newState = objectAssign({}, state);
+			newState.filtermode = action.mode;
 			return newState;
 		}
 		case types.SET_POI_SVG_SIZE: {
@@ -134,25 +116,27 @@ const localStadtplanReducer = (state = initialState, action) => {
 };
 
 const localStateStorageConfig = {
-	key: 'stadtplanPOIs',
+	key: 'kulturstadtplanPOIs',
 	storage: localForage,
 	whitelist: [
 		'pois',
 		'poisMD5',
 		'filter',
+		'filtermode',
 		'poitypes',
 		'lebenslagen',
+		'veranstaltungsarten',
 		'poiSvgSize',
 		'minifiedInfoBox'
 	]
 };
 const dataStateStorageConfig = {
-	key: 'stadtplanPOIData',
+	key: 'kulturstadtplanPOIData',
 	storage: localForage,
 	whitelist: [ 'items', 'md5' ]
 };
 const infoBoxStateStorageConfig = {
-	key: 'stadtplaninfoBoxMinifiedState',
+	key: 'kulturstadtplaninfoBoxMinifiedState',
 	storage: localForage,
 	whitelist: [ 'minified' ]
 };
@@ -178,8 +162,14 @@ function setTypes(poitypes) {
 function setLebenslagen(lebenslagen) {
 	return { type: types.SET_LEBENSLAGEN, lebenslagen };
 }
+function setVeranstaltungsarten(veranstaltungsarten) {
+	return { type: types.SET_VERANSTALTUNGSARTEN, veranstaltungsarten };
+}
 function setFilter(filter) {
 	return { type: types.SET_FILTER, filter };
+}
+function setFilterModeValue(mode) {
+	return { type: types.SET_FILTERMODE, mode };
 }
 function setPoiSvgSize(poiSvgSize) {
 	return { type: types.SET_POI_SVG_SIZE, poiSvgSize };
@@ -203,12 +193,15 @@ function setSelectedPOI(pid) {
 function loadPOIs() {
 	const manualReloadRequest = false;
 	return (dispatch, getState) => {
+		const state = getState();
+
 		dispatch(
 			dataDuck.actions.load({
 				manualReloadRequested: manualReloadRequest,
-				dataURL: '/data/poi.data.json',
+				dataURL: '/data/veranstaltungsorte.data.json',
 				prepare: (dispatch, data) => {
 					let lebenslagen = new Set();
+					let veranstaltungsarten = new Set();
 					let poitypes = [];
 					for (let poi of data) {
 						// poi.point25832 = convertPoint(poi.geo_x, offer.geo_y) zuesrt mainlocationtype
@@ -222,16 +215,30 @@ function loadPOIs() {
 								poitypes.push(type);
 							}
 						}
-					}
 
+						if (poi.more && poi.more.veranstaltungsarten) {
+							for (let va of poi.more.veranstaltungsarten) {
+								veranstaltungsarten.add(va);
+							}
+						}
+					}
 					dispatch(setTypes(Array.from(poitypes).sort(predicateBy('name'))));
 					dispatch(setLebenslagen(Array.from(lebenslagen).sort()));
+					dispatch(setVeranstaltungsarten(Array.from(veranstaltungsarten).sort()));
+
 					let svgResolvingPromises = data.map(function(poi) {
 						return addSVGToPOI(poi, manualReloadRequest);
 					});
 					return svgResolvingPromises;
 				},
 				done: (dispatch, data, md5) => {
+					//if filter undefined setAll
+					if (state.kulturstadtplan.localState.filter.einrichtungen === undefined) {
+						dispatch(setAllToFilter('einrichtungen'));
+					}
+					if (state.kulturstadtplan.localState.filter.veranstaltungen === undefined) {
+						dispatch(setAllToFilter('veranstaltungen'));
+					}
 					dispatch(applyFilter());
 					dispatch(createFeatureCollectionFromPOIs());
 				},
@@ -246,7 +253,7 @@ function loadPOIs() {
 function toggleFilter(kind, filter) {
 	return (dispatch, getState) => {
 		let state = getState();
-		let filterState = JSON.parse(JSON.stringify(state.stadtplan.localState.filter));
+		let filterState = JSON.parse(JSON.stringify(state.kulturstadtplan.localState.filter));
 		let filterGroupSet = new Set(filterState[kind]);
 		if (filterGroupSet.has(filter)) {
 			filterGroupSet.delete(filter);
@@ -276,19 +283,52 @@ function toggleFilter(kind, filter) {
 function clearFilter(kind) {
 	return (dispatch, getState) => {
 		let state = getState();
-		let filterState = JSON.parse(JSON.stringify(state.stadtplan.localState.filter));
+		let filterState = JSON.parse(JSON.stringify(state.kulturstadtplan.localState.filter));
 		filterState[kind] = [];
 		dispatch(setFilter(filterState));
 		dispatch(applyFilter());
 	};
 }
-function setAllLebenslagenToFilter(kind) {
+function setAllToFilter(kind) {
 	return (dispatch, getState) => {
 		let state = getState();
-		let filterState = JSON.parse(JSON.stringify(state.stadtplan.localState.filter));
-		filterState[kind] = JSON.parse(JSON.stringify(state.stadtplan.localState.lebenslagen));
+		let filterState = JSON.parse(JSON.stringify(state.kulturstadtplan.localState.filter));
+
+		if (kind === 'veranstaltungen') {
+			filterState[kind] = JSON.parse(
+				JSON.stringify(state.kulturstadtplan.localState.veranstaltungsarten)
+			);
+			console.log('new FilterState', filterState);
+		} else if (kind === 'einrichtungen') {
+			filterState[kind] = getAllEinrichtungen();
+		}
 		dispatch(setFilter(filterState));
 		dispatch(applyFilter());
+	};
+}
+
+function setFilterMode(mode) {
+	return (dispatch, getState) => {
+		dispatch(setFilterModeValue(mode));
+		dispatch(applyFilter());
+	};
+}
+function setFilterValueFor(kind, item, value) {
+	return (dispatch, getState) => {
+		let state = getState();
+		let filterState = JSON.parse(JSON.stringify(state.kulturstadtplan.localState.filter));
+		if (value === true) {
+			if (filterState[kind].indexOf(item) === -1) {
+				filterState[kind].push(item);
+			}
+		} else {
+			if (filterState[kind].indexOf(item) !== -1) {
+				let filterStateSet = new Set(filterState[kind]);
+				filterStateSet.delete(item);
+				filterState[kind] = Array.from(filterStateSet);
+			}
+		}
+		dispatch(setFilterAndApply(filterState));
 	};
 }
 
@@ -304,27 +344,32 @@ function applyFilter() {
 		let state = getState();
 		let filteredPois = [];
 		let filteredPoiSet = new Set(); //avoid duplicates
+		const filterState = state.kulturstadtplan.localState.filter;
+		const filtermode = state.kulturstadtplan.localState.filtermode;
 
-		//positiv
-		for (let poi of state.stadtplan.dataState.items) {
-			for (let ll of poi.mainlocationtype.lebenslagen) {
-				if (state.stadtplan.localState.filter.positiv.indexOf(ll) !== -1) {
+		for (let poi of state.kulturstadtplan.dataState.items) {
+			if (filtermode === 'einrichtungen') {
+				//check einrichtungen
+				const einrichtungsCategory = classifyMainlocationTypeName(
+					poi.mainlocationtype.name
+				);
+
+				if (filterState.einrichtungen.indexOf(einrichtungsCategory) !== -1) {
 					filteredPoiSet.add(poi);
-					break;
 				}
-			}
-		}
-		//negativ
-		for (let poi of state.stadtplan.dataState.items) {
-			for (let ll of poi.mainlocationtype.lebenslagen) {
-				if (state.stadtplan.localState.filter.negativ.indexOf(ll) !== -1) {
-					filteredPoiSet.delete(poi);
+			} else if (filtermode === 'veranstaltungen') {
+				//check veranstaltungen
+				for (let veranstaltungsart of poi.more.veranstaltungsarten) {
+					if (filterState.veranstaltungen.indexOf(veranstaltungsart) !== -1) {
+						filteredPoiSet.add(poi);
+						break;
+					}
 				}
 			}
 		}
 
 		filteredPois = Array.from(filteredPoiSet);
-
+		//dispatch(setFilteredPOIs(state.kulturstadtplan.dataState.items));
 		dispatch(setFilteredPOIs(filteredPois));
 		dispatch(createFeatureCollectionFromPOIs());
 	};
@@ -338,7 +383,7 @@ function refreshFeatureCollection() {
 function createFeatureCollectionFromPOIs(boundingBox) {
 	return (dispatch, getState) => {
 		let state = getState();
-		if (state.stadtplan.localState.filteredPoisIndex) {
+		if (state.kulturstadtplan.localState.filteredPoisIndex) {
 			let currentSelectedFeature = {
 				id: -1
 			};
@@ -355,7 +400,7 @@ function createFeatureCollectionFromPOIs(boundingBox) {
 				bb = state.mapping.boundingBox;
 			}
 
-			let resultIds = state.stadtplan.localState.filteredPoisIndex.range(
+			let resultIds = state.kulturstadtplan.localState.filteredPoisIndex.range(
 				bb.left,
 				bb.bottom,
 				bb.right,
@@ -366,7 +411,7 @@ function createFeatureCollectionFromPOIs(boundingBox) {
 			let results = [];
 
 			for (let id of resultIds) {
-				results.push(state.stadtplan.localState.filteredPois[id]);
+				results.push(state.kulturstadtplan.localState.filteredPois[id]);
 			}
 
 			results.sort((a, b) => {
@@ -403,7 +448,10 @@ export const actions = {
 	createFeatureCollectionFromPOIs,
 	setFilterAndApply,
 	toggleFilter,
-	setAllLebenslagenToFilter,
+	///setAllLebenslagenToFilter,
+	setAllToFilter,
+	setFilterValueFor,
+	setFilterMode,
 	clearFilter,
 	refreshFeatureCollection,
 	setPoiSvgSize,
@@ -417,8 +465,10 @@ export const getPOIsMD5 = (state) => dataDuck.selectors.getMD5(state.dataState);
 export const getFilteredPOIs = (state) => state.localState.filteredPois;
 export const getFilteredPOIsIndex = (state) => state.localState.filteredPoisIndex;
 export const getLebenslagen = (state) => state.localState.lebenslagen;
+export const getVeranstaltungsarten = (state) => state.localState.veranstaltungsarten;
 export const getPOITypes = (state) => state.localState.poitypes;
 export const getFilter = (state) => state.localState.filter;
+export const getFilterMode = (state) => state.localState.filtermode;
 export const getPoiSvgSize = (state) => state.localState.poiSvgSize;
 export const getApps = (state) => state.localState.apps;
 export const hasMinifiedInfoBox = (state) => state.infoBoxState.minified;

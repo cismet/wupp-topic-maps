@@ -17,50 +17,7 @@ import { modifyQueryPart } from '../utils/routingHelper';
 import InfoBox from '../components/starkregen/ControlInfoBox';
 import ContactButton from '../components/starkregen/ContactButton';
 import HelpAndInfo from '../components/starkregen/Help00MainComponent';
-import { getInternetExplorerVersion } from '../utils/browserHelper';
 /* eslint-disable jsx-a11y/anchor-is-valid */
-
-(function() {
-	// var originalInitTile = L.GridLayer.prototype._initTile;
-	// var originalGetTileUrl = L.TileLayer.WMS.prototype.getTileUrl;
-	// L.GridLayer.include({
-	//     _initTile: function (tile) {
-	//         originalInitTile.call(this, tile);
-	//         var tileSize = this.getTileSize();
-	//         tile.style.width = tileSize.x + 1 + 'px';
-	//         tile.style.height = tileSize.y + 1 + 'px';
-	//     }
-	// });
-	// L.TileLayer.WMS.include({
-	// 	getTileUrl: function(coords){
-	// 		let url=originalGetTileUrl.call(this, coords);
-	// 		if (this.options.coordsRoundingDecimalPlaces){
-	// 		let urlParts=url.split('?');
-	// 		let roundingFactor=Math.pow(10,this.options.coordsRoundingDecimalPlaces);
-	// 		console.log("vorher", url)
-	// 		let usp=new URLSearchParams(urlParts[1]);
-	// 		let bbox=usp.get("bbox");
-	// 		let elements=bbox.split(",");
-	// 		let newElements=[];
-	// 		for (let el of elements){
-	// 			newElements.push(Math.round(el*roundingFactor)/roundingFactor);
-	// 		}
-	// 		let newBBox=newElements.join(",");
-	// 		console.log('newBBox',newBBox);
-	// 		usp.set("bbox",newBBox);
-	// 		let newUrl=urlParts[0]+"?"+usp.toString()
-	// 		console.log("nachher",newUrl)
-	// 		//return "https://picsum.photos/256&"+JSON.stringify(coords);
-	// 		return newUrl;
-	// 	}
-	// 	else {
-	// 		console.log("no change",url)
-	// 		return url;
-	// 	}
-	// 	}
-	// }
-	//);
-})();
 
 function mapStateToProps(state) {
 	return {
@@ -186,9 +143,8 @@ export class Starkregen_ extends React.Component {
 		return undefined;
 	}
 	render() {
-		let options = { opacity: 1 };
 		let simulationLabels = [];
-		this.props.starkregen.simulations.map((item, index) => {
+		this.props.starkregen.simulations.forEach((item, index) => {
 			let bsStyle;
 			if (this.props.starkregen.selectedSimulation === index) {
 				bsStyle = 'primary';
@@ -209,12 +165,6 @@ export class Starkregen_ extends React.Component {
 		});
 
 		let selSim = this.props.starkregen.simulations[this.props.starkregen.selectedSimulation];
-		let leafletMapRef;
-		if (this.topicMap) {
-			leafletMapRef = this.topicMap.wrappedInstance.leafletRoutedMap.leafletMap
-				.leafletElement;
-		}
-
 		let cursor;
 		if (this.props.starkregen.featureInfoModeActivated) {
 			cursor = 'crosshair';
@@ -487,23 +437,4 @@ export default Starkregen;
 Starkregen.propTypes = {
 	ui: PropTypes.object,
 	uiState: PropTypes.object
-};
-
-const getMarkerStyleFromFeatureConsideringSelection = (feature) => {
-	let opacity = 0.6;
-	let linecolor = '#000000';
-	let weight = 1;
-
-	const style = {
-		radius: 10,
-		color: linecolor,
-		weight: weight,
-		opacity: 1.0,
-		fillOpacity: opacity,
-		svgSize: 100,
-		className: 'flaeche-marker-' + feature.properties.bez,
-		svg: `<svg width="32" height="32" viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg"><path d="M1325 1024h-109q-26 0-45-19t-19-45v-128q0-26 19-45t45-19h109q-32-108-112.5-188.5t-188.5-112.5v109q0 26-19 45t-45 19h-128q-26 0-45-19t-19-45v-109q-108 32-188.5 112.5t-112.5 188.5h109q26 0 45 19t19 45v128q0 26-19 45t-45 19h-109q32 108 112.5 188.5t188.5 112.5v-109q0-26 19-45t45-19h128q26 0 45 19t19 45v109q108-32 188.5-112.5t112.5-188.5zm339-192v128q0 26-19 45t-45 19h-143q-37 161-154.5 278.5t-278.5 154.5v143q0 26-19 45t-45 19h-128q-26 0-45-19t-19-45v-143q-161-37-278.5-154.5t-154.5-278.5h-143q-26 0-45-19t-19-45v-128q0-26 19-45t45-19h143q37-161 154.5-278.5t278.5-154.5v-143q0-26 19-45t45-19h128q26 0 45 19t19 45v143q161 37 278.5 154.5t154.5 278.5h143q26 0 45 19t19 45z"/></svg>`
-	};
-
-	return style;
 };

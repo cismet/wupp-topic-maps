@@ -116,6 +116,7 @@ export class GazetteerSearchControl_ extends React.Component {
 						<InputGroup>
 							{firstbutton}
 							<Typeahead
+								id='haz-search-typeahead'
 								ref='typeahead'
 								style={{ width: `${this.props.pixelwidth}px` }}
 								labelKey='string'
@@ -126,10 +127,13 @@ export class GazetteerSearchControl_ extends React.Component {
 								disabled={!this.props.enabled}
 								placeholder={this.props.placeholder}
 								minLength={2}
-								filterBy={(option, text) => {
+								filterBy={(option, props) => {
+									// console.log('option', option);
+									// console.log('props', props);
+
 									return option.string
 										.toLowerCase()
-										.startsWith(text.toLowerCase());
+										.startsWith(props.text.toLowerCase());
 								}}
 								align={'justify'}
 								emptyLabel={'Keine Treffer gefunden'}

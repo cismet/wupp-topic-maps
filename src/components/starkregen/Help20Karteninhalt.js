@@ -27,8 +27,8 @@ const Component = ({ uiState, uiStateActions, showModalMenu }) => {
 						Unter <b>Karte</b> können Sie aus drei verschiedenen Hintergrundkarten
 						auswählen: einer topographischen Karte in Graustufen, einer Luftbildkarte
 						und einem Stadtplan. Die topographische Karte verschafft Ihnen den besten
-						Überblick über die Situation, da sie einen plastischen Geländeindruck
-						vermittelt. Der Stadtplan eignet sich gut für die sichere Identifizierung
+						Überblick über die Situation, da sie einen plastischen Geländeeindruck
+						vermittelt.. Der Stadtplan eignet sich gut für die sichere Identifizierung
 						Ihres Hauses, da hier die Hausnummern aller Gebäude dargestellt werden. Die
 						Luftbildkarte ist die anschaulichste Kartengrundlage, sie eignet sich daher
 						vor allem für Detailbetrachtungen. Näheres zu den Geodaten, die diesen

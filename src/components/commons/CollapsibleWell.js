@@ -1,9 +1,7 @@
-import React, { useState } from 'react';
-import PropTypes from 'prop-types';
+import React from 'react';
 import { Well } from 'react-bootstrap';
 import { Icon } from 'react-fa';
-import Color from 'color';
-//import useLocalforage from 'use-localforage';
+/* eslint-disable jsx-a11y/anchor-is-valid */
 
 const COMP = ({
 	externalCollapsedState = false,
@@ -46,11 +44,6 @@ const COMP = ({
 	setCollapsed,
 	isCollapsible = true
 }) => {
-	const [ internalCollapsed, setInternalCollapsed ] = useState(
-		//keyToUse + '.collapsedState'
-		false
-	);
-
 	const buttonInUse = (
 		<div>
 			<a onClick={() => setCollapsed(!collapsed)} style={{ textDecoration: 'none' }}>

@@ -1,7 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Well } from 'react-bootstrap';
-import { Icon } from 'react-fa';
 import Color from 'color';
 import CollapsibleWell from './CollapsibleWell';
 

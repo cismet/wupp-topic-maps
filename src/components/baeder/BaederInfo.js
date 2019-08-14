@@ -3,10 +3,8 @@ import PropTypes from 'prop-types';
 import InfoBox from '../commons/InfoBox';
 import { getColorForProperties } from '../../utils/baederHelper';
 import { triggerLightBoxForPOI } from '../../utils/stadtplanHelper';
-import { Well } from 'react-bootstrap';
 import { Icon } from 'react-fa';
 import IconLink from '../commons/IconLink';
-import CollapsibleWell from '../commons/CollapsibleWell';
 
 /* eslint-disable jsx-a11y/anchor-is-valid */
 

@@ -4,7 +4,7 @@ import Color from 'color';
 import L from 'leaflet';
 import createSVGPie from 'create-svg-pie';
 import createElement from 'svg-create-element';
-import poiColors from '../constants/poiColors.js';
+import { poiColors } from '../constants/colors.js';
 import store from '../redux/store';
 import queryString from 'query-string';
 import { Icon } from 'react-fa';
@@ -416,13 +416,13 @@ export const getPOISVG = (
 	svgSize = 30,
 	bg = '#FF0000',
 	kind = '-',
-	svgStyleRelatedId = 'default'
+	svgStyleRelatedId = 'default',
+	svg = pferdeSVG
 ) => {
 	let bdim = {
 		width: 20,
 		height: 20
 	};
-	let svg = pferdeSVG;
 
 	let svgCode = `<svg  id="${svgStyleRelatedId}" height="${svgSize}" width="${svgSize}"> 
                     <style>

@@ -41,8 +41,6 @@ const KitaInfo = ({
 
 	let collapsible;
 
-	console.log('currentFeature', currentFeature);
-
 	if (currentFeature) {
 		if (currentFeature.properties.familienzentrum === true) {
 			headerText = 'Kita und Familienzentrum';

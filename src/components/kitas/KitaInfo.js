@@ -40,8 +40,15 @@ const KitaInfo = ({
 	let headerText, title, adresse, poiColor, alter, stunden, description;
 
 	let collapsible;
+
+	console.log('currentFeature', currentFeature);
+
 	if (currentFeature) {
-		headerText = 'Kita';
+		if (currentFeature.properties.familienzentrum === true) {
+			headerText = 'Kita und Familienzentrum';
+		} else {
+			headerText = 'Kita';
+		}
 		collapsible = true;
 		if (currentFeature.properties.url) {
 			links.push(

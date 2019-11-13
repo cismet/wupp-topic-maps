@@ -15,6 +15,11 @@ import Experiments from './containers/Experiments';
 import Reset from './containers/Reset';
 import DocViewer from './containers/DocViewer';
 
+import Elektromobilitaet from './containers/Elektromobilitaet';
+import XandRide from './containers/XandRide';
+import Flaechennutzungsplan from './containers/Flaechennutzungsplan';
+import HitzeInDerStadt from './containers/HitzeInDerStadt';
+
 import store from './redux/store';
 import ReactLoading from 'react-loading';
 import { getTopicMapVersion, getTopicMapHash } from './constants/versions';
@@ -78,6 +83,24 @@ export default class App extends React.Component {
 							<Route exact path='/baeder/:layers?/' component={Baeder} />
 							<Route exact path='/starkregen/:layers?/' component={Starkregen} />
 							<Route exact path='/kitas/:layers?/' component={Kitas} />
+
+							<Route
+								exact
+								path='/elektromobilitaet/:layers?/'
+								component={Elektromobilitaet}
+							/>
+							<Route exact path='/xandride/:layers?/' component={XandRide} />
+							<Route
+								exact
+								path='/flaechennutzungsplan/:layers?/'
+								component={Flaechennutzungsplan}
+							/>
+							<Route
+								exact
+								path='/hitzeinderstadt/:layers?/'
+								component={HitzeInDerStadt}
+							/>
+
 							<Route exact path='/experiments' component={Experiments} />
 							<Route
 								exact

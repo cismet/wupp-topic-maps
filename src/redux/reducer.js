@@ -5,6 +5,7 @@ import ehrenamtReducer from './modules/ehrenamt';
 import stadtplanReducer from './modules/stadtplan';
 import kulturstadtplanReducer from './modules/kulturstadtplan';
 import baederReducer from './modules/baeder';
+import prbrReducer from './modules/prbr';
 import starkregenReducer from './modules/starkregen';
 import kitasReducer from './modules/kitas';
 import mappingReducer from './modules/mapping';
@@ -66,6 +67,7 @@ const appReducer = combineReducers({
 	stadtplan: stadtplanReducer,
 	kulturstadtplan: kulturstadtplanReducer,
 	baeder: baederReducer,
+	prbr: prbrReducer,
 	kitas: persistReducer(kitasStorageConfig, kitasReducer),
 	mapping: mappingReducer,
 	uiState: persistReducer(uiStateStorageConfig, uiStateReducer),

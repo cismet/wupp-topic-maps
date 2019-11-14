@@ -214,7 +214,7 @@ export class Starkregen_ extends React.Component {
 				mapCursor={cursor}
 			/>
 		);
-
+		info = <div />;
 		let featureInfoLayer;
 		if (this.props.starkregen.currentFeatureInfoPosition) {
 			const x = Math.round(this.props.starkregen.currentFeatureInfoPosition[0]) - 0.125;
@@ -282,16 +282,8 @@ export class Starkregen_ extends React.Component {
 				fullScreenControl
 				locatorControl
 				gazetteerSearchBox
-				gazetteerTopicsList={[
-					'geps',
-					'geps_reverse',
-					'pois',
-					'kitas',
-					'quartiere',
-					'bezirke',
-					'adressen'
-				]}
-				gazetteerSearchBoxPlaceholdertext='Stadtteil | Adresse | POI | GEP'
+				gazetteerTopicsList={[ 'pois', 'kitas', 'quartiere', 'bezirke', 'adressen' ]}
+				gazetteerSearchBoxPlaceholdertext='Stadtteil | Adresse | POI '
 				photoLightBox
 				infoBox={info}
 				backgroundlayers={
@@ -326,30 +318,107 @@ export class Starkregen_ extends React.Component {
 			>
 				<WMSTileLayer
 					ref={(c) => (this.modelLayer = c)}
-					key={
-						'rainHazardMap.bgMap' +
-						this.props.starkregen.selectedBackground +
-						'.' +
-						this.props.match.params.layers
-					}
-					url='https://maps.wuppertal.de/deegree/wms'
+					// key={
+					// 	'heatap.bgMap' +
+					// 	this.props.starkregen.selectedBackground +
+					// 	'.' +
+					// 	this.props.match.params.layers
+					// }
+					//url='https://maps.wuppertal.de/deegree/wms'
 					//url="https://wunda-geoportal-cache.cismet.de/geoportal"
-					layers={
-						this.props.starkregen.simulations[this.props.starkregen.selectedSimulation]
-							.layer
-					}
-					version='1.1.1'
+					url='http://s10221:8082/klima/services'
+					// layers={
+					// 	this.props.starkregen.simulations[this.props.starkregen.selectedSimulation]
+					// 		.layer
+					// }
+					layers='Hitze_zuk'
+					version='1.3.0'
 					transparent='true'
 					format='image/png'
 					tiled='true'
 					styles='default'
 					maxZoom={19}
-					opacity={1}
+					opacity={0.7}
 					caching={this.state.caching}
 				/>
-				{featureInfoLayer}
+				<WMSTileLayer
+					ref={(c) => (this.modelLayer = c)}
+					// key={
+					// 	'heatap.bgMap' +
+					// 	this.props.starkregen.selectedBackground +
+					// 	'.' +
+					// 	this.props.match.params.layers
+					// }
+					//url='https://maps.wuppertal.de/deegree/wms'
+					//url="https://wunda-geoportal-cache.cismet.de/geoportal"
+					url='http://s10221:8082/klima/services'
+					// layers={
+					// 	this.props.starkregen.simulations[this.props.starkregen.selectedSimulation]
+					// 		.layer
+					// }
+					layers='Frischluftschneisen'
+					version='1.3.0'
+					transparent='true'
+					format='image/png'
+					tiled='true'
+					styles='default'
+					maxZoom={19}
+					opacity={0.7}
+					caching={this.state.caching}
+				/>
+				<WMSTileLayer
+					ref={(c) => (this.modelLayer = c)}
+					// key={
+					// 	'heatap.bgMap' +
+					// 	this.props.starkregen.selectedBackground +
+					// 	'.' +
+					// 	this.props.match.params.layers
+					// }
+					//url='https://maps.wuppertal.de/deegree/wms'
+					//url="https://wunda-geoportal-cache.cismet.de/geoportal"
+					url='http://s10221:8082/klima/services'
+					// layers={
+					// 	this.props.starkregen.simulations[this.props.starkregen.selectedSimulation]
+					// 		.layer
+					// }
+					layers='Zone1'
+					version='1.3.0'
+					transparent='true'
+					format='image/png'
+					tiled='true'
+					styles='default'
+					maxZoom={19}
+					opacity={0.7}
+					caching={this.state.caching}
+				/>
+				<WMSTileLayer
+					ref={(c) => (this.modelLayer = c)}
+					// key={
+					// 	'heatap.bgMap' +
+					// 	this.props.starkregen.selectedBackground +
+					// 	'.' +
+					// 	this.props.match.params.layers
+					// }
+					//url='https://maps.wuppertal.de/deegree/wms'
+					//url="https://wunda-geoportal-cache.cismet.de/geoportal"
+					url='http://s10221:8082/klima/services'
+					// layers={
+					// 	this.props.starkregen.simulations[this.props.starkregen.selectedSimulation]
+					// 		.layer
+					// }
+					layers='Zone2'
+					version='1.3.0'
+					transparent='true'
+					format='image/png'
+					tiled='true'
+					styles='default'
+					maxZoom={19}
+					opacity={0.7}
+					caching={this.state.caching}
+				/>
+				{/* {featureInfoLayer} */}
 
-				<ContactButton
+				{/* <ContactButton
 					id='329487'
 					key='dsjkhfg'
 					position='topleft'
@@ -383,7 +452,7 @@ export class Starkregen_ extends React.Component {
 						//link.target = "_blank";
 						link.click();
 					}}
-				/>
+				/> */}
 
 				{this.props.starkregen.modelLayerProblem && (
 					<Alert

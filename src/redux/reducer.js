@@ -7,6 +7,7 @@ import kulturstadtplanReducer from './modules/kulturstadtplan';
 import baederReducer from './modules/baeder';
 import prbrReducer from './modules/prbr';
 import starkregenReducer from './modules/starkregen';
+import hitzeReducer from './modules/hitze';
 import kitasReducer from './modules/kitas';
 import mappingReducer from './modules/mapping';
 import gazetteerTopicsReducer from './modules/gazetteerTopics';
@@ -53,6 +54,11 @@ const starkregenStorageConfig = {
 	storage: localForage,
 	whitelist: [ 'selectedBackground', 'selectedSimulation', 'minifiedInfoBox' ]
 };
+const hitzeStorageConfig = {
+	key: 'hitze',
+	storage: localForage,
+	whitelist: [ 'selectedBackground', 'selectedSimulations', 'minifiedInfoBox' ]
+};
 
 const uiStateStorageConfig = {
 	key: 'uiState',
@@ -74,7 +80,8 @@ const appReducer = combineReducers({
 	routing: routerReducer,
 	gazetteerTopics: persistReducer(gazetteerTopicsStorageConfig, gazetteerTopicsReducer),
 	// gazetteerTopics: gazetteerTopicsReducer, // uncomment to skip persitent gazetteer data,
-	docs: docsReducer
+	docs: docsReducer,
+	hitze: persistReducer(hitzeStorageConfig, hitzeReducer)
 });
 
 const rootReducer = (state, action) => {

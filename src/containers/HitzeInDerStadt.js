@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { actions as MappingActions } from '../redux/modules/mapping';
 import { actions as UIStateActions } from '../redux/modules/uiState';
-import { actions as StarkregenActions } from '../redux/modules/starkregen';
+import { actions as HitzeActions } from '../redux/modules/hitze';
 import { Icon } from 'react-fa';
 
 import { routerActions as RoutingActions } from 'react-router-redux';
@@ -14,7 +14,7 @@ import { WMSTileLayer } from 'react-leaflet';
 import { Button, Label, Alert } from 'react-bootstrap';
 import { FeatureCollectionDisplay } from 'react-cismap';
 import { modifyQueryPart } from '../utils/routingHelper';
-import InfoBox from '../components/starkregen/ControlInfoBox';
+import InfoBox from '../components/hitze/ControlInfoBox';
 import ContactButton from '../components/starkregen/ContactButton';
 import HelpAndInfo from '../components/starkregen/Help00MainComponent';
 /* eslint-disable jsx-a11y/anchor-is-valid */
@@ -24,7 +24,7 @@ function mapStateToProps(state) {
 		uiState: state.uiState,
 		mapping: state.mapping,
 		routing: state.routing,
-		starkregen: state.starkregen,
+		hitze: state.hitze,
 		gazetteerTopics: state.gazetteerTopics
 	};
 }
@@ -34,11 +34,11 @@ function mapDispatchToProps(dispatch) {
 		mappingActions: bindActionCreators(MappingActions, dispatch),
 		uiStateActions: bindActionCreators(UIStateActions, dispatch),
 		routingActions: bindActionCreators(RoutingActions, dispatch),
-		starkregenActions: bindActionCreators(StarkregenActions, dispatch)
+		hitzeActions: bindActionCreators(HitzeActions, dispatch)
 	};
 }
 
-export class Starkregen_ extends React.Component {
+export class Comp_ extends React.Component {
 	constructor(props, context) {
 		super(props, context);
 		this.gotoHome = this.gotoHome.bind(this);
@@ -62,46 +62,58 @@ export class Starkregen_ extends React.Component {
 		const that = this;
 		if (this.modelLayer) {
 			this.modelLayer.leafletElement.on('tileerror', function(error, tile) {
-				if (that.props.starkregen.modelLayerProblem === false) {
-					that.props.starkregenActions.setModelLayerProblemStatus(true);
+				if (that.props.hitze.modelLayerProblem === false) {
+					that.props.hitzeActions.setModelLayerProblemStatus(true);
 				}
 			});
 			this.modelLayer.leafletElement.on('tileload', function() {
-				if (that.props.starkregen.modelLayerProblem === true) {
-					that.props.starkregenActions.setModelLayerProblemStatus(false);
+				if (that.props.hitze.modelLayerProblem === true) {
+					that.props.hitzeActions.setModelLayerProblemStatus(false);
 				}
 			});
 		}
 	}
 
 	setSimulationStateFromUrl() {
-		let selectedSimulationFromUrlQueryValue = new URLSearchParams(
+		const selectedSimulationsFromUrlQueryValue = new URLSearchParams(
 			this.props.routing.location.search
-		).get('selectedSimulation');
-		if (selectedSimulationFromUrlQueryValue) {
-			let selectedSimulationFromUrl = parseInt(selectedSimulationFromUrlQueryValue, 10);
-			if (selectedSimulationFromUrl !== this.props.starkregen.selectedSimulation) {
-				this.props.starkregenActions.setSimulation(selectedSimulationFromUrl);
+		).get('selectedSimulations');
+
+		if (selectedSimulationsFromUrlQueryValue) {
+			const selSimsFromQ = JSON.parse(selectedSimulationsFromUrlQueryValue);
+			if (
+				JSON.stringify(selSimsFromQ.sort()) !==
+				JSON.stringify(this.props.hitze.selectedSimulations.sort())
+			) {
+				this.props.hitzeActions.setSimulations(selSimsFromQ);
 			}
 		} else {
 			this.props.routingActions.push(
 				this.props.routing.location.pathname +
 					modifyQueryPart(this.props.routing.location.search, {
-						selectedSimulation: this.props.starkregen.selectedSimulation
+						selectedSimulations: JSON.stringify(this.props.hitze.selectedSimulations)
 					})
 			);
 		}
 	}
 
 	setSimulationStateInUrl(simulation) {
-		if (simulation !== this.props.starkregen.selectedSimulation) {
-			this.props.routingActions.push(
-				this.props.routing.location.pathname +
-					modifyQueryPart(this.props.routing.location.search, {
-						selectedSimulation: simulation
-					})
-			);
+		console.log('setSimulationStateInUrl', simulation);
+
+		const selSims = JSON.parse(JSON.stringify(this.props.hitze.selectedSimulations));
+		const simIndexInSelSim = selSims.indexOf(simulation);
+		if (simIndexInSelSim !== -1) {
+			selSims.splice(simIndexInSelSim, 1);
+		} else {
+			selSims.push(simulation);
+			selSims.sort();
 		}
+		this.props.routingActions.push(
+			this.props.routing.location.pathname +
+				modifyQueryPart(this.props.routing.location.search, {
+					selectedSimulations: JSON.stringify(selSims)
+				})
+		);
 	}
 
 	setBackgroundStateFromUrl() {
@@ -110,13 +122,13 @@ export class Starkregen_ extends React.Component {
 		);
 		if (urlBackgroundQueryValue) {
 			let urlBackgroundIndex = parseInt(urlBackgroundQueryValue, 10);
-			if (urlBackgroundIndex !== this.props.starkregen.selectedBackground) {
-				this.props.starkregenActions.setSelectedBackground(urlBackgroundIndex);
+			if (urlBackgroundIndex !== this.props.hitze.selectedBackground) {
+				this.props.hitzeActions.setSelectedBackground(urlBackgroundIndex);
 			}
 		}
 	}
 	setBackgroundStateInUrl(backgroundIndex) {
-		if (backgroundIndex !== this.props.starkregen.selectedBackground) {
+		if (backgroundIndex !== this.props.hitze.selectedBackground) {
 			this.props.routingActions.push(
 				this.props.routing.location.pathname +
 					modifyQueryPart(this.props.routing.location.search, {
@@ -126,8 +138,8 @@ export class Starkregen_ extends React.Component {
 		}
 	}
 	getFeatureInfo(event) {
-		if (this.props.starkregen.featureInfoModeActivated) {
-			this.props.starkregenActions.getFeatureInfo(event);
+		if (this.props.hitze.featureInfoModeActivated) {
+			this.props.hitzeActions.getFeatureInfo(event);
 		}
 	}
 	gotoHome() {
@@ -144,9 +156,9 @@ export class Starkregen_ extends React.Component {
 	}
 	render() {
 		let simulationLabels = [];
-		this.props.starkregen.simulations.forEach((item, index) => {
+		this.props.hitze.simulations.forEach((item, index) => {
 			let bsStyle;
-			if (this.props.starkregen.selectedSimulation === index) {
+			if (this.props.hitze.selectedSimulations.indexOf(index) !== -1) {
 				bsStyle = 'primary';
 			} else {
 				bsStyle = 'default';
@@ -164,9 +176,8 @@ export class Starkregen_ extends React.Component {
 			simulationLabels.push(label);
 		});
 
-		let selSim = this.props.starkregen.simulations[this.props.starkregen.selectedSimulation];
 		let cursor;
-		if (this.props.starkregen.featureInfoModeActivated) {
+		if (this.props.hitze.featureInfoModeActivated) {
 			cursor = 'crosshair';
 		} else {
 			cursor = 'grabbing';
@@ -177,19 +188,20 @@ export class Starkregen_ extends React.Component {
 		let info = (
 			<InfoBox
 				pixelwidth={340}
-				selectedSimulation={selSim}
+				selectedSimulations={this.props.hitze.selectedSimulations}
+				simulations={this.props.hitze.simulations}
 				simulationLabels={simulationLabels}
-				backgrounds={this.props.starkregen.backgrounds}
-				selectedBackgroundIndex={this.props.starkregen.selectedBackground}
+				backgrounds={this.props.hitze.backgrounds}
+				selectedBackgroundIndex={this.props.hitze.selectedBackground}
 				setBackgroundIndex={(index) => this.setBackgroundStateInUrl(index)}
-				minified={this.props.starkregen.minifiedInfoBox}
-				minify={(minified) => this.props.starkregenActions.setMinifiedInfoBox(minified)}
-				legendObject={this.props.starkregen.legend}
-				featureInfoModeActivated={this.props.starkregen.featureInfoModeActivated}
+				minified={this.props.hitze.minifiedInfoBox}
+				minify={(minified) => this.props.hitzeActions.setMinifiedInfoBox(minified)}
+				legendObject={this.props.hitze.legend}
+				featureInfoModeActivated={this.props.hitze.featureInfoModeActivated}
 				setFeatureInfoModeActivation={(activated) => {
 					if (!activated) {
-						this.props.starkregenActions.setCurrentFeatureInfoValue(undefined);
-						this.props.starkregenActions.setCurrentFeatureInfoPosition(undefined);
+						this.props.hitzeActions.setCurrentFeatureInfoValue(undefined);
+						this.props.hitzeActions.setCurrentFeatureInfoPosition(undefined);
 					} else {
 						let currentZoom =
 							new URLSearchParams(this.props.routing.location.search).get('zoom') ||
@@ -203,9 +215,9 @@ export class Starkregen_ extends React.Component {
 							);
 						}
 					}
-					this.props.starkregenActions.setFeatureInfoModeActivation(activated);
+					this.props.hitzeActions.setFeatureInfoModeActivation(activated);
 				}}
-				featureInfoValue={this.props.starkregen.currentFeatureInfoValue}
+				featureInfoValue={this.props.hitze.currentFeatureInfoValue}
 				showModalMenu={(section) => {
 					this.props.uiStateActions.showApplicationMenuAndActivateSection(true, section);
 				}}
@@ -214,11 +226,11 @@ export class Starkregen_ extends React.Component {
 				mapCursor={cursor}
 			/>
 		);
-		info = <div />;
+
 		let featureInfoLayer;
-		if (this.props.starkregen.currentFeatureInfoPosition) {
-			const x = Math.round(this.props.starkregen.currentFeatureInfoPosition[0]) - 0.125;
-			const y = Math.round(this.props.starkregen.currentFeatureInfoPosition[1]) - 0.02;
+		if (this.props.hitze.currentFeatureInfoPosition) {
+			const x = Math.round(this.props.hitze.currentFeatureInfoPosition[0]) - 0.125;
+			const y = Math.round(this.props.hitze.currentFeatureInfoPosition[1]) - 0.02;
 			const geoJsonObject = {
 				id: 0,
 				type: 'Feature',
@@ -245,7 +257,7 @@ export class Starkregen_ extends React.Component {
 					}
 				},
 				properties: {
-					value: this.props.starkregen.currentFeatureInfoValue
+					value: this.props.hitze.currentFeatureInfoValue
 				}
 			};
 
@@ -268,8 +280,8 @@ export class Starkregen_ extends React.Component {
 				/>
 			);
 		}
-		let validBackgroundIndex = this.props.starkregen.selectedBackground;
-		if (validBackgroundIndex >= this.props.starkregen.backgrounds.length) {
+		let validBackgroundIndex = this.props.hitze.selectedBackground;
+		if (validBackgroundIndex >= this.props.hitze.backgrounds.length) {
 			validBackgroundIndex = 0;
 		}
 		return (
@@ -288,7 +300,7 @@ export class Starkregen_ extends React.Component {
 				infoBox={info}
 				backgroundlayers={
 					this.props.match.params.layers ||
-					this.props.starkregen.backgrounds[validBackgroundIndex].layerkey
+					this.props.hitze.backgrounds[validBackgroundIndex].layerkey
 				}
 				onclick={this.getFeatureInfo}
 				applicationMenuTooltipString='Kompaktanleitung | Hintergrundinfo'
@@ -301,13 +313,13 @@ export class Starkregen_ extends React.Component {
 				}
 				cursor={cursor}
 				mappingBoundsChanged={(bbox) => {
-					if (this.props.starkregen.currentFeatureInfoPosition) {
-						const x = this.props.starkregen.currentFeatureInfoPosition[0];
-						const y = this.props.starkregen.currentFeatureInfoPosition[1];
+					if (this.props.hitze.currentFeatureInfoPosition) {
+						const x = this.props.hitze.currentFeatureInfoPosition[0];
+						const y = this.props.hitze.currentFeatureInfoPosition[1];
 						const bb = bbox;
 						if (x < bb.left || x > bb.right || y < bb.bottom || y > bb.top) {
-							this.props.starkregenActions.setCurrentFeatureInfoValue(undefined);
-							this.props.starkregenActions.setCurrentFeatureInfoPosition(undefined);
+							this.props.hitzeActions.setCurrentFeatureInfoValue(undefined);
+							this.props.hitzeActions.setCurrentFeatureInfoPosition(undefined);
 						}
 					}
 				}}
@@ -316,109 +328,34 @@ export class Starkregen_ extends React.Component {
 					zoom: 13
 				}}
 			>
-				<WMSTileLayer
-					ref={(c) => (this.modelLayer = c)}
-					// key={
-					// 	'heatap.bgMap' +
-					// 	this.props.starkregen.selectedBackground +
-					// 	'.' +
-					// 	this.props.match.params.layers
-					// }
-					//url='https://maps.wuppertal.de/deegree/wms'
-					//url="https://wunda-geoportal-cache.cismet.de/geoportal"
-					url='http://s10221:8082/klima/services'
-					// layers={
-					// 	this.props.starkregen.simulations[this.props.starkregen.selectedSimulation]
-					// 		.layer
-					// }
-					layers='Hitze_zuk'
-					version='1.3.0'
-					transparent='true'
-					format='image/png'
-					tiled='true'
-					styles='default'
-					maxZoom={19}
-					opacity={0.7}
-					caching={this.state.caching}
-				/>
-				<WMSTileLayer
-					ref={(c) => (this.modelLayer = c)}
-					// key={
-					// 	'heatap.bgMap' +
-					// 	this.props.starkregen.selectedBackground +
-					// 	'.' +
-					// 	this.props.match.params.layers
-					// }
-					//url='https://maps.wuppertal.de/deegree/wms'
-					//url="https://wunda-geoportal-cache.cismet.de/geoportal"
-					url='http://s10221:8082/klima/services'
-					// layers={
-					// 	this.props.starkregen.simulations[this.props.starkregen.selectedSimulation]
-					// 		.layer
-					// }
-					layers='Frischluftschneisen'
-					version='1.3.0'
-					transparent='true'
-					format='image/png'
-					tiled='true'
-					styles='default'
-					maxZoom={19}
-					opacity={0.7}
-					caching={this.state.caching}
-				/>
-				<WMSTileLayer
-					ref={(c) => (this.modelLayer = c)}
-					// key={
-					// 	'heatap.bgMap' +
-					// 	this.props.starkregen.selectedBackground +
-					// 	'.' +
-					// 	this.props.match.params.layers
-					// }
-					//url='https://maps.wuppertal.de/deegree/wms'
-					//url="https://wunda-geoportal-cache.cismet.de/geoportal"
-					url='http://s10221:8082/klima/services'
-					// layers={
-					// 	this.props.starkregen.simulations[this.props.starkregen.selectedSimulation]
-					// 		.layer
-					// }
-					layers='Zone1'
-					version='1.3.0'
-					transparent='true'
-					format='image/png'
-					tiled='true'
-					styles='default'
-					maxZoom={19}
-					opacity={0.7}
-					caching={this.state.caching}
-				/>
-				<WMSTileLayer
-					ref={(c) => (this.modelLayer = c)}
-					// key={
-					// 	'heatap.bgMap' +
-					// 	this.props.starkregen.selectedBackground +
-					// 	'.' +
-					// 	this.props.match.params.layers
-					// }
-					//url='https://maps.wuppertal.de/deegree/wms'
-					//url="https://wunda-geoportal-cache.cismet.de/geoportal"
-					url='http://s10221:8082/klima/services'
-					// layers={
-					// 	this.props.starkregen.simulations[this.props.starkregen.selectedSimulation]
-					// 		.layer
-					// }
-					layers='Zone2'
-					version='1.3.0'
-					transparent='true'
-					format='image/png'
-					tiled='true'
-					styles='default'
-					maxZoom={19}
-					opacity={0.7}
-					caching={this.state.caching}
-				/>
+				{this.props.hitze.selectedSimulations.map((simulationIndex) => {
+					return (
+						<WMSTileLayer
+							ref={(c) => (this.modelLayer = c)}
+							key={
+								'heatmap.bgMap' +
+								this.props.hitze.selectedBackground +
+								'.' +
+								'heatmap.simlayer' +
+								this.props.hitze.simulations[simulationIndex].layer
+							}
+							url='http://s10221:8082/klima/services'
+							layers={this.props.hitze.simulations[simulationIndex].layer}
+							version='1.3.0'
+							transparent='true'
+							format='image/png'
+							tiled='true'
+							styles='default'
+							maxZoom={19}
+							opacity={this.props.hitze.simulations[simulationIndex].opacity}
+							caching={this.state.caching}
+						/>
+					);
+				})}
+
 				{/* {featureInfoLayer} */}
 
-				{/* <ContactButton
+				<ContactButton
 					id='329487'
 					key='dsjkhfg'
 					position='topleft'
@@ -429,10 +366,10 @@ export class Starkregen_ extends React.Component {
 						const br = '\n';
 
 						let mailToHref =
-							'mailto:starkregen@stadt.wuppertal.de?subject=eventueller Fehler im Geländemodell&body=' +
+							'mailto:hitzeinderstadt@stadt.wuppertal.de?subject=Frage zum Hitzemodell&body=' +
 							encodeURI(
 								`Sehr geehrte Damen und Herren,${br}${br}` +
-									`in der Starkregengefahrenkarte `
+									`in der Hitze-in-der-Stadt-Karte `
 							) +
 							encodeURI(`auf${br}${br}`) +
 							`${window.location.href.replace(/&/g, '%26').replace(/#/g, '%23')}` +
@@ -452,9 +389,9 @@ export class Starkregen_ extends React.Component {
 						//link.target = "_blank";
 						link.click();
 					}}
-				/> */}
+				/>
 
-				{this.props.starkregen.modelLayerProblem && (
+				{this.props.hitze.modelLayerProblem && (
 					<Alert
 						style={{
 							position: 'absolute',
@@ -497,13 +434,11 @@ export class Starkregen_ extends React.Component {
 	}
 }
 
-const Starkregen = connect(mapStateToProps, mapDispatchToProps, null, { withRef: true })(
-	Starkregen_
-);
+const Comp = connect(mapStateToProps, mapDispatchToProps, null, { withRef: true })(Comp_);
 
-export default Starkregen;
+export default Comp;
 
-Starkregen.propTypes = {
+Comp.propTypes = {
 	ui: PropTypes.object,
 	uiState: PropTypes.object
 };

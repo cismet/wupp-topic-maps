@@ -4,6 +4,7 @@
     // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
     "version": "0.2.0",
     "configurations": [
+
     
         {
             "type": "chrome",
@@ -39,6 +40,12 @@
             "name": "Debug Starkregen",
             "url": "http://localhost:3000/#/starkregen/?lat=51.252177483447596&lng=7.083074889273052&zoom=14",
             "webRoot": "${workspaceRoot}"
+        },
+        {
+            "type": "chrome",
+            "request": "launch",
+            "name": "Debug Hitze in der Stadt",
+            "url": "http://localhost:3000/#/hitzeinderstadt?bg=0&lat=51.26087455361536&lng=7.177776321445907&zoom=11",
         },
         {
             "type": "chrome",

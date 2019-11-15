@@ -347,7 +347,7 @@ const InfoBox = ({
 			}}
 			style={{ cursor: mapCursor }}
 		>
-			{infoCompButton}
+			{/* {infoCompButton} */}
 			{legendTable}
 			<CollapsibleWell
 				collapsed={minified}

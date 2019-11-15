@@ -26,7 +26,7 @@ export const initialState = {
 	currentFeatureInfoSelectedSimulation: undefined,
 	currentFeatureInfoPosition: undefined,
 	minifiedInfoBox: false,
-	selectedSimulations: [ 0 ],
+	selectedSimulations: [ 0, 1, 2 ],
 	backgroundLayer: undefined,
 	selectedBackground: 0,
 	simulations: [
@@ -90,10 +90,10 @@ export const initialState = {
 		}
 	],
 	legend: [
-		{ title: '> 10 cm', lt: 0.1, bg: '#AFCFF9' },
-		{ title: '> 30 cm', lt: 0.3, bg: '#FED27B' },
-		{ title: '> 50 cm', lt: 0.4, bg: '#E9B279' },
-		{ title: '> 100 cm', lt: 1.0, bg: '#DD8C7B' }
+		{ title: 'Luft', lt: 0.1, bg: '#30BBFB' },
+		{ title: 'Hitze I', lt: 0.3, bg: '#FFB445' },
+		{ title: 'Hitze II', lt: 0.4, bg: '#974AF8' },
+		{ title: '2050', lt: 1.0, bg: '#DE53F9' }
 	]
 };
 ///REDUCER

@@ -49,6 +49,12 @@ const kitasStorageConfig = {
 	] //['kitas','kitasMD5']
 };
 
+const prbrStorageConfig = {
+	key: 'prbr',
+	storage: localForage,
+	whitelist: [ 'featureCollectionState.filter' ]
+};
+
 const starkregenStorageConfig = {
 	key: 'starkregen',
 	storage: localForage,
@@ -73,7 +79,7 @@ const appReducer = combineReducers({
 	stadtplan: stadtplanReducer,
 	kulturstadtplan: kulturstadtplanReducer,
 	baeder: baederReducer,
-	prbr: prbrReducer,
+	prbr: persistReducer(prbrStorageConfig, prbrReducer),
 	kitas: persistReducer(kitasStorageConfig, kitasReducer),
 	mapping: mappingReducer,
 	uiState: persistReducer(uiStateStorageConfig, uiStateReducer),

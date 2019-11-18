@@ -1,5 +1,5 @@
 import makeDataDuck from '../higherorderduckfactories/dataWithMD5Check';
-import makePointFeatureCollectionWithIndexDuck from '../higherorderduckfactories/pointFeatureCollectionWithIndex';
+import makePointFeatureCollectionWithIndexDuck from '../higherorderduckfactories/filteredPointFeatureCollectionWithIndex';
 import makeMarkerSizeDuck from '../higherorderduckfactories/markerSize';
 import { combineReducers } from 'redux';
 import { persistReducer } from 'redux-persist';
@@ -22,6 +22,32 @@ export const constants = {
 	DEBUG_ALWAYS_LOADING: false
 };
 
+const filterFunctionFactory = (filter) => {
+	console.log('filterFunctionFactory', filter);
+
+	return (obj) => {
+		let keep = false;
+
+		if (filter.envZoneWithin === true && obj.inUZ === true) {
+			keep = true;
+		}
+		if (filter.envZoneOutside === true && obj.inUZ === false) {
+			keep = true;
+		}
+
+		if (keep === true) {
+			keep = false;
+			if (obj.schluessel === 'P' && filter.pandr === true) {
+				keep = true;
+			}
+			if (obj.schluessel === 'B' && filter.bandr === true) {
+				keep = true;
+			}
+		}
+		return keep;
+	};
+};
+
 //HIGHER ORDER DUCKS
 const dataDuck = makeDataDuck('PRBR', (state) => state.prbr.dataState);
 const markerSizeDuck = makeMarkerSizeDuck('PRBR', (state) => state.prbr.markerSizeState, 45);
@@ -29,7 +55,14 @@ const featureCollectionDuck = makePointFeatureCollectionWithIndexDuck(
 	'PRBR',
 	(state) => state.prbr.featureCollectionState,
 	(state) => state.mapping.boundingBox,
-	convertPRBRToFeature
+	convertPRBRToFeature,
+	filterFunctionFactory,
+	{
+		envZoneWithin: false,
+		envZoneOutside: false,
+		bandr: false,
+		pandr: false
+	}
 );
 const infoBoxStateDuck = makeInfoBoxStateDuck('PRBR', (state) => state.prbr.infoBoxState);
 
@@ -76,6 +109,8 @@ function loadPRBRs() {
 				dataURL: '/data/prbr.data.json',
 				done: (dispatch, data, md5) => {
 					dispatch(actions.setFeatureCollectionDataSource(data));
+					dispatch(actions.applyFilter());
+
 					dispatch(actions.createFeatureCollection());
 				},
 				prepare: (dispatch, data) => {
@@ -111,6 +146,8 @@ function loadPRBRs() {
 export const actions = {
 	loadPRBRs,
 	setSelectedPRBR: featureCollectionDuck.actions.setSelectedItem,
+	applyFilter: featureCollectionDuck.actions.applyFilter,
+	setFilter: featureCollectionDuck.actions.setFilterAndApply,
 	setSelectedFeatureIndex: featureCollectionDuck.actions.setSelectedIndex,
 	setFeatureCollectionDataSource: featureCollectionDuck.actions.setDatasource,
 	createFeatureCollection: featureCollectionDuck.actions.createFeatureCollection,
@@ -123,6 +160,8 @@ export const actions = {
 export const getPRBRs = (state) => dataDuck.selectors.getItems(state.dataState);
 export const getPRBRFeatureCollection = (state) =>
 	featureCollectionDuck.selectors.getFeatureCollection(state.featureCollectionState);
+export const getPRBRFilter = (state) =>
+	featureCollectionDuck.selectors.getFilter(state.featureCollectionState);
 export const getPRBRFeatureCollectionSelectedIndex = (state) =>
 	featureCollectionDuck.selectors.getSelectedIndex(state.featureCollectionState);
 export const getPRBRMD5 = (state) => dataDuck.selectors.getMD5(state.dataState);

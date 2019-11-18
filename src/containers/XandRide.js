@@ -5,13 +5,16 @@ import queryString from 'query-string';
 import { bindActionCreators } from 'redux';
 import { actions as MappingActions } from '../redux/modules/mapping';
 import { actions as UIStateActions } from '../redux/modules/uiState';
+import { WMSTileLayer } from 'react-leaflet';
+
 import {
 	actions as PRBRActions,
 	getPRBRs,
 	getPRBRFeatureCollection,
 	getPRBRSvgSize,
 	getPRBRFeatureCollectionSelectedIndex,
-	hasMinifiedInfoBox
+	hasMinifiedInfoBox,
+	getPRBRFilter
 } from '../redux/modules/prbr';
 
 import { routerActions as RoutingActions } from 'react-router-redux';
@@ -146,6 +149,8 @@ export class Container_ extends React.Component {
 							this.props.mappingActions.setFeatureCollectionKeyPostfix
 						}
 						refreshFeatureCollection={this.props.prbrActions.refreshFeatureCollection}
+						filter={getPRBRFilter(this.props.prbr)}
+						setFilter={this.props.prbrActions.setFilter}
 					/>
 				}
 				clusteringEnabled={
@@ -167,7 +172,30 @@ export class Container_ extends React.Component {
 					)
 				}}
 				featureCollectionKeyPostfix={this.props.mapping.featureCollectionKeyPostfix}
-			/>
+			>
+				{/* <ProjSingleGeoJson
+					key={"UWZ")}
+					geoJson={this.props.mapping.overlayFeature}
+					masked={""
+					mapRef={this}
+					http://umwis.wuppertal-intra.de/deegreewms/wms
+				/> */}
+
+				<WMSTileLayer
+					ref={(c) => (this.modelLayer = c)}
+					key={'UWZ'}
+					url='http://umwis.wuppertal-intra.de/deegreewms/wms'
+					layers={'umweltzonen'}
+					version='1.1.1'
+					transparent='true'
+					format='image/png'
+					tiled='true'
+					styles='default'
+					maxZoom={19}
+					opacity={0.5}
+					caching={true}
+				/>
+			</TopicMap>
 		);
 	}
 }

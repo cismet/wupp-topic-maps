@@ -37,7 +37,6 @@ const ModalMenuSettingsSection = ({
 	refreshFeatureCollection,
 	setFeatureCollectionKeyPostfix
 }) => {
-	console.log('activeLayerKey', activeLayerKey);
 	let clusteredObjects = queryString.parse(urlSearch).unclustered !== null;
 
 	let namedMapStyle = new URLSearchParams(urlSearch).get('mapStyle') || 'default';
@@ -146,15 +145,13 @@ const ModalMenuSettingsSection = ({
 			{ title: 'Luftbildkarte', mode: 'default', layerKey: 'lbk' }
 		];
 	}
-	console.log('setLayerByKey', setLayerByKey);
-
 	return (
 		<GenericModalMenuSection
 			uiState={uiState}
 			uiStateActions={uiStateActions}
 			sectionKey='settings'
 			sectionTitle='Einstellungen'
-			sectionBsStyle='primary'
+			sectionBsStyle='warning'
 			sectionContent={
 				<SettingsPanelWithPreviewSection
 					width={width}

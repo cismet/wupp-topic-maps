@@ -2,7 +2,10 @@ import React from 'react';
 import ModalMenuIntroduction from './ModalMenuIntroduction';
 import ModalMenuHelpSection from './ModalMenuHelpSection';
 import GenericModalApplicationMenu from '../commons/GenericModalApplicationMenu';
+import GenericModalMenuSection from '../commons/GenericModalMenuSection';
 import ModalMenuSettingsPanel from './ModalMenuSettingsPanel';
+import ModalMenuFilterPanel from './FilterPaneContent';
+
 import Footer from '../commons/ModalMenuFooter';
 
 const ModalMenu = ({
@@ -17,7 +20,9 @@ const ModalMenu = ({
 	setLayerByKey,
 	activeLayerKey,
 	refreshFeatureCollection,
-	setFeatureCollectionKeyPostfix
+	setFeatureCollectionKeyPostfix,
+	filter,
+	setFilter
 }) => {
 	return (
 		<GenericModalApplicationMenu
@@ -26,6 +31,14 @@ const ModalMenu = ({
 			menuIntroduction={<ModalMenuIntroduction uiStateActions={uiStateActions} />}
 			menuTitle='Einstellungen und Kompaktanleitung'
 			menuSections={[
+				<GenericModalMenuSection
+					uiState={uiState}
+					uiStateActions={uiStateActions}
+					sectionKey='filter'
+					sectionTitle='Filter'
+					sectionBsStyle='primary'
+					sectionContent={<ModalMenuFilterPanel filter={filter} setFilter={setFilter} />}
+				/>,
 				<ModalMenuSettingsPanel
 					key='ModalMenuSettingsPanel'
 					uiState={uiState}

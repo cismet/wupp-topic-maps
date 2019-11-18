@@ -5,26 +5,38 @@ const makePointFeatureCollectionWithIndexDuck = (
 	section,
 	ownSubStateResolver,
 	currentBoundingBoxResolver,
-	convertItemToFeature
+	convertItemToFeature,
+	filterFunctionFactory = (filter) => {
+		return () => {
+			return true;
+		};
+	},
+	initialFilterState
 ) => {
 	const actionTypes = {
 		SET_FEATURECOLLECTION: `HO/POINTFEATURECOLLECTION/${section}/SET_FEATURECOLLECTION`,
 		SET_DATASOURCE: `HO/POINTFEATURECOLLECTION/${section}/SET_DATASOURCE`,
-		SET_SELECTED_INDEX: `HO/POINTFEATURECOLLECTION/${section}/SET_SELECTED_INDEX`
+		SET_FILTERED_DATASOURCE: `HO/POINTFEATURECOLLECTION/${section}/SET_DATASET_FILTERED_DATASOURCE`,
+		SET_SELECTED_INDEX: `HO/POINTFEATURECOLLECTION/${section}/SET_SELECTED_INDEX`,
+		SET_FILTER: `HO/POINTFEATURECOLLECTION/${section}/SET_FILTER`
 	};
 	const initialState = {
 		datasource: [],
+		filteredDatasource: [],
 		pointFC: [],
 		fcIndex: null,
-		selectedIndex: null
+		selectedIndex: null,
+		filter: initialFilterState
 	};
 
 	//SELECTORS
 	const selectors = {
 		getFeatureCollection: (state) => state.pointFC,
+		getFilter: (state) => state.filter,
 		getFeatureCollectionDataSource: (state) => state.datasource,
 		getSelectedIndex: (state) => state.selectedIndex
 	};
+
 	const actions = {
 		setFeatureCollection: (featureCollection) => ({
 			type: actionTypes.SET_FEATURECOLLECTION,
@@ -34,14 +46,39 @@ const makePointFeatureCollectionWithIndexDuck = (
 			type: actionTypes.SET_DATASOURCE,
 			datasource
 		}),
+		setFilteredDatasource: (filteredDatasource) => ({
+			type: actionTypes.SET_FILTERED_DATASOURCE,
+			filteredDatasource
+		}),
+		setFilter: (filter) => ({
+			type: actionTypes.SET_FILTER,
+			filter
+		}),
 		setSelectedIndex: (selectedIndex) => ({
 			type: actionTypes.SET_SELECTED_INDEX,
 			selectedIndex
 		}),
+		setFilterAndApply: (filter) => {
+			return (dispatch) => {
+				dispatch(actions.setFilter(filter));
+				dispatch(actions.applyFilter());
+			};
+		},
+		applyFilter: () => {
+			return (dispatch, getState) => {
+				let state = ownSubStateResolver(getState());
+				let filter = state.filter;
+				let datasource = state.datasource;
+				dispatch(
+					actions.setFilteredDatasource(datasource.filter(filterFunctionFactory(filter)))
+				);
+				dispatch(actions.createFeatureCollection());
+			};
+		},
 		createFeatureCollection: (boundingBox) => {
 			return (dispatch, getState) => {
 				let state = ownSubStateResolver(getState());
-				let dataSource = state.datasource;
+				let filteredDatasource = state.filteredDatasource;
 				if (state.fcIndex) {
 					let currentSelectedFeature = {
 						id: -1
@@ -64,7 +101,7 @@ const makePointFeatureCollectionWithIndexDuck = (
 					let results = [];
 
 					for (let id of resultIds) {
-						results.push(dataSource[id]);
+						results.push(filteredDatasource[id]);
 					}
 
 					results.sort((a, b) => {
@@ -102,6 +139,7 @@ const makePointFeatureCollectionWithIndexDuck = (
 			};
 		}
 	};
+
 	const reducer = (state = initialState, action) => {
 		let newState;
 		switch (action.type) {
@@ -113,11 +151,21 @@ const makePointFeatureCollectionWithIndexDuck = (
 			case actionTypes.SET_DATASOURCE: {
 				newState = objectAssign({}, state);
 				newState.datasource = action.datasource;
+				return newState;
+			}
+			case actionTypes.SET_FILTERED_DATASOURCE: {
+				newState = objectAssign({}, state);
+				newState.filteredDatasource = action.filteredDatasource;
 				newState.fcIndex = kdbush(
-					action.datasource,
+					action.filteredDatasource,
 					(p) => p.geojson.coordinates[0],
 					(p) => p.geojson.coordinates[1]
 				);
+				return newState;
+			}
+			case actionTypes.SET_FILTER: {
+				newState = objectAssign({}, state);
+				newState.filter = action.filter;
 				return newState;
 			}
 			case actionTypes.SET_SELECTED_INDEX: {

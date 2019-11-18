@@ -342,9 +342,9 @@ export class Comp_ extends React.Component {
 								'heatmap.selSims' +
 								selSimString
 							}
-							url='http://s10221:8082/klima/services'
+							url='https://maps.wuppertal.de/deegree/wms'
 							layers={this.props.hitze.simulations[simulationIndex].layer}
-							version='1.3.0'
+							version='1.1.1'
 							transparent='true'
 							format='image/png'
 							tiled='true'

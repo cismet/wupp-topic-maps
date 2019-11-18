@@ -329,6 +329,7 @@ export class Comp_ extends React.Component {
 				}}
 			>
 				{this.props.hitze.selectedSimulations.map((simulationIndex) => {
+					const selSimString = JSON.stringify(this.props.hitze.selectedSimulations);
 					return (
 						<WMSTileLayer
 							ref={(c) => (this.modelLayer = c)}
@@ -337,7 +338,9 @@ export class Comp_ extends React.Component {
 								this.props.hitze.selectedBackground +
 								'.' +
 								'heatmap.simlayer' +
-								this.props.hitze.simulations[simulationIndex].layer
+								this.props.hitze.simulations[simulationIndex].layer +
+								'heatmap.selSims' +
+								selSimString
 							}
 							url='http://s10221:8082/klima/services'
 							layers={this.props.hitze.simulations[simulationIndex].layer}

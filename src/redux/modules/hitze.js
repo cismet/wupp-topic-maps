@@ -90,10 +90,10 @@ export const initialState = {
 		}
 	],
 	legend: [
-		{ title: 'Luft', lt: 0.1, bg: '#30BBFB' },
-		{ title: 'Hitze I', lt: 0.3, bg: '#FFB445' },
-		{ title: 'Hitze II', lt: 0.4, bg: '#974AF8' },
-		{ title: '2050', lt: 1.0, bg: '#DE53F9' }
+		{ title: 'Luft', lt: 0.1, bg: '#2AAAFF' },
+		{ title: 'Hitze I', lt: 0.3, bg: '#FFD521' },
+		{ title: 'Hitze II', lt: 0.4, bg: '#FF3C2E' },
+		{ title: '2050', lt: 1.0, bg: '#CE1EE8' }
 	]
 };
 ///REDUCER

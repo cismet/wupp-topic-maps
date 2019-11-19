@@ -14,7 +14,8 @@ import {
 	getPRBRSvgSize,
 	getPRBRFeatureCollectionSelectedIndex,
 	hasMinifiedInfoBox,
-	getPRBRFilter
+	getPRBRFilter,
+	getPRBRFilteredData
 } from '../redux/modules/prbr';
 
 import { routerActions as RoutingActions } from 'react-router-redux';
@@ -159,6 +160,10 @@ export class Container_ extends React.Component {
 						refreshFeatureCollection={this.props.prbrActions.refreshFeatureCollection}
 						filter={getPRBRFilter(this.props.prbr)}
 						setFilter={this.props.prbrActions.setFilter}
+						filteredObjects={getPRBRFilteredData(this.props.prbr)}
+						featureCollectionObjectsCount={
+							getPRBRFeatureCollection(this.props.prbr).length
+						}
 					/>
 				}
 				clusteringEnabled={

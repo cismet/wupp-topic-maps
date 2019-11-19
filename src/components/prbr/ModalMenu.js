@@ -5,8 +5,10 @@ import GenericModalApplicationMenu from '../commons/GenericModalApplicationMenu'
 import GenericModalMenuSection from '../commons/GenericModalMenuSection';
 import ModalMenuSettingsPanel from './ModalMenuSettingsPanel';
 import ModalMenuFilterPanel from './FilterPaneContent';
+import { getColorForProperties } from '../../utils/prbrHelper';
 
 import Footer from '../commons/ModalMenuFooter';
+import PieChart from './PieChart';
 
 const ModalMenu = ({
 	uiState,
@@ -22,8 +24,13 @@ const ModalMenu = ({
 	refreshFeatureCollection,
 	setFeatureCollectionKeyPostfix,
 	filter,
-	setFilter
+	setFilter,
+	filteredObjects,
+	featureCollectionObjectsCount
 }) => {
+	const filteredObjectsCount = (filteredObjects || []).length;
+	let rightTerm = filteredObjectsCount !== 1 ? 'Anlagen' : 'Anlage';
+	let filterSubTitle = `(${filteredObjectsCount} ${rightTerm} gefunden, davon ${featureCollectionObjectsCount} in der Karte)`;
 	return (
 		<GenericModalApplicationMenu
 			uiState={uiState}
@@ -35,9 +42,28 @@ const ModalMenu = ({
 					uiState={uiState}
 					uiStateActions={uiStateActions}
 					sectionKey='filter'
-					sectionTitle='Filter'
+					sectionTitle={'Filter ' + filterSubTitle}
 					sectionBsStyle='primary'
-					sectionContent={<ModalMenuFilterPanel filter={filter} setFilter={setFilter} />}
+					sectionContent={
+						<ModalMenuFilterPanel
+							width={uiState.width}
+							filter={filter}
+							setFilter={setFilter}
+							pieChart={
+								<PieChart
+									filteredObjects={filteredObjects}
+									colorizer={getColorForProperties}
+									groupingFunction={(obj) => {
+										if (obj.schluessel === 'P') {
+											return 'P + R';
+										} else {
+											return 'B + R';
+										}
+									}}
+								/>
+							}
+						/>
+					}
 				/>,
 				<ModalMenuSettingsPanel
 					key='ModalMenuSettingsPanel'

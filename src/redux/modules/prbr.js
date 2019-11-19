@@ -170,6 +170,8 @@ export const getPRBRFeatureCollection = (state) =>
 	featureCollectionDuck.selectors.getFeatureCollection(state.featureCollectionState);
 export const getPRBRFilter = (state) =>
 	featureCollectionDuck.selectors.getFilter(state.featureCollectionState);
+export const getPRBRFilteredData = (state) =>
+	featureCollectionDuck.selectors.getFilteredData(state.featureCollectionState);
 export const getPRBRFeatureCollectionSelectedIndex = (state) =>
 	featureCollectionDuck.selectors.getSelectedIndex(state.featureCollectionState);
 export const getPRBRMD5 = (state) => dataDuck.selectors.getMD5(state.dataState);

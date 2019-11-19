@@ -1,5 +1,4 @@
 import React from 'react';
-import { getColorForProperties } from '../../utils/prbrHelper';
 import { constants as kitasConstants } from '../../redux/modules/kitas';
 
 import ReactChartkick, { PieChart } from 'react-chartkick';
@@ -7,42 +6,24 @@ import Chart from 'chart.js';
 
 ReactChartkick.addAdapter(Chart);
 
-const PieChart = ({ filteredKitas, renderingOption, visible = true }) => {
+const ChartComp = ({ filteredObjects, colorizer, groupingFunction, visible = true }) => {
 	if (visible) {
 		let stats = {};
 		let colormodel = {};
 		let piechartData = [];
 		let piechartColor = [];
-		if (renderingOption === kitasConstants.FEATURE_RENDERING_BY_PROFIL) {
-			stats['Kita mit Inklusionsschwerpunkt'] = 0;
-			stats['Kita'] = 0;
-			for (let kita of filteredKitas) {
-				if (kita.plaetze_fuer_behinderte === true) {
-					stats['Kita mit Inklusionsschwerpunkt'] += 1;
-					if (stats['Kita mit Inklusionsschwerpunkt'] === 1) {
-						colormodel['Kita mit Inklusionsschwerpunkt'] = getColorForProperties(
-							kita,
-							renderingOption
-						);
-					}
-				} else {
-					stats['Kita'] += 1;
-					if (stats['Kita'] === 1) {
-						colormodel['Kita'] = getColorForProperties(kita, renderingOption);
-					}
-				}
-			}
-		} else {
-			for (let kita of filteredKitas) {
-				const text = kitasConstants.TRAEGERTEXT[kitasConstants.TRAEGERTYP[kita.traegertyp]];
-				if (stats[text] === undefined) {
-					stats[text] = 1;
-					colormodel[text] = getColorForProperties(kita, renderingOption);
-				} else {
-					stats[text] += 1;
-				}
+		stats['P+R'] = 0;
+		stats['B+R'] = 0;
+		for (let obj of filteredObjects) {
+			let group = groupingFunction(obj);
+			if (stats[group] === undefined) {
+				stats[group] = 1;
+				colormodel[group] = colorizer(obj);
+			} else {
+				stats[group] += 1;
 			}
 		}
+
 		for (let key in stats) {
 			piechartData.push([ key, stats[key] ]);
 			piechartColor.push(colormodel[key]);
@@ -61,4 +42,4 @@ const PieChart = ({ filteredKitas, renderingOption, visible = true }) => {
 	}
 };
 
-export default PieChart;
+export default ChartComp;

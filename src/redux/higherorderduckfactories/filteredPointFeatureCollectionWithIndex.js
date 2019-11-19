@@ -33,6 +33,7 @@ const makePointFeatureCollectionWithIndexDuck = (
 	const selectors = {
 		getFeatureCollection: (state) => state.pointFC,
 		getFilter: (state) => state.filter,
+		getFilteredData: (state) => state.filteredDatasource,
 		getFeatureCollectionDataSource: (state) => state.datasource,
 		getSelectedIndex: (state) => state.selectedIndex
 	};

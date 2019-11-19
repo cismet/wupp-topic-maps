@@ -110,10 +110,6 @@ export class Container_ extends React.Component {
 			reduxBackground = this.props.mapping.backgrounds[this.props.mapping.selectedBackground]
 				.layerkey;
 		} catch (e) {}
-		console.log(
-			'background',
-			this.props.match.params.layers || reduxBackground || 'wupp-plan-live'
-		);
 
 		return (
 			<TopicMap
@@ -124,7 +120,15 @@ export class Container_ extends React.Component {
 				fullScreenControl
 				locatorControl
 				gazetteerSearchBox
-				gazetteerSearchBoxPlaceholdertext='Stadtteil | Adresse | POI'
+				gazetteerTopicsList={[
+					'prbr',
+					'pois',
+					'kitas',
+					'quartiere',
+					'bezirke',
+					'adressen'
+				]}
+				gazetteerSearchBoxPlaceholdertext='Stadtteil | Adresse | POI | B+R | P+R'
 				photoLightBox
 				infoBox={info}
 				backgroundlayers={

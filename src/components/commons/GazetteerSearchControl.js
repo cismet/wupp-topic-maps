@@ -4,6 +4,9 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
 import { Icon } from 'react-fa';
+// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+//import { faSun } from '@fortawesome/free-solid-svg-icons';
+
 import Control from 'react-leaflet-control';
 import { Form, FormGroup, InputGroup, Button, OverlayTrigger, Tooltip } from 'react-bootstrap';
 import { Typeahead } from 'react-bootstrap-typeahead';
@@ -200,17 +203,22 @@ GazetteerSearchControl_.defaultProps = {
 			Suche zurücksetzen
 		</Tooltip>
 	),
-	renderMenuItemChildren: (option, props, index) => (
-		<div key={option.sorter}>
-			<Icon
-				style={{
-					marginRight: '10px',
-					width: '18px'
-				}}
-				name={option.glyph}
-				size={'lg'}
-			/>
-			<span>{option.string}</span>
-		</div>
-	)
+	renderMenuItemChildren: (option, props, index) => {
+		// console.log('option.glyph', option.glyph);
+		// console.log('faSun', faSun);
+		return (
+			<div key={option.sorter}>
+				<Icon
+					style={{
+						marginRight: '10px',
+						width: '18px'
+					}}
+					name={option.glyph}
+					size={'lg'}
+				/>
+				{/* <FontAwesomeIcon icon={[ 'fas', 'sun' ]} /> */}
+				<span>{option.string}</span>
+			</div>
+		);
+	}
 };

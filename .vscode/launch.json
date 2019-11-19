@@ -5,6 +5,7 @@
     "version": "0.2.0",
     "configurations": [
 
+
     
         {
             "type": "chrome",
@@ -59,6 +60,13 @@
             "request": "launch",
             "name": "Debug DocViewer",
             "url": "http://localhost:3000/#/docs/bplaene/928/2/1",
+            "webRoot": "${workspaceRoot}"
+        },
+        {
+            "type": "chrome",
+            "request": "launch",
+            "name": "Debug XandRide",
+            "url": "http://localhost:3000/#/xandride?lat=51.23929679192602&lng=7.128034978972724&zoom=9",
             "webRoot": "${workspaceRoot}"
         }
     ]

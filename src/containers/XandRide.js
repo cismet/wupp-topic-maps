@@ -6,7 +6,7 @@ import { bindActionCreators } from 'redux';
 import { actions as MappingActions } from '../redux/modules/mapping';
 import { actions as UIStateActions } from '../redux/modules/uiState';
 import { WMSTileLayer } from 'react-leaflet';
-
+import uwz from '../components/prbr/UWZ';
 import {
 	actions as PRBRActions,
 	getPRBRs,
@@ -27,6 +27,8 @@ import { getColorForProperties } from '../utils/prbrHelper';
 import PRBRInfo from '../components/prbr/Info';
 import PRBRModalMenu from '../components/prbr/ModalMenu';
 import TopicMap from '../containers/TopicMap';
+import ProjSingleGeoJson from '../components/ProjSingleGeoJson';
+
 function mapStateToProps(state) {
 	return {
 		uiState: state.uiState,
@@ -102,10 +104,16 @@ export class Container_ extends React.Component {
 			/>
 		);
 		let reduxBackground = undefined;
+		let backgroundStyling = queryString.parse(this.props.routing.location.search).mapStyle;
 		try {
 			reduxBackground = this.props.mapping.backgrounds[this.props.mapping.selectedBackground]
 				.layerkey;
 		} catch (e) {}
+		console.log(
+			'background',
+			this.props.match.params.layers || reduxBackground || 'wupp-plan-live'
+		);
+
 		return (
 			<TopicMap
 				ref={(comp) => {
@@ -173,17 +181,12 @@ export class Container_ extends React.Component {
 				}}
 				featureCollectionKeyPostfix={this.props.mapping.featureCollectionKeyPostfix}
 			>
-				{/* <ProjSingleGeoJson
-					key={"UWZ")}
-					geoJson={this.props.mapping.overlayFeature}
-					masked={""
-					mapRef={this}
-					http://umwis.wuppertal-intra.de/deegreewms/wms
-				/> */}
-
 				<WMSTileLayer
-					ref={(c) => (this.modelLayer = c)}
-					key={'UWZ'}
+					key={
+						'UWZ.with.background' +
+						(this.props.match.params.layers || reduxBackground || 'wupp-plan-live') +
+						backgroundStyling
+					}
 					url='http://umwis.wuppertal-intra.de/deegreewms/wms'
 					layers={'umweltzonen'}
 					version='1.1.1'

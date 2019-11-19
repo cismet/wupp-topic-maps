@@ -58,10 +58,10 @@ const featureCollectionDuck = makePointFeatureCollectionWithIndexDuck(
 	convertPRBRToFeature,
 	filterFunctionFactory,
 	{
-		envZoneWithin: false,
-		envZoneOutside: false,
-		bandr: false,
-		pandr: false
+		envZoneWithin: true,
+		envZoneOutside: true,
+		bandr: true,
+		pandr: true
 	}
 );
 const infoBoxStateDuck = makeInfoBoxStateDuck('PRBR', (state) => state.prbr.infoBoxState);
@@ -82,14 +82,22 @@ const dataStateStorageConfig = {
 	whitelist: [] //["items", "md5"]
 };
 const infoBoxStateStorageConfig = {
-	key: 'stadtplaninfoBoxMinifiedState',
+	key: 'prbrInfoBoxMinifiedState',
 	storage: localForage,
 	whitelist: [ 'minified' ]
+};
+const prbrFeatureCollectionStateStorageConfig = {
+	key: 'prbrFeatureCollectionStateConfig',
+	storage: localForage,
+	whitelist: [ 'filter' ]
 };
 
 const reducer = combineReducers({
 	dataState: persistReducer(dataStateStorageConfig, dataDuck.reducer),
-	featureCollectionState: featureCollectionDuck.reducer,
+	featureCollectionState: persistReducer(
+		prbrFeatureCollectionStateStorageConfig,
+		featureCollectionDuck.reducer
+	),
 	markerSizeState: persistReducer(markerSizeStorageConfig, markerSizeDuck.reducer),
 	infoBoxState: persistReducer(infoBoxStateStorageConfig, infoBoxStateDuck.reducer)
 });

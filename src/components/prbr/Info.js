@@ -78,7 +78,8 @@ const BaederInfo = ({
 		}
 
 		if (currentFeature.properties.foto) {
-			const foto = '/images/prbr/' + currentFeature.properties.foto;
+			const foto =
+				'https://www.wuppertal.de/geoportal/prbr/fotos/' + currentFeature.properties.foto;
 			fotoPreview = (
 				<table style={{ width: '100%' }}>
 					<tbody>

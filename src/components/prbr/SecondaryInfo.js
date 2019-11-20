@@ -23,7 +23,11 @@ const Comp = ({ visible, anlagenFeature, setVisibleState, uiHeight }) => {
 	if (anlage.ueberdachung === true) {
 		plaetze_label = 'überdachter Plätze';
 	}
-
+	let kind = `${anlage.schluessel}+R Anlage`;
+	let iconName = 'car';
+	if (anlage.schluessel === 'B') {
+		iconName = 'bicycle';
+	}
 	return (
 		<Modal
 			style={{
@@ -37,7 +41,7 @@ const Comp = ({ visible, anlagenFeature, setVisibleState, uiHeight }) => {
 		>
 			<Modal.Header>
 				<Modal.Title>
-					<Icon name={'car'} /> {'Zusätzliche Informationen: ' + anlage.name}
+					<Icon name={iconName} /> {`Datenblatt: ${kind} ${anlage.name}`}
 				</Modal.Title>
 			</Modal.Header>
 			<Modal.Body style={modalBodyStyle} id='myMenu' key={'prbr.secondaryInfo'}>

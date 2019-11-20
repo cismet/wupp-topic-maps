@@ -49,7 +49,7 @@ const Info = ({
 		links.push(
 			<IconLink
 				key={`IconLink.tel`}
-				tooltip='Anrufen'
+				tooltip='Datenblatt anzeigen'
 				onClick={() => {
 					setVisibleStateOfSecondaryInfo(true);
 				}}

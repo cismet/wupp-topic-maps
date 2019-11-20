@@ -23,8 +23,6 @@ export const constants = {
 };
 
 const filterFunctionFactory = (filter) => {
-	console.log('filterFunctionFactory', filter);
-
 	return (obj) => {
 		let keep = false;
 

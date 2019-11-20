@@ -227,7 +227,6 @@ export const getPoiClusterIconCreatorFunction = (
 			iconAnchor: [ canvasSize / 2.0, canvasSize / 2.0 ],
 			iconSize: [ canvasSize, canvasSize ]
 		});
-		console.log(background.outerHtml);
 		return divIcon;
 	};
 };

@@ -61,7 +61,7 @@ const infoBoxStateDuck = makeInfoBoxStateDuck('PRBR', (state) => state.prbr.info
 
 ///INITIAL STATE
 const initialState = {
-	secondaryInfoShown: true
+	secondaryInfoShown: false
 };
 
 ///REDUCER

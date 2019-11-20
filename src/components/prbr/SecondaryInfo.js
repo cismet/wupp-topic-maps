@@ -115,7 +115,7 @@ const Comp = ({ visible, anlagenFeature, setVisibleState, uiHeight }) => {
 											<img
 												alt='Bild'
 												style={{ paddingBottom: '5px' }}
-												src='/images/logo-vrr.svg'
+												src='/images/logo-vrr.png'
 												width='80'
 											/>
 										</td>

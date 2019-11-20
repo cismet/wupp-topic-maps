@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { Modal, Button, Accordion, Panel } from 'react-bootstrap';
 import { Icon } from 'react-fa';
 import GenericRVRStadtplanwerkMenuFooter from '../commons/GenericRVRStadtplanwerkMenuFooter';
+import { SSL_OP_ALLOW_UNSAFE_LEGACY_RENEGOTIATION } from 'constants';
 const Comp = ({ visible, anlagenFeature, setVisibleState, uiHeight }) => {
 	const close = () => {
 		setVisibleState(false);
@@ -78,19 +79,35 @@ const Comp = ({ visible, anlagenFeature, setVisibleState, uiHeight }) => {
 
 				<br />
 				<br />
-				<Accordion key={'1'} name={'1'} style={{ marginBottom: 6 }} defaultActiveKey={'1'}>
-					<Panel header={'ÖPNV'} eventKey={'1'} bsStyle={'primary'}>
-						<h4>
-							<b>Bahnlinien</b>
-						</h4>
-						{anlage.bahnlinien.join(', ')}
-
-						<h4>
-							<b>Buslinien</b>
-						</h4>
-						{anlage.buslinien.join(', ')}
-					</Panel>
-				</Accordion>
+				{(anlage.bahnlinien.length > 1 || anlage.buslinien.length > 1) && (
+					<Accordion
+						key={'1'}
+						name={'1'}
+						style={{ marginBottom: 6 }}
+						defaultActiveKey={'1'}
+					>
+						<Panel header={'ÖPNV'} eventKey={'1'} bsStyle={'primary'}>
+							{anlage.bahnlinien.length > 1 && (
+								<div>
+									<h4>
+										<b>Bahnlinien</b>
+									</h4>
+									{anlage.bahnlinien.map((linie, index) => {
+										return <div key={'bahnlinie.' + index}>{linie}</div>;
+									})}
+								</div>
+							)}
+							{anlage.buslinien.length > 1 && (
+								<div>
+									<h4>
+										<b>Buslinien</b>
+									</h4>
+									{anlage.buslinien.join(', ')}
+								</div>
+							)}
+						</Panel>
+					</Accordion>
+				)}
 				<Accordion key={'2'} name={'2'} style={{ marginBottom: 6 }} defaultActiveKey={'2'}>
 					<Panel header={'Fahrplanauskunft'} eventKey={'2'} bsStyle={'success'}>
 						<a

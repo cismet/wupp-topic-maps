@@ -1,3 +1,4 @@
+import objectAssign from 'object-assign';
 import makeDataDuck from '../higherorderduckfactories/dataWithMD5Check';
 import makePointFeatureCollectionWithIndexDuck from '../higherorderduckfactories/filteredPointFeatureCollectionWithIndex';
 import makeMarkerSizeDuck from '../higherorderduckfactories/markerSize';
@@ -9,13 +10,7 @@ import { addSVGToPRBR } from '../../utils/prbrHelper';
 
 //TYPES
 export const types = {
-	SET_FILTERED_PRBR: 'PRBR/SET_FILTERED_PRBR',
-	SET_FILTER: 'PRBR/SET_FILTER',
-
-	SET_TYPES: 'PRBR/SET_TYPES',
-	SET_MINIFIED_INFO_BOX: 'PRBR/SET_MINIFIED_INFO_BOX',
-
-	SET_PRBR_SVG_SIZE: 'PRBR/SET_PRBR_SVG_SIZE'
+	SET_PRBR_SECONDARY_INFO_VISIBLE: 'PRBR/SET_PRBR_SECONDARY_INFO_VISIBLE'
 };
 
 export const constants = {
@@ -65,9 +60,23 @@ const featureCollectionDuck = makePointFeatureCollectionWithIndexDuck(
 const infoBoxStateDuck = makeInfoBoxStateDuck('PRBR', (state) => state.prbr.infoBoxState);
 
 ///INITIAL STATE
-//no local state
+const initialState = {
+	secondaryInfoShown: true
+};
+
 ///REDUCER
-//no local Reducer needed
+const localPRBRReducer = (state = initialState, action) => {
+	let newState;
+	switch (action.type) {
+		case types.SET_PRBR_SECONDARY_INFO_VISIBLE: {
+			newState = objectAssign({}, state);
+			newState.secondaryInfoShown = action.secondaryInfoShown;
+			return newState;
+		}
+		default:
+			return state;
+	}
+};
 
 const markerSizeStorageConfig = {
 	key: 'prbrMarkerSize',
@@ -91,6 +100,7 @@ const prbrFeatureCollectionStateStorageConfig = {
 };
 
 const reducer = combineReducers({
+	localState: localPRBRReducer,
 	dataState: persistReducer(dataStateStorageConfig, dataDuck.reducer),
 	featureCollectionState: persistReducer(
 		prbrFeatureCollectionStateStorageConfig,
@@ -103,8 +113,9 @@ const reducer = combineReducers({
 export default reducer;
 
 //SIMPLEACTIONCREATORS
-//no simple actions
-
+function setSecondaryInfoVisible(secondaryInfoShown) {
+	return { type: types.SET_PRBR_SECONDARY_INFO_VISIBLE, secondaryInfoShown };
+}
 //COMPLEXACTIONS
 function loadPRBRs() {
 	const manualReloadRequest = false;
@@ -151,6 +162,7 @@ function loadPRBRs() {
 //EXPORT ACTIONS
 export const actions = {
 	loadPRBRs,
+	setSecondaryInfoVisible,
 	setSelectedPRBR: featureCollectionDuck.actions.setSelectedItem,
 	applyFilter: featureCollectionDuck.actions.applyFilter,
 	setFilter: featureCollectionDuck.actions.setFilterAndApply,

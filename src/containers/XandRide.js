@@ -29,6 +29,7 @@ import PRBRInfo from '../components/prbr/Info';
 import PRBRModalMenu from '../components/prbr/ModalMenu';
 import TopicMap from '../containers/TopicMap';
 import ProjSingleGeoJson from '../components/ProjSingleGeoJson';
+import SecondaryInfoModal from '../components/prbr/SecondaryInfo';
 
 function mapStateToProps(state) {
 	return {
@@ -71,8 +72,9 @@ export class Container_ extends React.Component {
 		this.props.prbrActions.setPRBRSvgSize(size);
 		this.props.mappingActions.setFeatureCollectionKeyPostfix('MarkerSvgSize:' + size);
 	}
-
 	render() {
+		let secondaryInfo = false;
+
 		let info = (
 			<PRBRInfo
 				key={'PRBRInfo.' + (getPRBRFeatureCollectionSelectedIndex(this.props.prbr) || 0)}
@@ -102,6 +104,7 @@ export class Container_ extends React.Component {
 				panelClick={(e) => {}}
 				minified={hasMinifiedInfoBox(this.props.prbr)}
 				minify={(minified) => this.props.prbrActions.setMinifiedInfoBox(minified)}
+				setVisibleStateOfSecondaryInfo={this.props.prbrActions.setSecondaryInfoVisible}
 			/>
 		);
 		let reduxBackground = undefined;
@@ -110,104 +113,128 @@ export class Container_ extends React.Component {
 			reduxBackground = this.props.mapping.backgrounds[this.props.mapping.selectedBackground]
 				.layerkey;
 		} catch (e) {}
-
+		let selectedFeature;
+		if (
+			(getPRBRFeatureCollection(this.props.prbr) || []).length > 0 &&
+			getPRBRFeatureCollectionSelectedIndex(this.props.prbr) !== undefined
+		) {
+			selectedFeature = getPRBRFeatureCollection(this.props.prbr)[
+				getPRBRFeatureCollectionSelectedIndex(this.props.prbr) || 0
+			];
+		}
 		return (
-			<TopicMap
-				ref={(comp) => {
-					this.topicMap = comp;
-				}}
-				initialLoadingText='Laden der Anlagen ...'
-				fullScreenControl
-				locatorControl
-				gazetteerSearchBox
-				gazetteerTopicsList={[
-					'prbr',
-					'pois',
-					'kitas',
-					'quartiere',
-					'bezirke',
-					'adressen'
-				]}
-				gazetteerSearchBoxPlaceholdertext='Stadtteil | Adresse | POI | B+R | P+R'
-				photoLightBox
-				infoBox={info}
-				backgroundlayers={
-					this.props.match.params.layers || reduxBackground || 'wupp-plan-live'
-				}
-				dataLoader={this.props.prbrActions.loadPRBRs}
-				getFeatureCollectionForData={() => {
-					return getPRBRFeatureCollection(this.props.prbr);
-				}}
-				featureStyler={getFeatureStyler(
-					getPRBRSvgSize(this.props.prbr) || 60,
-					getColorForProperties
-				)}
-				refreshFeatureCollection={this.props.prbrActions.refreshFeatureCollection}
-				setSelectedFeatureIndex={this.props.prbrActions.setSelectedFeatureIndex}
-				featureHoverer={featureHoverer}
-				applicationMenuTooltipString='Einstellungen | Kompaktanleitung'
-				modalMenu={
-					<PRBRModalMenu
-						uiState={this.props.uiState}
-						uiStateActions={this.props.uiStateActions}
-						urlPathname={this.props.routing.location.pathname}
-						urlSearch={this.props.routing.location.search}
-						pushNewRoute={this.props.routingActions.push}
-						currentMarkerSize={getPRBRSvgSize(this.props.prbr)}
-						changeMarkerSymbolSize={this.changeMarkerSymbolSize}
-						topicMapRef={this.topicMap}
-						setLayerByKey={this.props.mappingActions.setSelectedMappingBackground}
-						activeLayerKey={this.props.mapping.selectedBackground}
-						setFeatureCollectionKeyPostfix={
-							this.props.mappingActions.setFeatureCollectionKeyPostfix
-						}
-						refreshFeatureCollection={this.props.prbrActions.refreshFeatureCollection}
-						filter={getPRBRFilter(this.props.prbr)}
-						setFilter={this.props.prbrActions.setFilter}
-						filteredObjects={getPRBRFilteredData(this.props.prbr)}
-						featureCollectionObjectsCount={
-							getPRBRFeatureCollection(this.props.prbr).length
-						}
+			<div>
+				{this.props.prbr.localState.secondaryInfoShown === true &&
+				selectedFeature !== undefined && (
+					<SecondaryInfoModal
+						visible={this.props.prbr.localState.secondaryInfoShown}
+						anlagenFeature={selectedFeature}
+						setVisibleState={this.props.prbrActions.setSecondaryInfoVisible}
+						uiHeight={this.props.uiState.height}
 					/>
-				}
-				clusteringEnabled={
-					queryString.parse(this.props.routing.location.search).unclustered === undefined
-				}
-				clusterOptions={{
-					spiderfyOnMaxZoom: false,
-					spiderfyDistanceMultiplier: getPRBRSvgSize(this.props.prbr) / 24,
-					showCoverageOnHover: false,
-					zoomToBoundsOnClick: false,
-					maxClusterRadius: 40,
-					disableClusteringAtZoom: 19,
-					animate: false,
-					cismapZoomTillSpiderfy: 12,
-					selectionSpiderfyMinZoom: 12,
-					iconCreateFunction: getPoiClusterIconCreatorFunction(
-						getPRBRSvgSize(this.props.prbr) - 10,
-						getColorForProperties
-					)
-				}}
-				featureCollectionKeyPostfix={this.props.mapping.featureCollectionKeyPostfix}
-			>
-				<WMSTileLayer
-					key={
-						'UWZ.with.background' +
-						(this.props.match.params.layers || reduxBackground || 'wupp-plan-live') +
-						backgroundStyling
+				)}
+				<TopicMap
+					ref={(comp) => {
+						this.topicMap = comp;
+					}}
+					initialLoadingText='Laden der Anlagen ...'
+					fullScreenControl
+					locatorControl
+					gazetteerSearchBox
+					gazetteerTopicsList={[
+						'prbr',
+						'pois',
+						'kitas',
+						'quartiere',
+						'bezirke',
+						'adressen'
+					]}
+					gazetteerSearchBoxPlaceholdertext='Stadtteil | Adresse | POI | B+R | P+R'
+					photoLightBox
+					infoBox={info}
+					backgroundlayers={
+						this.props.match.params.layers || reduxBackground || 'wupp-plan-live'
 					}
-					url='http://umwis.wuppertal-intra.de/deegreewms/wms'
-					layers={'umweltzonen'}
-					version='1.1.1'
-					transparent='true'
-					format='image/png'
-					tiled='true'
-					styles='default'
-					maxZoom={19}
-					opacity={0.5}
-					caching={true}
-				/>
-			</TopicMap>
+					dataLoader={this.props.prbrActions.loadPRBRs}
+					getFeatureCollectionForData={() => {
+						return getPRBRFeatureCollection(this.props.prbr);
+					}}
+					featureStyler={getFeatureStyler(
+						getPRBRSvgSize(this.props.prbr) || 60,
+						getColorForProperties
+					)}
+					refreshFeatureCollection={this.props.prbrActions.refreshFeatureCollection}
+					setSelectedFeatureIndex={this.props.prbrActions.setSelectedFeatureIndex}
+					featureHoverer={featureHoverer}
+					applicationMenuTooltipString='Einstellungen | Kompaktanleitung'
+					modalMenu={
+						<PRBRModalMenu
+							uiState={this.props.uiState}
+							uiStateActions={this.props.uiStateActions}
+							urlPathname={this.props.routing.location.pathname}
+							urlSearch={this.props.routing.location.search}
+							pushNewRoute={this.props.routingActions.push}
+							currentMarkerSize={getPRBRSvgSize(this.props.prbr)}
+							changeMarkerSymbolSize={this.changeMarkerSymbolSize}
+							topicMapRef={this.topicMap}
+							setLayerByKey={this.props.mappingActions.setSelectedMappingBackground}
+							activeLayerKey={this.props.mapping.selectedBackground}
+							setFeatureCollectionKeyPostfix={
+								this.props.mappingActions.setFeatureCollectionKeyPostfix
+							}
+							refreshFeatureCollection={
+								this.props.prbrActions.refreshFeatureCollection
+							}
+							filter={getPRBRFilter(this.props.prbr)}
+							setFilter={this.props.prbrActions.setFilter}
+							filteredObjects={getPRBRFilteredData(this.props.prbr)}
+							featureCollectionObjectsCount={
+								getPRBRFeatureCollection(this.props.prbr).length
+							}
+						/>
+					}
+					clusteringEnabled={
+						queryString.parse(this.props.routing.location.search).unclustered ===
+						undefined
+					}
+					clusterOptions={{
+						spiderfyOnMaxZoom: false,
+						spiderfyDistanceMultiplier: getPRBRSvgSize(this.props.prbr) / 24,
+						showCoverageOnHover: false,
+						zoomToBoundsOnClick: false,
+						maxClusterRadius: 40,
+						disableClusteringAtZoom: 19,
+						animate: false,
+						cismapZoomTillSpiderfy: 12,
+						selectionSpiderfyMinZoom: 12,
+						iconCreateFunction: getPoiClusterIconCreatorFunction(
+							getPRBRSvgSize(this.props.prbr) - 10,
+							getColorForProperties
+						)
+					}}
+					featureCollectionKeyPostfix={this.props.mapping.featureCollectionKeyPostfix}
+				>
+					<WMSTileLayer
+						key={
+							'UWZ.with.background' +
+							(this.props.match.params.layers ||
+								reduxBackground ||
+								'wupp-plan-live') +
+							backgroundStyling
+						}
+						url='https://maps.wuppertal.de/deegree/wms'
+						layers={'uwz'}
+						version='1.1.1'
+						transparent='true'
+						format='image/png'
+						tiled='true'
+						styles='default'
+						maxZoom={19}
+						opacity={0.5}
+						caching={true}
+					/>
+				</TopicMap>
+			</div>
 		);
 	}
 }

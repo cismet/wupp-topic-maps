@@ -9,7 +9,7 @@ import IconLink from '../commons/IconLink';
 /* eslint-disable jsx-a11y/anchor-is-valid */
 
 // Since this component is simple and static, there's no parent container for it.
-const BaederInfo = ({
+const Info = ({
 	featureCollection,
 	items,
 	selectedIndex,
@@ -24,7 +24,8 @@ const BaederInfo = ({
 	panelClick,
 	pixelwidth,
 	minified,
-	minify
+	minify,
+	setVisibleStateOfSecondaryInfo
 }) => {
 	const currentFeature = featureCollection[selectedIndex];
 
@@ -45,6 +46,16 @@ const BaederInfo = ({
 		info = currentFeature.properties.beschreibung;
 
 		links = [];
+		links.push(
+			<IconLink
+				key={`IconLink.tel`}
+				tooltip='Anrufen'
+				onClick={() => {
+					setVisibleStateOfSecondaryInfo(true);
+				}}
+				iconname='info'
+			/>
+		);
 		if (currentFeature.properties.tel) {
 			links.push(
 				<IconLink
@@ -161,8 +172,8 @@ const BaederInfo = ({
 	);
 };
 
-export default BaederInfo;
-BaederInfo.propTypes = {
+export default Info;
+Info.propTypes = {
 	featureCollection: PropTypes.array.isRequired,
 	filteredPOIs: PropTypes.array.isRequired,
 	selectedIndex: PropTypes.number.isRequired,
@@ -173,7 +184,7 @@ BaederInfo.propTypes = {
 	panelClick: PropTypes.func.isRequired
 };
 
-BaederInfo.defaultProps = {
+Info.defaultProps = {
 	featureCollection: [],
 	filteredPOIs: [],
 	selectedIndex: 0,

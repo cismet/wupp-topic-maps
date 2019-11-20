@@ -6,12 +6,13 @@ import { combineReducers } from 'redux';
 import { persistReducer } from 'redux-persist';
 import localForage from 'localforage';
 import makeInfoBoxStateDuck from '../higherorderduckfactories/minifiedInfoBoxState';
+import makeSecondaryInfoBoxVisibilityStateDuck from '../higherorderduckfactories/secondaryInfoBoxVisibilityState';
+
 import { addSVGToPRBR } from '../../utils/prbrHelper';
 
 //TYPES
-export const types = {
-	SET_PRBR_SECONDARY_INFO_VISIBLE: 'PRBR/SET_PRBR_SECONDARY_INFO_VISIBLE'
-};
+//no types bc no local store
+export const types = {};
 
 export const constants = {
 	DEBUG_ALWAYS_LOADING: false
@@ -58,26 +59,18 @@ const featureCollectionDuck = makePointFeatureCollectionWithIndexDuck(
 	}
 );
 const infoBoxStateDuck = makeInfoBoxStateDuck('PRBR', (state) => state.prbr.infoBoxState);
+const secondaryInfoBoxVisibilityStateDuck = makeSecondaryInfoBoxVisibilityStateDuck(
+	'PRBR',
+	(state) => state.prbr.secondaryInfoBoxVisibility
+);
 
 ///INITIAL STATE
-const initialState = {
-	secondaryInfoShown: false
-};
+//no localState
 
 ///REDUCER
-const localPRBRReducer = (state = initialState, action) => {
-	let newState;
-	switch (action.type) {
-		case types.SET_PRBR_SECONDARY_INFO_VISIBLE: {
-			newState = objectAssign({}, state);
-			newState.secondaryInfoShown = action.secondaryInfoShown;
-			return newState;
-		}
-		default:
-			return state;
-	}
-};
+//no localState
 
+//Storage Configs
 const markerSizeStorageConfig = {
 	key: 'prbrMarkerSize',
 	storage: localForage,
@@ -100,13 +93,13 @@ const prbrFeatureCollectionStateStorageConfig = {
 };
 
 const reducer = combineReducers({
-	localState: localPRBRReducer,
 	dataState: persistReducer(dataStateStorageConfig, dataDuck.reducer),
 	featureCollectionState: persistReducer(
 		prbrFeatureCollectionStateStorageConfig,
 		featureCollectionDuck.reducer
 	),
 	markerSizeState: persistReducer(markerSizeStorageConfig, markerSizeDuck.reducer),
+	secondaryInfoBoxVisibility: secondaryInfoBoxVisibilityStateDuck.reducer,
 	infoBoxState: persistReducer(infoBoxStateStorageConfig, infoBoxStateDuck.reducer)
 });
 
@@ -144,25 +137,11 @@ function loadPRBRs() {
 	};
 }
 
-// function applyFilter() {
-// 	return (dispatch, getState) => {
-// 		let state = getState();
-
-// 		dispatch(setFilteredPRBRs(state.filteredPRBR));
-// 		dispatch(createFeatureCollectionFromPRBRs());
-// 	};
-// }
-
-// function refreshFeatureCollection() {
-// 	return (dispatch, getState) => {
-// 		dispatch(applyFilter());
-// 	};
-// }
-
 //EXPORT ACTIONS
 export const actions = {
 	loadPRBRs,
-	setSecondaryInfoVisible,
+	setSecondaryInfoVisible:
+		secondaryInfoBoxVisibilityStateDuck.actions.setSecondaryInfoBoxVisibilityState,
 	setSelectedPRBR: featureCollectionDuck.actions.setSelectedItem,
 	applyFilter: featureCollectionDuck.actions.applyFilter,
 	setFilter: featureCollectionDuck.actions.setFilterAndApply,
@@ -188,6 +167,7 @@ export const getPRBRMD5 = (state) => dataDuck.selectors.getMD5(state.dataState);
 export const getPRBRSvgSize = (state) =>
 	markerSizeDuck.selectors.getMarkerSize(state.markerSizeState);
 export const hasMinifiedInfoBox = (state) => state.infoBoxState.minified;
+export const isSecondaryInfoBoxVisible = (state) => state.secondaryInfoBoxVisibility.visible;
 
 //HELPER FUNCTIONS
 function convertPRBRToFeature(prbr, index) {

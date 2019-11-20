@@ -15,7 +15,8 @@ import {
 	getPRBRFeatureCollectionSelectedIndex,
 	hasMinifiedInfoBox,
 	getPRBRFilter,
-	getPRBRFilteredData
+	getPRBRFilteredData,
+	isSecondaryInfoBoxVisible
 } from '../redux/modules/prbr';
 
 import { routerActions as RoutingActions } from 'react-router-redux';
@@ -124,10 +125,10 @@ export class Container_ extends React.Component {
 		}
 		return (
 			<div>
-				{this.props.prbr.localState.secondaryInfoShown === true &&
+				{isSecondaryInfoBoxVisible(this.props.prbr) === true &&
 				selectedFeature !== undefined && (
 					<SecondaryInfoModal
-						visible={this.props.prbr.localState.secondaryInfoShown}
+						visible={isSecondaryInfoBoxVisible(this.props.prbr)}
 						anlagenFeature={selectedFeature}
 						setVisibleState={this.props.prbrActions.setSecondaryInfoVisible}
 						uiHeight={this.props.uiState.height}

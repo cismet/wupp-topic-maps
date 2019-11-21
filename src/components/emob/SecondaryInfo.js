@@ -18,18 +18,21 @@ const Comp = ({ visible, feature, setVisibleState, uiHeight }) => {
 	};
 	const ladestation = feature.properties;
 	let foto;
+	let steckerverbindungen: '';
 	if (ladestation.foto !== undefined) {
 		foto = 'https://www.wuppertal.de/geoportal/emobil/autos/fotos/' + ladestation.foto;
 	}
 	let iconName = 'battery-quarter';
 
 	let steckerverbindungenArr = [];
-	ladestation.steckerverbindungen.map((v) => {
-		steckerverbindungenArr.push(
-			`${v.anzahl} x ${v.steckdosentyp} (${v.leistung}kW,${v.strom}A,${v.spannung}V)`
-		);
-	});
-	const steckerverbindungen = steckerverbindungenArr.join(', ');
+	if (ladestation.steckerverbindungen && ladestation.steckerverbindungen.length > 0) {
+		ladestation.steckerverbindungen.map((v) => {
+			steckerverbindungenArr.push(
+				`${v.anzahl} x ${v.steckdosentyp} (${v.leistung}kW,${v.strom}A,${v.spannung}V)`
+			);
+		});
+		steckerverbindungen = steckerverbindungenArr.join(', ');
+	}
 	let links = [];
 	if (ladestation.betreiber.telefon) {
 		links.push(

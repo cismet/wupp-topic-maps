@@ -151,6 +151,16 @@ export class Container_ extends React.Component {
 						'adressen'
 					]}
 					gazetteerSearchBoxPlaceholdertext='Stadtteil | Adresse | POI | B+R | P+R'
+					gazeteerHitTrigger={(selectedObject) => {
+						if (
+							selectedObject &&
+							selectedObject[0] &&
+							selectedObject[0].more &&
+							selectedObject[0].more.id
+						) {
+							this.props.prbrActions.setSelectedPRBR(selectedObject[0].more.id);
+						}
+					}}
 					photoLightBox
 					infoBox={info}
 					backgroundlayers={

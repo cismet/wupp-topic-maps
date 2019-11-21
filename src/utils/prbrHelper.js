@@ -317,7 +317,7 @@ const getSignatur = (properties) => {
 export const addSVGToPRBR = (poi, manualReloadRequested) => {
 	return new Promise(function(fulfilled, rejected) {
 		let cacheHeaders = new Headers();
-		if (true || manualReloadRequested) {
+		if (manualReloadRequested) {
 			cacheHeaders.append('pragma', 'no-cache');
 			cacheHeaders.append('cache-control', 'no-cache');
 		}

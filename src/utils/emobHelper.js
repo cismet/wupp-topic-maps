@@ -313,7 +313,7 @@ const getSignatur = (properties) => {
 export const addSVGToFeature = (feature, manualReloadRequested) => {
 	return new Promise(function(fulfilled, rejected) {
 		let cacheHeaders = new Headers();
-		if (true || manualReloadRequested) {
+		if (manualReloadRequested) {
 			cacheHeaders.append('pragma', 'no-cache');
 			cacheHeaders.append('cache-control', 'no-cache');
 		}

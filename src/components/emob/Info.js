@@ -35,7 +35,12 @@ const Info = ({
 	}
 
 	if (currentFeature) {
-		header = 'Ladestation für E-Autos';
+		if (currentFeature.properties.online === false) {
+			header = 'Ladestation für E-Autos (offline)';
+		} else {
+			header = 'Ladestation für E-Autos';
+		}
+
 		additionaInfo = currentFeature.properties.detailbeschreibung;
 
 		subtitle = `${currentFeature.properties.strasse} ${currentFeature.properties

@@ -254,7 +254,11 @@ export const getPoiClusterIconCreatorFunction = (
 };
 
 export const getColorForProperties = (properties) => {
-	return '#003D7D';
+	if (properties.online === false) {
+		return '#1889ff';
+	} else {
+		return '#003D7D';
+	}
 };
 export const getColorFromLebenslagenCombination = (combination) => {
 	let qColorRules;
@@ -299,12 +303,11 @@ export const featureHoverer = (feature) => {
 };
 
 const getSignatur = (properties) => {
-	// if (properties.schluessel === 'P') {
-	// 	return 'pr.svg';
-	// } else {
-	// 	return 'br.svg'; //TODO sinnvoller default
-	// }
-	return 'pikto_e-mobil.svg';
+	if (properties.online === false) {
+		return 'pikto_e-mobil_X.svg';
+	} else {
+		return 'pikto_e-mobil.svg';
+	}
 };
 
 export const addSVGToFeature = (feature, manualReloadRequested) => {

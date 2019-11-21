@@ -97,21 +97,6 @@ const Comp = ({ width, filter, setFilter, featureRenderingOption, pieChart }) =>
 									<div>
 										<Checkbox
 											readOnly={true}
-											key={'filter.prbr.bandr'}
-											onClick={(e) => {
-												const f = JSON.parse(JSON.stringify(filter));
-												f.bandr = e.target.checked;
-												setFilter(f);
-											}}
-											checked={filter.bandr === true}
-											inline
-										>
-											B+R
-										</Checkbox>
-									</div>
-									<div>
-										<Checkbox
-											readOnly={true}
 											key={'filter.prbr.pandr'}
 											onClick={(e) => {
 												const f = JSON.parse(JSON.stringify(filter));
@@ -121,7 +106,22 @@ const Comp = ({ width, filter, setFilter, featureRenderingOption, pieChart }) =>
 											checked={filter.pandr === true}
 											inline
 										>
-											P+R
+											Park+Ride (P+R)
+										</Checkbox>
+									</div>
+									<div>
+										<Checkbox
+											readOnly={true}
+											key={'filter.prbr.bandr'}
+											onClick={(e) => {
+												const f = JSON.parse(JSON.stringify(filter));
+												f.bandr = e.target.checked;
+												setFilter(f);
+											}}
+											checked={filter.bandr === true}
+											inline
+										>
+											Bike+Ride (B+R)
 										</Checkbox>
 									</div>
 								</div>

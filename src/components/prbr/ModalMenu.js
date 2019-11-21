@@ -55,9 +55,9 @@ const ModalMenu = ({
 									colorizer={getColorForProperties}
 									groupingFunction={(obj) => {
 										if (obj.schluessel === 'P') {
-											return 'P + R';
+											return 'P+R';
 										} else {
-											return 'B + R';
+											return 'B+R';
 										}
 									}}
 								/>

@@ -128,7 +128,7 @@ export class Container_ extends React.Component {
 				selectedFeature !== undefined && (
 					<SecondaryInfoModal
 						visible={isSecondaryInfoBoxVisible(this.props.emob)}
-						anlagenFeature={selectedFeature}
+						feature={selectedFeature}
 						setVisibleState={this.props.emobActions.setSecondaryInfoVisible}
 						uiHeight={this.props.uiState.height}
 					/>

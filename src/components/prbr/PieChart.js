@@ -12,8 +12,6 @@ const ChartComp = ({ filteredObjects, colorizer, groupingFunction, visible = tru
 		let colormodel = {};
 		let piechartData = [];
 		let piechartColor = [];
-		stats['P+R'] = 0;
-		stats['B+R'] = 0;
 		for (let obj of filteredObjects) {
 			let group = groupingFunction(obj);
 			if (stats[group] === undefined) {

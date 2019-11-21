@@ -150,7 +150,7 @@ export class Container_ extends React.Component {
 						'bezirke',
 						'adressen'
 					]}
-					gazetteerSearchBoxPlaceholdertext='Stadtteil | Adresse | POI | B+R | P+R'
+					gazetteerSearchBoxPlaceholdertext='P+R | B+R | Stadtteil | Adresse | POI'
 					gazeteerHitTrigger={(selectedObject) => {
 						if (
 							selectedObject &&
@@ -177,7 +177,7 @@ export class Container_ extends React.Component {
 					refreshFeatureCollection={this.props.prbrActions.refreshFeatureCollection}
 					setSelectedFeatureIndex={this.props.prbrActions.setSelectedFeatureIndex}
 					featureHoverer={featureHoverer}
-					applicationMenuTooltipString='Einstellungen | Kompaktanleitung'
+					applicationMenuTooltipString='Filter | Einstellungen | Kompaktanleitung'
 					modalMenu={
 						<PRBRModalMenu
 							uiState={this.props.uiState}

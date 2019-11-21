@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import InfoBox from '../commons/InfoBox';
-import { getColorForProperties } from '../../utils/prbrHelper';
+import { getColorForProperties } from '../../utils/emobHelper';
 import { triggerLightBoxForPOI } from '../../utils/stadtplanHelper';
 import { Icon } from 'react-fa';
 import IconLink from '../commons/IconLink';
@@ -29,59 +29,56 @@ const Info = ({
 }) => {
 	const currentFeature = featureCollection[selectedIndex];
 
-	let header, links, anzahl_plaetze, info, fotoPreview, headerColor, title;
+	let header, links, subtitle, additionaInfo, fotoPreview, headerColor, title;
 	if (items && items.length === 0) {
 		return null;
 	}
 
 	if (currentFeature) {
-		if (currentFeature.properties.schluessel === 'P') {
-			header = 'Park + Ride';
-		} else {
-			header = 'Bike + Ride';
-		}
+		header = 'Ladestation für E-Autos';
+		additionaInfo = currentFeature.properties.detailbeschreibung;
 
-		anzahl_plaetze = 'Plätze: ' + currentFeature.properties.plaetze;
-
-		info = currentFeature.properties.beschreibung;
+		subtitle = `${currentFeature.properties.strasse} ${currentFeature.properties
+			.hausnummer}${currentFeature.properties.plz !== undefined ? ', ' : ''}${currentFeature
+			.properties.plz || ''} ${currentFeature.properties.ort || ''}`;
 
 		links = [];
 		links.push(
 			<IconLink
-				key={`IconLink.tel`}
+				key={`IconLink.secondaryInfo`}
 				tooltip='Datenblatt anzeigen'
 				onClick={() => {
-					setVisibleStateOfSecondaryInfo(true);
+					//setVisibleStateOfSecondaryInfo(true);
 				}}
 				iconname='info'
 			/>
 		);
-		if (currentFeature.properties.tel) {
+		if (currentFeature.properties.betreiber.telefon) {
 			links.push(
 				<IconLink
 					key={`IconLink.tel`}
-					tooltip='Anrufen'
-					href={'tel:' + currentFeature.properties.tel}
+					tooltip='Betreiber Anrufen'
+					href={'tel:' + currentFeature.properties.betreiber.telefon}
 					iconname='phone'
 				/>
 			);
 		}
-		if (currentFeature.properties.email) {
+		if (currentFeature.properties.betreiber.email) {
 			links.push(
 				<IconLink
 					key={`IconLink.email`}
-					tooltip='E-Mail schreiben'
-					href={'mailto:' + currentFeature.properties.email}
+					tooltip='E-Mail an Betreiber schreiben'
+					href={'mailto:' + currentFeature.properties.betreiber.email}
 					iconname='envelope-square'
 				/>
 			);
 		}
-		if (currentFeature.properties.url) {
+		if (currentFeature.properties.betreiber.homepage) {
 			links.push(
 				<IconLink
 					key={`IconLink.web`}
-					tooltip='Zur Homepage'
-					href={currentFeature.properties.url}
+					tooltip='Betreiberwebseite'
+					href={currentFeature.properties.betreiber.homepage}
 					target='_blank'
 					iconname='external-link-square'
 				/>
@@ -90,7 +87,8 @@ const Info = ({
 
 		if (currentFeature.properties.foto) {
 			const foto =
-				'https://www.wuppertal.de/geoportal/prbr/fotos/' + currentFeature.properties.foto;
+				'https://www.wuppertal.de/geoportal/emobil/autos/fotos/' +
+				currentFeature.properties.foto;
 			fotoPreview = (
 				<table style={{ width: '100%' }}>
 					<tbody>
@@ -147,24 +145,26 @@ const Info = ({
 			headerColor={headerColor}
 			links={links}
 			title={title}
-			subtitle={anzahl_plaetze}
-			additionalInfo={info}
-			zoomToAllLabel={`${items.length} Anlagen in Wuppertal`}
+			subtitle={subtitle}
+			additionalInfo={additionaInfo}
+			zoomToAllLabel={`${items.length} ${items.length === 1
+				? 'Ladestation'
+				: 'Ladestationen'} in Wuppertal`}
 			currentlyShownCountLabel={`${featureCollection.length} ${featureCollection.length === 1
-				? 'Anlage'
-				: 'Anlagen'} angezeigt`}
+				? 'Ladestation'
+				: 'Ladestationen'} angezeigt`}
 			fotoPreview={fotoPreview}
 			collapsedInfoBox={minified}
 			setCollapsedInfoBox={minify}
-			noCurrentFeatureTitle={<h5>Keine Anlagen gefunden!</h5>}
+			noCurrentFeatureTitle={<h5>Keine Ladestationen gefunden!</h5>}
 			noCurrentFeatureContent={
 				<div style={{ marginRight: 9 }}>
 					<p>
-						Für mehr Anlagen Ansicht mit <Icon name='minus-square' /> verkleinern oder
-						mit dem untenstehenden Link auf das komplette Stadtgebiet zoomen.
+						Für mehr Ladestationen Ansicht mit <Icon name='minus-square' /> verkleinern
+						oder mit dem untenstehenden Link auf das komplette Stadtgebiet zoomen.
 					</p>
 					<div align='center'>
-						<a onClick={fitAll}>{items.length} Anlagen in Wuppertal</a>
+						<a onClick={fitAll}>{items.length} Ladestationen in Wuppertal</a>
 					</div>
 				</div>
 			}

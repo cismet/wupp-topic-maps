@@ -249,6 +249,22 @@ export const getGazDataForTopicIds = (state, topics) => {
 				gazData.push(g);
 			}
 		}
+		if (topic === 'emob') {
+			let tankstellen = JSON.parse(state.emob);
+
+			for (let i = 0; i < tankstellen.length; ++i) {
+				let topicItem = tankstellen[i];
+				let g = {
+					sorter: sorter++,
+					string: topicItem.n,
+					glyph: topicItem.g,
+					x: topicItem.x,
+					y: topicItem.y,
+					more: topicItem.m
+				};
+				gazData.push(g);
+			}
+		}
 		if (topic === 'geps') {
 			let geps = JSON.parse(state.geps);
 			for (let i = 0; i < geps.length; ++i) {

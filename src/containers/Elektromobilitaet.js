@@ -60,7 +60,7 @@ export class Container_ extends React.Component {
 		);
 	}
 	componentDidMount() {
-		document.title = 'P&R / B&R  Wuppertal';
+		document.title = 'Elektromobilität in Wuppertal';
 	}
 	gotoHome() {
 		if (this.topicMap) {
@@ -75,7 +75,7 @@ export class Container_ extends React.Component {
 	render() {
 		let secondaryInfo = false;
 
-		let info = <div /> || (
+		let info = (
 			<EMOBInfo
 				key={'EMOBInfo.' + (getEMOBFeatureCollectionSelectedIndex(this.props.emob) || 0)}
 				pixelwidth={325}
@@ -149,7 +149,7 @@ export class Container_ extends React.Component {
 						'bezirke',
 						'adressen'
 					]}
-					gazetteerSearchBoxPlaceholdertext='Stadtteil | Adresse | POI | B+R | P+R'
+					gazetteerSearchBoxPlaceholdertext='E-Tankstellen | Stadtteil | Adresse | POI '
 					gazeteerHitTrigger={(selectedObject) => {
 						if (
 							selectedObject &&

@@ -83,7 +83,7 @@ const Comp = ({ visible, anlagenFeature, setVisibleState, uiHeight }) => {
 
 				<br />
 				<br />
-				{(anlage.bahnlinien.length > 1 || anlage.buslinien.length > 1) && (
+				{(anlage.bahnlinien.length > 0 || anlage.buslinien.length > 0) && (
 					<Accordion
 						key={'1'}
 						name={'1'}
@@ -91,7 +91,7 @@ const Comp = ({ visible, anlagenFeature, setVisibleState, uiHeight }) => {
 						defaultActiveKey={'1'}
 					>
 						<Panel header={'ÖPNV'} eventKey={'1'} bsStyle={'primary'}>
-							{anlage.bahnlinien.length > 1 && (
+							{anlage.bahnlinien.length > 0 && (
 								<div>
 									<h4>
 										<b>Bahnlinien</b>
@@ -101,7 +101,7 @@ const Comp = ({ visible, anlagenFeature, setVisibleState, uiHeight }) => {
 									})}
 								</div>
 							)}
-							{anlage.buslinien.length > 1 && (
+							{anlage.buslinien.length > 0 && (
 								<div>
 									<h4>
 										<b>Buslinien</b>

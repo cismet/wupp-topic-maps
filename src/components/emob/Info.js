@@ -53,7 +53,7 @@ const Info = ({
 				key={`IconLink.secondaryInfo`}
 				tooltip='Datenblatt anzeigen'
 				onClick={() => {
-					//setVisibleStateOfSecondaryInfo(true);
+					setVisibleStateOfSecondaryInfo(true);
 				}}
 				iconname='info'
 			/>

@@ -4,6 +4,8 @@ import { Modal, Button, Accordion, Panel } from 'react-bootstrap';
 import { Icon } from 'react-fa';
 import GenericRVRStadtplanwerkMenuFooter from '../commons/GenericRVRStadtplanwerkMenuFooter';
 import { SSL_OP_ALLOW_UNSAFE_LEGACY_RENEGOTIATION } from 'constants';
+import IconLink from '../commons/IconLink';
+
 const Comp = ({ visible, feature, setVisibleState, uiHeight }) => {
 	const close = () => {
 		setVisibleState(false);
@@ -21,6 +23,45 @@ const Comp = ({ visible, feature, setVisibleState, uiHeight }) => {
 	}
 	let iconName = 'battery-quarter';
 
+	let steckerverbindungenArr = [];
+	ladestation.steckerverbindungen.map((v) => {
+		steckerverbindungenArr.push(
+			`${v.anzahl} x ${v.steckdosentyp} (${v.leistung}kW,${v.strom}A,${v.spannung}V)`
+		);
+	});
+	const steckerverbindungen = steckerverbindungenArr.join(', ');
+	let links = [];
+	if (ladestation.betreiber.telefon) {
+		links.push(
+			<IconLink
+				key={`IconLink.tel`}
+				tooltip='Betreiber Anrufen'
+				href={'tel:' + ladestation.betreiber.telefon}
+				iconname='phone'
+			/>
+		);
+	}
+	if (ladestation.betreiber.email) {
+		links.push(
+			<IconLink
+				key={`IconLink.email`}
+				tooltip='E-Mail an Betreiber schreiben'
+				href={'mailto:' + ladestation.betreiber.email}
+				iconname='envelope-square'
+			/>
+		);
+	}
+	if (ladestation.betreiber.homepage) {
+		links.push(
+			<IconLink
+				key={`IconLink.web`}
+				tooltip='Betreiberwebseite'
+				href={ladestation.betreiber.homepage}
+				target='_blank'
+				iconname='external-link-square'
+			/>
+		);
+	}
 	return (
 		<Modal
 			style={{
@@ -69,29 +110,52 @@ const Comp = ({ visible, feature, setVisibleState, uiHeight }) => {
 				<Accordion key={'1'} name={'1'} style={{ marginBottom: 6 }} defaultActiveKey={'1'}>
 					<Panel header={'Laden'} eventKey={'1'} bsStyle={'primary'}>
 						<div>
-							<b>Steckerverbindungen:</b> {ladestation.oeffnungszeiten}
+							<b>Ladeplätze:</b> {ladestation.ladeplaetze}
 						</div>
-						<br />
-						<br />
+						<div>
+							<b>Steckerverbindungen:</b> {steckerverbindungen}
+						</div>
+						<div>
+							<b>Strom:</b> {ladestation.stromart}
+						</div>
+						<div>
+							<b>Schnellladestation:</b>{' '}
+							{ladestation.schnellladestation === true ? 'Ja' : 'Nein'}
+						</div>
 					</Panel>
 				</Accordion>
 				<Accordion key={'1'} name={'1'} style={{ marginBottom: 6 }} defaultActiveKey={'1'}>
 					<Panel header={'Bezahlen'} eventKey={'1'} bsStyle={'warning'}>
-						<br />
-						<br />
-						<br />
+						<div>
+							<b>Authentifizierung:</b> {ladestation.authentifizierung.join(' / ')}
+						</div>
+						<div>
+							<b>Ladekosten:</b>{' '}
+							{ladestation.ladekosten.startsWith('http') ? (
+								<a href={ladestation.ladekosten} target='_ladekosten'>
+									in anderem Fenster anschauen
+								</a>
+							) : (
+								ladestation.ladekosten
+							)}
+						</div>
+						<div>
+							<b>Parkgebühr:</b> {ladestation.parkgebuehr}
+						</div>
 					</Panel>
 				</Accordion>
 
 				<Accordion key={'2'} name={'2'} style={{ marginBottom: 6 }} defaultActiveKey={'2'}>
 					<Panel header={'Betreiber'} eventKey={'2'} bsStyle={'success'}>
-						<p>{ladestation.betreiber.name}</p>
-						<p>
+						<div>{ladestation.betreiber.name}</div>
+						<div>
 							{ladestation.betreiber.strasse} {ladestation.betreiber.hausnummer}
-						</p>
-						<p>
+						</div>
+						<div>
 							{ladestation.betreiber.plz} {ladestation.betreiber.ort}
-						</p>
+						</div>
+						<br />
+						{links}
 					</Panel>
 				</Accordion>
 			</Modal.Body>

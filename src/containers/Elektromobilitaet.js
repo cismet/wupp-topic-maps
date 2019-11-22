@@ -176,7 +176,7 @@ export class Container_ extends React.Component {
 					refreshFeatureCollection={this.props.emobActions.refreshFeatureCollection}
 					setSelectedFeatureIndex={this.props.emobActions.setSelectedFeatureIndex}
 					featureHoverer={featureHoverer}
-					applicationMenuTooltipString='Einstellungen | Kompaktanleitung'
+					applicationMenuTooltipString='Filter | Einstellungen | Kompaktanleitung'
 					modalMenu={
 						<EMOBModalMenu
 							uiState={this.props.uiState}

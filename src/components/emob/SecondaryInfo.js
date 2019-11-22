@@ -118,9 +118,9 @@ const Comp = ({ visible, feature, setVisibleState, uiHeight }) => {
 					<Panel
 						header={
 							ladestation.online === true ? (
-								'Ladenmöglichkeit verfügbar (online)'
+								'Lademöglichkeit verfügbar (online)'
 							) : (
-								'Ladenmöglichkeit momentan nicht verfügbar (offline)'
+								'Lademöglichkeit momentan nicht verfügbar (offline)'
 							)
 						}
 						eventKey={'1'}

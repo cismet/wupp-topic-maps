@@ -7,7 +7,7 @@ import NamedMapStyleChooser from '../commons/NamedMapStyleChooser';
 import SettingsPanelWithPreviewSection from '../commons/SettingsPanelWithPreviewSection';
 import { getInternetExplorerVersion } from '../../utils/browserHelper';
 import 'url-search-params-polyfill';
-import { getColorForProperties, getPRSVG } from '../../utils/prbrHelper';
+import { getColorForProperties, getSymbolSVG } from '../../utils/emobHelper';
 import { MappingConstants, FeatureCollectionDisplay, getLayersByName } from 'react-cismap';
 import SVGInline from 'react-svg-inline';
 import queryString from 'query-string';
@@ -158,7 +158,7 @@ const ModalMenuSettingsSection = ({
 					preview={preview}
 					settingsSections={[
 						<div>
-							<ControlLabel>P+R / B+R -Einstellungen:</ControlLabel>
+							<ControlLabel>Ladestationen-Einstellungen:</ControlLabel>
 							<br />
 
 							<Checkbox
@@ -182,7 +182,7 @@ const ModalMenuSettingsSection = ({
 								checked={clusteredObjects}
 								inline
 							>
-								Anlagen ma&szlig;stabsabh&auml;ngig zusammenfassen
+								Ladestationen ma&szlig;stabsabh&auml;ngig zusammenfassen
 							</Checkbox>
 							<br />
 						</div>,
@@ -199,9 +199,9 @@ const ModalMenuSettingsSection = ({
 						<SymbolSizeChooser
 							changeMarkerSymbolSize={changeMarkerSymbolSize}
 							currentMarkerSize={currentMarkerSize}
-							getSymbolSVG={getPRSVG}
+							getSymbolSVG={getSymbolSVG}
 							symbolColor={getColorForProperties({
-								more: { zugang: 'öffentlich', betreiber: 'Verein' }
+								online: true
 							})}
 							additionalConfig={{
 								smallSize: 35,

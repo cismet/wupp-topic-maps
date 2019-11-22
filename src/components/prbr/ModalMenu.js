@@ -36,7 +36,7 @@ const ModalMenu = ({
 			uiState={uiState}
 			uiStateActions={uiStateActions}
 			menuIntroduction={<ModalMenuIntroduction uiStateActions={uiStateActions} />}
-			menuTitle='Einstellungen und Kompaktanleitung'
+			menuTitle='Filter, Einstellungen und Kompaktanleitung'
 			menuSections={[
 				<GenericModalMenuSection
 					uiState={uiState}

@@ -4,7 +4,18 @@ import { Link } from 'react-scroll';
 const BaederModalMenuIntroduction = ({ uiStateActions }) => {
 	return (
 		<span>
-			Über{' '}
+			Benutzen Sie die Auswahlmöglichkeiten unter{' '}
+			<Link
+				id='lnkHelp'
+				to='help'
+				containerId='myMenu'
+				smooth={true}
+				delay={100}
+				onClick={() => uiStateActions.setApplicationMenuActiveKey('filter')}
+			>
+				Filter
+			</Link>, um die in der Karte angezeigten Ladestationen auf die für Sie relevanten
+			Stationen zu beschränken. Über{' '}
 			<Link
 				id='lnkSettings'
 				to='settings'

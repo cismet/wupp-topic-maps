@@ -4,6 +4,13 @@ import { Icon } from 'react-fa';
 import { FormGroup, Checkbox, Radio, ControlLabel, Button } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faParking, faMinusCircle } from '@fortawesome/free-solid-svg-icons';
+
+import OnlineFC from './filtercontrols/Online';
+import OeffnungszeitenFC from './filtercontrols/Oeffnungszeiten';
+import SteckerFC from './filtercontrols/Stecker';
+import GruenerStromFC from './filtercontrols/GruenerStrom';
+import SchnelladerFC from './filtercontrols/Schnellader';
+
 // Since this component is simple and static, there's no parent container for it.
 const Comp = ({ width, filter, setFilter, featureRenderingOption, pieChart }) => {
 	let widePieChartPlaceholder = null;
@@ -31,112 +38,29 @@ const Comp = ({ width, filter, setFilter, featureRenderingOption, pieChart }) =>
 				<tbody>
 					<tr>
 						<td valign='center' style={{ width: '330px' }}>
-							<FormGroup>
-								<ControlLabel>
-									Umweltzone
-									{'  '}
-									<FontAwesomeIcon
-										icon={faMinusCircle}
-										size='2x'
-										style={{
-											color: 'grey',
-											width: '30px',
-											textAlign: 'center'
-										}}
-									/>
-								</ControlLabel>
-								<div>
-									<div>
-										<Checkbox
-											readOnly={true}
-											key={'filter.prbr.envzone.within'}
-											onClick={(e) => {
-												const f = JSON.parse(JSON.stringify(filter));
-												f.envZoneWithin = e.target.checked;
-												setFilter(f);
-											}}
-											checked={filter.envZoneWithin === true}
-											inline
-										>
-											innerhalb
-										</Checkbox>
-									</div>
-									<div>
-										<Checkbox
-											readOnly={true}
-											key={'filter.prbr.envzone.outside'}
-											onClick={(e) => {
-												const f = JSON.parse(JSON.stringify(filter));
-												f.envZoneOutside = e.target.checked;
-												setFilter(f);
-											}}
-											checked={filter.envZoneOutside === true}
-											inline
-										>
-											außerhalb
-										</Checkbox>
-									</div>
-								</div>
-							</FormGroup>
-							<br />
-							<FormGroup>
-								<ControlLabel>
-									Art der Anlage
-									{'  '}
-									<FontAwesomeIcon
-										icon={faParking}
-										size='2x'
-										style={{
-											color: 'grey',
-											width: '30px',
-											textAlign: 'center'
-										}}
-									/>
-								</ControlLabel>
-								<div>
-									<div>
-										<Checkbox
-											readOnly={true}
-											key={'filter.prbr.bandr'}
-											onClick={(e) => {
-												const f = JSON.parse(JSON.stringify(filter));
-												f.bandr = e.target.checked;
-												setFilter(f);
-											}}
-											checked={filter.bandr === true}
-											inline
-										>
-											B+R
-										</Checkbox>
-									</div>
-									<div>
-										<Checkbox
-											readOnly={true}
-											key={'filter.prbr.pandr'}
-											onClick={(e) => {
-												const f = JSON.parse(JSON.stringify(filter));
-												f.pandr = e.target.checked;
-												setFilter(f);
-											}}
-											checked={filter.pandr === true}
-											inline
-										>
-											P+R
-										</Checkbox>
-									</div>
-								</div>
-							</FormGroup>
-							<br />
-							<br />
+							<OnlineFC filter={filter} setFilter={setFilter} />
+							<OeffnungszeitenFC filter={filter} setFilter={setFilter} />
+							<SteckerFC filter={filter} setFilter={setFilter} />
+							<GruenerStromFC filter={filter} setFilter={setFilter} />
+							<SchnelladerFC filter={filter} setFilter={setFilter} />
+
 							<p>
 								<Button
 									bsSize='small'
 									onClick={() => {
 										setFilter({
-											envZoneWithin: true,
-											envZoneOutside: true,
-											bandr: true,
-											pandr: true
+											nur_online: false,
+											oeffnungszeiten: '*',
+											stecker: [
+												'Schuko',
+												'Typ 2',
+												'CHAdeMO',
+												'CCS',
+												'Tesla Supercharger',
+												'Drehstrom'
+											],
+											nur_gruener_strom: false,
+											nur_schnelllader: false
 										});
 									}}
 								>

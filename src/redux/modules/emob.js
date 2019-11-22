@@ -20,26 +20,48 @@ export const constants = {
 
 const filterFunctionFactory = (filter) => {
 	return (obj) => {
-		// let keep = false;
+		let keep = false;
 
-		// if (filter.envZoneWithin === true && obj.inUZ === true) {
-		// 	keep = true;
-		// }
-		// if (filter.envZoneOutside === true && obj.inUZ === false) {
-		// 	keep = true;
-		// }
+		//Online
+		if (filter.nur_online === true) {
+			keep = obj.online;
+		} else {
+			keep = true;
+		}
+		if (keep === true) {
+			keep = false;
+			//Öffnungszeiten
+			if (filter.oeffnungszeiten === '*') {
+				keep = true;
+			}
+			if (filter.oeffnungszeiten === '24' && obj.oeffnungszeiten.startsWith('24')) {
+				keep = true;
+			}
+		}
+		//Stecker
+		if (filter.stecker !== undefined) {
+			if (keep === true) {
+				keep = false;
+				for (let steckv of obj.steckerverbindungen) {
+					if (filter.stecker.indexOf(steckv.steckdosentyp) !== -1) {
+						keep = true;
+						break;
+					}
+				}
+			}
+		}
 
-		// if (keep === true) {
-		// 	keep = false;
-		// 	if (obj.schluessel === 'P' && filter.pandr === true) {
-		// 		keep = true;
-		// 	}
-		// 	if (obj.schluessel === 'B' && filter.bandr === true) {
-		// 		keep = true;
-		// 	}
-		// }
-		// return keep;
-		return true;
+		//Grüner Strom
+		if (keep === true && filter.nur_gruener_strom === true) {
+			keep = obj.gruener_strom === true;
+		}
+		//Schnelllader
+
+		if (keep === true && filter.nur_schnelllader === true) {
+			return obj.schnellladestation === true;
+		}
+
+		return keep;
 	};
 };
 
@@ -53,10 +75,11 @@ const featureCollectionDuck = makePointFeatureCollectionWithIndexDuck(
 	convertEMOBToFeature,
 	filterFunctionFactory,
 	{
-		envZoneWithin: true,
-		envZoneOutside: true,
-		bandr: true,
-		pandr: true
+		nur_online: false,
+		oeffnungszeiten: '*',
+		stecker: [ 'Schuko', 'Typ 2', 'CHAdeMO', 'CCS', 'Tesla Supercharger', 'Drehstrom' ],
+		nur_gruener_strom: false,
+		nur_schnelllader: false
 	}
 );
 const infoBoxStateDuck = makeInfoBoxStateDuck('emob', (state) => state.emob.infoBoxState);
@@ -90,7 +113,7 @@ const infoBoxStateStorageConfig = {
 const emobFeatureCollectionStateStorageConfig = {
 	key: 'emobFeatureCollectionStateConfig',
 	storage: localForage,
-	whitelist: [ 'filter' ]
+	whitelist: [ 'filter_' ]
 };
 
 const reducer = combineReducers({
@@ -107,9 +130,7 @@ const reducer = combineReducers({
 export default reducer;
 
 //SIMPLEACTIONCREATORS
-function setSecondaryInfoVisible(secondaryInfoShown) {
-	return { type: types.SET_PRBR_SECONDARY_INFO_VISIBLE, secondaryInfoShown };
-}
+
 //COMPLEXACTIONS
 function loadEMOBs() {
 	const manualReloadRequest = false;

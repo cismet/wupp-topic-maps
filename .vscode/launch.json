@@ -6,6 +6,7 @@
     "configurations": [
 
 
+
     
         {
             "type": "chrome",
@@ -67,6 +68,13 @@
             "request": "launch",
             "name": "Debug XandRide",
             "url": "http://localhost:3000/#/xandride?lat=51.23929679192602&lng=7.128034978972724&zoom=9",
+            "webRoot": "${workspaceRoot}"
+        },
+        {
+            "type": "chrome",
+            "request": "launch",
+            "name": "Debug EMob",
+            "url": "http://localhost:3000/#/elektromobilitaet?lat=51.23929679192602&lng=7.128034978972724&zoom=9",
             "webRoot": "${workspaceRoot}"
         }
     ]

@@ -255,7 +255,7 @@ export const getPoiClusterIconCreatorFunction = (
 
 export const getColorForProperties = (properties) => {
 	if (properties.online === false) {
-		return '#1889ff';
+		return '#888A87';
 	} else {
 		return '#003D7D';
 	}
@@ -303,11 +303,11 @@ export const featureHoverer = (feature) => {
 };
 
 const getSignatur = (properties) => {
-	if (properties.online === false) {
-		return 'pikto_e-mobil_X.svg';
-	} else {
-		return 'pikto_e-mobil.svg';
-	}
+	// if (properties.online === false) {
+	// 	return 'pikto_e-mobil_X.svg';
+	// } else {
+	return 'pikto_e-mobil.svg';
+	// }
 };
 
 export const addSVGToFeature = (feature, manualReloadRequested) => {

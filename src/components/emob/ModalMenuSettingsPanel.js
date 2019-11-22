@@ -38,13 +38,56 @@ const ModalMenuSettingsSection = ({
 	setFeatureCollectionKeyPostfix
 }) => {
 	let clusteredObjects = queryString.parse(urlSearch).unclustered !== null;
-
 	let namedMapStyle = new URLSearchParams(urlSearch).get('mapStyle') || 'default';
+	let customTitle = queryString.parse(urlSearch).title;
+	let titleDisplay = customTitle !== undefined;
+
 	let zoom = 7;
 	let layers = '';
 	if (topicMapRef) {
 		layers = topicMapRef.wrappedInstance.props.backgroundlayers;
 	}
+
+	let titlePreview = (
+		<div
+			style={{
+				align: 'center',
+				width: '100%'
+			}}
+		>
+			<div
+				style={{
+					height: '10px'
+				}}
+			/>
+			<table
+				style={{
+					width: '96%',
+					height: '30px',
+					margin: '0 auto',
+					zIndex: 999655
+				}}
+			>
+				<tbody>
+					<tr>
+						<td
+							style={{
+								textAlign: 'center',
+								verticalAlign: 'middle',
+								background: '#ffffff',
+								color: 'black',
+								opacity: '0.9',
+								paddingleft: '10px'
+							}}
+						>
+							<b>Meine Ladestationen: </b> Nur Typ 2 Stecker mit Ökostrom
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	);
+
 	const mapPreview = (
 		<Map
 			// ref={leafletMap => {
@@ -99,24 +142,28 @@ const ModalMenuSettingsSection = ({
 			/>
 		</Map>
 	);
+	let marginBottomCorrection = 0;
+	if (titleDisplay) {
+		marginBottomCorrection = -40;
+	}
 	const preview = (
 		<div>
 			<FormGroup>
 				<ControlLabel>Vorschau:</ControlLabel>
-				<br />
-				{/* <div
-					style={{
-						backgroundImage:
-							"url('/images/map.preview.default" +
-							".png')",
-						width: '100%',
-						height: '250px',
-						filter: filter,
-						backgroundPosition: 'center'
-					}}
-				>
-				</div> */}
-				{mapPreview}
+				<div style={{ marginBottom: marginBottomCorrection }}>
+					<div>{mapPreview}</div>
+					{titleDisplay === true && (
+						<div
+							style={{
+								position: 'relative',
+								top: -300,
+								zIndex: 100000
+							}}
+						>
+							{titlePreview}
+						</div>
+					)}
+				</div>
 			</FormGroup>
 		</div>
 	);
@@ -160,7 +207,28 @@ const ModalMenuSettingsSection = ({
 						<div>
 							<ControlLabel>Ladestationen-Einstellungen:</ControlLabel>
 							<br />
-
+							<Checkbox
+								readOnly={true}
+								key={'title.checkbox' + titleDisplay}
+								checked={titleDisplay}
+								onClick={(e) => {
+									if (e.target.checked === false) {
+										pushNewRoute(
+											urlPathname + removeQueryPart(urlSearch, 'title')
+										);
+									} else {
+										pushNewRoute(
+											urlPathname +
+												(urlSearch !== '' ? urlSearch : '?') +
+												'&title'
+										);
+									}
+								}}
+								inline
+							>
+								Titel bei individueller Filterung anzeigen
+							</Checkbox>
+							<br />
 							<Checkbox
 								readOnly={true}
 								key={'clustered.checkbox' + clusteredObjects}
@@ -184,6 +252,7 @@ const ModalMenuSettingsSection = ({
 							>
 								Ladestationen ma&szlig;stabsabh&auml;ngig zusammenfassen
 							</Checkbox>
+
 							<br />
 						</div>,
 						<NamedMapStyleChooser

@@ -4,6 +4,8 @@ import { Modal, Button, Accordion, Panel } from 'react-bootstrap';
 import { Icon } from 'react-fa';
 import GenericRVRStadtplanwerkMenuFooter from '../commons/GenericRVRStadtplanwerkMenuFooter';
 import { SSL_OP_ALLOW_UNSAFE_LEGACY_RENEGOTIATION } from 'constants';
+import { getColorForProperties } from '../../utils/emobHelper';
+
 import IconLink from '../commons/IconLink';
 
 const Comp = ({ visible, feature, setVisibleState, uiHeight }) => {
@@ -96,22 +98,34 @@ const Comp = ({ visible, feature, setVisibleState, uiHeight }) => {
 							width='150'
 						/>
 					)}
-					<div>
-						<b>Adresse:</b>
-					</div>
-					<div>
-						{ladestation.strasse} {ladestation.hausnummer}
-					</div>
-					<br />
-					<div>{ladestation.detailbeschreibung}</div>
-					<div> {ladestation.zusatzinfo}</div>
-					<br />
-					<div>
-						<b>Öffnungszeiten:</b> {ladestation.oeffnungszeiten}
+					<div style={{ fontSize: '115%', padding: '10px', paddingTop: '0px' }}>
+						<div>
+							<b>Adresse:</b>
+						</div>
+						<div>
+							{ladestation.strasse} {ladestation.hausnummer}
+						</div>
+						<br />
+						<div>{ladestation.detailbeschreibung}</div>
+						<div> {ladestation.zusatzinfo}</div>
+						<br />
+						<div>
+							<b>Öffnungszeiten:</b> {ladestation.oeffnungszeiten}
+						</div>
 					</div>
 				</div>
 				<Accordion key={'1'} name={'1'} style={{ marginBottom: 6 }} defaultActiveKey={'1'}>
-					<Panel header={'Laden'} eventKey={'1'} bsStyle={'primary'}>
+					<Panel
+						header={
+							ladestation.online === true ? (
+								'Ladenmöglichkeit verfügbar (online)'
+							) : (
+								'Ladenmöglichkeit momentan nicht verfügbar (offline)'
+							)
+						}
+						eventKey={'1'}
+						bsStyle={ladestation.online === true ? 'primary' : 'default'}
+					>
 						<div>
 							<b>Ladeplätze:</b> {ladestation.ladeplaetze}
 						</div>
@@ -150,6 +164,16 @@ const Comp = ({ visible, feature, setVisibleState, uiHeight }) => {
 
 				<Accordion key={'2'} name={'2'} style={{ marginBottom: 6 }} defaultActiveKey={'2'}>
 					<Panel header={'Betreiber'} eventKey={'2'} bsStyle={'success'}>
+						<div
+							style={{
+								paddingLeft: 10,
+								paddingRight: 10,
+								float: 'right',
+								paddingBottom: '5px'
+							}}
+						>
+							{links}
+						</div>
 						<div>{ladestation.betreiber.name}</div>
 						<div>
 							{ladestation.betreiber.strasse} {ladestation.betreiber.hausnummer}
@@ -158,7 +182,6 @@ const Comp = ({ visible, feature, setVisibleState, uiHeight }) => {
 							{ladestation.betreiber.plz} {ladestation.betreiber.ort}
 						</div>
 						<br />
-						{links}
 					</Panel>
 				</Accordion>
 			</Modal.Body>

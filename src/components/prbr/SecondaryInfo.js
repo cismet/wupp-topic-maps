@@ -17,7 +17,7 @@ const Comp = ({ visible, anlagenFeature, setVisibleState, uiHeight }) => {
 	const anlage = anlagenFeature.properties;
 	let foto;
 	if (anlage.foto !== undefined) {
-		foto = 'https://www.wuppertal.de/geoportal/emobil/autos/fotos/' + anlage.foto;
+		foto = 'https://www.wuppertal.de/geoportal/prbr/fotos/' + anlage.foto;
 	}
 	let plaetze_label = 'Plätze';
 	if (anlage.ueberdachung === true) {

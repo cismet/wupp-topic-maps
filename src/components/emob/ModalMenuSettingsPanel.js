@@ -80,7 +80,7 @@ const ModalMenuSettingsSection = ({
 								paddingleft: '10px'
 							}}
 						>
-							<b>Meine Ladestationen: </b> Nur Typ 2 Stecker mit Ökostrom
+							<b>Meine Ladestationen: </b> passender Stecker | Ökostrom
 						</td>
 					</tr>
 				</tbody>

@@ -9,6 +9,7 @@ import store from '../redux/store';
 import queryString from 'query-string';
 import { Icon } from 'react-fa';
 import SVGInline from 'react-svg-inline';
+import { getFilterDescription } from './kitasHelper.js';
 
 const fallbackSVG = `
     <svg xmlns="http://www.w3.org/2000/svg" width="311.668" height="311.668">

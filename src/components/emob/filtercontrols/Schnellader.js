@@ -35,7 +35,7 @@ const Comp = ({ filter, setFilter }) => {
 							checked={filter.nur_schnelllader === true}
 							inline
 						>
-							nur Schnellader
+							nur Schnelllader
 						</Radio>
 					</div>
 					<div>

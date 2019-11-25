@@ -191,6 +191,11 @@ export const getEMOBSvgSize = (state) =>
 export const hasMinifiedInfoBox = (state) => state.infoBoxState.minified;
 export const isSecondaryInfoBoxVisible = (state) => state.secondaryInfoBoxVisibility.visible;
 
+export const getEMOBFilterDescription = (state) =>
+	convertEMOBFilterToText(
+		featureCollectionDuck.selectors.getFilter(state.featureCollectionState)
+	);
+
 //HELPER FUNCTIONS
 function convertEMOBToFeature(emob, index) {
 	const id = emob.id;
@@ -214,4 +219,21 @@ function convertEMOBToFeature(emob, index) {
 		},
 		properties: emob
 	};
+}
+
+function convertEMOBFilterToText(filter) {
+	let filterDescriptions = [];
+	if (filter.nur_online === true) {
+		filterDescriptions.push('verfügbar');
+	}
+	if (filter.stecker.length < 6) {
+		filterDescriptions.push('passender Stecker');
+	}
+	if (filter.nur_gruener_strom === true) {
+		filterDescriptions.push('Ökostrom');
+	}
+	if (filter.nur_schnelllader === true) {
+		filterDescriptions.push('Schnelllader');
+	}
+	return filterDescriptions.join(' | ');
 }

@@ -36,7 +36,7 @@ const Comp = ({ filter, setFilter }) => {
 							checked={filter.nur_gruener_strom === true}
 							inline
 						>
-							nur Ladestationen die mit "grünem" Strom betrieben werden
+							nur Ökostrom-Ladestationen
 						</Radio>
 					</div>
 					<div>

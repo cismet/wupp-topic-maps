@@ -14,6 +14,7 @@ import {
 	getEMOBFeatureCollectionSelectedIndex,
 	hasMinifiedInfoBox,
 	getEMOBFilter,
+	getEMOBFilterDescription,
 	getEMOBFilteredData,
 	isSecondaryInfoBoxVisible
 } from '../redux/modules/emob';
@@ -72,6 +73,7 @@ export class Container_ extends React.Component {
 		this.props.emobActions.setEMOBSvgSize(size);
 		this.props.mappingActions.setFeatureCollectionKeyPostfix('MarkerSvgSize:' + size);
 	}
+
 	render() {
 		let secondaryInfo = false;
 
@@ -122,8 +124,59 @@ export class Container_ extends React.Component {
 				getEMOBFeatureCollectionSelectedIndex(this.props.emob) || 0
 			];
 		}
+
+		let title = null;
+		let filterDesc = '';
+		let titleContent;
+		let qTitle = queryString.parse(this.props.routing.location.search).title;
+		if (qTitle !== undefined) {
+			if (qTitle === null || qTitle === '') {
+				filterDesc = getEMOBFilterDescription(this.props.emob);
+				titleContent = (
+					<div>
+						<b>Meine Ladestationen: </b> {filterDesc}
+					</div>
+				);
+			} else {
+				filterDesc = qTitle;
+				titleContent = <div>{filterDesc}</div>;
+			}
+			if (filterDesc !== '' && getEMOBFilteredData(this.props.emob).length > 0) {
+				title = (
+					<table
+						style={{
+							width: this.props.uiState.width - 54 - 12 - 38 - 12 + 'px',
+							height: '30px',
+							position: 'absolute',
+							left: 54,
+							top: 12,
+							zIndex: 555
+						}}
+					>
+						<tbody>
+							<tr>
+								<td
+									style={{
+										textAlign: 'center',
+										verticalAlign: 'middle',
+										background: '#ffffff',
+										color: 'black',
+										opacity: '0.9',
+										paddingLeft: '10px'
+									}}
+								>
+									{titleContent}
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				);
+			}
+		}
+
 		return (
 			<div>
+				{title}
 				{isSecondaryInfoBoxVisible(this.props.emob) === true &&
 				selectedFeature !== undefined && (
 					<SecondaryInfoModal

@@ -14,8 +14,8 @@ const BaederModalMenuIntroduction = ({ uiStateActions }) => {
 				onClick={() => uiStateActions.setApplicationMenuActiveKey('filter')}
 			>
 				Filter
-			</Link>, um die in der Karte angezeigten Ladestationen auf die für Sie relevanten
-			Stationen zu beschränken. Über{' '}
+			</Link>, um die in der Karte angezeigten Ladestationen für E-Autos auf die für Sie
+			relevanten Stationen zu beschränken. Über{' '}
 			<Link
 				id='lnkSettings'
 				to='settings'
@@ -26,7 +26,7 @@ const BaederModalMenuIntroduction = ({ uiStateActions }) => {
 			>
 				Einstellungen
 			</Link>{' '}
-			können Sie die Darstellung der Hintergrundkarte und der Anlagen an Ihre Vorlieben
+			können Sie die Darstellung der Hintergrundkarte und der Ladestationen an Ihre Vorlieben
 			anpassen. Wählen Sie{' '}
 			<Link
 				id='lnkHelp'

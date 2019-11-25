@@ -4,6 +4,8 @@ import { Modal, Button, Accordion, Panel } from 'react-bootstrap';
 import { Icon } from 'react-fa';
 import GenericRVRStadtplanwerkMenuFooter from '../commons/GenericRVRStadtplanwerkMenuFooter';
 import { SSL_OP_ALLOW_UNSAFE_LEGACY_RENEGOTIATION } from 'constants';
+import CismetFooterAcks from '../commons/CismetFooterAcknowledgements';
+
 const Comp = ({ visible, anlagenFeature, setVisibleState, uiHeight }) => {
 	const close = () => {
 		setVisibleState(false);
@@ -172,7 +174,11 @@ const Comp = ({ visible, anlagenFeature, setVisibleState, uiHeight }) => {
 									paddingRight: '30px'
 								}}
 							>
-								<GenericRVRStadtplanwerkMenuFooter />
+								<div>
+									<span style={{ fontSize: '11px' }}>
+										<CismetFooterAcks />
+									</span>
+								</div>
 							</td>
 							<td>
 								<Button

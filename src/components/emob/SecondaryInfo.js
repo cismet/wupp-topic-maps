@@ -5,6 +5,7 @@ import { Icon } from 'react-fa';
 import GenericRVRStadtplanwerkMenuFooter from '../commons/GenericRVRStadtplanwerkMenuFooter';
 import { SSL_OP_ALLOW_UNSAFE_LEGACY_RENEGOTIATION } from 'constants';
 import { getColorForProperties } from '../../utils/emobHelper';
+import CismetFooterAcks from '../commons/CismetFooterAcknowledgements';
 
 import IconLink from '../commons/IconLink';
 
@@ -196,11 +197,15 @@ const Comp = ({ visible, feature, setVisibleState, uiHeight }) => {
 							<td
 								style={{
 									textAlign: 'left',
-									verticalAlign: 'top',
+									verticalAlign: 'bottom',
 									paddingRight: '30px'
 								}}
 							>
-								<GenericRVRStadtplanwerkMenuFooter />
+								<div>
+									<span style={{ fontSize: '11px' }}>
+										<CismetFooterAcks />
+									</span>
+								</div>
 							</td>
 							<td>
 								<Button

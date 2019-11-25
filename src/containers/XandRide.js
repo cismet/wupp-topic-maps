@@ -16,7 +16,8 @@ import {
 	hasMinifiedInfoBox,
 	getPRBRFilter,
 	getPRBRFilteredData,
-	isSecondaryInfoBoxVisible
+	isSecondaryInfoBoxVisible,
+	getPRBRFilterDescription
 } from '../redux/modules/prbr';
 
 import { routerActions as RoutingActions } from 'react-router-redux';
@@ -123,8 +124,67 @@ export class Container_ extends React.Component {
 				getPRBRFeatureCollectionSelectedIndex(this.props.prbr) || 0
 			];
 		}
+
+		let title = null;
+		let filterDesc = '';
+		let titleContent;
+		let qTitle = queryString.parse(this.props.routing.location.search).title;
+		if (qTitle !== undefined) {
+			if (qTitle === null || qTitle === '') {
+				filterDesc = getPRBRFilterDescription(this.props.prbr);
+				titleContent = (
+					<div>
+						<b>Eingeschränkte Auswahl: </b> {filterDesc}
+					</div>
+				);
+			} else {
+				filterDesc = qTitle;
+				titleContent = <div>{filterDesc}</div>;
+			}
+
+			let filteredDataLength = getPRBRFilteredData(this.props.prbr).length;
+			let allDataLength = getPRBRs(this.props.prbr).length;
+
+			if (
+				filterDesc !== '' &&
+				filteredDataLength > 0 &&
+				!(filteredDataLength === allDataLength)
+			) {
+				title = (
+					<table
+						style={{
+							width: this.props.uiState.width - 54 - 12 - 38 - 12 + 'px',
+							height: '30px',
+							position: 'absolute',
+							left: 54,
+							top: 12,
+							zIndex: 555
+						}}
+					>
+						<tbody>
+							<tr>
+								<td
+									style={{
+										textAlign: 'center',
+										verticalAlign: 'middle',
+										background: '#ffffff',
+										color: 'black',
+										opacity: '0.9',
+										paddingLeft: '10px'
+									}}
+								>
+									{titleContent}
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				);
+			}
+		}
+
 		return (
 			<div>
+				{title}
 				{isSecondaryInfoBoxVisible(this.props.prbr) === true &&
 				selectedFeature !== undefined && (
 					<SecondaryInfoModal

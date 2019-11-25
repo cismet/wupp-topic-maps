@@ -40,11 +40,55 @@ const ModalMenuSettingsSection = ({
 	let clusteredObjects = queryString.parse(urlSearch).unclustered !== null;
 
 	let namedMapStyle = new URLSearchParams(urlSearch).get('mapStyle') || 'default';
+	let customTitle = queryString.parse(urlSearch).title;
+	let titleDisplay = customTitle !== undefined;
+
 	let zoom = 7;
 	let layers = '';
 	if (topicMapRef) {
 		layers = topicMapRef.wrappedInstance.props.backgroundlayers;
 	}
+
+	let titlePreview = (
+		<div
+			style={{
+				align: 'center',
+				width: '100%'
+			}}
+		>
+			<div
+				style={{
+					height: '10px'
+				}}
+			/>
+			<table
+				style={{
+					width: '96%',
+					height: '30px',
+					margin: '0 auto',
+					zIndex: 999655
+				}}
+			>
+				<tbody>
+					<tr>
+						<td
+							style={{
+								textAlign: 'center',
+								verticalAlign: 'middle',
+								background: '#ffffff',
+								color: 'black',
+								opacity: '0.9',
+								paddingleft: '10px'
+							}}
+						>
+							<b>Eingeschränkte Auswahl: </b> alle Anlagen innerhalb einer Umweltzone
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	);
+
 	const mapPreview = (
 		<Map
 			// ref={leafletMap => {
@@ -117,6 +161,17 @@ const ModalMenuSettingsSection = ({
 				>
 				</div> */}
 				{mapPreview}
+				{titleDisplay === true && (
+					<div
+						style={{
+							position: 'relative',
+							top: -300,
+							zIndex: 100000
+						}}
+					>
+						{titlePreview}
+					</div>
+				)}
 			</FormGroup>
 		</div>
 	);
@@ -160,7 +215,28 @@ const ModalMenuSettingsSection = ({
 						<div>
 							<ControlLabel>P+R / B+R -Einstellungen:</ControlLabel>
 							<br />
-
+							<Checkbox
+								readOnly={true}
+								key={'title.checkbox' + titleDisplay}
+								checked={titleDisplay}
+								onClick={(e) => {
+									if (e.target.checked === false) {
+										pushNewRoute(
+											urlPathname + removeQueryPart(urlSearch, 'title')
+										);
+									} else {
+										pushNewRoute(
+											urlPathname +
+												(urlSearch !== '' ? urlSearch : '?') +
+												'&title'
+										);
+									}
+								}}
+								inline
+							>
+								Titel bei individueller Filterung anzeigen
+							</Checkbox>
+							<br />
 							<Checkbox
 								readOnly={true}
 								key={'clustered.checkbox' + clusteredObjects}

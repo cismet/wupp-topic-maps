@@ -168,7 +168,10 @@ export const getPRBRSvgSize = (state) =>
 	markerSizeDuck.selectors.getMarkerSize(state.markerSizeState);
 export const hasMinifiedInfoBox = (state) => state.infoBoxState.minified;
 export const isSecondaryInfoBoxVisible = (state) => state.secondaryInfoBoxVisibility.visible;
-
+export const getPRBRFilterDescription = (state) =>
+	convertPRBRFilterToText(
+		featureCollectionDuck.selectors.getFilter(state.featureCollectionState)
+	);
 //HELPER FUNCTIONS
 function convertPRBRToFeature(prbr, index) {
 	const id = prbr.id;
@@ -192,4 +195,24 @@ function convertPRBRToFeature(prbr, index) {
 		},
 		properties: prbr
 	};
+}
+
+function convertPRBRFilterToText(filter) {
+	let filterDescription = '';
+	if (filter.bandr === true && filter.pandr === true) {
+		filterDescription = 'alle Anlagen';
+	} else if (filter.bandr === true) {
+		filterDescription = 'alle B+R Anlagen';
+	} else if (filter.pandr === true) {
+		filterDescription = 'alle P+R Anlagen';
+	}
+
+	if (filter.envZoneWithin === false || filter.envZoneOutside === false) {
+		if (filter.envZoneWithin === true) {
+			filterDescription += ' innerhalb einer Umweltzone';
+		} else if (filter.envZoneOutside === true) {
+			filterDescription += ' innerhalb einer Umweltzone';
+		}
+	}
+	return filterDescription;
 }

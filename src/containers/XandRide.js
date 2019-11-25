@@ -61,7 +61,7 @@ export class Container_ extends React.Component {
 		);
 	}
 	componentDidMount() {
-		document.title = 'P&R / B&R  Wuppertal';
+		document.title = 'Park+Ride-Karte Wuppertal';
 	}
 	gotoHome() {
 		if (this.topicMap) {

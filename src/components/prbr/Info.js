@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import InfoBox from '../commons/InfoBox';
 import { getColorForProperties } from '../../utils/prbrHelper';
-import { triggerLightBoxForPOI } from '../../utils/stadtplanHelper';
+import { triggerLightBoxForPOI } from '../../utils/commonHelpers';
 import { Icon } from 'react-fa';
 import IconLink from '../commons/IconLink';
 

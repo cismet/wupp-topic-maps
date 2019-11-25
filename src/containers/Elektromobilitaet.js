@@ -141,7 +141,11 @@ export class Container_ extends React.Component {
 				filterDesc = qTitle;
 				titleContent = <div>{filterDesc}</div>;
 			}
-			if (filterDesc !== '' && getEMOBFilteredData(this.props.emob).length > 0) {
+			if (
+				filterDesc !== '' &&
+				getEMOBFilteredData(this.props.emob).length > 0 &&
+				!(getEMOBs(this.props.emob).length === getEMOBFilteredData(this.props.emob).length)
+			) {
 				title = (
 					<table
 						style={{

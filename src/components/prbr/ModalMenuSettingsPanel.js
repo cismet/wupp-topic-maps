@@ -219,7 +219,8 @@ const ModalMenuSettingsSection = ({
 							style={{
 								position: 'relative',
 								top: -300,
-								zIndex: 100000
+								zIndex: 100000,
+								webkitTransform: 'translate3d(0,0,0)'
 							}}
 						>
 							{titlePreview}

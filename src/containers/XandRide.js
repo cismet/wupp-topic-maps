@@ -17,9 +17,10 @@ import {
 	getPRBRFilter,
 	getPRBRFilteredData,
 	isSecondaryInfoBoxVisible,
-	getPRBRFilterDescription
+	getPRBRFilterDescription,
+	isEnvZoneVisible
 } from '../redux/modules/prbr';
-
+import { FeatureCollectionDisplay, FeatureCollectionDisplayWithTooltipLabels } from 'react-cismap';
 import { routerActions as RoutingActions } from 'react-router-redux';
 import {
 	getFeatureStyler,
@@ -262,6 +263,8 @@ export class Container_ extends React.Component {
 							featureCollectionObjectsCount={
 								getPRBRFeatureCollection(this.props.prbr).length
 							}
+							envZoneVisible={isEnvZoneVisible(this.props.prbr)}
+							setEnvZoneVisible={this.props.prbrActions.setEnvZoneVisible}
 						/>
 					}
 					clusteringEnabled={
@@ -285,25 +288,58 @@ export class Container_ extends React.Component {
 					}}
 					featureCollectionKeyPostfix={this.props.mapping.featureCollectionKeyPostfix}
 				>
-					<WMSTileLayer
-						key={
-							'UWZ.with.background' +
-							(this.props.match.params.layers ||
-								reduxBackground ||
-								'wupp-plan-live') +
-							backgroundStyling
-						}
-						url='https://maps.wuppertal.de/deegree/wms'
-						layers={'uwz'}
-						version='1.1.1'
-						transparent='true'
-						format='image/png'
-						tiled='true'
-						styles='default'
-						maxZoom={19}
-						opacity={0.5}
-						caching={true}
-					/>
+					{/* {isEnvZoneVisible(this.props.prbr) && (
+						<WMSTileLayer
+							key={
+								'UWZ.with.background' +
+								(this.props.match.params.layers ||
+									reduxBackground ||
+									'wupp-plan-live') +
+								backgroundStyling
+							}
+							url='https://maps.wuppertal.de/deegree/wms'
+							layers={'uwz'}
+							version='1.1.1'
+							transparent='true'
+							format='image/png'
+							tiled='true'
+							styles='default'
+							maxZoom={19}
+							opacity={0.5}
+							caching={true}
+						/>
+					)} */}
+					{isEnvZoneVisible(this.props.prbr) && (
+						<FeatureCollectionDisplayWithTooltipLabels
+							key={'ds'}
+							featureCollection={uwz}
+							boundingBox={this.props.mapping.boundingBox}
+							style={(feature) => {
+								const style = {
+									color: '#155317',
+									weight: 3,
+									opacity: 0.5,
+									fillColor: '#155317',
+									fillOpacity: 0.15
+								};
+								return style;
+							}}
+							labeler={(feature) => {
+								return (
+									<h3
+										style={{
+											color: '#155317',
+											opacity: 0.7,
+											textShadow:
+												'1px 1px 0px  #000000,-1px 1px 0px  #000000, 1px -1px 0px  #000000, -1px -1px 0px  #000000, 2px 2px 15px #000000'
+										}}
+									>
+										Umweltzone
+									</h3>
+								);
+							}}
+						/>
+					)}
 				</TopicMap>
 			</div>
 		);

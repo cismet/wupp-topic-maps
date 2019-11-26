@@ -12,7 +12,9 @@ import { addSVGToPRBR } from '../../utils/prbrHelper';
 
 //TYPES
 //no types bc no local store
-export const types = {};
+export const types = {
+	SET_ENV_ZONE_VISIBILITY: 'PRBR/SET_ENV_ZONE_VISIBILITY'
+};
 
 export const constants = {
 	DEBUG_ALWAYS_LOADING: false
@@ -65,10 +67,23 @@ const secondaryInfoBoxVisibilityStateDuck = makeSecondaryInfoBoxVisibilityStateD
 );
 
 ///INITIAL STATE
-//no localState
+const initialState = {
+	envZoneVisibility: true
+};
 
 ///REDUCER
-//no localState
+const localReducer = (state = initialState, action) => {
+	let newState = objectAssign({}, state);
+
+	switch (action.type) {
+		case types.SET_ENV_ZONE_VISIBILITY: {
+			newState.envZoneVisibility = action.visible;
+			return newState;
+		}
+		default:
+			return state;
+	}
+};
 
 //Storage Configs
 const markerSizeStorageConfig = {
@@ -91,6 +106,11 @@ const prbrFeatureCollectionStateStorageConfig = {
 	storage: localForage,
 	whitelist: [ 'filter' ]
 };
+const localStateStorageConfig = {
+	key: 'prbrlocal',
+	storage: localForage,
+	whitelist: [ 'envZoneVisibility' ]
+};
 
 const reducer = combineReducers({
 	dataState: persistReducer(dataStateStorageConfig, dataDuck.reducer),
@@ -98,6 +118,7 @@ const reducer = combineReducers({
 		prbrFeatureCollectionStateStorageConfig,
 		featureCollectionDuck.reducer
 	),
+	localState: persistReducer(localStateStorageConfig, localReducer),
 	markerSizeState: persistReducer(markerSizeStorageConfig, markerSizeDuck.reducer),
 	secondaryInfoBoxVisibility: secondaryInfoBoxVisibilityStateDuck.reducer,
 	infoBoxState: persistReducer(infoBoxStateStorageConfig, infoBoxStateDuck.reducer)
@@ -106,8 +127,8 @@ const reducer = combineReducers({
 export default reducer;
 
 //SIMPLEACTIONCREATORS
-function setSecondaryInfoVisible(secondaryInfoShown) {
-	return { type: types.SET_PRBR_SECONDARY_INFO_VISIBLE, secondaryInfoShown };
+function setEnvZoneVisible(visible) {
+	return { type: types.SET_ENV_ZONE_VISIBILITY, visible };
 }
 //COMPLEXACTIONS
 function loadPRBRs() {
@@ -150,7 +171,8 @@ export const actions = {
 	createFeatureCollection: featureCollectionDuck.actions.createFeatureCollection,
 	refreshFeatureCollection: featureCollectionDuck.actions.createFeatureCollection,
 	setPRBRSvgSize: markerSizeDuck.actions.setSize,
-	setMinifiedInfoBox: infoBoxStateDuck.actions.setMinifiedInfoBoxState
+	setMinifiedInfoBox: infoBoxStateDuck.actions.setMinifiedInfoBoxState,
+	setEnvZoneVisible
 };
 
 //EXPORT SELECTORS
@@ -172,6 +194,8 @@ export const getPRBRFilterDescription = (state) =>
 	convertPRBRFilterToText(
 		featureCollectionDuck.selectors.getFilter(state.featureCollectionState)
 	);
+export const isEnvZoneVisible = (state) => state.localState.envZoneVisibility;
+
 //HELPER FUNCTIONS
 function convertPRBRToFeature(prbr, index) {
 	const id = prbr.id;

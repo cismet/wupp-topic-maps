@@ -26,7 +26,9 @@ const ModalMenu = ({
 	filter,
 	setFilter,
 	filteredObjects,
-	featureCollectionObjectsCount
+	featureCollectionObjectsCount,
+	envZoneVisible = true,
+	setEnvZoneVisible = () => {}
 }) => {
 	const filteredObjectsCount = (filteredObjects || []).length;
 	let rightTerm = filteredObjectsCount !== 1 ? 'Anlagen' : 'Anlage';
@@ -80,6 +82,8 @@ const ModalMenu = ({
 					activeLayerKey={activeLayerKey}
 					refreshFeatureCollection={refreshFeatureCollection}
 					setFeatureCollectionKeyPostfix={setFeatureCollectionKeyPostfix}
+					envZoneVisible={envZoneVisible}
+					setEnvZoneVisible={setEnvZoneVisible}
 				/>,
 
 				<ModalMenuHelpSection

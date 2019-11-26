@@ -8,10 +8,18 @@ import SettingsPanelWithPreviewSection from '../commons/SettingsPanelWithPreview
 import { getInternetExplorerVersion } from '../../utils/browserHelper';
 import 'url-search-params-polyfill';
 import { getColorForProperties, getPRSVG } from '../../utils/prbrHelper';
-import { MappingConstants, FeatureCollectionDisplay, getLayersByName } from 'react-cismap';
+import uwz from './UWZ';
+
+import {
+	MappingConstants,
+	FeatureCollectionDisplay,
+	getLayersByName,
+	FeatureCollectionDisplayWithTooltipLabels
+} from 'react-cismap';
 import SVGInline from 'react-svg-inline';
 import queryString from 'query-string';
 import { removeQueryPart } from '../../utils/routingHelper';
+import { WMSTileLayer } from 'react-leaflet';
 
 import { Map } from 'react-leaflet';
 import {
@@ -35,7 +43,9 @@ const ModalMenuSettingsSection = ({
 	setLayerByKey,
 	activeLayerKey,
 	refreshFeatureCollection,
-	setFeatureCollectionKeyPostfix
+	setFeatureCollectionKeyPostfix,
+	envZoneVisible = true,
+	setEnvZoneVisible = () => {}
 }) => {
 	let clusteredObjects = queryString.parse(urlSearch).unclustered !== null;
 
@@ -141,37 +151,81 @@ const ModalMenuSettingsSection = ({
 				//mapRef={topicMapRef} // commented out because there cannot be a ref in a functional comp and it is bnot needed
 				showMarkerCollection={false}
 			/>
+			{/* {envZoneVisible && (
+				<WMSTileLayer
+					key={'UWZ.with.background' + envZoneVisible}
+					url='https://maps.wuppertal.de/deegree/wms'
+					layers={'uwz'}
+					version='1.1.1'
+					transparent='true'
+					format='image/png'
+					tiled='true'
+					styles='default'
+					maxZoom={19}
+					opacity={0.5}
+					caching={true}
+				/>
+			)} */}
+			{envZoneVisible && (
+				<FeatureCollectionDisplay
+					key={'ds'}
+					featureCollection={uwz}
+					boundingBox={{
+						left: 343647.19856823067,
+						top: 5695957.177980389,
+						right: 398987.6070465423,
+						bottom: 5652273.416315537
+					}}
+					style={(feature) => {
+						const style = {
+							color: '#155317',
+							weight: 3,
+							opacity: 0.5,
+							fillColor: '#155317',
+							fillOpacity: 0.15
+						};
+						return style;
+					}}
+					labeler={(feature) => {
+						return (
+							<h3
+								style={{
+									color: '#155317',
+									opacity: 0.7,
+									textShadow:
+										'1px 1px 0px  #000000,-1px 1px 0px  #000000, 1px -1px 0px  #000000, -1px -1px 0px  #000000, 2px 2px 15px #000000'
+								}}
+							>
+								Umweltzone
+							</h3>
+						);
+					}}
+				/>
+			)}
 		</Map>
 	);
+	let marginBottomCorrection = 0;
+	if (titleDisplay) {
+		marginBottomCorrection = -40;
+	}
 	const preview = (
 		<div>
 			<FormGroup>
 				<ControlLabel>Vorschau:</ControlLabel>
-				<br />
-				{/* <div
-					style={{
-						backgroundImage:
-							"url('/images/map.preview.default" +
-							".png')",
-						width: '100%',
-						height: '250px',
-						filter: filter,
-						backgroundPosition: 'center'
-					}}
-				>
-				</div> */}
-				{mapPreview}
-				{titleDisplay === true && (
-					<div
-						style={{
-							position: 'relative',
-							top: -300,
-							zIndex: 100000
-						}}
-					>
-						{titlePreview}
-					</div>
-				)}
+				<div style={{ marginBottom: marginBottomCorrection }}>
+					<div>{mapPreview}</div>
+					{titleDisplay === true && (
+						<div
+							style={{
+								position: 'relative',
+								top: -300,
+								zIndex: 100000
+							}}
+						>
+							{titlePreview}
+						</div>
+					)}
+				</div>
 			</FormGroup>
 		</div>
 	);
@@ -271,7 +325,24 @@ const ModalMenuSettingsSection = ({
 							setLayerByKey={setLayerByKey}
 							activeLayerKey={activeLayerKey}
 							modes={backgroundModes}
-						/>,
+						>
+							<div beforeLayerRadios>
+								<Checkbox
+									readOnly={true}
+									key={'envZone.checkbox'}
+									onClick={(e) => {
+										setEnvZoneVisible(e.target.checked);
+										setFeatureCollectionKeyPostfix(
+											'envZoneVisible:' + e.target.checked
+										);
+									}}
+									checked={envZoneVisible}
+									inline
+								>
+									Umweltzone
+								</Checkbox>
+							</div>
+						</NamedMapStyleChooser>,
 						<SymbolSizeChooser
 							changeMarkerSymbolSize={changeMarkerSymbolSize}
 							currentMarkerSize={currentMarkerSize}

@@ -258,7 +258,8 @@ export class Container_ extends React.Component {
 					ref={(comp) => {
 						this.topicMap = comp;
 					}}
-					initialLoadingText='Laden der Anlagen ...'
+					_initialLoadingText='Laden der Anlagen ...'
+					noInitialLoadingText
 					fullScreenControl
 					locatorControl
 					gazetteerSearchBox
@@ -289,7 +290,7 @@ export class Container_ extends React.Component {
 						reduxBackground ||
 						'wupp-plan-live'
 					}
-					dataLoader={this.props.prbrActions.loadPRBRs}
+					XdataLoader={this.props.prbrActions.loadPRBRs}
 					getFeatureCollectionForData={() => {
 						return [];
 					}}

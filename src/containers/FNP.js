@@ -160,7 +160,6 @@ export class Container_ extends React.Component {
 			];
 		}
 
-		console.log(this.props.match.params.mode);
 		let secondaryInfo = false;
 
 		let info = (
@@ -263,7 +262,14 @@ export class Container_ extends React.Component {
 					fullScreenControl
 					locatorControl
 					gazetteerSearchBox
-					gazetteerTopicsList={[ 'pois', 'kitas', 'quartiere', 'bezirke', 'adressen' ]}
+					gazetteerTopicsList={[
+						'bplaene',
+						'pois',
+						'kitas',
+						'quartiere',
+						'bezirke',
+						'adressen'
+					]}
 					gazetteerSearchBoxPlaceholdertext='ÄV | BPläne | Stadtteil | Adresse | POI'
 					gazeteerHitTrigger={(selectedObject) => {
 						if (

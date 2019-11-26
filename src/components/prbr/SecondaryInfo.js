@@ -132,8 +132,8 @@ const Comp = ({ visible, anlagenFeature, setVisibleState, uiHeight }) => {
 											}}
 										>
 											<h4>
-												Mit einem Klick die Fahrplanauskunft dieser
-												Haltestelle öffnen.
+												Mit einem Klick die Fahrplanauskunft des VRR zu
+												dieser Haltestelle öffnen.
 											</h4>
 											<img
 												alt='Bild'
@@ -175,7 +175,7 @@ const Comp = ({ visible, anlagenFeature, setVisibleState, uiHeight }) => {
 								}}
 							>
 								<div>
-									<span style={{ fontSize: '11px' }}>
+									<span style={{ verticalAlign: 'bottom', fontSize: '11px' }}>
 										<CismetFooterAcks />
 									</span>
 								</div>

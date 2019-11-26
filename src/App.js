@@ -14,6 +14,7 @@ import Kitas from './containers/Kitas';
 import Experiments from './containers/Experiments';
 import Reset from './containers/Reset';
 import DocViewer from './containers/DocViewer';
+import FNP from './containers/FNP';
 
 import Elektromobilitaet from './containers/Elektromobilitaet';
 import XandRide from './containers/XandRide';
@@ -74,6 +75,7 @@ export default class App extends React.Component {
 								path='/bplaene/:layers?/:bplannummer?'
 								component={BPlaene}
 							/>
+							<Route exact path='/fnp/' component={FNP} />
 							<Route exact path='/stadtplan/:layers?/' component={Stadtplan} />
 							<Route
 								exact

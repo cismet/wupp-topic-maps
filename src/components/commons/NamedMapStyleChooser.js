@@ -18,7 +18,11 @@ const NamedMapStyleChooser = ({
 }) => {
 	let beforeLayerRadios = false;
 	//keep false when its undefined
-	if (children.props.beforeLayerRadios === true) {
+	if (
+		children !== undefined &&
+		children.props !== undefined &&
+		children.props.beforeLayerRadios === true
+	) {
 		beforeLayerRadios = true;
 	}
 

@@ -63,7 +63,7 @@ export class Container_ extends React.Component {
 		);
 	}
 	componentDidMount() {
-		document.title = 'Park+Ride-Karte Wuppertal';
+		document.title = 'FNP Auskunft Wuppertal';
 	}
 	gotoHome() {
 		if (this.topicMap) {
@@ -76,6 +76,91 @@ export class Container_ extends React.Component {
 		this.props.mappingActions.setFeatureCollectionKeyPostfix('MarkerSvgSize:' + size);
 	}
 	render() {
+		let titleContent;
+		let backgrounds = [];
+		if (
+			this.props.match.params.mode !== 'arbeitskarte' &&
+			this.props.match.params.mode !== 'rechtsplan'
+		) {
+			this.props.routingActions.push('/fnp/rechtsplan' + this.props.routing.location.search);
+		} else if (this.props.match.params.mode === 'arbeitskarte') {
+			titleContent = (
+				<div>
+					<b>Arbeitskarte (rein informell): </b> Nur Hauptnutzungen<div
+						style={{ float: 'right', paddingRight: 10 }}
+					>
+						<a href={'/#/fnp/rechtsplan' + this.props.routing.location.search}>
+							zum Rechtsplan
+						</a>
+					</div>
+				</div>
+			);
+			backgrounds = [
+				<WMSTileLayer
+					key={
+						'UWZ.with.background' +
+						(this.props.match.params.layers || reduxBackground || 'wupp-plan-live') +
+						backgroundStyling
+					}
+					url='http://s10221.wuppertal-intra.de:8099/rvr/services'
+					layers={'spw2_graublau'}
+					version='1.1.1'
+					transparent='true'
+					format='image/png'
+					tiled='true'
+					styles='default'
+					maxZoom={19}
+					opacity={1}
+					caching={true}
+				/>,
+				<WMSTileLayer
+					key={'Hauptnutzungen.flaeche' + backgroundStyling}
+					url='http://planungsdaten.wuppertal-intra.de:8399/arcgis/services/WuNDa-FNP/MapServer/WMSServer'
+					layers={'2'}
+					version='1.1.1'
+					transparent='true'
+					format='image/png'
+					tiled='true'
+					styles='default'
+					maxZoom={19}
+					opacity={0.4}
+					caching={true}
+				/>
+			];
+		} else {
+			titleContent = (
+				<div>
+					<b>Rechtsplan: </b> FNP Stand 17.01.2005 (inkl. Änderungsverfahren als Umringe)<div
+						style={{ float: 'right', paddingRight: 10 }}
+					>
+						<a href={'/#/fnp/arbeitskarte' + this.props.routing.location.search}>
+							zur Arbeitskarte
+						</a>
+					</div>
+				</div>
+			);
+			backgrounds = [
+				<WMSTileLayer
+					key={
+						'UWZ.with.background' +
+						(this.props.match.params.layers || reduxBackground || 'wupp-plan-live') +
+						backgroundStyling
+					}
+					url='http://planungsdaten.wuppertal-intra.de:8399/arcgis/services/WuNDa-FNP/MapServer/WMSServer'
+					layers={'0'}
+					version='1.1.1'
+					transparent='true'
+					format='image/png'
+					tiled='true'
+					styles='default'
+					maxZoom={19}
+					opacity={0.7}
+					caching={true}
+				/>
+			];
+		}
+
+		console.log(this.props.match.params.mode);
 		let secondaryInfo = false;
 
 		let info = (
@@ -127,58 +212,36 @@ export class Container_ extends React.Component {
 		}
 
 		let title = null;
-		let filterDesc = '';
-		let titleContent;
-		let qTitle = '';
-		if (qTitle !== undefined) {
-			if (qTitle === null || qTitle === '') {
-				filterDesc = getPRBRFilterDescription(this.props.prbr);
-				titleContent = (
-					<div>
-						<b>Rechtsplan: </b> FNP Stand 17.01.2005 (inkl. Änderungsverfahren als
-						Umringe)<div style={{ float: 'right', paddingRight: 10 }}>
-							<a href=''>zur Arbeitskarte</a>
-						</div>
-					</div>
-				);
-			} else {
-				filterDesc = qTitle;
-				titleContent = <div>{filterDesc}</div>;
-			}
 
-			let filteredDataLength = getPRBRFilteredData(this.props.prbr).length;
-			let allDataLength = getPRBRs(this.props.prbr).length;
-
-			title = (
-				<table
-					style={{
-						width: this.props.uiState.width - 54 - 12 - 38 - 12 + 'px',
-						height: '30px',
-						position: 'absolute',
-						left: 54,
-						top: 12,
-						zIndex: 555
-					}}
-				>
-					<tbody>
-						<tr>
-							<td
-								style={{
-									textAlign: 'center',
-									verticalAlign: 'middle',
-									background: '#ffffff',
-									color: 'black',
-									opacity: '0.9',
-									paddingLeft: '10px'
-								}}
-							>
-								{titleContent}
-							</td>
-						</tr>
-					</tbody>
-				</table>
-			);
-		}
+		title = (
+			<table
+				style={{
+					width: this.props.uiState.width - 54 - 12 - 38 - 12 + 'px',
+					height: '30px',
+					position: 'absolute',
+					left: 54,
+					top: 12,
+					zIndex: 555
+				}}
+			>
+				<tbody>
+					<tr>
+						<td
+							style={{
+								textAlign: 'center',
+								verticalAlign: 'middle',
+								background: '#ffffff',
+								color: 'black',
+								opacity: '0.9',
+								paddingLeft: '10px'
+							}}
+						>
+							{titleContent}
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		);
 
 		return (
 			<div>
@@ -200,15 +263,8 @@ export class Container_ extends React.Component {
 					fullScreenControl
 					locatorControl
 					gazetteerSearchBox
-					gazetteerTopicsList={[
-						'prbr',
-						'pois',
-						'kitas',
-						'quartiere',
-						'bezirke',
-						'adressen'
-					]}
-					gazetteerSearchBoxPlaceholdertext='P+R | B+R | Stadtteil | Adresse | POI'
+					gazetteerTopicsList={[ 'pois', 'kitas', 'quartiere', 'bezirke', 'adressen' ]}
+					gazetteerSearchBoxPlaceholdertext='ÄV | BPläne | Stadtteil | Adresse | POI'
 					gazeteerHitTrigger={(selectedObject) => {
 						if (
 							selectedObject &&
@@ -238,8 +294,8 @@ export class Container_ extends React.Component {
 					refreshFeatureCollection={this.props.prbrActions.refreshFeatureCollection}
 					setSelectedFeatureIndex={this.props.prbrActions.setSelectedFeatureIndex}
 					featureHoverer={featureHoverer}
-					applicationMenuTooltipString='Filter | Einstellungen | Kompaktanleitung'
-					modalMenu={
+					applicationMenuTooltipString='Einstellungen | Kompaktanleitung'
+					modalMenu_={
 						<div />
 						// <PRBRModalMenu
 						// 	uiState={this.props.uiState}
@@ -289,25 +345,7 @@ export class Container_ extends React.Component {
 					}}
 					featureCollectionKeyPostfix={this.props.mapping.featureCollectionKeyPostfix}
 				>
-					<WMSTileLayer
-						key={
-							'UWZ.with.background' +
-							(this.props.match.params.layers ||
-								reduxBackground ||
-								'wupp-plan-live') +
-							backgroundStyling
-						}
-						url='http://planungsdaten.wuppertal-intra.de:8399/arcgis/services/WuNDa-FNP/MapServer/WMSServer'
-						layers={'0'}
-						version='1.1.1'
-						transparent='true'
-						format='image/png'
-						tiled='true'
-						styles='default'
-						maxZoom={19}
-						opacity={0.7}
-						caching={true}
-					/>
+					{backgrounds}
 				</TopicMap>
 			</div>
 		);

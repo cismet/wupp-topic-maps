@@ -102,12 +102,12 @@ export class Container_ extends React.Component {
 						(this.props.match.params.layers || reduxBackground || 'wupp-plan-live') +
 						backgroundStyling
 					}
-					url='http://s10221.wuppertal-intra.de:8099/rvr/services'
+					url='https://geodaten.metropoleruhr.de/spw2/service'
 					layers={'spw2_graublau'}
-					version='1.1.1'
+					version='1.3.0'
 					transparent='true'
 					format='image/png'
-					tiled='true'
+					tiled='false'
 					styles='default'
 					maxZoom={19}
 					opacity={1}
@@ -115,12 +115,12 @@ export class Container_ extends React.Component {
 				/>,
 				<WMSTileLayer
 					key={'Hauptnutzungen.flaeche' + backgroundStyling}
-					url='http://planungsdaten.wuppertal-intra.de:8399/arcgis/services/WuNDa-FNP/MapServer/WMSServer'
-					layers={'2'}
+					url='https://maps.wuppertal.de/deegree/wms'
+					layers={'r102:fnp_haupt_fl'}
 					version='1.1.1'
 					transparent='true'
 					format='image/png'
-					tiled='true'
+					tiled='false'
 					styles='default'
 					maxZoom={19}
 					opacity={0.4}
@@ -146,8 +146,8 @@ export class Container_ extends React.Component {
 						(this.props.match.params.layers || reduxBackground || 'wupp-plan-live') +
 						backgroundStyling
 					}
-					url='http://planungsdaten.wuppertal-intra.de:8399/arcgis/services/WuNDa-FNP/MapServer/WMSServer'
-					layers={'0'}
+					url='https://maps.wuppertal.de/deegree/wms?SRS=EPSG:25832'
+					layers={'r102:fnp'}
 					version='1.1.1'
 					transparent='true'
 					format='image/png'

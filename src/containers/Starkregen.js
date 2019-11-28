@@ -17,6 +17,8 @@ import { modifyQueryPart } from '../utils/routingHelper';
 import InfoBox from '../components/starkregen/ControlInfoBox';
 import ContactButton from '../components/starkregen/ContactButton';
 import HelpAndInfo from '../components/starkregen/Help00MainComponent';
+import InfoBoxFotoPreview from '../components/commons/InfoBoxFotoPreview';
+
 /* eslint-disable jsx-a11y/anchor-is-valid */
 
 function mapStateToProps(state) {
@@ -294,6 +296,7 @@ export class Starkregen_ extends React.Component {
 				gazetteerSearchBoxPlaceholdertext='Stadtteil | Adresse | POI | GEP'
 				photoLightBox
 				infoBox={info}
+				secondaryInfoBoxElements={[]}
 				backgroundlayers={
 					this.props.match.params.layers ||
 					this.props.starkregen.backgrounds[validBackgroundIndex].layerkey

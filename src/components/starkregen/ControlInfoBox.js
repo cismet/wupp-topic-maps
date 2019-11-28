@@ -7,7 +7,8 @@ import Legend from './Legend';
 import L from 'leaflet';
 import CollapsibleWell from '../commons/CollapsibleWell';
 /* eslint-disable jsx-a11y/anchor-is-valid */
-
+import FeatureInfoModeButton from './FeatureInfoModeButton';
+import FeatureInfoModeBox from './FeatureInfoModeBox';
 // Since this component is simple and static, there's no parent container for it.
 const InfoBox = ({
 	pixelwidth,
@@ -28,145 +29,18 @@ const InfoBox = ({
 	mapCursor
 }) => {
 	const legend = <Legend legendObjects={legendObject} />;
-	let headerColor = '#7e7e7e';
-	if (featureInfoValue) {
-		for (const item of legendObject) {
-			if (featureInfoValue > item.lt) {
-				headerColor = item.bg;
-			}
-		}
-	}
-	if (featureInfoValue <= 0) {
-		featureInfoValue = 0;
-	}
 
 	const featureInfoModeButton = (
-		<div
-			key='featureInfoModeButton'
-			style={{ marginBottom: 5, textAlign: 'right', pointerEvents: 'auto' }}
-		>
-			<Button
-				id='cmdShowGetFeatureInfo'
-				title='Maximalen Wasserstand abfragen'
-				onClick={(e) => {
-					e.stopPropagation();
-					setFeatureInfoModeActivation(true);
-				}}
-			>
-				<Icon name='crosshairs' />
-			</Button>
-		</div>
+		<FeatureInfoModeButton setFeatureInfoModeActivation={setFeatureInfoModeActivation} />
 	);
 
 	const featureInfoModeBox = (
-		<div
-			onClick={(e) => e.stopPropagation()}
-			key='featureInfoModeBox'
-			style={{
-				pointerEvents: 'auto',
-				marginBottom: 5,
-				float: 'right',
-				width: '60%',
-				height_: '145px'
-			}}
-		>
-			<table style={{ width: '100%' }}>
-				<tbody>
-					<tr>
-						<td
-							style={{
-								opacity: '0.9',
-								paddingLeft: '2px',
-								paddingRight: '15px',
-								paddingTop: '0px',
-								paddingBottom: '0px',
-								background: headerColor,
-								textAlign: 'left'
-							}}
-						>
-							Maximaler Wasserstand
-						</td>
-						<td
-							style={{
-								opacity: '0.9',
-								paddingLeft: '0px',
-								paddingTop: '0px',
-								paddingRight: '2px',
-								paddingBottom: '0px',
-								background: headerColor,
-								textAlign: 'right'
-							}}
-						>
-							<a
-								onClick={() => {
-									setFeatureInfoModeActivation(false);
-								}}
-								style={{ color: 'black' }}
-							>
-								<Icon name='close' />{' '}
-							</a>
-						</td>
-					</tr>
-				</tbody>
-			</table>
-			<Well
-				bsSize='small'
-				style={{
-					opacity: '0.9',
-					paddingBottom: '0px'
-				}}
-			>
-				<table style={{ width: '100%', paddingBottom: '0px' }}>
-					<tbody>
-						<tr>
-							<td
-								style={{
-									opacity: '0.9',
-									paddingLeft: '0px',
-									paddingTop: '0px',
-									paddingBottom: '0px'
-								}}
-							>
-								{featureInfoValue !== undefined && (
-									<h2
-										style={{
-											marginTop: 0,
-											marginBottom: 0,
-											textAlign: 'center'
-										}}
-									>
-										{getRoundedValueStringForValue(featureInfoValue)}
-									</h2>
-								)}
-								{featureInfoValue === undefined && (
-									<p>
-										Klick in die Karte zur Abfrage des simulierten max.
-										Wasserstandes
-									</p>
-								)}
-							</td>
-						</tr>
-						{featureInfoValue !== undefined && (
-							<tr>
-								<td
-									style={{
-										opacity: '0.9',
-										paddingLeft: '0px',
-										paddingTop: '0px',
-										paddingBottom: '2px',
-										textAlign: 'center'
-									}}
-								>
-									<a onClick={() => showModalMenu('aussagekraft')}>
-										Information zur Aussagekraft
-									</a>
-								</td>
-							</tr>
-						)}
-					</tbody>
-				</table>
-			</Well>
-		</div>
+		<FeatureInfoModeBox
+			setFeatureInfoModeActivation={setFeatureInfoModeActivation}
+			featureInfoValue={featureInfoValue}
+			showModalmenu={showModalMenu}
+			legendObject={legendObject}
+		/>
 	);
 
 	const legendTable = (
@@ -381,12 +255,4 @@ InfoBox.propTypes = {
 
 InfoBox.defaultProps = {
 	showModalMenu: () => {}
-};
-
-const getRoundedValueStringForValue = (featureValue) => {
-	if (featureValue > 1.5) {
-		return `> 150 cm`;
-	} else {
-		return `ca. ${Math.round(featureValue * 10.0) * 10.0} cm`;
-	}
 };

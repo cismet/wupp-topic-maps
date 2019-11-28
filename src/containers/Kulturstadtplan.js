@@ -45,6 +45,9 @@ import PhotoLightbox from './PhotoLightbox';
 
 import 'react-image-lightbox/style.css';
 
+import InfoBoxFotoPreview from '../components/commons/InfoBoxFotoPreview';
+import { fotoKraemerUrlManipulation, fotoKraemerCaptionFactory } from '../utils/commonHelpers';
+
 function mapStateToProps(state) {
 	return {
 		uiState: state.uiState,
@@ -241,32 +244,6 @@ export class Stadtplan_ extends React.Component {
 		let qTitle = queryString.parse(this.props.routing.location.search).title;
 		if (qTitle !== undefined) {
 			if (qTitle === null || qTitle === '') {
-				// if (
-				// 	getFilter(this.props.stadtplan).positiv.length > 0 &&
-				// 	getFilter(this.props.stadtplan).positiv.length <
-				// 		getLebenslagen(this.props.stadtplan).length
-				// ) {
-				// 	if (getFilter(this.props.stadtplan).positiv.length <= 4) {
-				// 		themenstadtplanDesc += getFilter(this.props.stadtplan).positiv.join(', ');
-				// 	} else {
-				// 		themenstadtplanDesc +=
-				// 			getFilter(this.props.stadtplan).positiv.length + ' Themen';
-				// 	}
-				// 	if (getFilter(this.props.stadtplan).negativ.length > 0) {
-				// 		if (getFilter(this.props.stadtplan).negativ.length <= 3) {
-				// 			themenstadtplanDesc += ' ohne ';
-				// 			themenstadtplanDesc += getFilter(this.props.stadtplan).negativ.join(
-				// 				', '
-				// 			);
-				// 		} else {
-				// 			themenstadtplanDesc +=
-				// 				' (' +
-				// 				getFilter(this.props.stadtplan).negativ.length +
-				// 				' Themen ausgeschlossen)';
-				// 		}
-				// 	}
-				// }
-
 				const filterMode = getFilterMode(this.props.stadtplan);
 				const filter = getFilter(this.props.stadtplan);
 				let maxFilterCount;
@@ -345,7 +322,9 @@ export class Stadtplan_ extends React.Component {
 			reduxBackground = this.props.mapping.backgrounds[this.props.mapping.selectedBackground]
 				.layerkey;
 		} catch (e) {}
-
+		let selectedFeature = (this.props.mapping.featureCollection || [ {} ])[
+			this.props.mapping.selectedIndex || 0
+		];
 		return (
 			<div>
 				<PhotoLightbox /> {title}
@@ -366,6 +345,14 @@ export class Stadtplan_ extends React.Component {
 					gazetteerTopicsList={[ 'pois', 'kitas', 'bezirke', 'quartiere', 'adressen' ]}
 					gazetteerSearchBoxPlaceholdertext='Stadtteil | Adresse | POI'
 					infoBox={info}
+					secondaryInfoBoxElements={[
+						<InfoBoxFotoPreview
+							currentFeature={selectedFeature}
+							uiStateActions={this.props.uiStateActions}
+							urlManipulation={fotoKraemerUrlManipulation}
+							captionFactory={fotoKraemerCaptionFactory}
+						/>
+					]}
 					backgroundlayers={
 						this.props.match.params.layers || reduxBackground || 'wupp-plan-live@90'
 					}

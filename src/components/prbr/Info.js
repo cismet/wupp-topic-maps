@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import InfoBox from '../commons/InfoBox';
 import { getColorForProperties } from '../../utils/prbrHelper';
-import { triggerLightBoxForPOI } from '../../utils/commonHelpers';
+import { triggerLightBoxForFeature } from '../../utils/commonHelpers';
 import { Icon } from 'react-fa';
 import IconLink from '../commons/IconLink';
 
@@ -88,41 +88,6 @@ const Info = ({
 			);
 		}
 
-		if (currentFeature.properties.foto) {
-			const foto =
-				'https://www.wuppertal.de/geoportal/prbr/fotos/' + currentFeature.properties.foto;
-			fotoPreview = (
-				<table style={{ width: '100%' }}>
-					<tbody>
-						<tr>
-							<td style={{ textAlign: 'right', verticalAlign: 'top' }}>
-								<a
-									onClick={() => {
-										triggerLightBoxForPOI(
-											{ properties: { foto } },
-											uiStateActions
-										);
-									}}
-									hrefx={foto}
-									target='_fotos'
-								>
-									<img
-										alt='Bild'
-										style={{ paddingBottom: '5px' }}
-										src={foto.replace(
-											/http:\/\/.*fotokraemer-wuppertal\.de/,
-											'https://wunda-geoportal-fotos.cismet.de/'
-										)}
-										width='150'
-									/>
-								</a>
-							</td>
-						</tr>
-					</tbody>
-				</table>
-			);
-		}
-
 		headerColor = getColorForProperties(currentFeature.properties);
 		title = currentFeature.text;
 	}
@@ -153,7 +118,6 @@ const Info = ({
 			currentlyShownCountLabel={`${featureCollection.length} ${featureCollection.length === 1
 				? 'Anlage'
 				: 'Anlagen'} angezeigt`}
-			fotoPreview={fotoPreview}
 			collapsedInfoBox={minified}
 			setCollapsedInfoBox={minify}
 			noCurrentFeatureTitle={<h5>Keine Anlagen gefunden!</h5>}

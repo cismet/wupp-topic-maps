@@ -148,7 +148,6 @@ const KitaInfo = ({
 			currentlyShownCountLabel={`${featureCollection.length} ${featureCollection.length === 1
 				? 'Kita'
 				: 'Kitas'} angezeigt`}
-			fotoPreview={undefined}
 			collapsedInfoBox={minified}
 			setCollapsedInfoBox={minify}
 			noCurrentFeatureTitle={<h5>Keine Kitas gefunden!</h5>}

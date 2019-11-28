@@ -3,74 +3,70 @@ import PropTypes from 'prop-types';
 import { Icon } from 'react-fa';
 import queryString from 'query-string';
 
-export const triggerLightBoxForPOI = (
+export const triggerLightBoxForFeature = ({
 	currentFeature,
+	getPhotoUrl,
+	getPhotoSeriesUrl,
+	urlManipulation = (input) => input,
 	uiStateActions,
-	caption = (
+	captionFactory = (linkUrl) => (
 		<a href='https://www.wuppertal.de/service/impressum.php' target='_impressum'>
 			<Icon name='copyright' /> Stadt Wuppertal
 		</a>
-	)
-) => {
+	),
+	fallbackLinkUrl = 'http://www.fotokraemer-wuppertal.de/',
+	harvester = (data) => {
+		var tmp = document.implementation.createHTMLDocument();
+		tmp.body.innerHTML = data;
+		let urls = [];
+		let counter = 0;
+		let mainfotoname = decodeURIComponent(currentFeature.properties.foto)
+			.split('/')
+			.pop()
+			.trim();
+		let selectionWish = 0;
+		for (let el of tmp.getElementsByClassName('bilderrahmen')) {
+			let query = queryString.parse(el.getElementsByTagName('a')[0].getAttribute('href'));
+			urls.push('https://wunda-geoportal-fotos.cismet.de/images/' + query.dateiname_bild);
+			if (mainfotoname === query.dateiname_bild) {
+				selectionWish = counter;
+			}
+			counter += 1;
+		}
+		return { urls, selectionWish };
+	}
+}) => {
+	const photoUrl = urlManipulation(getPhotoUrl(currentFeature));
+	const photoSeriesUrl = urlManipulation(getPhotoSeriesUrl(currentFeature));
+
 	if (
-		currentFeature.properties.fotostrecke === undefined ||
-		currentFeature.properties.fotostrecke === null ||
-		currentFeature.properties.fotostrecke.indexOf('&noparse') !== -1
+		photoSeriesUrl === undefined ||
+		photoSeriesUrl === null ||
+		photoSeriesUrl.indexOf('&noparse') !== -1
 	) {
-		uiStateActions.setLightboxUrls([
-			currentFeature.properties.foto.replace(
-				/http:\/\/.*fotokraemer-wuppertal\.de/,
-				'https://wunda-geoportal-fotos.cismet.de/'
-			)
-		]);
+		uiStateActions.setLightboxUrls([ photoUrl ]);
 		uiStateActions.setLightboxTitle(currentFeature.text);
 		let linkUrl;
-		if (currentFeature.properties.fotostrecke) {
-			linkUrl = currentFeature.properties.fotostrecke;
+		if (photoSeriesUrl) {
+			linkUrl = photoSeriesUrl;
 		} else {
-			linkUrl = 'http://www.fotokraemer-wuppertal.de/';
+			linkUrl = fallbackLinkUrl;
 		}
-		uiStateActions.setLightboxCaption(caption);
+		uiStateActions.setLightboxCaption(captionFactory(linkUrl));
 		uiStateActions.setLightboxIndex(0);
 		uiStateActions.setLightboxVisible(true);
 	} else {
-		fetch(
-			currentFeature.properties.fotostrecke.replace(
-				/http:\/\/.*fotokraemer-wuppertal\.de/,
-				'https://wunda-geoportal-fotos.cismet.de/'
-			),
-			{
-				method: 'get'
-			}
-		)
+		fetch(photoSeriesUrl, {
+			method: 'get'
+		})
 			.then(function(response) {
 				return response.text();
 			})
 			.then(function(data) {
-				var tmp = document.implementation.createHTMLDocument();
-				tmp.body.innerHTML = data;
-				let urls = [];
-				let counter = 0;
-				let mainfotoname = decodeURIComponent(currentFeature.properties.foto)
-					.split('/')
-					.pop()
-					.trim();
-				let selectionWish = 0;
-				for (let el of tmp.getElementsByClassName('bilderrahmen')) {
-					let query = queryString.parse(
-						el.getElementsByTagName('a')[0].getAttribute('href')
-					);
-					urls.push(
-						'https://wunda-geoportal-fotos.cismet.de/images/' + query.dateiname_bild
-					);
-					if (mainfotoname === query.dateiname_bild) {
-						selectionWish = counter;
-					}
-					counter += 1;
-				}
+				const { urls, selectionWish } = harvester(data);
 				uiStateActions.setLightboxUrls(urls);
 				uiStateActions.setLightboxTitle(currentFeature.text);
-				uiStateActions.setLightboxCaption();
+				uiStateActions.setLightboxCaption(captionFactory(photoSeriesUrl));
 				uiStateActions.setLightboxIndex(selectionWish);
 				uiStateActions.setLightboxVisible(true);
 			})
@@ -79,3 +75,22 @@ export const triggerLightBoxForPOI = (
 			});
 	}
 };
+
+export const fotoKraemerUrlManipulation = (input) => {
+	console.log('fotoKraemerUrlManipulation input ', input);
+
+	if (input !== undefined) {
+		return input.replace(
+			/http:\/\/.*fotokraemer-wuppertal\.de/,
+			'https://wunda-geoportal-fotos.cismet.de/'
+		);
+	} else {
+		return undefined;
+	}
+};
+
+export const fotoKraemerCaptionFactory = (linkUrl) => (
+	<a href={linkUrl} target='_fotos'>
+		<Icon name='copyright' /> Peter Kr&auml;mer - Fotografie
+	</a>
+);

@@ -194,12 +194,6 @@ export class BPlaene_ extends React.Component {
 		const currentFeature = this.props.mapping.featureCollection[
 			this.props.mapping.selectedIndex
 		];
-		// downloadMultipleFiles(
-		//     [
-		//       {"folder":"rechtskraeftig/","downloads":currentFeature.properties.plaene_rk},
-		//       {"folder":"nicht rechtskraeftig/","downloads":currentFeature.properties.plaene_nrk},
-		//       {"folder":"Zusatzdokumente/","downloads":currentFeature.properties.docs}
-		//     ], "BPLAN_Plaene_und_Zusatzdokumente."+currentFeature.properties.nummer,this.downloadDone);
 
 		let encoding = null;
 		if (navigator.appVersion.indexOf('Win') !== -1) {

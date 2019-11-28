@@ -33,6 +33,7 @@ import PRBRModalMenu from '../components/prbr/ModalMenu';
 import TopicMap from '../containers/TopicMap';
 import ProjSingleGeoJson from '../components/ProjSingleGeoJson';
 import SecondaryInfoModal from '../components/prbr/SecondaryInfo';
+import InfoBoxFotoPreview from '../components/commons/InfoBoxFotoPreview';
 
 function mapStateToProps(state) {
 	return {
@@ -224,6 +225,22 @@ export class Container_ extends React.Component {
 					}}
 					photoLightBox
 					infoBox={info}
+					secondaryInfoBoxElements={[
+						<InfoBoxFotoPreview
+							currentFeature={selectedFeature}
+							getPhotoUrl={(feature) => {
+								if ((feature || { properties: {} }).properties.foto !== undefined) {
+									return (
+										'https://www.wuppertal.de/geoportal/prbr/fotos/' +
+										feature.properties.foto
+									);
+								} else {
+									return undefined;
+								}
+							}}
+							uiStateActions={this.props.uiStateActions}
+						/>
+					]}
 					backgroundlayers={
 						this.props.match.params.layers || reduxBackground || 'wupp-plan-live'
 					}

@@ -20,6 +20,10 @@ import { getColorForProperties } from '../utils/baederHelper';
 import BaederInfo from '../components/baeder/BaederInfo';
 import BaederModalMenu from '../components/baeder/BaederModalMenu';
 import TopicMap from '../containers/TopicMap';
+
+import InfoBoxFotoPreview from '../components/commons/InfoBoxFotoPreview';
+import { fotoKraemerUrlManipulation, fotoKraemerCaptionFactory } from '../utils/commonHelpers';
+
 function mapStateToProps(state) {
 	return {
 		uiState: state.uiState,
@@ -102,6 +106,11 @@ export class Baeder_ extends React.Component {
 			reduxBackground = this.props.mapping.backgrounds[this.props.mapping.selectedBackground]
 				.layerkey;
 		} catch (e) {}
+
+		let selectedFeature = (getBaederFeatureCollection(this.props.baeder) || [ {} ])[
+			getBaederFeatureCollectionSelectedIndex(this.props.baeder) || 0
+		];
+
 		return (
 			<TopicMap
 				ref={(comp) => {
@@ -114,6 +123,14 @@ export class Baeder_ extends React.Component {
 				gazetteerSearchBoxPlaceholdertext='Stadtteil | Adresse | POI'
 				photoLightBox
 				infoBox={info}
+				secondaryInfoBoxElements={[
+					<InfoBoxFotoPreview
+						currentFeature={selectedFeature}
+						uiStateActions={this.props.uiStateActions}
+						urlManipulation={fotoKraemerUrlManipulation}
+						captionFactory={fotoKraemerCaptionFactory}
+					/>
+				]}
 				backgroundlayers={
 					this.props.match.params.layers || reduxBackground || 'wupp-plan-live'
 				}

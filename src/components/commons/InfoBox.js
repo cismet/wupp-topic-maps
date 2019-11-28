@@ -165,7 +165,7 @@ const InfoBox = ({
 	}
 
 	return (
-		<div>
+		<>
 			{fotoPreview}
 			{llVis}
 			<CollapsibleWell
@@ -186,7 +186,7 @@ const InfoBox = ({
 				pixelwidth={pixelwidth}
 				isCollapsible={isCollapsible}
 			/>
-		</div>
+		</>
 	);
 };
 

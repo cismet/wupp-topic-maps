@@ -18,7 +18,6 @@ import FNP from './containers/FNP';
 
 import Elektromobilitaet from './containers/Elektromobilitaet';
 import XandRide from './containers/XandRide';
-import Flaechennutzungsplan from './containers/Flaechennutzungsplan';
 import HitzeInDerStadt from './containers/HitzeInDerStadt';
 
 import store from './redux/store';
@@ -92,11 +91,7 @@ export default class App extends React.Component {
 								component={Elektromobilitaet}
 							/>
 							<Route exact path='/xandride/:layers?/' component={XandRide} />
-							<Route
-								exact
-								path='/flaechennutzungsplan/:layers?/'
-								component={Flaechennutzungsplan}
-							/>
+
 							<Route
 								exact
 								path='/hitzeinderstadt/:layers?/'

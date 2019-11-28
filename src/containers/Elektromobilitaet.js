@@ -30,6 +30,7 @@ import EMOBInfo from '../components/emob/Info';
 import EMOBModalMenu from '../components/emob/ModalMenu';
 import TopicMap from '../containers/TopicMap';
 import ProjSingleGeoJson from '../components/ProjSingleGeoJson';
+import InfoBoxFotoPreview from '../components/commons/InfoBoxFotoPreview';
 import SecondaryInfoModal from '../components/emob/SecondaryInfo';
 
 function mapStateToProps(state) {
@@ -219,6 +220,22 @@ export class Container_ extends React.Component {
 					}}
 					photoLightBox
 					infoBox={info}
+					secondaryInfoBoxElements={[
+						<InfoBoxFotoPreview
+							currentFeature={selectedFeature}
+							getPhotoUrl={(feature) => {
+								if ((feature || { properties: {} }).properties.foto !== undefined) {
+									return (
+										'https://www.wuppertal.de/geoportal/emobil/autos/fotos/' +
+										feature.properties.foto
+									);
+								} else {
+									return undefined;
+								}
+							}}
+							uiStateActions={this.props.uiStateActions}
+						/>
+					]}
 					backgroundlayers={
 						this.props.match.params.layers || reduxBackground || 'wupp-plan-live'
 					}

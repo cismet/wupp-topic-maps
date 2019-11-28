@@ -135,6 +135,7 @@ export class TopicMap_ extends React.Component {
 		let urlSearchParams = new URLSearchParams(this.props.routing.location.search);
 
 		let info = this.props.infoBox;
+		let secondaryInfoBoxElements = this.props.secondaryInfoBoxElements;
 
 		let overlayFeature = <div />;
 		if (this.props.mapping.overlayFeature) {
@@ -324,9 +325,17 @@ export class TopicMap_ extends React.Component {
 							/>
 							{fcd}
 							{searchControl}
+
 							<Control position={infoBoxControlPosition}>
 								<div style={infoStyle}>{info}</div>
 							</Control>
+
+							{secondaryInfoBoxElements.map((element) => (
+								<Control position={infoBoxControlPosition}>
+									<div>{element}</div>
+								</Control>
+							))}
+
 							<Control position='topright'>
 								<OverlayTrigger
 									placement='left'
@@ -365,6 +374,7 @@ export default TopicMap;
 
 TopicMap.propTypes = {
 	infoBox: PropTypes.object,
+	secondaryInfoBoxElements: PropTypes.array,
 	backgroundLayers: PropTypes.string,
 	initialLoadingText: PropTypes.string,
 	noInitialLoadingText: PropTypes.bool,
@@ -396,6 +406,7 @@ TopicMap.propTypes = {
 
 TopicMap.defaultProps = {
 	infoBox: <div />,
+	secondaryInfoBoxElements: [],
 	backgroundlayers: 'rvrWMS@30',
 	noInitialLoadingText: false,
 	initialLoadingText: 'Laden der Daten ...',

@@ -214,19 +214,6 @@ export class Ehrenamt_ extends React.Component {
 			/>
 		);
 
-		// Auflistung der ids die momentan nicht dargestllt werden
-		// let offerIds=[];
-		// let fcIds=[];
-		// for (let f of this.props.mapping.featureCollection) {
-		//     fcIds.push(f.id);
-		// }
-		// for (let o of this.props.ehrenamt.offers) {
-		//     offerIds.push(o.id);
-		// }
-		// offerIds.sort();
-		// fcIds.sort();
-		// let difference = offerIds.filter(x => !fcIds.includes(x));
-		// console.log(difference);
 		return (
 			<div>
 				<TopicMap

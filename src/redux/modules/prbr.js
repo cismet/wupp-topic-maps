@@ -235,7 +235,7 @@ function convertPRBRFilterToText(filter) {
 		if (filter.envZoneWithin === true) {
 			filterDescription += ' innerhalb einer Umweltzone';
 		} else if (filter.envZoneOutside === true) {
-			filterDescription += ' innerhalb einer Umweltzone';
+			filterDescription += ' außerhalb einer Umweltzone';
 		}
 	}
 	return filterDescription;

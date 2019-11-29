@@ -17,6 +17,9 @@ import { modifyQueryPart } from '../utils/routingHelper';
 import InfoBox from '../components/starkregen/ControlInfoBox';
 import ContactButton from '../components/starkregen/ContactButton';
 import HelpAndInfo from '../components/starkregen/Help00MainComponent';
+import FeatureInfoModeBox from '../components/starkregen/FeatureInfoModeBox';
+import FeatureInfoModeButton from '../components/starkregen/FeatureInfoModeButton';
+
 import InfoBoxFotoPreview from '../components/commons/InfoBoxFotoPreview';
 
 /* eslint-disable jsx-a11y/anchor-is-valid */
@@ -188,25 +191,7 @@ export class Starkregen_ extends React.Component {
 				minify={(minified) => this.props.starkregenActions.setMinifiedInfoBox(minified)}
 				legendObject={this.props.starkregen.legend}
 				featureInfoModeActivated={this.props.starkregen.featureInfoModeActivated}
-				setFeatureInfoModeActivation={(activated) => {
-					if (!activated) {
-						this.props.starkregenActions.setCurrentFeatureInfoValue(undefined);
-						this.props.starkregenActions.setCurrentFeatureInfoPosition(undefined);
-					} else {
-						let currentZoom =
-							new URLSearchParams(this.props.routing.location.search).get('zoom') ||
-							8;
-						if (currentZoom < 15) {
-							this.props.routingActions.push(
-								this.props.routing.location.pathname +
-									modifyQueryPart(this.props.routing.location.search, {
-										zoom: 15
-									})
-							);
-						}
-					}
-					this.props.starkregenActions.setFeatureInfoModeActivation(activated);
-				}}
+				// setFeatureInfoModeActivation={}
 				featureInfoValue={this.props.starkregen.currentFeatureInfoValue}
 				showModalMenu={(section) => {
 					this.props.uiStateActions.showApplicationMenuAndActivateSection(true, section);
@@ -274,6 +259,48 @@ export class Starkregen_ extends React.Component {
 		if (validBackgroundIndex >= this.props.starkregen.backgrounds.length) {
 			validBackgroundIndex = 0;
 		}
+		const setFeatureInfoModeActivation = (activated) => {
+			if (!activated) {
+				this.props.starkregenActions.setCurrentFeatureInfoValue(undefined);
+				this.props.starkregenActions.setCurrentFeatureInfoPosition(undefined);
+			} else {
+				let currentZoom =
+					new URLSearchParams(this.props.routing.location.search).get('zoom') || 8;
+				if (currentZoom < 15) {
+					this.props.routingActions.push(
+						this.props.routing.location.pathname +
+							modifyQueryPart(this.props.routing.location.search, {
+								zoom: 15
+							})
+					);
+				}
+			}
+			this.props.starkregenActions.setFeatureInfoModeActivation(activated);
+		};
+
+		let secondaryInfoBoxElements = [];
+		if (this.props.starkregen.featureInfoModeActivated === true) {
+			secondaryInfoBoxElements = [
+				<FeatureInfoModeBox
+					setFeatureInfoModeActivation={setFeatureInfoModeActivation}
+					featureInfoValue={this.props.starkregen.currentFeatureInfoValue}
+					showModalmenu={(section) => {
+						this.props.uiStateActions.showApplicationMenuAndActivateSection(
+							true,
+							section
+						);
+					}}
+					legendObject={this.props.starkregen.legend}
+				/>
+			];
+		} else {
+			secondaryInfoBoxElements = [
+				<FeatureInfoModeButton
+					setFeatureInfoModeActivation={setFeatureInfoModeActivation}
+				/>
+			];
+		}
+
 		return (
 			<TopicMap
 				key={'topicmap with background no' + this.backgroundIndex}
@@ -296,7 +323,7 @@ export class Starkregen_ extends React.Component {
 				gazetteerSearchBoxPlaceholdertext='Stadtteil | Adresse | POI | GEP'
 				photoLightBox
 				infoBox={info}
-				secondaryInfoBoxElements={[]}
+				secondaryInfoBoxElements={secondaryInfoBoxElements}
 				backgroundlayers={
 					this.props.match.params.layers ||
 					this.props.starkregen.backgrounds[validBackgroundIndex].layerkey

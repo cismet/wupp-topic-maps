@@ -30,19 +30,6 @@ const InfoBox = ({
 }) => {
 	const legend = <Legend legendObjects={legendObject} />;
 
-	const featureInfoModeButton = (
-		<FeatureInfoModeButton setFeatureInfoModeActivation={setFeatureInfoModeActivation} />
-	);
-
-	const featureInfoModeBox = (
-		<FeatureInfoModeBox
-			setFeatureInfoModeActivation={setFeatureInfoModeActivation}
-			featureInfoValue={featureInfoValue}
-			showModalmenu={showModalMenu}
-			legendObject={legendObject}
-		/>
-	);
-
 	const legendTable = (
 		<table onClick={(e) => e.stopPropagation()} key='legendTable' style={{ width: '100%' }}>
 			<tbody>
@@ -196,26 +183,18 @@ const InfoBox = ({
 		</div>
 	);
 
-	let infoCompButton = [];
-	if (!featureInfoModeActivated) {
-		infoCompButton = featureInfoModeButton;
-	} else {
-		infoCompButton = featureInfoModeBox;
-	}
-
 	return (
 		<div
 			id='giveittoleaflet'
-			onClick={(e) => {
-				if (mapRef) {
-					let point = L.point(e.clientX, e.clientY); // x=0,y=0
-					let latlng = mapRef.containerPointToLatLng(point);
-					mapClickListener({ latlng });
-				}
-			}}
+			// onClick={(e) => {
+			// 	if (mapRef) {
+			// 		let point = L.point(e.clientX, e.clientY); // x=0,y=0
+			// 		let latlng = mapRef.containerPointToLatLng(point);
+			// 		mapClickListener({ latlng });
+			// 	}
+			// }}
 			style={{ cursor: mapCursor }}
 		>
-			{infoCompButton}
 			{legendTable}
 			<CollapsibleWell
 				collapsed={minified}

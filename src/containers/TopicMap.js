@@ -168,7 +168,8 @@ export class TopicMap_ extends React.Component {
 		};
 
 		if (width - gap - widthLeft - widthRight <= 0) {
-			infoBoxControlPosition = 'bottomleft';
+			infoBoxControlPosition = 'bottomright';
+			searchControlPosition = 'bottomright';
 			searchControlWidth = width - gap;
 			infoStyle = {
 				...infoStyle,
@@ -180,9 +181,16 @@ export class TopicMap_ extends React.Component {
 		if (this.props.gazetteerSearchBox) {
 			searchControl = (
 				<GazetteerSearchControl
+					className='JKHKJHKJHJK'
 					ref={(comp) => {
 						this.searchControl = comp;
 					}}
+					key={
+						'GazetteerSearchControl.' +
+						infoBoxControlPosition +
+						'.' +
+						searchControlPosition
+					}
 					enabled={this.props.uiState.gazetteerBoxEnabled}
 					placeholder={this.props.gazetteerSearchBoxPlaceholdertext}
 					pixelwidth={searchControlWidth}
@@ -265,7 +273,10 @@ export class TopicMap_ extends React.Component {
 				/>
 			);
 		}
-
+		let infoBoxBottomMargin = 0;
+		if (searchControlPosition === 'bottomright') {
+			infoBoxBottomMargin = 5;
+		}
 		return (
 			<div>
 				{this.props.modalMenu}
@@ -324,15 +335,41 @@ export class TopicMap_ extends React.Component {
 								mappingProps={this.props.mapping}
 							/>
 							{fcd}
+
 							{searchControl}
 
-							<Control position={infoBoxControlPosition}>
-								<div style={infoStyle}>{info}</div>
+							<Control
+								key={
+									'InfoBoxElements.' +
+									infoBoxControlPosition +
+									'.' +
+									searchControlPosition
+								}
+								id={
+									'InfoBoxElements.' +
+									infoBoxControlPosition +
+									'.' +
+									searchControlPosition
+								}
+								position={infoBoxControlPosition}
+							>
+								<div style={{ ...infoStyle, marginBottom: infoBoxBottomMargin }}>
+									{info}
+								</div>
 							</Control>
 
-							{secondaryInfoBoxElements.map((element) => (
-								<Control position={infoBoxControlPosition}>
-									<div>{element}</div>
+							{secondaryInfoBoxElements.map((element, index) => (
+								<Control
+									key={
+										'secondaryInfoBoxElements.' +
+										index +
+										infoBoxControlPosition +
+										'.' +
+										searchControlPosition
+									}
+									position={infoBoxControlPosition}
+								>
+									<div style={{ opacity: 0.9 }}>{element}</div>
 								</Control>
 							))}
 

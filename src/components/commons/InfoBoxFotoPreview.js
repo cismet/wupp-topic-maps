@@ -23,7 +23,8 @@ const Comp = ({
 
 	if (
 		currentFeature === undefined ||
-		urlManipulation(getPhotoUrl(currentFeature)) === undefined
+		urlManipulation(getPhotoUrl(currentFeature)) === undefined ||
+		getPhotoUrl(currentFeature) === ''
 	) {
 		return <div />;
 	} else {

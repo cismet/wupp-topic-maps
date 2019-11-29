@@ -77,9 +77,9 @@ export const triggerLightBoxForFeature = ({
 };
 
 export const fotoKraemerUrlManipulation = (input) => {
-	console.log('fotoKraemerUrlManipulation input ', input);
+	console.log('fotoKraemerUrlManipulation input ', 'X' + input + 'X');
 
-	if (input !== undefined) {
+	if (input !== undefined || input === '') {
 		return input.replace(
 			/http:\/\/.*fotokraemer-wuppertal\.de/,
 			'https://wunda-geoportal-fotos.cismet.de/'

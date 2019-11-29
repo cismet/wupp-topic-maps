@@ -234,12 +234,12 @@ const ModalMenuSettingsSection = ({
 	if (getInternetExplorerVersion() === -1) {
 		backgroundModes = [
 			{
-				title: 'Stadtplan (mehrfarbig)',
+				title: 'Stadtplan (Tag)',
 				mode: 'default',
 				layerKey: 'stadtplan'
 			},
 			{
-				title: 'Stadtplan (Nachtmodus)',
+				title: 'Stadtplan (Nacht)',
 				mode: 'night',
 				layerKey: 'stadtplan'
 			},
@@ -268,7 +268,7 @@ const ModalMenuSettingsSection = ({
 					preview={preview}
 					settingsSections={[
 						<div>
-							<ControlLabel>P+R / B+R -Einstellungen:</ControlLabel>
+							<ControlLabel>P+R / B+R Einstellungen:</ControlLabel>
 							<br />
 							<Checkbox
 								readOnly={true}

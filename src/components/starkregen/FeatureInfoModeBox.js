@@ -17,13 +17,14 @@ const Comp = ({ setFeatureInfoModeActivation, featureInfoValue, showModalMenu, l
 	}
 	return (
 		<div
-			onClick={(e) => e.stopPropagation()}
+			//onClick={(e) => e.stopPropagation()}
 			key='featureInfoModeBox'
+			id='featureInfoModeBox'
 			style={{
 				pointerEvents: 'auto',
 				marginBottom: 5,
 				float: 'right',
-				width: '60%',
+				width: '205px',
 				height_: '145px'
 			}}
 		>

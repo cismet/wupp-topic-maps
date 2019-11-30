@@ -45,7 +45,7 @@ import proj4 from 'proj4';
 import { Well } from 'react-bootstrap';
 
 const switchIcon = faRandom;
-const searchMinZoom = 11;
+const searchMinZoom = 10;
 function mapStateToProps(state) {
 	return {
 		uiState: state.uiState,

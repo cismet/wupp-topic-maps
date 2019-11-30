@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { Modal, Button, Accordion, Panel } from 'react-bootstrap';
 import { Icon } from 'react-fa';
 import GenericRVRStadtplanwerkMenuFooter from '../commons/GenericRVRStadtplanwerkMenuFooter';
-import { SSL_OP_ALLOW_UNSAFE_LEGACY_RENEGOTIATION } from 'constants';
 import CismetFooterAcks from '../commons/CismetFooterAcknowledgements';
 
 const Comp = ({ visible, anlagenFeature, setVisibleState, uiHeight }) => {

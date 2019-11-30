@@ -6,20 +6,24 @@ import { bindActionCreators } from 'redux';
 import { actions as MappingActions } from '../redux/modules/mapping';
 import { actions as UIStateActions } from '../redux/modules/uiState';
 import { WMSTileLayer } from 'react-leaflet';
+import { Icon } from 'react-fa';
+
 import uwz from '../components/prbr/UWZ';
 import {
-	actions as PRBRActions,
-	getPRBRs,
-	getPRBRFeatureCollection,
-	getPRBRSvgSize,
-	getPRBRFeatureCollectionSelectedIndex,
+	actions as AEVActions,
+	getAEVs,
+	getAEVFeatures,
+	searchForAEVs,
+	// getAEVFeatureCollection,
+	getAEVSvgSize,
+	// getAEVFeatureCollectionSelectedIndex,
 	hasMinifiedInfoBox,
-	getPRBRFilter,
-	getPRBRFilteredData,
-	isSecondaryInfoBoxVisible,
-	getPRBRFilterDescription,
-	isEnvZoneVisible
-} from '../redux/modules/prbr';
+	// getAEVFilter,
+	// getAEVFilteredData,
+	isSecondaryInfoBoxVisible
+	// getAEVFilterDescription,
+	// isEnvZoneVisible
+} from '../redux/modules/fnp';
 import { FeatureCollectionDisplay, FeatureCollectionDisplayWithTooltipLabels } from 'react-cismap';
 import { routerActions as RoutingActions } from 'react-router-redux';
 import {
@@ -28,18 +32,26 @@ import {
 	getPoiClusterIconCreatorFunction
 } from '../utils/stadtplanHelper';
 import { getColorForProperties } from '../utils/prbrHelper';
-import PRBRInfo from '../components/prbr/Info';
+import AEVInfo from '../components/flaechennutzungsplan/AEVInfo';
 import PRBRModalMenu from '../components/prbr/ModalMenu';
 import TopicMap from '../containers/TopicMap';
 import ProjSingleGeoJson from '../components/ProjSingleGeoJson';
 import SecondaryInfoModal from '../components/prbr/SecondaryInfo';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faExchangeAlt, faRandom } from '@fortawesome/free-solid-svg-icons';
+import { aevFeatureStyler, aevLabeler } from '../utils/fnpHelper';
+import { proj4crs25832def } from '../constants/gis';
+import proj4 from 'proj4';
+import { Well } from 'react-bootstrap';
 
+const switchIcon = faRandom;
+const searchMinZoom = 11;
 function mapStateToProps(state) {
 	return {
 		uiState: state.uiState,
 		mapping: state.mapping,
 		routing: state.routing,
-		prbr: state.prbr,
+		aev: state.aev,
 		gazetteerTopics: state.gazetteerTopics
 	};
 }
@@ -49,7 +61,7 @@ function mapDispatchToProps(dispatch) {
 		mappingActions: bindActionCreators(MappingActions, dispatch),
 		uiStateActions: bindActionCreators(UIStateActions, dispatch),
 		routingActions: bindActionCreators(RoutingActions, dispatch),
-		prbrActions: bindActionCreators(PRBRActions, dispatch)
+		aevActions: bindActionCreators(AEVActions, dispatch)
 	};
 }
 
@@ -57,13 +69,20 @@ export class Container_ extends React.Component {
 	constructor(props, context) {
 		super(props, context);
 		this.gotoHome = this.gotoHome.bind(this);
+		this.aevGazeteerhHit = this.aevGazeteerhHit.bind(this);
+		this.aevSearchButtonHit = this.aevSearchButtonHit.bind(this);
+		this.featureClick = this.featureClick.bind(this);
+		this.doubleMapClick = this.doubleMapClick.bind(this);
+		this.selectNextIndex = this.selectNextIndex.bind(this);
+		this.selectPreviousIndex = this.selectPreviousIndex.bind(this);
+		this.fitAll = this.fitAll.bind(this);
 		this.changeMarkerSymbolSize = this.changeMarkerSymbolSize.bind(this);
 		this.props.mappingActions.setBoundingBoxChangedTrigger((bbox) =>
-			this.props.prbrActions.refreshFeatureCollection(bbox)
+			this.props.aevActions.refreshFeatureCollection(bbox)
 		);
 	}
 	componentDidMount() {
-		document.title = 'FNP Auskunft Wuppertal';
+		document.title = 'FNP-Auskunft Wuppertal';
 	}
 	gotoHome() {
 		if (this.topicMap) {
@@ -72,10 +91,71 @@ export class Container_ extends React.Component {
 	}
 
 	changeMarkerSymbolSize(size) {
-		this.props.prbrActions.setPRBRSvgSize(size);
+		this.props.aevActions.setAEVSvgSize(size);
 		this.props.mappingActions.setFeatureCollectionKeyPostfix('MarkerSvgSize:' + size);
 	}
+
+	aevGazeteerhHit(selectedObject) {
+		this.props.aevActions.searchForAEVs({ gazObject: selectedObject });
+		//this.props.bplanActions.searchForPlans(selectedObject);
+	}
+
+	aevSearchButtonHit(event) {
+		this.props.aevActions.searchForAEVs({
+			boundingBox: this.props.mapping.boundingBox,
+			mappingActions: this.props.mappingActions
+		});
+		//this.props.bplanActions.searchForPlans();
+	}
+
+	featureClick(event) {
+		if (event.target.feature.selected) {
+			this.props.mappingActions.fitSelectedFeatureBounds();
+			if (event.target.feature.twin != null) {
+				this.props.mappingActions.setSelectedFeatureIndex(event.target.feature.twin);
+			}
+		} else {
+			this.props.mappingActions.setSelectedFeatureIndex(
+				this.props.mapping.featureCollection.indexOf(event.target.feature)
+			);
+		}
+	}
+	doubleMapClick(event) {
+		const pos = proj4(proj4.defs('EPSG:4326'), proj4crs25832def, [
+			event.latlng.lng,
+			event.latlng.lat
+		]);
+		this.props.aevActions.searchForAEVs({
+			point: { x: pos[0], y: pos[1] },
+			mappingActions: this.props.mappingActions
+		});
+	}
+
+	selectNextIndex() {
+		let potIndex = this.props.mapping.selectedIndex + 1;
+		if (potIndex >= this.props.mapping.featureCollection.length) {
+			potIndex = 0;
+		}
+		this.props.mappingActions.setSelectedFeatureIndex(potIndex);
+		//this.props.mappingActions.fitSelectedFeatureBounds(stateConstants.AUTO_FIT_MODE_NO_ZOOM_IN);
+	}
+
+	selectPreviousIndex() {
+		let potIndex = this.props.mapping.selectedIndex - 1;
+		if (potIndex < 0) {
+			potIndex = this.props.mapping.featureCollection.length - 1;
+		}
+		this.props.mappingActions.setSelectedFeatureIndex(potIndex);
+		//this.props.mappingActions.fitSelectedFeatureBounds(stateConstants.AUTO_FIT_MODE_NO_ZOOM_IN);
+	}
+
+	fitAll() {
+		this.props.mappingActions.fitAll();
+	}
+
 	render() {
+		let currentZoom = new URLSearchParams(this.props.routing.location.search).get('zoom') || 8;
+
 		let titleContent;
 		let backgrounds = [];
 		if (
@@ -86,11 +166,12 @@ export class Container_ extends React.Component {
 		} else if (this.props.match.params.mode === 'arbeitskarte') {
 			titleContent = (
 				<div>
-					<b>Arbeitskarte (rein informell): </b> Nur Hauptnutzungen<div
+					<b>Arbeitskarte: </b> fortgeschriebene Hauptnutzungen (informeller FNP-Auszug)<div
 						style={{ float: 'right', paddingRight: 10 }}
 					>
 						<a href={'/#/fnp/rechtsplan' + this.props.routing.location.search}>
-							zum Rechtsplan
+							<FontAwesomeIcon icon={switchIcon} style={{ marginRight: 5 }} />zum
+							Rechtsplan
 						</a>
 					</div>
 				</div>
@@ -130,11 +211,12 @@ export class Container_ extends React.Component {
 		} else {
 			titleContent = (
 				<div>
-					<b>Rechtsplan: </b> FNP Stand 17.01.2005 (inkl. Änderungsverfahren als Umringe)<div
+					<b>Rechtsplan: </b> Flächennutzungsplan (FNP) mit Änderungsverfahren (ÄV)<div
 						style={{ float: 'right', paddingRight: 10 }}
 					>
 						<a href={'/#/fnp/arbeitskarte' + this.props.routing.location.search}>
-							zur Arbeitskarte
+							<FontAwesomeIcon icon={switchIcon} style={{ marginRight: 5 }} /> zur
+							Arbeitskarte
 						</a>
 					</div>
 				</div>
@@ -154,46 +236,60 @@ export class Container_ extends React.Component {
 					tiled='true'
 					styles='default'
 					maxZoom={19}
-					opacity={0.7}
+					opacity={currentZoom >= searchMinZoom ? 0.6 : 0.2}
 					caching={true}
 				/>
 			];
 		}
 
 		let secondaryInfo = false;
+		let info;
+		if (this.props.mapping.featureCollection.length > 0) {
+			info = (
+				<AEVInfo
+					pixelwidth={350}
+					featureCollection={this.props.mapping.featureCollection}
+					selectedIndex={this.props.mapping.selectedIndex || 0}
+					next={this.selectNextIndex}
+					previous={this.selectPreviousIndex}
+					fitAll={this.fitAll}
+					// downloadPlan={this.openDocViewer}
+					// downloadEverything={this.openDocViewer}
+					// preparedDownload={this.props.bplaene.preparedDownload}
+					// resetPreparedDownload={this.resetPreparedDownload}
+					// loadingError={this.props.bplaene.documentsLoadingError}
+				/>
+			);
+		} else {
+			//TODO better way to follow the jsx-a11y/anchor-is-valid rule
+			/* eslint-disable */
+			info = (
+				<Well bsSize='small' pixelwidth={400}>
+					<h5>Aktuell keine Änderungsverfahren (ÄV) geladen.</h5>
+					<ul>
+						<li>
+							<b>ein ÄV laden:</b> Doppelklick auf Plan in Hintergrundkarte
+						</li>
+						<li>
+							<b>alle ÄV im Kartenausschnitt laden:</b> <Icon name='search' />
+						</li>
+						<li>
+							<b>bekannten ÄV laden:</b> Nummer als Suchbegriff eingeben, Auswahl aus
+							Vorschlagsliste
+						</li>
+						<li>
+							<b>Suche nach ÄV:</b> BPlan (mit B-Präfix), Adresse oder POI als
+							Suchbegriff eingeben, Auswahl aus Vorschlagsliste
+						</li>
+					</ul>
+					<a onClick={() => this.props.uiStateActions.showApplicationMenu(true)}>
+						Kompaktanleitung
+					</a>
+				</Well>
+			);
+			/* eslint-ensable */
+		}
 
-		let info = (
-			<PRBRInfo
-				key={'PRBRInfo.' + (getPRBRFeatureCollectionSelectedIndex(this.props.prbr) || 0)}
-				pixelwidth={325}
-				featureCollection={getPRBRFeatureCollection(this.props.prbr)}
-				items={getPRBRFilteredData(this.props.prbr)}
-				selectedIndex={getPRBRFeatureCollectionSelectedIndex(this.props.prbr) || 0}
-				next={() => {
-					this.props.prbrActions.setSelectedFeatureIndex(
-						(getPRBRFeatureCollectionSelectedIndex(this.props.prbr) + 1) %
-							getPRBRFeatureCollection(this.props.prbr).length
-					);
-				}}
-				previous={() => {
-					this.props.prbrActions.setSelectedFeatureIndex(
-						(getPRBRFeatureCollectionSelectedIndex(this.props.prbr) +
-							getPRBRFeatureCollection(this.props.prbr).length -
-							1) %
-							getPRBRFeatureCollection(this.props.prbr).length
-					);
-				}}
-				fitAll={this.gotoHome}
-				showModalMenu={(section) =>
-					this.props.uiStateActions.showApplicationMenuAndActivateSection(true, section)}
-				uiState={this.props.uiState}
-				uiStateActions={this.props.uiStateActions}
-				panelClick={(e) => {}}
-				minified={hasMinifiedInfoBox(this.props.prbr)}
-				minify={(minified) => this.props.prbrActions.setMinifiedInfoBox(minified)}
-				setVisibleStateOfSecondaryInfo={this.props.prbrActions.setSecondaryInfoVisible}
-			/>
-		);
 		let reduxBackground = undefined;
 		let backgroundStyling = queryString.parse(this.props.routing.location.search).mapStyle;
 		try {
@@ -201,14 +297,6 @@ export class Container_ extends React.Component {
 				.layerkey;
 		} catch (e) {}
 		let selectedFeature;
-		if (
-			(getPRBRFeatureCollection(this.props.prbr) || []).length > 0 &&
-			getPRBRFeatureCollectionSelectedIndex(this.props.prbr) !== undefined
-		) {
-			selectedFeature = getPRBRFeatureCollection(this.props.prbr)[
-				getPRBRFeatureCollectionSelectedIndex(this.props.prbr) || 0
-			];
-		}
 
 		let title = null;
 
@@ -245,12 +333,12 @@ export class Container_ extends React.Component {
 		return (
 			<div>
 				{title}
-				{isSecondaryInfoBoxVisible(this.props.prbr) === true &&
+				{isSecondaryInfoBoxVisible(this.props.aev) === true &&
 				selectedFeature !== undefined && (
 					<SecondaryInfoModal
-						visible={isSecondaryInfoBoxVisible(this.props.prbr)}
+						visible={isSecondaryInfoBoxVisible(this.props.aev)}
 						anlagenFeature={selectedFeature}
-						setVisibleState={this.props.prbrActions.setSecondaryInfoVisible}
+						setVisibleState={this.props.aevActions.setSecondaryInfoVisible}
 						uiHeight={this.props.uiState.height}
 					/>
 				)}
@@ -258,11 +346,15 @@ export class Container_ extends React.Component {
 					ref={(comp) => {
 						this.topicMap = comp;
 					}}
-					_initialLoadingText='Laden der Anlagen ...'
-					noInitialLoadingText
+					initialLoadingText='Laden der Änderungen ...'
 					fullScreenControl
 					locatorControl
 					gazetteerSearchBox
+					searchMinZoom={searchMinZoom}
+					searchMaxZoom={18}
+					gazeteerHitTrigger={this.aevnGazeteerhHit}
+					searchButtonTrigger={this.aevSearchButtonHit}
+					searchAfterGazetteer={true}
 					gazetteerTopicsList={[
 						'bplaene',
 						'pois',
@@ -279,28 +371,61 @@ export class Container_ extends React.Component {
 							selectedObject[0].more &&
 							selectedObject[0].more.id
 						) {
-							this.props.prbrActions.setSelectedPRBR(selectedObject[0].more.id);
+							this.props.aevActions.setSelectedAEV(selectedObject[0].more.id);
 						}
 					}}
 					photoLightBox
-					infoBox={<div /> || info}
+					infoBox={info}
 					backgroundlayers={
 						'nothing' ||
 						this.props.match.params.layers ||
 						reduxBackground ||
 						'wupp-plan-live'
 					}
-					XdataLoader={this.props.prbrActions.loadPRBRs}
+					dataLoader={this.props.aevActions.loadAEVs}
 					getFeatureCollectionForData={() => {
-						return [];
+						return this.props.mapping.featureCollection;
 					}}
-					featureStyler={getFeatureStyler(
-						getPRBRSvgSize(this.props.prbr) || 60,
-						getColorForProperties
-					)}
-					refreshFeatureCollection={this.props.prbrActions.refreshFeatureCollection}
-					setSelectedFeatureIndex={this.props.prbrActions.setSelectedFeatureIndex}
-					featureHoverer={featureHoverer}
+					featureCollectionKeyPostfix={this.props.mapping.featureCollectionKeyPostfix}
+					featureStyler={aevFeatureStyler}
+					featureStyler__={(feature) => {
+						const style = {
+							color: '#155317',
+							weight: 3,
+							opacity: 0.8,
+							fillColor: '#ffffff',
+							fillOpacity: 0.6
+						};
+						if (feature.properties.status === 'r') {
+							style.color = '#155317';
+							style.fillColor = '#155317';
+							style.opacity = 0.0;
+						} else {
+							style.color = '#9F111B';
+							style.fillColor = '#9F111B';
+							style.opacity = 0.0;
+						}
+						return style;
+					}}
+					featureLabeler={aevLabeler}
+					featureLabeler_={(feature) => {
+						return (
+							<h3
+								style={{
+									color: '#155317',
+									opacity: 0.7,
+									textShadow:
+										'1px 1px 0px  #000000,-1px 1px 0px  #000000, 1px -1px 0px  #000000, -1px -1px 0px  #000000, 2px 2px 15px #000000'
+								}}
+							>
+								{feature.text}
+							</h3>
+						);
+					}}
+					featureClickHandler={this.featureClick}
+					ondblclick={this.doubleMapClick}
+					refreshFeatureCollection={this.props.aevActions.refreshFeatureCollection}
+					setSelectedFeatureIndex={this.props.aevActions.setSelectedFeatureIndex}
 					applicationMenuTooltipString='Einstellungen | Kompaktanleitung'
 					modalMenu_={
 						<div />
@@ -310,7 +435,7 @@ export class Container_ extends React.Component {
 						// 	urlPathname={this.props.routing.location.pathname}
 						// 	urlSearch={this.props.routing.location.search}
 						// 	pushNewRoute={this.props.routingActions.push}
-						// 	currentMarkerSize={getPRBRSvgSize(this.props.prbr)}
+						// 	currentMarkerSize={getPRBRSvgSize(this.props.aev)}
 						// 	changeMarkerSymbolSize={this.changeMarkerSymbolSize}
 						// 	topicMapRef={this.topicMap}
 						// 	setLayerByKey={this.props.mappingActions.setSelectedMappingBackground}
@@ -319,39 +444,72 @@ export class Container_ extends React.Component {
 						// 		this.props.mappingActions.setFeatureCollectionKeyPostfix
 						// 	}
 						// 	refreshFeatureCollection={
-						// 		this.props.prbrActions.refreshFeatureCollection
+						// 		this.props.aevActions.refreshFeatureCollection
 						// 	}
-						// 	filter={getPRBRFilter(this.props.prbr)}
-						// 	setFilter={this.props.prbrActions.setFilter}
-						// 	filteredObjects={getPRBRFilteredData(this.props.prbr)}
+						// 	filter={getPRBRFilter(this.props.aev)}
+						// 	setFilter={this.props.aevActions.setFilter}
+						// 	filteredObjects={getPRBRFilteredData(this.props.aev)}
 						// 	featureCollectionObjectsCount={
-						// 		getPRBRFeatureCollection(this.props.prbr).length
+						// 		getPRBRFeatureCollection(this.props.aev).length
 						// 	}
-						// 	envZoneVisible={isEnvZoneVisible(this.props.prbr)}
-						// 	setEnvZoneVisible={this.props.prbrActions.setEnvZoneVisible}
+						// 	envZoneVisible={isEnvZoneVisible(this.props.aev)}
+						// 	setEnvZoneVisible={this.props.aevActions.setEnvZoneVisible}
 						// />
 					}
-					clusteringEnabled={
-						queryString.parse(this.props.routing.location.search).unclustered ===
-						undefined
-					}
-					clusterOptions={{
-						spiderfyOnMaxZoom: false,
-						spiderfyDistanceMultiplier: getPRBRSvgSize(this.props.prbr) / 24,
-						showCoverageOnHover: false,
-						zoomToBoundsOnClick: false,
-						maxClusterRadius: 40,
-						disableClusteringAtZoom: 19,
-						animate: false,
-						cismapZoomTillSpiderfy: 12,
-						selectionSpiderfyMinZoom: 12,
-						iconCreateFunction: getPoiClusterIconCreatorFunction(
-							getPRBRSvgSize(this.props.prbr) - 10,
-							getColorForProperties
-						)
-					}}
-					featureCollectionKeyPostfix={this.props.mapping.featureCollectionKeyPostfix}
 				>
+					<FeatureCollectionDisplayWithTooltipLabels
+						key={'allAEVs'}
+						featureCollection={getAEVFeatures(this.props.aev)}
+						boundingBox={{
+							left: 353122.1056720067,
+							top: 5696995.497378283,
+							right: 392372.51969633374,
+							bottom: 5655795.93913269
+						}}
+						style={(feature) => {
+							const style = {
+								color: '#155317',
+								weight: 3,
+								opacity: 0.8,
+								fillColor: '#ffffff',
+								fillOpacity: 0.6
+							};
+							if (currentZoom >= searchMinZoom) {
+								if (feature.properties.status === 'r') {
+									style.color = '#155317';
+								} else {
+									style.color = '#9F111B';
+								}
+							} else {
+								if (feature.properties.status === 'r') {
+									style.color = '#155317';
+									style.fillColor = '#155317';
+									style.opacity = 0.0;
+								} else {
+									style.color = '#9F111B';
+									style.fillColor = '#9F111B';
+									style.opacity = 0.0;
+								}
+							}
+
+							return style;
+						}}
+						_labeler={(feature) => {
+							return (
+								<h3
+									style={{
+										color: '#155317',
+										opacity: 0.7,
+										textShadow:
+											'1px 1px 0px  #000000,-1px 1px 0px  #000000, 1px -1px 0px  #000000, -1px -1px 0px  #000000, 2px 2px 15px #000000'
+									}}
+								>
+									Umweltzone
+								</h3>
+							);
+						}}
+						featureClickHandler={() => {}}
+					/>
 					{backgrounds}
 				</TopicMap>
 			</div>

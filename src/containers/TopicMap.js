@@ -222,7 +222,6 @@ export class TopicMap_ extends React.Component {
 		}
 
 		let fcd;
-
 		if (this.props.featureLabeler) {
 			fcd = (
 				<FeatureCollectionDisplayWithTooltipLabels

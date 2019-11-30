@@ -332,7 +332,7 @@ export class BPlaene_ extends React.Component {
 					</a>
 				</Well>
 			);
-			/* eslint-ensable */
+			/* eslint-enable */
 		}
 
 		return (

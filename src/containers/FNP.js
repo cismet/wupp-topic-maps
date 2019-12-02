@@ -222,6 +222,23 @@ export class Container_ extends React.Component {
 				</div>
 			);
 			backgrounds = [
+				// <WMSTileLayer
+				// 	key={
+				// 		'UWZ.with.background' +
+				// 		(this.props.match.params.layers || reduxBackground || 'wupp-plan-live') +
+				// 		backgroundStyling
+				// 	}
+				// 	url='https://geodaten.metropoleruhr.de/spw2/service'
+				// 	layers={'spw2_light'}
+				// 	version='1.3.0'
+				// 	transparent='true'
+				// 	format='image/png'
+				// 	tiled='false'
+				// 	styles='default'
+				// 	maxZoom={19}
+				// 	opacity={0.4}
+				// 	caching={true}
+				// />,
 				<WMSTileLayer
 					key={
 						'UWZ.with.background' +
@@ -236,7 +253,7 @@ export class Container_ extends React.Component {
 					tiled='true'
 					styles='default'
 					maxZoom={19}
-					opacity={currentZoom >= searchMinZoom ? 0.6 : 0.2}
+					opacity={currentZoom >= searchMinZoom ? 1 : 0.2}
 					caching={true}
 				/>
 			];

@@ -98,6 +98,13 @@ const Comp = ({
 		);
 	}
 
+	let rechtswirksam_seit;
+
+	if (currentFeature.properties.rechtswirk !== undefined) {
+		const [ y, m, d ] = currentFeature.properties.rechtswirk.split('-');
+
+		rechtswirksam_seit = d + '.' + m + '.' + y;
+	}
 	return (
 		<Well bsSize='small' onClick={logCurrentFeature}>
 			<div>
@@ -114,16 +121,25 @@ const Comp = ({
 								}}
 							>
 								<h4>
-									FNP - Änderung {currentFeature.text}
+									FNP-Änderung {currentFeature.text}
 									{statusGlyphs}
 								</h4>
-								{currentFeature.properties.rechtswirk !== undefined && (
+								{currentFeature.properties.bplan_nr !== undefined && (
 									<h6>
-										rechswirksam seit: {currentFeature.properties.rechtswirk}
+										<b>Anlass: </b>
+										<a
+											href={`/#/docs/bplaene/${currentFeature.properties
+												.bplan_nr}/1`}
+											target='_bplaene'
+										>
+											BPlan {currentFeature.properties.bplan_nr}
+										</a>
 									</h6>
 								)}
-								{currentFeature.properties.bplan_nr !== undefined && (
-									<h6>siehe auch BPlan: {currentFeature.properties.bplan_nr}</h6>
+								{rechtswirksam_seit !== undefined && (
+									<h6>
+										<b>rechswirksam seit:</b> {rechtswirksam_seit}
+									</h6>
 								)}
 							</td>
 							<td

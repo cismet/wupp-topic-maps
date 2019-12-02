@@ -7,7 +7,7 @@ import { actions as MappingActions } from '../redux/modules/mapping';
 import { actions as UIStateActions } from '../redux/modules/uiState';
 import { WMSTileLayer } from 'react-leaflet';
 import { Icon } from 'react-fa';
-
+import { removeQueryPart } from '../utils/routingHelper';
 import uwz from '../components/prbr/UWZ';
 import {
 	actions as AEVActions,
@@ -43,7 +43,7 @@ import { aevFeatureStyler, aevLabeler } from '../utils/fnpHelper';
 import { proj4crs25832def } from '../constants/gis';
 import proj4 from 'proj4';
 import { Well } from 'react-bootstrap';
-
+import ShowAEVModeButton from '../components/fnp/ShowAEVModeButton';
 const switchIcon = faRandom;
 const searchMinZoom = 10;
 function mapStateToProps(state) {
@@ -155,6 +155,8 @@ export class Container_ extends React.Component {
 
 	render() {
 		let currentZoom = new URLSearchParams(this.props.routing.location.search).get('zoom') || 8;
+		let aevVisible =
+			new URLSearchParams(this.props.routing.location.search).get('aevVisible') !== null;
 
 		let titleContent;
 		let backgrounds = [];
@@ -211,9 +213,9 @@ export class Container_ extends React.Component {
 		} else {
 			titleContent = (
 				<div>
-					<b>Rechtsplan: </b> Flächennutzungsplan (FNP) mit Änderungsverfahren (ÄV)<div
-						style={{ float: 'right', paddingRight: 10 }}
-					>
+					<b>Rechtsplan: </b> Flächennutzungsplan (FNP){' '}
+					{aevVisible === true ? 'mit Änderungsverfahren (ÄV)' : ''}
+					<div style={{ float: 'right', paddingRight: 10 }}>
 						<a href={'/#/fnp/arbeitskarte' + this.props.routing.location.search}>
 							<FontAwesomeIcon icon={switchIcon} style={{ marginRight: 5 }} /> zur
 							Arbeitskarte
@@ -253,7 +255,7 @@ export class Container_ extends React.Component {
 					tiled='true'
 					styles='default'
 					maxZoom={19}
-					opacity={currentZoom >= searchMinZoom ? 1 : 0.2}
+					opacity={aevVisible === false ? 1.0 : currentZoom >= searchMinZoom ? 0.5 : 0.2}
 					caching={true}
 				/>
 			];
@@ -391,8 +393,29 @@ export class Container_ extends React.Component {
 							this.props.aevActions.setSelectedAEV(selectedObject[0].more.id);
 						}
 					}}
-					photoLightBox
 					infoBox={info}
+					secondaryInfoBoxElements={[
+						<ShowAEVModeButton
+							aevVisible={aevVisible}
+							setAevVisible={(visible) => {
+								if (visible === true && aevVisible === false) {
+									this.props.routingActions.push(
+										this.props.routing.location.pathname +
+											this.props.routing.location.search +
+											'&aevVisible'
+									);
+								} else if (visible === false && aevVisible === true) {
+									this.props.routingActions.push(
+										this.props.routing.location.pathname +
+											removeQueryPart(
+												this.props.routing.location.search,
+												'aevVisible'
+											)
+									);
+								}
+							}}
+						/>
+					]}
 					backgroundlayers={
 						'nothing' ||
 						this.props.match.params.layers ||
@@ -401,7 +424,11 @@ export class Container_ extends React.Component {
 					}
 					dataLoader={this.props.aevActions.loadAEVs}
 					getFeatureCollectionForData={() => {
-						return this.props.mapping.featureCollection;
+						if (aevVisible === false) {
+							return [];
+						} else {
+							return this.props.mapping.featureCollection;
+						}
 					}}
 					featureCollectionKeyPostfix={this.props.mapping.featureCollectionKeyPostfix}
 					featureStyler={aevFeatureStyler}
@@ -474,59 +501,61 @@ export class Container_ extends React.Component {
 						// />
 					}
 				>
-					<FeatureCollectionDisplayWithTooltipLabels
-						key={'allAEVs'}
-						featureCollection={getAEVFeatures(this.props.aev)}
-						boundingBox={{
-							left: 353122.1056720067,
-							top: 5696995.497378283,
-							right: 392372.51969633374,
-							bottom: 5655795.93913269
-						}}
-						style={(feature) => {
-							const style = {
-								color: '#155317',
-								weight: 3,
-								opacity: 0.8,
-								fillColor: '#ffffff',
-								fillOpacity: 0.6
-							};
-							if (currentZoom >= searchMinZoom) {
-								if (feature.properties.status === 'r') {
-									style.color = '#155317';
+					{aevVisible === true && (
+						<FeatureCollectionDisplayWithTooltipLabels
+							key={'allAEVs'}
+							featureCollection={getAEVFeatures(this.props.aev)}
+							boundingBox={{
+								left: 353122.1056720067,
+								top: 5696995.497378283,
+								right: 392372.51969633374,
+								bottom: 5655795.93913269
+							}}
+							style={(feature) => {
+								const style = {
+									color: '#155317',
+									weight: 3,
+									opacity: 0.8,
+									fillColor: '#ffffff',
+									fillOpacity: 0.6
+								};
+								if (currentZoom >= searchMinZoom) {
+									if (feature.properties.status === 'r') {
+										style.color = '#155317';
+									} else {
+										style.color = '#9F111B';
+									}
 								} else {
-									style.color = '#9F111B';
+									if (feature.properties.status === 'r') {
+										style.color = '#155317';
+										style.fillColor = '#155317';
+										style.opacity = 0.0;
+									} else {
+										style.color = '#9F111B';
+										style.fillColor = '#9F111B';
+										style.opacity = 0.0;
+									}
 								}
-							} else {
-								if (feature.properties.status === 'r') {
-									style.color = '#155317';
-									style.fillColor = '#155317';
-									style.opacity = 0.0;
-								} else {
-									style.color = '#9F111B';
-									style.fillColor = '#9F111B';
-									style.opacity = 0.0;
-								}
-							}
 
-							return style;
-						}}
-						_labeler={(feature) => {
-							return (
-								<h3
-									style={{
-										color: '#155317',
-										opacity: 0.7,
-										textShadow:
-											'1px 1px 0px  #000000,-1px 1px 0px  #000000, 1px -1px 0px  #000000, -1px -1px 0px  #000000, 2px 2px 15px #000000'
-									}}
-								>
-									Umweltzone
-								</h3>
-							);
-						}}
-						featureClickHandler={() => {}}
-					/>
+								return style;
+							}}
+							_labeler={(feature) => {
+								return (
+									<h3
+										style={{
+											color: '#155317',
+											opacity: 0.7,
+											textShadow:
+												'1px 1px 0px  #000000,-1px 1px 0px  #000000, 1px -1px 0px  #000000, -1px -1px 0px  #000000, 2px 2px 15px #000000'
+										}}
+									>
+										Umweltzone
+									</h3>
+								);
+							}}
+							featureClickHandler={() => {}}
+						/>
+					)}
 					{backgrounds}
 				</TopicMap>
 			</div>

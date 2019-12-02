@@ -132,7 +132,7 @@ const Comp = ({
 												.bplan_nr}/1`}
 											target='_bplaene'
 										>
-											BPlan {currentFeature.properties.bplan_nr}
+											B-Plan {currentFeature.properties.bplan_nr}
 										</a>
 									</h6>
 								)}

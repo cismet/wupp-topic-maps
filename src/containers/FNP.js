@@ -185,7 +185,7 @@ export class Container_ extends React.Component {
 						(this.props.match.params.layers || reduxBackground || 'wupp-plan-live') +
 						backgroundStyling
 					}
-					url='https://geodaten.metropoleruhr.de/spw2/service'
+					url='https://geodaten.metropoleruhr.de/spw2/service?srs=EPSG:25832'
 					layers={'spw2_graublau'}
 					version='1.3.0'
 					transparent='true'

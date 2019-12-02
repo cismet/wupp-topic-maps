@@ -33,7 +33,7 @@ const Comp = ({ width, filter, setFilter, featureRenderingOption, pieChart }) =>
 						<td valign='center' style={{ width: '330px' }}>
 							<FormGroup>
 								<ControlLabel>
-									Umweltzone
+									Umweltzonen
 									{'  '}
 									<FontAwesomeIcon
 										icon={faMinusCircle}

@@ -138,7 +138,7 @@ const Comp = ({
 								)}
 								{rechtswirksam_seit !== undefined && (
 									<h6>
-										<b>rechswirksam seit:</b> {rechtswirksam_seit}
+										<b>rechtswirksam seit:</b> {rechtswirksam_seit}
 									</h6>
 								)}
 							</td>

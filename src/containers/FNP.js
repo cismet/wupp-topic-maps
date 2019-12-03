@@ -311,6 +311,9 @@ export class Container_ extends React.Component {
 
 		let reduxBackground = undefined;
 		let backgroundStyling = queryString.parse(this.props.routing.location.search).mapStyle;
+		let fontSizeForAEVSwitch =
+			queryString.parse(this.props.routing.location.search).fontSizeForAEVSwitch || '1em';
+
 		try {
 			reduxBackground = this.props.mapping.backgrounds[this.props.mapping.selectedBackground]
 				.layerkey;
@@ -414,6 +417,7 @@ export class Container_ extends React.Component {
 									);
 								}
 							}}
+							fontSize={fontSizeForAEVSwitch}
 						/>
 					]}
 					backgroundlayers={

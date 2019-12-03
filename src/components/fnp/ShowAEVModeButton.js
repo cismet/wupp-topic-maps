@@ -3,11 +3,15 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faToggleOn, faToggleOff } from '@fortawesome/free-solid-svg-icons';
 import { Well, Button } from 'react-bootstrap';
 
-const Comp = ({ aevVisible = false, setAevVisible = (visible) => {} }) => {
+const Comp = ({ aevVisible = false, setAevVisible = (visible) => {}, fontSize = '40px' }) => {
 	return (
 		<div
 			key='featureInfoModeButton'
-			style={{ marginBottom: 5, textAlign: 'right', pointerEvents: 'auto' }}
+			style={{
+				marginBottom: 5,
+				textAlign: 'right',
+				pointerEvents: 'auto'
+			}}
 		>
 			<Button
 				id='cmdShowGetFeatureInfo'
@@ -15,6 +19,9 @@ const Comp = ({ aevVisible = false, setAevVisible = (visible) => {} }) => {
 				onClick={(e) => {
 					e.stopPropagation();
 					setAevVisible(!aevVisible);
+				}}
+				style={{
+					fontSize
 				}}
 			>
 				<FontAwesomeIcon icon={aevVisible === true ? faToggleOn : faToggleOff} />{' '}

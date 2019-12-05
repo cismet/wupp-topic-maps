@@ -21,7 +21,7 @@ const Comp = ({ aevVisible = false, setAevVisible = (visible) => {}, fontSize = 
 					setAevVisible(!aevVisible);
 				}}
 				style={{
-					fontSize
+					fontSize: '1.2em'
 				}}
 			>
 				<FontAwesomeIcon icon={aevVisible === true ? faToggleOn : faToggleOff} />{' '}

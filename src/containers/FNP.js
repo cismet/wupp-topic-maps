@@ -14,15 +14,8 @@ import {
 	getAEVs,
 	getAEVFeatures,
 	searchForAEVs,
-	// getAEVFeatureCollection,
 	getAEVSvgSize,
-	// getAEVFeatureCollectionSelectedIndex,
-	hasMinifiedInfoBox,
-	// getAEVFilter,
-	// getAEVFilteredData,
-	isSecondaryInfoBoxVisible
-	// getAEVFilterDescription,
-	// isEnvZoneVisible
+	hasMinifiedInfoBox
 } from '../redux/modules/fnp';
 import { FeatureCollectionDisplay, FeatureCollectionDisplayWithTooltipLabels } from 'react-cismap';
 import { routerActions as RoutingActions } from 'react-router-redux';
@@ -355,15 +348,6 @@ export class Container_ extends React.Component {
 		return (
 			<div>
 				{title}
-				{isSecondaryInfoBoxVisible(this.props.aev) === true &&
-				selectedFeature !== undefined && (
-					<SecondaryInfoModal
-						visible={isSecondaryInfoBoxVisible(this.props.aev)}
-						anlagenFeature={selectedFeature}
-						setVisibleState={this.props.aevActions.setSecondaryInfoVisible}
-						uiHeight={this.props.uiState.height}
-					/>
-				)}
 				<TopicMap
 					ref={(comp) => {
 						this.topicMap = comp;
@@ -472,7 +456,7 @@ export class Container_ extends React.Component {
 					}}
 					featureClickHandler={this.featureClick}
 					ondblclick={this.doubleMapClick}
-					refreshFeatureCollection={this.props.aevActions.refreshFeatureCollection}
+					_refreshFeatureCollection={this.props.aevActions.refreshFeatureCollection}
 					setSelectedFeatureIndex={this.props.aevActions.setSelectedFeatureIndex}
 					applicationMenuTooltipString='Einstellungen | Kompaktanleitung'
 					modalMenu_={
@@ -540,6 +524,57 @@ export class Container_ extends React.Component {
 										style.opacity = 0.0;
 									}
 								}
+
+								return style;
+							}}
+							style_hn={(feature) => {
+								const style = {
+									color: '#155317',
+									weight: 1,
+									opacity: 0.8,
+									fillColor: '#ffffff',
+									fillOpacity: 0.6
+								};
+
+								const key = feature.properties.key;
+								const os = parseInt(key);
+
+								let c;
+								if (os === 100) {
+									c = '#CC1800';
+								} else if (os === 200 || os === 220) {
+									c = '#7D6666';
+								} else if (os === 230) {
+									c = '#4C1900';
+								} else if (os === 240) {
+									c = '#964646';
+								} else if (os === 300) {
+									c = '#9999A6';
+								} else if (os >= 410 && os <= 442) {
+									c = '#FF7F00';
+								} else if (os >= 1100 && os <= 1900) {
+									c = '#AB66AB';
+								} else if (os >= 2111 && os <= 2130) {
+									c = '#FFCC66';
+								} else if (os >= 2141 && os <= 2146) {
+									c = '#8C9445';
+								} else if (os === 2210 || os === 2220) {
+									c = '#7C7CA6';
+								} else if (os >= 3110 && os <= 3223) {
+									c = '#F2F017';
+								} else if (os >= 3300 && os <= 3390) {
+									c = '#8CCC33';
+								} else if (os === 4010 || os === 4101) {
+									c = '#B2FFFF';
+								} else if (os === 5000) {
+									c = '#D9FF99';
+								} else if (os === 5100) {
+									c = '#05773C';
+								} else {
+									c = '#000';
+								}
+								style.color = c;
+								style.fillColor = c;
 
 								return style;
 							}}

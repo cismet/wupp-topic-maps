@@ -1,15 +1,9 @@
-import objectAssign from 'object-assign';
-import makeDataDuck from '../higherorderduckfactories/dataWithMD5Check';
-import makeFeatureCollectionWithoutIndexDuck from '../higherorderduckfactories/filteredFeatureCollectionWithoutIndex';
-import makeMarkerSizeDuck from '../higherorderduckfactories/markerSize';
+import bboxPolygon from '@turf/bbox-polygon';
+import booleanDisjoint from '@turf/boolean-disjoint';
+import localForage from 'localforage';
 import { combineReducers } from 'redux';
 import { persistReducer } from 'redux-persist';
-import localForage from 'localforage';
-import makeInfoBoxStateDuck from '../higherorderduckfactories/minifiedInfoBoxState';
-import makeSecondaryInfoBoxVisibilityStateDuck from '../higherorderduckfactories/secondaryInfoBoxVisibilityState';
-import booleanDisjoint from '@turf/boolean-disjoint';
-import bboxPolygon from '@turf/bbox-polygon';
-import { addSVGToFeature } from '../../utils/emobHelper';
+import makeDataDuck from '../higherorderduckfactories/dataWithMD5Check';
 
 //TYPES
 //no types bc no local store
@@ -26,10 +20,12 @@ const filterFunctionFactory = (filter) => {
 };
 
 //HIGHER ORDER DUCKS
-const dataDuck = makeDataDuck('aev', (state) => state.aev.dataState, convertAEVToFeature);
+const dataDuck = makeDataDuck(
+	'fnpAenderungsverfahren',
+	(state) => state.fnpAenderungsverfahren.dataState,
+	convertAEVToFeature
+);
 // const dataDuck = makeDataDuck('aev', (state) => state.aev.dataState, convertHauptnutzungToFeature);
-
-const infoBoxStateDuck = makeInfoBoxStateDuck('aev', (state) => state.aev.infoBoxState);
 
 ///INITIAL STATE
 //no localState
@@ -100,7 +96,7 @@ export function searchForAEVs({
 			const state = getState();
 			let finalResults = [];
 
-			for (let feature of state.aev.dataState.features) {
+			for (let feature of state.fnpAenderungsverfahren.dataState.features) {
 				// console.log('feature', feature);
 				if (!booleanDisjoint(bboxPoly, feature)) {
 					finalResults.push(feature);
@@ -153,48 +149,4 @@ function convertAEVToFeature(aev, index) {
 		},
 		properties: aev
 	};
-}
-
-function convertHauptnutzungToFeature(hn, index) {
-	if (hn === undefined) {
-		return undefined;
-	}
-	const id = hn.id;
-	const type = 'Feature';
-	const selected = false;
-	const geometry = hn.geojson;
-
-	const text = hn.name;
-
-	return {
-		id,
-		index,
-		text,
-		type,
-		selected,
-		geometry,
-		crs: {
-			type: 'name',
-			properties: {
-				name: 'urn:ogc:def:crs:EPSG::25832'
-			}
-		},
-		properties: hn
-	};
-}
-function convertAEVFilterToText(filter) {
-	let filterDescriptions = [];
-	if (filter.nur_online === true) {
-		filterDescriptions.push('verfügbar');
-	}
-	if (filter.stecker.length < 6) {
-		filterDescriptions.push('passender Stecker');
-	}
-	if (filter.nur_gruener_strom === true) {
-		filterDescriptions.push('Ökostrom');
-	}
-	if (filter.nur_schnelllader === true) {
-		filterDescriptions.push('Schnelllader');
-	}
-	return filterDescriptions.join(' | ');
 }

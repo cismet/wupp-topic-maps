@@ -16,7 +16,7 @@ import {
 	searchForAEVs,
 	getAEVSvgSize,
 	hasMinifiedInfoBox
-} from '../redux/modules/fnp';
+} from '../redux/modules/fnp_aenderungsverfahren';
 import { FeatureCollectionDisplay, FeatureCollectionDisplayWithTooltipLabels } from 'react-cismap';
 import { routerActions as RoutingActions } from 'react-router-redux';
 import {
@@ -44,7 +44,7 @@ function mapStateToProps(state) {
 		uiState: state.uiState,
 		mapping: state.mapping,
 		routing: state.routing,
-		aev: state.aev,
+		aev: state.fnpAenderungsverfahren,
 		gazetteerTopics: state.gazetteerTopics
 	};
 }

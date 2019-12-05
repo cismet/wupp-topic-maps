@@ -38,7 +38,7 @@ const markerSizeStorageConfig = {
 const dataStateStorageConfig = {
 	key: 'baederData',
 	storage: localForage,
-	whitelist: [] //["items", "md5"]
+	whitelist: [ 'items', 'md5' ]
 };
 const infoBoxStateStorageConfig = {
 	key: 'stadtplaninfoBoxMinifiedState',

@@ -204,8 +204,7 @@ export default Comp;
 Comp.propTypes = {
 	featureCollection: PropTypes.array.isRequired,
 	selectedIndex: PropTypes.number.isRequired,
-	loadingIndicator: PropTypes.bool.isRequired,
-	loadingError: PropTypes.bool.isRequired,
+
 	next: PropTypes.func.isRequired,
 	previous: PropTypes.func.isRequired,
 	fitAll: PropTypes.func.isRequired,

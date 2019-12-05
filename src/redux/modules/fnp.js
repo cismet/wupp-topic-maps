@@ -40,7 +40,7 @@ const infoBoxStateDuck = makeInfoBoxStateDuck('aev', (state) => state.aev.infoBo
 const dataStateStorageConfig = {
 	key: 'aevData',
 	storage: localForage,
-	whitelist: [ 'items', 'md5' ]
+	whitelist: [ 'items', 'md5', 'features' ]
 };
 
 const reducer = combineReducers({

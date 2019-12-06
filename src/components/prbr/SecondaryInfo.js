@@ -46,44 +46,45 @@ const Comp = ({ visible, anlagenFeature, setVisibleState, uiHeight }) => {
 				</Modal.Title>
 			</Modal.Header>
 			<Modal.Body style={modalBodyStyle} id='myMenu' key={'prbr.secondaryInfo'}>
-				{foto !== undefined && (
-					<img
-						alt='Bild'
-						style={{
-							paddingLeft: 10,
-							paddingRight: 10,
-							float: 'right',
-							paddingBottom: '5px'
-						}}
-						src={foto}
-						width='150'
-					/>
-				)}
-				{anlage.beschreibung}
+				<div style={{ minHeight: 200 }}>
+					{foto !== undefined && (
+						<img
+							alt='Bild'
+							style={{
+								paddingLeft: 10,
+								paddingRight: 10,
+								float: 'right',
+								paddingBottom: '5px'
+							}}
+							src={foto}
+							width='250'
+						/>
+					)}
+					{anlage.beschreibung}
 
-				<br />
-				<p style={{ paddingTop: 10 }}>
-					Anzahl {plaetze_label}: {anlage.plaetze}
-				</p>
-				{anlage.anbindung_schwebebahn === true && (
+					<br />
 					<p style={{ paddingTop: 10 }}>
-						Die Anlage ist an die Schwebebahn angebunden und befindet sich{' '}
-						{anlage.inUZ === true ? 'innerhalb' : 'außerhalb'} einer Umweltzone.
+						Anzahl {plaetze_label}: {anlage.plaetze}
 					</p>
-				)}
-				{anlage.anbindung_schwebebahn === false &&
-				anlage.inUZ === true && (
-					<p style={{ paddingTop: 10 }}>Die Anlage befindet sich in einer Umweltzone.</p>
-				)}
-				{anlage.anbindung_schwebebahn === false &&
-				anlage.inUZ === false && (
-					<p style={{ paddingTop: 10 }}>
-						Die Anlage befindet sich außerhalb einer Umweltzone.
-					</p>
-				)}
-
-				<br />
-				<br />
+					{anlage.anbindung_schwebebahn === true && (
+						<p style={{ paddingTop: 10 }}>
+							Die Anlage ist an die Schwebebahn angebunden und befindet sich{' '}
+							{anlage.inUZ === true ? 'innerhalb' : 'außerhalb'} einer Umweltzone.
+						</p>
+					)}
+					{anlage.anbindung_schwebebahn === false &&
+					anlage.inUZ === true && (
+						<p style={{ paddingTop: 10 }}>
+							Die Anlage befindet sich in einer Umweltzone.
+						</p>
+					)}
+					{anlage.anbindung_schwebebahn === false &&
+					anlage.inUZ === false && (
+						<p style={{ paddingTop: 10 }}>
+							Die Anlage befindet sich außerhalb einer Umweltzone.
+						</p>
+					)}
+				</div>
 				{(anlage.bahnlinien.length > 0 || anlage.buslinien.length > 0) && (
 					<Accordion
 						key={'1'}
@@ -91,7 +92,7 @@ const Comp = ({ visible, anlagenFeature, setVisibleState, uiHeight }) => {
 						style={{ marginBottom: 6 }}
 						defaultActiveKey={'1'}
 					>
-						<Panel header={'ÖPNV'} eventKey={'1'} bsStyle={'primary'}>
+						<Panel header={'ÖPNV'} eventKey={'1'} bsStyle={'info'}>
 							{anlage.bahnlinien.length > 0 && (
 								<div>
 									<h4>
@@ -141,16 +142,6 @@ const Comp = ({ visible, anlagenFeature, setVisibleState, uiHeight }) => {
 												width='80'
 											/>
 										</td>
-										{foto !== undefined && (
-											<td style={{ textAlign: 'left', verticalAlign: 'top' }}>
-												<img
-													alt='Bild'
-													style={{ paddingBottom: '5px' }}
-													src='/images/fahrplanauskunft.png'
-													width='250'
-												/>
-											</td>
-										)}
 									</tr>
 								</tbody>
 							</table>

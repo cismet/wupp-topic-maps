@@ -5,7 +5,9 @@ import { getColorForProperties } from '../../utils/prbrHelper';
 import { triggerLightBoxForFeature } from '../../utils/commonHelpers';
 import { Icon } from 'react-fa';
 import IconLink from '../commons/IconLink';
-
+import IconLinkFA from '../commons/IconLinkFA';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faInfoCircle, faSearchLocation } from '@fortawesome/free-solid-svg-icons';
 /* eslint-disable jsx-a11y/anchor-is-valid */
 
 // Since this component is simple and static, there's no parent container for it.
@@ -25,7 +27,9 @@ const Info = ({
 	pixelwidth,
 	minified,
 	minify,
-	setVisibleStateOfSecondaryInfo
+	setVisibleStateOfSecondaryInfo,
+
+	zoomToFeature = () => {}
 }) => {
 	const currentFeature = featureCollection[selectedIndex];
 
@@ -46,19 +50,32 @@ const Info = ({
 		info = currentFeature.properties.beschreibung;
 
 		links = [];
+
 		links.push(
-			<IconLink
+			<IconLinkFA
+				key={`IconLink.tel`}
+				tooltip='Auf Anlage zoomen'
+				onClick={() => {
+					setVisibleStateOfSecondaryInfo(true);
+				}}
+				icon={faSearchLocation}
+			/>
+		);
+
+		links.push(
+			<IconLinkFA
 				key={`IconLink.tel`}
 				tooltip='Datenblatt anzeigen'
 				onClick={() => {
 					setVisibleStateOfSecondaryInfo(true);
 				}}
-				iconname='info'
+				icon={faInfoCircle}
 			/>
 		);
+
 		if (currentFeature.properties.tel) {
 			links.push(
-				<IconLink
+				<IconLinkFA
 					key={`IconLink.tel`}
 					tooltip='Anrufen'
 					href={'tel:' + currentFeature.properties.tel}

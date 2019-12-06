@@ -88,6 +88,7 @@ export class Container_ extends React.Component {
 				pixelwidth={325}
 				featureCollection={getPRBRFeatureCollection(this.props.prbr)}
 				items={getPRBRFilteredData(this.props.prbr)}
+				unfilteredItems={getPRBRs(this.props.prbr)}
 				selectedIndex={getPRBRFeatureCollectionSelectedIndex(this.props.prbr) || 0}
 				next={() => {
 					this.props.prbrActions.setSelectedFeatureIndex(

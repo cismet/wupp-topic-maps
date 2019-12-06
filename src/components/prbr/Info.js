@@ -14,7 +14,7 @@ import { faInfoCircle, faSearchLocation } from '@fortawesome/free-solid-svg-icon
 const Info = ({
 	featureCollection,
 	items,
-	unfilteredItems = items,
+	unfilteredItems,
 	selectedIndex,
 	next,
 	previous,
@@ -109,6 +109,13 @@ const Info = ({
 		headerColor = getColorForProperties(currentFeature.properties);
 		title = currentFeature.text;
 	}
+
+	let countOfAnlagen = '' + unfilteredItems.length;
+
+	if (unfilteredItems.length !== items.length) {
+		countOfAnlagen = items.length + ' von ' + unfilteredItems.length;
+	}
+
 	return (
 		<InfoBox
 			isCollapsible={currentFeature !== undefined}
@@ -132,7 +139,7 @@ const Info = ({
 			title={title}
 			subtitle={anzahl_plaetze}
 			additionalInfo={info}
-			zoomToAllLabel={`${items.length} Anlagen in Wuppertal`}
+			zoomToAllLabel={`${countOfAnlagen} Anlagen in Wuppertal`}
 			currentlyShownCountLabel={`${featureCollection.length} ${featureCollection.length === 1
 				? 'Anlage'
 				: 'Anlagen'} angezeigt`}
@@ -146,7 +153,7 @@ const Info = ({
 						mit dem untenstehenden Link auf das komplette Stadtgebiet zoomen.
 					</p>
 					<div align='center'>
-						<a onClick={fitAll}>{unfilteredItems.length} Anlagen in Wuppertal</a>
+						<a onClick={fitAll}>{countOfAnlagen} Anlagen in Wuppertal</a>
 					</div>
 				</div>
 			}

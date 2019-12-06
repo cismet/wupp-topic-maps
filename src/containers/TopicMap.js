@@ -293,6 +293,7 @@ export class TopicMap_ extends React.Component {
 							ref={(leafletMap) => {
 								this.leafletRoutedMap = leafletMap;
 							}}
+							minZoom={this.props.minZoom}
 							layers=''
 							style={mapStyle}
 							fallbackPosition={{

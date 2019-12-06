@@ -327,7 +327,7 @@ const ModalMenuSettingsSection = ({
 							activeLayerKey={activeLayerKey}
 							modes={backgroundModes}
 						>
-							<div beforeLayerRadios>
+							<div beforelayerradios style={{ bottomMargin: 100 }}>
 								<Checkbox
 									readOnly={true}
 									key={'envZone.checkbox'}
@@ -340,7 +340,7 @@ const ModalMenuSettingsSection = ({
 									checked={envZoneVisible}
 									inline
 								>
-									Umweltzone
+									Umweltzonen
 								</Checkbox>
 							</div>
 						</NamedMapStyleChooser>,

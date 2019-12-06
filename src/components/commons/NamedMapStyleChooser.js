@@ -16,21 +16,21 @@ const NamedMapStyleChooser = ({
 	vertical = false,
 	children
 }) => {
-	let beforeLayerRadios = false;
+	let beforelayerradios = false;
 	//keep false when its undefined
 	if (
 		children !== undefined &&
 		children.props !== undefined &&
-		children.props.beforeLayerRadios === true
+		children.props.beforelayerradios === true
 	) {
-		beforeLayerRadios = true;
+		beforelayerradios = true;
 	}
 
 	return (
 		<FormGroup>
 			<ControlLabel>{title}</ControlLabel>
 			<br />
-			{children !== undefined && beforeLayerRadios === true && children}
+			{children !== undefined && beforelayerradios === true && children}
 			{modes.map((item, key) => {
 				return (
 					<span key={'radiobutton.nr.' + key}>
@@ -70,7 +70,7 @@ const NamedMapStyleChooser = ({
 					</span>
 				);
 			})}
-			{children !== undefined && beforeLayerRadios === false && children}
+			{children !== undefined && beforelayerradios === false && children}
 		</FormGroup>
 	);
 };

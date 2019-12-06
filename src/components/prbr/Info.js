@@ -14,6 +14,7 @@ import { faInfoCircle, faSearchLocation } from '@fortawesome/free-solid-svg-icon
 const Info = ({
 	featureCollection,
 	items,
+	unfilteredItems = items,
 	selectedIndex,
 	next,
 	previous,
@@ -145,7 +146,7 @@ const Info = ({
 						mit dem untenstehenden Link auf das komplette Stadtgebiet zoomen.
 					</p>
 					<div align='center'>
-						<a onClick={fitAll}>{items.length} Anlagen in Wuppertal</a>
+						<a onClick={fitAll}>{unfilteredItems.length} Anlagen in Wuppertal</a>
 					</div>
 				</div>
 			}

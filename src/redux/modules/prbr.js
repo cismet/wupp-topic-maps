@@ -226,9 +226,9 @@ function convertPRBRFilterToText(filter) {
 	if (filter.bandr === true && filter.pandr === true) {
 		filterDescription = 'alle Anlagen';
 	} else if (filter.bandr === true) {
-		filterDescription = 'alle B+R Anlagen';
+		filterDescription = 'nur B+R Anlagen';
 	} else if (filter.pandr === true) {
-		filterDescription = 'alle P+R Anlagen';
+		filterDescription = 'nur P+R Anlagen';
 	}
 
 	if (filter.envZoneWithin === false || filter.envZoneOutside === false) {

@@ -34,7 +34,8 @@ import TopicMap from '../containers/TopicMap';
 import ProjSingleGeoJson from '../components/ProjSingleGeoJson';
 import SecondaryInfoModal from '../components/prbr/SecondaryInfo';
 import InfoBoxFotoPreview from '../components/commons/InfoBoxFotoPreview';
-
+import { proj4crs25832def } from '../constants/gis';
+import proj4 from 'proj4';
 function mapStateToProps(state) {
 	return {
 		uiState: state.uiState,
@@ -77,6 +78,8 @@ export class Container_ extends React.Component {
 		this.props.mappingActions.setFeatureCollectionKeyPostfix('MarkerSvgSize:' + size);
 	}
 	render() {
+		let currentZoom = new URLSearchParams(this.props.routing.location.search).get('zoom') || 8;
+
 		let secondaryInfo = false;
 
 		let info = (
@@ -109,6 +112,18 @@ export class Container_ extends React.Component {
 				minified={hasMinifiedInfoBox(this.props.prbr)}
 				minify={(minified) => this.props.prbrActions.setMinifiedInfoBox(minified)}
 				setVisibleStateOfSecondaryInfo={this.props.prbrActions.setSecondaryInfoVisible}
+				zoomToFeature={(feature) => {
+					if (this.topicMap !== undefined) {
+						const pos = proj4(proj4crs25832def, proj4.defs('EPSG:4326'), [
+							feature.geometry.coordinates[0],
+							feature.geometry.coordinates[1]
+						]);
+						this.topicMap.wrappedInstance.leafletRoutedMap.leafletMap.leafletElement.setView(
+							[ pos[1], pos[0] ],
+							14
+						);
+					}
+				}}
 			/>
 		);
 		let reduxBackground = undefined;
@@ -351,6 +366,12 @@ export class Container_ extends React.Component {
 												'1px 1px 0px  #000000,-1px 1px 0px  #000000, 1px -1px 0px  #000000, -1px -1px 0px  #000000, 2px 2px 15px #000000'
 										}}
 									>
+										{currentZoom >12 && <><br />
+										<br />
+										<br />
+										<br />
+										<br />
+										<br /></>}
 										Umweltzone
 									</h3>
 								);

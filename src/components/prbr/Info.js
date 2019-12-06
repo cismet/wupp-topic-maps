@@ -53,10 +53,10 @@ const Info = ({
 
 		links.push(
 			<IconLinkFA
-				key={`IconLink.tel`}
+				key={`zoom`}
 				tooltip='Auf Anlage zoomen'
 				onClick={() => {
-					setVisibleStateOfSecondaryInfo(true);
+					zoomToFeature(currentFeature);
 				}}
 				icon={faSearchLocation}
 			/>
@@ -64,7 +64,7 @@ const Info = ({
 
 		links.push(
 			<IconLinkFA
-				key={`IconLink.tel`}
+				key={`IconLink.secondaryInfo`}
 				tooltip='Datenblatt anzeigen'
 				onClick={() => {
 					setVisibleStateOfSecondaryInfo(true);

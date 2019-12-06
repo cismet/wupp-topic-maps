@@ -37,6 +37,16 @@ import { proj4crs25832def } from '../constants/gis';
 import proj4 from 'proj4';
 import { Well } from 'react-bootstrap';
 import ShowAEVModeButton from '../components/fnp/ShowAEVModeButton';
+
+import VectorGrid from 'react-leaflet-vectorgrid';
+const options = {
+	type: 'protobuf',
+	url2: 'http://localhost:8080/data/xx/{z}/{x}/{y}.pbf',
+	url: 'http://localhost:8080/data/v3/{z}/{x}/{y}.pbf',
+	subdomains: ''
+
+	// vectorTileLayerStyles: { ... }
+};
 const switchIcon = faRandom;
 const searchMinZoom = 10;
 function mapStateToProps(state) {
@@ -349,6 +359,7 @@ export class Container_ extends React.Component {
 			<div>
 				{title}
 				<TopicMap
+					minZoom={1}
 					ref={(comp) => {
 						this.topicMap = comp;
 					}}
@@ -595,6 +606,7 @@ export class Container_ extends React.Component {
 							featureClickHandler={() => {}}
 						/>
 					)}
+					<VectorGrid {...options} />
 					{backgrounds}
 				</TopicMap>
 			</div>

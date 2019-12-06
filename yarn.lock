@@ -3732,6 +3732,11 @@ combined-stream@^1.0.6, combined-stream@~1.0.6:
   dependencies:
     delayed-stream "~1.0.0"
 
+commander@2, commander@^2.20.0:
+  version "2.20.3"
+  resolved "https://registry.yarnpkg.com/commander/-/commander-2.20.3.tgz#fd485e84c03eb4881c20722ba48035e8531aeb33"
+  integrity sha512-GpVkmM8vF2vQUkj2LvZmD35JxeJOLCwJ9cUkugyk2nuhbv3+mJvpLYYt+0+USMxE+oj+ey/lJEnhZw75x/OMcQ==
+
 commander@2.15.1:
   version "2.15.1"
   resolved "https://registry.yarnpkg.com/commander/-/commander-2.15.1.tgz#df46e867d0fc2aec66a34662b406a9ccafff5b0f"
@@ -3746,11 +3751,6 @@ commander@^2.11.0, commander@^2.19.0, commander@~2.20.0:
   version "2.20.0"
   resolved "https://registry.yarnpkg.com/commander/-/commander-2.20.0.tgz#d58bb2b5c1ee8f87b0d340027e9e94e222c5a422"
   integrity sha512-7j2y+40w61zy6YC2iRNpUe/NwhNyoXrYpHMrSunaMG64nRnaf96zO/KMQR4OyN/UnE5KLyEBnKHd4aG3rskjpQ==
-
-commander@^2.20.0:
-  version "2.20.3"
-  resolved "https://registry.yarnpkg.com/commander/-/commander-2.20.3.tgz#fd485e84c03eb4881c20722ba48035e8531aeb33"
-  integrity sha512-GpVkmM8vF2vQUkj2LvZmD35JxeJOLCwJ9cUkugyk2nuhbv3+mJvpLYYt+0+USMxE+oj+ey/lJEnhZw75x/OMcQ==
 
 commander@~2.19.0:
   version "2.19.0"
@@ -6403,7 +6403,7 @@ identity-obj-proxy@3.0.0:
   dependencies:
     harmony-reflect "^1.4.6"
 
-ieee754@^1.1.4:
+ieee754@^1.1.12, ieee754@^1.1.4:
   version "1.1.13"
   resolved "https://registry.yarnpkg.com/ieee754/-/ieee754-1.1.13.tgz#ec168558e95aa181fd87d37f55c32bbcb6708b84"
   integrity sha512-4vf7I2LYV/HaWerSo3XmlMkp5eZ83i+/CDluXi/IGTs/O1sejBNhTtnxzmRZfvOUqj7lZjqHkeTvpgSFDlWZTg==
@@ -7882,6 +7882,16 @@ leaflet.snogylop@^0.4.0:
   version "0.4.0"
   resolved "https://registry.yarnpkg.com/leaflet.snogylop/-/leaflet.snogylop-0.4.0.tgz#bc373432edc1da63a8efbcc5a681d398deebd0d3"
   integrity sha512-kpjBM3dWBdLyBEUJc1u+2HVYEJifVGnsrOGSeHGChxLP1In/GShmOSgbkHD6uXcK+y9w58SOsEtK+K7/bwEHCg==
+
+leaflet.vectorgrid@^1.3.0:
+  version "1.3.0"
+  resolved "https://registry.yarnpkg.com/leaflet.vectorgrid/-/leaflet.vectorgrid-1.3.0.tgz#ff2deea17d06a9c6cc5e65d8c7287093950e219a"
+  integrity sha512-kWmj1pKM+MVdo/7Mg5zsB3YrGZvo/uIuiANV9MvWUFOG+Y2xAJzrteDhoIcCgTjHSSRJ36xdeGdIQVhuWjnCZw==
+  dependencies:
+    pbf "^3.0.2"
+    topojson-client "^2.1.0"
+    vector-tile "^1.3.0"
+    whatwg-fetch "^2.0.3"
 
 leaflet@^1.0.1, leaflet@^1.2.0:
   version "1.5.1"
@@ -9370,6 +9380,14 @@ pathval@^1.1.0:
   resolved "https://registry.yarnpkg.com/pathval/-/pathval-1.1.0.tgz#b942e6d4bde653005ef6b71361def8727d0645e0"
   integrity sha1-uULm1L3mUwBe9rcTYd74cn0GReA=
 
+pbf@^3.0.2:
+  version "3.2.1"
+  resolved "https://registry.yarnpkg.com/pbf/-/pbf-3.2.1.tgz#b4c1b9e72af966cd82c6531691115cc0409ffe2a"
+  integrity sha512-ClrV7pNOn7rtmoQVF4TS1vyU0WhYRnP92fzbfF75jAIwpnzdJXf8iTd4CMEqO4yUenH6NDqLiwjqlh6QgZzgLQ==
+  dependencies:
+    ieee754 "^1.1.12"
+    resolve-protobuf-schema "^2.1.0"
+
 pbkdf2@^3.0.3:
   version "3.0.17"
   resolved "https://registry.yarnpkg.com/pbkdf2/-/pbkdf2-3.0.17.tgz#976c206530617b14ebb32114239f7b09336e93a6"
@@ -9464,6 +9482,11 @@ pnp-webpack-plugin@1.5.0:
   integrity sha512-jd9olUr9D7do+RN8Wspzhpxhgp1n6Vd0NtQ4SFkmIACZoEL1nkyAdW9Ygrinjec0vgDcWjscFQQ1gDW8rsfKTg==
   dependencies:
     ts-pnp "^1.1.2"
+
+point-geometry@0.0.0:
+  version "0.0.0"
+  resolved "https://registry.yarnpkg.com/point-geometry/-/point-geometry-0.0.0.tgz#6fcbcad7a803b6418247dd6e49c2853c584daff7"
+  integrity sha1-b8vK16gDtkGCR91uScKFPFhNr/c=
 
 polylabel@^1.0.2:
   version "1.0.2"
@@ -10291,6 +10314,11 @@ prop-types@^15.5.10, prop-types@^15.5.4, prop-types@^15.5.6, prop-types@^15.5.7,
     object-assign "^4.1.1"
     react-is "^16.8.1"
 
+protocol-buffers-schema@^3.3.1:
+  version "3.3.2"
+  resolved "https://registry.yarnpkg.com/protocol-buffers-schema/-/protocol-buffers-schema-3.3.2.tgz#00434f608b4e8df54c59e070efeefc37fb4bb859"
+  integrity sha512-Xdayp8sB/mU+sUV4G7ws8xtYMGdQnxbeIfLjyO9TZZRJdztBGhlmbI5x1qcY4TG5hBkIKGnc28i7nXxaugu88w==
+
 proxy-addr@~2.0.5:
   version "2.0.5"
   resolved "https://registry.yarnpkg.com/proxy-addr/-/proxy-addr-2.0.5.tgz#34cbd64a2d81f4b1fd21e76f9f06c8a45299ee34"
@@ -10662,6 +10690,13 @@ react-leaflet-markercluster@^1.1.7, react-leaflet-markercluster@^1.1.8:
   integrity sha512-REOnc8+QPO3V+vUHIkJ2Dnlw6lNBY+L7p3PBG3+Q1t8Idy9yXTjZ0hEJKSRrcU6HSPALiVyZgbDxIpd2j/HbqA==
   dependencies:
     deep-equal "^1.0.1"
+
+react-leaflet-vectorgrid@^2.2.1:
+  version "2.2.1"
+  resolved "https://registry.yarnpkg.com/react-leaflet-vectorgrid/-/react-leaflet-vectorgrid-2.2.1.tgz#270a85e2af1678cd056215d06a5d68a04cc41953"
+  integrity sha512-NDMF+jVcD7AefMqH8zyUaMzfu6scM1meGHiGsygkC4qvlEnZkLxk6f51b1gEtD8VoiXaSBxtGuPP+Q8UBixOCw==
+  dependencies:
+    leaflet.vectorgrid "^1.3.0"
 
 react-leaflet@^1.6.4, react-leaflet@^1.9.1:
   version "1.9.1"
@@ -11320,6 +11355,13 @@ resolve-pathname@^2.2.0:
   version "2.2.0"
   resolved "https://registry.yarnpkg.com/resolve-pathname/-/resolve-pathname-2.2.0.tgz#7e9ae21ed815fd63ab189adeee64dc831eefa879"
   integrity sha512-bAFz9ld18RzJfddgrO2e/0S2O81710++chRMUxHjXOYKF6jTAMrUNZrEZ1PvV0zlhfjidm08iRPdTLPno1FuRg==
+
+resolve-protobuf-schema@^2.1.0:
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/resolve-protobuf-schema/-/resolve-protobuf-schema-2.1.0.tgz#9ca9a9e69cf192bbdaf1006ec1973948aa4a3758"
+  integrity sha512-kI5ffTiZWmJaS/huM8wZfEMer1eRd7oJQhDuxeCLe3t7N7mX3z94CN0xPxBQxFYQTSNz9T0i+v6inKqSdK8xrQ==
+  dependencies:
+    protocol-buffers-schema "^3.3.1"
 
 resolve-url-loader@3.1.0:
   version "3.1.0"
@@ -12557,6 +12599,13 @@ toidentifier@1.0.0:
   resolved "https://registry.yarnpkg.com/toidentifier/-/toidentifier-1.0.0.tgz#7e1be3470f1e77948bc43d94a3c8f4d7752ba553"
   integrity sha512-yaOH/Pk/VEhBWWTlhI+qXxDFXlejDGcQipMlyxda9nthulaxLZUNcUqFxokp0vcYnvteJln5FNQDRrxj3YcbVw==
 
+topojson-client@^2.1.0:
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/topojson-client/-/topojson-client-2.1.0.tgz#ff9f7bf38991185e0b4284c2b06ae834f0eac6c8"
+  integrity sha1-/59784mRGF4LQoTCsGroNPDqxsg=
+  dependencies:
+    commander "2"
+
 tough-cookie@^2.3.3, tough-cookie@^2.3.4, tough-cookie@^2.5.0:
   version "2.5.0"
   resolved "https://registry.yarnpkg.com/tough-cookie/-/tough-cookie-2.5.0.tgz#cd9fb2a0aa1d5a12b473bd9fb96fa3dcff65ade2"
@@ -12919,6 +12968,13 @@ vary@~1.1.2:
   resolved "https://registry.yarnpkg.com/vary/-/vary-1.1.2.tgz#2299f02c6ded30d4a5961b0b9f74524a18f634fc"
   integrity sha1-IpnwLG3tMNSllhsLn3RSShj2NPw=
 
+vector-tile@^1.3.0:
+  version "1.3.0"
+  resolved "https://registry.yarnpkg.com/vector-tile/-/vector-tile-1.3.0.tgz#06d516a83b063f04c82ef539cf1bb1aebeb696b4"
+  integrity sha1-BtUWqDsGPwTILvU5zxuxrr62lrQ=
+  dependencies:
+    point-geometry "0.0.0"
+
 vendors@^1.0.0:
   version "1.0.3"
   resolved "https://registry.yarnpkg.com/vendors/-/vendors-1.0.3.tgz#a6467781abd366217c050f8202e7e50cc9eef8c0"
@@ -13162,6 +13218,11 @@ whatwg-fetch@3.0.0, whatwg-fetch@>=0.10.0, whatwg-fetch@^3.0.0:
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/whatwg-fetch/-/whatwg-fetch-3.0.0.tgz#fc804e458cc460009b1a2b966bc8817d2578aefb"
   integrity sha512-9GSJUgz1D4MfyKU7KRqwOjXCXTqWdFNvEr7eUBYchQiVc744mqK/MzXPNR2WsPkmkOa4ywfg8C2n8h+13Bey1Q==
+
+whatwg-fetch@^2.0.3:
+  version "2.0.4"
+  resolved "https://registry.yarnpkg.com/whatwg-fetch/-/whatwg-fetch-2.0.4.tgz#dde6a5df315f9d39991aa17621853d720b85566f"
+  integrity sha512-dcQ1GWpOD/eEQ97k66aiEVpNnapVj90/+R+SXTPYGHpYBBypfKJEQjLrvMZ7YXbKm21gXd4NcuxUTjiv1YtLng==
 
 whatwg-mimetype@^2.1.0, whatwg-mimetype@^2.2.0, whatwg-mimetype@^2.3.0:
   version "2.3.0"

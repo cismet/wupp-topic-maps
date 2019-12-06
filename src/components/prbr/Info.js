@@ -150,7 +150,21 @@ const Info = ({
 				<div style={{ marginRight: 9 }}>
 					<p>
 						Für mehr Anlagen Ansicht mit <Icon name='minus-square' /> verkleinern oder
-						mit dem untenstehenden Link auf das komplette Stadtgebiet zoomen.
+						mit untenstehendem Link alle Treffer der aktuellen Filterung anzeigen. Ggf.
+						Filtereinstellungen im
+						<span style={{ whiteSpace: 'nowrap' }}>
+							<a onClick={() => showModalMenu('filter')}>
+								{' '}
+								Anwendungsmenü{' '}
+								<Icon
+									name='bars'
+									style={{
+										color: 'black'
+									}}
+								/>{' '}
+							</a>
+						</span>{' '}
+						zurücksetzen.
 					</p>
 					<div align='center'>
 						<a onClick={fitAll}>{countOfAnlagen} Anlagen in Wuppertal</a>

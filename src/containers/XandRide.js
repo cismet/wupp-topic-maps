@@ -85,7 +85,7 @@ export class Container_ extends React.Component {
 		let info = (
 			<PRBRInfo
 				key={'PRBRInfo.' + (getPRBRFeatureCollectionSelectedIndex(this.props.prbr) || 0)}
-				pixelwidth={325}
+				pixelwidth={340}
 				featureCollection={getPRBRFeatureCollection(this.props.prbr)}
 				items={getPRBRFilteredData(this.props.prbr)}
 				unfilteredItems={getPRBRs(this.props.prbr)}

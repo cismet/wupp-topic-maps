@@ -235,5 +235,9 @@ function convertEMOBFilterToText(filter) {
 	if (filter.nur_schnelllader === true) {
 		filterDescriptions.push('Schnelllader');
 	}
+
+	if (filter.oeffnungszeiten === '24') {
+		filterDescriptions.push('24/7');
+	}
 	return filterDescriptions.join(' | ');
 }

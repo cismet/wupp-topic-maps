@@ -365,8 +365,11 @@ const BaederModalMenuHelpSection = ({ uiState, uiStateActions }) => {
 						Wenn Sie die Karte wie oben beschrieben auf eine P+R- bzw. B+R-Anlage
 						positionieren, erhält diese sofort den Fokus, sodass die zugehörigen
 						Informationen direkt in der Info-Box angezeigt werden. Voraussetzung dafür
-						ist, dass die aktuellen Filtereinstellungen die Darstellung der Anlage in
-						der Karte erlauben.
+						ist, dass die aktuellen{' '}
+						<Link to='MeinThemenstadtplan' containerId='myMenu'>
+							Filtereinstellungen
+						</Link>{' '}
+						die Darstellung der Anlage in der Karte erlauben.
 					</p>
 
 					<div id='anchorDivInHelp_standort' name='MeinStandort'>

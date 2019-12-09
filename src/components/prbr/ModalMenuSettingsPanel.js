@@ -327,7 +327,7 @@ const ModalMenuSettingsSection = ({
 							activeLayerKey={activeLayerKey}
 							modes={backgroundModes}
 						>
-							<div beforelayerradios style={{ bottomMargin: 100 }}>
+							<div beforelayerradios style={{ marginBottom: 10 }}>
 								<Checkbox
 									readOnly={true}
 									key={'envZone.checkbox'}

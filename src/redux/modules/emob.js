@@ -55,8 +55,8 @@ const filterFunctionFactory = (filter) => {
 		if (keep === true && filter.nur_gruener_strom === true) {
 			keep = obj.gruener_strom === true;
 		}
-		//Schnelllader
 
+		//Schnelllader
 		if (keep === true && filter.nur_schnelllader === true) {
 			return obj.schnellladestation === true;
 		}

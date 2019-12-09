@@ -71,7 +71,7 @@ const BaederModalMenuHelpSection = ({ uiState, uiStateActions }) => {
 							style={{ textDecoration: 'none' }}
 						>
 							{' '}
-							<Label bsStyle='primary'>Kartendarstellung</Label>{' '}
+							<Label bsStyle='success'>Kartendarstellung</Label>{' '}
 						</Link>
 
 						<Link
@@ -81,7 +81,7 @@ const BaederModalMenuHelpSection = ({ uiState, uiStateActions }) => {
 							style={{ textDecoration: 'none' }}
 						>
 							{' '}
-							<Label bsStyle='danger'>Anlagen auswählen und abfragen</Label>{' '}
+							<Label bsStyle='success'>Anlagen auswählen und abfragen</Label>{' '}
 						</Link>
 
 						<Link
@@ -101,7 +101,7 @@ const BaederModalMenuHelpSection = ({ uiState, uiStateActions }) => {
 							style={{ textDecoration: 'none' }}
 						>
 							{' '}
-							<Label bsStyle='info'>Mein Standort</Label>{' '}
+							<Label bsStyle='warning'>Mein Standort</Label>{' '}
 						</Link>
 
 						<Link
@@ -110,7 +110,7 @@ const BaederModalMenuHelpSection = ({ uiState, uiStateActions }) => {
 							style={{ textDecoration: 'none' }}
 						>
 							{' '}
-							<Label bsStyle='primary'>Filtern</Label>{' '}
+							<Label bsStyle='info'>Filtern</Label>{' '}
 						</Link>
 
 						<Link
@@ -120,7 +120,7 @@ const BaederModalMenuHelpSection = ({ uiState, uiStateActions }) => {
 							style={{ textDecoration: 'none' }}
 						>
 							{' '}
-							<Label bsStyle='success'>Einstellungen</Label>{' '}
+							<Label bsStyle='info'>Einstellungen</Label>{' '}
 						</Link>
 						<Link
 							id='lnkHelpHeader_personalisierung'
@@ -129,7 +129,7 @@ const BaederModalMenuHelpSection = ({ uiState, uiStateActions }) => {
 							style={{ textDecoration: 'none' }}
 						>
 							{' '}
-							<Label bsStyle='success'>Personalisierung</Label>{' '}
+							<Label bsStyle='info'>Personalisierung</Label>{' '}
 						</Link>
 					</div>
 

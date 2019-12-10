@@ -64,7 +64,7 @@ const Comp = ({ width, filter, setFilter, featureRenderingOption, pieChart }) =>
 										});
 									}}
 								>
-									Filter zurücksetzen (Alle Anlagen anzeigen)
+									Filter zurücksetzen (alle Anlagen anzeigen)
 								</Button>
 							</p>
 						</td>

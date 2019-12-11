@@ -4,47 +4,15 @@ import { Icon } from 'react-fa';
 import { Label } from 'react-bootstrap';
 import GenericModalMenuSection from '../commons/GenericModalMenuSection';
 import MeinStandortHelpText from '../commons/GenericHelpTextForMyLocation';
-import { getColorForProperties, getBadSVG } from '../../utils/baederHelper';
 import { getPRSVG } from '../../utils/prbrHelper';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faInfoCircle, faSearchLocation, faPlus } from '@fortawesome/free-solid-svg-icons';
 
 const helpSVGSize = 18;
-const hallenBadSVG = getBadSVG(helpSVGSize, '#565B5E', 'Hallenbad', 'helpTextSVG0');
-const freibadBadSVG = getBadSVG(helpSVGSize, '#565B5E', 'Freibad', 'helpTextSVG1');
 
-const prSVG = getPRSVG(24, '#FFFFFF', 'pr');
-const brSVG = getPRSVG(24, '#FFFFFF', 'br');
-
-const staedtischesFreibadSVG = getBadSVG(
-	helpSVGSize,
-	getColorForProperties({
-		more: { zugang: 'öffentlich', betreiber: 'Stadt' },
-		mainlocationtype: { lebenslagen: [ 'Freizeit', 'Sport' ] }
-	}),
-	'Freibad',
-	'helpTextSVG2'
-);
-const oeffentlichesVereinsbadSVG = getBadSVG(
-	helpSVGSize,
-	getColorForProperties({
-		more: { zugang: 'öffentlich', betreiber: 'Verein' },
-		mainlocationtype: { lebenslagen: [ 'Freizeit', 'Sport' ] }
-	}),
-	'Freibad',
-	'helpTextSVG3'
-);
-const nichtOeffentlichesVereinsbadSVG = getBadSVG(
-	helpSVGSize,
-	getColorForProperties({
-		more: { zugang: 'nicht öffentlich', betreiber: 'Verein' },
-		mainlocationtype: { lebenslagen: [ 'Freizeit', 'Sport' ] }
-	}),
-	'Freibad',
-	'helpTextSVG4'
-);
-
-const BaederModalMenuHelpSection = ({ uiState, uiStateActions }) => {
+const prSVG = getPRSVG(24, undefined, 'pr', 'prSVGinHELP');
+const brSVG = getPRSVG(24, undefined, 'br', 'brSVGinHELP');
+const HelpSection = ({ uiState, uiStateActions }) => {
 	return (
 		<GenericModalMenuSection
 			uiState={uiState}
@@ -148,9 +116,9 @@ const BaederModalMenuHelpSection = ({ uiState, uiStateActions }) => {
 						</Link>
 					</h4>
 					<p>
-						Die <strong> Elektromobilitäts-Karte Wuppertal</strong> bietet ihnen die
-						folgenden Hintergrundkarten an, die auf verschiedenen Geodatendiensten und
-						Geodaten basieren:
+						Die <strong> Park+Ride-Karte Wuppertal</strong> bietet ihnen die folgenden
+						Hintergrundkarten an, die auf verschiedenen Geodatendiensten und Geodaten
+						basieren:
 					</p>
 
 					<ul>
@@ -499,4 +467,4 @@ const BaederModalMenuHelpSection = ({ uiState, uiStateActions }) => {
 		/>
 	);
 };
-export default BaederModalMenuHelpSection;
+export default HelpSection;

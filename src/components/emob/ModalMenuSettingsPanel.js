@@ -172,12 +172,12 @@ const ModalMenuSettingsSection = ({
 	if (getInternetExplorerVersion() === -1) {
 		backgroundModes = [
 			{
-				title: 'Stadtplan (mehrfarbig)',
+				title: 'Stadtplan (Tag)',
 				mode: 'default',
 				layerKey: 'stadtplan'
 			},
 			{
-				title: 'Stadtplan (Nachtmodus)',
+				title: 'Stadtplan (Nacht)',
 				mode: 'night',
 				layerKey: 'stadtplan'
 			},

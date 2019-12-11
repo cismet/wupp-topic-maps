@@ -116,9 +116,9 @@ const HelpSection = ({ uiState, uiStateActions }) => {
 						</Link>
 					</h4>
 					<p>
-						Die <strong> Park+Ride-Karte Wuppertal</strong> bietet ihnen die folgenden
-						Hintergrundkarten an, die auf verschiedenen Geodatendiensten und Geodaten
-						basieren:
+						Die <strong> Elektromobilitätskarte Wuppertal</strong> bietet ihnen die
+						folgenden Hintergrundkarten an, die auf verschiedenen Geodatendiensten und
+						Geodaten basieren:
 					</p>
 
 					<ul>

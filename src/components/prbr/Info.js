@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import InfoBox from '../commons/InfoBox';
 import { getColorForProperties } from '../../utils/prbrHelper';
 import { triggerLightBoxForFeature } from '../../utils/commonHelpers';
-import { Icon } from 'react-fa';
+import Icon from 'components/commons/Icon';
 import IconLink from '../commons/IconLink';
 import IconLinkFA from '../commons/IconLinkFA';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';

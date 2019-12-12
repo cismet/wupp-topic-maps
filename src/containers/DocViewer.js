@@ -22,7 +22,7 @@ import 'url-search-params-polyfill';
 import { actions as UIStateActions } from '../redux/modules/uiState';
 import { actions as DocsActions } from '../redux/modules/docs';
 
-import { Icon } from 'react-fa';
+import Icon from 'components/commons/Icon';
 
 import Loadable from 'react-loading-overlay';
 

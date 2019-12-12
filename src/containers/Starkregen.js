@@ -6,7 +6,7 @@ import { bindActionCreators } from 'redux';
 import { actions as MappingActions } from '../redux/modules/mapping';
 import { actions as UIStateActions } from '../redux/modules/uiState';
 import { actions as StarkregenActions } from '../redux/modules/starkregen';
-import { Icon } from 'react-fa';
+import Icon from 'components/commons/Icon';
 
 import { routerActions as RoutingActions } from 'react-router-redux';
 import TopicMap from '../containers/TopicMap';

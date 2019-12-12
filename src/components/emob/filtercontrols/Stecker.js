@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Icon } from 'react-fa';
+import Icon from 'components/commons/Icon';
 import { FormGroup, ControlLabel, Radio, Checkbox } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlug } from '@fortawesome/free-solid-svg-icons';

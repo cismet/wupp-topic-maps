@@ -1,5 +1,5 @@
 import React from 'react';
-import { Icon } from 'react-fa';
+import Icon from 'components/commons/Icon';
 import { getColorForProperties } from '../../utils/kitasHelper';
 import { constants as kitasConstants } from '../../redux/modules/kitas';
 

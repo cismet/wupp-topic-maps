@@ -1,5 +1,5 @@
 import React from 'react';
-import { Icon } from 'react-fa';
+import Icon from 'components/commons/Icon';
 import { Well, Button } from 'react-bootstrap';
 
 const Comp = ({ setFeatureInfoModeActivation }) => {

@@ -21,7 +21,7 @@ import {
 	actions as EhrenamtActions
 } from '../../redux/modules/ehrenamt';
 
-import { Icon } from 'react-fa';
+import Icon from 'components/commons/Icon';
 import 'react-bootstrap-switch/dist/css/bootstrap3/react-bootstrap-switch.min.css';
 
 import Select from 'react-select-plus';

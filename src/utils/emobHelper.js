@@ -7,7 +7,7 @@ import createElement from 'svg-create-element';
 import { poiColors } from '../constants/colors.js';
 import store from '../redux/store';
 import queryString from 'query-string';
-import { Icon } from 'react-fa';
+import Icon from 'components/commons/Icon';
 import SVGInline from 'react-svg-inline';
 import { getFilterDescription } from './kitasHelper.js';
 

@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Icon } from 'react-fa';
+import Icon from 'components/commons/Icon';
 import { getColorForProperties } from '../../utils/stadtplanHelper';
 import Color from 'color';
 import IconLink from '../commons/IconLink';

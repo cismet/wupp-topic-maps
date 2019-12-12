@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { Icon } from 'react-fa';
+import Icon from 'components/commons/Icon';
 import { Well, Button } from 'react-bootstrap';
 import Legend from './Legend';
 import L from 'leaflet';

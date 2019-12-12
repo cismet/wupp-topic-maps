@@ -6,7 +6,7 @@ import { bindActionCreators } from 'redux';
 import { actions as MappingActions } from '../redux/modules/mapping';
 import { actions as UIStateActions } from '../redux/modules/uiState';
 import { WMSTileLayer } from 'react-leaflet';
-import { Icon } from 'react-fa';
+import Icon from 'components/commons/Icon';
 import { removeQueryPart } from '../utils/routingHelper';
 import uwz from '../components/prbr/UWZ';
 import {

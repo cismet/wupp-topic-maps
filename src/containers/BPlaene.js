@@ -25,7 +25,7 @@ import {
 } from '../utils/downloadHelper';
 import BPlanModalHelp from '../components/bplaene/Help00MainComponent';
 import BPlanInfo from '../components/bplaene/BPlanInfo';
-import { Icon } from 'react-fa';
+import Icon from 'components/commons/Icon';
 
 import { proj4crs25832def } from '../constants/gis';
 import proj4 from 'proj4';

@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { OverlayTrigger, Well, Tooltip } from 'react-bootstrap';
 import Loadable from 'react-loading-overlay';
-import { Icon } from 'react-fa';
+import Icon from 'components/commons/Icon';
 /* eslint-disable jsx-a11y/anchor-is-valid */
 
 // Since this component is simple and static, there's no parent container for it.

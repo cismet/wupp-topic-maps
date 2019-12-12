@@ -1,6 +1,6 @@
 import React from 'react';
 import { Well } from 'react-bootstrap';
-import { Icon } from 'react-fa';
+import Icon from 'components/commons/Icon';
 /* eslint-disable jsx-a11y/anchor-is-valid */
 
 const COMP = ({

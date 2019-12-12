@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Icon } from 'react-fa';
+import Icon from 'components/commons/Icon';
 import { FormGroup, Checkbox, Radio, ControlLabel, Button } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faParking, faMinusCircle } from '@fortawesome/free-solid-svg-icons';

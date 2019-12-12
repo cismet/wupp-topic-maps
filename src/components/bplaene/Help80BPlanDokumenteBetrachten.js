@@ -1,6 +1,6 @@
 import React from 'react';
 import GenericModalMenuSection from '../commons/GenericModalMenuSection';
-import { Icon } from 'react-fa';
+import Icon from 'components/commons/Icon';
 import { INFO_DOC_DATEINAMEN_URL } from '../../constants/bplaene';
 
 const Component = ({ uiState, uiStateActions, showModalMenu }) => {

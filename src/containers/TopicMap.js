@@ -28,7 +28,7 @@ import ProjSingleGeoJson from '../components/ProjSingleGeoJson';
 import GazetteerHitDisplay from '../components/GazetteerHitDisplay';
 import GazetteerSearchControl from '../components/commons/GazetteerSearchControl';
 
-import { Icon } from 'react-fa';
+import Icon from 'components/commons/Icon';
 
 import { builtInGazetteerHitTrigger } from '../utils/gazetteerHelper';
 import Loadable from 'react-loading-overlay';

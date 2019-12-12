@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Modal, Button, Accordion, Panel } from 'react-bootstrap';
-import { Icon } from 'react-fa';
+import Icon from 'components/commons/Icon';
 import GenericRVRStadtplanwerkMenuFooter from '../commons/GenericRVRStadtplanwerkMenuFooter';
 import CismetFooterAcks from '../commons/CismetFooterAcknowledgements';
 

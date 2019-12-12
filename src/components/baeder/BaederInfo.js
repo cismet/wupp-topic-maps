@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import InfoBox from '../commons/InfoBox';
 import { getColorForProperties } from '../../utils/baederHelper';
 import { triggerLightBoxForFeature } from '../../utils/commonHelpers';
-import { Icon } from 'react-fa';
+import Icon from 'components/commons/Icon';
 import IconLink from '../commons/IconLink';
 
 /* eslint-disable jsx-a11y/anchor-is-valid */

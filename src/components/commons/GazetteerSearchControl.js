@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
-import { Icon } from 'react-fa';
+import Icon from 'components/commons/Icon';
 // import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 //import { faSun } from '@fortawesome/free-solid-svg-icons';
 

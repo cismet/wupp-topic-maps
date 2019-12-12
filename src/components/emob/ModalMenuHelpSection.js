@@ -12,9 +12,6 @@ import { faInfoCircle, faSearchLocation, faPlus } from '@fortawesome/free-solid-
 
 const helpSVGSize = 18;
 
-const prSVG = getPRSVG(24, undefined, 'pr', 'prSVGinHELP');
-const brSVG = getPRSVG(24, undefined, 'br', 'brSVGinHELP');
-
 const onlineSVG = getSymbolSVG(24, '#003B80', 'pr', 'onlineSVGinHELP');
 const offlineSVG = getSymbolSVG(24, '#888A87', 'pr', 'offlineSVGinHELP');
 

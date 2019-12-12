@@ -219,13 +219,6 @@ const BaederModalMenuHelpSection = ({ uiState, uiStateActions }) => {
 						>
 							Umweltzonen Wuppertal
 						</a>{' '}
-						des{' '}
-						<a
-							target='_legal'
-							href='https://www.wuppertal.de/rathaus-buergerservice/karten_vermessung/index.php'
-						>
-							Ressorts Vermessung, Katasteramt und Geodaten
-						</a>{' '}
 						aus dem Open-Data-Angebot der Stadt Wuppertal.
 					</p>
 

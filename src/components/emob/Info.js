@@ -38,7 +38,7 @@ const Info = ({
 		if (currentFeature.properties.online === false) {
 			header = 'Ladestation für E-Autos (offline)';
 		} else {
-			header = 'Ladestation für E-Autos';
+			header = 'Ladestation für E-Autos (online)';
 		}
 
 		additionaInfo = currentFeature.properties.detailbeschreibung;

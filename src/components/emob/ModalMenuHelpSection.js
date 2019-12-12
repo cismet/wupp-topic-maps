@@ -5,6 +5,8 @@ import { Label } from 'react-bootstrap';
 import GenericModalMenuSection from '../commons/GenericModalMenuSection';
 import MeinStandortHelpText from '../commons/GenericHelpTextForMyLocation';
 import { getPRSVG } from '../../utils/prbrHelper';
+import { getSymbolSVG } from '../../utils/emobHelper';
+
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faInfoCircle, faSearchLocation, faPlus } from '@fortawesome/free-solid-svg-icons';
 
@@ -12,6 +14,10 @@ const helpSVGSize = 18;
 
 const prSVG = getPRSVG(24, undefined, 'pr', 'prSVGinHELP');
 const brSVG = getPRSVG(24, undefined, 'br', 'brSVGinHELP');
+
+const onlineSVG = getSymbolSVG(24, '#003B80', 'pr', 'onlineSVGinHELP');
+const offlineSVG = getSymbolSVG(24, '#888A87', 'pr', 'offlineSVGinHELP');
+
 const HelpSection = ({ uiState, uiStateActions }) => {
 	return (
 		<GenericModalMenuSection
@@ -174,13 +180,6 @@ const HelpSection = ({ uiState, uiStateActions }) => {
 						>
 							Ladestationen E-Autos Wuppertal
 						</a>{' '}
-						des{' '}
-						<a
-							target='_legal'
-							href='https://www.wuppertal.de/rathaus-buergerservice/karten_vermessung/index.php'
-						>
-							Ressorts Vermessung, Katasteramt und Geodaten
-						</a>{' '}
 						aus dem Open-Data-Angebot der Stadt Wuppertal.
 					</p>
 
@@ -188,7 +187,7 @@ const HelpSection = ({ uiState, uiStateActions }) => {
 						<br />
 					</div>
 					<h4>
-						Kartendarstellung der Anlagen{' '}
+						Kartendarstellung der Ladestationen{' '}
 						<Link
 							id='lnkUpInHelp_styling'
 							to='help'
@@ -199,14 +198,17 @@ const HelpSection = ({ uiState, uiStateActions }) => {
 						</Link>
 					</h4>
 					<p>
-						Zur Darstellung der Anlagen in der Karte verwenden wir zwei unterschiedliche
-						Symbole für die P+R- {prSVG} und die B+R-Anlagen {brSVG}. Die Farben der
+						Zur Darstellung der Ladestationen in der Karte verwenden wir zwei
+						unterschiedliche Symbole für die Ladestationen, die derzeit in Betrieb
+						("online") {onlineSVG} sind, und diejenigen, die wegen länger dauernder
+						Maßnahmen nicht in Betrieb ("offline") {offlineSVG} sind. Die Farben der
 						Symbole werden in der Titelzeile der Info-Box unten rechts aufgegriffen.
-						Zusätzlich wird dort der Typ der Anlage (Park + Ride bzw. Bike + Ride)
-						wiederholt. Räumlich nah beieinander liegende Anlagen werden standardmäßig
+						Zusätzlich wird dort der der Betriebszustand der Ladestation - Ladestation
+						für E-Autos (online) bzw. Ladestation für E-Autos (offline) - wiederholt.
+						Räumlich nah beieinander liegende Anlagen werden standardmäßig
 						maßstabsabhängig zu größeren Kreis-Symbolen zusammengefasst, jeweils mit der
 						Anzahl der repräsentierten Anlagen im Zentrum{' '}
-						<img alt='Cluster' width='32' src='images/prbr_cluster.png' />. Vergrößern
+						<img alt='Cluster' width='32' src='images/emob_cluster.png' />. Vergrößern
 						Sie ein paar Mal durch direktes Anklicken eines solchen Punktes oder mit{' '}
 						<FontAwesomeIcon icon={faPlus} /> die Darstellung, so werden die
 						zusammengefassten Anlagen Schritt für Schritt in die kleineren Symbole für

@@ -206,7 +206,7 @@ const ModalMenuSettingsSection = ({
 					preview={preview}
 					settingsSections={[
 						<div>
-							<ControlLabel>Ladestationen-Einstellungen:</ControlLabel>
+							<ControlLabel>Ladestation-Einstellungen:</ControlLabel>
 							<br />
 							<Checkbox
 								readOnly={true}

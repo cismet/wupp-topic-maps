@@ -29,7 +29,7 @@ const ModalMenu = ({
 	featureCollectionObjectsCount
 }) => {
 	const filteredObjectsCount = (filteredObjects || []).length;
-	let rightTerm = filteredObjectsCount !== 1 ? 'Anlagen' : 'Anlage';
+	let rightTerm = filteredObjectsCount !== 1 ? 'Ladestationen' : 'Ladestation';
 	let filterSubTitle = `(${filteredObjectsCount} ${rightTerm} gefunden, davon ${featureCollectionObjectsCount} in der Karte)`;
 	return (
 		<GenericModalApplicationMenu

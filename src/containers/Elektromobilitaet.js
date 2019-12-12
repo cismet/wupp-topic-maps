@@ -62,7 +62,7 @@ export class Container_ extends React.Component {
 		);
 	}
 	componentDidMount() {
-		document.title = 'Elektromobilität in Wuppertal';
+		document.title = 'E-Auto-Ladestationskarte Wuppertal';
 	}
 	gotoHome() {
 		if (this.topicMap) {

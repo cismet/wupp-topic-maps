@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-scroll';
-import { Icon } from 'react-fa';
+import Icon from 'components/commons/Icon';
 import { Label } from 'react-bootstrap';
 import GenericModalMenuSection from '../commons/GenericModalMenuSection';
 import MeinStandortHelpText from '../commons/GenericHelpTextForMyLocation';
@@ -116,7 +116,7 @@ const HelpSection = ({ uiState, uiStateActions }) => {
 						</Link>
 					</h4>
 					<p>
-						Die <strong> Elektromobilitätskarte Wuppertal</strong> bietet ihnen die
+						Die <strong>E-Auto-Ladestationskarte Wuppertal</strong> bietet ihnen die
 						folgenden Hintergrundkarten an, die auf verschiedenen Geodatendiensten und
 						Geodaten basieren:
 					</p>
@@ -167,25 +167,12 @@ const HelpSection = ({ uiState, uiStateActions }) => {
 					</ul>
 
 					<p>
-						Zusätzlich nutzt die P+R-Karte die Datensätze{' '}
+						Zusätzlich nutzt die E-Auto-Ladestationskarte den Datensatz{' '}
 						<a
 							target='_legal'
-							href='https://offenedaten-wuppertal.de/dataset/park-and-ride-anlagen-wuppertal'
+							href='https://offenedaten-wuppertal.de/dataset/ladestationen-e-autos-wuppertal'
 						>
-							Park and Ride Anlagen Wuppertal
-						</a>,{' '}
-						<a
-							target='_legal'
-							href='https://offenedaten-wuppertal.de/dataset/bike-and-ride-anlagen-wuppertal'
-						>
-							Bike and Ride Anlagen Wuppertal
-						</a>{' '}
-						und{' '}
-						<a
-							target='_legal'
-							href='https://offenedaten-wuppertal.de/dataset/umweltzonen-wuppertal'
-						>
-							Umweltzonen Wuppertal
+							Ladestationen E-Autos Wuppertal
 						</a>{' '}
 						des{' '}
 						<a

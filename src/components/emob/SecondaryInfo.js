@@ -125,7 +125,7 @@ const Comp = ({ visible, feature, setVisibleState, uiHeight }) => {
 							)
 						}
 						eventKey={'1'}
-						bsStyle={ladestation.online === true ? 'primary' : 'default'}
+						bsStyle={ladestation.online === true ? 'info' : 'default'}
 					>
 						<div>
 							<b>Ladeplätze:</b> {ladestation.ladeplaetze}

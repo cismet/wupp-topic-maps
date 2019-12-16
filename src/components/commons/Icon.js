@@ -2,13 +2,13 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Icon } from 'react-fa';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faClock, faPhoneAlt } from '@fortawesome/free-solid-svg-icons';
+import { faClock, faPhoneAlt, faInfoCircle } from '@fortawesome/free-solid-svg-icons';
 
 const nameMap = {
 	clock: faClock,
 	phone: undefined, // faPhone,
 	search: undefined,
-	info: undefined,
+	info: faInfoCircle,
 	file: undefined,
 	home: undefined,
 	road: undefined,

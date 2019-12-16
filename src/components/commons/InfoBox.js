@@ -167,7 +167,7 @@ const InfoBox = ({
 	return (
 		<>
 			{fotoPreview}
-			{llVis}
+			{llVis}	
 			<CollapsibleWell
 				collapsed={collapsedInfoBox}
 				setCollapsed={setCollapsedInfoBox}

@@ -226,6 +226,9 @@ function convertEMOBFilterToText(filter) {
 	if (filter.nur_online === true) {
 		filterDescriptions.push('verfügbar');
 	}
+	if (filter.oeffnungszeiten === '24') {
+		filterDescriptions.push('24/7');
+	}
 	if (filter.stecker.length < 6) {
 		filterDescriptions.push('passender Stecker');
 	}
@@ -234,10 +237,6 @@ function convertEMOBFilterToText(filter) {
 	}
 	if (filter.nur_schnelllader === true) {
 		filterDescriptions.push('Schnelllader');
-	}
-
-	if (filter.oeffnungszeiten === '24') {
-		filterDescriptions.push('24/7');
 	}
 	return filterDescriptions.join(' | ');
 }

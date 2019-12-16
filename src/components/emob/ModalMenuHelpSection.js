@@ -258,10 +258,10 @@ const HelpSection = ({ uiState, uiStateActions }) => {
 						abgesetzten rechten Rand der Info-Box lässt sich diese so verkleinern, dass
 						nur noch der Betriebszustand der Ladestation (Ladestation online oder
 						offline), ihr Name und die Symbole <Icon name='info' />,{' '}
-						<Icon name='phone' /> und <Icon name='external-link-square' />
-						angezeigt werden - nützlich für Endgeräte mit kleinem Display. Mit der
-						Schaltfläche <Icon name='chevron-circle-up' /> an derselben Stelle können
-						Sie die Info-Box wieder vollständig einblenden.
+						<Icon name='phone' /> und <Icon name='external-link-square' /> angezeigt
+						werden - nützlich für Endgeräte mit kleinem Display. Mit der Schaltfläche{' '}
+						<Icon name='chevron-circle-up' /> an derselben Stelle können Sie die
+						Info-Box wieder vollständig einblenden.
 					</p>
 					<p>
 						Ein kleines Foto über der Info-Box vermittelt Ihnen bei den meisten

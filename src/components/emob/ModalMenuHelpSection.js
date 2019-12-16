@@ -52,9 +52,7 @@ const HelpSection = ({ uiState, uiStateActions }) => {
 							style={{ textDecoration: 'none' }}
 						>
 							{' '}
-							<Label bsStyle='success'>
-								Ladestationen auswählen und abfragen
-							</Label>{' '}
+							<Label bsStyle='success'>Ladestationen abfragen</Label>{' '}
 						</Link>
 
 						<Link
@@ -218,7 +216,7 @@ const HelpSection = ({ uiState, uiStateActions }) => {
 						<br />
 					</div>
 					<h4>
-						Ladestationen auswählen und abfragen{' '}
+						Ladestationen abfragen{' '}
 						<Link
 							id='lnkUpInHelp_auswahl'
 							to='help'

@@ -1,18 +1,20 @@
-import React from 'react';
+import Icon from 'components/commons/Icon';
+import proj4 from 'proj4';
 import PropTypes from 'prop-types';
-import TopicMap from './TopicMap';
+import React from 'react';
+import { Tooltip, Well } from 'react-bootstrap';
 import { connect } from 'react-redux';
-import { Well, Tooltip } from 'react-bootstrap';
-
+import { bindActionCreators } from 'redux';
+import BPlanInfo from '../components/bplaene/BPlanInfo';
+import BPlanModalHelp from '../components/bplaene/Help00MainComponent';
+import { proj4crs25832def } from '../constants/gis';
 import { actions as bplanActions } from '../redux/modules/bplaene';
+import {
+	actions as gazetteerTopicsActions,
+	getGazDataForTopicIds
+} from '../redux/modules/gazetteerTopics';
 import { actions as mappingActions } from '../redux/modules/mapping';
 import { actions as uiStateActions } from '../redux/modules/uiState';
-import {
-	getGazDataForTopicIds,
-	actions as gazetteerTopicsActions
-} from '../redux/modules/gazetteerTopics';
-
-import { bindActionCreators } from 'redux';
 import {
 	bplanFeatureStyler,
 	bplanLabeler,
@@ -23,12 +25,7 @@ import {
 	prepareDownloadMultipleFiles,
 	prepareMergeMultipleFiles
 } from '../utils/downloadHelper';
-import BPlanModalHelp from '../components/bplaene/Help00MainComponent';
-import BPlanInfo from '../components/bplaene/BPlanInfo';
-import Icon from 'components/commons/Icon';
-
-import { proj4crs25832def } from '../constants/gis';
-import proj4 from 'proj4';
+import TopicMap from './TopicMap';
 
 function mapStateToProps(state) {
 	return {

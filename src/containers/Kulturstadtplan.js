@@ -1,52 +1,41 @@
-import React from 'react';
 import PropTypes from 'prop-types';
-import TopicMap from './TopicMap';
-
+import queryString from 'query-string';
+import React from 'react';
+import 'react-image-lightbox/style.css';
 import { connect } from 'react-redux';
-
-import { actions as mappingActions } from '../redux/modules/mapping';
-import { actions as uiStateActions } from '../redux/modules/uiState';
-import { actions as stadtplanActions } from '../redux/modules/kulturstadtplan';
-
+import { routerActions } from 'react-router-redux';
+import { bindActionCreators } from 'redux';
+import InfoBoxFotoPreview from '../components/commons/InfoBoxFotoPreview';
+import StadtplanModalApplicationMenu from '../components/kulturstadtplan/ModalMenu';
+import StadtplanInfo from '../components/stadtplan/StadtplanInfo';
 import {
+	actions as stadtplanActions,
+	getApps,
+	getFilter,
+	getFilteredPOIs,
+	getFilterMode,
 	getPOIs,
 	getPOIsMD5,
-	getFilteredPOIs,
-	getVeranstaltungsarten,
-	getFilter,
-	getFilterMode,
 	getPoiSvgSize,
-	getApps,
+	getVeranstaltungsarten,
 	hasMinifiedInfoBox
 } from '../redux/modules/kulturstadtplan';
-
-import { routerActions } from 'react-router-redux';
-
-import { bindActionCreators } from 'redux';
-
+import { actions as mappingActions } from '../redux/modules/mapping';
+import { actions as uiStateActions } from '../redux/modules/uiState';
+import { fotoKraemerCaptionFactory, fotoKraemerUrlManipulation } from '../utils/commonHelpers';
 import {
-	getFeatureStyler,
-	featureHoverer,
-	getPoiClusterIconCreatorFunction
-} from '../utils/stadtplanHelper';
-
-import {
+	getAllEinrichtungen,
 	getColorForProperties,
 	getHeaderTextForProperties,
-	getAllEinrichtungen,
 	textConversion
 } from '../utils/kulturstadtplanHelper';
-
-import queryString from 'query-string';
-
-import StadtplanInfo from '../components/stadtplan/StadtplanInfo';
-import StadtplanModalApplicationMenu from '../components/kulturstadtplan/ModalMenu';
+import {
+	featureHoverer,
+	getFeatureStyler,
+	getPoiClusterIconCreatorFunction
+} from '../utils/stadtplanHelper';
 import PhotoLightbox from './PhotoLightbox';
-
-import 'react-image-lightbox/style.css';
-
-import InfoBoxFotoPreview from '../components/commons/InfoBoxFotoPreview';
-import { fotoKraemerUrlManipulation, fotoKraemerCaptionFactory } from '../utils/commonHelpers';
+import TopicMap from './TopicMap';
 
 function mapStateToProps(state) {
 	return {

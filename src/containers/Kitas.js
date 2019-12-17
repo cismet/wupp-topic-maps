@@ -1,30 +1,23 @@
-import React from 'react';
 import PropTypes from 'prop-types';
-import TopicMap from './TopicMap';
-
-import { connect } from 'react-redux';
-
-import { actions as MappingActions } from '../redux/modules/mapping';
-import { actions as UIStateActions } from '../redux/modules/uiState';
-import { actions as KitasActions } from '../redux/modules/kitas';
-import { routerActions } from 'react-router-redux';
-
-import { bindActionCreators } from 'redux';
-
-import {
-	getFeatureStyler,
-	featureHoverer,
-	getKitaClusterIconCreatorFunction,
-	getFilterDescription
-} from '../utils/kitasHelper';
-
 import queryString from 'query-string';
-
+import React from 'react';
+import 'react-image-lightbox/style.css';
+import { connect } from 'react-redux';
+import { routerActions } from 'react-router-redux';
+import { bindActionCreators } from 'redux';
 import KitaInfo from '../components/kitas/KitaInfo';
 import KitasModalApplicationMenu from '../components/kitas/KitasModalApplicationMenu';
-
-import 'react-image-lightbox/style.css';
+import { actions as KitasActions } from '../redux/modules/kitas';
+import { actions as MappingActions } from '../redux/modules/mapping';
+import { actions as UIStateActions } from '../redux/modules/uiState';
+import {
+	featureHoverer,
+	getFeatureStyler,
+	getFilterDescription,
+	getKitaClusterIconCreatorFunction
+} from '../utils/kitasHelper';
 import { removeQueryPart } from '../utils/routingHelper';
+import TopicMap from './TopicMap';
 
 function mapStateToProps(state) {
 	return {

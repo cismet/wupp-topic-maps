@@ -1,20 +1,20 @@
 import React from 'react';
-import { getColorForProperties as poiColorizer } from '../utils/stadtplanHelper';
-import 'url-search-params-polyfill';
 import SVGInline from 'react-svg-inline';
+import 'url-search-params-polyfill';
+import { getColorForProperties as poiColorizer } from '../utils/stadtplanHelper';
 
-export const getColorForProperties = properties => {
-  let searchParams = new URLSearchParams(window.location.href);
-  let openForPublic = searchParams.get('openForPublic') || '107FC9';
-  let closedForPublic = searchParams.get('closedForPublic') || '4AC1D1';
+export const getColorForProperties = (properties) => {
+	let searchParams = new URLSearchParams(window.location.href);
+	let openForPublic = searchParams.get('openForPublic') || '107FC9';
+	let closedForPublic = searchParams.get('closedForPublic') || '4AC1D1';
 
-  if (properties.more.zugang === 'öffentlich' && properties.more.betreiber === 'Verein') {
-    return '#' + openForPublic;
-  } else if (properties.more.zugang === 'nicht öffentlich') {
-    return '#' + closedForPublic;
-  } else {
-    return poiColorizer(properties);
-  }
+	if (properties.more.zugang === 'öffentlich' && properties.more.betreiber === 'Verein') {
+		return '#' + openForPublic;
+	} else if (properties.more.zugang === 'nicht öffentlich') {
+		return '#' + closedForPublic;
+	} else {
+		return poiColorizer(properties);
+	}
 };
 
 const hallenbadSVG = `
@@ -33,22 +33,22 @@ const freiBadSVG = `
 `;
 
 export const getBadSVG = (
-  svgSize = 30,
-  bg = '#FF0000',
-  kind = 'Freibad',
-  svgStyleRelatedId = 'default'
+	svgSize = 30,
+	bg = '#FF0000',
+	kind = 'Freibad',
+	svgStyleRelatedId = 'default'
 ) => {
-  let bdim = {
-    width: 20,
-    height: 20
-  };
-  let badSVG;
-  if (kind === 'Freibad') {
-    badSVG = freiBadSVG;
-  } else {
-    badSVG = hallenbadSVG;
-  }
-  let svg = `<svg  id="${svgStyleRelatedId}" height="${svgSize}" width="${svgSize}"> 
+	let bdim = {
+		width: 20,
+		height: 20
+	};
+	let badSVG;
+	if (kind === 'Freibad') {
+		badSVG = freiBadSVG;
+	} else {
+		badSVG = hallenbadSVG;
+	}
+	let svg = `<svg  id="${svgStyleRelatedId}" height="${svgSize}" width="${svgSize}"> 
                     <style>
                     /* <![CDATA[ */
                         #${svgStyleRelatedId} .bg-fill  {
@@ -66,12 +66,12 @@ export const getBadSVG = (
                     /* ]]> */
                     </style>
                 <svg x="${svgSize / bdim.width / 2}" y="${svgSize /
-    bdim.height /
-    2}"  width="${svgSize - (2 * svgSize) / bdim.width / 2}" height="${svgSize -
-    (2 * svgSize) / bdim.height / 2}" viewBox="0 0 ${bdim.width} ${bdim.height || 24}">       
+		bdim.height /
+		2}"  width="${svgSize - 2 * svgSize / bdim.width / 2}" height="${svgSize -
+		2 * svgSize / bdim.height / 2}" viewBox="0 0 ${bdim.width} ${bdim.height || 24}">       
                     ${badSVG}
                 </svg>
                 </svg>  `;
 
-  return <SVGInline svg={svg} />;
+	return <SVGInline svg={svg} />;
 };

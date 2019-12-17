@@ -1,34 +1,28 @@
+import Icon from 'components/commons/Icon';
+import L from 'leaflet';
 import PropTypes from 'prop-types';
 import React from 'react';
-
-import { connect } from 'react-redux';
-import { Navbar, Nav, NavItem, Well, ProgressBar, Alert } from 'react-bootstrap';
+import { Alert, Nav, Navbar, NavItem, ProgressBar, Well } from 'react-bootstrap';
 import { RoutedMap } from 'react-cismap';
-import { routerActions as RoutingActions } from 'react-router-redux';
 import { Rectangle, TileLayer } from 'react-leaflet';
 import Control from 'react-leaflet-control';
+import Loadable from 'react-loading-overlay';
+import { connect } from 'react-redux';
+import { routerActions as RoutingActions } from 'react-router-redux';
+import { bindActionCreators } from 'redux';
+import scrollIntoViewIfNeeded from 'scroll-into-view-if-needed';
+import { Column, Row } from 'simple-flexbox';
+import 'url-search-params-polyfill';
 import { actions as bplanActions } from '../redux/modules/bplaene';
+import { actions as DocsActions } from '../redux/modules/docs';
 import {
 	actions as gazetteerTopicsActions,
 	getGazDataForTopicIds
 } from '../redux/modules/gazetteerTopics';
+import { actions as UIStateActions } from '../redux/modules/uiState';
 import { downloadSingleFile, prepareDownloadMultipleFiles } from '../utils/downloadHelper';
-
-import L from 'leaflet';
-import { bindActionCreators } from 'redux';
 import { modifyQueryPart, removeQueryPart } from '../utils/routingHelper';
 
-import 'url-search-params-polyfill';
-import { actions as UIStateActions } from '../redux/modules/uiState';
-import { actions as DocsActions } from '../redux/modules/docs';
-
-import Icon from 'components/commons/Icon';
-
-import Loadable from 'react-loading-overlay';
-
-import { Column, Row } from 'simple-flexbox';
-
-import scrollIntoViewIfNeeded from 'scroll-into-view-if-needed';
 /* eslint-disable jsx-a11y/anchor-is-valid */
 
 L.RasterCoords = function(map, imgsize, tilesize) {

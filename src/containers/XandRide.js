@@ -1,41 +1,23 @@
+import proj4 from 'proj4';
 import PropTypes from 'prop-types';
-import React from 'react';
-import { connect } from 'react-redux';
 import queryString from 'query-string';
-import { bindActionCreators } from 'redux';
-import { actions as MappingActions } from '../redux/modules/mapping';
-import { actions as UIStateActions } from '../redux/modules/uiState';
-import { WMSTileLayer } from 'react-leaflet';
-import uwz from '../components/prbr/UWZ';
-import {
-	actions as PRBRActions,
-	getPRBRs,
-	getPRBRFeatureCollection,
-	getPRBRSvgSize,
-	getPRBRFeatureCollectionSelectedIndex,
-	hasMinifiedInfoBox,
-	getPRBRFilter,
-	getPRBRFilteredData,
-	isSecondaryInfoBoxVisible,
-	getPRBRFilterDescription,
-	isEnvZoneVisible
-} from '../redux/modules/prbr';
-import { FeatureCollectionDisplay, FeatureCollectionDisplayWithTooltipLabels } from 'react-cismap';
+import React from 'react';
+import { FeatureCollectionDisplayWithTooltipLabels } from 'react-cismap';
+import { connect } from 'react-redux';
 import { routerActions as RoutingActions } from 'react-router-redux';
-import {
-	getFeatureStyler,
-	featureHoverer,
-	getPoiClusterIconCreatorFunction
-} from '../utils/stadtplanHelper';
-import { getColorForProperties } from '../utils/prbrHelper';
+import { bindActionCreators } from 'redux';
+import InfoBoxFotoPreview from '../components/commons/InfoBoxFotoPreview';
 import PRBRInfo from '../components/prbr/Info';
 import PRBRModalMenu from '../components/prbr/ModalMenu';
-import TopicMap from '../containers/TopicMap';
-import ProjSingleGeoJson from '../components/ProjSingleGeoJson';
 import SecondaryInfoModal from '../components/prbr/SecondaryInfo';
-import InfoBoxFotoPreview from '../components/commons/InfoBoxFotoPreview';
+import uwz from '../components/prbr/UWZ';
 import { proj4crs25832def } from '../constants/gis';
-import proj4 from 'proj4';
+import TopicMap from '../containers/TopicMap';
+import { actions as MappingActions } from '../redux/modules/mapping';
+import { actions as PRBRActions, getPRBRFeatureCollection, getPRBRFeatureCollectionSelectedIndex, getPRBRFilter, getPRBRFilterDescription, getPRBRFilteredData, getPRBRs, getPRBRSvgSize, hasMinifiedInfoBox, isEnvZoneVisible, isSecondaryInfoBoxVisible } from '../redux/modules/prbr';
+import { actions as UIStateActions } from '../redux/modules/uiState';
+import { getColorForProperties } from '../utils/prbrHelper';
+import { featureHoverer, getFeatureStyler, getPoiClusterIconCreatorFunction } from '../utils/stadtplanHelper';
 function mapStateToProps(state) {
 	return {
 		uiState: state.uiState,
@@ -357,6 +339,7 @@ export class Container_ extends React.Component {
 								};
 								return style;
 							}}
+							featureClickHandler={()=>{}}
 							labeler={(feature) => {
 								return (
 									<h3

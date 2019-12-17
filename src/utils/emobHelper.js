@@ -1,15 +1,13 @@
-import React from 'react';
-import ColorHash from 'color-hash';
 import Color from 'color';
-import L from 'leaflet';
+import ColorHash from 'color-hash';
 import createSVGPie from 'create-svg-pie';
+import L from 'leaflet';
+import queryString from 'query-string';
+import React from 'react';
+import SVGInline from 'react-svg-inline';
 import createElement from 'svg-create-element';
 import { poiColors } from '../constants/colors.js';
 import store from '../redux/store';
-import queryString from 'query-string';
-import Icon from 'components/commons/Icon';
-import SVGInline from 'react-svg-inline';
-import { getFilterDescription } from './kitasHelper.js';
 
 const fallbackSVG = `
     <svg xmlns="http://www.w3.org/2000/svg" width="311.668" height="311.668">

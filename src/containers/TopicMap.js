@@ -1,37 +1,30 @@
+import Icon from 'components/commons/Icon';
 import PropTypes from 'prop-types';
 import React from 'react';
-import { connect } from 'react-redux';
-
+import { Button, OverlayTrigger, Tooltip } from 'react-bootstrap';
 import {
-	RoutedMap,
-	MappingConstants,
 	FeatureCollectionDisplay,
-	FeatureCollectionDisplayWithTooltipLabels
+	FeatureCollectionDisplayWithTooltipLabels,
+	MappingConstants,
+	RoutedMap
 } from 'react-cismap';
-import { bindActionCreators } from 'redux';
-import { actions as MappingActions } from '../redux/modules/mapping';
-import { actions as UIStateActions } from '../redux/modules/uiState';
-
-import { routerActions as RoutingActions } from 'react-router-redux';
-import { modifyQueryPart } from '../utils/routingHelper';
-
-import PhotoLightbox from './PhotoLightbox';
 import Control from 'react-leaflet-control';
+import Loadable from 'react-loading-overlay';
+import { connect } from 'react-redux';
+import { routerActions as RoutingActions } from 'react-router-redux';
+import { bindActionCreators } from 'redux';
+import GazetteerSearchControl from '../components/commons/GazetteerSearchControl';
+import GazetteerHitDisplay from '../components/GazetteerHitDisplay';
+import ProjSingleGeoJson from '../components/ProjSingleGeoJson';
 import {
 	actions as gazetteerTopicsActions,
 	getGazDataForTopicIds
 } from '../redux/modules/gazetteerTopics';
-
-import { Button, OverlayTrigger, Tooltip } from 'react-bootstrap';
-
-import ProjSingleGeoJson from '../components/ProjSingleGeoJson';
-import GazetteerHitDisplay from '../components/GazetteerHitDisplay';
-import GazetteerSearchControl from '../components/commons/GazetteerSearchControl';
-
-import Icon from 'components/commons/Icon';
-
+import { actions as MappingActions } from '../redux/modules/mapping';
+import { actions as UIStateActions } from '../redux/modules/uiState';
 import { builtInGazetteerHitTrigger } from '../utils/gazetteerHelper';
-import Loadable from 'react-loading-overlay';
+import { modifyQueryPart } from '../utils/routingHelper';
+import PhotoLightbox from './PhotoLightbox';
 
 function mapStateToProps(state) {
 	return {

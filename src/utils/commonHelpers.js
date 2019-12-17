@@ -1,7 +1,6 @@
-import React from 'react';
-import PropTypes from 'prop-types';
 import Icon from 'components/commons/Icon';
 import queryString from 'query-string';
+import React from 'react';
 
 export const triggerLightBoxForFeature = ({
 	currentFeature,

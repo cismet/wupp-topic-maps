@@ -1,22 +1,21 @@
+import Icon from 'components/commons/Icon';
 import PropTypes from 'prop-types';
 import React from 'react';
-import { connect } from 'react-redux';
-
-import { bindActionCreators } from 'redux';
-import { actions as MappingActions } from '../redux/modules/mapping';
-import { actions as UIStateActions } from '../redux/modules/uiState';
-import { actions as HitzeActions } from '../redux/modules/hitze';
-import Icon from 'components/commons/Icon';
-
-import { routerActions as RoutingActions } from 'react-router-redux';
-import TopicMap from '../containers/TopicMap';
-import { WMSTileLayer } from 'react-leaflet';
-import { Button, Label, Alert } from 'react-bootstrap';
+import { Alert, Button, Label } from 'react-bootstrap';
 import { FeatureCollectionDisplay } from 'react-cismap';
-import { modifyQueryPart } from '../utils/routingHelper';
+import { WMSTileLayer } from 'react-leaflet';
+import { connect } from 'react-redux';
+import { routerActions as RoutingActions } from 'react-router-redux';
+import { bindActionCreators } from 'redux';
 import InfoBox from '../components/hitze/ControlInfoBox';
 import ContactButton from '../components/starkregen/ContactButton';
 import HelpAndInfo from '../components/starkregen/Help00MainComponent';
+import TopicMap from '../containers/TopicMap';
+import { actions as HitzeActions } from '../redux/modules/hitze';
+import { actions as MappingActions } from '../redux/modules/mapping';
+import { actions as UIStateActions } from '../redux/modules/uiState';
+import { modifyQueryPart } from '../utils/routingHelper';
+
 /* eslint-disable jsx-a11y/anchor-is-valid */
 
 function mapStateToProps(state) {

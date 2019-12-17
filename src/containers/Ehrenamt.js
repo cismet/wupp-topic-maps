@@ -1,25 +1,19 @@
-import React from 'react';
 import PropTypes from 'prop-types';
-import TopicMap from '../containers/TopicMap';
-
+import queryString from 'query-string';
+import React from 'react';
 import { connect } from 'react-redux';
-
-import { actions as mappingActions } from '../redux/modules/mapping';
-import { actions as uiStateActions } from '../redux/modules/uiState';
+import { routerActions } from 'react-router-redux';
+import { bindActionCreators } from 'redux';
+import EhrenamtInfo from '../components/ehrenamt/EhrenamtInfo';
+import EhrenamtModalApplicationMenu from '../components/ehrenamt/EhrenamtModalApplicationMenu';
+import TopicMap from '../containers/TopicMap';
 import {
 	actions as ehrenamtActions,
 	constants as ehrenamtConstants
 } from '../redux/modules/ehrenamt';
-import { routerActions } from 'react-router-redux';
-
-import { bindActionCreators } from 'redux';
-import EhrenamtModalApplicationMenu from '../components/ehrenamt/EhrenamtModalApplicationMenu';
-import EhrenamtInfo from '../components/ehrenamt/EhrenamtInfo';
-
-import { featureStyler, featureHoverer, ehrenAmtClusterIconCreator } from '../utils/ehrenamtHelper';
-
-import queryString from 'query-string';
-
+import { actions as mappingActions } from '../redux/modules/mapping';
+import { actions as uiStateActions } from '../redux/modules/uiState';
+import { ehrenAmtClusterIconCreator, featureHoverer, featureStyler } from '../utils/ehrenamtHelper';
 import { modifyQueryPart } from '../utils/routingHelper';
 
 function mapStateToProps(state) {

@@ -1,28 +1,25 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { connect } from 'react-redux';
-
+import { routerActions as RoutingActions } from 'react-router-redux';
 import { bindActionCreators } from 'redux';
-import { actions as MappingActions } from '../redux/modules/mapping';
-import { actions as UIStateActions } from '../redux/modules/uiState';
+import BaederInfo from '../components/baeder/BaederInfo';
+import BaederModalMenu from '../components/baeder/BaederModalMenu';
+import InfoBoxFotoPreview from '../components/commons/InfoBoxFotoPreview';
+import TopicMap from '../containers/TopicMap';
 import {
 	actions as BaederActions,
+	getBadSvgSize,
 	getBaeder,
 	getBaederFeatureCollection,
-	getBadSvgSize,
 	getBaederFeatureCollectionSelectedIndex,
 	hasMinifiedInfoBox
 } from '../redux/modules/baeder';
-
-import { routerActions as RoutingActions } from 'react-router-redux';
-import { getFeatureStyler, featureHoverer } from '../utils/stadtplanHelper';
+import { actions as MappingActions } from '../redux/modules/mapping';
+import { actions as UIStateActions } from '../redux/modules/uiState';
 import { getColorForProperties } from '../utils/baederHelper';
-import BaederInfo from '../components/baeder/BaederInfo';
-import BaederModalMenu from '../components/baeder/BaederModalMenu';
-import TopicMap from '../containers/TopicMap';
-
-import InfoBoxFotoPreview from '../components/commons/InfoBoxFotoPreview';
-import { fotoKraemerUrlManipulation, fotoKraemerCaptionFactory } from '../utils/commonHelpers';
+import { fotoKraemerCaptionFactory, fotoKraemerUrlManipulation } from '../utils/commonHelpers';
+import { featureHoverer, getFeatureStyler } from '../utils/stadtplanHelper';
 
 function mapStateToProps(state) {
 	return {

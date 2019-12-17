@@ -1,7 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import Color from 'color';
-import CollapsibleWell from './CollapsibleWell';
 import { triggerLightBoxForFeature } from '../../utils/commonHelpers';
 
 /* eslint-disable jsx-a11y/anchor-is-valid */

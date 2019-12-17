@@ -1,45 +1,35 @@
-import React from 'react';
 import PropTypes from 'prop-types';
-//import Cismap from '../containers/Cismap';
-import TopicMap from './TopicMap';
-
+import queryString from 'query-string';
+import React from 'react';
+import 'react-image-lightbox/style.css';
 import { connect } from 'react-redux';
-
+import { routerActions } from 'react-router-redux';
+import { bindActionCreators } from 'redux';
+import InfoBoxFotoPreview from '../components/commons/InfoBoxFotoPreview';
+import StadtplanModalApplicationMenu from '../components/stadtplan/ModalMenu';
+import StadtplanInfo from '../components/stadtplan/StadtplanInfo';
 import { actions as mappingActions } from '../redux/modules/mapping';
-import { actions as uiStateActions } from '../redux/modules/uiState';
-import { actions as stadtplanActions } from '../redux/modules/stadtplan';
-
 import {
-	getPOIs,
-	getPOIsMD5,
+	actions as stadtplanActions,
+	getApps,
+	getFilter,
 	getFilteredPOIs,
 	getLebenslagen,
-	getFilter,
+	getPOIs,
+	getPOIsMD5,
 	getPoiSvgSize,
-	getApps,
 	hasMinifiedInfoBox
 } from '../redux/modules/stadtplan';
-
-import { routerActions } from 'react-router-redux';
-
-import { bindActionCreators } from 'redux';
-
+import { actions as uiStateActions } from '../redux/modules/uiState';
+import { fotoKraemerCaptionFactory, fotoKraemerUrlManipulation } from '../utils/commonHelpers';
 import {
-	getFeatureStyler,
 	featureHoverer,
+	getFeatureStyler,
 	getPoiClusterIconCreatorFunction
 } from '../utils/stadtplanHelper';
-
-import queryString from 'query-string';
-
-import StadtplanInfo from '../components/stadtplan/StadtplanInfo';
-import StadtplanModalApplicationMenu from '../components/stadtplan/ModalMenu';
 import PhotoLightbox from './PhotoLightbox';
-
-import 'react-image-lightbox/style.css';
-
-import InfoBoxFotoPreview from '../components/commons/InfoBoxFotoPreview';
-import { fotoKraemerUrlManipulation, fotoKraemerCaptionFactory } from '../utils/commonHelpers';
+//import Cismap from '../containers/Cismap';
+import TopicMap from './TopicMap';
 
 function mapStateToProps(state) {
 	return {

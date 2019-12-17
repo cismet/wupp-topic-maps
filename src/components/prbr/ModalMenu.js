@@ -1,13 +1,12 @@
 import React from 'react';
-import ModalMenuIntroduction from './ModalMenuIntroduction';
-import ModalMenuHelpSection from './ModalMenuHelpSection';
+import { getColorForProperties } from '../../utils/prbrHelper';
 import GenericModalApplicationMenu from '../commons/GenericModalApplicationMenu';
 import GenericModalMenuSection from '../commons/GenericModalMenuSection';
-import ModalMenuSettingsPanel from './ModalMenuSettingsPanel';
-import ModalMenuFilterPanel from './FilterPaneContent';
-import { getColorForProperties } from '../../utils/prbrHelper';
-
 import Footer from '../commons/ModalMenuFooter';
+import ModalMenuFilterPanel from './FilterPaneContent';
+import ModalMenuHelpSection from './ModalMenuHelpSection';
+import ModalMenuIntroduction from './ModalMenuIntroduction';
+import ModalMenuSettingsPanel from './ModalMenuSettingsPanel';
 import PieChart from './PieChart';
 
 const ModalMenu = ({
@@ -41,6 +40,7 @@ const ModalMenu = ({
 			menuTitle='Filter, Einstellungen und Kompaktanleitung'
 			menuSections={[
 				<GenericModalMenuSection
+					key='GenericModalMenuSection.prbr'
 					uiState={uiState}
 					uiStateActions={uiStateActions}
 					sectionKey='filter'

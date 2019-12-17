@@ -1,37 +1,34 @@
 import PropTypes from 'prop-types';
+import queryString from 'query-string';
 import React from 'react';
 import { connect } from 'react-redux';
-import queryString from 'query-string';
+import { routerActions as RoutingActions } from 'react-router-redux';
 import { bindActionCreators } from 'redux';
-import { actions as MappingActions } from '../redux/modules/mapping';
-import { actions as UIStateActions } from '../redux/modules/uiState';
-import { WMSTileLayer } from 'react-leaflet';
+import InfoBoxFotoPreview from '../components/commons/InfoBoxFotoPreview';
+import EMOBInfo from '../components/emob/Info';
+import EMOBModalMenu from '../components/emob/ModalMenu';
+import SecondaryInfoModal from '../components/emob/SecondaryInfo';
+import TopicMap from '../containers/TopicMap';
 import {
 	actions as EMOBActions,
-	getEMOBs,
 	getEMOBFeatureCollection,
-	getEMOBSvgSize,
 	getEMOBFeatureCollectionSelectedIndex,
-	hasMinifiedInfoBox,
 	getEMOBFilter,
 	getEMOBFilterDescription,
 	getEMOBFilteredData,
+	getEMOBs,
+	getEMOBSvgSize,
+	hasMinifiedInfoBox,
 	isSecondaryInfoBoxVisible
 } from '../redux/modules/emob';
-
-import { routerActions as RoutingActions } from 'react-router-redux';
+import { actions as MappingActions } from '../redux/modules/mapping';
+import { actions as UIStateActions } from '../redux/modules/uiState';
+import { getColorForProperties } from '../utils/emobHelper';
 import {
-	getFeatureStyler,
 	featureHoverer,
+	getFeatureStyler,
 	getPoiClusterIconCreatorFunction
 } from '../utils/stadtplanHelper';
-import { getColorForProperties } from '../utils/emobHelper';
-import EMOBInfo from '../components/emob/Info';
-import EMOBModalMenu from '../components/emob/ModalMenu';
-import TopicMap from '../containers/TopicMap';
-import ProjSingleGeoJson from '../components/ProjSingleGeoJson';
-import InfoBoxFotoPreview from '../components/commons/InfoBoxFotoPreview';
-import SecondaryInfoModal from '../components/emob/SecondaryInfo';
 
 function mapStateToProps(state) {
 	return {

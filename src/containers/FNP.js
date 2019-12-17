@@ -1,44 +1,27 @@
+import { faRandom } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import Icon from 'components/commons/Icon';
+import proj4 from 'proj4';
 import PropTypes from 'prop-types';
-import React from 'react';
-import { connect } from 'react-redux';
 import queryString from 'query-string';
+import React from 'react';
+import { Well } from 'react-bootstrap';
+import { FeatureCollectionDisplayWithTooltipLabels } from 'react-cismap';
+import { WMSTileLayer } from 'react-leaflet';
+import VectorGrid from 'react-leaflet-vectorgrid';
+import { connect } from 'react-redux';
+import { routerActions as RoutingActions } from 'react-router-redux';
 import { bindActionCreators } from 'redux';
+import AEVInfo from '../components/flaechennutzungsplan/AEVInfo';
+import ShowAEVModeButton from '../components/fnp/ShowAEVModeButton';
+import { proj4crs25832def } from '../constants/gis';
+import TopicMap from '../containers/TopicMap';
+import { actions as AEVActions, getAEVFeatures } from '../redux/modules/fnp_aenderungsverfahren';
 import { actions as MappingActions } from '../redux/modules/mapping';
 import { actions as UIStateActions } from '../redux/modules/uiState';
-import { WMSTileLayer } from 'react-leaflet';
-import Icon from 'components/commons/Icon';
-import { removeQueryPart } from '../utils/routingHelper';
-import uwz from '../components/prbr/UWZ';
-import {
-	actions as AEVActions,
-	getAEVs,
-	getAEVFeatures,
-	searchForAEVs,
-	getAEVSvgSize,
-	hasMinifiedInfoBox
-} from '../redux/modules/fnp_aenderungsverfahren';
-import { FeatureCollectionDisplay, FeatureCollectionDisplayWithTooltipLabels } from 'react-cismap';
-import { routerActions as RoutingActions } from 'react-router-redux';
-import {
-	getFeatureStyler,
-	featureHoverer,
-	getPoiClusterIconCreatorFunction
-} from '../utils/stadtplanHelper';
-import { getColorForProperties } from '../utils/prbrHelper';
-import AEVInfo from '../components/flaechennutzungsplan/AEVInfo';
-import PRBRModalMenu from '../components/prbr/ModalMenu';
-import TopicMap from '../containers/TopicMap';
-import ProjSingleGeoJson from '../components/ProjSingleGeoJson';
-import SecondaryInfoModal from '../components/prbr/SecondaryInfo';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faExchangeAlt, faRandom } from '@fortawesome/free-solid-svg-icons';
 import { aevFeatureStyler, aevLabeler } from '../utils/fnpHelper';
-import { proj4crs25832def } from '../constants/gis';
-import proj4 from 'proj4';
-import { Well } from 'react-bootstrap';
-import ShowAEVModeButton from '../components/fnp/ShowAEVModeButton';
+import { removeQueryPart } from '../utils/routingHelper';
 
-import VectorGrid from 'react-leaflet-vectorgrid';
 const options = {
 	type: 'protobuf',
 	url2: 'http://localhost:8080/data/xx/{z}/{x}/{y}.pbf',

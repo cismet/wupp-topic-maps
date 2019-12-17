@@ -16,11 +16,6 @@ const Comp = ({
 	width = 150,
 	uiStateActions
 }) => {
-	console.log(
-		'urlManipulation(getPhotoUrl(currentFeature))',
-		urlManipulation(getPhotoUrl(currentFeature))
-	);
-
 	if (
 		currentFeature === undefined ||
 		urlManipulation(getPhotoUrl(currentFeature)) === undefined ||

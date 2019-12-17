@@ -82,8 +82,15 @@ const initialState = {
 			backgroundColor: null,
 			link: '/#/kulturstadtplan',
 			target: '_kulturstadtplan'
-		}
-		// {   on: ["Sport"],   name: "Sporthallen",   bsStyle: "default",
+		},
+		{
+			on: [ 'Mobilität' ],
+			name: 'Park+Ride-Karte',
+			bsStyle: 'warning',
+			backgroundColor: '#62B7D5',
+			link: '/#/xandride',
+			target: '_xandride'
+		} // {   on: ["Sport"],   name: "Sporthallen",   bsStyle: "default",
 		// backgroundColor: null,   link: "/#/ehrenamt",   target: "_hallen" }
 	]
 };

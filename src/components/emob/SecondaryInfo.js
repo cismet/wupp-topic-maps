@@ -1,12 +1,9 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { Modal, Button, Accordion, Panel } from 'react-bootstrap';
 import Icon from 'components/commons/Icon';
-import GenericRVRStadtplanwerkMenuFooter from '../commons/GenericRVRStadtplanwerkMenuFooter';
-import { SSL_OP_ALLOW_UNSAFE_LEGACY_RENEGOTIATION } from 'constants';
-import { getColorForProperties } from '../../utils/emobHelper';
+import PropTypes from 'prop-types';
+import React from 'react';
+import { Accordion, Button, Modal, Panel } from 'react-bootstrap';
 import CismetFooterAcks from '../commons/CismetFooterAcknowledgements';
-
+import GenericRVRStadtplanwerkMenuFooter from '../commons/GenericRVRStadtplanwerkMenuFooter';
 import IconLink from '../commons/IconLink';
 
 const Comp = ({ visible, feature, setVisibleState, uiHeight }) => {

@@ -1,8 +1,6 @@
-import React from 'react';
-import { constants as kitasConstants } from '../../redux/modules/kitas';
-
-import ReactChartkick, { PieChart } from 'react-chartkick';
 import Chart from 'chart.js';
+import React from 'react';
+import ReactChartkick, { PieChart } from 'react-chartkick';
 
 ReactChartkick.addAdapter(Chart);
 

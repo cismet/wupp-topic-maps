@@ -1,8 +1,5 @@
 import objectAssign from 'object-assign';
 
-import { proj4crs25832def } from '../../constants/gis';
-import proj4 from 'proj4';
-
 //TYPES
 export const types = {
 	SET_SIMULATIONS: 'HITZE/SET_SIMULATIONS',

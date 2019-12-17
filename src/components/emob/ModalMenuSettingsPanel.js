@@ -1,25 +1,17 @@
+import queryString from 'query-string';
 import React from 'react';
-import { FormGroup, ControlLabel, Checkbox } from 'react-bootstrap';
-
+import { Checkbox, ControlLabel, FormGroup } from 'react-bootstrap';
+import { FeatureCollectionDisplay, getLayersByName, MappingConstants } from 'react-cismap';
+import { Map } from 'react-leaflet';
+import 'url-search-params-polyfill';
+import { getInternetExplorerVersion } from '../../utils/browserHelper';
+import { getColorForProperties, getSymbolSVG } from '../../utils/emobHelper';
+import { removeQueryPart } from '../../utils/routingHelper';
+import { getFeatureStyler, getPoiClusterIconCreatorFunction } from '../../utils/stadtplanHelper';
 import GenericModalMenuSection from '../commons/GenericModalMenuSection';
-import SymbolSizeChooser from '../commons/SymbolSizeChooser';
 import NamedMapStyleChooser from '../commons/NamedMapStyleChooser';
 import SettingsPanelWithPreviewSection from '../commons/SettingsPanelWithPreviewSection';
-import { getInternetExplorerVersion } from '../../utils/browserHelper';
-import 'url-search-params-polyfill';
-import { getColorForProperties, getSymbolSVG } from '../../utils/emobHelper';
-import { MappingConstants, FeatureCollectionDisplay, getLayersByName } from 'react-cismap';
-import SVGInline from 'react-svg-inline';
-import queryString from 'query-string';
-import { removeQueryPart } from '../../utils/routingHelper';
-
-import { Map } from 'react-leaflet';
-import {
-	getFeatureStyler,
-	featureHoverer,
-	getPoiClusterIconCreatorFunction
-} from '../../utils/stadtplanHelper';
-
+import SymbolSizeChooser from '../commons/SymbolSizeChooser';
 import previewFeatureCollection from './PreviewFeatureCollection';
 
 const ModalMenuSettingsSection = ({

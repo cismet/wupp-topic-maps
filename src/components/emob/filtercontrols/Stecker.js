@@ -1,9 +1,7 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import Icon from 'components/commons/Icon';
-import { FormGroup, ControlLabel, Radio, Checkbox } from 'react-bootstrap';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlug } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import React from 'react';
+import { Checkbox, ControlLabel, FormGroup } from 'react-bootstrap';
 // Since this component is simple and static, there's no parent container for it.
 
 //select '['||array_to_string(array( select '"'||name||'"' from emob_steckdosentyp as x),',')||']'

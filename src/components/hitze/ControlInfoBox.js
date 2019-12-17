@@ -1,14 +1,12 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-
-import Icon from 'components/commons/Icon';
-import { Well, Button } from 'react-bootstrap';
-import Legend from '../starkregen/Legend';
-import L from 'leaflet';
-import CollapsibleWell from '../commons/CollapsibleWell';
-
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSun } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import Icon from 'components/commons/Icon';
+import L from 'leaflet';
+import PropTypes from 'prop-types';
+import React from 'react';
+import { Button, Well } from 'react-bootstrap';
+import CollapsibleWell from '../commons/CollapsibleWell';
+import Legend from '../starkregen/Legend';
 
 /* eslint-disable jsx-a11y/anchor-is-valid */
 

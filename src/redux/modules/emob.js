@@ -1,14 +1,12 @@
-import objectAssign from 'object-assign';
+import localForage from 'localforage';
+import { combineReducers } from 'redux';
+import { persistReducer } from 'redux-persist';
+import { addSVGToFeature } from '../../utils/emobHelper';
 import makeDataDuck from '../higherorderduckfactories/dataWithMD5Check';
 import makePointFeatureCollectionWithIndexDuck from '../higherorderduckfactories/filteredPointFeatureCollectionWithIndex';
 import makeMarkerSizeDuck from '../higherorderduckfactories/markerSize';
-import { combineReducers } from 'redux';
-import { persistReducer } from 'redux-persist';
-import localForage from 'localforage';
 import makeInfoBoxStateDuck from '../higherorderduckfactories/minifiedInfoBoxState';
 import makeSecondaryInfoBoxVisibilityStateDuck from '../higherorderduckfactories/secondaryInfoBoxVisibilityState';
-
-import { addSVGToFeature } from '../../utils/emobHelper';
 
 //TYPES
 //no types bc no local store

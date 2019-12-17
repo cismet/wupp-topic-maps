@@ -1,9 +1,7 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import Icon from 'components/commons/Icon';
-import { FormGroup, ControlLabel, Radio, Checkbox } from 'react-bootstrap';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSuperpowers } from '@fortawesome/free-brands-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import React from 'react';
+import { ControlLabel, FormGroup, Radio } from 'react-bootstrap';
 // Since this component is simple and static, there's no parent container for it.
 const Comp = ({ filter, setFilter }) => {
 	return (

@@ -1,13 +1,11 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import InfoBox from '../commons/InfoBox';
-import { getColorForProperties } from '../../utils/prbrHelper';
-import { triggerLightBoxForFeature } from '../../utils/commonHelpers';
+import { faInfoCircle, faSearchLocation } from '@fortawesome/free-solid-svg-icons';
 import Icon from 'components/commons/Icon';
+import PropTypes from 'prop-types';
+import React from 'react';
+import { getColorForProperties } from '../../utils/prbrHelper';
 import IconLink from '../commons/IconLink';
 import IconLinkFA from '../commons/IconLinkFA';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faInfoCircle, faSearchLocation } from '@fortawesome/free-solid-svg-icons';
+import InfoBox from '../commons/InfoBox';
 /* eslint-disable jsx-a11y/anchor-is-valid */
 
 // Since this component is simple and static, there's no parent container for it.

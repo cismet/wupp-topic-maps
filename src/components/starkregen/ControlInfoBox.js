@@ -1,14 +1,9 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-
 import Icon from 'components/commons/Icon';
-import { Well, Button } from 'react-bootstrap';
-import Legend from './Legend';
-import L from 'leaflet';
+import PropTypes from 'prop-types';
+import React from 'react';
 import CollapsibleWell from '../commons/CollapsibleWell';
-/* eslint-disable jsx-a11y/anchor-is-valid */
-import FeatureInfoModeButton from './FeatureInfoModeButton';
-import FeatureInfoModeBox from './FeatureInfoModeBox';
+import Legend from './Legend';
+
 // Since this component is simple and static, there's no parent container for it.
 const InfoBox = ({
 	pixelwidth,

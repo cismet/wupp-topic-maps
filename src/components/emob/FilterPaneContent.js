@@ -1,15 +1,10 @@
 import React from 'react';
-
-import Icon from 'components/commons/Icon';
-import { FormGroup, Checkbox, Radio, ControlLabel, Button } from 'react-bootstrap';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faParking, faMinusCircle } from '@fortawesome/free-solid-svg-icons';
-
-import OnlineFC from './filtercontrols/Online';
-import OeffnungszeitenFC from './filtercontrols/Oeffnungszeiten';
-import SteckerFC from './filtercontrols/Stecker';
+import { Button } from 'react-bootstrap';
 import GruenerStromFC from './filtercontrols/GruenerStrom';
+import OeffnungszeitenFC from './filtercontrols/Oeffnungszeiten';
+import OnlineFC from './filtercontrols/Online';
 import SchnelladerFC from './filtercontrols/Schnellader';
+import SteckerFC from './filtercontrols/Stecker';
 
 // Since this component is simple and static, there's no parent container for it.
 const Comp = ({ width, filter, setFilter, featureRenderingOption, pieChart }) => {

@@ -1,10 +1,9 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import InfoBox from '../commons/InfoBox';
-import { getColorForProperties } from '../../utils/emobHelper';
-import { triggerLightBoxForFeature } from '../../utils/commonHelpers';
 import Icon from 'components/commons/Icon';
+import PropTypes from 'prop-types';
+import React from 'react';
+import { getColorForProperties } from '../../utils/emobHelper';
 import IconLink from '../commons/IconLink';
+import InfoBox from '../commons/InfoBox';
 
 /* eslint-disable jsx-a11y/anchor-is-valid */
 

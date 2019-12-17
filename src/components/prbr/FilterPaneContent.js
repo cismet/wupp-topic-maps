@@ -1,9 +1,8 @@
-import React from 'react';
-
-import Icon from 'components/commons/Icon';
-import { FormGroup, Checkbox, Radio, ControlLabel, Button } from 'react-bootstrap';
+import { faMinusCircle, faParking } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faParking, faMinusCircle } from '@fortawesome/free-solid-svg-icons';
+import React from 'react';
+import { Button, Checkbox, ControlLabel, FormGroup } from 'react-bootstrap';
+
 // Since this component is simple and static, there's no parent container for it.
 const Comp = ({ width, filter, setFilter, featureRenderingOption, pieChart }) => {
 	let widePieChartPlaceholder = null;

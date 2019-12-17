@@ -1,17 +1,13 @@
-import React from 'react';
-import { Link } from 'react-scroll';
-import Icon from 'components/commons/Icon';
-import { Label } from 'react-bootstrap';
-import GenericModalMenuSection from '../commons/GenericModalMenuSection';
-import MeinStandortHelpText from '../commons/GenericHelpTextForMyLocation';
-import { getColorForProperties, getBadSVG } from '../../utils/baederHelper';
-import { getPRSVG } from '../../utils/prbrHelper';
+import { faInfoCircle, faPlus, faSearchLocation } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faInfoCircle, faSearchLocation, faPlus } from '@fortawesome/free-solid-svg-icons';
-
-const helpSVGSize = 18;
-const hallenBadSVG = getBadSVG(helpSVGSize, '#565B5E', 'Hallenbad', 'helpTextSVG0');
-const freibadBadSVG = getBadSVG(helpSVGSize, '#565B5E', 'Freibad', 'helpTextSVG1');
+import Icon from 'components/commons/Icon';
+import React from 'react';
+import { Label } from 'react-bootstrap';
+import { Link } from 'react-scroll';
+import { getBadSVG, getColorForProperties } from '../../utils/baederHelper';
+import { getPRSVG } from '../../utils/prbrHelper';
+import MeinStandortHelpText from '../commons/GenericHelpTextForMyLocation';
+import GenericModalMenuSection from '../commons/GenericModalMenuSection';
 
 const prSVG = getPRSVG(24, '#FFFFFF', 'pr');
 const brSVG = getPRSVG(24, '#FFFFFF', 'br');

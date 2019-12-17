@@ -1,6 +1,6 @@
-import React from 'react';
 import Icon from 'components/commons/Icon';
-import { Well, Button } from 'react-bootstrap';
+import React from 'react';
+import { Well } from 'react-bootstrap';
 import { getRoundedValueStringForValue } from '../../utils/starkregenHelpers';
 
 const Comp = ({ setFeatureInfoModeActivation, featureInfoValue, showModalMenu, legendObject }) => {

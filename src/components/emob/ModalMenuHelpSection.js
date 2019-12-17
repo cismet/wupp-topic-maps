@@ -1,16 +1,12 @@
-import React from 'react';
-import { Link } from 'react-scroll';
-import Icon from 'components/commons/Icon';
-import { Label } from 'react-bootstrap';
-import GenericModalMenuSection from '../commons/GenericModalMenuSection';
-import MeinStandortHelpText from '../commons/GenericHelpTextForMyLocation';
-import { getPRSVG } from '../../utils/prbrHelper';
-import { getSymbolSVG } from '../../utils/emobHelper';
-
+import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faInfoCircle, faSearchLocation, faPlus } from '@fortawesome/free-solid-svg-icons';
-
-const helpSVGSize = 18;
+import Icon from 'components/commons/Icon';
+import React from 'react';
+import { Label } from 'react-bootstrap';
+import { Link } from 'react-scroll';
+import { getSymbolSVG } from '../../utils/emobHelper';
+import MeinStandortHelpText from '../commons/GenericHelpTextForMyLocation';
+import GenericModalMenuSection from '../commons/GenericModalMenuSection';
 
 const onlineSVG = getSymbolSVG(24, '#003B80', 'pr', 'onlineSVGinHELP');
 const offlineSVG = getSymbolSVG(24, '#888A87', 'pr', 'offlineSVGinHELP');

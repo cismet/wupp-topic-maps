@@ -1,8 +1,7 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { Icon } from 'react-fa';
+import { faClock, faInfoCircle } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faClock, faPhoneAlt, faInfoCircle } from '@fortawesome/free-solid-svg-icons';
+import React from 'react';
+import { Icon } from 'react-fa';
 
 const nameMap = {
 	clock: faClock,

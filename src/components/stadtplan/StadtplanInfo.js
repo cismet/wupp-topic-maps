@@ -1,11 +1,10 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import Icon from 'components/commons/Icon';
-import { getColorForProperties } from '../../utils/stadtplanHelper';
 import Color from 'color';
+import Icon from 'components/commons/Icon';
+import PropTypes from 'prop-types';
+import React from 'react';
+import { getColorForProperties } from '../../utils/stadtplanHelper';
 import IconLink from '../commons/IconLink';
 import InfoBox from '../commons/InfoBox';
-import { triggerLightBoxForFeature } from '../../utils/commonHelpers';
 
 /* eslint-disable jsx-a11y/anchor-is-valid */
 

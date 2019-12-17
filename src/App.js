@@ -74,7 +74,7 @@ export default class App extends React.Component {
 								path='/bplaene/:layers?/:bplannummer?'
 								component={BPlaene}
 							/>
-							<Route exact path='/fnp/:mode?' component={FNP} />
+							{/* <Route exact path='/fnp/:mode?' component={FNP} /> */}
 							<Route exact path='/stadtplan/:layers?/' component={Stadtplan} />
 							<Route
 								exact
@@ -85,18 +85,18 @@ export default class App extends React.Component {
 							<Route exact path='/starkregen/:layers?/' component={Starkregen} />
 							<Route exact path='/kitas/:layers?/' component={Kitas} />
 
-							<Route
+							{/* <Route
 								exact
 								path='/elektromobilitaet/:layers?/'
 								component={Elektromobilitaet}
-							/>
+							/> */}
 							<Route exact path='/xandride/:layers?/' component={XandRide} />
 
-							<Route
+							{/* <Route
 								exact
 								path='/hitzeinderstadt/:layers?/'
 								component={HitzeInDerStadt}
-							/>
+							/> */}
 
 							<Route exact path='/experiments' component={Experiments} />
 							<Route

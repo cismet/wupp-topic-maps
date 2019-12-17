@@ -55,9 +55,6 @@ const InfoBox = ({
 			<p style={{ marginBottom: 5 }}>
 				{selectedSimulation.subtitle}{' '}
 				<a onClick={() => showModalMenu('szenarien')}>(mehr)</a>
-				{/* <a>
-			<Icon style={{ paddingLeft: 3, fontSize: 16 }} name="info-circle" />
-		</a> */}
 			</p>
 			<table border={0} style={{ width: '100%' }}>
 				<tbody>

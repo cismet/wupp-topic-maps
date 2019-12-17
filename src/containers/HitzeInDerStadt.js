@@ -2,7 +2,6 @@ import Icon from 'components/commons/Icon';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { Alert, Button, Label } from 'react-bootstrap';
-import { FeatureCollectionDisplay } from 'react-cismap';
 import { WMSTileLayer } from 'react-leaflet';
 import { connect } from 'react-redux';
 import { routerActions as RoutingActions } from 'react-router-redux';
@@ -226,59 +225,6 @@ export class Comp_ extends React.Component {
 			/>
 		);
 
-		let featureInfoLayer;
-		if (this.props.hitze.currentFeatureInfoPosition) {
-			const x = Math.round(this.props.hitze.currentFeatureInfoPosition[0]) - 0.125;
-			const y = Math.round(this.props.hitze.currentFeatureInfoPosition[1]) - 0.02;
-			const geoJsonObject = {
-				id: 0,
-				type: 'Feature',
-				geometry_: {
-					type: 'Point',
-					coordinates: [ x, y ]
-				},
-				geometry: {
-					type: 'Polygon',
-					coordinates: [
-						[
-							[ x - 0.5, y - 0.5 ],
-							[ x + 0.5, y - 0.5 ],
-							[ x + 0.5, y + 0.5 ],
-							[ x - 0.5, y + 0.5 ],
-							[ x - 0.5, y - 0.5 ]
-						]
-					]
-				},
-				crs: {
-					type: 'name',
-					properties: {
-						name: 'urn:ogc:def:crs:EPSG::25832'
-					}
-				},
-				properties: {
-					value: this.props.hitze.currentFeatureInfoValue
-				}
-			};
-
-			featureInfoLayer = (
-				<FeatureCollectionDisplay
-					featureCollection={[ geoJsonObject ]}
-					clusteringEnabled={false}
-					// style={getFeatureStyler(currentMarkerSize, getColorForProperties)}
-					style={() => ({
-						color: 'black',
-						fillColor: 'black',
-						weight: '0.75',
-						opacity: 1,
-						fillOpacity: 0.3
-					})}
-					featureStylerScalableImageSize={30}
-					showMarkerCollection={true}
-					//markerCollectionTransformation={}
-					//markerStyle={getMarkerStyleFromFeatureConsideringSelection}
-				/>
-			);
-		}
 		let validBackgroundIndex = this.props.hitze.selectedBackground;
 		if (validBackgroundIndex >= this.props.hitze.backgrounds.length) {
 			validBackgroundIndex = 0;
@@ -354,8 +300,6 @@ export class Comp_ extends React.Component {
 						/>
 					);
 				})}
-
-				{/* {featureInfoLayer} */}
 
 				<ContactButton
 					id='329487'

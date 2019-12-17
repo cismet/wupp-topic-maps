@@ -73,8 +73,6 @@ export class Container_ extends React.Component {
 	}
 
 	render() {
-		let secondaryInfo = false;
-
 		let info = (
 			<EMOBInfo
 				key={'EMOBInfo.' + (getEMOBFeatureCollectionSelectedIndex(this.props.emob) || 0)}
@@ -108,7 +106,6 @@ export class Container_ extends React.Component {
 			/>
 		);
 		let reduxBackground = undefined;
-		let backgroundStyling = queryString.parse(this.props.routing.location.search).mapStyle;
 		try {
 			reduxBackground = this.props.mapping.backgrounds[this.props.mapping.selectedBackground]
 				.layerkey;

@@ -26,7 +26,7 @@ const Comp = ({ visible, feature, setVisibleState, uiHeight }) => {
 
 	let steckerverbindungenArr = [];
 	if (ladestation.steckerverbindungen && ladestation.steckerverbindungen.length > 0) {
-		ladestation.steckerverbindungen.map((v) => {
+		ladestation.steckerverbindungen.forEach((v) => {
 			steckerverbindungenArr.push(
 				`${v.anzahl} x ${v.steckdosentyp} (${v.leistung}kW,${v.strom}A,${v.spannung}V)`
 			);

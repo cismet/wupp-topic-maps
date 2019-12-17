@@ -31,7 +31,7 @@ const StadtplanInfo = ({
 
 	let info = '';
 	let links = [];
-	let title, localHeaderText, poiColor, adresse, fotoDiv;
+	let title, localHeaderText, poiColor, adresse;
 	if (currentFeature) {
 		if (currentFeature.properties.info) {
 			info = currentFeature.properties.info;

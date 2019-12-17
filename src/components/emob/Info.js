@@ -28,7 +28,7 @@ const Info = ({
 }) => {
 	const currentFeature = featureCollection[selectedIndex];
 
-	let header, links, subtitle, additionaInfo, fotoPreview, headerColor, title;
+	let header, links, subtitle, additionaInfo, headerColor, title;
 	if (items && items.length === 0) {
 		return null;
 	}

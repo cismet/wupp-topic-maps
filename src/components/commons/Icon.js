@@ -15,7 +15,6 @@ const nameMap = {
 	tag: undefined,
 	times: undefined,
 	'external-link-square': undefined,
-	phone: undefined,
 	'chevron-circle-down': undefined,
 	user: undefined,
 	calendar: undefined,

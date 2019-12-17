@@ -62,7 +62,6 @@ export class Container_ extends React.Component {
 	render() {
 		let currentZoom = new URLSearchParams(this.props.routing.location.search).get('zoom') || 8;
 
-		let secondaryInfo = false;
 
 		let info = (
 			<PRBRInfo
@@ -110,7 +109,7 @@ export class Container_ extends React.Component {
 			/>
 		);
 		let reduxBackground = undefined;
-		let backgroundStyling = queryString.parse(this.props.routing.location.search).mapStyle;
+
 		try {
 			reduxBackground = this.props.mapping.backgrounds[this.props.mapping.selectedBackground]
 				.layerkey;

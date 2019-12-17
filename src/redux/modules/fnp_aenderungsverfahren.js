@@ -13,12 +13,6 @@ export const constants = {
 	DEBUG_ALWAYS_LOADING: false
 };
 
-const filterFunctionFactory = (filter) => {
-	return (obj) => {
-		return true;
-	};
-};
-
 //HIGHER ORDER DUCKS
 const dataDuck = makeDataDuck(
 	'fnpAenderungsverfahren',

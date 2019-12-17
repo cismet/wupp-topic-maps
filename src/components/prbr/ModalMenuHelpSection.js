@@ -4,41 +4,12 @@ import Icon from 'components/commons/Icon';
 import React from 'react';
 import { Label } from 'react-bootstrap';
 import { Link } from 'react-scroll';
-import { getBadSVG, getColorForProperties } from '../../utils/baederHelper';
 import { getPRSVG } from '../../utils/prbrHelper';
 import MeinStandortHelpText from '../commons/GenericHelpTextForMyLocation';
 import GenericModalMenuSection from '../commons/GenericModalMenuSection';
 
 const prSVG = getPRSVG(24, '#FFFFFF', 'pr');
 const brSVG = getPRSVG(24, '#FFFFFF', 'br');
-
-const staedtischesFreibadSVG = getBadSVG(
-	helpSVGSize,
-	getColorForProperties({
-		more: { zugang: 'öffentlich', betreiber: 'Stadt' },
-		mainlocationtype: { lebenslagen: [ 'Freizeit', 'Sport' ] }
-	}),
-	'Freibad',
-	'helpTextSVG2'
-);
-const oeffentlichesVereinsbadSVG = getBadSVG(
-	helpSVGSize,
-	getColorForProperties({
-		more: { zugang: 'öffentlich', betreiber: 'Verein' },
-		mainlocationtype: { lebenslagen: [ 'Freizeit', 'Sport' ] }
-	}),
-	'Freibad',
-	'helpTextSVG3'
-);
-const nichtOeffentlichesVereinsbadSVG = getBadSVG(
-	helpSVGSize,
-	getColorForProperties({
-		more: { zugang: 'nicht öffentlich', betreiber: 'Verein' },
-		mainlocationtype: { lebenslagen: [ 'Freizeit', 'Sport' ] }
-	}),
-	'Freibad',
-	'helpTextSVG4'
-);
 
 const BaederModalMenuHelpSection = ({ uiState, uiStateActions }) => {
 	return (

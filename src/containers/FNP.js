@@ -167,9 +167,7 @@ export class Container_ extends React.Component {
 			backgrounds = [
 				<WMSTileLayer
 					key={
-						'UWZ.with.background' +
-						(this.props.match.params.layers || reduxBackground || 'wupp-plan-live') +
-						backgroundStyling
+						'UWZ.with.background' + (this.props.match.params.layers || 'wupp-plan-live')
 					}
 					url='https://geodaten.metropoleruhr.de/spw2/service?'
 					layers={'spw2_graublau'}
@@ -183,7 +181,7 @@ export class Container_ extends React.Component {
 					caching={true}
 				/>,
 				<WMSTileLayer
-					key={'Hauptnutzungen.flaeche' + backgroundStyling}
+					key={'Hauptnutzungen.flaeche'}
 					url='https://maps.wuppertal.de/deegree/wms'
 					layers={'r102:fnp_haupt_fl'}
 					version='1.1.1'
@@ -229,9 +227,7 @@ export class Container_ extends React.Component {
 				// />,
 				<WMSTileLayer
 					key={
-						'UWZ.with.background' +
-						(this.props.match.params.layers || reduxBackground || 'wupp-plan-live') +
-						backgroundStyling
+						'UWZ.with.background' + (this.props.match.params.layers || 'wupp-plan-live')
 					}
 					url='https://maps.wuppertal.de/deegree/wms?SRS=EPSG:25832'
 					layers={'r102:fnp'}
@@ -247,7 +243,6 @@ export class Container_ extends React.Component {
 			];
 		}
 
-		let secondaryInfo = false;
 		let info;
 		if (this.props.mapping.featureCollection.length > 0) {
 			info = (

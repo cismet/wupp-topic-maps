@@ -164,9 +164,7 @@ function setCurrentFeatureInfoValue(value) {
 function setCurrentFeatureInfoPosition(position) {
 	return { type: types.SET_FEATUREOINFO_POSITION, position };
 }
-function setCurrentFeaturSelectedSimulations(simulations) {
-	return { type: types.SET_FEATUREOINFO_SIMULATION, simulations };
-}
+
 function setModelLayerProblemStatus(modelLayerProblem) {
 	return { type: types.SET_MODELLAYERPROBLEM_STATUS, modelLayerProblem };
 }

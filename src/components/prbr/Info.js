@@ -32,7 +32,7 @@ const Info = ({
 }) => {
 	const currentFeature = featureCollection[selectedIndex];
 
-	let header, links, anzahl_plaetze, info, fotoPreview, headerColor, title;
+	let header, links, anzahl_plaetze, info, headerColor, title;
 	if (items && items.length === 0) {
 		return null;
 	}

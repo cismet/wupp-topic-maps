@@ -27,7 +27,7 @@ const BaederInfo = ({
 }) => {
 	const currentFeature = featureCollection[selectedIndex];
 
-	let header, links, adresse, info, fotoPreview, headerColor, title;
+	let header, links, adresse, info, headerColor, title;
 	if (items && items.length === 0) {
 		return null;
 	}

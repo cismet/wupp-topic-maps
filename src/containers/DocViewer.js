@@ -507,7 +507,7 @@ export class DocViewer_ extends React.Component {
 								onClick={() => this.showMainDoc()}
 								disabled={this.props.docs.loadingState !== LOADING_FINISHED}
 							>
-								{'BPlan ' +
+								{'B-Plan ' +
 									(this.props.docs.docPackageId ||
 										this.props.docs.futuredocPackageId ||
 										'')}

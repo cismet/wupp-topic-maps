@@ -235,7 +235,7 @@ const BPlanInfo = ({
 									}}
 								>
 									<h4>
-										BPlan {currentFeature.properties.nummer}
+										B-Plan {currentFeature.properties.nummer}
 										{statusGlyphs}
 									</h4>
 									<h6>{currentFeature.properties.name}</h6>

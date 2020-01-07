@@ -116,23 +116,23 @@ const BPlanInfo = ({
 			<Icon style={{ color: 'red', opacity: 0.5 }} name='times-circle-o' />
 		</OverlayTrigger>
 	);
-	if (status === 'rechtswirksam') {
+	if (status === 'rechtskräftig') {
 		statusGlyphs = (
 			<span>
 				&nbsp;
 				{rk}
 			</span>
 		);
-		headertext = status;
+		headertext = 'rechtswirksam';
 		headerColor = '#82BB8F';
-	} else if (status === 'nicht rechtswirksam') {
+	} else if (status === 'nicht rechtskräftig') {
 		statusGlyphs = (
 			<span>
 				&nbsp;
 				{nrk}
 			</span>
 		);
-		headertext = status;
+		headertext = 'nicht rechtswirksam';
 		headerColor = '#F48286';
 	} else {
 		statusGlyphs = (
@@ -143,7 +143,7 @@ const BPlanInfo = ({
 				{nrk}
 			</span>
 		);
-		headertext = 'rechtswirksam (laufende Änderung)';
+		headertext = 'rechtswirksam (laufende Änderungen)';
 		headerColor = '#82BB8F';
 	}
 

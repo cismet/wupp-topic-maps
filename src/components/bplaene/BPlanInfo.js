@@ -4,6 +4,7 @@ import { OverlayTrigger, Well, Tooltip } from 'react-bootstrap';
 import Loadable from 'react-loading-overlay';
 import Icon from 'components/commons/Icon';
 import CollapsibleABWell from 'components/commons/CollapsibleABWell';
+import Color from 'color';
 
 /* eslint-disable jsx-a11y/anchor-is-valid */
 
@@ -24,6 +25,8 @@ const BPlanInfo = ({
 	setCollapsed
 }) => {
 	const currentFeature = featureCollection[selectedIndex];
+	let headertext;
+	let headerColor;
 
 	let logCurrentFeature = function() {
 		//console.log(JSON.stringify(currentFeature));
@@ -120,6 +123,8 @@ const BPlanInfo = ({
 				{rk}
 			</span>
 		);
+		headertext = status;
+		headerColor = '#82BB8F';
 	} else if (status === 'nicht rechtskräftig') {
 		statusGlyphs = (
 			<span>
@@ -127,6 +132,8 @@ const BPlanInfo = ({
 				{nrk}
 			</span>
 		);
+		headertext = status;
+		headerColor = '#F48286';
 	} else {
 		statusGlyphs = (
 			<span>
@@ -136,6 +143,8 @@ const BPlanInfo = ({
 				{nrk}
 			</span>
 		);
+		headertext = 'rechtskräftig (in Bearbeitung)';
+		headerColor = '#82BB8F';
 	}
 
 	let downloaderOverlay = <div />;
@@ -228,13 +237,13 @@ const BPlanInfo = ({
 								textAlign: 'left',
 								verticalAlign: 'top',
 								padding: '5px',
-								maxWidth: '175px',
+								maxWidth: '185px',
 								overflowWrap: 'break-word'
 							}}
 						>
 							<h4>
 								B-Plan {currentFeature.properties.nummer}
-								{statusGlyphs}
+								{/* {statusGlyphs} */}
 							</h4>
 							<h6>{currentFeature.properties.name}</h6>
 						</td>
@@ -303,7 +312,7 @@ const BPlanInfo = ({
 						>
 							<h4>
 								B-Plan {currentFeature.properties.nummer}
-								{statusGlyphs}
+								{/* {statusGlyphs} */}
 							</h4>
 						</td>
 						<td
@@ -328,7 +337,35 @@ const BPlanInfo = ({
 			</table>
 		</div>
 	);
+	let headerBackgroundColor = Color(headerColor);
 
+	let textColor = 'black';
+	if (headerBackgroundColor.isDark()) {
+		textColor = 'white';
+	}
+
+	let llVis = (
+		<table style={{ width: '100%' }}>
+			<tbody>
+				<tr>
+					<td
+						style={{
+							textAlign: 'left',
+							verticalAlign: 'top',
+							background: headerColor,
+							color: textColor,
+							opacity: '0.9',
+							paddingLeft: '3px',
+							paddingTop: '0px',
+							paddingBottom: '0px'
+						}}
+					>
+						{headertext}
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	);
 	return (
 		<Loadable
 			active={loadingIndicator}
@@ -336,6 +373,7 @@ const BPlanInfo = ({
 			text={loadableText}
 			background={LoadableBackground}
 		>
+			{llVis}
 			<CollapsibleABWell
 				collapsed={collapsed}
 				divWhenLarge={divWhenLarge}

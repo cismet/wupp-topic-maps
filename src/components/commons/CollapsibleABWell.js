@@ -9,8 +9,6 @@ const COMP = ({
 	divWhenCollapsed = (
 		<div>
 			divWhenCollapsed divWhenCollapsed divWhenCollapsed divWhenCollapsed divWhenCollapsed
-			divWhenCollapsed divWhenCollapsed divWhenCollapsed divWhenCollapsed divWhenCollapsed
-			divWhenCollapsed divWhenCollapsed divWhenCollapsed divWhenCollapsed divWhenCollapsed
 		</div>
 	),
 	divWhenLarge = (
@@ -39,7 +37,12 @@ const COMP = ({
 			/>
 		</h4>
 	),
-	collapseButtonAreaStyle = { background: '#cccccc', opacity: '0.9', width: 25 },
+	collapseButtonAreaStyle = {
+		background: '#cccccc',
+		opacity: '0.9',
+		width: 25,
+		cursor: 'pointer'
+	},
 	bsSize = 'small',
 	style = { pointerEvents: 'auto', padding: 0 },
 	onClick = () => {},
@@ -49,13 +52,7 @@ const COMP = ({
 	collapsed,
 	setCollapsed
 }) => {
-	const buttonInUse = (
-		<div>
-			<a onClick={() => setCollapsed(!collapsed)} style={{ textDecoration: 'none' }}>
-				{collapsed === true ? upButton : downButton}
-			</a>
-		</div>
-	);
+	const buttonInUse = <div>{collapsed === true ? upButton : downButton}</div>;
 
 	let shownDiv;
 	if (collapsed) {
@@ -78,6 +75,7 @@ const COMP = ({
 									textAlign: 'center',
 									...collapseButtonAreaStyle
 								}}
+								onClick={() => setCollapsed(!collapsed)}
 							>
 								{buttonInUse}
 							</td>
@@ -100,6 +98,7 @@ const COMP = ({
 									textAlign: 'center',
 									...collapseButtonAreaStyle
 								}}
+								onClick={() => setCollapsed(!collapsed)}
 							>
 								{buttonInUse}
 							</td>

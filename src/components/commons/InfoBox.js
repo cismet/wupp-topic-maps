@@ -8,7 +8,6 @@ import CollapsibleWell from './CollapsibleWell';
 // Since this component is simple and static, there's no parent container for it.
 const InfoBox = ({
 	featureCollection,
-	items,
 	selectedIndex,
 	next,
 	previous,
@@ -17,7 +16,6 @@ const InfoBox = ({
 	showModalMenu,
 	uiState,
 	uiStateActions,
-	linksAndActions,
 	panelClick,
 	colorize,
 	pixelwidth,

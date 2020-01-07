@@ -55,11 +55,7 @@ export class BPlaene_ extends React.Component {
 		this.selectPreviousIndex = this.selectPreviousIndex.bind(this);
 		this.fitAll = this.fitAll.bind(this);
 		this.featureClick = this.featureClick.bind(this);
-		this.downloadPlan = this.downloadPlan.bind(this);
-		this.downloadEverything = this.downloadEverything.bind(this);
-		this.downloadPreparationDone = this.downloadPreparationDone.bind(this);
 		this.doubleMapClick = this.doubleMapClick.bind(this);
-		this.resetPreparedDownload = this.resetPreparedDownload.bind(this);
 		this.openDocViewer = this.openDocViewer.bind(this);
 	}
 
@@ -86,7 +82,6 @@ export class BPlaene_ extends React.Component {
 			potIndex = 0;
 		}
 		this.props.mappingActions.setSelectedFeatureIndex(potIndex);
-		//this.props.mappingActions.fitSelectedFeatureBounds(stateConstants.AUTO_FIT_MODE_NO_ZOOM_IN);
 	}
 
 	doubleMapClick(event) {
@@ -104,7 +99,6 @@ export class BPlaene_ extends React.Component {
 			potIndex = this.props.mapping.featureCollection.length - 1;
 		}
 		this.props.mappingActions.setSelectedFeatureIndex(potIndex);
-		//this.props.mappingActions.fitSelectedFeatureBounds(stateConstants.AUTO_FIT_MODE_NO_ZOOM_IN);
 	}
 
 	fitAll() {
@@ -145,98 +139,6 @@ export class BPlaene_ extends React.Component {
 			link.click();
 		} catch (err) {
 			window.alert(err);
-		}
-	}
-
-	downloadPlan() {
-		const currentFeature = this.props.mapping.featureCollection[
-			this.props.mapping.selectedIndex
-		];
-		if (
-			currentFeature.properties.plaene_rk.length +
-				currentFeature.properties.plaene_nrk.length ===
-			1
-		) {
-			if (currentFeature.properties.plaene_rk.length === 1) {
-				downloadSingleFile(currentFeature.properties.plaene_rk[0]);
-			} else {
-				downloadSingleFile(currentFeature.properties.plaene_nrk[0]);
-			}
-		} else {
-			this.props.bplanActions.setDocumentLoadingIndicator(true);
-			let downloadConf = {
-				name: 'BPLAN_Plaene.' + currentFeature.properties.nummer,
-				files: []
-			};
-			for (let index = 0; index < currentFeature.properties.plaene_rk.length; ++index) {
-				let prk = currentFeature.properties.plaene_rk[index];
-				downloadConf.files.push({
-					uri: prk.url,
-					folder: 'rechtskraeftig'
-				});
-			}
-			for (let index = 0; index < currentFeature.properties.plaene_nrk.length; ++index) {
-				let pnrk = currentFeature.properties.plaene_nrk[index];
-				downloadConf.files.push({
-					uri: pnrk.url,
-					folder: 'nicht rechtskraeftig'
-				});
-			}
-			prepareMergeMultipleFiles(downloadConf, this.downloadPreparationDone);
-		}
-	}
-
-	downloadEverything() {
-		this.props.bplanActions.setDocumentLoadingIndicator(true);
-		const currentFeature = this.props.mapping.featureCollection[
-			this.props.mapping.selectedIndex
-		];
-
-		let encoding = null;
-		if (navigator.appVersion.indexOf('Win') !== -1) {
-			encoding = 'CP850';
-		}
-
-		let downloadConf = {
-			name: 'BPLAN_Plaene_und_Zusatzdokumente.' + currentFeature.properties.nummer,
-			files: [],
-			encoding: encoding
-		};
-		for (let index = 0; index < currentFeature.properties.plaene_rk.length; ++index) {
-			let prk = currentFeature.properties.plaene_rk[index];
-			downloadConf.files.push({
-				uri: prk.url,
-				folder: 'rechtskraeftig'
-			});
-		}
-		for (let index = 0; index < currentFeature.properties.plaene_nrk.length; ++index) {
-			let pnrk = currentFeature.properties.plaene_nrk[index];
-			downloadConf.files.push({
-				uri: pnrk.url,
-				folder: 'nicht rechtskraeftig'
-			});
-		}
-		for (let index = 0; index < currentFeature.properties.docs.length; ++index) {
-			let doc = currentFeature.properties.docs[index];
-			downloadConf.files.push({
-				uri: doc.url,
-				folder: 'Zusatzdokumente'
-			});
-		}
-		prepareDownloadMultipleFiles(downloadConf, this.downloadPreparationDone);
-	}
-	resetPreparedDownload() {
-		this.props.bplanActions.setPreparedDownload(null);
-	}
-	downloadPreparationDone(result) {
-		if (result.error) {
-			this.props.bplanActions.setDocumentHasLoadingError(true);
-			setTimeout(() => {
-				this.props.bplanActions.setDocumentLoadingIndicator(false);
-			}, 2000);
-		} else {
-			this.props.bplanActions.setDocumentLoadingIndicator(false);
-			this.props.bplanActions.setPreparedDownload(result);
 		}
 	}
 
@@ -296,9 +198,12 @@ export class BPlaene_ extends React.Component {
 					loadingIndicator={this.props.bplaene.documentsLoading}
 					downloadPlan={this.openDocViewer}
 					downloadEverything={this.openDocViewer}
-					preparedDownload={this.props.bplaene.preparedDownload}
-					resetPreparedDownload={this.resetPreparedDownload}
-					loadingError={this.props.bplaene.documentsLoadingError}
+					uiState={this.props.uiState}
+					uiStateActions={this.props.uiStateActions}
+					collapsed={this.props.bplaene.infoBoxState.minified}
+					setCollapsed={(collapsed) => {
+						this.props.bplanActions.setCollapsedInfoBox(collapsed);
+					}}
 				/>
 			);
 		} else {

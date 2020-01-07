@@ -3,8 +3,6 @@ import PropTypes from 'prop-types';
 import { OverlayTrigger, Well, Tooltip } from 'react-bootstrap';
 import Loadable from 'react-loading-overlay';
 import Icon from 'components/commons/Icon';
-import CollapsibleABWell from 'components/commons/CollapsibleABWell';
-
 /* eslint-disable jsx-a11y/anchor-is-valid */
 
 // Since this component is simple and static, there's no parent container for it.
@@ -19,9 +17,7 @@ const BPlanInfo = ({
 	downloadPlan,
 	downloadEverything,
 	preparedDownload,
-	resetPreparedDownload,
-	collapsed,
-	setCollapsed
+	resetPreparedDownload
 }) => {
 	const currentFeature = featureCollection[selectedIndex];
 
@@ -217,118 +213,6 @@ const BPlanInfo = ({
 		loadableText = 'Fehler beim Laden';
 		loadableSpinner = false;
 	}
-
-	let divWhenLarge = (
-		<div>
-			<table border={0} style={{ width: '100%' }}>
-				<tbody>
-					<tr>
-						<td
-							style={{
-								textAlign: 'left',
-								verticalAlign: 'top',
-								padding: '5px',
-								maxWidth: '175px',
-								overflowWrap: 'break-word'
-							}}
-						>
-							<h4>
-								B-Plan {currentFeature.properties.nummer}
-								{statusGlyphs}
-							</h4>
-							<h6>{currentFeature.properties.name}</h6>
-						</td>
-						<td
-							style={{
-								textAlign: 'center',
-								verticalAlign: 'top',
-								padding: '5px',
-								paddingTop: '1px'
-							}}
-						>
-							<a style={{ color: '#333' }} onClick={downloadPlan}>
-								<h4 style={{ marginLeft: 5, marginRight: 5 }}>
-									<font size='30'>
-										<Icon
-											style={{ textDecoration: 'none' }}
-											name='file-pdf-o'
-										/>
-									</font>
-								</h4>
-								<OverlayTrigger placement='left' overlay={planTooltip}>
-									<div>Dokumente</div>
-								</OverlayTrigger>
-							</a>
-						</td>
-					</tr>
-				</tbody>
-			</table>
-			<br />
-			<table style={{ width: '100%' }}>
-				<tbody>
-					<tr>
-						<td style={{ textAlign: 'left', verticalAlign: 'center' }}>
-							<a title='vorheriger Treffer' onClick={previous}>
-								&lt;&lt;
-							</a>
-						</td>
-
-						<td style={{ textAlign: 'center', verticalAlign: 'center' }}>
-							<a onClick={fitAll}>alle {featureCollection.length} Treffer anzeigen</a>
-						</td>
-						<td style={{ textAlign: 'right', verticalAlign: 'center' }}>
-							<a title='nächster Treffer' onClick={next}>
-								&gt;&gt;
-							</a>
-						</td>
-					</tr>
-				</tbody>
-			</table>
-		</div>
-	);
-
-	let divWhenCollapsed = (
-		<div>
-			<table border={0} style={{ width: '100%' }}>
-				<tbody>
-					<tr>
-						<td
-							style={{
-								textAlign: 'left',
-								verticalAlign: 'top',
-								padding: '5px',
-								maxWidth: '175px',
-								overflowWrap: 'break-word'
-							}}
-						>
-							<h4>
-								B-Plan {currentFeature.properties.nummer}
-								{statusGlyphs}
-							</h4>
-						</td>
-						<td
-							style={{
-								textAlign: 'center',
-								verticalAlign: 'center',
-								padding: '5px',
-								paddingTop: '1px'
-							}}
-						>
-							<a style={{ color: '#333' }} onClick={downloadPlan}>
-								<h4 style={{ marginLeft: 5, marginRight: 5 }}>
-									<Icon
-										style={{ textDecoration: 'none', fontSize: 26 }}
-										name='file-pdf-o'
-									/>
-								</h4>
-							</a>
-						</td>
-					</tr>
-				</tbody>
-			</table>
-		</div>
-	);
-
 	return (
 		<Loadable
 			active={loadingIndicator}
@@ -336,12 +220,77 @@ const BPlanInfo = ({
 			text={loadableText}
 			background={LoadableBackground}
 		>
-			<CollapsibleABWell
-				collapsed={collapsed}
-				divWhenLarge={divWhenLarge}
-				divWhenCollapsed={divWhenCollapsed}
-				setCollapsed={setCollapsed}
-			/>
+			<Well bsSize='small' onClick={logCurrentFeature}>
+				<div>
+					<table border={0} style={{ width: '100%' }}>
+						<tbody>
+							<tr>
+								<td
+									style={{
+										textAlign: 'left',
+										verticalAlign: 'top',
+										padding: '5px',
+										maxWidth: '160px',
+										overflowWrap: 'break-word'
+									}}
+								>
+									<h4>
+										B-Plan {currentFeature.properties.nummer}
+										{statusGlyphs}
+									</h4>
+									<h6>{currentFeature.properties.name}</h6>
+								</td>
+								<td
+									style={{
+										textAlign: 'center',
+										verticalAlign: 'top',
+										padding: '5px',
+										paddingTop: '1px'
+									}}
+								>
+									<a style={{ color: '#333' }} onClick={downloadPlan}>
+										<h4 style={{ marginLeft: 5, marginRight: 5 }}>
+											<font size='30'>
+												<Icon
+													style={{ textDecoration: 'none' }}
+													name='file-pdf-o'
+												/>
+											</font>
+										</h4>
+										<OverlayTrigger placement='left' overlay={planTooltip}>
+											<div>Dokumente</div>
+										</OverlayTrigger>
+									</a>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+					<br />
+					<table style={{ width: '100%' }}>
+						<tbody>
+							<tr>
+								<td style={{ textAlign: 'left', verticalAlign: 'center' }}>
+									<a title='vorheriger Treffer' onClick={previous}>
+										&lt;&lt;
+									</a>
+								</td>
+
+								<td style={{ textAlign: 'center', verticalAlign: 'center' }}>
+									<a onClick={fitAll}>
+										alle {featureCollection.length} Treffer anzeigen
+									</a>
+								</td>
+								<td style={{ textAlign: 'right', verticalAlign: 'center' }}>
+									<a title='nächster Treffer' onClick={next}>
+										&gt;&gt;
+									</a>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+				{downloaderOverlay}
+			</Well>
 		</Loadable>
 	);
 };

@@ -51,7 +51,7 @@ const Info = ({
 		links.push(
 			<IconLink
 				key={`zoom`}
-				tooltip='Auf Anlage zoomen'
+				tooltip='Auf Ladestation zoomen'
 				onClick={() => {
 					zoomToFeature(currentFeature);
 				}}
@@ -72,7 +72,7 @@ const Info = ({
 			links.push(
 				<IconLink
 					key={`IconLink.tel`}
-					tooltip='Betreiber Anrufen'
+					tooltip='Betreiber anrufen'
 					href={'tel:' + currentFeature.properties.betreiber.telefon}
 					iconname='phone'
 				/>

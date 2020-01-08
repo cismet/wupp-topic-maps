@@ -82,7 +82,7 @@ const Comp = ({ visible, feature, setVisibleState, uiHeight }) => {
 				</Modal.Title>
 			</Modal.Header>
 			<Modal.Body style={modalBodyStyle} id='myMenu' key={'prbr.secondaryInfo'}>
-				<div style={{ width: '100%', minHeight: 150 }}>
+				<div style={{ width: '100%', minHeight: 250 }}>
 					{foto !== undefined && (
 						<img
 							alt='Bild'
@@ -93,7 +93,7 @@ const Comp = ({ visible, feature, setVisibleState, uiHeight }) => {
 								paddingBottom: '5px'
 							}}
 							src={foto}
-							width='150'
+							width='250'
 						/>
 					)}
 					<div style={{ fontSize: '115%', padding: '10px', paddingTop: '0px' }}>

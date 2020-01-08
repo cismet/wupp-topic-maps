@@ -24,7 +24,8 @@ const Info = ({
 	pixelwidth,
 	minified,
 	minify,
-	setVisibleStateOfSecondaryInfo
+	setVisibleStateOfSecondaryInfo,
+	zoomToFeature = () => {}
 }) => {
 	const currentFeature = featureCollection[selectedIndex];
 
@@ -47,6 +48,16 @@ const Info = ({
 			.properties.plz || ''} ${currentFeature.properties.ort || ''}`;
 
 		links = [];
+		links.push(
+			<IconLink
+				key={`zoom`}
+				tooltip='Auf Anlage zoomen'
+				onClick={() => {
+					zoomToFeature(currentFeature);
+				}}
+				iconname={'search-location'}
+			/>
+		);
 		links.push(
 			<IconLink
 				key={`IconLink.secondaryInfo`}

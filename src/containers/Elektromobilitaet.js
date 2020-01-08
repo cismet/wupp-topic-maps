@@ -29,6 +29,8 @@ import {
 	getFeatureStyler,
 	getPoiClusterIconCreatorFunction
 } from '../utils/stadtplanHelper';
+import { proj4crs25832def } from '../constants/gis';
+import proj4 from 'proj4';
 
 function mapStateToProps(state) {
 	return {
@@ -103,6 +105,18 @@ export class Container_ extends React.Component {
 				minified={hasMinifiedInfoBox(this.props.emob)}
 				minify={(minified) => this.props.emobActions.setMinifiedInfoBox(minified)}
 				setVisibleStateOfSecondaryInfo={this.props.emobActions.setSecondaryInfoVisible}
+				zoomToFeature={(feature) => {
+					if (this.topicMap !== undefined) {
+						const pos = proj4(proj4crs25832def, proj4.defs('EPSG:4326'), [
+							feature.geometry.coordinates[0],
+							feature.geometry.coordinates[1]
+						]);
+						this.topicMap.wrappedInstance.leafletRoutedMap.leafletMap.leafletElement.setView(
+							[ pos[1], pos[0] ],
+							14
+						);
+					}
+				}}
 			/>
 		);
 		let reduxBackground = undefined;

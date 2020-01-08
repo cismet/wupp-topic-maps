@@ -33,7 +33,7 @@ const Comp = ({ filter, setFilter }) => {
 							checked={filter.nur_online === true}
 							inline
 						>
-							nur verfügbare Ladestationen
+							nur verfügbare Ladestationen (online)
 						</Radio>
 					</div>
 					<div>

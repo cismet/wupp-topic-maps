@@ -1,4 +1,4 @@
-import { faClock, faInfoCircle, faSquareFull } from '@fortawesome/free-solid-svg-icons';
+import { faClock, faInfoCircle, faSquareFull, faSearch } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React from 'react';
 import { Icon } from 'react-fa';
@@ -6,7 +6,7 @@ import { Icon } from 'react-fa';
 const nameMap = {
 	clock: faClock,
 	phone: undefined, // faPhone,
-	search: undefined,
+	search: faSearch,
 	info: faInfoCircle,
 	file: undefined,
 	home: undefined,

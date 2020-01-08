@@ -233,9 +233,12 @@ const HelpSection = ({ uiState, uiStateActions }) => {
 						<Icon name='info' /> rechts neben dem Namen der Ladestation öffnen Sie das
 						Datenblatt mit den vollständigen Informationen zu dieser Station
 						einschließlich einer Verknüpfung zur Ladekosten-Information des Betreibers.
-						Mit den Symbolen <Icon name='phone' /> und{' '}
-						<Icon name='external-link-square' /> rechts daneben können Sie den Betreiber
-						via Smartphone direkt anrufen oder zu seiner Website wechseln.
+						Mit dem Lupensymbol <Icon name='search' /> links daneben wird die Karte auf
+						die Ladestation, die gerade den Fokus hat, zentriert und gleichzeitig ein
+						großer Betrachtungsmaßstab (Zoomstufe 14) eingestellt. Mit den Symbolen{' '}
+						<Icon name='phone' /> und <Icon name='external-link-square' /> rechts
+						daneben können Sie den Betreiber via Smartphone direkt anrufen oder zu
+						seiner Website wechseln.
 					</p>
 					<p>
 						Wenn Sie noch keine Ladestation im aktuellen Kartenausschnitt selektiert
@@ -280,27 +283,24 @@ const HelpSection = ({ uiState, uiStateActions }) => {
 					</h4>
 
 					<p>
-						Um direkt zu einer P+R- oder B+R-Anlage zu gelangen, geben Sie den Anfang
-						des Namens der Anlage im Eingabefeld links unten ein (mindestens 2 Zeichen).
-						In der inkrementellen Auswahlliste werden Ihnen passende Treffer angeboten.
+						Um direkt zu einer Ladestation zu gelangen, geben Sie den Anfang des Namens
+						dieser Ladestation im Eingabefeld links unten ein (mindestens 2 Zeichen). In
+						der inkrementellen Auswahlliste werden Ihnen passende Treffer angeboten.
 						(Wenn Sie weitere Zeichen eingeben, wird der Inhalt der Auswahlliste
 						angepasst.) Sie können auch andere Suchbegriffe eingeben, nämlich Stadtteil
 						(Stadtbezirk oder Quartier), Adresse, Straßenname oder POI. Durch das in der
 						Auswahlliste vorangestellte Symbol erkennen Sie, ob es sich bei einem
-						Treffer um eine <Icon name='car' /> P+R-Anlage, eine <Icon name='bicycle' />{' '}
-						B+R-Anlage, einen <Icon name='circle' /> Stadtbezirk, ein{' '}
-						<Icon name='pie-chart' /> Quartier, eine <Icon name='home' /> Adresse, eine{' '}
-						<Icon name='road' />
-						Straße ohne zugeordnete Hausnummern, einen <Icon name='tag' /> POI, die{' '}
+						Treffer um eine <Icon name='battery-quarter' /> Ladestation, einen{' '}
+						<Icon name='circle' /> Stadtbezirk, ein <Icon name='pie-chart' /> Quartier,
+						eine <Icon name='home' /> Adresse, eine <Icon name='road' /> Straße ohne
+						zugeordnete Hausnummern, einen <Icon name='tag' /> POI, die{' '}
 						<Icon name='tags' /> alternative Bezeichnung eines POI oder eine{' '}
-						<Icon name='child' /> Kindertageseinrichtung handelt. Tipp: Durch Eingabe
-						von "P+" oder "B+" erzeugen Sie eine vollständige Auswahlliste aller P+R-
-						bzw. B+R-Anlagen.
+						<Icon name='child' /> Kindertageseinrichtung handelt.
 					</p>
 					<p>
 						Nach der Auswahl eines Treffers aus der Liste wird die Karte auf die
-						zugehörige Position zentriert. Bei Suchbegriffen mit Punktgeometrie (P+R-
-						oder B+R-Anlage, Adresse, Straße, POI) wird außerdem ein großer Maßstab
+						zugehörige Position zentriert. Bei Suchbegriffen mit Punktgeometrie
+						(Ladestation, Adresse, Straße, POI) wird außerdem ein großer Maßstab
 						(Zoomstufe 14) eingestellt und ein Marker <Icon name='map-marker' /> auf der
 						Zielposition platziert. Bei Suchbegriffen mit Flächengeometrie (Stadtbezirk,
 						Quartier) wird der Maßstab so eingestellt, dass die Fläche vollständig
@@ -313,14 +313,14 @@ const HelpSection = ({ uiState, uiStateActions }) => {
 						Abdunklung, Löschen des Textes im Eingabefeld).
 					</p>
 					<p>
-						Wenn Sie die Karte wie oben beschrieben auf eine P+R- bzw. B+R-Anlage
-						positionieren, erhält diese sofort den Fokus, sodass die zugehörigen
-						Informationen direkt in der Info-Box angezeigt werden. Voraussetzung dafür
-						ist, dass die aktuellen{' '}
+						Wenn Sie die Karte wie oben beschrieben auf eine Ladestation positionieren,
+						erhält diese sofort den Fokus, sodass die zugehörigen Informationen direkt
+						in der Info-Box angezeigt werden. Voraussetzung dafür ist, dass die
+						aktuellen{' '}
 						<Link to='MeinThemenstadtplan' containerId='myMenu'>
 							Filtereinstellungen
 						</Link>{' '}
-						die Darstellung der Anlage in der Karte erlauben.
+						die Darstellung der Ladestation in der Karte erlauben.
 					</p>
 
 					<div id='anchorDivInHelp_standort' name='MeinStandort'>
@@ -346,26 +346,48 @@ const HelpSection = ({ uiState, uiStateActions }) => {
 
 					<p>
 						Im Bereich "<b>Filter</b>" können Sie im Anwendungsmenü <Icon name='bars' />{' '}
-						die in der Karte angezeigten P+R- und B+R-Anlagen so ausdünnen, dass nur die
-						für Sie interessanten Anlagen übrig bleiben. Standardmäßig sind die
-						Einstellungen hier so gesetzt, dass alle Anlagen angezeigt werden.
+						die in der Karte angezeigten Ladestationen so ausdünnen, dass nur die für
+						Sie interessanten Stationen übrig bleiben. Standardmäßig sind die
+						Einstellungen hier so gesetzt, dass alle Ladestationen angezeigt werden.
 					</p>
+
 					<p>
-						Mit den Optionen unter "<b>
-							<i>Umweltzonen</i>
-						</b>" können Sie die Kartenanzeige auf Anlagen innerhalb oder außerhalb der
-						beiden Wuppertaler Umweltzonen beschränken. Unter "<b>
-							<i>Art der Anlage</i>
-						</b>" können Sie die Anzeige auf P+R- oder B+R-Anlagen eingrenzen.
+						Mit den Optionsgruppen "<b>
+							<i>Verfügbarkeit</i>
+						</b>", "<b>
+							<i>Öffnungszeiten</i>
+						</b>", "<b>
+							<i>Ökostrom</i>
+						</b>" und "<b>
+							<i>Schnelllader</i>
+						</b>" können Sie die Kartenanzeige auf Ladestationen beschränken, die
+						aktuell verfügbar (online) sind, die durchgehend (jeweils 24 Stunden an 7
+						Tagen die Woche) erreichbar sind, die ökologisch erzeugten Strom
+						bereitstellen oder bei denen es sich um Schnell-Ladestationen handelt. Mit
+						der in jeder dieser Gruppen verfügbaren Option "alle Ladestationen" wird das
+						jeweilige Filterkriterium nicht ausgewertet. In der Optionsgruppe "<b>
+							<i>Steckertypen</i>
+						</b>" können Sie die für ihre Ladekabel passenden Steckertypen auswählen.
+						Damit grenzen Sie die Kartenanzeige auf diejenige Stationen ein, die
+						mindestens eine entsprechende Anschlussmöglichkeit besitzen. Alle
+						Filterkriterien werden mit einem logischen "und" kombiniert: Wenn Sie z. B.
+						unter "<b>
+							<i>Öffnungszeiten</i>
+						</b>" den Wert "24/7" wählen und unter ""<b>
+							<i>Ökostrom</i>
+						</b>" den Wert "nur Ökostrom-Ladestationen", werden alle Stationen
+						angezeigt, die durchgehend erreichbar sind <b>und</b> ökologisch erzeugten
+						Strom bereitstellen.
 					</p>
 					<p>
 						Ihre Einstellungen werden direkt in der blauen Titelzeile des Bereichs "<b>Filter</b>"
 						und in dem Donut-Diagramm, das Sie rechts neben oder unter den
 						Filteroptionen finden, ausgewertet. Die Titelzeile zeigt die Gesamtanzahl
-						der P+R- und B+R-Anlagen, die den von Ihnen gesetzten Filterbedingungen
+						der Ladestationen, die den von Ihnen gesetzten Filterbedingungen
 						entsprechen. Das Donut-Diagramm zeigt zusätzlich die Verteilung auf die
-						beiden Kategorien Park + Ride bzw. Bike + Ride. Bewegen Sie dazu den
-						Mauszeiger auf eines der farbigen Segmente des Diagramms.
+						beiden Kategorien verfügbare Ladestationen (online) und nicht verfügbare
+						Ladestationen (offline). Bewegen Sie dazu den Mauszeiger auf eines der
+						farbigen Segmente des Diagramms.
 					</p>
 
 					<div id='anchorDivInHelp_settings' name='Einstellungen'>
@@ -379,20 +401,20 @@ const HelpSection = ({ uiState, uiStateActions }) => {
 					</h4>
 					<p>
 						Unter "<strong>Einstellungen</strong>" können Sie im Anwendungsmenü{' '}
-						<Icon name='bars' /> festlegen, wie die P+R- und B+R-Anlagen und die
+						<Icon name='bars' /> festlegen, wie die Ladestationen und die
 						Hintergrundkarte angezeigt werden sollen.
 					</p>
 					<p>
-						Zu den Anlagen können Sie unter "<b>
-							<i>P+R / B+R Einstellungen</i>
+						Zu den Ladestationen können Sie unter "<b>
+							<i>Ladestationen Einstellungen</i>
 						</b>" auswählen, ob Ihre unter "<b>Filter</b>" festgelegten
 						Filterbedingungen in einer Titelzeile ausgeprägt werden oder nicht. Weiter
-						können Sie dort festlegen, ob räumlich nah beieinander liegende Anlagen
-						maßstabsabhängig zu einem Punktsymbol zusammengefasst werden oder nicht.
-						Unter "<b>
+						können Sie dort festlegen, ob räumlich nah beieinander liegende
+						Ladestationen maßstabsabhängig zu einem Punktsymbol zusammengefasst werden
+						oder nicht. Unter "<b>
 							<i>Symbolgröße</i>
 						</b>" können Sie in Abhängigkeit von Ihrer Bildschirmauflösung und Ihrem
-						Sehvermögen auswählen, ob die P+R- und B+R-Anlagen mit kleinen (35 Pixel),
+						Sehvermögen auswählen, ob die Ladestationen mit kleinen (35 Pixel),
 						mittleren (45 Pixel) oder großen (55 Pixel) Symbolen angezeigt werden.
 					</p>
 
@@ -406,20 +428,12 @@ const HelpSection = ({ uiState, uiStateActions }) => {
 						inspiriert hat. <strong>Hinweis</strong>: Der Stadtplan (Nacht) wird Ihnen
 						nur angeboten, wenn Ihr Browser CSS3-Filtereffekte unterstützt, also z. B.
 						nicht beim Microsoft Internet Explorer. Die Nacht-Karte erzeugt einen
-						deutlicheren Kontrast mit den farbigen Symbolen der P+R- bzw. B+R-Anlagen,
-						die unterschiedlichen Flächennutzungen in der Hintergrundkarte lassen sich
-						aber nicht mehr so gut unterscheiden wie in der Tag-Karte. Als dritte
-						Möglichkeit steht eine Luftbildkarte zur Verfügung, die die Anschaulichkeit
-						des Luftbildes mit der Eindeutigkeit des Stadtplans (Kartenschrift,
-						durchscheinende Linien) verbindet. Zusätzlich können Sie mit dem
-						Kontrollkästchen "<em>Umweltzonen</em>" steuern, ob die Umweltzonen
-						dargestellt werden oder nicht. Die Umweltzonen lassen sich mit allen drei
-						Hintergrundkarten kombinieren. Ihre Darstellung in der Karte ist vor allem
-						dann sinnvoll, wenn Sie die{' '}
-						<Link to='MeinThemenstadtplan' containerId='myMenu'>
-							Filteroption
-						</Link>{' '}
-						"<em>innerhalb/außerhalb Umweltzone</em>" verwenden.
+						deutlicheren Kontrast mit den farbigen Symbolen der Ladestationen, die
+						unterschiedlichen Flächennutzungen in der Hintergrundkarte lassen sich aber
+						nicht mehr so gut unterscheiden wie in der Tag-Karte. Als dritte Möglichkeit
+						steht eine <i>Luftbildkarte</i> zur Verfügung, die die Anschaulichkeit des
+						Luftbildes mit der Eindeutigkeit des Stadtplans (Kartenschrift,
+						durchscheinende Linien) verbindet.
 					</p>
 
 					<p>

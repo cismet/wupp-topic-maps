@@ -299,12 +299,11 @@ const BaederModalMenuHelpSection = ({ uiState, uiStateActions }) => {
 						Treffer um eine <Icon name='car' /> P+R-Anlage, eine <Icon name='bicycle' />{' '}
 						B+R-Anlage, einen <Icon name='circle' /> Stadtbezirk, ein{' '}
 						<Icon name='pie-chart' /> Quartier, eine <Icon name='home' /> Adresse, eine{' '}
-						<Icon name='road' />
-						Straße ohne zugeordnete Hausnummern, einen <Icon name='tag' /> POI, die{' '}
-						<Icon name='tags' /> alternative Bezeichnung eines POI oder eine{' '}
-						<Icon name='child' /> Kindertageseinrichtung handelt. Tipp: Durch Eingabe
-						von "P+" oder "B+" erzeugen Sie eine vollständige Auswahlliste aller P+R-
-						bzw. B+R-Anlagen.
+						<Icon name='road' /> Straße ohne zugeordnete Hausnummern, einen{' '}
+						<Icon name='tag' /> POI, die <Icon name='tags' /> alternative Bezeichnung
+						eines POI oder eine <Icon name='child' /> Kindertageseinrichtung handelt.
+						Tipp: Durch Eingabe von "P+" oder "B+" erzeugen Sie eine vollständige
+						Auswahlliste aller P+R- bzw. B+R-Anlagen.
 					</p>
 					<p>
 						Nach der Auswahl eines Treffers aus der Liste wird die Karte auf die
@@ -418,10 +417,10 @@ const BaederModalMenuHelpSection = ({ uiState, uiStateActions }) => {
 						deutlicheren Kontrast mit den farbigen Symbolen der P+R- bzw. B+R-Anlagen,
 						die unterschiedlichen Flächennutzungen in der Hintergrundkarte lassen sich
 						aber nicht mehr so gut unterscheiden wie in der Tag-Karte. Als dritte
-						Möglichkeit steht eine Luftbildkarte zur Verfügung, die die Anschaulichkeit
-						des Luftbildes mit der Eindeutigkeit des Stadtplans (Kartenschrift,
-						durchscheinende Linien) verbindet. Zusätzlich können Sie mit dem
-						Kontrollkästchen "<em>Umweltzonen</em>" steuern, ob die Umweltzonen
+						Möglichkeit steht eine <i>Luftbildkarte</i> zur Verfügung, die die
+						Anschaulichkeit des Luftbildes mit der Eindeutigkeit des Stadtplans
+						(Kartenschrift, durchscheinende Linien) verbindet. Zusätzlich können Sie mit
+						dem Kontrollkästchen "<em>Umweltzonen</em>" steuern, ob die Umweltzonen
 						dargestellt werden oder nicht. Die Umweltzonen lassen sich mit allen drei
 						Hintergrundkarten kombinieren. Ihre Darstellung in der Karte ist vor allem
 						dann sinnvoll, wenn Sie die{' '}

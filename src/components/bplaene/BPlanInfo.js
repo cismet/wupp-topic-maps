@@ -124,7 +124,7 @@ const BPlanInfo = ({
 			</span>
 		);
 		headertext = 'rechtswirksam';
-		headerColor = '#82BB8F';
+		headerColor = '#82BB8F'; //'#2AFF00';
 	} else if (status === 'nicht rechtskräftig') {
 		statusGlyphs = (
 			<span>
@@ -133,7 +133,8 @@ const BPlanInfo = ({
 			</span>
 		);
 		headertext = 'nicht rechtswirksam';
-		headerColor = '#F48286';
+
+		headerColor = '#F48286'; //'#FC0000'
 	} else {
 		statusGlyphs = (
 			<span>
@@ -143,8 +144,13 @@ const BPlanInfo = ({
 				{nrk}
 			</span>
 		);
-		headertext = 'rechtswirksam (laufende Änderungen)';
-		headerColor = '#82BB8F';
+		headertext = (
+			<div>
+				<Icon style={{ color: '#F48286' }} name='square-full' /> rechtswirksam | laufende
+				Änderung
+			</div>
+		);
+		headerColor = '#82BB8F'; //'#2AFF00';
 	}
 
 	let downloaderOverlay = <div />;

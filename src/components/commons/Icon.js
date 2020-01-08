@@ -1,4 +1,4 @@
-import { faClock, faInfoCircle } from '@fortawesome/free-solid-svg-icons';
+import { faClock, faInfoCircle, faSquareFull } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React from 'react';
 import { Icon } from 'react-fa';
@@ -28,7 +28,8 @@ const nameMap = {
 	'pie-chart': undefined,
 	child: undefined,
 	'map-marker': undefined,
-	'battery-quarter': undefined
+	'battery-quarter': undefined,
+	'square-full': faSquareFull
 };
 
 const IconComp = (props) => {

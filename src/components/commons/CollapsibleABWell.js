@@ -40,7 +40,7 @@ const COMP = ({
 	collapseButtonAreaStyle = {
 		background: '#cccccc',
 		opacity: '0.9',
-		width: 25,
+		width: 20,
 		cursor: 'pointer'
 	},
 	bsSize = 'small',

@@ -243,7 +243,7 @@ const BPlanInfo = ({
 								textAlign: 'left',
 								verticalAlign: 'top',
 								padding: '5px',
-								maxWidth: '185px',
+								maxWidth: '160px',
 								overflowWrap: 'break-word'
 							}}
 						>
@@ -264,10 +264,12 @@ const BPlanInfo = ({
 							<a style={{ color: '#333' }} onClick={downloadPlan}>
 								<h4 style={{ marginLeft: 5, marginRight: 5 }}>
 									<font size='30'>
-										<Icon
-											style={{ textDecoration: 'none' }}
-											name='file-pdf-o'
-										/>
+										<OverlayTrigger placement='left' overlay={planTooltip}>
+											<Icon
+												style={{ textDecoration: 'none' }}
+												name='file-pdf-o'
+											/>
+										</OverlayTrigger>
 									</font>
 								</h4>
 								<OverlayTrigger placement='left' overlay={planTooltip}>
@@ -312,7 +314,7 @@ const BPlanInfo = ({
 								textAlign: 'left',
 								verticalAlign: 'top',
 								padding: '5px',
-								maxWidth: '175px',
+								maxWidth: '160px',
 								overflowWrap: 'break-word'
 							}}
 						>
@@ -331,10 +333,12 @@ const BPlanInfo = ({
 						>
 							<a style={{ color: '#333' }} onClick={downloadPlan}>
 								<h4 style={{ marginLeft: 5, marginRight: 5 }}>
-									<Icon
-										style={{ textDecoration: 'none', fontSize: 26 }}
-										name='file-pdf-o'
-									/>
+									<OverlayTrigger placement='left' overlay={planTooltip}>
+										<Icon
+											style={{ textDecoration: 'none', fontSize: 26 }}
+											name='file-pdf-o'
+										/>
+									</OverlayTrigger>
 								</h4>
 							</a>
 						</td>

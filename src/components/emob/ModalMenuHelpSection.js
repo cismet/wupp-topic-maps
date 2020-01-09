@@ -406,7 +406,7 @@ const HelpSection = ({ uiState, uiStateActions }) => {
 					</p>
 					<p>
 						Zu den Ladestationen können Sie unter "<b>
-							<i>Ladestationen Einstellungen</i>
+							<i>Ladestation-Einstellungen</i>
 						</b>" auswählen, ob Ihre unter "<b>Filter</b>" festgelegten
 						Filterbedingungen in einer Titelzeile ausgeprägt werden oder nicht. Weiter
 						können Sie dort festlegen, ob räumlich nah beieinander liegende

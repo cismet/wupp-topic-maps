@@ -1,9 +1,6 @@
 ### e-Mobility Connectors
 These images are used in our application.
 
-
-
-
 | Image | Image | Source | License | Link to License |
 |-------|-------|--------|---------|-----------------|
 |Chademo_type4|<img alt="Chademo_type4" src="Chademo_type4.png" width="100">|[Wikimedia](https://commons.wikimedia.org/wiki/File:Chademo_type4.svg)|CC BY-SA 4.0|[https://creativecommons.org/licenses/by-sa/4.0/deed.en](https://creativecommons.org/licenses/by-sa/4.0/deed.en)|
@@ -15,9 +12,3 @@ These images are used in our application.
 |Type1-ccs|<img alt="Type1-ccs" src="Type1-ccs.png" width="100">|[Wikimedia](https://commons.wikimedia.org/wiki/File:Type1-ccs.svg)|CC BY-SA 4.0|[https://creativecommons.org/licenses/by-sa/4.0/deed.en](https://creativecommons.org/licenses/by-sa/4.0/deed.en)|
 |CCE1|<img alt="CCE1" src="cce1.png" width="100">|[DIY with Sketch App](cce.sketch)|CC BY-SA 4.0|[https://creativecommons.org/licenses/by-sa/4.0/deed.en](https://creativecommons.org/licenses/by-sa/4.0/deed.en)|
 |CCE3|<img alt="CCE3" src="cce3.png" width="100">|[DIY with Sketch App](cce.sketch)|CC BY-SA 4.0|[https://creativecommons.org/licenses/by-sa/4.0/deed.en](https://creativecommons.org/licenses/by-sa/4.0/deed.en)|
-
-
-
-
-
-

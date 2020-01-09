@@ -1,11 +1,11 @@
 import Icon from 'components/commons/Icon';
 import PropTypes from 'prop-types';
 import React from 'react';
-import { Accordion, Button, Modal, Panel } from 'react-bootstrap';
+import { Accordion, Button, Modal, Panel, Table } from 'react-bootstrap';
 import CismetFooterAcks from '../commons/CismetFooterAcknowledgements';
 import GenericRVRStadtplanwerkMenuFooter from '../commons/GenericRVRStadtplanwerkMenuFooter';
 import IconLink from '../commons/IconLink';
-
+import { getConnectorImageUrl } from '../../utils/emobHelper';
 const Comp = ({ visible, feature, setVisibleState, uiHeight }) => {
 	const close = () => {
 		setVisibleState(false);
@@ -25,11 +25,36 @@ const Comp = ({ visible, feature, setVisibleState, uiHeight }) => {
 	let iconName = 'battery-quarter';
 
 	let steckerverbindungenArr = [];
+	let steckerverbindungenTableArr = [];
 	if (ladestation.steckerverbindungen && ladestation.steckerverbindungen.length > 0) {
 		ladestation.steckerverbindungen.forEach((v) => {
 			steckerverbindungenArr.push(
 				`${v.anzahl} x ${v.steckdosentyp} (${v.leistung}kW,${v.strom}A,${v.spannung}V)`
 			);
+			for (let i = 0; i < v.anzahl; ++i) {
+				let imageUrl = getConnectorImageUrl(v.steckdosentyp);
+				let image;
+				if (imageUrl) {
+					image = <img alt='Schuko_plug' src={imageUrl} width='50' />;
+				}
+				steckerverbindungenTableArr.push(
+					//`${v.anzahl} x ${v.steckdosentyp} (${v.leistung}kW,${v.strom}A,${v.spannung}V)`
+					<tr>
+						<td
+							style={{
+								verticalAlign: 'middle',
+								textAlign: 'center'
+							}}
+						>
+							{image}
+						</td>
+						<td style={{ verticalAlign: 'middle' }}>{v.steckdosentyp}</td>
+						<td style={{ verticalAlign: 'middle' }}>
+							{v.leistung}kW ({v.strom}, {v.spannung})
+						</td>
+					</tr>
+				);
+			}
 		});
 		steckerverbindungen = steckerverbindungenArr.join(', ');
 	}
@@ -128,7 +153,65 @@ const Comp = ({ visible, feature, setVisibleState, uiHeight }) => {
 							<b>Ladeplätze:</b> {ladestation.ladeplaetze}
 						</div>
 						<div>
-							<b>Steckerverbindungen:</b> {steckerverbindungen}
+							{/* <b>Steckerverbindungen:</b> {steckerverbindungen} */}
+							<b>Steckerverbindungen:</b>
+							<Table striped bordered condensed hover style={{ marginTop: 8 }}>
+								<tbody>
+									{/* <tr>
+										<td
+											style={{
+												verticalAlign: 'middle',
+												textAlign: 'center'
+											}}
+										>
+											<img
+												alt='Schuko_plug'
+												src='/images/emob/Schuko_plug.png'
+												width='50'
+											/>
+										</td>
+										<td style={{ verticalAlign: 'middle' }}>Schuko</td>
+										<td style={{ verticalAlign: 'middle' }}>
+											3.7kW (32A,230V)
+										</td>
+									</tr>
+									<tr>
+										<td
+											style={{
+												verticalAlign: 'middle',
+												textAlign: 'center'
+											}}
+										>
+											<img
+												alt='Schuko_plug'
+												src='/images/emob/Schuko_plug.png'
+												width='50'
+											/>
+										</td>
+										<td style={{ verticalAlign: 'middle' }}>Schuko</td>
+										<td style={{ verticalAlign: 'middle' }}>
+											3.7kW (32A,230V)
+										</td>
+									</tr>
+									<tr>
+										<td
+											style={{
+												verticalAlign: 'middle',
+												textAlign: 'center'
+											}}
+										>
+											<img
+												alt='Schuko_plug'
+												src='/images/emob/Type_2_mennekes.png'
+												width='50'
+											/>
+										</td>
+										<td style={{ verticalAlign: 'middle' }}>Typ 2</td>
+										<td style={{ verticalAlign: 'middle' }}>22kW (32A,400V)</td>
+									</tr> */}
+									{steckerverbindungenTableArr}
+								</tbody>
+							</Table>
 						</div>
 						<div>
 							<b>Strom:</b> {ladestation.stromart}

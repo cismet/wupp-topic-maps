@@ -3,7 +3,8 @@ import {
 	faInfoCircle,
 	faSquareFull,
 	faSearch,
-	faSearchLocation
+	faSearchLocation,
+	faChargingStation
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React from 'react';
@@ -35,7 +36,8 @@ const nameMap = {
 	'pie-chart': undefined,
 	child: undefined,
 	'map-marker': undefined,
-	'battery-quarter': undefined,
+	'battery-quarter': faChargingStation,
+	'charging-station': faChargingStation,
 	'square-full': faSquareFull
 };
 

@@ -27,7 +27,7 @@ const Comp = ({ visible, feature, setVisibleState, uiHeight }) => {
 	let steckerverbindungenArr = [];
 	let steckerverbindungenTableArr = [];
 	if (ladestation.steckerverbindungen && ladestation.steckerverbindungen.length > 0) {
-		ladestation.steckerverbindungen.forEach((v) => {
+		ladestation.steckerverbindungen.forEach((v, index) => {
 			steckerverbindungenArr.push(
 				`${v.anzahl} x ${v.steckdosentyp} (${v.leistung}kW,${v.strom}A,${v.spannung}V)`
 			);
@@ -39,7 +39,7 @@ const Comp = ({ visible, feature, setVisibleState, uiHeight }) => {
 				}
 				steckerverbindungenTableArr.push(
 					//`${v.anzahl} x ${v.steckdosentyp} (${v.leistung}kW,${v.strom}A,${v.spannung}V)`
-					<tr>
+					<tr key={index + '.' + i}>
 						<td
 							style={{
 								verticalAlign: 'middle',
@@ -156,61 +156,7 @@ const Comp = ({ visible, feature, setVisibleState, uiHeight }) => {
 							{/* <b>Steckerverbindungen:</b> {steckerverbindungen} */}
 							<b>Steckerverbindungen:</b>
 							<Table striped bordered condensed hover style={{ marginTop: 8 }}>
-								<tbody>
-									{/* <tr>
-										<td
-											style={{
-												verticalAlign: 'middle',
-												textAlign: 'center'
-											}}
-										>
-											<img
-												alt='Schuko_plug'
-												src='/images/emob/Schuko_plug.png'
-												width='50'
-											/>
-										</td>
-										<td style={{ verticalAlign: 'middle' }}>Schuko</td>
-										<td style={{ verticalAlign: 'middle' }}>
-											3.7kW (32A,230V)
-										</td>
-									</tr>
-									<tr>
-										<td
-											style={{
-												verticalAlign: 'middle',
-												textAlign: 'center'
-											}}
-										>
-											<img
-												alt='Schuko_plug'
-												src='/images/emob/Schuko_plug.png'
-												width='50'
-											/>
-										</td>
-										<td style={{ verticalAlign: 'middle' }}>Schuko</td>
-										<td style={{ verticalAlign: 'middle' }}>
-											3.7kW (32A,230V)
-										</td>
-									</tr>
-									<tr>
-										<td
-											style={{
-												verticalAlign: 'middle',
-												textAlign: 'center'
-											}}
-										>
-											<img
-												alt='Schuko_plug'
-												src='/images/emob/Type_2_mennekes.png'
-												width='50'
-											/>
-										</td>
-										<td style={{ verticalAlign: 'middle' }}>Typ 2</td>
-										<td style={{ verticalAlign: 'middle' }}>22kW (32A,400V)</td>
-									</tr> */}
-									{steckerverbindungenTableArr}
-								</tbody>
+								<tbody>{steckerverbindungenTableArr}</tbody>
 							</Table>
 						</div>
 						<div>
@@ -222,7 +168,7 @@ const Comp = ({ visible, feature, setVisibleState, uiHeight }) => {
 						</div>
 					</Panel>
 				</Accordion>
-				<Accordion key={'1'} name={'1'} style={{ marginBottom: 6 }} defaultActiveKey={'1'}>
+				<Accordion key={'2'} name={'2'} style={{ marginBottom: 6 }} defaultActiveKey={'2'}>
 					<Panel header={'Bezahlen'} eventKey={'1'} bsStyle={'warning'}>
 						<div>
 							<b>Authentifizierung:</b> {ladestation.authentifizierung.join(' / ')}
@@ -243,7 +189,7 @@ const Comp = ({ visible, feature, setVisibleState, uiHeight }) => {
 					</Panel>
 				</Accordion>
 
-				<Accordion key={'2'} name={'2'} style={{ marginBottom: 6 }} defaultActiveKey={'2'}>
+				<Accordion key={'3'} name={'3'} style={{ marginBottom: 6 }} defaultActiveKey={'3'}>
 					<Panel header={'Betreiber'} eventKey={'2'} bsStyle={'success'}>
 						<div
 							style={{

@@ -171,7 +171,7 @@ const Comp = ({ visible, feature, setVisibleState, uiHeight }) => {
 					</Panel>
 				</Accordion>
 				<Accordion key={'2'} name={'2'} style={{ marginBottom: 6 }} defaultActiveKey={'2'}>
-					<Panel header={'Bezahlen'} eventKey={'1'} bsStyle={'warning'}>
+					<Panel header={'Bezahlen'} eventKey={'2'} bsStyle={'warning'}>
 						<div>
 							<b>Authentifizierung:</b> {ladestation.authentifizierung.join(' / ')}
 						</div>
@@ -192,7 +192,7 @@ const Comp = ({ visible, feature, setVisibleState, uiHeight }) => {
 				</Accordion>
 
 				<Accordion key={'3'} name={'3'} style={{ marginBottom: 6 }} defaultActiveKey={'3'}>
-					<Panel header={'Betreiber'} eventKey={'2'} bsStyle={'success'}>
+					<Panel header={'Betreiber'} eventKey={'3'} bsStyle={'success'}>
 						<div
 							style={{
 								paddingLeft: 10,

@@ -45,7 +45,7 @@ export const getConnectorImageUrl = (type) => {
 		case 'Tesla Supercharger':
 			return '/images/emob/Type_2_mennekes.png';
 		case 'Drehstrom':
-			return '/images/emob/CCE3.png';
+			return '/images/emob/cce3.png';
 		default:
 			return undefined;
 	}

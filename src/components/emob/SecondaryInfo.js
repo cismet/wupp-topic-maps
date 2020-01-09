@@ -36,6 +36,8 @@ const Comp = ({ visible, feature, setVisibleState, uiHeight }) => {
 				let image;
 				if (imageUrl) {
 					image = <img alt='Schuko_plug' src={imageUrl} width='50' />;
+				} else {
+					image = <Icon name='question' style={{ fontSize: 50 }} />;
 				}
 				steckerverbindungenTableArr.push(
 					//`${v.anzahl} x ${v.steckdosentyp} (${v.leistung}kW,${v.strom}A,${v.spannung}V)`

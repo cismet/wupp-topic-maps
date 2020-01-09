@@ -35,7 +35,7 @@ const Comp = ({ visible, feature, setVisibleState, uiHeight }) => {
 				let imageUrl = getConnectorImageUrl(v.steckdosentyp);
 				let image;
 				if (imageUrl) {
-					image = <img alt='Schuko_plug' src={imageUrl} width='50' />;
+					image = <img alt={v.steckdosentyp} src={imageUrl} width='50' />;
 				} else {
 					image = <Icon name='question' style={{ fontSize: 50 }} />;
 				}

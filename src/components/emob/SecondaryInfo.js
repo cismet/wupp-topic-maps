@@ -22,7 +22,7 @@ const Comp = ({ visible, feature, setVisibleState, uiHeight }) => {
 	if (ladestation.foto !== undefined) {
 		foto = 'https://www.wuppertal.de/geoportal/emobil/autos/fotos/' + ladestation.foto;
 	}
-	let iconName = 'battery-quarter';
+	let iconName = 'charging-station';
 
 	let steckerverbindungenArr = [];
 	let steckerverbindungenTableArr = [];

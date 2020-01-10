@@ -291,7 +291,7 @@ const HelpSection = ({ uiState, uiStateActions }) => {
 						angepasst.) Sie können auch andere Suchbegriffe eingeben, nämlich Stadtteil
 						(Stadtbezirk oder Quartier), Adresse, Straßenname oder POI. Durch das in der
 						Auswahlliste vorangestellte Symbol erkennen Sie, ob es sich bei einem
-						Treffer um eine <Icon name='battery-quarter' /> Ladestation, einen{' '}
+						Treffer um eine <Icon name='charging-station' /> Ladestation, einen{' '}
 						<Icon name='circle' /> Stadtbezirk, ein <Icon name='pie-chart' /> Quartier,
 						eine <Icon name='home' /> Adresse, eine <Icon name='road' /> Straße ohne
 						zugeordnete Hausnummern, einen <Icon name='tag' /> POI, die{' '}

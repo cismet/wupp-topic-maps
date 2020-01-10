@@ -254,9 +254,10 @@ const HelpSection = ({ uiState, uiStateActions }) => {
 						Mit der Schaltfläche <Icon name='chevron-circle-down' /> im dunkelgrau
 						abgesetzten rechten Rand der Info-Box lässt sich diese so verkleinern, dass
 						nur noch der Betriebszustand der Ladestation (Ladestation online oder
-						offline), ihr Name und die Symbole <Icon name='info' />,{' '}
-						<Icon name='phone' /> und <Icon name='external-link-square' /> angezeigt
-						werden - nützlich für Endgeräte mit kleinem Display. Mit der Schaltfläche{' '}
+						offline), ihr Name und die Symbole <Icon name='search-location' />,{' '}
+						<Icon name='info' />, <Icon name='phone' /> und{' '}
+						<Icon name='external-link-square' /> angezeigt werden - nützlich für
+						Endgeräte mit kleinem Display. Mit der Schaltfläche{' '}
 						<Icon name='chevron-circle-up' /> an derselben Stelle können Sie die
 						Info-Box wieder vollständig einblenden.
 					</p>
@@ -368,12 +369,12 @@ const HelpSection = ({ uiState, uiStateActions }) => {
 						jeweilige Filterkriterium nicht ausgewertet. In der Optionsgruppe "<b>
 							<i>Steckertypen</i>
 						</b>" können Sie die für ihre Ladekabel passenden Steckertypen auswählen.
-						Damit grenzen Sie die Kartenanzeige auf diejenige Stationen ein, die
+						Damit grenzen Sie die Kartenanzeige auf diejenigen Stationen ein, die
 						mindestens eine entsprechende Anschlussmöglichkeit besitzen. Alle
 						Filterkriterien werden mit einem logischen "und" kombiniert: Wenn Sie z. B.
 						unter "<b>
 							<i>Öffnungszeiten</i>
-						</b>" den Wert "24/7" wählen und unter ""<b>
+						</b>" den Wert "24/7" wählen und unter "<b>
 							<i>Ökostrom</i>
 						</b>" den Wert "nur Ökostrom-Ladestationen", werden alle Stationen
 						angezeigt, die durchgehend erreichbar sind <b>und</b> ökologisch erzeugten

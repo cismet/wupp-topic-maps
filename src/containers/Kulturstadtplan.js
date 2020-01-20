@@ -245,9 +245,14 @@ export class Stadtplan_ extends React.Component {
 					maxFilterCount = getVeranstaltungsarten(this.props.stadtplan).length;
 				}
 
-				if (filter[filterMode].length === 1) {
+				if (filter && filter[filterMode] && filter[filterMode].length === 1) {
 					themenstadtplanDesc = 'alle ' + einrichtungsEinschub + filter[filterMode][0];
-				} else if (filter[filterMode].length > 0 && filter[filterMode].length < 3) {
+				} else if (
+					filter &&
+					filter[filterMode] &&
+					filter[filterMode].length > 0 &&
+					filter[filterMode].length < 3
+				) {
 					themenstadtplanDesc =
 						'alle ' +
 						einrichtungsEinschub +
@@ -258,6 +263,8 @@ export class Stadtplan_ extends React.Component {
 						themenstadtplanDesc = themenstadtplanDesc.replace(' und ', ', ');
 					}
 				} else if (
+					filter &&
+					filter[filterMode] &&
 					filter[filterMode].length > 0 &&
 					filter[filterMode].length < maxFilterCount
 				) {

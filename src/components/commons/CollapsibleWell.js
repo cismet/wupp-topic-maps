@@ -1,7 +1,6 @@
+import Icon from 'components/commons/Icon';
 import React from 'react';
 import { Well } from 'react-bootstrap';
-import Icon from 'components/commons/Icon';
-import CollapsibleABWell from './CollapsibleABWell';
 /* eslint-disable jsx-a11y/anchor-is-valid */
 
 const COMP = ({

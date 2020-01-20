@@ -18,7 +18,6 @@ const Comp = ({ visible, feature, setVisibleState, uiHeight }) => {
 	};
 	const ladestation = feature.properties;
 	let foto;
-	let steckerverbindungen: '';
 	if (ladestation.foto !== undefined) {
 		foto = 'https://www.wuppertal.de/geoportal/emobil/autos/fotos/' + ladestation.foto;
 	}
@@ -58,7 +57,6 @@ const Comp = ({ visible, feature, setVisibleState, uiHeight }) => {
 				);
 			}
 		});
-		steckerverbindungen = steckerverbindungenArr.join(', ');
 	}
 	let links = [];
 	if (ladestation.betreiber.telefon) {

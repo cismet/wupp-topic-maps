@@ -22,6 +22,9 @@ import { actions as UIStateActions } from '../redux/modules/uiState';
 import { aevFeatureStyler, aevLabeler } from '../utils/fnpHelper';
 import { removeQueryPart } from '../utils/routingHelper';
 
+let reduxBackground = undefined;
+let backgroundStyling = queryString.parse(this.props.routing.location.search).mapStyle;
+
 const options = {
 	type: 'protobuf',
 	url2: 'http://localhost:8080/data/xx/{z}/{x}/{y}.pbf',
@@ -290,8 +293,6 @@ export class Container_ extends React.Component {
 			/* eslint-ensable */
 		}
 
-		let reduxBackground = undefined;
-		let backgroundStyling = queryString.parse(this.props.routing.location.search).mapStyle;
 		let fontSizeForAEVSwitch =
 			queryString.parse(this.props.routing.location.search).fontSizeForAEVSwitch || '1em';
 

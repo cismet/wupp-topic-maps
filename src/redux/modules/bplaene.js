@@ -1,15 +1,13 @@
-import objectAssign from 'object-assign';
-import { actions as mappingActions } from './mapping';
 import * as turfHelpers from '@turf/helpers';
 import inside from '@turf/inside';
-import { constants as mappingConstants } from './mapping';
-import { getPolygonfromBBox } from '../../utils/gisHelper';
+import localForage from 'localforage';
 import { combineReducers } from 'redux';
 import { persistReducer } from 'redux-persist';
-import localForage from 'localforage';
-import { WUNDAAPI } from '../../constants/services';
 import { INFO_DOC_DATEINAMEN_NAME, INFO_DOC_DATEINAMEN_URL } from '../../constants/bplaene';
+import { WUNDAAPI } from '../../constants/services';
+import { getPolygonfromBBox } from '../../utils/gisHelper';
 import makeInfoBoxStateDuck from '../higherorderduckfactories/minifiedInfoBoxState';
+import { actions as mappingActions, constants as mappingConstants } from './mapping';
 
 ///TYPES
 export const types = {
@@ -18,43 +16,11 @@ export const types = {
 	SET_PREPARED_DOWNLOAD: 'BPLAENE/SET_PREPARED_DOWNLOAD'
 };
 
-///INITIAL STATE
-const initialState = {
-	documentsLoading: false,
-	documentsLoadingError: false,
-	preparedDownload: null
-};
 const infoBoxStateDuck = makeInfoBoxStateDuck('BPLAENE', (state) => state.bplaene.infoBoxState);
 
 ///REDUCER
 //no local Reducer needed
 
-// export default function bplanReducer(state = initialState, action) {
-// 	let newState;
-// 	switch (action.type) {
-// 		case types.SET_DOCUMENT_LOADING_INDICATOR: {
-// 			newState = objectAssign({}, state);
-// 			newState.documentsLoading = action.isLoading;
-// 			if (newState.documentsLoading === false) {
-// 				newState.documentsLoadingError = false;
-// 			}
-// 			return newState;
-// 		}
-// 		case types.SET_DOCUMENT_HAS_LOADING_ERROR: {
-// 			newState = objectAssign({}, state);
-// 			newState.documentsLoadingError = action.hasError;
-// 			return newState;
-// 		}
-// 		case types.SET_PREPARED_DOWNLOAD: {
-// 			newState = objectAssign({}, state);
-// 			newState.preparedDownload = action.download;
-// 			return newState;
-// 		}
-
-// 		default:
-// 			return state;
-// 	}
-// }
 const infoBoxStateStorageConfig = {
 	key: 'bplaeneInfoBoxMinifiedState',
 	storage: localForage,

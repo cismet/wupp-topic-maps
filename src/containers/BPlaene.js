@@ -20,11 +20,6 @@ import {
 	bplanLabeler,
 	getMarkerStyleFromFeatureConsideringSelection as bplanMarkerStyle
 } from '../utils/bplanHelper';
-import {
-	downloadSingleFile,
-	prepareDownloadMultipleFiles,
-	prepareMergeMultipleFiles
-} from '../utils/downloadHelper';
 import TopicMap from './TopicMap';
 
 function mapStateToProps(state) {

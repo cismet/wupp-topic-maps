@@ -322,7 +322,7 @@ export const addSVGToPOI = (poi, manualReloadRequested) => {
 				console.error(error);
 
 				//fallback SVG
-				console.log('Will use fallbackSVG for ' + getSignatur(poi));
+				// console.log('Will use fallbackSVG for ' + getSignatur(poi));
 
 				poi.svgBadge = fallbackSVG;
 				poi.svgBadgeDimension = {

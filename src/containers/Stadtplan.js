@@ -298,9 +298,6 @@ export class Stadtplan_ extends React.Component {
 						<InfoBoxFotoPreview
 							currentFeature={selectedFeature}
 							getPhotoUrl={(feature) => {
-								console.log(
-									'getPhotoUrl=' + (feature || { properties: {} }).properties.foto
-								);
 								return (feature || { properties: {} }).properties.foto;
 							}}
 							uiStateActions={this.props.uiStateActions}
@@ -378,7 +375,7 @@ export class Stadtplan_ extends React.Component {
 							setLayerByKey={this.props.mappingActions.setSelectedMappingBackground}
 							activeLayerKey={this.props.mapping.selectedBackground}
 							setFeatureCollectionKeyPostfix={(pf) => {
-								console.log('setFeatureCollectionKeyPostfix', pf);
+								// console.log('setFeatureCollectionKeyPostfix', pf);
 
 								this.props.mappingActions.setFeatureCollectionKeyPostfix(pf);
 							}}

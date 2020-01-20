@@ -96,7 +96,7 @@ export class Comp_ extends React.Component {
 	}
 
 	setSimulationStateInUrl(simulation) {
-		console.log('setSimulationStateInUrl', simulation);
+		// console.log('setSimulationStateInUrl', simulation);
 
 		const selSims = JSON.parse(JSON.stringify(this.props.hitze.selectedSimulations));
 		const simIndexInSelSim = selSims.indexOf(simulation);

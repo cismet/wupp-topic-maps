@@ -115,11 +115,6 @@ export class DocViewer_ extends React.Component {
 
 	componentDidUpdate(prevProps, prevState) {
 		if (!this.props.allGazetteerTopics.bplaene) {
-			console.log('this.props.allGazetteerTopics', this.props.allGazetteerTopics);
-
-			this.props.gazetteerTopicsActions.loadTopicsData([ 'bplaene' ]).then(() => {
-				console.log('gazDataLoaded');
-			});
 			return;
 		}
 		const topicParam = this.props.match.params.topic;
@@ -139,7 +134,6 @@ export class DocViewer_ extends React.Component {
 			const newUrl =
 				this.props.routing.location.pathname +
 				removeQueryPart(prevProps.routing.location.search, 'keepLatLng');
-			console.log('keepLatLng');
 
 			this.props.routingActions.push(newUrl);
 			return;
@@ -295,15 +289,6 @@ export class DocViewer_ extends React.Component {
 											) {
 												this.gotoWholeDocument();
 											} else {
-												console.log('dont go breaking my heart');
-												console.log(
-													'this.props.docs.docs[docIndex]',
-													this.props.docs.docs[docIndex]
-												);
-												console.log(
-													'this.props.docs.docs[docIndex].meta',
-													this.props.docs.docs[docIndex].meta
-												);
 											}
 										}, 1);
 									}
@@ -374,7 +359,6 @@ export class DocViewer_ extends React.Component {
 				downloadArchiveIcon: 'file-archive-o'
 			});
 		} else {
-			console.log('result', result);
 			downloadSingleFile(result, () => {
 				this.setState({
 					downloadArchivePrepInProgress: false,

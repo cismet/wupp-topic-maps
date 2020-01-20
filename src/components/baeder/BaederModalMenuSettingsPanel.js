@@ -28,8 +28,6 @@ const BaederModalMenuSettingsSection = ({
 	setLayerByKey,
 	activeLayerKey
 }) => {
-	console.log('activeLayerKey', activeLayerKey);
-
 	let namedMapStyle = new URLSearchParams(urlSearch).get('mapStyle') || 'default';
 	let zoom = 7;
 	let layers = '';
@@ -121,7 +119,6 @@ const BaederModalMenuSettingsSection = ({
 			{ title: 'Luftbildkarte', mode: 'default', layerKey: 'lbk' }
 		];
 	}
-	console.log('setLayerByKey', setLayerByKey);
 
 	return (
 		<GenericModalMenuSection

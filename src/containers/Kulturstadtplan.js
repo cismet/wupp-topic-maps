@@ -424,7 +424,7 @@ export class Stadtplan_ extends React.Component {
 							setLayerByKey={this.props.mappingActions.setSelectedMappingBackground}
 							activeLayerKey={this.props.mapping.selectedBackground}
 							setFeatureCollectionKeyPostfix={(pf) => {
-								console.log('setFeatureCollectionKeyPostfix', pf);
+								// console.log('setFeatureCollectionKeyPostfix', pf);
 
 								this.props.mappingActions.setFeatureCollectionKeyPostfix(pf);
 							}}

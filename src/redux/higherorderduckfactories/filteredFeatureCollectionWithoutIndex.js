@@ -139,8 +139,6 @@ const makeFeatureCollectionWithoutIndexDuck = (
 						}
 					}
 
-					console.log('XXXX #features in collection:', finalResults.length);
-
 					dispatch(actions.setFeatureCollection([]));
 					dispatch(actions.setSelectedIndex(selectionWish));
 				}

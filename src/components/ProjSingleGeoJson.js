@@ -46,8 +46,6 @@ export class ProjSingleGeoJson_ extends Path {
 		geoJsonIverted.geometry.coordinates = [ bigCoords, polyCoords ];
 		const geojson = L.Proj.geoJson(geoJsonIverted, props);
 		this.leafletElement = geojson;
-
-		console.log('XXXXXX', this.props.geoJson);
 	}
 
 	createLeafletElement() {}

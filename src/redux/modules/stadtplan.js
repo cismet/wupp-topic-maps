@@ -90,6 +90,15 @@ const initialState = {
 			backgroundColor: '#62B7D5',
 			link: '/#/xandride',
 			target: '_xandride'
+		},
+
+		{
+			on: [ 'Mobilität' ],
+			name: 'E-Auto-Ladestationskarte',
+			bsStyle: 'warning',
+			backgroundColor: '#003E7A',
+			link: '/#/elektromobilitaet',
+			target: '_elektromobilitaet'
 		} // {   on: ["Sport"],   name: "Sporthallen",   bsStyle: "default",
 		// backgroundColor: null,   link: "/#/ehrenamt",   target: "_hallen" }
 	]

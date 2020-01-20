@@ -208,29 +208,29 @@ export class Container_ extends React.Component {
 				</div>
 			);
 			backgrounds = [
-				// <WMSTileLayer
-				// 	key={
-				// 		'UWZ.with.background' +
-				// 		(this.props.match.params.layers || reduxBackground || 'wupp-plan-live') +
-				// 		backgroundStyling
-				// 	}
-				// 	url='https://geodaten.metropoleruhr.de/spw2/service'
-				// 	layers={'spw2_light'}
-				// 	version='1.3.0'
-				// 	transparent='true'
-				// 	format='image/png'
-				// 	tiled='false'
-				// 	styles='default'
-				// 	maxZoom={19}
-				// 	opacity={0.4}
-				// 	caching={true}
-				// />,
+				<WMSTileLayer
+					key={
+						'UWZ.with.background' +
+						(this.props.match.params.layers || reduxBackground || 'wupp-plan-live') +
+						backgroundStyling
+					}
+					url='https://geodaten.metropoleruhr.de/spw2/service'
+					layers={'spw2_light'}
+					version='1.3.0'
+					transparent='true'
+					format='image/png'
+					tiled='false'
+					styles='default'
+					maxZoom={19}
+					opacity={0.4}
+					caching={true}
+				/>,
 				<WMSTileLayer
 					key={
 						'UWZ.with.background' + (this.props.match.params.layers || 'wupp-plan-live')
 					}
 					url='https://maps.wuppertal.de/deegree/wms?SRS=EPSG:25832'
-					layers={'r102:fnp'}
+					layers={'r102:fnp_clip'}
 					version='1.1.1'
 					transparent='true'
 					format='image/png'

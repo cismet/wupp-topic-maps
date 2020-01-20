@@ -118,7 +118,11 @@ const StadtplanInfo = ({
 		adresse = currentFeature.properties.adresse;
 
 		if (currentFeature.properties.stadt !== 'Wuppertal') {
-			adresse += ', ' + currentFeature.properties.stadt;
+			if (adresse) {
+				adresse += ', ' + currentFeature.properties.stadt;
+			} else {
+				adresse = currentFeature.properties.stadt;
+			}
 		}
 
 		title = currentFeature.text;

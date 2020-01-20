@@ -160,6 +160,14 @@ const Comp = ({ visible, feature, setVisibleState, uiHeight }) => {
 							<Table striped bordered condensed hover style={{ marginTop: 8 }}>
 								<tbody>{steckerverbindungenTableArr}</tbody>
 							</Table>
+							<div style={{ textAlign: 'right' }}>
+								<a
+									href='https://github.com/cismet/wupp-topic-maps/blob/feature/039-winter-2019-dev-sprint/public/images/emob/'
+									target='_license'
+								>
+									Bildnachweis
+								</a>
+							</div>
 						</div>
 						<div>
 							<b>Strom:</b> {ladestation.stromart}

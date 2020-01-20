@@ -23,7 +23,6 @@ import { aevFeatureStyler, aevLabeler } from '../utils/fnpHelper';
 import { removeQueryPart } from '../utils/routingHelper';
 
 let reduxBackground = undefined;
-let backgroundStyling = queryString.parse(this.props.routing.location.search).mapStyle;
 
 const options = {
 	type: 'protobuf',
@@ -143,6 +142,8 @@ export class Container_ extends React.Component {
 	}
 
 	render() {
+		let backgroundStyling = queryString.parse(this.props.routing.location.search).mapStyle;
+
 		let currentZoom = new URLSearchParams(this.props.routing.location.search).get('zoom') || 8;
 		let aevVisible =
 			new URLSearchParams(this.props.routing.location.search).get('aevVisible') !== null;

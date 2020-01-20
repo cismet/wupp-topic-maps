@@ -1,10 +1,9 @@
-import React from 'react';
+import Icon from 'components/commons/Icon';
 import PropTypes from 'prop-types';
-import InfoBox from '../commons/InfoBox';
+import React from 'react';
 import { getColorForProperties } from '../../utils/baederHelper';
-import { triggerLightBoxForPOI } from '../../utils/stadtplanHelper';
-import { Icon } from 'react-fa';
 import IconLink from '../commons/IconLink';
+import InfoBox from '../commons/InfoBox';
 
 /* eslint-disable jsx-a11y/anchor-is-valid */
 
@@ -28,7 +27,7 @@ const BaederInfo = ({
 }) => {
 	const currentFeature = featureCollection[selectedIndex];
 
-	let header, links, adresse, info, fotoPreview, headerColor, title;
+	let header, links, adresse, info, headerColor, title;
 	if (items && items.length === 0) {
 		return null;
 	}
@@ -91,39 +90,6 @@ const BaederInfo = ({
 			);
 		}
 
-		if (currentFeature.properties.foto) {
-			fotoPreview = (
-				<table style={{ width: '100%' }}>
-					<tbody>
-						<tr>
-							<td style={{ textAlign: 'right', verticalAlign: 'top' }}>
-								<a
-									onClick={() => {
-										triggerLightBoxForPOI(currentFeature, uiStateActions);
-									}}
-									hrefx={
-										currentFeature.properties.fotostrecke ||
-										currentFeature.properties.foto
-									}
-									target='_fotos'
-								>
-									<img
-										alt='Bild'
-										style={{ paddingBottom: '5px' }}
-										src={currentFeature.properties.foto.replace(
-											/http:\/\/.*fotokraemer-wuppertal\.de/,
-											'https://wunda-geoportal-fotos.cismet.de/'
-										)}
-										width='150'
-									/>
-								</a>
-							</td>
-						</tr>
-					</tbody>
-				</table>
-			);
-		}
-
 		headerColor = getColorForProperties(currentFeature.properties);
 		title = currentFeature.text;
 	}
@@ -154,7 +120,6 @@ const BaederInfo = ({
 			currentlyShownCountLabel={`${featureCollection.length} ${featureCollection.length === 1
 				? 'Bad'
 				: 'Bäder'} angezeigt`}
-			fotoPreview={fotoPreview}
 			collapsedInfoBox={minified}
 			setCollapsedInfoBox={minify}
 			noCurrentFeatureTitle={<h5>Keine Bäder gefunden!</h5>}

@@ -1,34 +1,28 @@
+import Icon from 'components/commons/Icon';
+import L from 'leaflet';
 import PropTypes from 'prop-types';
 import React from 'react';
-
-import { connect } from 'react-redux';
-import { Navbar, Nav, NavItem, Well, ProgressBar, Alert } from 'react-bootstrap';
+import { Alert, Nav, Navbar, NavItem, ProgressBar, Well } from 'react-bootstrap';
 import { RoutedMap } from 'react-cismap';
-import { routerActions as RoutingActions } from 'react-router-redux';
 import { Rectangle, TileLayer } from 'react-leaflet';
 import Control from 'react-leaflet-control';
+import Loadable from 'react-loading-overlay';
+import { connect } from 'react-redux';
+import { routerActions as RoutingActions } from 'react-router-redux';
+import { bindActionCreators } from 'redux';
+import scrollIntoViewIfNeeded from 'scroll-into-view-if-needed';
+import { Column, Row } from 'simple-flexbox';
+import 'url-search-params-polyfill';
 import { actions as bplanActions } from '../redux/modules/bplaene';
+import { actions as DocsActions } from '../redux/modules/docs';
 import {
 	actions as gazetteerTopicsActions,
 	getGazDataForTopicIds
 } from '../redux/modules/gazetteerTopics';
+import { actions as UIStateActions } from '../redux/modules/uiState';
 import { downloadSingleFile, prepareDownloadMultipleFiles } from '../utils/downloadHelper';
-
-import L from 'leaflet';
-import { bindActionCreators } from 'redux';
 import { modifyQueryPart, removeQueryPart } from '../utils/routingHelper';
 
-import 'url-search-params-polyfill';
-import { actions as UIStateActions } from '../redux/modules/uiState';
-import { actions as DocsActions } from '../redux/modules/docs';
-
-import { Icon } from 'react-fa';
-
-import Loadable from 'react-loading-overlay';
-
-import { Column, Row } from 'simple-flexbox';
-
-import scrollIntoViewIfNeeded from 'scroll-into-view-if-needed';
 /* eslint-disable jsx-a11y/anchor-is-valid */
 
 L.RasterCoords = function(map, imgsize, tilesize) {
@@ -121,11 +115,6 @@ export class DocViewer_ extends React.Component {
 
 	componentDidUpdate(prevProps, prevState) {
 		if (!this.props.allGazetteerTopics.bplaene) {
-			console.log('this.props.allGazetteerTopics', this.props.allGazetteerTopics);
-
-			this.props.gazetteerTopicsActions.loadTopicsData([ 'bplaene' ]).then(() => {
-				console.log('gazDataLoaded');
-			});
 			return;
 		}
 		const topicParam = this.props.match.params.topic;
@@ -145,7 +134,6 @@ export class DocViewer_ extends React.Component {
 			const newUrl =
 				this.props.routing.location.pathname +
 				removeQueryPart(prevProps.routing.location.search, 'keepLatLng');
-			console.log('keepLatLng');
 
 			this.props.routingActions.push(newUrl);
 			return;
@@ -301,15 +289,6 @@ export class DocViewer_ extends React.Component {
 											) {
 												this.gotoWholeDocument();
 											} else {
-												console.log('dont go breaking my heart');
-												console.log(
-													'this.props.docs.docs[docIndex]',
-													this.props.docs.docs[docIndex]
-												);
-												console.log(
-													'this.props.docs.docs[docIndex].meta',
-													this.props.docs.docs[docIndex].meta
-												);
 											}
 										}, 1);
 									}
@@ -380,7 +359,6 @@ export class DocViewer_ extends React.Component {
 				downloadArchiveIcon: 'file-archive-o'
 			});
 		} else {
-			console.log('result', result);
 			downloadSingleFile(result, () => {
 				this.setState({
 					downloadArchivePrepInProgress: false,
@@ -513,7 +491,7 @@ export class DocViewer_ extends React.Component {
 								onClick={() => this.showMainDoc()}
 								disabled={this.props.docs.loadingState !== LOADING_FINISHED}
 							>
-								{'BPlan ' +
+								{'B-Plan ' +
 									(this.props.docs.docPackageId ||
 										this.props.docs.futuredocPackageId ||
 										'')}

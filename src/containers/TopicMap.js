@@ -1,37 +1,30 @@
+import Icon from 'components/commons/Icon';
 import PropTypes from 'prop-types';
 import React from 'react';
-import { connect } from 'react-redux';
-
+import { Button, OverlayTrigger, Tooltip } from 'react-bootstrap';
 import {
-	RoutedMap,
-	MappingConstants,
 	FeatureCollectionDisplay,
-	FeatureCollectionDisplayWithTooltipLabels
+	FeatureCollectionDisplayWithTooltipLabels,
+	MappingConstants,
+	RoutedMap
 } from 'react-cismap';
-import { bindActionCreators } from 'redux';
-import { actions as MappingActions } from '../redux/modules/mapping';
-import { actions as UIStateActions } from '../redux/modules/uiState';
-
-import { routerActions as RoutingActions } from 'react-router-redux';
-import { modifyQueryPart } from '../utils/routingHelper';
-
-import PhotoLightbox from './PhotoLightbox';
 import Control from 'react-leaflet-control';
+import Loadable from 'react-loading-overlay';
+import { connect } from 'react-redux';
+import { routerActions as RoutingActions } from 'react-router-redux';
+import { bindActionCreators } from 'redux';
+import GazetteerSearchControl from '../components/commons/GazetteerSearchControl';
+import GazetteerHitDisplay from '../components/GazetteerHitDisplay';
+import ProjSingleGeoJson from '../components/ProjSingleGeoJson';
 import {
 	actions as gazetteerTopicsActions,
 	getGazDataForTopicIds
 } from '../redux/modules/gazetteerTopics';
-
-import { Button, OverlayTrigger, Tooltip } from 'react-bootstrap';
-
-import ProjSingleGeoJson from '../components/ProjSingleGeoJson';
-import GazetteerHitDisplay from '../components/GazetteerHitDisplay';
-import GazetteerSearchControl from '../components/commons/GazetteerSearchControl';
-
-import { Icon } from 'react-fa';
-
+import { actions as MappingActions } from '../redux/modules/mapping';
+import { actions as UIStateActions } from '../redux/modules/uiState';
 import { builtInGazetteerHitTrigger } from '../utils/gazetteerHelper';
-import Loadable from 'react-loading-overlay';
+import { modifyQueryPart } from '../utils/routingHelper';
+import PhotoLightbox from './PhotoLightbox';
 
 function mapStateToProps(state) {
 	return {
@@ -135,6 +128,7 @@ export class TopicMap_ extends React.Component {
 		let urlSearchParams = new URLSearchParams(this.props.routing.location.search);
 
 		let info = this.props.infoBox;
+		let secondaryInfoBoxElements = this.props.secondaryInfoBoxElements;
 
 		let overlayFeature = <div />;
 		if (this.props.mapping.overlayFeature) {
@@ -167,7 +161,8 @@ export class TopicMap_ extends React.Component {
 		};
 
 		if (width - gap - widthLeft - widthRight <= 0) {
-			infoBoxControlPosition = 'bottomleft';
+			infoBoxControlPosition = 'bottomright';
+			searchControlPosition = 'bottomright';
 			searchControlWidth = width - gap;
 			infoStyle = {
 				...infoStyle,
@@ -179,9 +174,16 @@ export class TopicMap_ extends React.Component {
 		if (this.props.gazetteerSearchBox) {
 			searchControl = (
 				<GazetteerSearchControl
+					className='JKHKJHKJHJK'
 					ref={(comp) => {
 						this.searchControl = comp;
 					}}
+					key={
+						'GazetteerSearchControl.' +
+						infoBoxControlPosition +
+						'.' +
+						searchControlPosition
+					}
 					enabled={this.props.uiState.gazetteerBoxEnabled}
 					placeholder={this.props.gazetteerSearchBoxPlaceholdertext}
 					pixelwidth={searchControlWidth}
@@ -213,7 +215,6 @@ export class TopicMap_ extends React.Component {
 		}
 
 		let fcd;
-
 		if (this.props.featureLabeler) {
 			fcd = (
 				<FeatureCollectionDisplayWithTooltipLabels
@@ -264,7 +265,10 @@ export class TopicMap_ extends React.Component {
 				/>
 			);
 		}
-
+		let infoBoxBottomMargin = 0;
+		if (searchControlPosition === 'bottomright') {
+			infoBoxBottomMargin = 5;
+		}
 		return (
 			<div>
 				{this.props.modalMenu}
@@ -282,6 +286,7 @@ export class TopicMap_ extends React.Component {
 							ref={(leafletMap) => {
 								this.leafletRoutedMap = leafletMap;
 							}}
+							minZoom={this.props.minZoom}
 							layers=''
 							style={mapStyle}
 							fallbackPosition={{
@@ -323,10 +328,44 @@ export class TopicMap_ extends React.Component {
 								mappingProps={this.props.mapping}
 							/>
 							{fcd}
+
 							{searchControl}
-							<Control position={infoBoxControlPosition}>
-								<div style={infoStyle}>{info}</div>
+
+							<Control
+								key={
+									'InfoBoxElements.' +
+									infoBoxControlPosition +
+									'.' +
+									searchControlPosition
+								}
+								id={
+									'InfoBoxElements.' +
+									infoBoxControlPosition +
+									'.' +
+									searchControlPosition
+								}
+								position={infoBoxControlPosition}
+							>
+								<div style={{ ...infoStyle, marginBottom: infoBoxBottomMargin }}>
+									{info}
+								</div>
 							</Control>
+
+							{secondaryInfoBoxElements.map((element, index) => (
+								<Control
+									key={
+										'secondaryInfoBoxElements.' +
+										index +
+										infoBoxControlPosition +
+										'.' +
+										searchControlPosition
+									}
+									position={infoBoxControlPosition}
+								>
+									<div style={{ opacity: 0.9 }}>{element}</div>
+								</Control>
+							))}
+
 							<Control position='topright'>
 								<OverlayTrigger
 									placement='left'
@@ -365,6 +404,7 @@ export default TopicMap;
 
 TopicMap.propTypes = {
 	infoBox: PropTypes.object,
+	secondaryInfoBoxElements: PropTypes.array,
 	backgroundLayers: PropTypes.string,
 	initialLoadingText: PropTypes.string,
 	noInitialLoadingText: PropTypes.bool,
@@ -396,6 +436,7 @@ TopicMap.propTypes = {
 
 TopicMap.defaultProps = {
 	infoBox: <div />,
+	secondaryInfoBoxElements: [],
 	backgroundlayers: 'rvrWMS@30',
 	noInitialLoadingText: false,
 	initialLoadingText: 'Laden der Daten ...',

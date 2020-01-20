@@ -1,14 +1,13 @@
-import React from 'react';
-import ColorHash from 'color-hash';
 import Color from 'color';
-import L from 'leaflet';
+import ColorHash from 'color-hash';
 import createSVGPie from 'create-svg-pie';
+import L from 'leaflet';
+import queryString from 'query-string';
+import React from 'react';
+import SVGInline from 'react-svg-inline';
 import createElement from 'svg-create-element';
 import { poiColors } from '../constants/colors.js';
 import store from '../redux/store';
-import queryString from 'query-string';
-import { Icon } from 'react-fa';
-import SVGInline from 'react-svg-inline';
 
 const fallbackSVG = `
     <svg xmlns="http://www.w3.org/2000/svg" width="311.668" height="311.668">
@@ -227,7 +226,6 @@ export const getPoiClusterIconCreatorFunction = (
 			iconAnchor: [ canvasSize / 2.0, canvasSize / 2.0 ],
 			iconSize: [ canvasSize, canvasSize ]
 		});
-		//console.log(background.outerHtml)
 		return divIcon;
 	};
 };
@@ -324,7 +322,7 @@ export const addSVGToPOI = (poi, manualReloadRequested) => {
 				console.error(error);
 
 				//fallback SVG
-				console.log('Will use fallbackSVG for ' + getSignatur(poi));
+				// console.log('Will use fallbackSVG for ' + getSignatur(poi));
 
 				poi.svgBadge = fallbackSVG;
 				poi.svgBadgeDimension = {
@@ -336,82 +334,6 @@ export const addSVGToPOI = (poi, manualReloadRequested) => {
 	});
 };
 
-export const triggerLightBoxForPOI = (currentFeature, uiStateActions) => {
-	if (
-		currentFeature.properties.fotostrecke === undefined ||
-		currentFeature.properties.fotostrecke === null ||
-		currentFeature.properties.fotostrecke.indexOf('&noparse') !== -1
-	) {
-		uiStateActions.setLightboxUrls([
-			currentFeature.properties.foto.replace(
-				/http:\/\/.*fotokraemer-wuppertal\.de/,
-				'https://wunda-geoportal-fotos.cismet.de/'
-			)
-		]);
-		uiStateActions.setLightboxTitle(currentFeature.text);
-		let linkUrl;
-		if (currentFeature.properties.fotostrecke) {
-			linkUrl = currentFeature.properties.fotostrecke;
-		} else {
-			linkUrl = 'http://www.fotokraemer-wuppertal.de/';
-		}
-		uiStateActions.setLightboxCaption(
-			<a href={linkUrl} target='_fotos'>
-				<Icon name='copyright' /> Peter Kr&auml;mer - Fotografie
-			</a>
-		);
-		uiStateActions.setLightboxIndex(0);
-		uiStateActions.setLightboxVisible(true);
-	} else {
-		fetch(
-			currentFeature.properties.fotostrecke.replace(
-				/http:\/\/.*fotokraemer-wuppertal\.de/,
-				'https://wunda-geoportal-fotos.cismet.de/'
-			),
-			{
-				method: 'get'
-			}
-		)
-			.then(function(response) {
-				return response.text();
-			})
-			.then(function(data) {
-				var tmp = document.implementation.createHTMLDocument();
-				tmp.body.innerHTML = data;
-				let urls = [];
-				let counter = 0;
-				let mainfotoname = decodeURIComponent(currentFeature.properties.foto)
-					.split('/')
-					.pop()
-					.trim();
-				let selectionWish = 0;
-				for (let el of tmp.getElementsByClassName('bilderrahmen')) {
-					let query = queryString.parse(
-						el.getElementsByTagName('a')[0].getAttribute('href')
-					);
-					urls.push(
-						'https://wunda-geoportal-fotos.cismet.de/images/' + query.dateiname_bild
-					);
-					if (mainfotoname === query.dateiname_bild) {
-						selectionWish = counter;
-					}
-					counter += 1;
-				}
-				uiStateActions.setLightboxUrls(urls);
-				uiStateActions.setLightboxTitle(currentFeature.text);
-				uiStateActions.setLightboxCaption(
-					<a href={currentFeature.properties.fotostrecke} target='_fotos'>
-						<Icon name='copyright' /> Peter Kr&auml;mer - Fotografie
-					</a>
-				);
-				uiStateActions.setLightboxIndex(selectionWish);
-				uiStateActions.setLightboxVisible(true);
-			})
-			.catch(function(err) {
-				console.log(err);
-			});
-	}
-};
 export const getPOISVG = (
 	svgSize = 30,
 	bg = '#FF0000',

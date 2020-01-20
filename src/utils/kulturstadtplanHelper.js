@@ -1,7 +1,7 @@
 import ColorHash from 'color-hash';
+import queryString from 'query-string';
 import { veranstaltungsorteColors } from '../constants/colors.js';
 import store from '../redux/store';
-import queryString from 'query-string';
 
 export const getColorForProperties = (properties) => {
 	let { mainlocationtype } = properties;

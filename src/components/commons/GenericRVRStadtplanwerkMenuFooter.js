@@ -1,5 +1,5 @@
 import React from 'react';
-import { Icon } from 'react-fa';
+import Icon from 'components/commons/Icon';
 import CismetFooterAcks from '../commons/CismetFooterAcknowledgements';
 /* eslint-disable jsx-a11y/anchor-is-valid */
 

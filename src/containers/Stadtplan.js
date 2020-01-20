@@ -1,42 +1,35 @@
-import React from 'react';
 import PropTypes from 'prop-types';
-//import Cismap from '../containers/Cismap';
-import TopicMap from './TopicMap';
-
+import queryString from 'query-string';
+import React from 'react';
+import 'react-image-lightbox/style.css';
 import { connect } from 'react-redux';
-
+import { routerActions } from 'react-router-redux';
+import { bindActionCreators } from 'redux';
+import InfoBoxFotoPreview from '../components/commons/InfoBoxFotoPreview';
+import StadtplanModalApplicationMenu from '../components/stadtplan/ModalMenu';
+import StadtplanInfo from '../components/stadtplan/StadtplanInfo';
 import { actions as mappingActions } from '../redux/modules/mapping';
-import { actions as uiStateActions } from '../redux/modules/uiState';
-import { actions as stadtplanActions } from '../redux/modules/stadtplan';
-
 import {
-	getPOIs,
-	getPOIsMD5,
+	actions as stadtplanActions,
+	getApps,
+	getFilter,
 	getFilteredPOIs,
 	getLebenslagen,
-	getFilter,
+	getPOIs,
+	getPOIsMD5,
 	getPoiSvgSize,
-	getApps,
 	hasMinifiedInfoBox
 } from '../redux/modules/stadtplan';
-
-import { routerActions } from 'react-router-redux';
-
-import { bindActionCreators } from 'redux';
-
+import { actions as uiStateActions } from '../redux/modules/uiState';
+import { fotoKraemerCaptionFactory, fotoKraemerUrlManipulation } from '../utils/commonHelpers';
 import {
-	getFeatureStyler,
 	featureHoverer,
+	getFeatureStyler,
 	getPoiClusterIconCreatorFunction
 } from '../utils/stadtplanHelper';
-
-import queryString from 'query-string';
-
-import StadtplanInfo from '../components/stadtplan/StadtplanInfo';
-import StadtplanModalApplicationMenu from '../components/stadtplan/ModalMenu';
 import PhotoLightbox from './PhotoLightbox';
-
-import 'react-image-lightbox/style.css';
+//import Cismap from '../containers/Cismap';
+import TopicMap from './TopicMap';
 
 function mapStateToProps(state) {
 	return {
@@ -98,23 +91,6 @@ export class Stadtplan_ extends React.Component {
 		if (getPOIs(this.props.stadtplan).length === 0) {
 			return;
 		}
-		// let urlCart=queryString.parse(this.props.routing.location.search).cart; let
-		// urlCartIds=new Set(); if (urlCart){     urlCartIds=new
-		// Set(urlCart.split(",").sort((a,b)=>parseInt(a,10)-parseInt(b,10))); } let
-		// cartIds=new
-		// Set(this.props.ehrenamt.cart.map(x=>x.id).sort((a,b)=>parseInt(a,10)-parseInt
-		// ( b,10))); let missingIdsInCart=new Set([...urlCartIds].filter(x =>
-		// !cartIds.has(x))); if (missingIdsInCart.size>0) {
-		// this.props.ehrenamtActions.addToCartByIds(Array.from(missingIdsInCart)); }
-		// let
-		// newUrlCartArr=Array.from(cartIds).sort((a,b)=>parseInt(a,10)-parseInt(b,10));
-		// let newUrlCart=newUrlCartArr.join(); if (urlCart!==newUrlCart &&
-		// newUrlCart.length>0){     let pn=this.props.routing.location.pathname;     if
-		// (pn.indexOf("stadtplan")===-1){         pn="/stadtplan"; //in certain
-		// conditions the pathname does not contain ehrenamt. fix that.     }     let
-		// newRoute= pn + modifyQueryPart(this.props.routing.location.search, { cart:
-		// newUrlCart     });     console.log("push new route:"+newRoute);
-		// this.props.routingActions.push(newRoute); }
 	}
 
 	loadThePOIs() {
@@ -155,8 +131,6 @@ export class Stadtplan_ extends React.Component {
 	doubleMapClick(event) {}
 
 	gotoHome() {
-		// x1=361332.75015625&y1=5669333.966678483&x2=382500.79703125&y2=5687261.5769543
-		// 2 8
 		if (this.topicMap) {
 			this.topicMap.wrappedInstance.gotoHome();
 		}
@@ -172,8 +146,6 @@ export class Stadtplan_ extends React.Component {
 			potIndex = 0;
 		}
 		this.props.mappingActions.setSelectedFeatureIndex(potIndex);
-		// this.props.mappingActions.fitSelectedFeatureBounds(stateConstants.AUTO_FIT_MO
-		// D E_NO_ZOOM_IN);
 	}
 
 	selectPreviousIndex() {
@@ -183,15 +155,9 @@ export class Stadtplan_ extends React.Component {
 		}
 		this.props.mappingActions.setSelectedFeatureIndex(potIndex);
 	}
-	filterChanged(filtergroup, filter) {
-		//this.props.ehrenamtActions.toggleFilter(filtergroup,filter);
-	}
+	filterChanged(filtergroup, filter) {}
 
-	resetFilter() {
-		// if (this.props.ehrenamt.mode===ehrenamtConstants.FILTER_FILTER){
-		// this.props.ehrenamtActions.resetFilter(); } else {
-		// this.props.ehrenamtActions.setMode(ehrenamtConstants.FILTER_FILTER); }
-	}
+	resetFilter() {}
 	searchTooltip() {
 		return <div />;
 	}
@@ -305,7 +271,9 @@ export class Stadtplan_ extends React.Component {
 			reduxBackground = this.props.mapping.backgrounds[this.props.mapping.selectedBackground]
 				.layerkey;
 		} catch (e) {}
-
+		let selectedFeature = (this.props.mapping.featureCollection || [ {} ])[
+			this.props.mapping.selectedIndex || 0
+		];
 		return (
 			<div>
 				<PhotoLightbox /> {title}
@@ -326,6 +294,17 @@ export class Stadtplan_ extends React.Component {
 					gazetteerTopicsList={[ 'pois', 'kitas', 'bezirke', 'quartiere', 'adressen' ]}
 					gazetteerSearchBoxPlaceholdertext='Stadtteil | Adresse | POI'
 					infoBox={info}
+					secondaryInfoBoxElements={[
+						<InfoBoxFotoPreview
+							currentFeature={selectedFeature}
+							getPhotoUrl={(feature) => {
+								return (feature || { properties: {} }).properties.foto;
+							}}
+							uiStateActions={this.props.uiStateActions}
+							urlManipulation={fotoKraemerUrlManipulation}
+							captionFactory={fotoKraemerCaptionFactory}
+						/>
+					]}
 					backgroundlayers={
 						this.props.match.params.layers || reduxBackground || 'wupp-plan-live@90'
 					}
@@ -396,7 +375,7 @@ export class Stadtplan_ extends React.Component {
 							setLayerByKey={this.props.mappingActions.setSelectedMappingBackground}
 							activeLayerKey={this.props.mapping.selectedBackground}
 							setFeatureCollectionKeyPostfix={(pf) => {
-								console.log('setFeatureCollectionKeyPostfix', pf);
+								// console.log('setFeatureCollectionKeyPostfix', pf);
 
 								this.props.mappingActions.setFeatureCollectionKeyPostfix(pf);
 							}}

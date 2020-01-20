@@ -133,7 +133,7 @@ const localStateStorageConfig = {
 const dataStateStorageConfig = {
 	key: 'kulturstadtplanPOIData',
 	storage: localForage,
-	whitelist: [ 'items', 'md5' ]
+	whitelist: [] //[ 'items', 'md5' ]
 };
 const infoBoxStateStorageConfig = {
 	key: 'kulturstadtplaninfoBoxMinifiedState',

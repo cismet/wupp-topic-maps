@@ -1,12 +1,10 @@
-import React from 'react';
 import PropTypes from 'prop-types';
-
-import { bindActionCreators } from 'redux';
-import { connect } from 'react-redux';
-
-import { actions as uiStateActions } from '../redux/modules/uiState';
-import 'react-image-lightbox/style.css'; // This only needs to be imported once in your app
+import React from 'react';
 import Lightbox from 'react-image-lightbox';
+import 'react-image-lightbox/style.css'; // This only needs to be imported once in your app
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import { actions as uiStateActions } from '../redux/modules/uiState';
 
 function mapStateToProps(state) {
 	return { uiState: state.uiState };

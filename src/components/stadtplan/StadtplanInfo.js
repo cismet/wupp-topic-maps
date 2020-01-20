@@ -1,11 +1,10 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { Icon } from 'react-fa';
-import { getColorForProperties } from '../../utils/stadtplanHelper';
 import Color from 'color';
+import Icon from 'components/commons/Icon';
+import PropTypes from 'prop-types';
+import React from 'react';
+import { getColorForProperties } from '../../utils/stadtplanHelper';
 import IconLink from '../commons/IconLink';
 import InfoBox from '../commons/InfoBox';
-import { triggerLightBoxForPOI } from '../../utils/stadtplanHelper';
 
 /* eslint-disable jsx-a11y/anchor-is-valid */
 
@@ -32,7 +31,7 @@ const StadtplanInfo = ({
 
 	let info = '';
 	let links = [];
-	let title, localHeaderText, poiColor, adresse, fotoDiv;
+	let title, localHeaderText, poiColor, adresse;
 	if (currentFeature) {
 		if (currentFeature.properties.info) {
 			info = currentFeature.properties.info;
@@ -116,54 +115,14 @@ const StadtplanInfo = ({
 		localHeaderText =
 			headerText || currentFeature.properties.mainlocationtype.lebenslagen.join(', ');
 
-		if (currentFeature.properties.foto) {
-			fotoDiv = (
-				<table
-					style={{
-						width: '100%'
-					}}
-				>
-					<tbody>
-						<tr>
-							<td
-								style={{
-									textAlign: 'right',
-									verticalAlign: 'top'
-								}}
-							>
-								<a
-									onClick={() => {
-										triggerLightBoxForPOI(currentFeature, uiStateActions);
-									}}
-									hrefx={
-										currentFeature.properties.fotostrecke ||
-										currentFeature.properties.foto
-									}
-									target='_fotos'
-								>
-									<img
-										alt='Bild'
-										style={{
-											paddingBottom: '5px'
-										}}
-										src={currentFeature.properties.foto.replace(
-											/http:\/\/.*fotokraemer-wuppertal\.de/,
-											'https://wunda-geoportal-fotos.cismet.de/'
-										)}
-										width='150'
-									/>
-								</a>
-							</td>
-						</tr>
-					</tbody>
-				</table>
-			);
-		}
-
 		adresse = currentFeature.properties.adresse;
 
 		if (currentFeature.properties.stadt !== 'Wuppertal') {
-			adresse += ', ' + currentFeature.properties.stadt;
+			if (adresse) {
+				adresse += ', ' + currentFeature.properties.stadt;
+			} else {
+				adresse = currentFeature.properties.stadt;
+			}
 		}
 
 		title = currentFeature.text;
@@ -193,7 +152,6 @@ const StadtplanInfo = ({
 			additionalInfo={info}
 			zoomToAllLabel={`${filteredPOIs.length} POI in Wuppertal`}
 			currentlyShownCountLabel={`${featureCollection.length} POI angezeigt`}
-			fotoPreview={fotoDiv}
 			collapsedInfoBox={minified}
 			setCollapsedInfoBox={minify}
 			noCurrentFeatureTitle={<h5>Keine POI gefunden!</h5>}

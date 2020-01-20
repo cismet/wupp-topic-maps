@@ -1,12 +1,13 @@
 import objectAssign from 'object-assign';
 
-const makeDataWithMD5CheckDuckFor = (section, substateResolver) => {
+const makeDataWithMD5CheckDuckFor = (section, substateResolver, featureFactory) => {
 	const actionTypes = {
 		SET_DATA: `HO/DATA/${section}/SET_DATA`,
 		LOAD_DATA: `HO/DATA/${section}/LOAD_DATA`
 	};
 	const initialState = {
 		items: [],
+		features: [],
 		md5: null
 	};
 
@@ -17,10 +18,16 @@ const makeDataWithMD5CheckDuckFor = (section, substateResolver) => {
 	//SELECTORS
 	const selectors = {
 		getItems: (state) => state.items,
+		getFeatures: (state) => state.features,
 		getMD5: (state) => state.md5
 	};
 	const actions = {
-		set: (items, itemsMD5) => ({ type: actionTypes.SET_DATA, items, itemsMD5 }),
+		set: (items, itemsMD5, features) => ({
+			type: actionTypes.SET_DATA,
+			items,
+			itemsMD5,
+			features
+		}),
 		load: (config) => {
 			return (dispatch, getState) => {
 				let md5 = null;
@@ -95,7 +102,19 @@ const makeDataWithMD5CheckDuckFor = (section, substateResolver) => {
 					.then((data) => {
 						let preparingPromises = config.prepare(dispatch, data);
 						Promise.all(preparingPromises).then(function(results) {
-							dispatch(actions.set(data, md5));
+							let features = [];
+							let counter = 0;
+							if (featureFactory !== undefined) {
+								for (let item of data) {
+									let itemFeature = featureFactory(item, counter);
+									features.push(itemFeature);
+									// if (itemFeature.id === currentSelectedFeature.id) {
+									// 	selectionWish = itemFeature.index;
+									// }
+									counter++;
+								}
+							}
+							dispatch(actions.set(data, md5, features));
 							config.done(dispatch, data, md5);
 						});
 					})
@@ -119,6 +138,7 @@ const makeDataWithMD5CheckDuckFor = (section, substateResolver) => {
 				newState = objectAssign({}, state);
 				newState.items = action.items;
 				newState.md5 = action.itemsMD5;
+				newState.features = action.features;
 				return newState;
 			}
 			default:

@@ -37,7 +37,7 @@ a:hover {
 }
 
 .leaflet-control {
-    margin-bottom: 5px !important;
+    margin-bottom: 0px !important;
 }
 
 .pos-select .Select-value{

@@ -14,6 +14,11 @@ import Kitas from './containers/Kitas';
 import Experiments from './containers/Experiments';
 import Reset from './containers/Reset';
 import DocViewer from './containers/DocViewer';
+import FNP from './containers/FNP';
+
+import Elektromobilitaet from './containers/Elektromobilitaet';
+import XandRide from './containers/XandRide';
+import HitzeInDerStadt from './containers/HitzeInDerStadt';
 
 import store from './redux/store';
 import ReactLoading from 'react-loading';
@@ -69,6 +74,7 @@ export default class App extends React.Component {
 								path='/bplaene/:layers?/:bplannummer?'
 								component={BPlaene}
 							/>
+							<Route exact path='/fnp/:mode?' component={FNP} />
 							<Route exact path='/stadtplan/:layers?/' component={Stadtplan} />
 							<Route
 								exact
@@ -78,6 +84,20 @@ export default class App extends React.Component {
 							<Route exact path='/baeder/:layers?/' component={Baeder} />
 							<Route exact path='/starkregen/:layers?/' component={Starkregen} />
 							<Route exact path='/kitas/:layers?/' component={Kitas} />
+
+							<Route
+								exact
+								path='/elektromobilitaet/:layers?/'
+								component={Elektromobilitaet}
+							/>
+							<Route exact path='/xandride/:layers?/' component={XandRide} />
+
+							<Route
+								exact
+								path='/hitzeinderstadt/:layers?/'
+								component={HitzeInDerStadt}
+							/>
+
 							<Route exact path='/experiments' component={Experiments} />
 							<Route
 								exact

@@ -147,7 +147,7 @@ export default function mappingReducer(state = initialState, action) {
 		}
 		case types.SET_MASKED_OVERLAY: {
 			newState = objectAssign({}, state);
-			newState.maskedOverlay = action.maskedOverlayhit;
+			newState.maskedOverlay = action.maskedOverlay;
 			return newState;
 		}
 		case types.SET_FEATURE_COLLECTION_KEY_POSTFIX: {

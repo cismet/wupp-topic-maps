@@ -1,22 +1,23 @@
+import Icon from 'components/commons/Icon';
 import PropTypes from 'prop-types';
 import React from 'react';
-import { connect } from 'react-redux';
-
-import { bindActionCreators } from 'redux';
-import { actions as MappingActions } from '../redux/modules/mapping';
-import { actions as UIStateActions } from '../redux/modules/uiState';
-import { actions as StarkregenActions } from '../redux/modules/starkregen';
-import { Icon } from 'react-fa';
-
-import { routerActions as RoutingActions } from 'react-router-redux';
-import TopicMap from '../containers/TopicMap';
-import { WMSTileLayer } from 'react-leaflet';
-import { Button, Label, Alert } from 'react-bootstrap';
+import { Alert, Button, Label } from 'react-bootstrap';
 import { FeatureCollectionDisplay } from 'react-cismap';
-import { modifyQueryPart } from '../utils/routingHelper';
-import InfoBox from '../components/starkregen/ControlInfoBox';
+import { WMSTileLayer } from 'react-leaflet';
+import { connect } from 'react-redux';
+import { routerActions as RoutingActions } from 'react-router-redux';
+import { bindActionCreators } from 'redux';
 import ContactButton from '../components/starkregen/ContactButton';
+import InfoBox from '../components/starkregen/ControlInfoBox';
+import FeatureInfoModeBox from '../components/starkregen/FeatureInfoModeBox';
+import FeatureInfoModeButton from '../components/starkregen/FeatureInfoModeButton';
 import HelpAndInfo from '../components/starkregen/Help00MainComponent';
+import TopicMap from '../containers/TopicMap';
+import { actions as MappingActions } from '../redux/modules/mapping';
+import { actions as StarkregenActions } from '../redux/modules/starkregen';
+import { actions as UIStateActions } from '../redux/modules/uiState';
+import { modifyQueryPart } from '../utils/routingHelper';
+
 /* eslint-disable jsx-a11y/anchor-is-valid */
 
 function mapStateToProps(state) {
@@ -186,25 +187,7 @@ export class Starkregen_ extends React.Component {
 				minify={(minified) => this.props.starkregenActions.setMinifiedInfoBox(minified)}
 				legendObject={this.props.starkregen.legend}
 				featureInfoModeActivated={this.props.starkregen.featureInfoModeActivated}
-				setFeatureInfoModeActivation={(activated) => {
-					if (!activated) {
-						this.props.starkregenActions.setCurrentFeatureInfoValue(undefined);
-						this.props.starkregenActions.setCurrentFeatureInfoPosition(undefined);
-					} else {
-						let currentZoom =
-							new URLSearchParams(this.props.routing.location.search).get('zoom') ||
-							8;
-						if (currentZoom < 15) {
-							this.props.routingActions.push(
-								this.props.routing.location.pathname +
-									modifyQueryPart(this.props.routing.location.search, {
-										zoom: 15
-									})
-							);
-						}
-					}
-					this.props.starkregenActions.setFeatureInfoModeActivation(activated);
-				}}
+				// setFeatureInfoModeActivation={}
 				featureInfoValue={this.props.starkregen.currentFeatureInfoValue}
 				showModalMenu={(section) => {
 					this.props.uiStateActions.showApplicationMenuAndActivateSection(true, section);
@@ -272,6 +255,48 @@ export class Starkregen_ extends React.Component {
 		if (validBackgroundIndex >= this.props.starkregen.backgrounds.length) {
 			validBackgroundIndex = 0;
 		}
+		const setFeatureInfoModeActivation = (activated) => {
+			if (!activated) {
+				this.props.starkregenActions.setCurrentFeatureInfoValue(undefined);
+				this.props.starkregenActions.setCurrentFeatureInfoPosition(undefined);
+			} else {
+				let currentZoom =
+					new URLSearchParams(this.props.routing.location.search).get('zoom') || 8;
+				if (currentZoom < 15) {
+					this.props.routingActions.push(
+						this.props.routing.location.pathname +
+							modifyQueryPart(this.props.routing.location.search, {
+								zoom: 15
+							})
+					);
+				}
+			}
+			this.props.starkregenActions.setFeatureInfoModeActivation(activated);
+		};
+
+		let secondaryInfoBoxElements = [];
+		if (this.props.starkregen.featureInfoModeActivated === true) {
+			secondaryInfoBoxElements = [
+				<FeatureInfoModeBox
+					setFeatureInfoModeActivation={setFeatureInfoModeActivation}
+					featureInfoValue={this.props.starkregen.currentFeatureInfoValue}
+					showModalmenu={(section) => {
+						this.props.uiStateActions.showApplicationMenuAndActivateSection(
+							true,
+							section
+						);
+					}}
+					legendObject={this.props.starkregen.legend}
+				/>
+			];
+		} else {
+			secondaryInfoBoxElements = [
+				<FeatureInfoModeButton
+					setFeatureInfoModeActivation={setFeatureInfoModeActivation}
+				/>
+			];
+		}
+
 		return (
 			<TopicMap
 				key={'topicmap with background no' + this.backgroundIndex}
@@ -294,6 +319,7 @@ export class Starkregen_ extends React.Component {
 				gazetteerSearchBoxPlaceholdertext='Stadtteil | Adresse | POI | GEP'
 				photoLightBox
 				infoBox={info}
+				secondaryInfoBoxElements={secondaryInfoBoxElements}
 				backgroundlayers={
 					this.props.match.params.layers ||
 					this.props.starkregen.backgrounds[validBackgroundIndex].layerkey

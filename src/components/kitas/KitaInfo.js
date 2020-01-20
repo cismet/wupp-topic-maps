@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Icon } from 'react-fa';
+import Icon from 'components/commons/Icon';
 import {
 	getColorForProperties,
 	getAgeString,
@@ -148,7 +148,6 @@ const KitaInfo = ({
 			currentlyShownCountLabel={`${featureCollection.length} ${featureCollection.length === 1
 				? 'Kita'
 				: 'Kitas'} angezeigt`}
-			fotoPreview={undefined}
 			collapsedInfoBox={minified}
 			setCollapsedInfoBox={minify}
 			noCurrentFeatureTitle={<h5>Keine Kitas gefunden!</h5>}

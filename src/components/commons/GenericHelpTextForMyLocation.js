@@ -1,5 +1,5 @@
 import React from 'react';
-import { Icon } from 'react-fa';
+import Icon from 'components/commons/Icon';
 
 const GenericHelpTextForMyLocation = () => {
 	return (

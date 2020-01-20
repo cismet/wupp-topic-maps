@@ -195,7 +195,14 @@ const ModalMenuFilteringSection = ({
 				<hr />
 				<strong>* Themenspezifische Karten:</strong>
 				{'  '}
-				<h4>{additionalAppArray}</h4>
+				<h4
+					style={{
+						overflowWrap: 'break-word',
+						lineHeight: 2
+					}}
+				>
+					{additionalAppArray}
+				</h4>
 			</div>
 		);
 	}

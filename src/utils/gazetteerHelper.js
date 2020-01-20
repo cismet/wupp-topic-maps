@@ -1,8 +1,8 @@
-import { proj4crs25832def } from '../constants/gis';
-import proj4 from 'proj4';
-import objectAssign from 'object-assign';
 import bboxCreator from '@turf/bbox';
 import * as turfHelpers from '@turf/helpers';
+import objectAssign from 'object-assign';
+import proj4 from 'proj4';
+import { proj4crs25832def } from '../constants/gis';
 import * as gisHelpers from './gisHelper';
 
 export const builtInGazetteerHitTrigger = (

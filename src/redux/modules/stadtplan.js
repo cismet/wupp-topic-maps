@@ -82,8 +82,24 @@ const initialState = {
 			backgroundColor: null,
 			link: '/#/kulturstadtplan',
 			target: '_kulturstadtplan'
-		}
-		// {   on: ["Sport"],   name: "Sporthallen",   bsStyle: "default",
+		},
+		{
+			on: [ 'Mobilität' ],
+			name: 'Park+Ride-Karte',
+			bsStyle: 'warning',
+			backgroundColor: '#62B7D5',
+			link: '/#/xandride',
+			target: '_xandride'
+		},
+
+		{
+			on: [ 'Mobilität' ],
+			name: 'E-Auto-Ladestationskarte',
+			bsStyle: 'warning',
+			backgroundColor: '#003E7A',
+			link: '/#/elektromobilitaet',
+			target: '_elektromobilitaet'
+		} // {   on: ["Sport"],   name: "Sporthallen",   bsStyle: "default",
 		// backgroundColor: null,   link: "/#/ehrenamt",   target: "_hallen" }
 	]
 };
@@ -92,12 +108,6 @@ const initialState = {
 const localStadtplanReducer = (state = initialState, action) => {
 	let newState;
 	switch (action.type) {
-		// case types.SET_POIS: {   newState = objectAssign({}, state);   newState.pois
-		// = action.pois;   newState.poisMD5 = action.poisMD5;   return newState; } case
-		// types.SET_POI_GAZ_HIT: {   newState = objectAssign({}, state);
-		// newState.poiGazHitId = action.hitId;   return newState; } case
-		// types.CLEAR_POI_GAZ_HIT: {   newState = objectAssign({}, state);
-		// newState.poiGazHitId = null;   return newState; }
 		case types.SET_FILTERED_POIS: {
 			newState = objectAssign({}, state);
 			newState.filteredPois = action.filteredPois;
@@ -166,9 +176,6 @@ const stadtplanReducer = combineReducers({
 export default stadtplanReducer;
 
 ///SIMPLEACTIONCREATORS
-function setPOIs(pois, poisMD5) {
-	return { type: types.SET_POIS, pois, poisMD5 };
-}
 function setFilteredPOIs(filteredPois) {
 	return { type: types.SET_FILTERED_POIS, filteredPois };
 }
@@ -398,7 +405,6 @@ function createFeatureCollectionFromPOIs(boundingBox) {
 //EXPORT ACTIONS
 export const actions = {
 	loadPOIs,
-	setPOIs,
 	setSelectedPOI,
 	createFeatureCollectionFromPOIs,
 	setFilterAndApply,

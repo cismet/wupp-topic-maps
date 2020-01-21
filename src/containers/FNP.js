@@ -377,14 +377,14 @@ export class Container_ extends React.Component {
 								if (visible === true && aevVisible === false) {
 									this.props.routingActions.push(
 										this.props.routing.location.pathname +
-											this.props.routing.location.search +
+											(this.props.routing.location.search || '?') +
 											'&aevVisible'
 									);
 								} else if (visible === false && aevVisible === true) {
 									this.props.routingActions.push(
 										this.props.routing.location.pathname +
 											removeQueryPart(
-												this.props.routing.location.search,
+												this.props.routing.location.search || '',
 												'aevVisible'
 											)
 									);

@@ -183,7 +183,7 @@ export class Container_ extends React.Component {
 					format='image/png'
 					tiled='false'
 					styles='default'
-					maxZoom={19}
+					maxZoom={16}
 					opacity={1}
 					caching={true}
 				/>,
@@ -337,7 +337,8 @@ export class Container_ extends React.Component {
 			<div>
 				{title}
 				<TopicMap
-					minZoom={1}
+					minZoom={7}
+					maxZoom={16}
 					ref={(comp) => {
 						this.topicMap = comp;
 					}}

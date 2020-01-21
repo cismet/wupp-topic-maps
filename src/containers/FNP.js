@@ -358,7 +358,7 @@ export class Container_ extends React.Component {
 						'bezirke',
 						'adressen'
 					]}
-					gazetteerSearchBoxPlaceholdertext='ÄV | B-Plan | Stadtteil | Adresse | POI'
+					gazetteerSearchBoxPlaceholdertext='ÄV | BPL | Stadtteil | Adresse | POI'
 					gazeteerHitTrigger={(selectedObject) => {
 						if (
 							selectedObject &&

@@ -211,6 +211,8 @@ export class Container_ extends React.Component {
 					</div>
 				</div>
 			);
+			console.log('aevVisible:', aevVisible);
+
 			backgrounds = [
 				<WMSTileLayer
 					key={
@@ -586,7 +588,7 @@ export class Container_ extends React.Component {
 							featureClickHandler={() => {}}
 						/>
 					)}
-					<VectorGrid {...options} />
+					{/* <VectorGrid {...options} /> */}
 					{backgrounds}
 				</TopicMap>
 			</div>

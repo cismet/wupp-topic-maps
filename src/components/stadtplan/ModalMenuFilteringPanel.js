@@ -178,7 +178,8 @@ const ModalMenuFilteringSection = ({
 							bsStyle={app.bsStyle}
 							style={{
 								backgroundColor: app.backgroundColor,
-								marginRight: '5px'
+								marginRight: '5px',
+								display: 'inline-block'
 							}}
 						>
 							{app.name}
@@ -197,8 +198,15 @@ const ModalMenuFilteringSection = ({
 				{'  '}
 				<h4
 					style={{
+						lineHeight: 1.7,
 						overflowWrap: 'break-word',
-						lineHeight: 2
+						wordWrap: 'break-word',
+						wordBreak: 'normal',
+						lineBreak: 'strict',
+						hyphens: 'none',
+						overflowWrap: 'break-word',
+						WebkitHyphens: 'none',
+						MozHyphens: 'none'
 					}}
 				>
 					{additionalAppArray}

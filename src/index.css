@@ -40,6 +40,13 @@ a:hover {
     margin-bottom: 0px !important;
 }
 
+
+.leaflet-control-scale {
+    margin-bottom: 10px !important;
+    margin-left: 11px !important;
+  }
+  
+
 .pos-select .Select-value{
     
 }

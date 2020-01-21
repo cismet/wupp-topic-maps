@@ -7,7 +7,7 @@ import queryString from 'query-string';
 import React from 'react';
 import { Well } from 'react-bootstrap';
 import { FeatureCollectionDisplayWithTooltipLabels } from 'react-cismap';
-import { WMSTileLayer } from 'react-leaflet';
+import { WMSTileLayer, ScaleControl } from 'react-leaflet';
 import VectorGrid from 'react-leaflet-vectorgrid';
 import { connect } from 'react-redux';
 import { routerActions as RoutingActions } from 'react-router-redux';
@@ -21,6 +21,7 @@ import { actions as MappingActions } from '../redux/modules/mapping';
 import { actions as UIStateActions } from '../redux/modules/uiState';
 import { aevFeatureStyler, aevLabeler } from '../utils/fnpHelper';
 import { removeQueryPart } from '../utils/routingHelper';
+import { Control } from 'leaflet';
 
 let reduxBackground = undefined;
 
@@ -213,7 +214,6 @@ export class Container_ extends React.Component {
 					</div>
 				</div>
 			);
-			console.log('aevVisible:', aevVisible);
 
 			backgrounds = [
 				<WMSTileLayer
@@ -358,7 +358,7 @@ export class Container_ extends React.Component {
 						'bezirke',
 						'adressen'
 					]}
-					gazetteerSearchBoxPlaceholdertext='ÄV | BPläne | Stadtteil | Adresse | POI'
+					gazetteerSearchBoxPlaceholdertext='ÄV | B-Plan | Stadtteil | Adresse | POI'
 					gazeteerHitTrigger={(selectedObject) => {
 						if (
 							selectedObject &&
@@ -584,6 +584,13 @@ export class Container_ extends React.Component {
 							featureClickHandler={() => {}}
 						/>
 					)}
+
+					<ScaleControl
+						style={{ background: 'red', color: 'red' }}
+						imperial={false}
+						padding={100}
+					/>
+
 					{/* <VectorGrid {...options} /> */}
 					{backgrounds}
 				</TopicMap>

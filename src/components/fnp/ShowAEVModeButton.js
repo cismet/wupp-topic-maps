@@ -26,23 +26,25 @@ const Comp = ({ aevVisible = false, setAevVisible = (visible) => {}, fontSize = 
 				}}
 			>
 				<table>
-					<tr>
-						<td>
-							<FontAwesomeIcon
-								xclassName='fa-3x'
-								icon={aevVisible === true ? faToggleOn : faToggleOff}
-							/>
-						</td>
-						<td style={{ paddingLeft: '5px' }}>
-							<span>
-								{aevVisible === true ? (
-									'Änderungsverfahren verbergen'
-								) : (
-									'Änderungsverfahren anzeigen'
-								)}
-							</span>
-						</td>
-					</tr>
+					<tbody>
+						<tr>
+							<td>
+								<FontAwesomeIcon
+									xclassName='fa-3x'
+									icon={aevVisible === true ? faToggleOn : faToggleOff}
+								/>
+							</td>
+							<td style={{ paddingLeft: '5px' }}>
+								<span>
+									{aevVisible === true ? (
+										'Änderungsverfahren verbergen'
+									) : (
+										'Änderungsverfahren anzeigen'
+									)}
+								</span>
+							</td>
+						</tr>
+					</tbody>
 				</table>
 			</Button>
 		</div>

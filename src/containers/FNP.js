@@ -69,6 +69,9 @@ export class Container_ extends React.Component {
 		this.props.mappingActions.setBoundingBoxChangedTrigger((bbox) =>
 			this.props.aevActions.refreshFeatureCollection(bbox)
 		);
+		this.state = {
+			smallState: undefined
+		};
 	}
 	componentDidMount() {
 		document.title = 'FNP-Auskunft Wuppertal';
@@ -151,8 +154,9 @@ export class Container_ extends React.Component {
 		let backgroundStyling = queryString.parse(this.props.routing.location.search).mapStyle;
 
 		let currentZoom = new URLSearchParams(this.props.routing.location.search).get('zoom') || 8;
-		let aevVisible =
-			new URLSearchParams(this.props.routing.location.search).get('aevVisible') !== null;
+		const uSearch = new URLSearchParams(this.props.routing.location.search);
+		let aevVisible = uSearch.get('aevVisible') !== null;
+		let scaleVisible = uSearch.get('scaleVisible') !== null;
 
 		let titleContent;
 		let backgrounds = [];
@@ -485,6 +489,12 @@ export class Container_ extends React.Component {
 						// 	setEnvZoneVisible={this.props.aevActions.setEnvZoneVisible}
 						// />
 					}
+					responsiveTrigger={(smallState) => {
+						console.log('responiveTrigger', smallState);
+						if (this.state.smallState !== smallState) {
+							this.setState({ smallState: smallState });
+						}
+					}}
 				>
 					{aevVisible === true && (
 						<FeatureCollectionDisplayWithTooltipLabels
@@ -593,12 +603,14 @@ export class Container_ extends React.Component {
 						/>
 					)}
 
-					<ScaleControl
-						key={'scalecontrol' + width}
-						position='bottomleft'
-						imperial={false}
-						padding={100}
-					/>
+					{scaleVisible && (
+						<ScaleControl
+							key={'scalecontrol' + width}
+							position={this.state.smallState === true ? 'topleft' : 'bottomleft'}
+							imperial={false}
+							padding={100}
+						/>
+					)}
 
 					{/* <VectorGrid {...options} /> */}
 					{backgrounds}

@@ -168,6 +168,11 @@ export class TopicMap_ extends React.Component {
 				...infoStyle,
 				width: searchControlWidth + 'px'
 			};
+			console.log('responsiveTrigger true', this.props.responsiveTrigger);
+
+			this.props.responsiveTrigger(true);
+		} else {
+			this.props.responsiveTrigger(false);
 		}
 
 		let searchControl;
@@ -434,7 +439,8 @@ TopicMap.propTypes = {
 	clusterOptions: PropTypes.object,
 	clusteringEnabled: PropTypes.bool,
 	gazeteerHitTrigger: PropTypes.func,
-	gazSearchMinLength: PropTypes.number
+	gazSearchMinLength: PropTypes.number,
+	responsiveTrigger: PropTypes.func
 };
 
 TopicMap.defaultProps = {
@@ -476,5 +482,6 @@ TopicMap.defaultProps = {
 		cismapZoomTillSpiderfy: 12,
 		selectionSpiderfyMinZoom: 12
 	},
-	gazeteerHitTrigger: () => {}
+	gazeteerHitTrigger: () => {},
+	responsiveTrigger: (smallState) => {}
 };

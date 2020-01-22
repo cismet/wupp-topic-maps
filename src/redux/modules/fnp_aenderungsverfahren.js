@@ -98,9 +98,24 @@ export function searchForAEVs({
 					finalResults.push(feature);
 				}
 			}
-		} else if (gazObject !== undefined && gazObject[0] !== undefined) {
+		} else if (
+			gazObject !== undefined &&
+			gazObject[0] !== undefined &&
+			gazObject[0].type === 'aenderungsv'
+		) {
 			let hit = state.fnpAenderungsverfahren.dataState.features.find((elem, index) => {
 				return elem.properties.name === gazObject[0].more.v;
+			});
+			if (hit) {
+				finalResults.push(hit);
+			}
+		} else if (
+			gazObject !== undefined &&
+			gazObject[0] !== undefined &&
+			gazObject[0].type === 'bplaene'
+		) {
+			let hit = state.fnpAenderungsverfahren.dataState.features.find((elem, index) => {
+				return elem.properties.bplan_nr === gazObject[0].more.v;
 			});
 			if (hit) {
 				finalResults.push(hit);
@@ -111,6 +126,7 @@ export function searchForAEVs({
 			mappingActions.setSelectedFeatureIndex(selectionIndexWish);
 			mappingActions.fitAll();
 		}
+		done(finalResults);
 	};
 }
 

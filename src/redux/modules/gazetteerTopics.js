@@ -146,7 +146,8 @@ export const getGazDataForTopicIds = (state, topics) => {
 					glyph: topicItem.g,
 					x: topicItem.x,
 					y: topicItem.y,
-					more: topicItem.m
+					more: topicItem.m,
+					type: 'pois'
 				};
 				gazData.push(g);
 			}
@@ -161,7 +162,8 @@ export const getGazDataForTopicIds = (state, topics) => {
 					glyph: topicItem.g,
 					x: topicItem.x,
 					y: topicItem.y,
-					more: topicItem.m
+					more: topicItem.m,
+					type: 'quartiere'
 				};
 				gazData.push(g);
 			}
@@ -176,7 +178,8 @@ export const getGazDataForTopicIds = (state, topics) => {
 					glyph: topicItem.g,
 					x: topicItem.x,
 					y: topicItem.y,
-					more: topicItem.m
+					more: topicItem.m,
+					type: 'bezirke'
 				};
 				gazData.push(g);
 			}
@@ -191,7 +194,8 @@ export const getGazDataForTopicIds = (state, topics) => {
 					glyph: topicItem.g,
 					x: topicItem.x,
 					y: topicItem.y,
-					more: topicItem.m
+					more: topicItem.m,
+					type: 'kitas'
 				};
 				gazData.push(g);
 			}
@@ -213,7 +217,8 @@ export const getGazDataForTopicIds = (state, topics) => {
 					glyph: topicItem.g,
 					x: topicItem.x,
 					y: topicItem.y,
-					more: topicItem.m
+					more: topicItem.m,
+					type: 'adressen'
 				};
 				gazData.push(g);
 			}
@@ -230,7 +235,8 @@ export const getGazDataForTopicIds = (state, topics) => {
 					overlay: 'B',
 					x: topicItem.x,
 					y: topicItem.y,
-					more: topicItem.m
+					more: topicItem.m,
+					type: 'bplaene'
 				};
 				gazData.push(g);
 			}
@@ -246,7 +252,8 @@ export const getGazDataForTopicIds = (state, topics) => {
 					overlay: 'F',
 					x: topicItem.x,
 					y: topicItem.y,
-					more: topicItem.m
+					more: topicItem.m,
+					type: 'aenderungsv'
 				};
 				gazData.push(g);
 			}
@@ -262,7 +269,8 @@ export const getGazDataForTopicIds = (state, topics) => {
 					glyph: topicItem.g,
 					x: topicItem.x,
 					y: topicItem.y,
-					more: topicItem.m
+					more: topicItem.m,
+					type: 'prbr'
 				};
 				gazData.push(g);
 			}
@@ -278,7 +286,8 @@ export const getGazDataForTopicIds = (state, topics) => {
 					glyph: topicItem.g,
 					x: topicItem.x,
 					y: topicItem.y,
-					more: topicItem.m
+					more: topicItem.m,
+					type: 'emob'
 				};
 				gazData.push(g);
 			}
@@ -293,7 +302,8 @@ export const getGazDataForTopicIds = (state, topics) => {
 					glyph: 'code-fork', //topicItem.g,
 					x: topicItem.x,
 					y: topicItem.y,
-					more: topicItem.m
+					more: topicItem.m,
+					type: 'geps'
 				};
 				gazData.push(g);
 			}
@@ -308,7 +318,8 @@ export const getGazDataForTopicIds = (state, topics) => {
 					glyph: 'code-fork', //topicItem.g,
 					x: topicItem.x,
 					y: topicItem.y,
-					more: topicItem.m
+					more: topicItem.m,
+					type: 'geps_reverse'
 				};
 				gazData.push(g);
 			}

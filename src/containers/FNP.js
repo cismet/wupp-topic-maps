@@ -64,7 +64,9 @@ export class Container_ extends React.Component {
 		this.doubleMapClick = this.doubleMapClick.bind(this);
 		this.selectNextIndex = this.selectNextIndex.bind(this);
 		this.selectPreviousIndex = this.selectPreviousIndex.bind(this);
+		this.getNeededUrlParams = this.getNeededUrlParams.bind(this);
 		this.fitAll = this.fitAll.bind(this);
+		this.setAevVisible = this.setAevVisible.bind(this);
 		this.changeMarkerSymbolSize = this.changeMarkerSymbolSize.bind(this);
 		this.props.mappingActions.setBoundingBoxChangedTrigger((bbox) =>
 			this.props.aevActions.refreshFeatureCollection(bbox)
@@ -92,8 +94,21 @@ export class Container_ extends React.Component {
 
 		this.props.aevActions.searchForAEVs({
 			gazObject: selectedObject,
-			mappingActions: this.props.mappingActions
+			mappingActions: this.props.mappingActions,
+			done: (o) => {
+				if (o && o.length > 0) {
+					this.setAevVisible(true);
+				}
+				console.log('done', o);
+			}
 		});
+		// if (selectedObject && selectedObject[0] && selectedObject[0].type) {
+		// 	const t = selectedObject[0].type;
+		// 	if (t === 'aenderungsv') {
+		// 		this.setAevVisible(true);
+		// 	}
+		// }
+
 		//this.props.bplanActions.searchForPlans(selectedObject);
 	}
 
@@ -103,6 +118,22 @@ export class Container_ extends React.Component {
 			mappingActions: this.props.mappingActions
 		});
 		//this.props.bplanActions.searchForPlans();
+	}
+
+	setAevVisible(visible) {
+		const { aevVisible } = this.getNeededUrlParams();
+		if (visible === true && aevVisible === false) {
+			this.props.routingActions.push(
+				this.props.routing.location.pathname +
+					(this.props.routing.location.search || '?') +
+					'&aevVisible'
+			);
+		} else if (visible === false && aevVisible === true) {
+			this.props.routingActions.push(
+				this.props.routing.location.pathname +
+					removeQueryPart(this.props.routing.location.search || '', 'aevVisible')
+			);
+		}
 	}
 
 	featureClick(event) {
@@ -150,13 +181,19 @@ export class Container_ extends React.Component {
 		this.props.mappingActions.fitAll();
 	}
 
-	render() {
-		let backgroundStyling = queryString.parse(this.props.routing.location.search).mapStyle;
-
-		let currentZoom = new URLSearchParams(this.props.routing.location.search).get('zoom') || 8;
+	getNeededUrlParams() {
 		const uSearch = new URLSearchParams(this.props.routing.location.search);
 		let aevVisible = uSearch.get('aevVisible') !== null;
 		let scaleVisible = uSearch.get('scaleVisible') !== null;
+		let currentZoom = uSearch.get('zoom') || 8;
+
+		return { aevVisible, scaleVisible, currentZoom };
+	}
+
+	render() {
+		let backgroundStyling = queryString.parse(this.props.routing.location.search).mapStyle;
+
+		const { aevVisible, scaleVisible, currentZoom } = this.getNeededUrlParams();
 
 		let titleContent;
 		let backgrounds = [];
@@ -347,7 +384,7 @@ export class Container_ extends React.Component {
 				{title}
 				<TopicMap
 					minZoom={7}
-					maxZoom={16}
+					maxZoom={15}
 					ref={(comp) => {
 						this.topicMap = comp;
 					}}
@@ -385,23 +422,7 @@ export class Container_ extends React.Component {
 					secondaryInfoBoxElements={[
 						<ShowAEVModeButton
 							aevVisible={aevVisible}
-							setAevVisible={(visible) => {
-								if (visible === true && aevVisible === false) {
-									this.props.routingActions.push(
-										this.props.routing.location.pathname +
-											(this.props.routing.location.search || '?') +
-											'&aevVisible'
-									);
-								} else if (visible === false && aevVisible === true) {
-									this.props.routingActions.push(
-										this.props.routing.location.pathname +
-											removeQueryPart(
-												this.props.routing.location.search || '',
-												'aevVisible'
-											)
-									);
-								}
-							}}
+							setAevVisible={this.setAevVisible}
 							fontSize={fontSizeForAEVSwitch}
 						/>
 					]}

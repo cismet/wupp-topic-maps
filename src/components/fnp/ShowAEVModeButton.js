@@ -27,13 +27,13 @@ const Comp = ({ aevVisible = false, setAevVisible = (visible) => {}, fontSize = 
 			>
 				<table>
 					<tr>
-						<th>
+						<td>
 							<FontAwesomeIcon
-								className='fa-2x'
+								xclassName='fa-3x'
 								icon={aevVisible === true ? faToggleOn : faToggleOff}
 							/>
-						</th>
-						<th style={{ paddingLeft: '5px' }}>
+						</td>
+						<td style={{ paddingLeft: '5px' }}>
 							<span>
 								{aevVisible === true ? (
 									'Änderungsverfahren verbergen'
@@ -41,7 +41,7 @@ const Comp = ({ aevVisible = false, setAevVisible = (visible) => {}, fontSize = 
 									'Änderungsverfahren anzeigen'
 								)}
 							</span>
-						</th>
+						</td>
 					</tr>
 				</table>
 			</Button>

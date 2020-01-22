@@ -251,7 +251,7 @@ export class Container_ extends React.Component {
 		}
 
 		let info;
-		if (this.props.mapping.featureCollection.length > 0) {
+		if (this.props.mapping.featureCollection.length > 0 && aevVisible === true) {
 			info = (
 				<AEVInfo
 					pixelwidth={350}

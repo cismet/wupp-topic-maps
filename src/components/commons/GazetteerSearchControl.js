@@ -214,6 +214,7 @@ GazetteerSearchControl_.defaultProps = {
 						width: '18px'
 					}}
 					name={option.glyph}
+					overlay={option.overlay}
 					size={'lg'}
 				/>
 

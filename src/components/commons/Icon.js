@@ -53,20 +53,14 @@ const IconComp = (props) => {
 	// }
 	// console.log('Icon.names', window.iconnames);
 
-	let overlay;
-	let icon;
-	let lookupName;
-	if (props.name.indexOf('!') !== -1) {
-		const tmp = props.name.split('!');
-		lookupName = tmp[0];
-		overlay = tmp[1];
-	} else {
-		lookupName = nameMap[props.name];
-	}
+	let overlay = props.overlay;
+	let lookupName = props.name;
+	let icon = nameMap[lookupName];
 
-	icon = nameMap[lookupName];
 	if (icon !== undefined) {
 		if (overlay !== undefined) {
+			console.log('overlayed icon', overlay);
+
 			return (
 				<span
 					className='fa-layers fa-w12 fa-lg'

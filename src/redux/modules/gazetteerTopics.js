@@ -57,7 +57,7 @@ function loadTopicsData(topicKeys) {
 }
 
 function loadTopicData(topicKey) {
-	const debugMsg = false;
+	const debugMsg = true;
 	let noCacheHeaders = new Headers();
 	noCacheHeaders.append('pragma', 'no-cache');
 	noCacheHeaders.append('cache-control', 'no-cache');
@@ -122,7 +122,8 @@ function loadTopicData(topicKey) {
 			.catch(function(err) {
 				if (err !== 'CACHEHIT') {
 					console.log(
-						'Error during loading of Topic Data. There will be Problems with the Gazetteer-Box.'
+						'Error during loading of Topic Data. There will be Problems with the Gazetteer-Box.',
+						err
 					);
 				}
 			});
@@ -226,6 +227,23 @@ export const getGazDataForTopicIds = (state, topics) => {
 					sorter: sorter++,
 					string: topicItem.s,
 					glyph: topicItem.g,
+					overlay: 'B',
+					x: topicItem.x,
+					y: topicItem.y,
+					more: topicItem.m
+				};
+				gazData.push(g);
+			}
+		}
+		if (topic === 'aenderungsv') {
+			let aev = JSON.parse(state.aenderungsv);
+			for (let i = 0; i < aev.length; ++i) {
+				let topicItem = aev[i];
+				let g = {
+					sorter: sorter++,
+					string: topicItem.s,
+					glyph: topicItem.g,
+					overlay: 'F',
 					x: topicItem.x,
 					y: topicItem.y,
 					more: topicItem.m

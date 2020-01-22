@@ -353,6 +353,7 @@ export class Container_ extends React.Component {
 					searchAfterGazetteer={true}
 					gazetteerTopicsList={[
 						'bplaene',
+						'aenderungsv',
 						'pois',
 						'kitas',
 						'quartiere',

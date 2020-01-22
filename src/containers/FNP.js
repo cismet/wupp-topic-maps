@@ -490,7 +490,6 @@ export class Container_ extends React.Component {
 						// />
 					}
 					responsiveTrigger={(smallState) => {
-						console.log('responiveTrigger', smallState);
 						if (this.state.smallState !== smallState) {
 							this.setState({ smallState: smallState });
 						}

@@ -57,7 +57,7 @@ function loadTopicsData(topicKeys) {
 }
 
 function loadTopicData(topicKey) {
-	const debugMsg = true;
+	const debugMsg = false;
 	let noCacheHeaders = new Headers();
 	noCacheHeaders.append('pragma', 'no-cache');
 	noCacheHeaders.append('cache-control', 'no-cache');

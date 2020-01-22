@@ -168,8 +168,6 @@ export class TopicMap_ extends React.Component {
 				...infoStyle,
 				width: searchControlWidth + 'px'
 			};
-			console.log('responsiveTrigger true', this.props.responsiveTrigger);
-
 			this.props.responsiveTrigger(true);
 		} else {
 			this.props.responsiveTrigger(false);

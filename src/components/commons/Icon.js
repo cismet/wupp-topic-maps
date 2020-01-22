@@ -3,8 +3,10 @@ import {
 	faInfoCircle,
 	faSquareFull,
 	faSearch,
+	faFile,
 	faSearchLocation,
-	faChargingStation
+	faChargingStation,
+	faNumber
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React from 'react';
@@ -16,7 +18,7 @@ const nameMap = {
 	search: faSearch,
 	'search-location': faSearchLocation,
 	info: faInfoCircle,
-	file: undefined,
+	file: faFile,
 	home: undefined,
 	road: undefined,
 	tags: undefined,
@@ -51,9 +53,38 @@ const IconComp = (props) => {
 	// }
 	// console.log('Icon.names', window.iconnames);
 
-	const icon = nameMap[props.name];
+	let overlay;
+	let icon;
+	let lookupName;
+	if (props.name.indexOf('!') !== -1) {
+		const tmp = props.name.split('!');
+		lookupName = tmp[0];
+		overlay = tmp[1];
+	} else {
+		lookupName = nameMap[props.name];
+	}
+
+	icon = nameMap[lookupName];
 	if (icon !== undefined) {
-		return <FontAwesomeIcon {...props} icon={icon} />;
+		if (overlay !== undefined) {
+			return (
+				<span
+					className='fa-layers fa-w12 fa-lg'
+					style={{ marginRight: '10px', width: '18px' }}
+				>
+					<FontAwesomeIcon icon={icon} />
+					<span
+						style={{ fontSize: '1.0rem', paddingRight: '2px', paddingTop: '3px' }}
+						className='fa-layers-text fa-inverse'
+						data-fa-transform='rotate-90'
+					>
+						{overlay}
+					</span>
+				</span>
+			);
+		} else {
+			return <FontAwesomeIcon {...props} icon={icon} />;
+		}
 	} else {
 		return <Icon {...props} />;
 	}

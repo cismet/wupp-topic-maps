@@ -216,7 +216,7 @@ GazetteerSearchControl_.defaultProps = {
 					name={option.glyph}
 					size={'lg'}
 				/>
-				{/* <FontAwesomeIcon icon={[ 'fas', 'sun' ]} /> */}
+
 				<span>{option.string}</span>
 			</div>
 		);

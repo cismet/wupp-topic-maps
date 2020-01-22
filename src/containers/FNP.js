@@ -302,7 +302,7 @@ export class Container_ extends React.Component {
 		let selectedFeature;
 
 		let title = null;
-
+		let width = this.props.uiState.width;
 		title = (
 			<table
 				style={{
@@ -587,7 +587,8 @@ export class Container_ extends React.Component {
 					)}
 
 					<ScaleControl
-						style={{ background: 'red', color: 'red' }}
+						key={'scalecontrol' + width}
+						position='bottomleft'
 						imperial={false}
 						padding={100}
 					/>

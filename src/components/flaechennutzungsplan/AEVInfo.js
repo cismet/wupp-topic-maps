@@ -112,10 +112,7 @@ const Comp = ({
 	bplArr.forEach((nr, index) => {
 		linkArr.push(
 			<span>
-				<a
-					href={`/#/docs/bplaene/${currentFeature.properties.bplan_nr}/1`}
-					target='_bplaene'
-				>
+				<a href={`/#/docs/bplaene/${nr}/1`} target='_bplaene'>
 					B-Plan {nr}
 				</a>
 				{index < bplArr.length - 1 ? ', ' : ''}

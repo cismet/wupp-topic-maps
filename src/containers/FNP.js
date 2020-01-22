@@ -188,7 +188,7 @@ export class Container_ extends React.Component {
 					format='image/png'
 					tiled='false'
 					styles='default'
-					maxZoom={16}
+					maxZoom={15}
 					opacity={1}
 					caching={true}
 				/>,

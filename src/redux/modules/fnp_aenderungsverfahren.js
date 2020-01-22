@@ -66,8 +66,14 @@ export function searchForAEVs({
 	done = () => {},
 	mappingActions
 }) {
+	//because mappingActions are created with bindActionCreators don`t call them with dispatch()
+	//see also https://github.com/reduxjs/redux-thunk/issues/29#issuecomment-154162983
 	return function(dispatch, getState) {
 		let selectionIndexWish = 0;
+
+		const state = getState();
+		let finalResults = [];
+
 		if (gazObject === undefined && (boundingBox !== undefined || point !== undefined)) {
 			let bboxPoly;
 			if (boundingBox !== undefined) {
@@ -86,21 +92,24 @@ export function searchForAEVs({
 				]);
 			}
 
-			//Simple
-			const state = getState();
-			let finalResults = [];
-
 			for (let feature of state.fnpAenderungsverfahren.dataState.features) {
 				// console.log('feature', feature);
 				if (!booleanDisjoint(bboxPoly, feature)) {
 					finalResults.push(feature);
 				}
 			}
-			dispatch(mappingActions.setFeatureCollection(finalResults));
-			if (finalResults.length > 0) {
-				dispatch(mappingActions.setSelectedFeatureIndex(selectionIndexWish));
+		} else if (gazObject !== undefined && gazObject[0] !== undefined) {
+			let hit = state.fnpAenderungsverfahren.dataState.features.find((elem, index) => {
+				return elem.properties.name === gazObject[0].more.v;
+			});
+			if (hit) {
+				finalResults.push(hit);
 			}
-		} else if (point !== undefined) {
+		}
+		mappingActions.setFeatureCollection(finalResults);
+		if (finalResults.length > 0) {
+			mappingActions.setSelectedFeatureIndex(selectionIndexWish);
+			mappingActions.fitAll();
 		}
 	};
 }

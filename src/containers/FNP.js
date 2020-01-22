@@ -58,7 +58,7 @@ export class Container_ extends React.Component {
 	constructor(props, context) {
 		super(props, context);
 		this.gotoHome = this.gotoHome.bind(this);
-		this.aevGazeteerhHit = this.aevGazeteerhHit.bind(this);
+		this.aevGazeteerHit = this.aevGazeteerHit.bind(this);
 		this.aevSearchButtonHit = this.aevSearchButtonHit.bind(this);
 		this.featureClick = this.featureClick.bind(this);
 		this.doubleMapClick = this.doubleMapClick.bind(this);
@@ -84,8 +84,13 @@ export class Container_ extends React.Component {
 		this.props.mappingActions.setFeatureCollectionKeyPostfix('MarkerSvgSize:' + size);
 	}
 
-	aevGazeteerhHit(selectedObject) {
-		this.props.aevActions.searchForAEVs({ gazObject: selectedObject });
+	aevGazeteerHit(selectedObject) {
+		console.log('aevGazeteerHit');
+
+		this.props.aevActions.searchForAEVs({
+			gazObject: selectedObject,
+			mappingActions: this.props.mappingActions
+		});
 		//this.props.bplanActions.searchForPlans(selectedObject);
 	}
 
@@ -348,12 +353,12 @@ export class Container_ extends React.Component {
 					gazetteerSearchBox
 					searchMinZoom={searchMinZoom}
 					searchMaxZoom={18}
-					gazeteerHitTrigger={this.aevnGazeteerhHit}
+					gazeteerHitTrigger={this.aevGazeteerHit}
 					searchButtonTrigger={this.aevSearchButtonHit}
 					searchAfterGazetteer={true}
 					gazetteerTopicsList={[
-						'bplaene',
 						'aenderungsv',
+						'bplaene',
 						'pois',
 						'kitas',
 						'quartiere',
@@ -362,7 +367,7 @@ export class Container_ extends React.Component {
 					]}
 					gazSearchMinLength={1}
 					gazetteerSearchBoxPlaceholdertext='ÄV | BPL | Stadtteil | Adresse | POI'
-					gazeteerHitTrigger={(selectedObject) => {
+					_gazeteerHitTrigger={(selectedObject) => {
 						if (
 							selectedObject &&
 							selectedObject[0] &&

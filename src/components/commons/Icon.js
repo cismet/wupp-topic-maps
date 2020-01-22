@@ -59,8 +59,6 @@ const IconComp = (props) => {
 
 	if (icon !== undefined) {
 		if (overlay !== undefined) {
-			console.log('overlayed icon', overlay);
-
 			return (
 				<span
 					className='fa-layers fa-w12 fa-lg'

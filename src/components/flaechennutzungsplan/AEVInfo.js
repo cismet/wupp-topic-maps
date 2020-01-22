@@ -106,6 +106,22 @@ const Comp = ({
 	}
 	console.log('currentFeature', currentFeature);
 
+	const bpl = currentFeature.properties.bplan_nr;
+	const bplArr = bpl.split('+');
+	const linkArr = [];
+	bplArr.forEach((nr, index) => {
+		linkArr.push(
+			<span>
+				<a
+					href={`/#/docs/bplaene/${currentFeature.properties.bplan_nr}/1`}
+					target='_bplaene'
+				>
+					B-Plan {nr}
+				</a>
+				{index < bplArr.length - 1 ? ', ' : ''}
+			</span>
+		);
+	});
 	return (
 		<Well bsSize='small' onClick={logCurrentFeature}>
 			<div>
@@ -117,7 +133,7 @@ const Comp = ({
 									textAlign: 'left',
 									verticalAlign: 'top',
 									padding: '5px',
-									maxWidth: '160px',
+									maxWidth: '180px',
 									overflowWrap: 'break-word'
 								}}
 							>
@@ -132,14 +148,7 @@ const Comp = ({
 								</h4>
 								{currentFeature.properties.bplan_nr !== undefined && (
 									<h6>
-										<b>Anlass: </b>
-										<a
-											href={`/#/docs/bplaene/${currentFeature.properties
-												.bplan_nr}/1`}
-											target='_bplaene'
-										>
-											B-Plan {currentFeature.properties.bplan_nr}
-										</a>
+										<b>Anlass: {linkArr} </b>
 									</h6>
 								)}
 								{rechtswirksam_seit !== undefined && (

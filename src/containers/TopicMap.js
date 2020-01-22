@@ -205,6 +205,7 @@ export class TopicMap_ extends React.Component {
 					overlayFeature={this.props.mapping.overlayFeature}
 					gazetteerHit={this.props.mapping.gazetteerHit}
 					searchButtonTrigger={this.props.searchButtonTrigger}
+					gazSearchMinLength={this.props.gazSearchMinLength}
 				/>
 			);
 		}
@@ -432,7 +433,8 @@ TopicMap.propTypes = {
 	mappingBoundsChanged: PropTypes.func,
 	clusterOptions: PropTypes.object,
 	clusteringEnabled: PropTypes.bool,
-	gazeteerHitTrigger: PropTypes.func
+	gazeteerHitTrigger: PropTypes.func,
+	gazSearchMinLength: PropTypes.number
 };
 
 TopicMap.defaultProps = {

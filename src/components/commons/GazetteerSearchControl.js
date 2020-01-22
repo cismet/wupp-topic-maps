@@ -129,7 +129,7 @@ export class GazetteerSearchControl_ extends React.Component {
 								dropup={true}
 								disabled={!this.props.enabled}
 								placeholder={this.props.placeholder}
-								minLength={2}
+								minLength={this.props.gazSearchMinLength}
 								filterBy={(option, props) => {
 									// console.log('option', option);
 									// console.log('props', props);
@@ -171,10 +171,12 @@ GazetteerSearchControl_.propTypes = {
 	gazData: PropTypes.array,
 	gazeteerHitTrigger: PropTypes.func,
 	renderMenuItemChildren: PropTypes.func,
-	gazClearTooltipProvider: PropTypes.func
+	gazClearTooltipProvider: PropTypes.func,
+	gazSearchMinLength: PropTypes.number
 };
 
 GazetteerSearchControl_.defaultProps = {
+	gazSearchMinLength: 2,
 	enabled: true,
 	placeholder: 'Geben Sie einen Suchbegriff ein',
 	pixelwidth: 300,

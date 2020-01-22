@@ -360,6 +360,7 @@ export class Container_ extends React.Component {
 						'bezirke',
 						'adressen'
 					]}
+					gazSearchMinLength={1}
 					gazetteerSearchBoxPlaceholdertext='ÄV | BPL | Stadtteil | Adresse | POI'
 					gazeteerHitTrigger={(selectedObject) => {
 						if (

@@ -104,6 +104,8 @@ const Comp = ({
 
 		rechtswirksam_seit = d + '.' + m + '.' + y;
 	}
+	console.log('currentFeature', currentFeature);
+
 	return (
 		<Well bsSize='small' onClick={logCurrentFeature}>
 			<div>
@@ -120,7 +122,12 @@ const Comp = ({
 								}}
 							>
 								<h4>
-									FNP-Änderung {currentFeature.text}
+									{currentFeature.properties.verfahren === '' ? (
+										'FNP-Änderung'
+									) : (
+										'FNP-Berichtigung'
+									)}{' '}
+									{currentFeature.text}
 									{statusGlyphs}
 								</h4>
 								{currentFeature.properties.bplan_nr !== undefined && (

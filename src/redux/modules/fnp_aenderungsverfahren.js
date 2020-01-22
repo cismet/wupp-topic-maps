@@ -135,7 +135,7 @@ function convertAEVToFeature(aev, index) {
 	const selected = false;
 	const geometry = aev.geojson;
 
-	const text = aev.verfahren !== 'B' ? aev.name : aev.name + '_B';
+	const text = aev.name;
 
 	return {
 		id,

@@ -30,7 +30,7 @@ const Comp = ({ aevVisible = false, setAevVisible = (visible) => {}, fontSize = 
 						<tr>
 							<td>
 								<FontAwesomeIcon
-									xclassName='fa-3x'
+									className='fa-2x'
 									icon={aevVisible === true ? faToggleOn : faToggleOff}
 								/>
 							</td>

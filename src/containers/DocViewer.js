@@ -14,6 +14,7 @@ import scrollIntoViewIfNeeded from 'scroll-into-view-if-needed';
 import { Column, Row } from 'simple-flexbox';
 import 'url-search-params-polyfill';
 import { actions as bplanActions } from '../redux/modules/bplaene';
+import { actions as AEVActions } from '../redux/modules/fnp_aenderungsverfahren';
 import { actions as DocsActions } from '../redux/modules/docs';
 import {
 	actions as gazetteerTopicsActions,
@@ -22,6 +23,7 @@ import {
 import { actions as UIStateActions } from '../redux/modules/uiState';
 import { downloadSingleFile, prepareDownloadMultipleFiles } from '../utils/downloadHelper';
 import { modifyQueryPart, removeQueryPart } from '../utils/routingHelper';
+import { getDocsForBPlanGazetteerEntry, getDocsForAEVGazetteerEntry } from '../utils/docsHelper';
 
 /* eslint-disable jsx-a11y/anchor-is-valid */
 
@@ -74,9 +76,12 @@ const HEIGHT = 'HEIGHT';
 const LOADING_FINISHED = 'LOADING_FINISHED';
 const LOADING_OVERLAY = 'LOADING_OVERLAY';
 
-const sidebarWidth = 130;
+const zipFileNameMapping = {
+	bplaene: 'BPLAN_Plaene_und_Zusatzdokumente',
+	aenderungsv: 'FNP_Aenderungsverfahren_und_Zusatzdokumente'
+};
 
-const tileservice = 'https://aaa.cismet.de/tiles/';
+const sidebarWidth = 130;
 
 function mapStateToProps(state) {
 	return {
@@ -93,6 +98,7 @@ function mapDispatchToProps(dispatch) {
 		uiStateActions: bindActionCreators(UIStateActions, dispatch),
 		routingActions: bindActionCreators(RoutingActions, dispatch),
 		bplanActions: bindActionCreators(bplanActions, dispatch),
+		aevActions: bindActionCreators(AEVActions, dispatch),
 		docsActions: bindActionCreators(DocsActions, dispatch),
 		gazetteerTopicsActions: bindActionCreators(gazetteerTopicsActions, dispatch)
 	};
@@ -178,125 +184,38 @@ export class DocViewer_ extends React.Component {
 			}
 
 			if (gazHit) {
-				this.props.bplanActions.searchForPlans(
-					[
-						{
-							sorter: 0,
-							string: gazHit.string,
-							glyph: '-',
-							x: gazHit.x,
-							y: gazHit.y,
-							more: { zl: 18, v: gazHit.more.v }
-						}
-					],
-					null,
-					{
-						skipMappingActions: true,
-						done: (bplanFeatures) => {
-							const bplan = bplanFeatures[0].properties;
-							let docs = [];
-							for (const doc of bplan.plaene_rk) {
-								// let pagecount = this.props.docs.pages[this.replaceUmlauteAndSpaces(doc.file)].pages;
-								// let pageinfo = [];
-
-								// for (let i = 0; i < pagecount; ++i) {
-								// 	if (pagecount > 1) {
-								// 		pageinfo.push(
-								// 			this.props.docs.layers[this.replaceUmlauteAndSpaces(doc.file + '-' + i)]
-								// 		);
-								// 	} else {
-								// 		pageinfo.push(this.props.docs.layers[this.replaceUmlauteAndSpaces(doc.file)]);
-								// 	}
-								// }
-								docs.push({
-									group: 'rechtskraeftig',
-									file: doc.file,
-									url: doc.url.replace(
-										'https://wunda-geoportal-docs.cismet.de/',
-										'https://wunda-geoportal-docs.cismet.de/'
-									),
-									layer: this.replaceUmlauteAndSpaces(
-										doc.url.replace(
-											'https://wunda-geoportal-docs.cismet.de/',
-											tileservice
-										) + '/{z}/{x}/{y}.png'
-									),
-									meta: this.replaceUmlauteAndSpaces(
-										doc.url.replace(
-											'https://wunda-geoportal-docs.cismet.de/',
-											tileservice
-										) + '/meta.json'
-									)
-								});
-							}
-							for (const doc of bplan.plaene_nrk) {
-								docs.push({
-									group: 'nicht_rechtskraeftig',
-									file: doc.file,
-									url: doc.url.replace(
-										'https://wunda-geoportal-docs.cismet.de/',
-										'https://wunda-geoportal-docs.cismet.de/'
-									),
-
-									layer: this.replaceUmlauteAndSpaces(
-										doc.url.replace(
-											'https://wunda-geoportal-docs.cismet.de/',
-											tileservice
-										) + '/{z}/{x}/{y}.png'
-									),
-									meta: this.replaceUmlauteAndSpaces(
-										doc.url.replace(
-											'https://wunda-geoportal-docs.cismet.de/',
-											tileservice
-										) + '/meta.json'
-									)
-								});
-							}
-							for (const doc of bplan.docs) {
-								docs.push({
-									group: 'Zusatzdokumente',
-									file: doc.file,
-									url: doc.url.replace(
-										'https://wunda-geoportal-docs.cismet.de/',
-										'https://wunda-geoportal-docs.cismet.de/'
-									),
-									hideInDocViewer: doc.hideInDocViewer,
-									layer: this.replaceUmlauteAndSpaces(
-										doc.url.replace(
-											'https://wunda-geoportal-docs.cismet.de/',
-											tileservice
-										) + '/{z}/{x}/{y}.png'
-									),
-
-									meta: this.replaceUmlauteAndSpaces(
-										doc.url.replace(
-											'https://wunda-geoportal-docs.cismet.de/',
-											tileservice
-										) + '/meta.json'
-									)
-								});
-							}
-							this.props.docsActions.setDocsInformation(docs, () => {
-								this.props.docsActions.finished(
-									docPackageIdParam,
-									docIndex,
-									pageIndex,
-									() => {
-										setTimeout(() => {
-											if (
-												this.props.docs.docs[docIndex] &&
-												this.props.docs.docs[docIndex].meta
-											) {
-												this.gotoWholeDocument();
-											} else {
-											}
-										}, 1);
-									}
-								);
-							});
-						}
+				switch (topicParam) {
+					case 'bplaene': {
+						const p = {
+							docPackageIdParam,
+							docIndex,
+							pageIndex,
+							gazHit,
+							searchForPlans: this.props.bplanActions.searchForPlans,
+							docsActions: this.props.docsActions,
+							docs: this.props.docs,
+							gotoWholeDocument: this.gotoWholeDocument
+						};
+						getDocsForBPlanGazetteerEntry(p);
+						break;
 					}
-				);
+					case 'aenderungsv': {
+						const p = {
+							docPackageIdParam,
+							docIndex,
+							pageIndex,
+							gazHit,
+							searchForAEVs: this.props.aevActions.searchForAEVs,
+							docsActions: this.props.docsActions,
+							docs: this.props.docs,
+							gotoWholeDocument: this.gotoWholeDocument
+						};
+						getDocsForAEVGazetteerEntry(p);
+						break;
+					}
+					default:
+						break;
+				}
 			}
 		} else if (
 			(this.props.docs.loadingState === LOADING_FINISHED &&
@@ -334,8 +253,12 @@ export class DocViewer_ extends React.Component {
 			encoding = 'CP850';
 		}
 
+		let zipnamePrefix = zipFileNameMapping[this.props.docs.topic];
+		if (zipnamePrefix === undefined) {
+			zipnamePrefix = 'Dokument_mit_Zusatzdokumenten';
+		}
 		let downloadConf = {
-			name: 'BPLAN_Plaene_und_Zusatzdokumente.' + this.props.docs.docPackageId,
+			name: zipnamePrefix + '.' + this.props.docs.docPackageId,
 			files: [],
 			encoding: encoding
 		};
@@ -491,10 +414,14 @@ export class DocViewer_ extends React.Component {
 								onClick={() => this.showMainDoc()}
 								disabled={this.props.docs.loadingState !== LOADING_FINISHED}
 							>
-								{'B-Plan ' +
+								{this.props.docs.viewerTitle === undefined ? (
+									'Dokument ' +
 									(this.props.docs.docPackageId ||
 										this.props.docs.futuredocPackageId ||
-										'')}
+										'')
+								) : (
+									this.props.docs.viewerTitle
+								)}
 							</a>
 						</Navbar.Brand>
 						<Navbar.Toggle />
@@ -1016,30 +943,6 @@ export class DocViewer_ extends React.Component {
 		}
 	};
 
-	replaceUmlauteAndSpaces(str) {
-		const umlautMap = {
-			Ü: 'UE',
-			Ä: 'AE',
-			Ö: 'OE',
-			ü: 'ue',
-			ä: 'ae',
-			ö: 'oe',
-			ß: 'ss',
-			' ': '_'
-		};
-		let ret = str
-			.replace(/[\u00dc|\u00c4|\u00d6][a-z]/g, (a) => {
-				var big = umlautMap[a.slice(0, 1)];
-				return big.charAt(0) + big.charAt(1) + a.slice(1);
-			})
-			.replace(
-				new RegExp('[' + Object.keys(umlautMap).join('|') + ']', 'g'),
-				(a) => umlautMap[a]
-			);
-		// console.log('in', str);
-		// console.log('out', ret);
-		return ret;
-	}
 	getLayer = () => {
 		if (this.props.docs.docIndex !== undefined && this.props.docs.docs.length > 0) {
 			try {

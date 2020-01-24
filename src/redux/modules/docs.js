@@ -5,6 +5,7 @@ export const types = {
 	SET_LOADING_STATE: 'SET_LOADING_STATE',
 	RENDERING_FINISHED: 'RENDERING_FINISHED',
 	SET_DOCS_INFO: 'SET_DOCS_INFO',
+	SET_VIEWER_TITLE: 'SET_VIEWER_TITLE',
 	SET_SIZES: 'SET_SIZES',
 	SET_SIZE: 'SET_SIZE',
 	SET_TOPIC: 'SET_TOPIC',
@@ -21,6 +22,8 @@ export const constants = {
 
 ///INITIAL STATE
 const initialState = {
+	viewerTitle: undefined,
+
 	topic: undefined,
 	topicData: undefined,
 
@@ -76,6 +79,12 @@ export default function docReducer(state = initialState, action) {
 			newState.docs = action.docs;
 			return newState;
 		}
+
+		case types.SET_VIEWER_TITLE: {
+			newState = objectAssign({}, state);
+			newState.viewerTitle = action.title;
+			return newState;
+		}
 		case types.SET_TOPIC: {
 			newState = objectAssign({}, state);
 			newState.topic = action.topic;
@@ -119,6 +128,10 @@ function renderingFinished(docPackageId, docIndex, pageIndex, pdfdoc, canvas) {
 
 function setDocsInfo(docs) {
 	return { type: types.SET_DOCS_INFO, docs };
+}
+
+function setViewerTitle(title) {
+	return { type: types.SET_VIEWER_TITLE, title };
 }
 
 function setSizes(sizes) {
@@ -202,7 +215,8 @@ export const actions = {
 	setDocsInformation,
 	setDelayedLoadingState,
 	setDebugBounds,
-	setTopic
+	setTopic,
+	setViewerTitle
 };
 
 //HELPER FUNCTIONS

@@ -164,9 +164,8 @@ const Comp = ({
 							>
 								<a
 									style={{ color: '#333' }}
-									href={currentFeature.properties.url}
+									href={`/#/docs/aenderungsv/${currentFeature.text}/1`}
 									target='_aenderungsverfahren'
-									onClick_={downloadPlan}
 								>
 									<h4 style={{ marginLeft: 5, marginRight: 5 }}>
 										<font size='30'>

@@ -30,7 +30,7 @@ const dataDuck = makeDataDuck(
 const dataStateStorageConfig = {
 	key: 'aevData',
 	storage: localForage,
-	whitelist: [] //[ 'items', 'md5', 'features' ]
+	whitelist: [][('items', 'md5', 'features')]
 };
 
 const reducer = combineReducers({
@@ -43,6 +43,8 @@ export default reducer;
 
 //COMPLEXACTIONS
 function loadAEVs() {
+	console.log('loadAEVs');
+
 	const manualReloadRequest = false;
 	return (dispatch, getState) => {
 		dispatch(
@@ -103,6 +105,13 @@ export function searchForAEVs({
 			gazObject[0] !== undefined &&
 			gazObject[0].type === 'aenderungsv'
 		) {
+			console.log('searchForAEVs 1', gazObject[0]);
+			console.log('searchForAEVs 2', state.fnpAenderungsverfahren.dataState.features);
+
+			if (state.fnpAenderungsverfahren.dataState.features.length === 0) {
+				loadAEVs();
+			}
+
 			let hit = state.fnpAenderungsverfahren.dataState.features.find((elem, index) => {
 				return elem.properties.name === gazObject[0].more.v;
 			});
@@ -126,10 +135,12 @@ export function searchForAEVs({
 				finalResults.push(hit);
 			}
 		}
-		mappingActions.setFeatureCollection(finalResults);
-		if (finalResults.length > 0) {
-			mappingActions.setSelectedFeatureIndex(selectionIndexWish);
-			mappingActions.fitAll();
+		if (skipMappingActions === false) {
+			mappingActions.setFeatureCollection(finalResults);
+			if (finalResults.length > 0) {
+				mappingActions.setSelectedFeatureIndex(selectionIndexWish);
+				mappingActions.fitAll();
+			}
 		}
 		done(finalResults);
 	};

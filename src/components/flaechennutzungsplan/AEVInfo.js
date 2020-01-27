@@ -106,7 +106,7 @@ const Comp = ({
 	}
 	console.log('currentFeature', currentFeature);
 
-	const bpl = currentFeature.properties.bplan_nr;
+	const bpl = currentFeature.properties.bplan_nr || '';
 	const bplArr = bpl.split('+');
 	const linkArr = [];
 	bplArr.forEach((nr, index) => {

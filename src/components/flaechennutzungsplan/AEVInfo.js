@@ -2,6 +2,9 @@ import Icon from 'components/commons/Icon';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { OverlayTrigger, Tooltip, Well } from 'react-bootstrap';
+import Color from 'color';
+import CollapsibleABWell from 'components/commons/CollapsibleABWell';
+
 /* eslint-disable jsx-a11y/anchor-is-valid */
 
 // Since this component is simple and static, there's no parent container for it.
@@ -16,7 +19,9 @@ const Comp = ({
 	downloadPlan,
 	downloadEverything,
 	preparedDownload,
-	resetPreparedDownload
+	resetPreparedDownload,
+	collapsed,
+	setCollapsed
 }) => {
 	const currentFeature = featureCollection[selectedIndex];
 
@@ -48,53 +53,19 @@ const Comp = ({
 		</Tooltip>
 	);
 
-	let statusGlyphs = null;
 	let status = currentFeature.properties.status;
 	//let rk=(<FontAwesome name='check-circle-o' />);
-	let rktt = (
-		<Tooltip style={{ zIndex: 3000000000 }} id='rktt'>
-			rechtswirksam
-		</Tooltip>
-	);
-	let nrktt = (
-		<Tooltip style={{ zIndex: 3000000000 }} id='nrktt'>
-			laufendes Verfahren
-		</Tooltip>
-	);
 
-	let rk = (
-		<OverlayTrigger placement='top' overlay={rktt}>
-			<Icon style={{ color: 'green', opacity: 0.5 }} name='check-circle-o' />
-		</OverlayTrigger>
-	);
-	let nrk = (
-		<OverlayTrigger placement='top' overlay={nrktt}>
-			<Icon style={{ color: 'red', opacity: 0.5 }} name='times-circle-o' />
-		</OverlayTrigger>
-	);
+	let statusText, headerColor;
 	if (status === 'r') {
-		statusGlyphs = (
-			<span>
-				&nbsp;
-				{rk}
-			</span>
-		);
+		statusText = 'rechtswirksam';
+		headerColor = '#82BB8F';
 	} else if (status === 'n') {
-		statusGlyphs = (
-			<span>
-				&nbsp;
-				{nrk}
-			</span>
-		);
+		statusText = 'nicht rechtswirksam';
+		headerColor = '#F48286';
 	} else {
-		statusGlyphs = (
-			<span>
-				&nbsp;
-				{rk}
-				&nbsp;
-				{nrk}
-			</span>
-		);
+		statusText = 'rechtswirksam mit nicht rechtswirksamem Teilen';
+		headerColor = '#F48286';
 	}
 
 	let rechtswirksam_seit;
@@ -119,7 +90,37 @@ const Comp = ({
 			</span>
 		);
 	});
-	return (
+	let headertext = statusText;
+
+	let headerBackgroundColor = Color(headerColor);
+
+	let textColor = 'black';
+	if (headerBackgroundColor.isDark()) {
+		textColor = 'white';
+	}
+	let header = (
+		<table style={{ width: '100%' }}>
+			<tbody>
+				<tr>
+					<td
+						style={{
+							textAlign: 'left',
+							verticalAlign: 'top',
+							background: headerColor,
+							color: textColor,
+							opacity: '0.9',
+							paddingLeft: '3px',
+							paddingTop: '0px',
+							paddingBottom: '0px'
+						}}
+					>
+						{headertext}
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	);
+	let divWhenLarge = (
 		<Well bsSize='small' onClick={logCurrentFeature}>
 			<div>
 				<table border={0} style={{ width: '100%' }}>
@@ -141,7 +142,6 @@ const Comp = ({
 										'FNP-Berichtigung'
 									)}{' '}
 									{currentFeature.text}
-									{statusGlyphs}
 								</h4>
 								{currentFeature.properties.bplan_nr !== undefined && (
 									<h6>
@@ -208,6 +208,64 @@ const Comp = ({
 				</table>
 			</div>
 		</Well>
+	);
+	let divWhenCollapsed = (
+		<div>
+			<table border={0} style={{ width: '100%' }}>
+				<tbody>
+					<tr>
+						<td
+							style={{
+								textAlign: 'left',
+								verticalAlign: 'top',
+								padding: '5px',
+								maxWidth: '160px',
+								overflowWrap: 'break-word'
+							}}
+						>
+							<h4>
+								{currentFeature.properties.verfahren === '' ? (
+									'FNP-Änderung'
+								) : (
+									'FNP-Berichtigung'
+								)}{' '}
+								{currentFeature.text}
+							</h4>
+						</td>
+						<td
+							style={{
+								textAlign: 'center',
+								verticalAlign: 'center',
+								padding: '5px',
+								paddingTop: '1px'
+							}}
+						>
+							<a style={{ color: '#333' }} onClick={downloadPlan}>
+								<h4 style={{ marginLeft: 5, marginRight: 5 }}>
+									<OverlayTrigger placement='left' overlay={planTooltip}>
+										<Icon
+											style={{ textDecoration: 'none', fontSize: 26 }}
+											name='file-pdf-o'
+										/>
+									</OverlayTrigger>
+								</h4>
+							</a>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	);
+	return (
+		<div>
+			{header}
+			<CollapsibleABWell
+				collapsed={collapsed}
+				divWhenLarge={divWhenLarge}
+				divWhenCollapsed={divWhenCollapsed}
+				setCollapsed={setCollapsed}
+			/>
+		</div>
 	);
 };
 

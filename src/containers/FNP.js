@@ -301,6 +301,10 @@ export class Container_ extends React.Component {
 					next={this.selectNextIndex}
 					previous={this.selectPreviousIndex}
 					fitAll={this.fitAll}
+					collapsed={this.props.aev.infoBoxState.minified}
+					setCollapsed={(collapsed) => {
+						this.props.aevActions.setCollapsedInfoBox(collapsed);
+					}}
 					// downloadPlan={this.openDocViewer}
 					// downloadEverything={this.openDocViewer}
 					// preparedDownload={this.props.bplaene.preparedDownload}

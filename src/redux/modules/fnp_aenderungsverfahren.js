@@ -4,6 +4,7 @@ import localForage from 'localforage';
 import { combineReducers } from 'redux';
 import { persistReducer } from 'redux-persist';
 import makeDataDuck from '../higherorderduckfactories/dataWithMD5Check';
+import makeInfoBoxStateDuck from '../higherorderduckfactories/minifiedInfoBoxState';
 
 //TYPES
 //no types bc no local store
@@ -19,6 +20,11 @@ const dataDuck = makeDataDuck(
 	(state) => state.fnpAenderungsverfahren.dataState,
 	convertAEVToFeature
 );
+const infoBoxStateDuck = makeInfoBoxStateDuck(
+	'FNP_AEV',
+	(state) => state.fnpAenderungsverfahren.infoBoxState
+);
+
 // const dataDuck = makeDataDuck('aev', (state) => state.aev.dataState, convertHauptnutzungToFeature);
 
 ///INITIAL STATE
@@ -27,6 +33,11 @@ const dataDuck = makeDataDuck(
 ///REDUCER
 //no localState
 
+const infoBoxStateStorageConfig = {
+	key: 'fnpAevInfoBoxMinifiedState',
+	storage: localForage,
+	whitelist: [ 'minified' ]
+};
 const dataStateStorageConfig = {
 	key: 'aevData',
 	storage: localForage,
@@ -34,7 +45,8 @@ const dataStateStorageConfig = {
 };
 
 const reducer = combineReducers({
-	dataState: persistReducer(dataStateStorageConfig, dataDuck.reducer)
+	dataState: persistReducer(dataStateStorageConfig, dataDuck.reducer),
+	infoBoxState: persistReducer(infoBoxStateStorageConfig, infoBoxStateDuck.reducer)
 });
 
 export default reducer;
@@ -149,7 +161,8 @@ export function searchForAEVs({
 //EXPORT ACTIONS
 export const actions = {
 	loadAEVs,
-	searchForAEVs
+	searchForAEVs,
+	setCollapsedInfoBox: infoBoxStateDuck.actions.setMinifiedInfoBoxState
 };
 
 //EXPORT SELECTORS

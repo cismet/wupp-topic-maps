@@ -34,7 +34,7 @@ const options = {
 	// vectorTileLayerStyles: { ... }
 };
 const switchIcon = faRandom;
-const searchMinZoom = 10;
+const searchMinZoom = 7;
 function mapStateToProps(state) {
 	return {
 		uiState: state.uiState,

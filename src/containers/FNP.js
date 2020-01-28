@@ -155,7 +155,8 @@ export class Container_ extends React.Component {
 		]);
 		this.props.aevActions.searchForAEVs({
 			point: { x: pos[0], y: pos[1] },
-			mappingActions: this.props.mappingActions
+			mappingActions: this.props.mappingActions,
+			fitAll: false
 		});
 	}
 

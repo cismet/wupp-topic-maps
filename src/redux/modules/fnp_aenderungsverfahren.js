@@ -78,7 +78,8 @@ export function searchForAEVs({
 	point,
 	skipMappingActions = false,
 	done = () => {},
-	mappingActions
+	mappingActions,
+	fitAll = true
 }) {
 	//because mappingActions are created with bindActionCreators don`t call them with dispatch()
 	//see also https://github.com/reduxjs/redux-thunk/issues/29#issuecomment-154162983
@@ -151,7 +152,9 @@ export function searchForAEVs({
 			mappingActions.setFeatureCollection(finalResults);
 			if (finalResults.length > 0) {
 				mappingActions.setSelectedFeatureIndex(selectionIndexWish);
-				mappingActions.fitAll();
+				if (fitAll === true) {
+					mappingActions.fitAll();
+				}
 			}
 		}
 		done(finalResults);

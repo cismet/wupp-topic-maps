@@ -163,7 +163,8 @@ const Comp = ({
 						</tr>
 					</tbody>
 				</table>
-				<br />
+
+				<div style={{ height: '9px' }} />
 				<table style={{ width: '100%' }}>
 					<tbody>
 						<tr>

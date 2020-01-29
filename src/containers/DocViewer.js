@@ -337,13 +337,21 @@ export class DocViewer_ extends React.Component {
 		};
 
 		let numPages;
+		console.log('numPagesPostfix decission', {
+			docs: this.props.docs.docs,
+			docIndex: this.props.docs.docIndex,
+			xxx: this.props.docs.docs[this.props.docs.docIndex]
+		});
 
 		if (
-			this.props.docs.docs &&
-			this.props.docs.docIndex &&
-			this.props.docs.docs[this.props.docs.docIndex]
+			this.props.docs.docs !== undefined &&
+			this.props.docs.docIndex !== undefined &&
+			this.props.docs.docs[this.props.docs.docIndex] !== undefined
 		) {
-			numPages = ' / ' + this.props.docs.docs[this.props.docs.docIndex].pages;
+			const pages = this.props.docs.docs[this.props.docs.docIndex].pages;
+			if (pages !== 1) {
+				numPages = ' / ' + pages;
+			}
 		}
 		let downloadURL;
 		const downloadAvailable =

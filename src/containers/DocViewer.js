@@ -349,9 +349,8 @@ export class DocViewer_ extends React.Component {
 			this.props.docs.docs[this.props.docs.docIndex] !== undefined
 		) {
 			const pages = this.props.docs.docs[this.props.docs.docIndex].pages;
-			if (pages !== 1) {
-				numPages = ' / ' + pages;
-			}
+
+			numPages = ' / ' + pages;
 		}
 		let downloadURL;
 		const downloadAvailable =

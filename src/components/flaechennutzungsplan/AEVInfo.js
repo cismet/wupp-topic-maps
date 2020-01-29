@@ -149,7 +149,7 @@ const Comp = ({
 										</font>
 									</h4>
 									<OverlayTrigger placement='left' overlay={planTooltip}>
-										<div>{mainDocOrDocs}</div>
+										<strong>{mainDocOrDocs}</strong>
 									</OverlayTrigger>
 								</a>
 							</td>

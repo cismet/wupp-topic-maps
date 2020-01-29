@@ -446,10 +446,10 @@ export class Container_ extends React.Component {
 						<Icon name='search' /> für alle ÄV im Kartenausschnitt | ÄV-Nummer im
 						Suchfeld eingeben und Auswahl{' '}
 						<Icon name='file' overlay='F' marginRight='2px' />aus Vorschlagsliste |
-						zurück mit Doppelklick außerhalb eines ÄV (
+						zurück mit Doppelklick außerhalb eines ÄV{' '}
 						<a onClick={() => this.props.uiStateActions.showApplicationMenu(true)}>
-							Kompaktanleitung
-						</a>)
+							<Icon name='angle-double-right' /> Kompaktanleitung
+						</a>
 					</p>
 				</div>
 			);

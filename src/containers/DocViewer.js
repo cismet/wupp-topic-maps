@@ -23,7 +23,11 @@ import {
 import { actions as UIStateActions } from '../redux/modules/uiState';
 import { downloadSingleFile, prepareDownloadMultipleFiles } from '../utils/downloadHelper';
 import { modifyQueryPart, removeQueryPart } from '../utils/routingHelper';
-import { getDocsForBPlanGazetteerEntry, getDocsForAEVGazetteerEntry } from '../utils/docsHelper';
+import {
+	getDocsForBPlanGazetteerEntry,
+	getDocsForAEVGazetteerEntry,
+	getDocsForStaticEntry
+} from '../utils/docsHelper';
 
 /* eslint-disable jsx-a11y/anchor-is-valid */
 
@@ -78,7 +82,8 @@ const LOADING_OVERLAY = 'LOADING_OVERLAY';
 
 const zipFileNameMapping = {
 	bplaene: 'BPLAN_Plaene_und_Zusatzdokumente',
-	aenderungsv: 'FNP_Aenderungsverfahren_und_Zusatzdokumente'
+	aenderungsv: 'FNP_Aenderungsverfahren_und_Zusatzdokumente',
+	static: ''
 };
 
 const sidebarWidth = 130;
@@ -183,7 +188,7 @@ export class DocViewer_ extends React.Component {
 				}
 			}
 
-			if (gazHit) {
+			if (gazHit || topicParam === 'static') {
 				switch (topicParam) {
 					case 'bplaene': {
 						const p = {
@@ -211,6 +216,20 @@ export class DocViewer_ extends React.Component {
 							gotoWholeDocument: this.gotoWholeDocument
 						};
 						getDocsForAEVGazetteerEntry(p);
+						break;
+					}
+					case 'static': {
+						console.log('STATIIIIIIIIIC');
+
+						const p = {
+							docPackageIdParam,
+							docIndex,
+							pageIndex,
+							docsActions: this.props.docsActions,
+							docs: this.props.docs,
+							gotoWholeDocument: this.gotoWholeDocument
+						};
+						getDocsForStaticEntry(p);
 						break;
 					}
 					default:
@@ -255,10 +274,13 @@ export class DocViewer_ extends React.Component {
 
 		let zipnamePrefix = zipFileNameMapping[this.props.docs.topic];
 		if (zipnamePrefix === undefined) {
-			zipnamePrefix = 'Dokument_mit_Zusatzdokumenten';
+			zipnamePrefix = 'Archiv.';
+		} else if (zipnamePrefix !== '') {
+			zipnamePrefix = zipnamePrefix + '.';
 		}
+
 		let downloadConf = {
-			name: zipnamePrefix + '.' + this.props.docs.docPackageId,
+			name: zipnamePrefix + this.props.docs.docPackageId,
 			files: [],
 			encoding: encoding
 		};
@@ -598,13 +620,14 @@ export class DocViewer_ extends React.Component {
 															wordWrap: 'break-word'
 														}}
 													>
-														{doc.file
-															.replace(/.pdf$/, '')
-															.replace(/^BPL_n*\d*_(0_)*/, '')
-															.replace(
-																/Info_BPlan-Zusatzdokumente_WUP_.*/,
-																'Info Dateinamen'
-															)}
+														{doc.title ||
+															doc.file
+																.replace(/.pdf$/, '')
+																.replace(/^BPL_n*\d*_(0_)*/, '')
+																.replace(
+																	/Info_BPlan-Zusatzdokumente_WUP_.*/,
+																	'Info Dateinamen'
+																)}
 													</p>
 													{selectionMarker}
 													{progressBar}

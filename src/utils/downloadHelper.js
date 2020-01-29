@@ -50,6 +50,8 @@ export const prepareMergeMultipleFiles = (mergeConf, done) => {
 };
 
 export const prepareDownloadMultipleFiles = (mergeConf, done) => {
+	console.log('mergeConf', mergeConf);
+
 	fetch(DRPROCESSOR + '/api/zip/and/wait/for/status', {
 		method: 'post',
 		headers: {

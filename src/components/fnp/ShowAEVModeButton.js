@@ -21,6 +21,7 @@ const Comp = ({ aevVisible = false, setAevVisible = (visible) => {}, fontSize = 
 					setAevVisible(!aevVisible);
 				}}
 				style={{
+					width: '247px',
 					fontSize: '1.2em',
 					verticalAlign: 'middle'
 				}}

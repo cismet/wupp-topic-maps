@@ -56,14 +56,13 @@ const IconComp = (props) => {
 	let overlay = props.overlay;
 	let lookupName = props.name;
 	let icon = nameMap[lookupName];
+	let marginRight = props.marginRight || '10px';
+	let width = props.width || '18px';
 
 	if (icon !== undefined) {
 		if (overlay !== undefined) {
 			return (
-				<span
-					className='fa-layers fa-w12 fa-lg'
-					style={{ marginRight: '10px', width: '18px' }}
-				>
+				<span className='fa-layers fa-w12 fa-lg' style={{ marginRight, width }}>
 					<FontAwesomeIcon icon={icon} />
 					<span
 						style={{ fontSize: '1.0rem', paddingRight: '2px', paddingTop: '3px' }}

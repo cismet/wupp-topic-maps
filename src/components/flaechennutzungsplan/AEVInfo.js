@@ -165,7 +165,7 @@ const Comp = ({
 								<a
 									style={{ color: '#333' }}
 									href={`/#/docs/aenderungsv/${currentFeature.text}/1`}
-									target='_aenderungsverfahren'
+									target='_fnp'
 								>
 									<h4 style={{ marginLeft: 5, marginRight: 5 }}>
 										<font size='30'>

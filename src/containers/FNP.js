@@ -5,7 +5,7 @@ import proj4 from 'proj4';
 import PropTypes from 'prop-types';
 import queryString from 'query-string';
 import React from 'react';
-import { Well } from 'react-bootstrap';
+import { OverlayTrigger, Tooltip, Well } from 'react-bootstrap';
 import { FeatureCollectionDisplayWithTooltipLabels } from 'react-cismap';
 import { WMSTileLayer, ScaleControl } from 'react-leaflet';
 import VectorGrid from 'react-leaflet-vectorgrid';
@@ -22,6 +22,7 @@ import { actions as UIStateActions } from '../redux/modules/uiState';
 import { aevFeatureStyler, aevLabeler } from '../utils/fnpHelper';
 import { removeQueryPart } from '../utils/routingHelper';
 import { Control } from 'leaflet';
+import CollapsibleABWell from 'components/commons/CollapsibleABWell';
 
 let reduxBackground = undefined;
 
@@ -316,30 +317,156 @@ export class Container_ extends React.Component {
 		} else {
 			//TODO better way to follow the jsx-a11y/anchor-is-valid rule
 			/* eslint-disable */
-			info = (
-				<Well bsSize='small' pixelwidth={400}>
-					<h5>Aktuell keine Änderungsverfahren (ÄV) geladen.</h5>
-					<ul>
-						<li>
-							<b>ein ÄV laden:</b> Doppelklick auf Plan in Hintergrundkarte
-						</li>
-						<li>
-							<b>alle ÄV im Kartenausschnitt laden:</b> <Icon name='search' />
-						</li>
-						<li>
-							<b>bekannten ÄV laden:</b> Nummer als Suchbegriff eingeben, Auswahl aus
-							Vorschlagsliste
-						</li>
-						<li>
-							<b>Suche nach ÄV:</b> BPlan (mit B-Präfix), Adresse oder POI als
-							Suchbegriff eingeben, Auswahl aus Vorschlagsliste
-						</li>
-					</ul>
+			let largeDiv = (
+				<div>
+					<table border={0} style={{ width: '100%' }}>
+						<tbody>
+							<tr>
+								<td
+									style={{
+										textAlign: 'left',
+										verticalAlign: 'top',
+										padding: '5px',
+										maxWidth: '160px',
+										overflowWrap: 'break-word'
+									}}
+								>
+									<h4>Flächennutzungsplan Wuppertal vom 17.01.2005</h4>
+								</td>
+								<td
+									style={{
+										textAlign: 'center',
+										verticalAlign: 'center',
+										padding: '5px',
+										paddingTop: '1px'
+									}}
+								>
+									<a
+										href={`/#/docs/static/FNP.Legende.und.Dokumente`}
+										target='_fnp'
+										style={{ color: '#333' }}
+									>
+										<h4 style={{ marginLeft: 5, marginRight: 5 }}>
+											{/* <OverlayTrigger placement='left' overlay={'legende '}> */}
+											<font size='28'>
+												<Icon
+													style={{ textDecoration: 'none' }}
+													name='file-pdf-o'
+												/>
+											</font>
+
+											{/* </OverlayTrigger> */}
+										</h4>
+									</a>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+					{/* <h4>
+						Flächennutzungsplan Wuppertal vom 17.01.2005
+						<font size='30'>
+							<Icon style={{ textDecoration: 'none' }} name='file-pdf-o' />
+						</font>
+					</h4> */}
+					{/* <a onClick={() => this.props.uiStateActions.showApplicationMenu(true)}>
+						Legende und Dokumente
+					</a> */}
+					<div style={{ height: '1px', background: 'black' }} />
+					<h5>Laden der Infos zu Änderungsverfahren (ÄV)</h5>
+
+					<p>
+						für ein ÄV Doppelklick auf Geltungsbereich | <Icon name='search' /> für alle
+						ÄV im Kartenausschnitt | ÄV-Nummer im Suchfeld eingeben und Auswahl{' '}
+						<Icon name='file' overlay='F' marginRight='2px' />aus Vorschlagsliste |
+						zurück mit Doppelklick außerhalb eines ÄV
+					</p>
+
 					<a onClick={() => this.props.uiStateActions.showApplicationMenu(true)}>
 						Kompaktanleitung
 					</a>
-				</Well>
+				</div>
 			);
+			let smallDiv = (
+				<div>
+					<table border={0} style={{ width: '100%' }}>
+						<tbody>
+							<tr>
+								<td
+									style={{
+										textAlign: 'left',
+										verticalAlign: 'top',
+										padding: '5px',
+										maxWidth: '160px',
+										overflowWrap: 'break-word'
+									}}
+								>
+									<h4>Flächennutzungsplan Wuppertal vom 17.01.2005</h4>
+								</td>
+								<td
+									style={{
+										textAlign: 'center',
+										verticalAlign: 'center',
+										padding: '5px',
+										paddingTop: '1px'
+									}}
+								>
+									<a
+										href={`/#/docs/static/FNP.Legende.und.Dokumente`}
+										target='_fnp'
+										style={{ color: '#333' }}
+									>
+										<h4 style={{ marginLeft: 5, marginRight: 5 }}>
+											{/* <OverlayTrigger placement='left' overlay={'legende '}> */}
+											<Icon
+												style={{ textDecoration: 'none', fontSize: 26 }}
+												name='file-pdf-o'
+											/>
+											{/* </OverlayTrigger> */}
+										</h4>
+									</a>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			);
+
+			// info = (
+			// 	<Well bsSize='small' pixelwidth={500}>
+			// 		<h5>Aktuell keine Änderungsverfahren (ÄV) geladen.</h5>
+			// 		<ul>
+			// 			<li>
+			// 				<b>ein ÄV laden:</b> Doppelklick auf Plan in Hintergrundkarte
+			// 			</li>
+			// 			<li>
+			// 				<b>alle ÄV im Kartenausschnitt laden:</b> <Icon name='search' />
+			// 			</li>
+			// 			<li>
+			// 				<b>bekannten ÄV laden:</b> Nummer als Suchbegriff eingeben, Auswahl aus
+			// 				Vorschlagsliste
+			// 			</li>
+			// 			<li>
+			// 				<b>Suche nach ÄV:</b> BPlan (mit B-Präfix), Adresse oder POI als
+			// 				Suchbegriff eingeben, Auswahl aus Vorschlagsliste
+			// 			</li>
+			// 		</ul>
+			// 		<a onClick={() => this.props.uiStateActions.showApplicationMenu(true)}>
+			// 			Kompaktanleitung
+			// 		</a>
+			// 	</Well>
+			// );
+			info = (
+				<CollapsibleABWell
+					pixelwidth={400}
+					collapsed={this.props.aev.infoBoxState.minified}
+					divWhenLarge={largeDiv}
+					divWhenCollapsed={smallDiv}
+					setCollapsed={(collapsed) => {
+						this.props.aevActions.setCollapsedInfoBox(collapsed);
+					}}
+				/>
+			);
+
 			/* eslint-ensable */
 		}
 

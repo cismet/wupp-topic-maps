@@ -140,7 +140,14 @@ const Comp = ({
 									href={`/#/docs/aenderungsv/${currentFeature.text}/1`}
 									target='_fnp'
 								>
-									<h4 style={{ marginLeft: 5, marginRight: 5 }}>
+									<h4
+										style={{
+											marginLeft: 5,
+											marginRight: 5,
+											marginBottom: '4px',
+											marginBottom: '4px'
+										}}
+									>
 										<font size='30'>
 											<Icon
 												style={{ textDecoration: 'none' }}

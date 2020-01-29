@@ -23,6 +23,7 @@ import { aevFeatureStyler, aevLabeler } from '../utils/fnpHelper';
 import { removeQueryPart } from '../utils/routingHelper';
 import { Control } from 'leaflet';
 import CollapsibleABWell from 'components/commons/CollapsibleABWell';
+import InfoBoxHeader from 'components/commons/InfoBoxHeader';
 
 let reduxBackground = undefined;
 
@@ -386,6 +387,73 @@ export class Container_ extends React.Component {
 					</a>
 				</div>
 			);
+
+			largeDiv = (
+				<div>
+					{/* <table border={0} style={{ width: '100%' }}>
+						<tbody>
+							<tr>
+								<td
+									style={{
+										textAlign: 'left',
+										verticalAlign: 'top',
+										padding: '5px',
+										maxWidth: '180px',
+										overflowWrap: 'break-word'
+									}}
+								/>
+								<td
+									style={{
+										textAlign: 'center',
+										verticalAlign: 'top',
+										padding: '5px',
+										paddingTop: '1px'
+									}}
+								/>
+							</tr>
+						</tbody>
+					</table> */}
+
+					<a
+						href={`/#/docs/static/FNP.Legende.und.Dokumente`}
+						target='_fnp'
+						style={{ color: '#333', float: 'right', paddingLeft: '15px' }}
+					>
+						<h4
+							style={{
+								marginLeft: 5,
+								marginRight: 5,
+								paddingTop: '0px',
+								marginTop: '0px',
+								marginBottom: '4px',
+								textAlign: 'center'
+							}}
+						>
+							{/* <OverlayTrigger placement='left' overlay={'legende '}> */}
+							<font size='28'>
+								<Icon style={{ textDecoration: 'none' }} name='file-pdf-o' />
+							</font>
+
+							{/* </OverlayTrigger> */}
+						</h4>
+						{/* <OverlayTrigger placement='left' overlay={planTooltip}> */}
+						<strong>Legende</strong>
+						{/* </OverlayTrigger> */}
+					</a>
+					<h4>Hinweise | Legende </h4>
+					<p>
+						für ein Änderungsverfahren (ÄV) Doppelklick auf Geltungsbereich |{' '}
+						<Icon name='search' /> für alle ÄV im Kartenausschnitt | ÄV-Nummer im
+						Suchfeld eingeben und Auswahl{' '}
+						<Icon name='file' overlay='F' marginRight='2px' />aus Vorschlagsliste |
+						zurück mit Doppelklick außerhalb eines ÄV (
+						<a onClick={() => this.props.uiStateActions.showApplicationMenu(true)}>
+							Kompaktanleitung
+						</a>)
+					</p>
+				</div>
+			);
+
 			let smallDiv = (
 				<div>
 					<table border={0} style={{ width: '100%' }}>
@@ -400,7 +468,7 @@ export class Container_ extends React.Component {
 										overflowWrap: 'break-word'
 									}}
 								>
-									<h4>Flächennutzungsplan Wuppertal vom 17.01.2005</h4>
+									<h4>Legende und Dokumente</h4>
 								</td>
 								<td
 									style={{
@@ -431,40 +499,18 @@ export class Container_ extends React.Component {
 				</div>
 			);
 
-			// info = (
-			// 	<Well bsSize='small' pixelwidth={500}>
-			// 		<h5>Aktuell keine Änderungsverfahren (ÄV) geladen.</h5>
-			// 		<ul>
-			// 			<li>
-			// 				<b>ein ÄV laden:</b> Doppelklick auf Plan in Hintergrundkarte
-			// 			</li>
-			// 			<li>
-			// 				<b>alle ÄV im Kartenausschnitt laden:</b> <Icon name='search' />
-			// 			</li>
-			// 			<li>
-			// 				<b>bekannten ÄV laden:</b> Nummer als Suchbegriff eingeben, Auswahl aus
-			// 				Vorschlagsliste
-			// 			</li>
-			// 			<li>
-			// 				<b>Suche nach ÄV:</b> BPlan (mit B-Präfix), Adresse oder POI als
-			// 				Suchbegriff eingeben, Auswahl aus Vorschlagsliste
-			// 			</li>
-			// 		</ul>
-			// 		<a onClick={() => this.props.uiStateActions.showApplicationMenu(true)}>
-			// 			Kompaktanleitung
-			// 		</a>
-			// 	</Well>
-			// );
 			info = (
-				<CollapsibleABWell
-					pixelwidth={400}
-					collapsed={this.props.aev.infoBoxState.minified}
-					divWhenLarge={largeDiv}
-					divWhenCollapsed={smallDiv}
-					setCollapsed={(collapsed) => {
-						this.props.aevActions.setCollapsedInfoBox(collapsed);
-					}}
-				/>
+				<div pixelwidth={350}>
+					<InfoBoxHeader content='FNP vom 17.01.2005' />
+					<CollapsibleABWell
+						collapsed={this.props.aev.infoBoxState.minified}
+						divWhenLarge={largeDiv}
+						divWhenCollapsed={smallDiv}
+						setCollapsed={(collapsed) => {
+							this.props.aevActions.setCollapsedInfoBox(collapsed);
+						}}
+					/>
+				</div>
 			);
 
 			/* eslint-ensable */

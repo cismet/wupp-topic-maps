@@ -4,6 +4,7 @@ import React from 'react';
 import { OverlayTrigger, Tooltip, Well } from 'react-bootstrap';
 import Color from 'color';
 import CollapsibleABWell from 'components/commons/CollapsibleABWell';
+import InfoBoxHeader from 'components/commons/InfoBoxHeader';
 
 /* eslint-disable jsx-a11y/anchor-is-valid */
 
@@ -90,36 +91,8 @@ const Comp = ({
 			</span>
 		);
 	});
-	let headertext = statusText;
 
-	let headerBackgroundColor = Color(headerColor);
-
-	let textColor = 'black';
-	if (headerBackgroundColor.isDark()) {
-		textColor = 'white';
-	}
-	let header = (
-		<table style={{ width: '100%' }}>
-			<tbody>
-				<tr>
-					<td
-						style={{
-							textAlign: 'left',
-							verticalAlign: 'top',
-							background: headerColor,
-							color: textColor,
-							opacity: '0.9',
-							paddingLeft: '3px',
-							paddingTop: '0px',
-							paddingBottom: '0px'
-						}}
-					>
-						{headertext}
-					</td>
-				</tr>
-			</tbody>
-		</table>
-	);
+	let header = <InfoBoxHeader headerColor={headerColor} content={statusText} />;
 	let divWhenLarge = (
 		<Well bsSize='small' onClick={logCurrentFeature}>
 			<div>

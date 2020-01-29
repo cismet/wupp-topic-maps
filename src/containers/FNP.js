@@ -755,14 +755,12 @@ export class Container_ extends React.Component {
 						/>
 					)}
 
-					{scaleVisible && (
-						<ScaleControl
-							key={'scalecontrol' + width}
-							position={this.state.smallState === true ? 'topleft' : 'bottomleft'}
-							imperial={false}
-							padding={100}
-						/>
-					)}
+					<ScaleControl
+						key={'scalecontrol' + width}
+						position={this.state.smallState === true ? 'topleft' : 'bottomleft'}
+						imperial={false}
+						padding={100}
+					/>
 
 					{/* <VectorGrid {...options} /> */}
 					{backgrounds}

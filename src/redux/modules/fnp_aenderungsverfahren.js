@@ -137,7 +137,10 @@ export function searchForAEVs({
 			gazObject[0].type === 'bplaene'
 		) {
 			let hit = state.fnpAenderungsverfahren.dataState.features.find((elem, index) => {
-				const bplanArr = elem.properties.bplan_nr.split('+');
+				let bplanArr = [];
+				if (elem.properties.bplan_nr !== undefined) {
+					bplanArr = elem.properties.bplan_nr.split('+');
+				}
 				let found = false;
 				bplanArr.forEach((nr) => {
 					found = found || nr === gazObject[0].more.v;

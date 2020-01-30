@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-
+import L from 'leaflet';
 import Icon from 'components/commons/Icon';
 // import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 //import { faSun } from '@fortawesome/free-solid-svg-icons';
@@ -32,6 +32,7 @@ export class GazetteerSearchControl_ extends React.Component {
 		super(props);
 		this.internalSearchButtonTrigger = this.internalSearchButtonTrigger.bind(this);
 		this.internalClearButtonTrigger = this.internalClearButtonTrigger.bind(this);
+		this.noMouseWheelHere = this.noMouseWheelHere.bind(this);
 	}
 	internalSearchButtonTrigger(event) {
 		if (this.searchOverlay) {
@@ -59,8 +60,16 @@ export class GazetteerSearchControl_ extends React.Component {
 		this.props.mappingActions.gazetteerHit(null);
 	}
 
+	noMouseWheelHere() {
+		let elem = L.DomUtil.get('haz-search-typeahead');
+		if (elem !== undefined && elem !== null) {
+			L.DomEvent.on(elem, 'mousewheel', L.DomEvent.stopPropagation);
+		}
+	}
+
 	render() {
 		let firstbutton;
+
 		if (this.props.searchAfterGazetteer === true) {
 			firstbutton = (
 				<InputGroup.Button
@@ -108,7 +117,11 @@ export class GazetteerSearchControl_ extends React.Component {
 		}
 
 		return (
-			<Control pixelwidth={this.props.pixelwidth} position={this.props.searchControlPosition}>
+			<Control
+				pixelwidth={this.props.pixelwidth}
+				position={this.props.searchControlPosition}
+				bubblingMouseEvents={false}
+			>
 				<Form
 					style={{
 						width: this.props.pixelwidth + 'px'
@@ -137,6 +150,9 @@ export class GazetteerSearchControl_ extends React.Component {
 									return option.string
 										.toLowerCase()
 										.startsWith(props.text.toLowerCase());
+								}}
+								onInputChange={(text, event) => {
+									this.noMouseWheelHere();
 								}}
 								align={'justify'}
 								emptyLabel={'Keine Treffer gefunden'}

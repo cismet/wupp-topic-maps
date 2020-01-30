@@ -70,9 +70,13 @@ export class Container_ extends React.Component {
 		this.fitAll = this.fitAll.bind(this);
 		this.setAevVisible = this.setAevVisible.bind(this);
 		this.changeMarkerSymbolSize = this.changeMarkerSymbolSize.bind(this);
+		// this.props.mappingActions.setBoundingBoxChangedTrigger((bbox) =>
+		// 	this.props.aevActions.refreshFeatureCollection(bbox)
+		// );
 		this.props.mappingActions.setBoundingBoxChangedTrigger((bbox) =>
-			this.props.aevActions.refreshFeatureCollection(bbox)
+			console.log('CHANGE BB', bbox)
 		);
+
 		this.state = {
 			smallState: undefined
 		};
@@ -523,7 +527,6 @@ export class Container_ extends React.Component {
 			reduxBackground = this.props.mapping.backgrounds[this.props.mapping.selectedBackground]
 				.layerkey;
 		} catch (e) {}
-		let selectedFeature;
 
 		let title = null;
 		let width = this.props.uiState.width;
@@ -584,6 +587,9 @@ export class Container_ extends React.Component {
 						'bezirke',
 						'adressen'
 					]}
+					locationChangedHandler={() => {
+						console.log('changed', this.props.mapping.featureCollection);
+					}}
 					gazSearchMinLength={1}
 					gazetteerSearchBoxPlaceholdertext='ÄV | BPL | Stadtteil | Adresse | POI'
 					_gazeteerHitTrigger={(selectedObject) => {

@@ -76,7 +76,7 @@ const Comp = ({
 
 		rechtswirksam_seit = d + '.' + m + '.' + y;
 	}
-	console.log('currentFeature', currentFeature);
+	// console.log('currentFeature', currentFeature);
 
 	const bpl = currentFeature.properties.bplan_nr || '';
 	const bplArr = bpl.split('+');

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -11,195 +11,24 @@ import Control from 'react-leaflet-control';
 import { Form, FormGroup, InputGroup, Button, OverlayTrigger, Tooltip } from 'react-bootstrap';
 import { Typeahead } from 'react-bootstrap-typeahead';
 
-import { actions as uiStateActions } from '../../redux/modules/uiState';
-import { actions as mappingActions } from '../../redux/modules/mapping';
-
-function mapStateToProps(state) {
-	return {
-		uiState: state.uiState
-	};
-}
-
-function mapDispatchToProps(dispatch) {
-	return {
-		mappingActions: bindActionCreators(mappingActions, dispatch),
-		uiStateActions: bindActionCreators(uiStateActions, dispatch)
-	};
-}
-
-export class GazetteerSearchControl_ extends React.Component {
-	constructor(props) {
-		super(props);
-		this.internalSearchButtonTrigger = this.internalSearchButtonTrigger.bind(this);
-		this.internalClearButtonTrigger = this.internalClearButtonTrigger.bind(this);
-		this.noMouseWheelHere = this.noMouseWheelHere.bind(this);
-	}
-	internalSearchButtonTrigger(event) {
-		if (this.searchOverlay) {
-			this.searchOverlay.hide();
-		}
-		if (this.props.searchInProgress === false && this.props.searchButtonTrigger !== undefined) {
-			//          this.searchControl.wrappedInstance.clear();
-			this.clear();
-			this.props.mappingActions.gazetteerHit(null);
-			this.props.searchButtonTrigger(event);
-		} else {
-			//console.log("search in progress or no searchButtonTrigger defined");
-		}
-	}
-	internalClearButtonTrigger(event) {
-		if (this.gazClearOverlay) {
-			this.gazClearOverlay.hide();
-		}
-		if (this.props.overlayFeature !== null) {
-			this.props.mappingActions.setOverlayFeature(null);
-		}
-
-		//this.searchControl.wrappedInstance.clear();
-		this.clear();
-		this.props.mappingActions.gazetteerHit(null);
-	}
-
-	noMouseWheelHere() {
-		let elem = L.DomUtil.get('haz-search-typeahead');
-		if (elem !== undefined && elem !== null) {
-			L.DomEvent.on(elem, 'mousewheel', L.DomEvent.stopPropagation);
-		}
-	}
-
-	render() {
-		let firstbutton;
-
-		if (this.props.searchAfterGazetteer === true) {
-			firstbutton = (
-				<InputGroup.Button
-					disabled={this.props.searchInProgress || !this.props.searchAllowed}
-					onClick={(e) => {
-						if (this.props.searchAllowed) {
-							this.internalSearchButtonTrigger(e);
-						} else {
-							// Hier kann noch eine Meldung angezeigt werden.
-						}
-					}}
-				>
-					<OverlayTrigger
-						ref={(c) => (this.searchOverlay = c)}
-						placement='top'
-						overlay={this.props.searchTooltipProvider()}
-					>
-						<Button disabled={this.props.searchInProgress || !this.props.searchAllowed}>
-							{this.props.searchIcon}
-						</Button>
-					</OverlayTrigger>
-				</InputGroup.Button>
-			);
-		} else {
-			if (!this.props.searchAllowed) {
-				firstbutton = (
-					<InputGroup.Button onClick={this.internalClearButtonTrigger}>
-						<OverlayTrigger
-							ref={(c) => (this.gazClearOverlay = c)}
-							placement='top'
-							overlay={this.props.gazClearTooltipProvider()}
-						>
-							<Button
-								disabled={
-									this.props.overlayFeature === null &&
-									this.props.gazetteerHit === null
-								}
-							>
-								<Icon name='times' />
-							</Button>
-						</OverlayTrigger>
-					</InputGroup.Button>
-				);
-			}
-		}
-
-		return (
-			<Control
-				pixelwidth={this.props.pixelwidth}
-				position={this.props.searchControlPosition}
-				bubblingMouseEvents={false}
-			>
-				<Form
-					style={{
-						width: this.props.pixelwidth + 'px'
-					}}
-					action='#'
-				>
-					<FormGroup>
-						<InputGroup>
-							{firstbutton}
-							<Typeahead
-								id='haz-search-typeahead'
-								ref='typeahead'
-								style={{ width: `${this.props.pixelwidth}px` }}
-								labelKey='string'
-								options={this.props.gazData}
-								onChange={this.props.gazeteerHitTrigger}
-								paginate={true}
-								dropup={true}
-								disabled={!this.props.enabled}
-								placeholder={this.props.placeholder}
-								minLength={this.props.gazSearchMinLength}
-								filterBy={(option, props) => {
-									// console.log('option', option);
-									// console.log('props', props);
-
-									return option.string
-										.toLowerCase()
-										.startsWith(props.text.toLowerCase());
-								}}
-								onInputChange={(text, event) => {
-									this.noMouseWheelHere();
-								}}
-								align={'justify'}
-								emptyLabel={'Keine Treffer gefunden'}
-								paginationText={'Mehr Treffer anzeigen'}
-								autoFocus={true}
-								submitFormOnEnter={true}
-								searchText={'suchen ...'}
-								renderMenuItemChildren={this.props.renderMenuItemChildren}
-							/>
-						</InputGroup>
-					</FormGroup>
-				</Form>
-			</Control>
-		);
-	}
-	clear() {
-		this.refs.typeahead.getInstance().clear();
-	}
-}
-const GazetteerSearchControl = connect(mapStateToProps, mapDispatchToProps, null, {
-	withRef: true
-})(GazetteerSearchControl_);
-
-export default GazetteerSearchControl;
-
-GazetteerSearchControl_.propTypes = {
-	enabled: PropTypes.bool,
-	placeholder: PropTypes.string,
-	pixelwidth: PropTypes.number,
-	searchControlPosition: PropTypes.string,
-	firstbutton: PropTypes.object,
-	gazData: PropTypes.array,
-	gazeteerHitTrigger: PropTypes.func,
-	renderMenuItemChildren: PropTypes.func,
-	gazClearTooltipProvider: PropTypes.func,
-	gazSearchMinLength: PropTypes.number
-};
-
-GazetteerSearchControl_.defaultProps = {
-	gazSearchMinLength: 2,
-	enabled: true,
-	placeholder: 'Geben Sie einen Suchbegriff ein',
-	pixelwidth: 300,
-	searchControlPosition: 'bottomleft',
-	gazData: [],
-	gazeteerHitTrigger: () => {},
-	searchTooltipProvider: function() {
+const COMP = ({
+	searchAfterGazetteer,
+	searchInProgress,
+	searchAllowed,
+	searchIcon,
+	overlayFeature,
+	gazetteerHit,
+	searchButtonTrigger,
+	setOverlayFeature,
+	gazSearchMinLength = 2,
+	enabled = true,
+	placeholder = 'Geben Sie einen Suchbegriff ein',
+	pixelwidth = 300,
+	searchControlPosition = 'bottomleft',
+	gazData = [],
+	gazetteerHitAction = () => {},
+	gazeteerHitTrigger = () => {},
+	searchTooltipProvider = function() {
 		return (
 			<Tooltip
 				style={{
@@ -211,7 +40,7 @@ GazetteerSearchControl_.defaultProps = {
 			</Tooltip>
 		);
 	},
-	gazClearTooltipProvider: () => (
+	gazClearTooltipProvider = () => (
 		<Tooltip
 			style={{
 				zIndex: 3000000000
@@ -221,7 +50,7 @@ GazetteerSearchControl_.defaultProps = {
 			Suche zurücksetzen
 		</Tooltip>
 	),
-	renderMenuItemChildren: (option, props, index) => {
+	renderMenuItemChildren = (option, props, index) => {
 		// console.log('option.glyph', option.glyph);
 		// console.log('faSun', faSun);
 		return (
@@ -240,4 +69,141 @@ GazetteerSearchControl_.defaultProps = {
 			</div>
 		);
 	}
+}) => {
+	const typeahead = useRef(null);
+	const searchOverlay = useRef(null);
+	const gazClearOverlay = useRef(null);
+	const controlRef = useRef(null);
+	useEffect(() => {
+		console.log('typeahead ref', controlRef);
+		if (controlRef.current !== null) {
+			L.DomEvent.disableScrollPropagation(controlRef.current.leafletElement._container);
+		}
+	});
+
+	const internalSearchButtonTrigger = (event) => {
+		if (searchOverlay) {
+			searchOverlay.current.hide();
+		}
+		if (searchInProgress === false && searchButtonTrigger !== undefined) {
+			clear();
+			gazetteerHitAction(null);
+			searchButtonTrigger(event);
+		} else {
+			//console.log("search in progress or no searchButtonTrigger defined");
+		}
+	};
+	const internalClearButtonTrigger = (event) => {
+		if (gazClearOverlay) {
+			gazClearOverlay.hide();
+		}
+		if (overlayFeature !== null) {
+			setOverlayFeature(null);
+		}
+
+		clear();
+		gazetteerHitAction(null);
+	};
+
+	const clear = () => {
+		typeahead.current.clear();
+	};
+	let firstbutton;
+
+	if (searchAfterGazetteer === true) {
+		firstbutton = (
+			<InputGroup.Button
+				disabled={searchInProgress || !searchAllowed}
+				onClick={(e) => {
+					if (searchAllowed) {
+						internalSearchButtonTrigger(e);
+					} else {
+						// Hier kann noch eine Meldung angezeigt werden.
+					}
+				}}
+			>
+				<OverlayTrigger
+					ref={searchOverlay}
+					placement='top'
+					overlay={searchTooltipProvider()}
+				>
+					<Button disabled={searchInProgress || !searchAllowed}>{searchIcon}</Button>
+				</OverlayTrigger>
+			</InputGroup.Button>
+		);
+	} else {
+		if (!searchAllowed) {
+			firstbutton = (
+				<InputGroup.Button onClick={internalClearButtonTrigger}>
+					<OverlayTrigger
+						ref={gazClearOverlay}
+						placement='top'
+						overlay={gazClearTooltipProvider()}
+					>
+						<Button disabled={overlayFeature === null && gazetteerHit === null}>
+							<Icon name='times' />
+						</Button>
+					</OverlayTrigger>
+				</InputGroup.Button>
+			);
+		}
+	}
+
+	return (
+		<Control ref={controlRef} pixelwidth={pixelwidth} position={searchControlPosition}>
+			<Form
+				style={{
+					width: pixelwidth + 'px'
+				}}
+				action='#'
+			>
+				<FormGroup>
+					<InputGroup>
+						{firstbutton}
+						<Typeahead
+							id='haz-search-typeahead'
+							ref={typeahead}
+							style={{ width: `${pixelwidth}px` }}
+							labelKey='string'
+							options={gazData}
+							onChange={gazeteerHitTrigger}
+							paginate={true}
+							dropup={true}
+							disabled={!enabled}
+							placeholder={placeholder}
+							minLength={gazSearchMinLength}
+							filterBy={(option, props) => {
+								return option.string
+									.toLowerCase()
+									.startsWith(props.text.toLowerCase());
+							}}
+							onInputChange={(text, event) => {}}
+							align={'justify'}
+							emptyLabel={'Keine Treffer gefunden'}
+							paginationText={'Mehr Treffer anzeigen'}
+							autoFocus={true}
+							submitFormOnEnter={true}
+							searchText={'suchen ...'}
+							renderMenuItemChildren={renderMenuItemChildren}
+						/>
+					</InputGroup>
+				</FormGroup>
+			</Form>
+		</Control>
+	);
+};
+
+export default COMP;
+
+COMP.propTypes = {
+	enabled: PropTypes.bool,
+	placeholder: PropTypes.string,
+	pixelwidth: PropTypes.number,
+	searchControlPosition: PropTypes.string,
+	firstbutton: PropTypes.object,
+	gazData: PropTypes.array,
+	gazeteerHitTrigger: PropTypes.func,
+	renderMenuItemChildren: PropTypes.func,
+	gazClearTooltipProvider: PropTypes.func,
+	gazSearchMinLength: PropTypes.number
 };

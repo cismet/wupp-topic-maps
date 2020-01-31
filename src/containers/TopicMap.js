@@ -207,8 +207,10 @@ export class TopicMap_ extends React.Component {
 					searchIcon={searchIcon}
 					overlayFeature={this.props.mapping.overlayFeature}
 					gazetteerHit={this.props.mapping.gazetteerHit}
+					gazetteerHitAction={this.props.mappingActions.gazetteerHit}
 					searchButtonTrigger={this.props.searchButtonTrigger}
 					gazSearchMinLength={this.props.gazSearchMinLength}
+					setOverlayFeature={this.props.mappingActions.setOverlayFeature}
 				/>
 			);
 		}

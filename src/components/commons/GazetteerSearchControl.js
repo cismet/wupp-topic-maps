@@ -75,7 +75,6 @@ const COMP = ({
 	const gazClearOverlay = useRef(null);
 	const controlRef = useRef(null);
 	useEffect(() => {
-		console.log('typeahead ref', controlRef);
 		if (controlRef.current !== null) {
 			L.DomEvent.disableScrollPropagation(controlRef.current.leafletElement._container);
 		}

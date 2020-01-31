@@ -55,8 +55,6 @@ export default reducer;
 
 //COMPLEXACTIONS
 function loadAEVs() {
-	console.log('loadAEVs');
-
 	const manualReloadRequest = false;
 	return (dispatch, getState) => {
 		dispatch(

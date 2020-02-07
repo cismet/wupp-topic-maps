@@ -7,8 +7,8 @@ const Component = ({ uiState, uiStateActions }) => {
 		<GenericModalMenuSection
 			uiState={uiState}
 			uiStateActions={uiStateActions}
-			sectionKey='suche-ueber-bplan-nummer'
-			sectionTitle='Suche über B-Plan-Nummer'
+			sectionKey='FlaechenInDerArbeitskarteAuswaehlenUndAbfragen'
+			sectionTitle='Flächen in der Arbeitskarte auswählen und abfragen '
 			sectionBsStyle='success'
 			sectionContent={
 				<div>

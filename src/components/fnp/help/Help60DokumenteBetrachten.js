@@ -7,8 +7,8 @@ const Component = ({ uiState, uiStateActions, showModalMenu }) => {
 		<GenericModalMenuSection
 			uiState={uiState}
 			uiStateActions={uiStateActions}
-			sectionKey='dokuumente-betrachten'
-			sectionTitle='B-Plan-Dokumente betrachten'
+			sectionKey='DokumenteBetrachten'
+			sectionTitle='Dokumente betrachten'
 			sectionBsStyle='info'
 			sectionContent={
 				<div>

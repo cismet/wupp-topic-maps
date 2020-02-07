@@ -7,8 +7,8 @@ const Component = ({ uiState, uiStateActions }) => {
 		<GenericModalMenuSection
 			uiState={uiState}
 			uiStateActions={uiStateActions}
-			sectionKey='suche-im-kartenausschnitt'
-			sectionTitle='Suche im Kartenausschnitt'
+			sectionKey='AenderungsverfahrenSuchenUndDurchmustern'
+			sectionTitle='Änderungsverfahren suchen und durchmustern'
 			sectionBsStyle='success'
 			sectionContent={
 				<div>

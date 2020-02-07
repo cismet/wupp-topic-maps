@@ -58,8 +58,9 @@ export class TopicMap_ extends React.Component {
 	componentWillMount() {
 		this.dataLoaded = false;
 		this.loadData().then((data) => {
+			console.log('----- data loaded=true');
 			this.dataLoaded = true;
-			if (this.props.dataLoader === undefined) {
+			if (this.props.dataLoader !== undefined) {
 				this.forceUpdate();
 			}
 		});

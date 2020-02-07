@@ -178,9 +178,6 @@ export class TopicMap_ extends React.Component {
 			searchControl = (
 				<GazetteerSearchControl
 					className='JKHKJHKJHJK'
-					ref={(comp) => {
-						this.searchControl = comp;
-					}}
 					key={
 						'GazetteerSearchControl.' +
 						infoBoxControlPosition +

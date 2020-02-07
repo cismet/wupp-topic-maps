@@ -82,7 +82,7 @@ export class Container_ extends React.Component {
 		};
 	}
 	componentDidMount() {
-		document.title = 'FNP-Auskunft Wuppertal';
+		document.title = 'FNP-Inspektor Wuppertal';
 	}
 	gotoHome() {
 		if (this.topicMap) {

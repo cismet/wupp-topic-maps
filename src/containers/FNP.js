@@ -12,7 +12,7 @@ import VectorGrid from 'react-leaflet-vectorgrid';
 import { connect } from 'react-redux';
 import { routerActions as RoutingActions } from 'react-router-redux';
 import { bindActionCreators } from 'redux';
-import AEVInfo from '../components/flaechennutzungsplan/AEVInfo';
+import AEVInfo from '../components/fnp/AEVInfo';
 import ShowAEVModeButton from '../components/fnp/ShowAEVModeButton';
 import { proj4crs25832def } from '../constants/gis';
 import TopicMap from '../containers/TopicMap';
@@ -24,7 +24,7 @@ import { removeQueryPart } from '../utils/routingHelper';
 import { Control } from 'leaflet';
 import CollapsibleABWell from 'components/commons/CollapsibleABWell';
 import InfoBoxHeader from 'components/commons/InfoBoxHeader';
-
+import FNPModalHelp from 'components/fnp/help/Help00MainComponent';
 let reduxBackground = undefined;
 
 const options = {
@@ -584,9 +584,7 @@ export class Container_ extends React.Component {
 						'bezirke',
 						'adressen'
 					]}
-					locationChangedHandler={() => {
-						console.log('changed', this.props.mapping.featureCollection);
-					}}
+					locationChangedHandler={() => {}}
 					gazSearchMinLength={1}
 					gazetteerSearchBoxPlaceholdertext='ÄV | BPL | Stadtteil | Adresse | POI'
 					_gazeteerHitTrigger={(selectedObject) => {
@@ -660,35 +658,13 @@ export class Container_ extends React.Component {
 					ondblclick={this.doubleMapClick}
 					_refreshFeatureCollection={this.props.aevActions.refreshFeatureCollection}
 					setSelectedFeatureIndex={this.props.aevActions.setSelectedFeatureIndex}
-					applicationMenuTooltipString='Einstellungen | Kompaktanleitung'
-					modalMenu_={
-						<div />
-						// <PRBRModalMenu
-						// 	uiState={this.props.uiState}
-						// 	uiStateActions={this.props.uiStateActions}
-						// 	urlPathname={this.props.routing.location.pathname}
-						// 	urlSearch={this.props.routing.location.search}
-						// 	pushNewRoute={this.props.routingActions.push}
-						// 	currentMarkerSize={getPRBRSvgSize(this.props.aev)}
-						// 	changeMarkerSymbolSize={this.changeMarkerSymbolSize}
-						// 	topicMapRef={this.topicMap}
-						// 	setLayerByKey={this.props.mappingActions.setSelectedMappingBackground}
-						// 	activeLayerKey={this.props.mapping.selectedBackground}
-						// 	setFeatureCollectionKeyPostfix={
-						// 		this.props.mappingActions.setFeatureCollectionKeyPostfix
-						// 	}
-						// 	refreshFeatureCollection={
-						// 		this.props.aevActions.refreshFeatureCollection
-						// 	}
-						// 	filter={getPRBRFilter(this.props.aev)}
-						// 	setFilter={this.props.aevActions.setFilter}
-						// 	filteredObjects={getPRBRFilteredData(this.props.aev)}
-						// 	featureCollectionObjectsCount={
-						// 		getPRBRFeatureCollection(this.props.aev).length
-						// 	}
-						// 	envZoneVisible={isEnvZoneVisible(this.props.aev)}
-						// 	setEnvZoneVisible={this.props.aevActions.setEnvZoneVisible}
-						// />
+					applicationMenuTooltipString='Kompaktanleitung anzeigen'
+					applicationMenuIconname='info'
+					modalMenu={
+						<FNPModalHelp
+							uiState={this.props.uiState}
+							uiStateActions={this.props.uiStateActions}
+						/>
 					}
 					responsiveTrigger={(smallState) => {
 						if (this.state.smallState !== smallState) {

@@ -1,7 +1,7 @@
 import React from 'react';
 import BaederModalMenuIntroduction from './BaederModalMenuIntroduction';
 import BaederModalMenuHelpSection from './BaederModalMenuHelpSection';
-import GenericModalApplicationMenu from '../commons/GenericModalApplicationMenu';
+import GenericModalApplicationMenu from 'components/commons/GenericModalApplicationMenu';
 import BaederModalMenuSettingsPanel from './BaederModalMenuSettingsPanel';
 import Footer from '../commons/ModalMenuFooter';
 

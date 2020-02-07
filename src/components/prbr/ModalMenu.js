@@ -1,7 +1,7 @@
 import React from 'react';
 import { getColorForProperties } from '../../utils/prbrHelper';
-import GenericModalApplicationMenu from '../commons/GenericModalApplicationMenu';
-import GenericModalMenuSection from '../commons/GenericModalMenuSection';
+import GenericModalApplicationMenu from 'components/commons/GenericModalApplicationMenu';
+import GenericModalMenuSection from 'components/commons/GenericModalMenuSection';
 import Footer from '../commons/ModalMenuFooter';
 import ModalMenuFilterPanel from './FilterPaneContent';
 import ModalMenuHelpSection from './ModalMenuHelpSection';

@@ -5,8 +5,8 @@ import React from 'react';
 import { Label } from 'react-bootstrap';
 import { Link } from 'react-scroll';
 import { getPRSVG } from '../../utils/prbrHelper';
-import MeinStandortHelpText from '../commons/GenericHelpTextForMyLocation';
-import GenericModalMenuSection from '../commons/GenericModalMenuSection';
+import MeinStandortHelpText from 'components/commons/GenericHelpTextForMyLocation';
+import GenericModalMenuSection from 'components/commons/GenericModalMenuSection';
 
 const prSVG = getPRSVG(24, '#FFFFFF', 'pr');
 const brSVG = getPRSVG(24, '#FFFFFF', 'br');

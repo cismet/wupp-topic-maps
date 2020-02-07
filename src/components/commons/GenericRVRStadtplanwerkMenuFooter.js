@@ -1,6 +1,6 @@
 import React from 'react';
 import Icon from 'components/commons/Icon';
-import CismetFooterAcks from '../commons/CismetFooterAcknowledgements';
+import CismetFooterAcks from 'components/commons/CismetFooterAcknowledgements';
 /* eslint-disable jsx-a11y/anchor-is-valid */
 
 const GenericRVRStadtplanwerkMenuFooter = () => {

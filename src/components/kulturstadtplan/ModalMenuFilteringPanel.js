@@ -2,7 +2,7 @@ import React from 'react';
 import { Tabs, Tab, Checkbox } from 'react-bootstrap';
 import Icon from 'components/commons/Icon';
 
-import GenericModalMenuSection from '../commons/GenericModalMenuSection';
+import GenericModalMenuSection from 'components/commons/GenericModalMenuSection';
 import 'url-search-params-polyfill';
 import {
 	textConversion,

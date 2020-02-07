@@ -5,8 +5,8 @@ import React from 'react';
 import { Label } from 'react-bootstrap';
 import { Link } from 'react-scroll';
 import { getSymbolSVG } from '../../utils/emobHelper';
-import MeinStandortHelpText from '../commons/GenericHelpTextForMyLocation';
-import GenericModalMenuSection from '../commons/GenericModalMenuSection';
+import MeinStandortHelpText from 'components/commons/GenericHelpTextForMyLocation';
+import GenericModalMenuSection from 'components/commons/GenericModalMenuSection';
 
 const onlineSVG = getSymbolSVG(24, '#003B80', 'pr', 'onlineSVGinHELP');
 const offlineSVG = getSymbolSVG(24, '#888A87', 'pr', 'offlineSVGinHELP');

@@ -1,5 +1,5 @@
 import React from 'react';
-import GenericModalMenuSection from '../commons/GenericModalMenuSection';
+import GenericModalMenuSection from 'components/commons/GenericModalMenuSection';
 import Icon from 'components/commons/Icon';
 /* eslint-disable jsx-a11y/anchor-is-valid */
 

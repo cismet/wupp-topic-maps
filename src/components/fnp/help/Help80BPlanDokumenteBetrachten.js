@@ -1,7 +1,6 @@
 import React from 'react';
 import GenericModalMenuSection from 'components/commons/GenericModalMenuSection';
 import Icon from 'components/commons/Icon';
-import { INFO_DOC_DATEINAMEN_URL } from '../../constants/bplaene';
 
 const Component = ({ uiState, uiStateActions, showModalMenu }) => {
 	return (
@@ -34,11 +33,8 @@ const Component = ({ uiState, uiStateActions, showModalMenu }) => {
 						laufendes Vorhaben der Stadtverwaltung Wuppertal, Stand 03/2019 sind sie für
 						rund 60% der Wuppertaler B-Pläne verfügbar. Die Namenskonventionen für die
 						vielfältigen Zusatzdateien sind im Dokument{' '}
-						<a href={INFO_DOC_DATEINAMEN_URL} target='_info'>
-							Info Dateinamen
-						</a>{' '}
-						beschrieben, das in der Navigationsleiste als oberstes Zusatzdokument
-						angeboten wird.
+						<a target='_info'>Info Dateinamen</a> beschrieben, das in der
+						Navigationsleiste als oberstes Zusatzdokument angeboten wird.
 					</p>
 					<p>
 						Im Anzeigebereich können Sie das Dokument durch Ziehen mit der Maus

@@ -8,7 +8,7 @@ import { getInternetExplorerVersion } from '../../utils/browserHelper';
 import { getColorForProperties, getPRSVG } from '../../utils/prbrHelper';
 import { removeQueryPart } from '../../utils/routingHelper';
 import { getFeatureStyler, getPoiClusterIconCreatorFunction } from '../../utils/stadtplanHelper';
-import GenericModalMenuSection from '../commons/GenericModalMenuSection';
+import GenericModalMenuSection from 'components/commons/GenericModalMenuSection';
 import NamedMapStyleChooser from '../commons/NamedMapStyleChooser';
 import SettingsPanelWithPreviewSection from '../commons/SettingsPanelWithPreviewSection';
 import SymbolSizeChooser from '../commons/SymbolSizeChooser';

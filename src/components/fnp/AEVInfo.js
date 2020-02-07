@@ -17,8 +17,6 @@ const Comp = ({
 	fitAll,
 	loadingIndicator,
 	loadingError,
-	downloadPlan,
-	downloadEverything,
 	preparedDownload,
 	resetPreparedDownload,
 	collapsed,
@@ -83,7 +81,7 @@ const Comp = ({
 	const linkArr = [];
 	bplArr.forEach((nr, index) => {
 		linkArr.push(
-			<span>
+			<span key={'bpl.' + index}>
 				<a href={`/#/docs/bplaene/${nr}/1`} target='_bplaene'>
 					B-Plan {nr}
 				</a>
@@ -261,7 +259,5 @@ Comp.propTypes = {
 
 	next: PropTypes.func.isRequired,
 	previous: PropTypes.func.isRequired,
-	fitAll: PropTypes.func.isRequired,
-	downloadPlan: PropTypes.func.isRequired,
-	downloadEverything: PropTypes.func.isRequired
+	fitAll: PropTypes.func.isRequired
 };

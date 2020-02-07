@@ -2,8 +2,8 @@ import React from 'react';
 import { Link } from 'react-scroll';
 import Icon from 'components/commons/Icon';
 import { Label } from 'react-bootstrap';
-import GenericModalMenuSection from '../commons/GenericModalMenuSection';
-import MeinStandort from '../commons/GenericHelpTextForMyLocation';
+import GenericModalMenuSection from 'components/commons/GenericModalMenuSection';
+import MeinStandort from 'components/commons/GenericHelpTextForMyLocation';
 const ModalMenuHelpSection = ({ uiState, uiStateActions }) => {
 	return (
 		<GenericModalMenuSection

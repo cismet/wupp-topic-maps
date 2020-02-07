@@ -1,5 +1,5 @@
 import React from 'react';
-import CismetFooterAcks from '../commons/CismetFooterAcknowledgements';
+import CismetFooterAcks from 'components/commons/CismetFooterAcknowledgements';
 /* eslint-disable jsx-a11y/anchor-is-valid */
 
 const Comp = ({ showModalMenu }) => {

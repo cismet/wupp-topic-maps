@@ -1,7 +1,7 @@
 import React from 'react';
 import { Button, Label } from 'react-bootstrap';
 
-import GenericModalMenuSection from '../commons/GenericModalMenuSection';
+import GenericModalMenuSection from 'components/commons/GenericModalMenuSection';
 import 'url-search-params-polyfill';
 import { getColorFromLebenslagenCombination } from '../../utils/stadtplanHelper';
 

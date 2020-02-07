@@ -58,7 +58,6 @@ export class TopicMap_ extends React.Component {
 	componentWillMount() {
 		this.dataLoaded = false;
 		this.loadData().then((data) => {
-			console.log('----- data loaded=true');
 			this.dataLoaded = true;
 			if (this.props.dataLoader !== undefined) {
 				this.forceUpdate();
@@ -160,6 +159,10 @@ export class TopicMap_ extends React.Component {
 			opacity: '0.9',
 			width: info.props.pixelwidth
 		};
+
+		//TODO the call of this.props.responsiveTrigger(true|false) triggers the warning
+		// Cannot update during an existing state transition (such as within `render`).
+		// Render methods should be a pure function of props and state.
 
 		if (width - gap - widthLeft - widthRight <= 0) {
 			infoBoxControlPosition = 'bottomright';

@@ -15,7 +15,6 @@ const Comp = ({ aevVisible = false, setAevVisible = (visible) => {}, fontSize = 
 		>
 			<Button
 				id='cmdShowGetFeatureInfo'
-				title='Änderungsverfahren verbergen'
 				onClick={(e) => {
 					e.stopPropagation();
 					setAevVisible(!aevVisible);

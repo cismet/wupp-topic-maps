@@ -520,9 +520,6 @@ export class Container_ extends React.Component {
 			/* eslint-ensable */
 		}
 
-		let fontSizeForAEVSwitch =
-			queryString.parse(this.props.routing.location.search).fontSizeForAEVSwitch || '1em';
-
 		try {
 			reduxBackground = this.props.mapping.backgrounds[this.props.mapping.selectedBackground]
 				.layerkey;
@@ -607,7 +604,6 @@ export class Container_ extends React.Component {
 						<ShowAEVModeButton
 							aevVisible={aevVisible}
 							setAevVisible={this.setAevVisible}
-							fontSize={fontSizeForAEVSwitch}
 						/>
 					]}
 					backgroundlayers={

@@ -28,6 +28,7 @@ import {
 	getDocsForAEVGazetteerEntry,
 	getDocsForStaticEntry
 } from '../utils/docsHelper';
+import { constants as DOC_CONSTANTS } from '../redux/modules/docs';
 
 /* eslint-disable jsx-a11y/anchor-is-valid */
 
@@ -80,11 +81,8 @@ const HEIGHT = 'HEIGHT';
 const LOADING_FINISHED = 'LOADING_FINISHED';
 const LOADING_OVERLAY = 'LOADING_OVERLAY';
 
-const zipFileNameMapping = {
-	bplaene: 'BPLAN_Plaene_und_Zusatzdokumente',
-	aenderungsv: 'FNP_Aenderungsverfahren_und_Zusatzdokumente',
-	static: ''
-};
+const zipFileNameMapping = DOC_CONSTANTS.ZIP_FILE_NAME_MAPPING;
+const filenameShortenerMapping = DOC_CONSTANTS.SIDEBAR_FILENAME_SHORTENER;
 
 const sidebarWidth = 130;
 
@@ -263,6 +261,22 @@ export class DocViewer_ extends React.Component {
 			this.scrollToVisible(this.selectionDivRef);
 		}
 	}
+
+	filenameShortener = (original) => {
+		const topicParam = this.props.match.params.topic;
+
+		if (
+			topicParam != undefined &&
+			filenameShortenerMapping[topicParam] !== undefined &&
+			{}.toString.call(filenameShortenerMapping[topicParam]) === '[object Function]'
+		) {
+			const shorty = filenameShortenerMapping[topicParam](original);
+
+			return shorty;
+		} else {
+			return original;
+		}
+	};
 
 	downloadEverything = () => {
 		this.setState({ downloadArchivePrepInProgress: true, downloadArchiveIcon: 'spinner' });
@@ -628,13 +642,7 @@ export class DocViewer_ extends React.Component {
 														}}
 													>
 														{doc.title ||
-															doc.file
-																.replace(/.pdf$/, '')
-																.replace(/^BPL_n*\d*_(0_)*/, '')
-																.replace(
-																	/Info_BPlan-Zusatzdokumente_WUP_.*/,
-																	'Info Dateinamen'
-																)}
+															this.filenameShortener(doc.file)}
 													</p>
 													{selectionMarker}
 													{progressBar}

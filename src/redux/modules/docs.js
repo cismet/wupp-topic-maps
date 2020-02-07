@@ -17,7 +17,23 @@ export const constants = {
 	LOADING_FINISHED: 'LOADING_FINISHED',
 	LOADING_STARTED: 'LOADING_STARTED',
 	LOADING_OVERLAY: 'LOADING_OVERLAY',
-	OVERLAY_DELAY: 500
+	OVERLAY_DELAY: 500,
+	ZIP_FILE_NAME_MAPPING: {
+		bplaene: 'BPLAN_Plaene_und_Zusatzdokumente',
+		aenderungsv: 'FNP_Aenderungsverfahren_und_Zusatzdokumente',
+		static: ''
+	},
+	SIDEBAR_FILENAME_SHORTENER: {
+		bplaene: (original) => {
+			return original
+				.replace(/.pdf$/, '')
+				.replace(/^BPL_n*\d*_(0_)*/, '')
+				.replace(/Info_BPlan-Zusatzdokumente_WUP_.*/, 'Info Dateinamen');
+		},
+		aenderungsv: (original) => {
+			return original.replace(/.pdf$/, '').replace(/^FNP_n*\d*_\d*(And)*_/, '');
+		}
+	}
 };
 
 ///INITIAL STATE

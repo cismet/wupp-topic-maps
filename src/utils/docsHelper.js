@@ -13,7 +13,7 @@ export function getDocsForStaticEntry(props) {
 		dox,
 		gotoWholeDocument
 	} = props;
-	let title = 'hurz';
+	let title = '-';
 
 	let urlToGetDocsFrom = tileservice + '/static/docs/' + docPackageIdParam + '.json';
 	console.log('urlToGetDocsFrom', urlToGetDocsFrom);

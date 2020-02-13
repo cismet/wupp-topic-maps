@@ -6,7 +6,15 @@ import {
 	faFile,
 	faSearchLocation,
 	faChargingStation,
-	faNumber
+	faNumber,
+	faCircle,
+	faChartPie,
+	faHome,
+	faRoad,
+	faTag,
+	faTags,
+	faChild,
+	faTimes
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React from 'react';
@@ -16,14 +24,20 @@ const nameMap = {
 	clock: faClock,
 	phone: undefined, // faPhone,
 	search: faSearch,
+	lupe: faSearch,
 	'search-location': faSearchLocation,
 	info: faInfoCircle,
 	file: faFile,
-	home: undefined,
-	road: undefined,
-	tags: undefined,
-	tag: undefined,
-	times: undefined,
+	home: faHome,
+	adresse: faHome,
+	road: faRoad,
+	strasse: faRoad,
+	tags: faTags,
+	altpoi: faTags,
+	tag: faTag,
+	poi: faTag,
+	times: faTimes,
+	x: faTimes,
 	'external-link-square': undefined,
 	'chevron-circle-down': undefined,
 	user: undefined,
@@ -34,9 +48,12 @@ const nameMap = {
 	'chevron-circle-up': undefined,
 	'arrow-circle-up': undefined,
 	bicycle: undefined,
-	circle: undefined,
-	'pie-chart': undefined,
-	child: undefined,
+	circle: faCircle,
+	stadtbezirk: faCircle,
+	'pie-chart': faChartPie,
+	quartier: faChartPie,
+	child: faChild,
+	kita: faChild,
 	'map-marker': undefined,
 	'battery-quarter': faChargingStation,
 	'charging-station': faChargingStation,
@@ -56,7 +73,7 @@ const IconComp = (props) => {
 	let overlay = props.overlay;
 	let lookupName = props.name;
 	let icon = nameMap[lookupName];
-	let marginRight = props.marginRight || '10px';
+	let marginRight = props.marginRight || '1px';
 	let width = props.width || '18px';
 
 	if (icon !== undefined) {

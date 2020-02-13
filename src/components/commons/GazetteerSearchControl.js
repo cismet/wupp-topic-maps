@@ -94,7 +94,7 @@ const COMP = ({
 	};
 	const internalClearButtonTrigger = (event) => {
 		if (gazClearOverlay) {
-			gazClearOverlay.hide();
+			gazClearOverlay.current.hide();
 		}
 		if (overlayFeature !== null) {
 			setOverlayFeature(null);
@@ -108,8 +108,9 @@ const COMP = ({
 		typeahead.current.clear();
 	};
 	let firstbutton;
-
-	if (searchAfterGazetteer === true) {
+	// check for overlayFeature and gazetteerHit because of the new behaviour to show the delete button always
+	// if there is a gaz hit in the map
+	if (searchAfterGazetteer === true && overlayFeature === null && gazetteerHit === null) {
 		firstbutton = (
 			<InputGroup.Button
 				disabled={searchInProgress || !searchAllowed}
@@ -131,7 +132,9 @@ const COMP = ({
 			</InputGroup.Button>
 		);
 	} else {
-		if (!searchAllowed) {
+		// check for overlayFeature and gazetteerHit because of the new behaviour to show the delete button always
+		// if there is a gaz hit in the map
+		if (!searchAllowed || overlayFeature !== null || gazetteerHit !== null) {
 			firstbutton = (
 				<InputGroup.Button onClick={internalClearButtonTrigger}>
 					<OverlayTrigger

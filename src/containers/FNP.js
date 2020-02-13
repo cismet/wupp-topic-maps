@@ -96,8 +96,6 @@ export class Container_ extends React.Component {
 	}
 
 	aevGazeteerHit(selectedObject) {
-		console.log('aevGazeteerHit');
-
 		this.props.aevActions.searchForAEVs({
 			gazObject: selectedObject,
 			mappingActions: this.props.mappingActions,
@@ -105,25 +103,21 @@ export class Container_ extends React.Component {
 				if (o && o.length > 0) {
 					this.setAevVisible(true);
 				}
-				console.log('done', o);
 			}
 		});
-		// if (selectedObject && selectedObject[0] && selectedObject[0].type) {
-		// 	const t = selectedObject[0].type;
-		// 	if (t === 'aenderungsv') {
-		// 		this.setAevVisible(true);
-		// 	}
-		// }
-
-		//this.props.bplanActions.searchForPlans(selectedObject);
 	}
 
 	aevSearchButtonHit(event) {
 		this.props.aevActions.searchForAEVs({
 			boundingBox: this.props.mapping.boundingBox,
-			mappingActions: this.props.mappingActions
+			mappingActions: this.props.mappingActions,
+			done: (o) => {
+				if (o && o.length > 0) {
+					this.setAevVisible(true);
+				}
+			},
+			fitAll: false
 		});
-		//this.props.bplanActions.searchForPlans();
 	}
 
 	setAevVisible(visible) {

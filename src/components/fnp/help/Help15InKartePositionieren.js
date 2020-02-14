@@ -21,7 +21,7 @@ const Component = ({ uiState, uiStateActions, showModalMenu }) => {
 						Das Suchfeld unterstützt auch die Suche nach B-Plan-Nummern. Die zu ihrer
 						Eingabe passenden B-Plan-Nummern sind mit dem Symbol{' '}
 						<Icon name='file' overlay='B' /> gekennzeichnet. Noch ein Tipp: Wenn Sie
-						„äv" oder „bp“ im Suchfeld eingeben wird Ihnen eine Auswahlliste aller
+						„äv" oder „bp“ im Suchfeld eingeben, wird Ihnen eine Auswahlliste aller
 						FNP-Änderungsverfahren bzw. aller B-Plan-Nummern angeboten. Nach der Auswahl
 						eines Treffers aus der Liste wird die Karte auf die zugehörige Position
 						zentriert und ein <Icon name='map-marker' /> Marker auf der Zielposition
@@ -32,14 +32,19 @@ const Component = ({ uiState, uiStateActions, showModalMenu }) => {
 						<Icon name='file' overlay='F' /> FNP-Änderungsverfahren positionieren, wird
 						zusätzlich der Geltungsbereich dieses Verfahrens geladen und der Fokus auf
 						dieses Verfahren gesetzt, sodass die zugehörigen Informationen direkt in der
-						Info-Box angezeigt werden (s. Änderungsverfahren anzeigen und abfragen).
-						Wenn Sie die Karte auf einen <Icon name='file' overlay='B' /> B-Plan
+						Info-Box angezeigt werden (s.{' '}
+						<a onClick={() => showModalMenu('AenderungsverfahrenAnzeigenUndAbfragen')}>
+							Änderungsverfahren anzeigen und abfragen
+						</a>). Wenn Sie die Karte auf einen <Icon name='file' overlay='B' /> B-Plan
 						positionieren, überprüfen wir, ob dieser der Anlass für ein
 						FNP-Änderungsverfahren war. Ist das der Fall, wird das zugehörige
 						FNP-Änderungsverfahren geladen, so als hätten Sie es direkt ausgewählt.
 						Hinweis: Bei einer Positionierung auf ein FNP-Änderungsverfahren wird,
-						sofern erforderlich, zuvor die Anzeige der Änderungsverfahren in der
-						Hintergrundkarte aktiviert.
+						sofern erforderlich, zuvor die{' '}
+						<a onClick={() => showModalMenu('AenderungsverfahrenAnzeigenUndAbfragen')}>
+							Anzeige der Änderungsverfahren in der Hintergrundkarte
+						</a>{' '}
+						aktiviert.
 					</p>
 					<p>
 						Die Positionierung in der Karte ist auch über weitere Begriffe möglich,
@@ -66,7 +71,11 @@ const Component = ({ uiState, uiStateActions, showModalMenu }) => {
 						zurücksetzen (Entfernung von Marker bzw. Abdunklung, Löschen des Textes im
 						Eingabebereich). Im Rechtsplan wird Ihnen danach an dieser Stelle wieder das
 						Werkzeug <Icon name='lupe' /> angeboten, mit dem Sie im aktuellen
-						Kartenausschnitt nach FNP-Änderungsverfahren suchen können.
+						Kartenausschnitt nach{' '}
+						<a onClick={() => showModalMenu('AenderungsverfahrenAnzeigenUndAbfragen')}>
+							FNP-Änderungsverfahren
+						</a>{' '}
+						suchen können.
 					</p>
 				</div>
 			}

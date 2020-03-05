@@ -16,7 +16,7 @@ export const constants = {
 //HIGHER ORDER DUCKS
 const dataDuck = makeDataDuck(
 	'fnpHauptnutzungen',
-	(state) => state.aev.dataState,
+	(state) => state.fnpHauptnutzungen.dataState,
 	convertHauptnutzungToFeature
 );
 
@@ -89,12 +89,14 @@ export function searchForHauptnutzungen({
 			const state = getState();
 			let finalResults = [];
 
-			for (let feature of state.aev.dataState.features) {
+			for (let feature of state.fnpHauptnutzungen.dataState.features) {
 				// console.log('feature', feature);
 				if (!booleanDisjoint(bboxPoly, feature)) {
 					finalResults.push(feature);
 				}
 			}
+			console.log('finalResults', finalResults);
+
 			dispatch(mappingActions.setFeatureCollection(finalResults));
 			if (finalResults.length > 0) {
 				dispatch(mappingActions.setSelectedFeatureIndex(selectionIndexWish));
@@ -123,6 +125,7 @@ function convertHauptnutzungToFeature(hn, index) {
 	}
 	const id = hn.id;
 	const type = 'Feature';
+	const featuretype = 'Hauptnutzung';
 	const selected = false;
 	const geometry = hn.geojson;
 
@@ -133,6 +136,7 @@ function convertHauptnutzungToFeature(hn, index) {
 		index,
 		text,
 		type,
+		featuretype,
 		selected,
 		geometry,
 		crs: {

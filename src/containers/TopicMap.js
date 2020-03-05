@@ -94,8 +94,16 @@ export class TopicMap_ extends React.Component {
 	loadData() {
 		var promise = new Promise((resolve, reject) => {
 			setTimeout(() => {
-				if (this.props.dataLoader) {
-					this.props.dataLoader();
+				// entweder dataLoader ist eine Funktion oder ein Array von Funktionen
+
+				if (Array.isArray(this.props.dataLoader)) {
+					for (const loader of this.props.dataLoader) {
+						loader();
+					}
+				} else {
+					if (this.props.dataLoader) {
+						this.props.dataLoader();
+					}
 				}
 				resolve('ok');
 			}, 100);

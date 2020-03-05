@@ -11,6 +11,17 @@ export const aevFeatureStyler = (feature) => {
 	};
 	return style;
 };
+export const hnFeatureStyler = (feature) => {
+	const style = {
+		color: '#00000088',
+		weight: 2,
+		opacity: 1.0,
+		//    "dashArray": "30",
+		fillColor: '#ffffff',
+		fillOpacity: 0.3
+	};
+	return style;
+};
 
 export const getColorFromFeature = (feature) => {
 	let color = '#ff0000';
@@ -99,6 +110,9 @@ export const getFeatureOpacityConsideringSelection = (feature) => {
 
 export const aevLabeler = (feature) => {
 	return <h3 style={getTooltipStyleFromFeatureConsideringSelection(feature)}>{feature.text}</h3>;
+};
+export const hnLabeler = (feature) => {
+	return undefined; //<h4 style={getTooltipStyleFromFeatureConsideringSelection(feature)}>{feature.text}</h4>;
 };
 
 //not used atm. is neede if one day the FeatureCollectionDisplayWithTooltipLabels component is ditched

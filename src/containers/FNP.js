@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 import queryString from 'query-string';
 import React from 'react';
 import { OverlayTrigger, Tooltip, Well } from 'react-bootstrap';
-import { FeatureCollectionDisplayWithTooltipLabels } from 'react-cismap';
+import { FeatureCollectionDisplayWithTooltipLabels, FeatureCollectionDisplay } from 'react-cismap';
 import { WMSTileLayer, ScaleControl } from 'react-leaflet';
 import VectorGrid from 'react-leaflet-vectorgrid';
 import { connect } from 'react-redux';
@@ -17,14 +17,16 @@ import ShowAEVModeButton from '../components/fnp/ShowAEVModeButton';
 import { proj4crs25832def } from '../constants/gis';
 import TopicMap from '../containers/TopicMap';
 import { actions as AEVActions, getAEVFeatures } from '../redux/modules/fnp_aenderungsverfahren';
+import { actions as HNActions, getHNFeatures } from '../redux/modules/fnp_hauptnutzungen';
 import { actions as MappingActions } from '../redux/modules/mapping';
 import { actions as UIStateActions } from '../redux/modules/uiState';
-import { aevFeatureStyler, aevLabeler } from '../utils/fnpHelper';
+import { aevFeatureStyler, aevLabeler, hnFeatureStyler, hnLabeler } from '../utils/fnpHelper';
 import { removeQueryPart } from '../utils/routingHelper';
 import { Control } from 'leaflet';
 import CollapsibleABWell from 'components/commons/CollapsibleABWell';
 import InfoBoxHeader from 'components/commons/InfoBoxHeader';
 import FNPModalHelp from 'components/fnp/help/Help00MainComponent';
+
 let reduxBackground = undefined;
 
 const options = {
@@ -43,6 +45,7 @@ function mapStateToProps(state) {
 		mapping: state.mapping,
 		routing: state.routing,
 		aev: state.fnpAenderungsverfahren,
+		hn: state.fnpHauptnutzungen,
 		gazetteerTopics: state.gazetteerTopics
 	};
 }
@@ -52,7 +55,8 @@ function mapDispatchToProps(dispatch) {
 		mappingActions: bindActionCreators(MappingActions, dispatch),
 		uiStateActions: bindActionCreators(UIStateActions, dispatch),
 		routingActions: bindActionCreators(RoutingActions, dispatch),
-		aevActions: bindActionCreators(AEVActions, dispatch)
+		aevActions: bindActionCreators(AEVActions, dispatch),
+		hnActions: bindActionCreators(HNActions, dispatch)
 	};
 }
 
@@ -70,6 +74,9 @@ export class Container_ extends React.Component {
 		this.fitAll = this.fitAll.bind(this);
 		this.setAevVisible = this.setAevVisible.bind(this);
 		this.changeMarkerSymbolSize = this.changeMarkerSymbolSize.bind(this);
+		this.isRechtsplan = this.isRechtsplan.bind(this);
+		this.isArbeitskarte = this.isArbeitskarte.bind(this);
+
 		// this.props.mappingActions.setBoundingBoxChangedTrigger((bbox) =>
 		// 	this.props.aevActions.refreshFeatureCollection(bbox)
 		// );
@@ -107,6 +114,12 @@ export class Container_ extends React.Component {
 		});
 	}
 
+	isRechtsplan() {
+		return this.props.match.params.mode === 'rechtsplan';
+	}
+	isArbeitskarte() {
+		return this.props.match.params.mode === 'arbeitskarte';
+	}
 	aevSearchButtonHit(event) {
 		this.props.aevActions.searchForAEVs({
 			boundingBox: this.props.mapping.boundingBox,
@@ -153,11 +166,21 @@ export class Container_ extends React.Component {
 			event.latlng.lng,
 			event.latlng.lat
 		]);
-		this.props.aevActions.searchForAEVs({
-			point: { x: pos[0], y: pos[1] },
-			mappingActions: this.props.mappingActions,
-			fitAll: false
-		});
+
+		if (this.isRechtsplan()) {
+			this.props.aevActions.searchForAEVs({
+				point: { x: pos[0], y: pos[1] },
+				mappingActions: this.props.mappingActions,
+				fitAll: false
+			});
+		} else if (this.isArbeitskarte() === true) {
+			this.props.hnActions.searchForHauptnutzungen({
+				point: { x: pos[0], y: pos[1] },
+				mappingActions: this.props.mappingActions,
+				skipMappingActions: true,
+				fitAll: false
+			});
+		}
 	}
 
 	selectNextIndex() {
@@ -247,6 +270,15 @@ export class Container_ extends React.Component {
 					opacity={0.4}
 					caching={true}
 				/>
+				// <FeatureCollectionDisplay
+				// 	key={'FeatureCollectionDisplayTest.'}
+				// 	featureCollection={this.props.hn.dataState.features}
+				// 	clusteringEnabled={false}
+				// 	//style={getFeatureStyler(currentMarkerSize, getColorForProperties)}
+				// 	//featureStylerScalableImageSize={currentMarkerSize}
+				// 	//mapRef={topicMapRef} // commented out because there cannot be a ref in a functional comp and it is bnot needed
+				// 	showMarkerCollection={false}
+				// />
 			];
 		} else {
 			titleContent = (
@@ -293,26 +325,46 @@ export class Container_ extends React.Component {
 		}
 
 		let info;
-		if (this.props.mapping.featureCollection.length > 0 && aevVisible === true) {
-			info = (
-				<AEVInfo
-					pixelwidth={350}
-					featureCollection={this.props.mapping.featureCollection}
-					selectedIndex={this.props.mapping.selectedIndex || 0}
-					next={this.selectNextIndex}
-					previous={this.selectPreviousIndex}
-					fitAll={this.fitAll}
-					collapsed={this.props.aev.infoBoxState.minified}
-					setCollapsed={(collapsed) => {
-						this.props.aevActions.setCollapsedInfoBox(collapsed);
-					}}
-					// downloadPlan={this.openDocViewer}
-					// downloadEverything={this.openDocViewer}
-					// preparedDownload={this.props.bplaene.preparedDownload}
-					// resetPreparedDownload={this.resetPreparedDownload}
-					// loadingError={this.props.bplaene.documentsLoadingError}
-				/>
-			);
+		if (
+			this.props.mapping.featureCollection.length > 0 &&
+			(aevVisible === true || this.isArbeitskarte() === true)
+		) {
+			if (this.isRechtsplan()) {
+				info = (
+					<AEVInfo
+						pixelwidth={350}
+						featureCollection={this.props.mapping.featureCollection}
+						selectedIndex={this.props.mapping.selectedIndex || 0}
+						next={this.selectNextIndex}
+						previous={this.selectPreviousIndex}
+						fitAll={this.fitAll}
+						collapsed={this.props.aev.infoBoxState.minified}
+						setCollapsed={(collapsed) => {
+							this.props.aevActions.setCollapsedInfoBox(collapsed);
+						}}
+						// downloadPlan={this.openDocViewer}
+						// downloadEverything={this.openDocViewer}
+						// preparedDownload={this.props.bplaene.preparedDownload}
+						// resetPreparedDownload={this.resetPreparedDownload}
+						// loadingError={this.props.bplaene.documentsLoadingError}
+					/>
+				);
+			} else if (this.isArbeitskarte() === true) {
+				const selectedFeature = this.props.mapping.featureCollection[
+					this.props.mapping.selectedIndex || 0
+				];
+				console.log('selectedFeature', selectedFeature);
+
+				info = (
+					<Well bsSize='small' pixelwidth={350}>
+						<h4>{selectedFeature.text}</h4>
+						<p>{selectedFeature.properties.rechtswirksam}</p>
+						<p>B-Plan: {selectedFeature.properties.bplan_nr}</p>
+						<p>ÄV: {selectedFeature.properties.fnp_aender}</p>
+						<p>OS: {selectedFeature.properties.os}</p>
+					</Well>
+				);
+			}
 		} else {
 			//TODO better way to follow the jsx-a11y/anchor-is-valid rule
 			/* eslint-disable */
@@ -604,7 +656,10 @@ export class Container_ extends React.Component {
 						reduxBackground ||
 						'wupp-plan-live'
 					}
-					dataLoader={this.props.aevActions.loadAEVs}
+					dataLoader={[
+						this.props.aevActions.loadAEVs,
+						this.props.hnActions.loadHauptnutzungen
+					]}
 					getFeatureCollectionForData={() => {
 						if (aevVisible === false) {
 							return [];
@@ -613,7 +668,7 @@ export class Container_ extends React.Component {
 						}
 					}}
 					featureCollectionKeyPostfix={this.props.mapping.featureCollectionKeyPostfix}
-					featureStyler={aevFeatureStyler}
+					featureStyler={this.isRechtsplan() ? aevFeatureStyler : hnFeatureStyler}
 					featureStyler__={(feature) => {
 						const style = {
 							color: '#155317',
@@ -633,7 +688,7 @@ export class Container_ extends React.Component {
 						}
 						return style;
 					}}
-					featureLabeler={aevLabeler}
+					featureLabeler={this.isRechtsplan() ? aevLabeler : hnLabeler}
 					featureLabeler_={(feature) => {
 						return (
 							<h3
@@ -666,112 +721,113 @@ export class Container_ extends React.Component {
 						}
 					}}
 				>
-					{aevVisible === true && (
-						<FeatureCollectionDisplayWithTooltipLabels
-							key={'allAEVs'}
-							featureCollection={getAEVFeatures(this.props.aev)}
-							boundingBox={{
-								left: 353122.1056720067,
-								top: 5696995.497378283,
-								right: 392372.51969633374,
-								bottom: 5655795.93913269
-							}}
-							style={(feature) => {
-								const style = {
-									color: '#155317',
-									weight: 3,
-									opacity: 0.8,
-									fillColor: '#ffffff',
-									fillOpacity: 0.6
-								};
-								if (currentZoom >= searchMinZoom) {
-									if (feature.properties.status === 'r') {
-										style.color = '#155317';
+					{aevVisible === true ||
+						(this.isArbeitskarte() === true && (
+							<FeatureCollectionDisplayWithTooltipLabels
+								key={'allAEVs'}
+								featureCollection={getAEVFeatures(this.props.aev)}
+								boundingBox={{
+									left: 353122.1056720067,
+									top: 5696995.497378283,
+									right: 392372.51969633374,
+									bottom: 5655795.93913269
+								}}
+								style={(feature) => {
+									const style = {
+										color: '#155317',
+										weight: 3,
+										opacity: 0.8,
+										fillColor: '#ffffff',
+										fillOpacity: 0.6
+									};
+									if (currentZoom >= searchMinZoom) {
+										if (feature.properties.status === 'r') {
+											style.color = '#155317';
+										} else {
+											style.color = '#9F111B';
+										}
 									} else {
-										style.color = '#9F111B';
+										if (feature.properties.status === 'r') {
+											style.color = '#155317';
+											style.fillColor = '#155317';
+											style.opacity = 0.0;
+										} else {
+											style.color = '#9F111B';
+											style.fillColor = '#9F111B';
+											style.opacity = 0.0;
+										}
 									}
-								} else {
-									if (feature.properties.status === 'r') {
-										style.color = '#155317';
-										style.fillColor = '#155317';
-										style.opacity = 0.0;
+
+									return style;
+								}}
+								style_hn={(feature) => {
+									const style = {
+										color: '#155317',
+										weight: 1,
+										opacity: 0.8,
+										fillColor: '#ffffff',
+										fillOpacity: 0.6
+									};
+
+									const key = feature.properties.key;
+									const os = parseInt(key);
+
+									let c;
+									if (os === 100) {
+										c = '#CC1800';
+									} else if (os === 200 || os === 220) {
+										c = '#7D6666';
+									} else if (os === 230) {
+										c = '#4C1900';
+									} else if (os === 240) {
+										c = '#964646';
+									} else if (os === 300) {
+										c = '#9999A6';
+									} else if (os >= 410 && os <= 442) {
+										c = '#FF7F00';
+									} else if (os >= 1100 && os <= 1900) {
+										c = '#AB66AB';
+									} else if (os >= 2111 && os <= 2130) {
+										c = '#FFCC66';
+									} else if (os >= 2141 && os <= 2146) {
+										c = '#8C9445';
+									} else if (os === 2210 || os === 2220) {
+										c = '#7C7CA6';
+									} else if (os >= 3110 && os <= 3223) {
+										c = '#F2F017';
+									} else if (os >= 3300 && os <= 3390) {
+										c = '#8CCC33';
+									} else if (os === 4010 || os === 4101) {
+										c = '#B2FFFF';
+									} else if (os === 5000) {
+										c = '#D9FF99';
+									} else if (os === 5100) {
+										c = '#05773C';
 									} else {
-										style.color = '#9F111B';
-										style.fillColor = '#9F111B';
-										style.opacity = 0.0;
+										c = '#000';
 									}
-								}
+									style.color = c;
+									style.fillColor = c;
 
-								return style;
-							}}
-							style_hn={(feature) => {
-								const style = {
-									color: '#155317',
-									weight: 1,
-									opacity: 0.8,
-									fillColor: '#ffffff',
-									fillOpacity: 0.6
-								};
-
-								const key = feature.properties.key;
-								const os = parseInt(key);
-
-								let c;
-								if (os === 100) {
-									c = '#CC1800';
-								} else if (os === 200 || os === 220) {
-									c = '#7D6666';
-								} else if (os === 230) {
-									c = '#4C1900';
-								} else if (os === 240) {
-									c = '#964646';
-								} else if (os === 300) {
-									c = '#9999A6';
-								} else if (os >= 410 && os <= 442) {
-									c = '#FF7F00';
-								} else if (os >= 1100 && os <= 1900) {
-									c = '#AB66AB';
-								} else if (os >= 2111 && os <= 2130) {
-									c = '#FFCC66';
-								} else if (os >= 2141 && os <= 2146) {
-									c = '#8C9445';
-								} else if (os === 2210 || os === 2220) {
-									c = '#7C7CA6';
-								} else if (os >= 3110 && os <= 3223) {
-									c = '#F2F017';
-								} else if (os >= 3300 && os <= 3390) {
-									c = '#8CCC33';
-								} else if (os === 4010 || os === 4101) {
-									c = '#B2FFFF';
-								} else if (os === 5000) {
-									c = '#D9FF99';
-								} else if (os === 5100) {
-									c = '#05773C';
-								} else {
-									c = '#000';
-								}
-								style.color = c;
-								style.fillColor = c;
-
-								return style;
-							}}
-							_labeler={(feature) => {
-								return (
-									<h3
-										style={{
-											color: '#155317',
-											opacity: 0.7,
-											textShadow:
-												'1px 1px 0px  #000000,-1px 1px 0px  #000000, 1px -1px 0px  #000000, -1px -1px 0px  #000000, 2px 2px 15px #000000'
-										}}
-									>
-										Umweltzone
-									</h3>
-								);
-							}}
-							featureClickHandler={() => {}}
-						/>
-					)}
+									return style;
+								}}
+								_labeler={(feature) => {
+									return (
+										<h3
+											style={{
+												color: '#155317',
+												opacity: 0.7,
+												textShadow:
+													'1px 1px 0px  #000000,-1px 1px 0px  #000000, 1px -1px 0px  #000000, -1px -1px 0px  #000000, 2px 2px 15px #000000'
+											}}
+										>
+											Umweltzone
+										</h3>
+									);
+								}}
+								featureClickHandler={() => {}}
+							/>
+						))}
 
 					<ScaleControl
 						key={'scalecontrol' + width}

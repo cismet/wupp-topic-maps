@@ -181,6 +181,8 @@ function convertAEVToFeature(aev, index) {
 	}
 	const id = aev.id;
 	const type = 'Feature';
+	const featuretype = 'Hauptnutzung';
+
 	const selected = false;
 	const geometry = aev.geojson;
 
@@ -191,6 +193,7 @@ function convertAEVToFeature(aev, index) {
 		index,
 		text,
 		type,
+		featuretype,
 		selected,
 		geometry,
 		crs: {

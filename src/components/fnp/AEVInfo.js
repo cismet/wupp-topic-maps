@@ -107,12 +107,12 @@ const Comp = ({
 								}}
 							>
 								<h4>
-									{currentFeature.properties.verfahren === '' ? (
-										'FNP-Änderung'
-									) : (
-										'FNP-Berichtigung'
-									)}{' '}
 									{currentFeature.text}
+									{currentFeature.properties.verfahren === '' ? (
+										'. FNP-Änderung'
+									) : (
+										'. FNP-Berichtigung'
+									)}
 								</h4>
 								{currentFeature.properties.bplan_nr !== undefined && (
 									<h6>

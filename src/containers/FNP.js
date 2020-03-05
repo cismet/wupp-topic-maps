@@ -661,7 +661,7 @@ export class Container_ extends React.Component {
 						this.props.hnActions.loadHauptnutzungen
 					]}
 					getFeatureCollectionForData={() => {
-						if (aevVisible === false) {
+						if (aevVisible === false && this.isRechtsplan()) {
 							return [];
 						} else {
 							return this.props.mapping.featureCollection;
@@ -721,113 +721,112 @@ export class Container_ extends React.Component {
 						}
 					}}
 				>
-					{aevVisible === true ||
-						(this.isArbeitskarte() === true && (
-							<FeatureCollectionDisplayWithTooltipLabels
-								key={'allAEVs'}
-								featureCollection={getAEVFeatures(this.props.aev)}
-								boundingBox={{
-									left: 353122.1056720067,
-									top: 5696995.497378283,
-									right: 392372.51969633374,
-									bottom: 5655795.93913269
-								}}
-								style={(feature) => {
-									const style = {
-										color: '#155317',
-										weight: 3,
-										opacity: 0.8,
-										fillColor: '#ffffff',
-										fillOpacity: 0.6
-									};
-									if (currentZoom >= searchMinZoom) {
-										if (feature.properties.status === 'r') {
-											style.color = '#155317';
-										} else {
-											style.color = '#9F111B';
-										}
+					{aevVisible === true && (
+						<FeatureCollectionDisplayWithTooltipLabels
+							key={'allAEVs'}
+							featureCollection={getAEVFeatures(this.props.aev)}
+							boundingBox={{
+								left: 353122.1056720067,
+								top: 5696995.497378283,
+								right: 392372.51969633374,
+								bottom: 5655795.93913269
+							}}
+							style={(feature) => {
+								const style = {
+									color: '#155317',
+									weight: 3,
+									opacity: 0.8,
+									fillColor: '#ffffff',
+									fillOpacity: 0.6
+								};
+								if (currentZoom >= searchMinZoom) {
+									if (feature.properties.status === 'r') {
+										style.color = '#155317';
 									} else {
-										if (feature.properties.status === 'r') {
-											style.color = '#155317';
-											style.fillColor = '#155317';
-											style.opacity = 0.0;
-										} else {
-											style.color = '#9F111B';
-											style.fillColor = '#9F111B';
-											style.opacity = 0.0;
-										}
+										style.color = '#9F111B';
 									}
-
-									return style;
-								}}
-								style_hn={(feature) => {
-									const style = {
-										color: '#155317',
-										weight: 1,
-										opacity: 0.8,
-										fillColor: '#ffffff',
-										fillOpacity: 0.6
-									};
-
-									const key = feature.properties.key;
-									const os = parseInt(key);
-
-									let c;
-									if (os === 100) {
-										c = '#CC1800';
-									} else if (os === 200 || os === 220) {
-										c = '#7D6666';
-									} else if (os === 230) {
-										c = '#4C1900';
-									} else if (os === 240) {
-										c = '#964646';
-									} else if (os === 300) {
-										c = '#9999A6';
-									} else if (os >= 410 && os <= 442) {
-										c = '#FF7F00';
-									} else if (os >= 1100 && os <= 1900) {
-										c = '#AB66AB';
-									} else if (os >= 2111 && os <= 2130) {
-										c = '#FFCC66';
-									} else if (os >= 2141 && os <= 2146) {
-										c = '#8C9445';
-									} else if (os === 2210 || os === 2220) {
-										c = '#7C7CA6';
-									} else if (os >= 3110 && os <= 3223) {
-										c = '#F2F017';
-									} else if (os >= 3300 && os <= 3390) {
-										c = '#8CCC33';
-									} else if (os === 4010 || os === 4101) {
-										c = '#B2FFFF';
-									} else if (os === 5000) {
-										c = '#D9FF99';
-									} else if (os === 5100) {
-										c = '#05773C';
+								} else {
+									if (feature.properties.status === 'r') {
+										style.color = '#155317';
+										style.fillColor = '#155317';
+										style.opacity = 0.0;
 									} else {
-										c = '#000';
+										style.color = '#9F111B';
+										style.fillColor = '#9F111B';
+										style.opacity = 0.0;
 									}
-									style.color = c;
-									style.fillColor = c;
+								}
 
-									return style;
-								}}
-								_labeler={(feature) => {
-									return (
-										<h3
-											style={{
-												color: '#155317',
-												opacity: 0.7,
-												textShadow:
-													'1px 1px 0px  #000000,-1px 1px 0px  #000000, 1px -1px 0px  #000000, -1px -1px 0px  #000000, 2px 2px 15px #000000'
-											}}
-										>
-											Umweltzone
-										</h3>
-									);
-								}}
-								featureClickHandler={() => {}}
-							/>
-						))}
+								return style;
+							}}
+							style_hn={(feature) => {
+								const style = {
+									color: '#155317',
+									weight: 1,
+									opacity: 0.8,
+									fillColor: '#ffffff',
+									fillOpacity: 0.6
+								};
+
+								const key = feature.properties.key;
+								const os = parseInt(key);
+
+								let c;
+								if (os === 100) {
+									c = '#CC1800';
+								} else if (os === 200 || os === 220) {
+									c = '#7D6666';
+								} else if (os === 230) {
+									c = '#4C1900';
+								} else if (os === 240) {
+									c = '#964646';
+								} else if (os === 300) {
+									c = '#9999A6';
+								} else if (os >= 410 && os <= 442) {
+									c = '#FF7F00';
+								} else if (os >= 1100 && os <= 1900) {
+									c = '#AB66AB';
+								} else if (os >= 2111 && os <= 2130) {
+									c = '#FFCC66';
+								} else if (os >= 2141 && os <= 2146) {
+									c = '#8C9445';
+								} else if (os === 2210 || os === 2220) {
+									c = '#7C7CA6';
+								} else if (os >= 3110 && os <= 3223) {
+									c = '#F2F017';
+								} else if (os >= 3300 && os <= 3390) {
+									c = '#8CCC33';
+								} else if (os === 4010 || os === 4101) {
+									c = '#B2FFFF';
+								} else if (os === 5000) {
+									c = '#D9FF99';
+								} else if (os === 5100) {
+									c = '#05773C';
+								} else {
+									c = '#000';
+								}
+								style.color = c;
+								style.fillColor = c;
+
+								return style;
+							}}
+							_labeler={(feature) => {
+								return (
+									<h3
+										style={{
+											color: '#155317',
+											opacity: 0.7,
+											textShadow:
+												'1px 1px 0px  #000000,-1px 1px 0px  #000000, 1px -1px 0px  #000000, -1px -1px 0px  #000000, 2px 2px 15px #000000'
+										}}
+									>
+										Umweltzone
+									</h3>
+								);
+							}}
+							featureClickHandler={() => {}}
+						/>
+					)}
 
 					<ScaleControl
 						key={'scalecontrol' + width}

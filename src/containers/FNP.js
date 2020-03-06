@@ -666,7 +666,12 @@ export class Container_ extends React.Component {
 				</tbody>
 			</table>
 		);
-
+		let secondaryInfoEl;
+		if (this.isRechtsplan()) {
+			secondaryInfoEl = [
+				<ShowAEVModeButton aevVisible={aevVisible} setAevVisible={this.setAevVisible} />
+			];
+		}
 		return (
 			<div>
 				{title}
@@ -708,12 +713,7 @@ export class Container_ extends React.Component {
 						}
 					}}
 					infoBox={info}
-					secondaryInfoBoxElements={[
-						<ShowAEVModeButton
-							aevVisible={aevVisible}
-							setAevVisible={this.setAevVisible}
-						/>
-					]}
+					secondaryInfoBoxElements={secondaryInfoEl}
 					backgroundlayers={
 						'nothing' ||
 						this.props.match.params.layers ||
@@ -786,7 +786,8 @@ export class Container_ extends React.Component {
 						}
 					}}
 				>
-					{aevVisible === true && (
+					{aevVisible === true &&
+					this.isRechtsplan() && (
 						<FeatureCollectionDisplayWithTooltipLabels
 							key={'allAEVs'}
 							featureCollection={getAEVFeatures(this.props.aev)}

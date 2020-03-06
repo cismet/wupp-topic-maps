@@ -85,7 +85,8 @@ export class Container_ extends React.Component {
 		);
 
 		this.state = {
-			smallState: undefined
+			smallState: undefined,
+			mode: undefined
 		};
 	}
 	componentDidMount() {
@@ -115,10 +116,10 @@ export class Container_ extends React.Component {
 	}
 
 	isRechtsplan() {
-		return this.props.match.params.mode === 'rechtsplan';
+		return this.state.mode === 'rechtsplan';
 	}
 	isArbeitskarte() {
-		return this.props.match.params.mode === 'arbeitskarte';
+		return this.state.mode === 'arbeitskarte';
 	}
 	aevSearchButtonHit(event) {
 		this.props.aevActions.searchForAEVs({
@@ -214,6 +215,29 @@ export class Container_ extends React.Component {
 		return { aevVisible, scaleVisible, currentZoom };
 	}
 
+	componentDidUpdate() {
+		if (
+			this.props.match.params.mode !== 'arbeitskarte' &&
+			this.props.match.params.mode !== 'rechtsplan'
+		) {
+			this.props.routingActions.push('/fnp/rechtsplan' + this.props.routing.location.search);
+			console.log("this.setState({ mode: 'rechtsplan' })");
+
+			this.setState({ mode: 'rechtsplan' });
+		} else if (this.props.match.params.mode === 'arbeitskarte') {
+			if (this.state.mode !== 'arbeitskarte') {
+				console.log("this.setState({ mode: 'arbeitskarte' })");
+				this.setState({ mode: 'arbeitskarte' });
+			}
+		} else {
+			if (this.state.mode !== 'rechtsplan') {
+				console.log("this.setState({ mode: 'rechtsplan' })");
+
+				this.setState({ mode: 'rechtsplan' });
+			}
+		}
+	}
+
 	render() {
 		let backgroundStyling = queryString.parse(this.props.routing.location.search).mapStyle;
 
@@ -221,12 +245,7 @@ export class Container_ extends React.Component {
 
 		let titleContent;
 		let backgrounds = [];
-		if (
-			this.props.match.params.mode !== 'arbeitskarte' &&
-			this.props.match.params.mode !== 'rechtsplan'
-		) {
-			this.props.routingActions.push('/fnp/rechtsplan' + this.props.routing.location.search);
-		} else if (this.props.match.params.mode === 'arbeitskarte') {
+		if (this.state.mode === 'arbeitskarte') {
 			titleContent = (
 				<div>
 					<b>Arbeitskarte: </b> fortgeschriebene Hauptnutzungen (informeller FNP-Auszug)<div
@@ -280,7 +299,7 @@ export class Container_ extends React.Component {
 				// 	showMarkerCollection={false}
 				// />
 			];
-		} else {
+		} else if (this.state.mode === 'rechtsplan') {
 			titleContent = (
 				<div>
 					<b>Rechtsplan: </b> Flächennutzungsplan (FNP){' '}
@@ -718,6 +737,7 @@ export class Container_ extends React.Component {
 					responsiveTrigger={(smallState) => {
 						if (this.state.smallState !== smallState) {
 							this.setState({ smallState: smallState });
+							console.log('this.state', this.state);
 						}
 					}}
 				>

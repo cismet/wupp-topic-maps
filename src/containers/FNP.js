@@ -221,19 +221,16 @@ export class Container_ extends React.Component {
 			this.props.match.params.mode !== 'rechtsplan'
 		) {
 			this.props.routingActions.push('/fnp/rechtsplan' + this.props.routing.location.search);
-			console.log("this.setState({ mode: 'rechtsplan' })");
-
 			this.setState({ mode: 'rechtsplan' });
 		} else if (this.props.match.params.mode === 'arbeitskarte') {
 			if (this.state.mode !== 'arbeitskarte') {
-				console.log("this.setState({ mode: 'arbeitskarte' })");
+				this.props.mappingActions.setFeatureCollection([]);
 				this.setState({ mode: 'arbeitskarte' });
 			}
 		} else {
 			if (this.state.mode !== 'rechtsplan') {
-				console.log("this.setState({ mode: 'rechtsplan' })");
-
 				this.setState({ mode: 'rechtsplan' });
+				this.props.mappingActions.setFeatureCollection([]);
 			}
 		}
 	}

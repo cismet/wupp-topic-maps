@@ -20,7 +20,13 @@ import { actions as AEVActions, getAEVFeatures } from '../redux/modules/fnp_aend
 import { actions as HNActions, getHNFeatures } from '../redux/modules/fnp_hauptnutzungen';
 import { actions as MappingActions } from '../redux/modules/mapping';
 import { actions as UIStateActions } from '../redux/modules/uiState';
-import { aevFeatureStyler, aevLabeler, hnFeatureStyler, hnLabeler } from '../utils/fnpHelper';
+import {
+	aevFeatureStyler,
+	aevLabeler,
+	hnFeatureStyler,
+	hnLabeler,
+	getColorForHauptnutzung
+} from '../utils/fnpHelper';
 import { removeQueryPart } from '../utils/routingHelper';
 import { Control } from 'leaflet';
 import CollapsibleABWell from 'components/commons/CollapsibleABWell';
@@ -369,16 +375,55 @@ export class Container_ extends React.Component {
 				const selectedFeature = this.props.mapping.featureCollection[
 					this.props.mapping.selectedIndex || 0
 				];
-				console.log('selectedFeature', selectedFeature);
+				console.log(
+					'getColorForHauptnutzung(selectedFeature)',
+					getColorForHauptnutzung(selectedFeature)
+				);
+
+				const name = selectedFeature.text;
+
+				const nameParts = name.split('-');
+				const oberbegriff = nameParts[0];
+				const headerText = oberbegriff;
+				const os = selectedFeature.properties.os;
+				let infoText;
+				if (nameParts.length > 1) {
+					infoText = nameParts[1];
+				} else {
+					infoText = name;
+				}
+
+				let header = (
+					<InfoBoxHeader
+						headerColor={getColorForHauptnutzung(selectedFeature) + '99'}
+						content={headerText}
+					/>
+				);
 
 				info = (
-					<Well bsSize='small' pixelwidth={350}>
-						<h4>{selectedFeature.text}</h4>
-						<p>{selectedFeature.properties.rechtswirksam}</p>
-						<p>B-Plan: {selectedFeature.properties.bplan_nr}</p>
-						<p>ÄV: {selectedFeature.properties.fnp_aender}</p>
-						<p>OS: {selectedFeature.properties.os}</p>
-					</Well>
+					<div pixelwidth={350}>
+						{header}
+						<Well bsSize='small'>
+							<img
+								alt=''
+								style={{
+									paddingTop: 10,
+									paddingLeft: 10,
+									paddingRight: 10,
+									float: 'right',
+									paddingBottom: '5px'
+								}}
+								src={'/images/fnp/' + os + '.svg'}
+								onerror={"this.style.display='none'"}
+								width='100'
+							/>
+							<h4>{infoText}</h4>
+							<p>{selectedFeature.properties.rechtswirksam}</p>
+							<p>B-Plan: {selectedFeature.properties.bplan_nr}</p>
+							<p>ÄV: {selectedFeature.properties.fnp_aender}</p>
+							<p>OS: {selectedFeature.properties.os}</p>
+						</Well>
+					</div>
 				);
 			}
 		} else {

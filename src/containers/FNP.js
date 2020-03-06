@@ -32,6 +32,7 @@ import { Control } from 'leaflet';
 import CollapsibleABWell from 'components/commons/CollapsibleABWell';
 import InfoBoxHeader from 'components/commons/InfoBoxHeader';
 import FNPModalHelp from 'components/fnp/help/Help00MainComponent';
+import Color from 'color';
 
 let reduxBackground = undefined;
 
@@ -393,9 +394,11 @@ export class Container_ extends React.Component {
 					infoText = name;
 				}
 
+				let headerBackgroundColor = Color(getColorForHauptnutzung(selectedFeature));
+
 				let header = (
 					<InfoBoxHeader
-						headerColor={getColorForHauptnutzung(selectedFeature) + '99'}
+						headerColor={headerBackgroundColor.alpha(0.8)}
 						content={headerText}
 					/>
 				);

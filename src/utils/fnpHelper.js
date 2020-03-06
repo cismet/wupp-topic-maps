@@ -13,12 +13,13 @@ export const aevFeatureStyler = (feature) => {
 };
 export const hnFeatureStyler = (feature) => {
 	const style = {
-		color: '#00000088',
-		weight: 2,
-		opacity: 1.0,
+		color: '#000000',
+		className: 'cismap-hauptnutzung-highlighter',
+		weight: 4,
+		opacity: 0.6,
 		//    "dashArray": "30",
 		fillColor: '#ffffff',
-		fillOpacity: 0.3
+		fillOpacity: 0.4
 	};
 	return style;
 };

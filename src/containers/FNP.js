@@ -376,17 +376,31 @@ export class Container_ extends React.Component {
 				const selectedFeature = this.props.mapping.featureCollection[
 					this.props.mapping.selectedIndex || 0
 				];
-				console.log(
-					'getColorForHauptnutzung(selectedFeature)',
-					getColorForHauptnutzung(selectedFeature)
-				);
 
 				const name = selectedFeature.text;
 
 				const nameParts = name.split('-');
+				const datetimeParts = (selectedFeature.properties.rechtswirksam || '').split(' ');
+				const dateParts = datetimeParts[0].split('-');
+				const date = dateParts[2] + '.' + dateParts[1] + '.' + dateParts[0];
 				const oberbegriff = nameParts[0];
 				const headerText = oberbegriff;
 				const os = selectedFeature.properties.os;
+				let festgelegt;
+				if (selectedFeature.properties.fnp_aender !== undefined) {
+					festgelegt = (
+						<a
+							href={
+								'/#/docs/aenderungsv/' + selectedFeature.properties.fnp_aender + '/'
+							}
+							target='_aenderungsv'
+						>
+							{selectedFeature.properties.fnp_aender + '. FNP-Änderung/Berichtigung'}
+						</a>
+					);
+				} else {
+					festgelegt = <span>FNP vom 17.01.2005</span>;
+				}
 				let infoText;
 				if (nameParts.length > 1) {
 					infoText = nameParts[1];
@@ -402,6 +416,7 @@ export class Container_ extends React.Component {
 						content={headerText}
 					/>
 				);
+				console.log('selectedFeature.properties.os', selectedFeature.properties.os);
 
 				info = (
 					<div pixelwidth={350}>
@@ -418,13 +433,30 @@ export class Container_ extends React.Component {
 								}}
 								src={'/images/fnp/' + os + '.svg'}
 								onerror={"this.style.display='none'"}
-								width='100'
+								width='80'
 							/>
 							<h4>{infoText}</h4>
-							<p>{selectedFeature.properties.rechtswirksam}</p>
-							<p>B-Plan: {selectedFeature.properties.bplan_nr}</p>
-							<p>ÄV: {selectedFeature.properties.fnp_aender}</p>
-							<p>OS: {selectedFeature.properties.os}</p>
+							<p>
+								<b>rechtswirksam seit: </b>
+								{date}
+							</p>
+
+							<p>
+								<b>festgelegt durch:</b> {festgelegt}
+							</p>
+							{selectedFeature.properties.bplan_nr !== undefined && (
+								<p>
+									<b>Anlass: </b>{' '}
+									<a
+										href={
+											'/#/docs/bplaene/' + selectedFeature.properties.bplan_nr
+										}
+										target='_bplaene'
+									>
+										B-Plan: {selectedFeature.properties.bplan_nr}
+									</a>
+								</p>
+							)}
 						</Well>
 					</div>
 				);

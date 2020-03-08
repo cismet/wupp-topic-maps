@@ -453,7 +453,7 @@ export class Container_ extends React.Component {
 										}
 										target='_bplaene'
 									>
-										B-Plan: {selectedFeature.properties.bplan_nr}
+										B-Plan {selectedFeature.properties.bplan_nr}
 									</a>
 								</p>
 							)}

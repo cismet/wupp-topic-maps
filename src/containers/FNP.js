@@ -111,15 +111,24 @@ export class Container_ extends React.Component {
 	}
 
 	aevGazeteerHit(selectedObject) {
-		this.props.aevActions.searchForAEVs({
-			gazObject: selectedObject,
-			mappingActions: this.props.mappingActions,
-			done: (o) => {
-				if (o && o.length > 0) {
-					this.setAevVisible(true);
+		if (this.state.mode === 'rechtsplan') {
+			this.props.aevActions.searchForAEVs({
+				gazObject: selectedObject,
+				mappingActions: this.props.mappingActions,
+				done: (o) => {
+					if (o && o.length > 0) {
+						this.setAevVisible(true);
+					}
 				}
-			}
-		});
+			});
+		} else {
+			this.props.hnActions.searchForHauptnutzungen({
+				point: { x: selectedObject[0].x, y: selectedObject[0].y },
+				mappingActions: this.props.mappingActions,
+				skipMappingActions: true,
+				fitAll: false
+			});
+		}
 	}
 
 	isRechtsplan() {
@@ -442,7 +451,6 @@ export class Container_ extends React.Component {
 						content={headerText}
 					/>
 				);
-				console.log('selectedFeature.properties.os', selectedFeature.properties.os);
 
 				info = (
 					<div pixelwidth={350}>
@@ -751,7 +759,7 @@ export class Container_ extends React.Component {
 					fullScreenControl
 					locatorControl
 					gazetteerSearchBox
-					searchMinZoom={searchMinZoom}
+					searchMinZoom={this.state.mode === 'rechtsplan' ? searchMinZoom : 20}
 					searchMaxZoom={18}
 					gazeteerHitTrigger={this.aevGazeteerHit}
 					searchButtonTrigger={this.aevSearchButtonHit}

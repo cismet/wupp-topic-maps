@@ -4,7 +4,7 @@ import localForage from 'localforage';
 import { combineReducers } from 'redux';
 import { persistReducer } from 'redux-persist';
 import makeDataDuck from '../higherorderduckfactories/dataWithMD5Check';
-
+import { searchForAEVs } from './fnp_aenderungsverfahren';
 //TYPES
 //no types bc no local store
 export const types = {};
@@ -93,14 +93,50 @@ export function searchForHauptnutzungen({
 				// console.log('feature', feature);
 				if (!booleanDisjoint(bboxPoly, feature)) {
 					finalResults.push(feature);
+					console.log('feature', feature);
+
+					if (feature.properties.fnp_aender === undefined) {
+						console.log('will search for ävs');
+
+						dispatch(
+							searchForAEVs({
+								point,
+								skipMappingActions: true,
+								done: (result) => {
+									console.log('resultÄV', result);
+									const out = JSON.parse(JSON.stringify(feature));
+									out.properties.intersect_fnp_aender = result[0];
+									dispatch(mappingActions.setFeatureCollection([ out ]));
+									console.log('out', out);
+								}
+							})
+						);
+					} else {
+						dispatch(
+							searchForAEVs({
+								point,
+								skipMappingActions: true,
+								done: (result) => {
+									console.log('resultÄV', result);
+									const out = JSON.parse(JSON.stringify(feature));
+									out.properties.fnp_aender = result[0];
+									dispatch(mappingActions.setFeatureCollection([ out ]));
+									console.log('out', out);
+								}
+							})
+						);
+
+						// dispatch(mappingActions.setFeatureCollection([ feature ]));
+					}
+					break;
 				}
 			}
-			console.log('finalResults', finalResults);
+			// console.log('finalResults', finalResults);
 
-			dispatch(mappingActions.setFeatureCollection(finalResults));
-			if (finalResults.length > 0) {
-				dispatch(mappingActions.setSelectedFeatureIndex(selectionIndexWish));
-			}
+			// dispatch(mappingActions.setFeatureCollection(finalResults));
+			// if (finalResults.length > 0) {
+			// 	dispatch(mappingActions.setSelectedFeatureIndex(selectionIndexWish));
+			// }
 		} else if (point !== undefined) {
 		}
 	};

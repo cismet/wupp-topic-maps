@@ -386,21 +386,42 @@ export class Container_ extends React.Component {
 				const oberbegriff = nameParts[0];
 				const headerText = oberbegriff;
 				const os = selectedFeature.properties.os;
-				let festgelegt;
-				if (selectedFeature.properties.fnp_aender !== undefined) {
-					festgelegt = (
-						<a
-							href={
-								'/#/docs/aenderungsv/' + selectedFeature.properties.fnp_aender + '/'
-							}
-							target='_aenderungsv'
-						>
-							{selectedFeature.properties.fnp_aender + '. FNP-Änderung/Berichtigung'}
-						</a>
-					);
-				} else {
-					festgelegt = <span>FNP vom 17.01.2005</span>;
-				}
+				console.log(
+					'selectedFeature.properties.fnp_aender',
+					selectedFeature.properties.fnp_aender
+				);
+
+				const getLinkFromAEV = (aev, defaultEl) => {
+					if (aev !== undefined) {
+						let statusText;
+						let status = aev.properties.status;
+						if (status === 'r') {
+							statusText = '';
+						} else if (status === 'n') {
+							statusText = ' (nicht rechtswirksam)';
+						} else {
+							statusText = ' (nicht rechtswirksame Teile9';
+						}
+						return (
+							<a href={'/#/docs/aenderungsv/' + aev.text + '/'} target='_aenderungsv'>
+								{aev.text +
+									(aev.properties.verfahren === ''
+										? '. FNP-Änderung' + statusText
+										: '. FNP-Berichtigung' + statusText)}
+							</a>
+						);
+					} else {
+						return defaultEl;
+					}
+				};
+
+				const festgelegt = getLinkFromAEV(
+					selectedFeature.properties.fnp_aender,
+					<span>FNP vom 17.01.2005</span>
+				);
+				const intersectAEV = getLinkFromAEV(
+					selectedFeature.properties.intersect_fnp_aender
+				);
 				let infoText;
 				if (nameParts.length > 1) {
 					infoText = nameParts[1];
@@ -444,6 +465,11 @@ export class Container_ extends React.Component {
 							<p>
 								<b>festgelegt durch:</b> {festgelegt}
 							</p>
+							{intersectAEV !== undefined && (
+								<p>
+									<b>siehe auch:</b> {intersectAEV}
+								</p>
+							)}
 							{selectedFeature.properties.bplan_nr !== undefined && (
 								<p>
 									<b>Anlass: </b>{' '}

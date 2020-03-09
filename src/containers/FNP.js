@@ -403,12 +403,17 @@ export class Container_ extends React.Component {
 							statusText = ' (nicht rechtswirksame Teile9';
 						}
 						return (
-							<a href={'/#/docs/aenderungsv/' + aev.text + '/'} target='_aenderungsv'>
-								{aev.text +
-									(aev.properties.verfahren === ''
-										? '. FNP-Änderung' + statusText
-										: '. FNP-Berichtigung' + statusText)}
-							</a>
+							<b>
+								<a
+									href={'/#/docs/aenderungsv/' + aev.text + '/'}
+									target='_aenderungsv'
+								>
+									{aev.text +
+										(aev.properties.verfahren === ''
+											? '. FNP-Änderung' + statusText
+											: '. FNP-Berichtigung' + statusText)}
+								</a>
+							</b>
 						);
 					} else {
 						return defaultEl;
@@ -473,14 +478,17 @@ export class Container_ extends React.Component {
 							{selectedFeature.properties.bplan_nr !== undefined && (
 								<p>
 									<b>Anlass: </b>{' '}
-									<a
-										href={
-											'/#/docs/bplaene/' + selectedFeature.properties.bplan_nr
-										}
-										target='_bplaene'
-									>
-										B-Plan {selectedFeature.properties.bplan_nr}
-									</a>
+									<b>
+										<a
+											href={
+												'/#/docs/bplaene/' +
+												selectedFeature.properties.bplan_nr
+											}
+											target='_bplaene'
+										>
+											B-Plan {selectedFeature.properties.bplan_nr}
+										</a>
+									</b>
 								</p>
 							)}
 						</Well>

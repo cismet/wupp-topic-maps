@@ -34,6 +34,52 @@ import InfoBoxHeader from 'components/commons/InfoBoxHeader';
 import FNPModalHelp from 'components/fnp/help/Help00MainComponent';
 import Color from 'color';
 
+//printf 'const validFNPIcons=['; for file  in *.svg; printf '"'$file'"',; printf ']'
+
+const validFNPIcons = [
+	'0200.svg',
+	'0410.svg',
+	'0420.svg',
+	'0431.svg',
+	'0432.svg',
+	'0433.svg',
+	'0434.svg',
+	'0435.svg',
+	'0436.svg',
+	'0437.svg',
+	'0439.svg',
+	'0440.svg',
+	'1100.svg',
+	'1200.svg',
+	'1300.svg',
+	'1400.svg',
+	'1500.svg',
+	'1600.svg',
+	'1800.svg',
+	'1840.svg',
+	'1860.svg',
+	'2120.svg',
+	'3110.svg',
+	'3115.svg',
+	'3120.svg',
+	'3140.svg',
+	'3210.svg',
+	'3220.svg',
+	'3310.svg',
+	'3320.svg',
+	'3330.svg',
+	'3341.svg',
+	'3342.svg',
+	'3343.svg',
+	'3344.svg',
+	'3345.svg',
+	'3360.svg',
+	'3370.svg',
+	'3382.svg',
+	'3390.svg',
+	'4101.svg'
+];
+
 let reduxBackground = undefined;
 
 const options = {
@@ -443,9 +489,21 @@ export class Container_ extends React.Component {
 					infoText = name;
 				}
 				if (selectedFeature.properties.area > 0) {
-					infoText = infoText + ' (' + selectedFeature.properties.area + ' ha)';
+					infoText = (
+						<div>
+							<span>{infoText} </span>
+							<span style={{ whiteSpace: 'nowrap' }}>
+								{'(' + selectedFeature.properties.area + ' ha)'}
+							</span>
+						</div>
+					);
 				} else if (selectedFeature.properties.area === 0) {
-					infoText = infoText + ' (< 0.1 ha)';
+					infoText = (
+						<div>
+							<span>{infoText} </span>
+							<span style={{ whiteSpace: 'nowrap' }}>({'<'} 0.1 ha)</span>
+						</div>
+					);
 				}
 
 				let headerBackgroundColor = Color(getColorForHauptnutzung(selectedFeature));
@@ -456,24 +514,30 @@ export class Container_ extends React.Component {
 						content={headerText}
 					/>
 				);
+				let icon;
+				if (validFNPIcons.indexOf(os + '.svg') !== -1) {
+					icon = (
+						<img
+							alt=''
+							style={{
+								paddingTop: 10,
+								paddingLeft: 10,
+								paddingRight: 10,
+								float: 'right',
+								paddingBottom: '5px'
+							}}
+							src={'/images/fnp/' + os + '.svg'}
+							onError={"this.style.display='none'"}
+							width='80'
+						/>
+					);
+				}
 
 				info = (
 					<div pixelwidth={350}>
 						{header}
 						<Well bsSize='small'>
-							<img
-								alt=''
-								style={{
-									paddingTop: 10,
-									paddingLeft: 10,
-									paddingRight: 10,
-									float: 'right',
-									paddingBottom: '5px'
-								}}
-								src={'/images/fnp/' + os + '.svg'}
-								onerror={"this.style.display='none'"}
-								width='80'
-							/>
+							{icon}
 							<h4>{infoText}</h4>
 							<p>
 								<b>rechtswirksam seit: </b>

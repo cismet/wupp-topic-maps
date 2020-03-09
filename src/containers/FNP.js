@@ -442,6 +442,11 @@ export class Container_ extends React.Component {
 				} else {
 					infoText = name;
 				}
+				if (selectedFeature.properties.area > 0) {
+					infoText = infoText + ' (' + selectedFeature.properties.area + ' ha)';
+				} else if (selectedFeature.properties.area === 0) {
+					infoText = infoText + ' (< 0.1 ha)';
+				}
 
 				let headerBackgroundColor = Color(getColorForHauptnutzung(selectedFeature));
 

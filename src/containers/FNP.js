@@ -493,7 +493,9 @@ export class Container_ extends React.Component {
 						<div>
 							<span>{infoText} </span>
 							<span style={{ whiteSpace: 'nowrap' }}>
-								{'(' + selectedFeature.properties.area + ' ha)'}
+								{'(' +
+									(selectedFeature.properties.area + '').replace('.', ',') +
+									' ha)'}
 							</span>
 						</div>
 					);
@@ -501,7 +503,7 @@ export class Container_ extends React.Component {
 					infoText = (
 						<div>
 							<span>{infoText} </span>
-							<span style={{ whiteSpace: 'nowrap' }}>({'<'} 0.1 ha)</span>
+							<span style={{ whiteSpace: 'nowrap' }}>({'<'} 0,1 ha)</span>
 						</div>
 					);
 				}

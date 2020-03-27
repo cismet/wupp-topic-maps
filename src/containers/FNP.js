@@ -319,23 +319,6 @@ export class Container_ extends React.Component {
 			);
 			backgrounds = [
 				<WMSTileLayer
-					key={
-						'background.hauptnutzungen.spw2:aevVisible:' +
-						aevVisible +
-						backgroundStyling
-					}
-					url='https://geodaten.metropoleruhr.de/spw2/service?'
-					layers={'spw2_graublau'}
-					version='1.1.1'
-					transparent='true'
-					format='image/png'
-					tiled='false'
-					styles='default'
-					maxZoom={15}
-					opacity={1}
-					caching={true}
-				/>,
-				<WMSTileLayer
 					key={'Hauptnutzungen.flaeche:aevVisible:' + aevVisible}
 					url='https://maps.wuppertal.de/deegree/wms'
 					layers={'r102:fnp_haupt_fl'}
@@ -373,19 +356,6 @@ export class Container_ extends React.Component {
 			);
 
 			backgrounds = [
-				<WMSTileLayer
-					key={'background.rechtsplan.spw2:aevVisible:' + aevVisible + backgroundStyling}
-					url='https://geodaten.metropoleruhr.de/spw2/service'
-					layers={'spw2_light'}
-					version='1.3.0'
-					transparent='true'
-					format='image/png'
-					tiled='false'
-					styles='default'
-					maxZoom={19}
-					opacity={0.4}
-					caching={true}
-				/>,
 				<WMSTileLayer
 					key={'rechtsplan:aevVisible:' + aevVisible}
 					url='https://maps.wuppertal.de/deegree/wms?SRS=EPSG:25832'
@@ -1048,6 +1018,19 @@ export class Container_ extends React.Component {
 
 					{/* <VectorGrid {...options} /> */}
 					{backgrounds}
+					<WMSTileLayer
+						key={'background.spw2_extralight' + aevVisible + backgroundStyling}
+						url='https://geodaten.metropoleruhr.de/spw2/service'
+						layers={'spw2_extralight'}
+						version='1.3.0'
+						transparent='true'
+						format='image/png'
+						tiled='false'
+						styles='default'
+						maxZoom={19}
+						opacity={0.4}
+						caching={true}
+					/>
 				</TopicMap>
 			</div>
 		);

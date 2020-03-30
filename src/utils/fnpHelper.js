@@ -73,6 +73,8 @@ export const getColorForHauptnutzung = (feature) => {
 		c = '#D9FF99';
 	} else if (os === 5100) {
 		c = '#05773C';
+	} else if (os === 9999) {
+		c = '#FFFFFF';
 	} else {
 		c = '#000';
 	}

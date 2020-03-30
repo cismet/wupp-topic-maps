@@ -1,6 +1,6 @@
 import React from 'react';
 import GenericModalMenuSection from 'components/commons/GenericModalMenuSection';
-
+import Icon from 'components/commons/Icon';
 const Component = ({ uiState, uiStateActions, showModalMenu }) => {
 	return (
 		<GenericModalMenuSection
@@ -13,11 +13,11 @@ const Component = ({ uiState, uiStateActions, showModalMenu }) => {
 				<div>
 					<p>
 						Der Wuppertaler Flächenutzungsplan (FNP) vom 17.01.2005 wird standardmäßig
-						dargestellt (Rechtsplan). Mithilfe der Schaltfläche (random Switch) ist ein
-						Wechsel zur Arbeitskarte möglich, welche die fortgeschriebenen
+						dargestellt (Rechtsplan). Mithilfe der Schaltfläche <Icon name='random' />{' '}
+						ist ein Wechsel zur Arbeitskarte möglich, welche die fortgeschriebenen
 						Hauptnutzungen des Wuppertaler FNPs visualisiert; dies entspricht keiner
-						Neuaufstellung des FNPs. Ein erneuter Klick auf (random Switch) führt zurück
-						zur Darstellung des Rechtsplans.
+						Neuaufstellung des FNPs. Ein erneuter Klick auf <Icon name='random' /> führt
+						zurück zur Darstellung des Rechtsplans.
 					</p>
 					<p>
 						<strong>Rechtsplan</strong>
@@ -39,19 +39,19 @@ const Component = ({ uiState, uiStateActions, showModalMenu }) => {
 						<strong>Arbeitskarte</strong>
 					</p>
 					<p>
-						Innerhalb der Arbeitskarte wird ein informeller FNP-Auszug geboten. Dabei
-						werden die Hauptnutzungen des FNPs vom 17.01.2005 aufgrund von
-						rechtskräftigen
+						Die Arbeitskarte bietet eine komfortable Möglichkeit zum Einstieg in den
+						Themenkomplex des Wuppertaler FNPs. Dazu sind die Hauptnutzungen des FNPs
+						vom 17.01.2005 aufgrund von rechtskräftigen
 					</p>
 					<ul>
 						<li>Änderungsverfahren gem. §2 ff. BauGB und</li>
 						<li>Berichtigungen gem. §13a BauGB</li>
 					</ul>
 					<p>
-						fortgeschrieben. Die ausschließliche Einarbeitung dieser Änderungsverfahren
-						bzw. Berichtigungen in die Hauptnutzungen des FNPs entspricht keiner
-						Neuaufstellung. Die Arbeitskarte bietet daher dem Nutzer eine komfortable
-						Möglichkeit zum Einstieg in den Themenkomplex des Wuppertaler FNPs.
+						fortgeschrieben worden. Die ausschließliche Einarbeitung dieser
+						Änderungsverfahren bzw. Berichtigungen in die Hauptnutzungen des FNPs
+						entspricht keiner Neuaufstellung, sodass sich hier ein informeller
+						FNP-Auszug ergibt.
 					</p>
 				</div>
 			}

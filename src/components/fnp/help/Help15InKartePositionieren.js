@@ -13,19 +13,19 @@ const Component = ({ uiState, uiStateActions, showModalMenu }) => {
 			sectionContent={
 				<div>
 					<p>
-						Um direkt zu einem FNP-Änderungsverfahren zu gelangen, geben Sie den Anfang
-						der Nummer dieses Änderungsverfahrens im Eingabefeld links unten ein. In der
-						inkrementellen Auswahlliste werden Ihnen die dazu passenden Treffer hinter
-						dem Symbol <Icon name='file' overlay='F' /> angeboten. (Wenn Sie weitere
-						Zahlen eingeben, wird der Inhalt der Auswahlliste angepasst.) Aber Achtung:
-						Das Suchfeld unterstützt auch die Suche nach B-Plan-Nummern. Die zu ihrer
-						Eingabe passenden B-Plan-Nummern sind mit dem Symbol{' '}
-						<Icon name='file' overlay='B' /> gekennzeichnet. Noch ein Tipp: Wenn Sie
-						„äv" oder „bp“ im Suchfeld eingeben, wird Ihnen eine Auswahlliste aller
-						FNP-Änderungsverfahren bzw. aller B-Plan-Nummern angeboten. Nach der Auswahl
-						eines Treffers aus der Liste wird die Karte auf die zugehörige Position
-						zentriert und ein <Icon name='map-marker' /> Marker auf der Zielposition
-						platziert.
+						Um den Kartenausschnitt auf ein FNP-Änderungsverfahren zu positionieren,
+						geben Sie den Anfang der Nummer dieses Änderungsverfahrens im Eingabefeld
+						links unten ein. In der inkrementellen Auswahlliste werden Ihnen die dazu
+						passenden Treffer hinter dem Symbol <Icon name='file' overlay='F' />{' '}
+						angeboten. (Wenn Sie weitere Zahlen eingeben, wird der Inhalt der
+						Auswahlliste angepasst.) Aber Achtung: Das Suchfeld unterstützt auch die
+						Suche nach B-Plan-Nummern. Die zu ihrer Eingabe passenden B-Plan-Nummern
+						sind mit dem Symbol <Icon name='file' overlay='B' /> gekennzeichnet. Noch
+						ein Tipp: Wenn Sie „ÄV" oder „BPL“ im Suchfeld eingeben, wird Ihnen eine
+						Auswahlliste aller FNP-Änderungsverfahren bzw. aller B-Plan-Nummern
+						angeboten. Nach der Auswahl eines Treffers aus der Liste wird die Karte auf
+						die zugehörige Position zentriert und ein <Icon name='map-marker' /> Marker
+						auf der Zielposition platziert.
 					</p>
 					<p>
 						Wenn Sie die Karte wie oben beschrieben auf ein{' '}

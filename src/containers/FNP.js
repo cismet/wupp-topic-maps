@@ -1017,7 +1017,7 @@ export class Container_ extends React.Component {
 					/>
 
 					{/* <VectorGrid {...options} /> */}
-					{backgrounds}
+
 					<WMSTileLayer
 						key={'background.spw2_extralight' + aevVisible + backgroundStyling}
 						url='https://geodaten.metropoleruhr.de/spw2/service'
@@ -1031,6 +1031,7 @@ export class Container_ extends React.Component {
 						opacity={0.4}
 						caching={true}
 					/>
+					{backgrounds}
 				</TopicMap>
 			</div>
 		);

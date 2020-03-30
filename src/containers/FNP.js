@@ -331,15 +331,6 @@ export class Container_ extends React.Component {
 					opacity={0.4}
 					caching={true}
 				/>
-				// <FeatureCollectionDisplay
-				// 	key={'FeatureCollectionDisplayTest.'}
-				// 	featureCollection={this.props.hn.dataState.features}
-				// 	clusteringEnabled={false}
-				// 	//style={getFeatureStyler(currentMarkerSize, getColorForProperties)}
-				// 	//featureStylerScalableImageSize={currentMarkerSize}
-				// 	//mapRef={topicMapRef} // commented out because there cannot be a ref in a functional comp and it is bnot needed
-				// 	showMarkerCollection={false}
-				// />
 			];
 		} else if (this.state.mode === 'rechtsplan') {
 			titleContent = (

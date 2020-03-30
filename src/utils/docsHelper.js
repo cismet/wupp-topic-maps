@@ -83,7 +83,6 @@ export function getDocsForAEVGazetteerEntry(props) {
 		dox,
 		gotoWholeDocument
 	} = props;
-	console.log('getDocsForAEVGazetteerEntry', props);
 
 	searchForAEVs({
 		gazObject: [ gazHit ],
@@ -115,6 +114,28 @@ export function getDocsForAEVGazetteerEntry(props) {
 							'/meta.json'
 					)
 				});
+
+				if (aev.docUrls.length > 0) {
+					let url =
+						'https://www.wuppertal.de/geoportal/fnp_dokumente/Info_FNP-Zusatzdokumente_WUP_1-0.pdf';
+					docs.push({
+						group: 'Zusatzdokumente',
+						title: 'Info Dateinamen',
+						file: 'Info_FNP-Zusatzdokumente_WUP_1-0.pdf',
+						url: url.replace(
+							'https://www.wuppertal.de/geoportal/',
+							'https://wunda-geoportal-docs.cismet.de/'
+						),
+						layer: replaceUmlauteAndSpaces(
+							url.replace('https://www.wuppertal.de/geoportal/', tileservice) +
+								'/{z}/{x}/{y}.png'
+						),
+						meta: replaceUmlauteAndSpaces(
+							url.replace('https://www.wuppertal.de/geoportal/', tileservice) +
+								'/meta.json'
+						)
+					});
+				}
 
 				for (let url of aev.docUrls) {
 					const filename = url.substring(url.lastIndexOf('/') + 1);

@@ -149,7 +149,7 @@ export function searchForAEVs({
 		if (skipMappingActions === false) {
 			mappingActions.setFeatureCollection(finalResults);
 			if (finalResults.length > 0) {
-				mappingActions.setSelectfsearchforaevedFeatureIndex(selectionIndexWish);
+				mappingActions.setSelectedFeatureIndex(selectionIndexWish);
 				if (fitAll === true) {
 					mappingActions.fitAll();
 				}

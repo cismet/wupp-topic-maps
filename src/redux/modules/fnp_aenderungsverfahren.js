@@ -116,9 +116,6 @@ export function searchForAEVs({
 			gazObject[0] !== undefined &&
 			gazObject[0].type === 'aenderungsv'
 		) {
-			console.log('searchForAEVs 1', gazObject[0]);
-			console.log('searchForAEVs 2', state.fnpAenderungsverfahren.dataState.features);
-
 			if (state.fnpAenderungsverfahren.dataState.features.length === 0) {
 				loadAEVs();
 			}
@@ -152,7 +149,7 @@ export function searchForAEVs({
 		if (skipMappingActions === false) {
 			mappingActions.setFeatureCollection(finalResults);
 			if (finalResults.length > 0) {
-				mappingActions.setSelectedFeatureIndex(selectionIndexWish);
+				mappingActions.setSelectfsearchforaevedFeatureIndex(selectionIndexWish);
 				if (fitAll === true) {
 					mappingActions.fitAll();
 				}

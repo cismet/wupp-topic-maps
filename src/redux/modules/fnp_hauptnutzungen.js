@@ -88,16 +88,11 @@ export function searchForHauptnutzungen({
 			//Simple
 			const state = getState();
 			let finalResults = [];
-
+			console.log('bboxPoly', bboxPoly);
 			for (let feature of state.fnpHauptnutzungen.dataState.features) {
-				// console.log('feature', feature);
 				if (!booleanDisjoint(bboxPoly, feature)) {
 					finalResults.push(feature);
-					console.log('feature', feature);
-
 					if (feature.properties.fnp_aender === undefined) {
-						console.log('will search for ävs');
-
 						dispatch(
 							searchForAEVs({
 								point,
@@ -131,7 +126,11 @@ export function searchForHauptnutzungen({
 					break;
 				}
 			}
+			if (finalResults.length === 0) {
+				dispatch(mappingActions.setFeatureCollection([]));
+			}
 			// console.log('finalResults', finalResults);
+			console.log('finalResults', finalResults);
 
 			// dispatch(mappingActions.setFeatureCollection(finalResults));
 			// if (finalResults.length > 0) {

@@ -63,7 +63,7 @@ export const getColorForHauptnutzung = (feature) => {
 		c = '#8C9445';
 	} else if (os === 2210 || os === 2220) {
 		c = '#7C7CA6';
-	} else if (os >= 3110 && os <= 3223) {
+	} else if (os >= 3110 && os <= 3230) {
 		c = '#F2F017';
 	} else if (os >= 3300 && os <= 3390) {
 		c = '#8CCC33';

@@ -102,6 +102,8 @@ export function searchForHauptnutzungen({
 									const out = JSON.parse(JSON.stringify(feature));
 									out.properties.intersect_fnp_aender = result[0];
 									dispatch(mappingActions.setFeatureCollection([ out ]));
+									dispatch(mappingActions.setSelectedFeatureIndex(0));
+
 									console.log('out', out);
 								}
 							})
@@ -116,6 +118,8 @@ export function searchForHauptnutzungen({
 									const out = JSON.parse(JSON.stringify(feature));
 									out.properties.fnp_aender = result[0];
 									dispatch(mappingActions.setFeatureCollection([ out ]));
+									dispatch(mappingActions.setSelectedFeatureIndex(0));
+
 									console.log('out', out);
 								}
 							})

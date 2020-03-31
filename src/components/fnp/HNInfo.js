@@ -184,6 +184,10 @@ const Comp = ({ selectedFeature, collapsed, setCollapsed }) => {
 		</Well>
 	);
 	let divWhenCollapsed = (
+		// <Well bsSize='small'>
+		// 	{icon}
+		// 	<h4 style={{ verticalAlign: 'middle' }}>{infoText}</h4>
+		// </Well>
 		<div>
 			<table border={0} style={{ width: '100%' }}>
 				<tbody>
@@ -193,7 +197,7 @@ const Comp = ({ selectedFeature, collapsed, setCollapsed }) => {
 								textAlign: 'left',
 								verticalAlign: 'middle',
 								padding: '5px',
-								maxWidth: '160px',
+								maxWidth: '260px',
 								overflowWrap: 'break-word'
 							}}
 						>

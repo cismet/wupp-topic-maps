@@ -13,11 +13,17 @@ const Component = ({ uiState, uiStateActions, showModalMenu }) => {
 				<div>
 					<p>
 						Der Wuppertaler Flächenutzungsplan (FNP) vom 17.01.2005 wird standardmäßig
-						dargestellt (Rechtsplan). Mithilfe der Schaltfläche <Icon name='random' />{' '}
+						dargestellt (Rechtsplan). Mithilfe der Schaltfläche{' '}
+						<a>
+							<Icon name='random' />
+						</a>{' '}
 						ist ein Wechsel zur Arbeitskarte möglich, welche die fortgeschriebenen
 						Hauptnutzungen des Wuppertaler FNPs visualisiert; dies entspricht keiner
-						Neuaufstellung des FNPs. Ein erneuter Klick auf <Icon name='random' /> führt
-						zurück zur Darstellung des Rechtsplans.
+						Neuaufstellung des FNPs. Ein erneuter Klick auf{' '}
+						<a>
+							<Icon name='random' />
+						</a>{' '}
+						führt zurück zur Darstellung des Rechtsplans.
 					</p>
 					<p>
 						<strong>Rechtsplan</strong>

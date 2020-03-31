@@ -15,6 +15,7 @@ import { bindActionCreators } from 'redux';
 import EmptyAEVInfo from '../components/fnp/EmptytAEVInfo';
 import AEVInfo from '../components/fnp/AEVInfo';
 import HNInfo from '../components/fnp/HNInfo';
+import HN9999Info from '../components/fnp/HN9999Info';
 import EmptyHNInfo from '../components/fnp/EmptytHNInfo';
 import ShowAEVModeButton from '../components/fnp/ShowAEVModeButton';
 import { proj4crs25832def } from '../constants/gis';
@@ -345,16 +346,29 @@ export class Container_ extends React.Component {
 					this.props.mapping.selectedIndex || 0
 				];
 
-				info = (
-					<HNInfo
-						pixelwidth={370}
-						selectedFeature={selectedFeature}
-						collapsed={this.props.aev.infoBoxState.minified}
-						setCollapsed={(collapsed) => {
-							this.props.aevActions.setCollapsedInfoBox(collapsed);
-						}}
-					/>
-				);
+				if (selectedFeature.properties.os !== '9999') {
+					info = (
+						<HNInfo
+							pixelwidth={370}
+							selectedFeature={selectedFeature}
+							collapsed={this.props.aev.infoBoxState.minified}
+							setCollapsed={(collapsed) => {
+								this.props.aevActions.setCollapsedInfoBox(collapsed);
+							}}
+						/>
+					);
+				} else {
+					info = (
+						<HN9999Info
+							pixelwidth={370}
+							selectedFeature={selectedFeature}
+							collapsed={this.props.aev.infoBoxState.minified}
+							setCollapsed={(collapsed) => {
+								this.props.aevActions.setCollapsedInfoBox(collapsed);
+							}}
+						/>
+					);
+				}
 			}
 		} else {
 			if (this.isRechtsplan() === true) {

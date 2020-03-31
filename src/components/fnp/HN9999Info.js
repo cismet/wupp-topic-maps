@@ -10,50 +10,6 @@ import { getColorForHauptnutzung } from '../../utils/fnpHelper';
 
 //printf 'const validFNPIcons=['; for file  in *.svg; printf '"'$file'"',; printf ']'
 
-const validFNPIcons = [
-	'0200.svg',
-	'0410.svg',
-	'0420.svg',
-	'0431.svg',
-	'0432.svg',
-	'0433.svg',
-	'0434.svg',
-	'0435.svg',
-	'0436.svg',
-	'0437.svg',
-	'0439.svg',
-	'0440.svg',
-	'1100.svg',
-	'1200.svg',
-	'1300.svg',
-	'1400.svg',
-	'1500.svg',
-	'1600.svg',
-	'1800.svg',
-	'1840.svg',
-	'1860.svg',
-	'2120.svg',
-	'3110.svg',
-	'3115.svg',
-	'3120.svg',
-	'3140.svg',
-	'3210.svg',
-	'3220.svg',
-	'3310.svg',
-	'3320.svg',
-	'3330.svg',
-	'3341.svg',
-	'3342.svg',
-	'3343.svg',
-	'3344.svg',
-	'3345.svg',
-	'3360.svg',
-	'3370.svg',
-	'3382.svg',
-	'3390.svg',
-	'4101.svg'
-];
-
 // Since this component is simple and static, there's no parent container for it.
 const Comp = ({ selectedFeature, collapsed, setCollapsed }) => {
 	const currentFeature = selectedFeature;
@@ -63,18 +19,20 @@ const Comp = ({ selectedFeature, collapsed, setCollapsed }) => {
 		//console.log(JSON.stringify(currentFeature));
 	};
 
-	let name = selectedFeature.text;
+	// let name = selectedFeature.text;
 
-	const nameParts = name.split('-');
-	const datetimeParts = (selectedFeature.properties.rechtswirksam || '').split(' ');
-	const dateParts = datetimeParts[0].split('-');
-	const date = dateParts[2] + '.' + dateParts[1] + '.' + dateParts[0];
-	const oberbegriff = nameParts[0];
-	const headerText = oberbegriff;
-	const os = selectedFeature.properties.os;
-	console.log('selectedFeature.properties.fnp_aender', selectedFeature.properties.fnp_aender);
+	// const nameParts = name.split('-');
+	// const datetimeParts = (selectedFeature.properties.rechtswirksam || '').split(' ');
+	// const dateParts = datetimeParts[0].split('-');
+	// const date = dateParts[2] + '.' + dateParts[1] + '.' + dateParts[0];
+	// const oberbegriff = nameParts[0];
+	// const headerText = oberbegriff;
+	// const os = selectedFeature.properties.os;
+	// console.log('selectedFeature.properties.fnp_aender', selectedFeature.properties.fnp_aender);
 
-	let header = <InfoBoxHeader headerColor={headerBackgroundColor} content={headerText} />;
+	let header = (
+		<InfoBoxHeader headerColor={headerBackgroundColor} content={'nicht genehmigte Fläche'} />
+	);
 
 	const getLinkFromAEV = (aev, defaultEl) => {
 		if (aev !== undefined) {
@@ -85,7 +43,7 @@ const Comp = ({ selectedFeature, collapsed, setCollapsed }) => {
 			} else if (status === 'n') {
 				statusText = ' (nicht rechtswirksam)';
 			} else {
-				statusText = ' (nicht rechtswirksame Teile)';
+				statusText = ' (nicht rechtswirksame Teile9';
 			}
 			return (
 				<b>
@@ -107,12 +65,19 @@ const Comp = ({ selectedFeature, collapsed, setCollapsed }) => {
 		<span>FNP vom 17.01.2005</span>
 	);
 	const intersectAEV = getLinkFromAEV(selectedFeature.properties.intersect_fnp_aender);
-	let infoText;
-	if (nameParts.length > 1) {
-		infoText = nameParts[1];
-	} else {
-		infoText = name;
-	}
+
+	const bemArr = selectedFeature.properties.bem.split('+');
+	console.log('selectedFeature.properties', selectedFeature.properties);
+	let infoText = bemArr[2].trim();
+	const vorgeschlHN = bemArr[3].trim();
+	const ursprLegende =
+		'Gemäß den Verfügungen der Bezirksregierung Düsseldorf ' +
+		'vom 14.10.2004 und 02.12.2004 (Az.35.2-11.14 (Wup neu)) von der ' +
+		'Genehmigung nach § 6 BauGB ausgenommene Darstellungen (' +
+		bemArr[1].trim() +
+		')';
+
+	let infoTextDiv;
 
 	if (selectedFeature.properties.area > 0) {
 		infoText = (
@@ -132,37 +97,15 @@ const Comp = ({ selectedFeature, collapsed, setCollapsed }) => {
 		);
 	}
 
-	let icon;
-	if (validFNPIcons.indexOf(os + '.svg') !== -1) {
-		icon = (
-			<img
-				alt=''
-				style={{
-					paddingTop: 10,
-					paddingLeft: 10,
-					paddingRight: 10,
-					float: 'right',
-					paddingBottom: '5px'
-				}}
-				src={'/images/fnp/' + os + '.svg'}
-				onError={"this.style.display='none'"}
-				width='80'
-			/>
-		);
-	}
-
 	let divWhenLarge = (
 		<Well bsSize='small'>
-			{icon}
 			<h4>{infoText}</h4>
 			<p>
-				<b>rechtswirksam seit: </b>
-				{date}
+				<b>vorgeschlagene Hauptnutzung: </b>
+				{vorgeschlHN}
 			</p>
 
-			<p>
-				<b>festgelegt durch:</b> {festgelegt}
-			</p>
+			<p>{ursprLegende}</p>
 			{intersectAEV !== undefined && (
 				<p>
 					<b>siehe auch:</b> {intersectAEV}
@@ -206,9 +149,7 @@ const Comp = ({ selectedFeature, collapsed, setCollapsed }) => {
 								padding: '5px',
 								paddingTop: '1px'
 							}}
-						>
-							{icon}
-						</td>
+						/>
 					</tr>
 				</tbody>
 			</table>

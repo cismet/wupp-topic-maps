@@ -239,6 +239,7 @@ const Comp = ({
 			</table>
 		</div>
 	);
+
 	return (
 		<div>
 			{header}

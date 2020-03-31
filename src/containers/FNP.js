@@ -12,7 +12,10 @@ import VectorGrid from 'react-leaflet-vectorgrid';
 import { connect } from 'react-redux';
 import { routerActions as RoutingActions } from 'react-router-redux';
 import { bindActionCreators } from 'redux';
+import EmptyAEVInfo from '../components/fnp/EmptytAEVInfo';
 import AEVInfo from '../components/fnp/AEVInfo';
+import HNInfo from '../components/fnp/HNInfo';
+import EmptyHNInfo from '../components/fnp/EmptytHNInfo';
 import ShowAEVModeButton from '../components/fnp/ShowAEVModeButton';
 import { proj4crs25832def } from '../constants/gis';
 import TopicMap from '../containers/TopicMap';
@@ -33,52 +36,6 @@ import CollapsibleABWell from 'components/commons/CollapsibleABWell';
 import InfoBoxHeader from 'components/commons/InfoBoxHeader';
 import FNPModalHelp from 'components/fnp/help/Help00MainComponent';
 import Color from 'color';
-
-//printf 'const validFNPIcons=['; for file  in *.svg; printf '"'$file'"',; printf ']'
-
-const validFNPIcons = [
-	'0200.svg',
-	'0410.svg',
-	'0420.svg',
-	'0431.svg',
-	'0432.svg',
-	'0433.svg',
-	'0434.svg',
-	'0435.svg',
-	'0436.svg',
-	'0437.svg',
-	'0439.svg',
-	'0440.svg',
-	'1100.svg',
-	'1200.svg',
-	'1300.svg',
-	'1400.svg',
-	'1500.svg',
-	'1600.svg',
-	'1800.svg',
-	'1840.svg',
-	'1860.svg',
-	'2120.svg',
-	'3110.svg',
-	'3115.svg',
-	'3120.svg',
-	'3140.svg',
-	'3210.svg',
-	'3220.svg',
-	'3310.svg',
-	'3320.svg',
-	'3330.svg',
-	'3341.svg',
-	'3342.svg',
-	'3343.svg',
-	'3344.svg',
-	'3345.svg',
-	'3360.svg',
-	'3370.svg',
-	'3382.svg',
-	'3390.svg',
-	'4101.svg'
-];
 
 let reduxBackground = undefined;
 
@@ -371,7 +328,7 @@ export class Container_ extends React.Component {
 			if (this.isRechtsplan()) {
 				info = (
 					<AEVInfo
-						pixelwidth={350}
+						pixelwidth={370}
 						featureCollection={this.props.mapping.featureCollection}
 						selectedIndex={this.props.mapping.selectedIndex || 0}
 						next={this.selectNextIndex}
@@ -381,11 +338,6 @@ export class Container_ extends React.Component {
 						setCollapsed={(collapsed) => {
 							this.props.aevActions.setCollapsedInfoBox(collapsed);
 						}}
-						// downloadPlan={this.openDocViewer}
-						// downloadEverything={this.openDocViewer}
-						// preparedDownload={this.props.bplaene.preparedDownload}
-						// resetPreparedDownload={this.resetPreparedDownload}
-						// loadingError={this.props.bplaene.documentsLoadingError}
 					/>
 				);
 			} else if (this.isArbeitskarte() === true) {
@@ -393,347 +345,41 @@ export class Container_ extends React.Component {
 					this.props.mapping.selectedIndex || 0
 				];
 
-				const name = selectedFeature.text;
-
-				const nameParts = name.split('-');
-				const datetimeParts = (selectedFeature.properties.rechtswirksam || '').split(' ');
-				const dateParts = datetimeParts[0].split('-');
-				const date = dateParts[2] + '.' + dateParts[1] + '.' + dateParts[0];
-				const oberbegriff = nameParts[0];
-				const headerText = oberbegriff;
-				const os = selectedFeature.properties.os;
-				console.log(
-					'selectedFeature.properties.fnp_aender',
-					selectedFeature.properties.fnp_aender
-				);
-
-				const getLinkFromAEV = (aev, defaultEl) => {
-					if (aev !== undefined) {
-						let statusText;
-						let status = aev.properties.status;
-						if (status === 'r') {
-							statusText = '';
-						} else if (status === 'n') {
-							statusText = ' (nicht rechtswirksam)';
-						} else {
-							statusText = ' (nicht rechtswirksame Teile9';
-						}
-						return (
-							<b>
-								<a
-									href={'/#/docs/aenderungsv/' + aev.text + '/'}
-									target='_aenderungsv'
-								>
-									{aev.text +
-										(aev.properties.verfahren === ''
-											? '. FNP-Änderung' + statusText
-											: '. FNP-Berichtigung' + statusText)}
-								</a>
-							</b>
-						);
-					} else {
-						return defaultEl;
-					}
-				};
-
-				const festgelegt = getLinkFromAEV(
-					selectedFeature.properties.fnp_aender,
-					<span>FNP vom 17.01.2005</span>
-				);
-				const intersectAEV = getLinkFromAEV(
-					selectedFeature.properties.intersect_fnp_aender
-				);
-				let infoText;
-				if (nameParts.length > 1) {
-					infoText = nameParts[1];
-				} else {
-					infoText = name;
-				}
-				if (selectedFeature.properties.area > 0) {
-					infoText = (
-						<div>
-							<span>{infoText} </span>
-							<span style={{ whiteSpace: 'nowrap' }}>
-								{'(' +
-									(selectedFeature.properties.area + '').replace('.', ',') +
-									' ha)'}
-							</span>
-						</div>
-					);
-				} else if (selectedFeature.properties.area === 0) {
-					infoText = (
-						<div>
-							<span>{infoText} </span>
-							<span style={{ whiteSpace: 'nowrap' }}>({'<'} 0,1 ha)</span>
-						</div>
-					);
-				}
-
-				let headerBackgroundColor = Color(getColorForHauptnutzung(selectedFeature));
-
-				let header = (
-					<InfoBoxHeader
-						headerColor={headerBackgroundColor.alpha(0.8)}
-						content={headerText}
-					/>
-				);
-				let icon;
-				if (validFNPIcons.indexOf(os + '.svg') !== -1) {
-					icon = (
-						<img
-							alt=''
-							style={{
-								paddingTop: 10,
-								paddingLeft: 10,
-								paddingRight: 10,
-								float: 'right',
-								paddingBottom: '5px'
-							}}
-							src={'/images/fnp/' + os + '.svg'}
-							onError={"this.style.display='none'"}
-							width='80'
-						/>
-					);
-				}
-
 				info = (
-					<div pixelwidth={350}>
-						{header}
-						<Well bsSize='small'>
-							{icon}
-							<h4>{infoText}</h4>
-							<p>
-								<b>rechtswirksam seit: </b>
-								{date}
-							</p>
-
-							<p>
-								<b>festgelegt durch:</b> {festgelegt}
-							</p>
-							{intersectAEV !== undefined && (
-								<p>
-									<b>siehe auch:</b> {intersectAEV}
-								</p>
-							)}
-							{selectedFeature.properties.bplan_nr !== undefined && (
-								<p>
-									<b>Anlass: </b>{' '}
-									<b>
-										<a
-											href={
-												'/#/docs/bplaene/' +
-												selectedFeature.properties.bplan_nr
-											}
-											target='_bplaene'
-										>
-											B-Plan {selectedFeature.properties.bplan_nr}
-										</a>
-									</b>
-								</p>
-							)}
-						</Well>
-					</div>
-				);
-			}
-		} else {
-			//TODO better way to follow the jsx-a11y/anchor-is-valid rule
-			/* eslint-disable */
-			let largeDiv = (
-				<div>
-					<table border={0} style={{ width: '100%' }}>
-						<tbody>
-							<tr>
-								<td
-									style={{
-										textAlign: 'left',
-										verticalAlign: 'top',
-										padding: '5px',
-										maxWidth: '160px',
-										overflowWrap: 'break-word'
-									}}
-								>
-									<h4>Flächennutzungsplan Wuppertal vom 17.01.2005</h4>
-								</td>
-								<td
-									style={{
-										textAlign: 'center',
-										verticalAlign: 'center',
-										padding: '5px',
-										paddingTop: '1px'
-									}}
-								>
-									<a
-										href={`/#/docs/static/FNP.Legende.und.Dokumente`}
-										target='_fnp'
-										style={{ color: '#333' }}
-									>
-										<h4 style={{ marginLeft: 5, marginRight: 5 }}>
-											{/* <OverlayTrigger placement='left' overlay={'legende '}> */}
-											<font size='28'>
-												<Icon
-													style={{ textDecoration: 'none' }}
-													name='file-pdf-o'
-												/>
-											</font>
-
-											{/* </OverlayTrigger> */}
-										</h4>
-									</a>
-								</td>
-							</tr>
-						</tbody>
-					</table>
-					{/* <h4>
-						Flächennutzungsplan Wuppertal vom 17.01.2005
-						<font size='30'>
-							<Icon style={{ textDecoration: 'none' }} name='file-pdf-o' />
-						</font>
-					</h4> */}
-					{/* <a onClick={() => this.props.uiStateActions.showApplicationMenu(true)}>
-						Legende und Dokumente
-					</a> */}
-					<div style={{ height: '1px', background: 'black' }} />
-					<h5>Laden der Infos zu Änderungsverfahren (ÄV)</h5>
-
-					<p>
-						für ein ÄV Doppelklick auf Geltungsbereich | <Icon name='search' /> für alle
-						ÄV im Kartenausschnitt | ÄV-Nummer im Suchfeld eingeben und Auswahl{' '}
-						<Icon name='file' overlay='F' marginRight='2px' />aus Vorschlagsliste |
-						zurück mit Doppelklick außerhalb eines ÄV
-					</p>
-
-					<a onClick={() => this.props.uiStateActions.showApplicationMenu(true)}>
-						Kompaktanleitung
-					</a>
-				</div>
-			);
-
-			largeDiv = (
-				<div>
-					{/* <table border={0} style={{ width: '100%' }}>
-						<tbody>
-							<tr>
-								<td
-									style={{
-										textAlign: 'left',
-										verticalAlign: 'top',
-										padding: '5px',
-										maxWidth: '180px',
-										overflowWrap: 'break-word'
-									}}
-								/>
-								<td
-									style={{
-										textAlign: 'center',
-										verticalAlign: 'top',
-										padding: '5px',
-										paddingTop: '1px'
-									}}
-								/>
-							</tr>
-						</tbody>
-					</table> */}
-
-					<a
-						href={`/#/docs/static/FNP.Legende.und.Dokumente`}
-						target='_fnp'
-						style={{ color: '#333', float: 'right', paddingLeft: '15px' }}
-					>
-						<h4
-							style={{
-								marginLeft: 5,
-								marginRight: 5,
-								paddingTop: '0px',
-								marginTop: '0px',
-								marginBottom: '4px',
-								textAlign: 'center'
-							}}
-						>
-							{/* <OverlayTrigger placement='left' overlay={'legende '}> */}
-							<font size='28'>
-								<Icon style={{ textDecoration: 'none' }} name='file-pdf-o' />
-							</font>
-
-							{/* </OverlayTrigger> */}
-						</h4>
-						{/* <OverlayTrigger placement='left' overlay={planTooltip}> */}
-						<strong>Legende</strong>
-						{/* </OverlayTrigger> */}
-					</a>
-					<h4>Hinweise | Legende </h4>
-					<p>
-						für ein Änderungsverfahren (ÄV) Doppelklick auf Geltungsbereich |{' '}
-						<Icon name='search' /> für alle ÄV im Kartenausschnitt | ÄV-Nummer im
-						Suchfeld eingeben und Auswahl{' '}
-						<Icon name='file' overlay='F' marginRight='2px' />aus Vorschlagsliste |
-						zurück mit Doppelklick außerhalb eines ÄV{' '}
-						<a onClick={() => this.props.uiStateActions.showApplicationMenu(true)}>
-							<Icon name='angle-double-right' /> Kompaktanleitung
-						</a>
-					</p>
-				</div>
-			);
-
-			let smallDiv = (
-				<div>
-					<table border={0} style={{ width: '100%' }}>
-						<tbody>
-							<tr>
-								<td
-									style={{
-										textAlign: 'left',
-										verticalAlign: 'top',
-										padding: '5px',
-										maxWidth: '160px',
-										overflowWrap: 'break-word'
-									}}
-								>
-									<h4>Legende und Dokumente</h4>
-								</td>
-								<td
-									style={{
-										textAlign: 'center',
-										verticalAlign: 'center',
-										padding: '5px',
-										paddingTop: '1px'
-									}}
-								>
-									<a
-										href={`/#/docs/static/FNP.Legende.und.Dokumente`}
-										target='_fnp'
-										style={{ color: '#333' }}
-									>
-										<h4 style={{ marginLeft: 5, marginRight: 5 }}>
-											{/* <OverlayTrigger placement='left' overlay={'legende '}> */}
-											<Icon
-												style={{ textDecoration: 'none', fontSize: 26 }}
-												name='file-pdf-o'
-											/>
-											{/* </OverlayTrigger> */}
-										</h4>
-									</a>
-								</td>
-							</tr>
-						</tbody>
-					</table>
-				</div>
-			);
-
-			info = (
-				<div pixelwidth={350}>
-					<InfoBoxHeader content='FNP vom 17.01.2005' />
-					<CollapsibleABWell
+					<HNInfo
+						pixelwidth={370}
+						selectedFeature={selectedFeature}
 						collapsed={this.props.aev.infoBoxState.minified}
-						divWhenLarge={largeDiv}
-						divWhenCollapsed={smallDiv}
 						setCollapsed={(collapsed) => {
 							this.props.aevActions.setCollapsedInfoBox(collapsed);
 						}}
 					/>
-				</div>
-			);
-
-			/* eslint-ensable */
+				);
+			}
+		} else {
+			if (this.isRechtsplan() === true) {
+				info = (
+					<EmptyAEVInfo
+						pixelwidth={370}
+						collapsed={this.props.aev.infoBoxState.minified}
+						setCollapsed={(collapsed) => {
+							this.props.aevActions.setCollapsedInfoBox(collapsed);
+						}}
+						showApplicationMenu={this.props.uiStateActions.showApplicationMenu}
+					/>
+				);
+			} else if (this.isArbeitskarte() === true) {
+				info = (
+					<EmptyHNInfo
+						pixelwidth={370}
+						collapsed={this.props.aev.infoBoxState.minified}
+						setCollapsed={(collapsed) => {
+							this.props.aevActions.setCollapsedInfoBox(collapsed);
+						}}
+						showApplicationMenu={this.props.uiStateActions.showApplicationMenu}
+					/>
+				);
+			}
 		}
 
 		try {

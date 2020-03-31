@@ -74,7 +74,7 @@ const Comp = ({ selectedFeature, collapsed, setCollapsed }) => {
 		<div>
 			Gemäß den Verfügungen der Bezirksregierung Düsseldorf vom 14.10.2004 und 02.12.2004
 			(Az.35.2-11.14 (Wup neu)) von der Genehmigung nach § 6 BauGB ausgenommene Darstellungen
-			(<b>{bemArr[1].trim()}</b>
+			(<b> Nr. {bemArr[1].trim()} </b>
 			)
 		</div>
 	);

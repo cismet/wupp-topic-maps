@@ -195,7 +195,7 @@ const Comp = ({ selectedFeature, collapsed, setCollapsed }) => {
 
 	let paddingTop = 0;
 
-	if (iconRef.current !== null) {
+	if (collapsed === true && iconRef.current !== null) {
 		// console.log('iconRef', iconRef.current.clientHeight);
 		const iconHeightWithoutPadding = iconRef.current.clientHeight - 15;
 		if (collapsedTitleRef.current !== null) {

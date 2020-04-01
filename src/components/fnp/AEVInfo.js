@@ -92,101 +92,97 @@ const Comp = ({
 
 	let header = <InfoBoxHeader headerColor={headerColor} content={statusText} />;
 	let divWhenLarge = (
-		<Well bsSize='small' onClick={logCurrentFeature}>
-			<div>
-				<table border={0} style={{ width: '100%' }}>
-					<tbody>
-						<tr>
-							<td
-								style={{
-									textAlign: 'left',
-									verticalAlign: 'top',
-									padding: '5px',
-									maxWidth: '180px',
-									overflowWrap: 'break-word'
-								}}
-							>
-								<h4>
-									{currentFeature.text}
-									{currentFeature.properties.verfahren === '' ? (
-										'. FNP-Änderung'
-									) : (
-										'. FNP-Berichtigung'
-									)}
-								</h4>
-								{currentFeature.properties.bplan_nr !== undefined && (
-									<h6>
-										<b>Anlass: {linkArr} </b>
-									</h6>
+		<div onClick={logCurrentFeature}>
+			<table border={0} style={{ width: '100%' }}>
+				<tbody>
+					<tr>
+						<td
+							style={{
+								textAlign: 'left',
+								verticalAlign: 'top',
+								padding: '5px',
+								maxWidth: '180px',
+								overflowWrap: 'break-word'
+							}}
+						>
+							<h4>
+								{currentFeature.text}
+								{currentFeature.properties.verfahren === '' ? (
+									'. FNP-Änderung'
+								) : (
+									'. FNP-Berichtigung'
 								)}
-								{rechtswirksam_seit !== undefined && (
-									<h6>
-										<b>rechtswirksam seit:</b> {rechtswirksam_seit}
-									</h6>
-								)}
-							</td>
-							<td
-								style={{
-									textAlign: 'center',
-									verticalAlign: 'top',
-									padding: '5px',
-									paddingTop: '1px'
-								}}
+							</h4>
+							{currentFeature.properties.bplan_nr !== undefined && (
+								<h6>
+									<b>Anlass: {linkArr} </b>
+								</h6>
+							)}
+							{rechtswirksam_seit !== undefined && (
+								<h6>
+									<b>rechtswirksam seit:</b> {rechtswirksam_seit}
+								</h6>
+							)}
+						</td>
+						<td
+							style={{
+								textAlign: 'center',
+								verticalAlign: 'top',
+								padding: '5px',
+								paddingTop: '1px'
+							}}
+						>
+							<a
+								style={{ color: '#333' }}
+								href={`/#/docs/aenderungsv/${currentFeature.text}/1`}
+								target='_aenderungsv'
 							>
-								<a
-									style={{ color: '#333' }}
-									href={`/#/docs/aenderungsv/${currentFeature.text}/1`}
-									target='_aenderungsv'
+								<h4
+									style={{
+										marginLeft: 5,
+										marginRight: 5,
+										marginBottom: '4px',
+										marginBottom: '4px'
+									}}
 								>
-									<h4
-										style={{
-											marginLeft: 5,
-											marginRight: 5,
-											marginBottom: '4px',
-											marginBottom: '4px'
-										}}
-									>
-										<font size='30'>
-											<Icon
-												style={{ textDecoration: 'none' }}
-												name='file-pdf-o'
-											/>
-										</font>
-									</h4>
-									<OverlayTrigger placement='left' overlay={planTooltip}>
-										<strong>{mainDocOrDocs}</strong>
-									</OverlayTrigger>
-								</a>
-							</td>
-						</tr>
-					</tbody>
-				</table>
+									<font size='30'>
+										<Icon
+											style={{ textDecoration: 'none' }}
+											name='file-pdf-o'
+										/>
+									</font>
+								</h4>
+								<OverlayTrigger placement='left' overlay={planTooltip}>
+									<strong>{mainDocOrDocs}</strong>
+								</OverlayTrigger>
+							</a>
+						</td>
+					</tr>
+				</tbody>
+			</table>
 
-				<div style={{ height: '9px' }} />
-				<table style={{ width: '100%' }}>
-					<tbody>
-						<tr>
-							<td style={{ textAlign: 'left', verticalAlign: 'center' }}>
-								<a title='vorheriger Treffer' onClick={previous}>
-									&lt;&lt;
-								</a>
-							</td>
+			<div style={{ height: '9px' }} />
+			<table style={{ width: '100%' }}>
+				<tbody>
+					<tr>
+						<td style={{ textAlign: 'left', verticalAlign: 'center' }}>
+							<a title='vorheriger Treffer' onClick={previous}>
+								&lt;&lt;
+							</a>
+						</td>
 
-							<td style={{ textAlign: 'center', verticalAlign: 'center' }}>
-								<a onClick={fitAll}>
-									alle {featureCollection.length} Treffer anzeigen
-								</a>
-							</td>
-							<td style={{ textAlign: 'right', verticalAlign: 'center' }}>
-								<a title='nächster Treffer' onClick={next}>
-									&gt;&gt;
-								</a>
-							</td>
-						</tr>
-					</tbody>
-				</table>
-			</div>
-		</Well>
+						<td style={{ textAlign: 'center', verticalAlign: 'center' }}>
+							<a onClick={fitAll}>alle {featureCollection.length} Treffer anzeigen</a>
+						</td>
+						<td style={{ textAlign: 'right', verticalAlign: 'center' }}>
+							<a title='nächster Treffer' onClick={next}>
+								&gt;&gt;
+							</a>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
 	);
 	let divWhenCollapsed = (
 		<div>

@@ -45,21 +45,13 @@ const Comp = ({ collapsed, setCollapsed, showApplicationMenu }) => {
 							style={{
 								textAlign: 'left',
 								verticalAlign: 'top',
-								padding: '5px',
+
 								maxWidth: '160px',
 								overflowWrap: 'break-word'
 							}}
 						>
 							<h4>Hinweise ...</h4>
 						</td>
-						<td
-							style={{
-								textAlign: 'center',
-								verticalAlign: 'center',
-								padding: '5px',
-								paddingTop: '1px'
-							}}
-						/>
 					</tr>
 				</tbody>
 			</table>

@@ -56,7 +56,7 @@ const COMP = ({
 
 	let shownDiv;
 	if (collapsed) {
-		shownDiv = <div>{divWhenCollapsed}</div>;
+		shownDiv = <div style={{ padding: 9 }}>{divWhenCollapsed}</div>;
 	} else {
 		shownDiv = <div style={{ padding: 9 }}>{divWhenLarge}</div>;
 	}

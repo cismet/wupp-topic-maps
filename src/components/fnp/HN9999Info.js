@@ -100,7 +100,7 @@ const Comp = ({ selectedFeature, collapsed, setCollapsed }) => {
 	}
 
 	let divWhenLarge = (
-		<Well bsSize='small'>
+		<div>
 			<h4>{infoText}</h4>
 			<p>
 				<b>vorgeschlagene Hauptnutzung: </b>
@@ -126,7 +126,7 @@ const Comp = ({ selectedFeature, collapsed, setCollapsed }) => {
 					</b>
 				</p>
 			)}
-		</Well>
+		</div>
 	);
 	let divWhenCollapsed = (
 		<div>
@@ -137,21 +137,12 @@ const Comp = ({ selectedFeature, collapsed, setCollapsed }) => {
 							style={{
 								textAlign: 'left',
 								verticalAlign: 'middle',
-								padding: '5px',
 								maxWidth: '160px',
 								overflowWrap: 'break-word'
 							}}
 						>
 							<h4>{infoText}</h4>
 						</td>
-						<td
-							style={{
-								textAlign: 'center',
-								verticalAlign: 'center',
-								padding: '5px',
-								paddingTop: '1px'
-							}}
-						/>
 					</tr>
 				</tbody>
 			</table>

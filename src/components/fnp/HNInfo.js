@@ -134,11 +134,12 @@ const Comp = ({ selectedFeature, collapsed, setCollapsed }) => {
 	}
 
 	let iconStyle = {
-		paddingTop: 10,
+		borderColor: 'black',
+		_paddingTop: 0,
 		paddingLeft: 10,
 		paddingRight: 10,
 		float: 'right',
-		paddingBottom: '5px',
+		_paddingBottom: '10px',
 		maxWidth: '80px'
 	};
 
@@ -161,7 +162,7 @@ const Comp = ({ selectedFeature, collapsed, setCollapsed }) => {
 	}
 
 	let divWhenLarge = (
-		<Well bsSize='small'>
+		<div>
 			{icon}
 			<h4>{infoText}</h4>
 			<p>
@@ -190,14 +191,14 @@ const Comp = ({ selectedFeature, collapsed, setCollapsed }) => {
 					</b>
 				</p>
 			)}
-		</Well>
+		</div>
 	);
 
 	let paddingTop = 0;
 
 	if (collapsed === true && iconRef.current !== null) {
 		// console.log('iconRef', iconRef.current.clientHeight);
-		const iconHeightWithoutPadding = iconRef.current.clientHeight - 15;
+		const iconHeightWithoutPadding = iconRef.current.clientHeight;
 		if (collapsedTitleRef.current !== null) {
 			// console.log('collapsedTitleRef', collapsedTitleRef.current.clientHeight);
 			if (collapsedTitleRef.current.clientHeight < iconHeightWithoutPadding) {
@@ -206,15 +207,15 @@ const Comp = ({ selectedFeature, collapsed, setCollapsed }) => {
 			}
 		}
 	}
-	// console.log('paddingTop', paddingTop);
+	console.log('paddingTop', paddingTop);
 
 	let divWhenCollapsed = (
-		<Well bsSize='small'>
+		<div>
 			{icon}
 			<h4 ref={collapsedTitleRef} style={{ verticalAlign: 'middle', paddingTop }}>
 				{infoText}
 			</h4>
-		</Well>
+		</div>
 		// <div>
 		// 	<table border={0} style={{ width: '100%' }}>
 		// 		<tbody>

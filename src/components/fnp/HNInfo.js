@@ -118,7 +118,7 @@ const Comp = ({ selectedFeature, collapsed, setCollapsed }) => {
 	if (selectedFeature.properties.area > 0) {
 		infoText = (
 			<div>
-				<span>{infoText} </span>
+				<span>{infoText + ' '} </span>
 				<span style={{ whiteSpace: 'nowrap' }}>
 					{'(' + (selectedFeature.properties.area + '').replace('.', ',') + ' ha)'}
 				</span>
@@ -135,11 +135,9 @@ const Comp = ({ selectedFeature, collapsed, setCollapsed }) => {
 
 	let iconStyle = {
 		borderColor: 'black',
-		_paddingTop: 0,
-		paddingLeft: 10,
-		paddingRight: 10,
+		padding: 4,
 		float: 'right',
-		_paddingBottom: '10px',
+
 		maxWidth: '80px'
 	};
 
@@ -194,27 +192,30 @@ const Comp = ({ selectedFeature, collapsed, setCollapsed }) => {
 		</div>
 	);
 
-	let paddingTop = 0;
-
+	let paddingTop = 9;
+	let margin = 9;
 	if (collapsed === true && iconRef.current !== null) {
-		// console.log('iconRef', iconRef.current.clientHeight);
+		console.log('iconRef', iconRef.current.clientHeight);
 		const iconHeightWithoutPadding = iconRef.current.clientHeight;
 		if (collapsedTitleRef.current !== null) {
-			// console.log('collapsedTitleRef', collapsedTitleRef.current.clientHeight);
+			console.log('collapsedTitleRef', collapsedTitleRef.current.clientHeight);
 			if (collapsedTitleRef.current.clientHeight < iconHeightWithoutPadding) {
 				paddingTop =
 					(iconHeightWithoutPadding - collapsedTitleRef.current.clientHeight) / 2;
+				margin = 0;
 			}
 		}
 	}
 	console.log('paddingTop', paddingTop);
 
 	let divWhenCollapsed = (
-		<div>
+		<div style={{ paddingLeft: 9, paddingRight: 9 }}>
 			{icon}
-			<h4 ref={collapsedTitleRef} style={{ verticalAlign: 'middle', paddingTop }}>
-				{infoText}
-			</h4>
+			<div style={{ paddingTop, paddingBottom: paddingTop }}>
+				<h4 ref={collapsedTitleRef} style={{ verticalAlign: 'middle', margin }}>
+					{infoText}
+				</h4>
+			</div>
 		</div>
 		// <div>
 		// 	<table border={0} style={{ width: '100%' }}>
@@ -255,6 +256,7 @@ const Comp = ({ selectedFeature, collapsed, setCollapsed }) => {
 				divWhenLarge={divWhenLarge}
 				divWhenCollapsed={divWhenCollapsed}
 				setCollapsed={setCollapsed}
+				noPadding={true}
 			/>
 		</div>
 	);

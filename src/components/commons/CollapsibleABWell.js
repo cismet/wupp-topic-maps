@@ -50,15 +50,24 @@ const COMP = ({
 	debugBorder = 0,
 	tableStyle = {},
 	collapsed,
-	setCollapsed
+	setCollapsed,
+	noPadding = false
 }) => {
 	const buttonInUse = <div>{collapsed === true ? upButton : downButton}</div>;
 
 	let shownDiv;
 	if (collapsed) {
-		shownDiv = <div style={{ padding: 9 }}>{divWhenCollapsed}</div>;
+		if (noPadding === true) {
+			shownDiv = divWhenCollapsed;
+		} else {
+			shownDiv = <div style={{ padding: 9 }}>{divWhenCollapsed}</div>;
+		}
 	} else {
-		shownDiv = <div style={{ padding: 9 }}>{divWhenLarge}</div>;
+		if (noPadding === true) {
+			shownDiv = divWhenLarge;
+		} else {
+			shownDiv = <div style={{ padding: 9 }}>{divWhenLarge}</div>;
+		}
 	}
 
 	if (fixedRow) {

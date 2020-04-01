@@ -141,7 +141,7 @@ const Comp = ({ selectedFeature, collapsed, setCollapsed }) => {
 								overflowWrap: 'break-word'
 							}}
 						>
-							<h4>{infoText}</h4>
+							<h4 style={{ margin: 9 }}>{infoText}</h4>
 						</td>
 					</tr>
 				</tbody>
@@ -157,6 +157,7 @@ const Comp = ({ selectedFeature, collapsed, setCollapsed }) => {
 				divWhenLarge={divWhenLarge}
 				divWhenCollapsed={divWhenCollapsed}
 				setCollapsed={setCollapsed}
+				noPadding={false}
 			/>
 		</div>
 	);

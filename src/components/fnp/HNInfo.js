@@ -127,7 +127,7 @@ const Comp = ({ selectedFeature, collapsed, setCollapsed }) => {
 	} else if (selectedFeature.properties.area === 0) {
 		infoText = (
 			<div>
-				<span>{infoText} </span>
+				<span>{infoText + ' '}</span>
 				<span style={{ whiteSpace: 'nowrap' }}>({'<'} 0,1 ha)</span>
 			</div>
 		);

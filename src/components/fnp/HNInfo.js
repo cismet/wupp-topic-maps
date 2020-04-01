@@ -160,7 +160,7 @@ const Comp = ({ selectedFeature, collapsed, setCollapsed }) => {
 	}
 
 	let divWhenLarge = (
-		<div>
+		<div style={{ padding: 9 }}>
 			{icon}
 			<h4>{infoText}</h4>
 			<p>

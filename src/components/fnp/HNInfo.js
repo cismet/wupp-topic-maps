@@ -1,6 +1,6 @@
 import Icon from 'components/commons/Icon';
 import PropTypes from 'prop-types';
-import React from 'react';
+import React, { useRef } from 'react';
 import { OverlayTrigger, Tooltip, Well } from 'react-bootstrap';
 import Color from 'color';
 import CollapsibleABWell from 'components/commons/CollapsibleABWell';
@@ -64,7 +64,8 @@ const Comp = ({ selectedFeature, collapsed, setCollapsed }) => {
 	};
 
 	let name = selectedFeature.text;
-
+	const collapsedTitleRef = useRef(null);
+	const iconRef = useRef(null);
 	const nameParts = name.split('-');
 	const datetimeParts = (selectedFeature.properties.rechtswirksam || '').split(' ');
 	const dateParts = datetimeParts[0].split('-');
@@ -132,21 +133,29 @@ const Comp = ({ selectedFeature, collapsed, setCollapsed }) => {
 		);
 	}
 
+	let iconStyle = {
+		paddingTop: 10,
+		paddingLeft: 10,
+		paddingRight: 10,
+		float: 'right',
+		paddingBottom: '5px',
+		maxWidth: '80px'
+	};
+
+	if (collapsed === true) {
+		iconStyle.height = '63px';
+	} else {
+	}
+
 	let icon;
 	if (validFNPIcons.indexOf(os + '.svg') !== -1) {
 		icon = (
 			<img
+				ref={iconRef}
 				alt=''
-				style={{
-					paddingTop: 10,
-					paddingLeft: 10,
-					paddingRight: 10,
-					float: 'right',
-					paddingBottom: '5px'
-				}}
+				style={iconStyle}
 				src={'/images/fnp/' + os + '.svg'}
 				onError={"this.style.display='none'"}
-				width='80'
 			/>
 		);
 	}
@@ -183,40 +192,58 @@ const Comp = ({ selectedFeature, collapsed, setCollapsed }) => {
 			)}
 		</Well>
 	);
+
+	let paddingTop = 0;
+
+	if (iconRef.current !== null) {
+		// console.log('iconRef', iconRef.current.clientHeight);
+		const iconHeightWithoutPadding = iconRef.current.clientHeight - 15;
+		if (collapsedTitleRef.current !== null) {
+			// console.log('collapsedTitleRef', collapsedTitleRef.current.clientHeight);
+			if (collapsedTitleRef.current.clientHeight < iconHeightWithoutPadding) {
+				paddingTop =
+					(iconHeightWithoutPadding - collapsedTitleRef.current.clientHeight) / 2;
+			}
+		}
+	}
+	// console.log('paddingTop', paddingTop);
+
 	let divWhenCollapsed = (
-		// <Well bsSize='small'>
-		// 	{icon}
-		// 	<h4 style={{ verticalAlign: 'middle' }}>{infoText}</h4>
-		// </Well>
-		<div>
-			<table border={0} style={{ width: '100%' }}>
-				<tbody>
-					<tr>
-						<td
-							style={{
-								textAlign: 'left',
-								verticalAlign: 'middle',
-								padding: '5px',
-								maxWidth: '260px',
-								overflowWrap: 'break-word'
-							}}
-						>
-							<h4>{infoText}</h4>
-						</td>
-						<td
-							style={{
-								textAlign: 'center',
-								verticalAlign: 'center',
-								padding: '5px',
-								paddingTop: '1px'
-							}}
-						>
-							{icon}
-						</td>
-					</tr>
-				</tbody>
-			</table>
-		</div>
+		<Well bsSize='small'>
+			{icon}
+			<h4 ref={collapsedTitleRef} style={{ verticalAlign: 'middle', paddingTop }}>
+				{infoText}
+			</h4>
+		</Well>
+		// <div>
+		// 	<table border={0} style={{ width: '100%' }}>
+		// 		<tbody>
+		// 			<tr>
+		// 				<td
+		// 					style={{
+		// 						textAlign: 'left',
+		// 						verticalAlign: 'middle',
+		// 						padding: '5px',
+		// 						maxWidth: '260px',
+		// 						overflowWrap: 'break-word'
+		// 					}}
+		// 				>
+		// 					<h4>{infoText}</h4>
+		// 				</td>
+		// 				<td
+		// 					style={{
+		// 						textAlign: 'center',
+		// 						verticalAlign: 'center',
+		// 						padding: '5px',
+		// 						paddingTop: '1px'
+		// 					}}
+		// 				>
+		// 					{icon}
+		// 				</td>
+		// 			</tr>
+		// 		</tbody>
+		// 	</table>
+		// </div>
 	);
 
 	return (

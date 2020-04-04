@@ -9,7 +9,6 @@ import { getColorForHauptnutzung } from '../../utils/fnpHelper';
 /* eslint-disable jsx-a11y/anchor-is-valid */
 
 //printf 'const validFNPIcons=['; for file  in *.svg; printf '"'$file'"',; printf ']'
-
 const validFNPIcons = [
 	'0200.svg',
 	'0410.svg',
@@ -23,6 +22,8 @@ const validFNPIcons = [
 	'0437.svg',
 	'0439.svg',
 	'0440.svg',
+	'0441.svg',
+	'0442.svg',
 	'1100.svg',
 	'1200.svg',
 	'1300.svg',
@@ -39,6 +40,10 @@ const validFNPIcons = [
 	'3140.svg',
 	'3210.svg',
 	'3220.svg',
+	'3221.svg',
+	'3222.svg',
+	'3223.svg',
+	'3230.svg',
 	'3310.svg',
 	'3320.svg',
 	'3330.svg',
@@ -47,13 +52,13 @@ const validFNPIcons = [
 	'3343.svg',
 	'3344.svg',
 	'3345.svg',
+	'3346.svg',
 	'3360.svg',
 	'3370.svg',
 	'3382.svg',
 	'3390.svg',
 	'4101.svg'
 ];
-
 // Since this component is simple and static, there's no parent container for it.
 const Comp = ({ selectedFeature, collapsed, setCollapsed }) => {
 	const currentFeature = selectedFeature;

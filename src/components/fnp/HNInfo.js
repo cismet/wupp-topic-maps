@@ -71,11 +71,28 @@ const Comp = ({ selectedFeature, collapsed, setCollapsed }) => {
 	let name = selectedFeature.text;
 	const collapsedTitleRef = useRef(null);
 	const iconRef = useRef(null);
-	const nameParts = name.split('-');
 	const datetimeParts = (selectedFeature.properties.rechtswirksam || '').split(' ');
 	const dateParts = datetimeParts[0].split('-');
 	const date = dateParts[2] + '.' + dateParts[1] + '.' + dateParts[0];
-	const oberbegriff = nameParts[0];
+
+	const nameParts = name.split('-');
+	let infoText;
+	let oberbegriff;
+
+	if (nameParts.length === 1) {
+		infoText = name;
+		oberbegriff = name;
+	} else if (nameParts.length === 2) {
+		oberbegriff = nameParts[0];
+		infoText = nameParts[1];
+	} else {
+		//>2
+		oberbegriff = nameParts[0] + ' - ' + nameParts[1];
+		nameParts.shift(); //erstes Element Weg
+		nameParts.shift(); //zweites Element Weg
+		infoText = nameParts.join('-');
+	}
+
 	const headerText = oberbegriff;
 	const os = selectedFeature.properties.os;
 	console.log('selectedFeature.properties.fnp_aender', selectedFeature.properties.fnp_aender);
@@ -113,12 +130,6 @@ const Comp = ({ selectedFeature, collapsed, setCollapsed }) => {
 		<span>FNP vom 17.01.2005</span>
 	);
 	const intersectAEV = getLinkFromAEV(selectedFeature.properties.intersect_fnp_aender);
-	let infoText;
-	if (nameParts.length > 1) {
-		infoText = nameParts[1];
-	} else {
-		infoText = name;
-	}
 
 	if (selectedFeature.properties.area > 0) {
 		infoText = (
@@ -167,7 +178,7 @@ const Comp = ({ selectedFeature, collapsed, setCollapsed }) => {
 	let divWhenLarge = (
 		<div style={{ padding: 9 }}>
 			{icon}
-			<h4>{infoText}</h4>
+			<h4 style={{ wordWrap: 'break-word' }}>{infoText}</h4>
 			<p>
 				<b>rechtswirksam seit: </b>
 				{date}

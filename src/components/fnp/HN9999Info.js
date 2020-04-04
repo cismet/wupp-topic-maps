@@ -72,9 +72,8 @@ const Comp = ({ selectedFeature, collapsed, setCollapsed }) => {
 	const vorgeschlHN = bemArr[3].trim();
 	const ursprLegende = (
 		<div>
-			Gemäß den Verfügungen der Bezirksregierung Düsseldorf vom 14.10.2004 und 02.12.2004
-			(Az.35.2-11.14 (Wup neu)) von der Genehmigung nach § 6 BauGB ausgenommene Darstellungen
-			(<b> Nr. {bemArr[1].trim()} </b>
+			Gemäß den Verfügungen der Bezirksregierung Düsseldorf vom 14.10 und 02.12.2004 von der
+			Genehmigung nach § 6 BauGB ausgenommene Darstellungen (<b> Nr. {bemArr[1].trim()} </b>
 			)
 		</div>
 	);

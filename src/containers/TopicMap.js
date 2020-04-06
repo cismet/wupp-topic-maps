@@ -97,12 +97,22 @@ export class TopicMap_ extends React.Component {
 				// entweder dataLoader ist eine Funktion oder ein Array von Funktionen
 
 				if (Array.isArray(this.props.dataLoader)) {
+					this.props.uiStateActions.setPendingLoader(this.props.dataLoader.length);
 					for (const loader of this.props.dataLoader) {
-						loader();
+						loader(() => {
+							this.props.uiStateActions.setPendingLoader(
+								this.props.uiState.pendingLoader - 1
+							);
+						});
 					}
 				} else {
+					this.props.uiStateActions.setPendingLoader(1);
 					if (this.props.dataLoader) {
-						this.props.dataLoader();
+						this.props.dataLoader(() => {
+							console.log('this.props.uiStateActions.setPendingLoader(0)');
+
+							this.props.uiStateActions.setPendingLoader(0);
+						});
 					}
 				}
 				resolve('ok');
@@ -284,11 +294,15 @@ export class TopicMap_ extends React.Component {
 		if (searchControlPosition === 'bottomright') {
 			infoBoxBottomMargin = 5;
 		}
+		console.log('this.props.uiState.pendingLoader', this.props.uiState.pendingLoader);
+
 		return (
 			<div>
 				{this.props.modalMenu}
 				<Loadable
-					active={!this.dataLoaded && !this.props.noInitialLoadingText}
+					active={
+						this.props.uiState.pendingLoader > 0 && !this.props.noInitialLoadingText
+					}
 					spinner
 					text={this.props.initialLoadingText}
 				>

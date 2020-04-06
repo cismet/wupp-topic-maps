@@ -12,7 +12,9 @@ export const types = {
 	SET_LIGHTBOX_INDEX: 'UISTATE/SET_LIGHTBOX_INDEX',
 	SET_LIGHTBOX_URLS: 'UISTATE/SET_LIGHTBOX_URLS',
 	SET_LIGHTBOX_TITLE: 'UISTATE/SET_LIGHTBOX_TITLE',
-	SET_LIGHTBOX_CAPTION: 'UISTATE/SET_LIGHTBOX_CAPTION'
+	SET_LIGHTBOX_CAPTION: 'UISTATE/SET_LIGHTBOX_CAPTION',
+	SET_LOADING_STATUS: 'UISTATE/SET_LOADING_STATUS',
+	SET_PENDING_LOADER: 'UISTATE/SET_PENDING_LOADER'
 };
 
 ///INITIAL STATE
@@ -34,7 +36,9 @@ const initialState = {
 	lightboxindex: 0,
 	lightboxvisible: false,
 	lightboxcaption: null,
-	lightboxtitle: null
+	lightboxtitle: null,
+	loadingStatus: 'Daten werden geladen ...',
+	pendingLoader: undefined
 };
 
 ///REDUCER
@@ -96,6 +100,16 @@ export default function uiStateReducer(state = initialState, action) {
 		case types.SET_LIGHTBOX_CAPTION: {
 			newState = objectAssign({}, state);
 			newState.lightboxcaption = action.caption;
+			return newState;
+		}
+		case types.SET_LOADING_STATUS: {
+			newState = objectAssign({}, state);
+			newState.loadingStatus = action.status;
+			return newState;
+		}
+		case types.SET_PENDING_LOADER: {
+			newState = objectAssign({}, state);
+			newState.pendingLoader = action.pendingLoader;
 			return newState;
 		}
 		default:
@@ -174,6 +188,18 @@ function setLightboxCaption(caption) {
 		caption
 	};
 }
+function setLoadingStatus(status) {
+	return {
+		type: types.SET_LOADING_STATUS,
+		status
+	};
+}
+function setPendingLoader(pendingLoader) {
+	return {
+		type: types.SET_PENDING_LOADER,
+		pendingLoader
+	};
+}
 
 //COMPLEXACTIONS
 
@@ -197,5 +223,7 @@ export const actions = {
 	setLightboxIndex,
 	setLightboxUrls,
 	setLightboxTitle,
-	setLightboxCaption
+	setLightboxCaption,
+	setLoadingStatus,
+	setPendingLoader
 };

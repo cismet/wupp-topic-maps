@@ -41,7 +41,7 @@ export default reducer;
 //SIMPLEACTIONCREATORS
 
 //COMPLEXACTIONS
-function loadHauptnutzungen() {
+function loadHauptnutzungen(finishedHandler = () => {}) {
 	const manualReloadRequest = false;
 	return (dispatch, getState) => {
 		dispatch(
@@ -50,7 +50,8 @@ function loadHauptnutzungen() {
 				dataURL: '/data/hauptnutzungen.data.json',
 				errorHandler: (err) => {
 					console.log(err);
-				}
+				},
+				done: finishedHandler
 			})
 		);
 	};

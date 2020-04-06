@@ -130,7 +130,7 @@ export default reducer;
 //SIMPLEACTIONCREATORS
 
 //COMPLEXACTIONS
-function loadEMOBs() {
+function loadEMOBs(finishedHandler = () => {}) {
 	const manualReloadRequest = false;
 	return (dispatch, getState) => {
 		dispatch(
@@ -142,6 +142,7 @@ function loadEMOBs() {
 					dispatch(actions.applyFilter());
 
 					dispatch(actions.createFeatureCollection());
+					finishedHandler();
 				},
 				prepare: (dispatch, data) => {
 					let svgResolvingPromises = data.map(function(emob) {

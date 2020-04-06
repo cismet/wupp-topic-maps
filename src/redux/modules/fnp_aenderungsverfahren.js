@@ -54,7 +54,7 @@ export default reducer;
 //SIMPLEACTIONCREATORS
 
 //COMPLEXACTIONS
-function loadAEVs() {
+function loadAEVs(finishedHandler = () => {}) {
 	const manualReloadRequest = false;
 	return (dispatch, getState) => {
 		dispatch(
@@ -63,7 +63,8 @@ function loadAEVs() {
 				dataURL: '/data/aenderungsv.data.json',
 				errorHandler: (err) => {
 					console.log(err);
-				}
+				},
+				done: finishedHandler
 			})
 		);
 	};

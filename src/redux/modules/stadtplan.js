@@ -207,7 +207,7 @@ function setSelectedPOI(pid) {
 	};
 }
 
-function loadPOIs() {
+function loadPOIs(finishedHandler = () => {}) {
 	const manualReloadRequest = false;
 	return (dispatch, getState) => {
 		dispatch(
@@ -241,6 +241,7 @@ function loadPOIs() {
 				done: (dispatch, data, md5) => {
 					dispatch(applyFilter());
 					dispatch(createFeatureCollectionFromPOIs());
+					finishedHandler();
 				},
 				errorHandler: (err) => {
 					console.log(err);

@@ -59,7 +59,7 @@ export default reducer;
 //no simple actions
 
 //COMPLEXACTIONS
-function loadBaeder() {
+function loadBaeder(finishedHandler = () => {}) {
 	const manualReloadRequest = false;
 	return (dispatch, getState) => {
 		dispatch(
@@ -69,6 +69,7 @@ function loadBaeder() {
 				done: (dispatch, data, md5) => {
 					dispatch(actions.setFeatureCollectionDataSource(data));
 					dispatch(actions.createFeatureCollection());
+					finishedHandler();
 				},
 				prepare: (dispatch, data) => {
 					let svgResolvingPromises = data.map(function(bad) {

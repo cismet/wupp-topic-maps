@@ -38,7 +38,7 @@ const markerSizeStorageConfig = {
 const dataStateStorageConfig = {
 	key: 'baederData',
 	storage: localForage,
-	whitelist: [] //[ 'items', 'md5' ]
+	whitelist: [ 'items', 'md5' ]
 };
 const infoBoxStateStorageConfig = {
 	key: 'stadtplaninfoBoxMinifiedState',
@@ -54,7 +54,7 @@ const reducer = combineReducers({
 });
 
 export default reducer;
-
+const debugLog = false;
 ///SIMPLEACTIONCREATORS
 //no simple actions
 
@@ -67,6 +67,9 @@ function loadBaeder(finishedHandler = () => {}) {
 				manualReloadRequested: manualReloadRequest,
 				dataURL: '/data/baeder.data.json',
 				done: (dispatch, data, md5) => {
+					if (debugLog) {
+						console.log('baeder:before.setFeatureCollectionDataSource' + data);
+					}
 					dispatch(actions.setFeatureCollectionDataSource(data));
 					dispatch(actions.createFeatureCollection());
 					finishedHandler();

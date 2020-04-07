@@ -16,7 +16,7 @@ const makeDataWithMD5CheckDuckFor = (section, substateResolver, featureFactory) 
 		DEBUG_ALWAYS_LOADING: false
 	};
 
-	const debugLog = true;
+	const debugLog = false;
 
 	//SELECTORS
 	const selectors = {
@@ -106,7 +106,7 @@ const makeDataWithMD5CheckDuckFor = (section, substateResolver, featureFactory) 
 							);
 						}
 						if (md5 === state.md5 && constants.DEBUG_ALWAYS_LOADING === false) {
-							config.done(dispatch);
+							config.done(dispatch, state.items, state.md5);
 							// TODO
 							// don't know another way yet
 							//therefore

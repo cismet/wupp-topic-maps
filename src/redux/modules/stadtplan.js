@@ -8,6 +8,7 @@ import { combineReducers } from 'redux';
 import { persistReducer } from 'redux-persist';
 import localForage from 'localforage';
 import makeInfoBoxStateDuck from '../higherorderduckfactories/minifiedInfoBoxState';
+import { actions as UIStateActions } from './uiState';
 
 //TYPES
 export const types = {
@@ -239,7 +240,9 @@ function loadPOIs(finishedHandler = () => {}) {
 					return svgResolvingPromises;
 				},
 				done: (dispatch, data, md5) => {
+					dispatch(UIStateActions.setLoadingStatus('Filtern'));
 					dispatch(applyFilter());
+					dispatch(UIStateActions.setLoadingStatus('Darstellung in der Karte'));
 					dispatch(createFeatureCollectionFromPOIs());
 					finishedHandler();
 				},

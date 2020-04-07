@@ -73,7 +73,7 @@
 		"redux": "^3.7.2",
 		"redux-immutable-state-invariant": "^2.0.0",
 		"redux-logger": "^3.0.6",
-		"redux-persist": "^5.4.0",
+		"redux-persist": "5.6.12",
 		"redux-thunk": "^2.2.0",
 		"scroll-into-view-if-needed": "^2.2.20",
 		"simple-flexbox": "^1.2.0",

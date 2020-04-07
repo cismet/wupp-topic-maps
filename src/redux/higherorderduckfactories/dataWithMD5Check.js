@@ -114,7 +114,7 @@ const makeDataWithMD5CheckDuckFor = (section, substateResolver, featureFactory) 
 							if (debugLog) {
 								console.log('dataWithMD5Check:' + section + ': CACHEHIT ');
 							}
-							dispatch(UIStateActions.setLoadingStatus('Datencache lesen'));
+							dispatch(UIStateActions.setLoadingStatus('aus dem Cache'));
 
 							throw 'CACHEHIT';
 							/* eslint-enable */

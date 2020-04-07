@@ -215,7 +215,7 @@ export class Ehrenamt_ extends React.Component {
 						this.cismapRef = cismap;
 						this.topicMap = cismap;
 					}}
-					initialLoadingText='Laden der Angebote ...'
+					initialLoadingText='Laden der Angebote'
 					home={{
 						center: [ 51.24929, 7.180562 ],
 						zoom: 8

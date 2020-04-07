@@ -447,7 +447,7 @@ export class Container_ extends React.Component {
 					ref={(comp) => {
 						this.topicMap = comp;
 					}}
-					initialLoadingText='Laden der FNP-Daten ...'
+					initialLoadingText='Laden der FNP-Daten'
 					fullScreenControl
 					locatorControl
 					gazetteerSearchBox

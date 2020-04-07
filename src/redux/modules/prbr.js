@@ -94,7 +94,7 @@ const markerSizeStorageConfig = {
 const dataStateStorageConfig = {
 	key: 'prbrData',
 	storage: localForage,
-	whitelist: [] //[ 'items', 'md5' ]
+	whitelist: [ 'items', 'md5' ]
 };
 const infoBoxStateStorageConfig = {
 	key: 'prbrInfoBoxMinifiedState',

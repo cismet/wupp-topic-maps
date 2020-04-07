@@ -29,7 +29,7 @@ const dataDuck = makeDataDuck(
 const dataStateStorageConfig = {
 	key: 'fnpHNData',
 	storage: localForage,
-	whitelist: [] //[ 'items', 'md5', 'features' ]
+	whitelist: [ 'items', 'md5', 'features' ]
 };
 
 const reducer = combineReducers({

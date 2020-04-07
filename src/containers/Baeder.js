@@ -113,7 +113,7 @@ export class Baeder_ extends React.Component {
 				ref={(comp) => {
 					this.topicMap = comp;
 				}}
-				initialLoadingText='Laden der Bäder ...'
+				initialLoadingText='Laden der Bäder'
 				fullScreenControl
 				locatorControl
 				gazetteerSearchBox

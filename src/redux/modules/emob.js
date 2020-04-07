@@ -101,7 +101,7 @@ const markerSizeStorageConfig = {
 const dataStateStorageConfig = {
 	key: 'emobData',
 	storage: localForage,
-	whitelist: [] //["items", "md5"]
+	whitelist: [] //[ 'items', 'md5' ]
 };
 const infoBoxStateStorageConfig = {
 	key: 'emobInfoBoxMinifiedState',
@@ -111,7 +111,7 @@ const infoBoxStateStorageConfig = {
 const emobFeatureCollectionStateStorageConfig = {
 	key: 'emobFeatureCollectionStateConfig',
 	storage: localForage,
-	whitelist: [ 'filter_' ]
+	whitelist: [ 'filter' ]
 };
 
 const reducer = combineReducers({

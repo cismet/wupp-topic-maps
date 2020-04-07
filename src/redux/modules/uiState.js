@@ -37,7 +37,7 @@ const initialState = {
 	lightboxvisible: false,
 	lightboxcaption: null,
 	lightboxtitle: null,
-	loadingStatus: 'Daten werden geladen ...',
+	loadingStatus: undefined,
 	pendingLoader: undefined
 };
 

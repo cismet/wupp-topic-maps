@@ -95,7 +95,6 @@ const Comp = ({ selectedFeature, collapsed, setCollapsed }) => {
 
 	const headerText = oberbegriff;
 	const os = selectedFeature.properties.os;
-	console.log('selectedFeature.properties.fnp_aender', selectedFeature.properties.fnp_aender);
 
 	let header = <InfoBoxHeader headerColor={headerBackgroundColor} content={headerText} />;
 

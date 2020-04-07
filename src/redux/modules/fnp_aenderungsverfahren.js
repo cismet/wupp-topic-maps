@@ -5,7 +5,6 @@ import { combineReducers } from 'redux';
 import { persistReducer } from 'redux-persist';
 import makeDataDuck from '../higherorderduckfactories/dataWithMD5Check';
 import makeInfoBoxStateDuck from '../higherorderduckfactories/minifiedInfoBoxState';
-
 //TYPES
 //no types bc no local store
 export const types = {};
@@ -41,7 +40,7 @@ const infoBoxStateStorageConfig = {
 const dataStateStorageConfig = {
 	key: 'aevData',
 	storage: localForage,
-	whitelist: [][('items', 'md5', 'features')]
+	whitelist: [ 'items', 'md5', 'features' ]
 };
 
 const reducer = combineReducers({

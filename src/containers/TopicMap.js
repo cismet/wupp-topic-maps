@@ -294,8 +294,10 @@ export class TopicMap_ extends React.Component {
 		if (searchControlPosition === 'bottomright') {
 			infoBoxBottomMargin = 5;
 		}
-		console.log('this.props.uiState.pendingLoader', this.props.uiState.pendingLoader);
-
+		let statusPostfix = '';
+		if (this.props.uiState.loadingStatus !== undefined) {
+			statusPostfix = '(' + this.props.uiState.loadingStatus + ')';
+		}
 		return (
 			<div>
 				{this.props.modalMenu}
@@ -304,7 +306,7 @@ export class TopicMap_ extends React.Component {
 						this.props.uiState.pendingLoader > 0 && !this.props.noInitialLoadingText
 					}
 					spinner
-					text={this.props.initialLoadingText}
+					text={this.props.initialLoadingText + ' ' + statusPostfix + ' ...'}
 				>
 					<div>
 						{photoLightBox}

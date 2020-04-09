@@ -24,6 +24,10 @@ const Comp = ({
 }) => {
 	const currentFeature = featureCollection[selectedIndex];
 
+	let hasMainDocument =
+		currentFeature.properties.url !== undefined &&
+		currentFeature.properties.url !== null &&
+		currentFeature.properties.url.trim() !== '';
 	let logCurrentFeature = function() {
 		//console.log(JSON.stringify(currentFeature));
 	};
@@ -132,30 +136,32 @@ const Comp = ({
 								paddingTop: '1px'
 							}}
 						>
-							<a
-								style={{ color: '#333' }}
-								href={`/#/docs/aenderungsv/${currentFeature.text}/1`}
-								target='_aenderungsv'
-							>
-								<h4
-									style={{
-										marginLeft: 5,
-										marginRight: 5,
-										marginBottom: '4px',
-										marginBottom: '4px'
-									}}
+							{hasMainDocument === true && (
+								<a
+									style={{ color: '#333' }}
+									href={`/#/docs/aenderungsv/${currentFeature.text}/1`}
+									target='_aenderungsv'
 								>
-									<font size='30'>
-										<Icon
-											style={{ textDecoration: 'none' }}
-											name='file-pdf-o'
-										/>
-									</font>
-								</h4>
-								<OverlayTrigger placement='left' overlay={planTooltip}>
-									<strong>{mainDocOrDocs}</strong>
-								</OverlayTrigger>
-							</a>
+									<h4
+										style={{
+											marginLeft: 5,
+											marginRight: 5,
+											marginBottom: '4px',
+											marginBottom: '4px'
+										}}
+									>
+										<font size='30'>
+											<Icon
+												style={{ textDecoration: 'none' }}
+												name='file-pdf-o'
+											/>
+										</font>
+									</h4>
+									<OverlayTrigger placement='left' overlay={planTooltip}>
+										<strong>{mainDocOrDocs}</strong>
+									</OverlayTrigger>
+								</a>
+							)}
 						</td>
 					</tr>
 				</tbody>
@@ -215,20 +221,22 @@ const Comp = ({
 								paddingTop: '1px'
 							}}
 						>
-							<a
-								style={{ color: '#333' }}
-								href={`/#/docs/aenderungsv/${currentFeature.text}/1`}
-								target='_aenderungsv'
-							>
-								<h4 style={{ marginLeft: 5, marginRight: 5 }}>
-									<OverlayTrigger placement='left' overlay={planTooltip}>
-										<Icon
-											style={{ textDecoration: 'none', fontSize: 26 }}
-											name='file-pdf-o'
-										/>
-									</OverlayTrigger>
-								</h4>
-							</a>
+							{hasMainDocument === true && (
+								<a
+									style={{ color: '#333' }}
+									href={`/#/docs/aenderungsv/${currentFeature.text}/1`}
+									target='_aenderungsv'
+								>
+									<h4 style={{ marginLeft: 5, marginRight: 5 }}>
+										<OverlayTrigger placement='left' overlay={planTooltip}>
+											<Icon
+												style={{ textDecoration: 'none', fontSize: 26 }}
+												name='file-pdf-o'
+											/>
+										</OverlayTrigger>
+									</h4>
+								</a>
+							)}
 						</td>
 					</tr>
 				</tbody>

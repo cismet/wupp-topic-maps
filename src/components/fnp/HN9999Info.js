@@ -34,38 +34,53 @@ const Comp = ({ selectedFeature, collapsed, setCollapsed }) => {
 		<InfoBoxHeader headerColor={headerBackgroundColor} content={'nicht genehmigte Fläche'} />
 	);
 
-	const getLinkFromAEV = (aev, defaultEl) => {
-		if (aev !== undefined) {
-			let statusText;
-			let status = aev.properties.status;
-			if (status === 'r') {
-				statusText = '';
-			} else if (status === 'n') {
-				statusText = ' (nicht rechtswirksam)';
-			} else {
-				statusText = ' (nicht rechtswirksame Teile9';
+	const getLinkFromAEV = ({ aevs, defaultEl = <div />, skipStatus = false }) => {
+		if (aevs !== undefined && aevs.length > 0) {
+			let ret = [];
+			for (const aev of aevs) {
+				console.log('aev', aev);
+
+				let statusText;
+				let status = aev.properties.status;
+				if (skipStatus === false) {
+					if (status === 'r') {
+						statusText = '';
+					} else if (status === 'n') {
+						statusText = ' (nicht rechtswirksam)';
+					} else {
+						statusText = ' (nicht rechtswirksame Teile)';
+					}
+				} else {
+					statusText = '';
+				}
+				ret.push(
+					<b>
+						<a href={'/#/docs/aenderungsv/' + aev.text + '/'} target='_aenderungsv'>
+							{aev.text +
+								(aev.properties.verfahren === ''
+									? '. FNP-Änderung' + statusText
+									: '. FNP-Berichtigung' + statusText)}
+						</a>
+					</b>
+				);
 			}
-			return (
-				<b>
-					<a href={'/#/docs/aenderungsv/' + aev.text + '/'} target='_aenderungsv'>
-						{aev.text +
-							(aev.properties.verfahren === ''
-								? '. FNP-Änderung' + statusText
-								: '. FNP-Berichtigung' + statusText)}
-					</a>
-				</b>
-			);
+			return ret;
 		} else {
 			return defaultEl;
 		}
 	};
 
-	const festgelegt = getLinkFromAEV(
-		selectedFeature.properties.fnp_aender,
-		<span>FNP vom 17.01.2005</span>
-	);
-	const intersectAEV = getLinkFromAEV(selectedFeature.properties.intersect_fnp_aender);
-
+	const festgelegt = getLinkFromAEV({
+		aevs: selectedFeature.properties.fnp_aender,
+		defaultEl: <span>FNP vom 17.01.2005</span>
+	});
+	let sieheAuchLinks = undefined;
+	if (selectedFeature.properties.siehe_auch_aev !== undefined) {
+		sieheAuchLinks = getLinkFromAEV({
+			aevs: selectedFeature.properties.siehe_auch_aev,
+			skipStatus: true
+		});
+	}
 	const bemArr = selectedFeature.properties.bem.split('+');
 	console.log('selectedFeature.properties', selectedFeature.properties);
 	let infoText = bemArr[2].trim();
@@ -107,9 +122,21 @@ const Comp = ({ selectedFeature, collapsed, setCollapsed }) => {
 			</p>
 
 			<p>{ursprLegende}</p>
-			{intersectAEV !== undefined && (
+			{sieheAuchLinks !== undefined && (
 				<p>
-					<b>siehe auch:</b> {intersectAEV}
+					<b>s. auch:</b>{' '}
+					{sieheAuchLinks.length > 1 &&
+						sieheAuchLinks.map((comp, index) => {
+							if (index < sieheAuchLinks.length - 1) {
+								return <span>{comp}, </span>;
+							} else {
+								return <span>{comp} (jeweils nicht rechtswirksam)</span>;
+							}
+						})}
+					{sieheAuchLinks.length == 1 &&
+						sieheAuchLinks.map((comp, index) => {
+							return <span>{comp} (nicht rechtswirksam)</span>;
+						})}
 				</p>
 			)}
 			{selectedFeature.properties.bplan_nr !== undefined && (

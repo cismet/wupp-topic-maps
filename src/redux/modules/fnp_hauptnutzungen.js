@@ -4,7 +4,7 @@ import localForage from 'localforage';
 import { combineReducers } from 'redux';
 import { persistReducer } from 'redux-persist';
 import makeDataDuck from '../higherorderduckfactories/dataWithMD5Check';
-import { searchForAEVs } from './fnp_aenderungsverfahren';
+import { searchForAEVs, getAEVByNr, getAEVsByNrs } from './fnp_aenderungsverfahren';
 //TYPES
 //no types bc no local store
 export const types = {};
@@ -92,30 +92,26 @@ export function searchForHauptnutzungen({
 			for (let feature of state.fnpHauptnutzungen.dataState.features) {
 				if (!booleanDisjoint(bboxPoly, feature)) {
 					finalResults.push(feature);
-					if (feature.properties.fnp_aender === undefined) {
+					if (
+						feature.properties.fnp_aender === undefined &&
+						feature.properties.siehe_auch_aev !== undefined
+					) {
 						dispatch(
-							searchForAEVs({
-								point,
-								skipMappingActions: true,
-								done: (result) => {
-									const out = JSON.parse(JSON.stringify(feature));
-									out.properties.intersect_fnp_aender = result[0];
-									dispatch(mappingActions.setFeatureCollection([ out ]));
-									dispatch(mappingActions.setSelectedFeatureIndex(0));
-								}
+							getAEVsByNrs(feature.properties.siehe_auch_aev, (results) => {
+								const out = JSON.parse(JSON.stringify(feature));
+								out.properties.siehe_auch_aev = results;
+								dispatch(mappingActions.setFeatureCollection([ out ]));
+								dispatch(mappingActions.setSelectedFeatureIndex(0));
 							})
 						);
 					} else {
 						dispatch(
-							searchForAEVs({
-								point,
-								skipMappingActions: true,
-								done: (result) => {
-									const out = JSON.parse(JSON.stringify(feature));
-									out.properties.fnp_aender = result[0];
-									dispatch(mappingActions.setFeatureCollection([ out ]));
-									dispatch(mappingActions.setSelectedFeatureIndex(0));
-								}
+							getAEVByNr(feature.properties.fnp_aender, (results) => {
+								//always one
+								const out = JSON.parse(JSON.stringify(feature));
+								out.properties.fnp_aender = results;
+								dispatch(mappingActions.setFeatureCollection([ out ]));
+								dispatch(mappingActions.setSelectedFeatureIndex(0));
 							})
 						);
 					}
@@ -125,6 +121,8 @@ export function searchForHauptnutzungen({
 			if (finalResults.length === 0) {
 				dispatch(mappingActions.setFeatureCollection([]));
 			}
+
+			// }
 			// console.log('finalResults', finalResults);
 			console.log('finalResults', finalResults);
 

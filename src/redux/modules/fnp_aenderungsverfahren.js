@@ -69,6 +69,30 @@ function loadAEVs(finishedHandler = () => {}) {
 	};
 }
 
+export function getAEVsByNrs(nrArr, done = () => {}) {
+	return function(dispatch, getState) {
+		const state = getState();
+		let finalResults = [];
+		if (state.fnpAenderungsverfahren.dataState.features.length === 0) {
+			loadAEVs();
+		}
+		for (const nr of nrArr) {
+			let hit = state.fnpAenderungsverfahren.dataState.features.find((elem, index) => {
+				return elem.properties.name === nr;
+			});
+			if (hit) {
+				finalResults.push(hit);
+			}
+		}
+		done(finalResults);
+	};
+}
+export function getAEVByNr(nr, done = () => {}) {
+	return function(dispatch, getState) {
+		dispatch(getAEVsByNrs([ nr ], done));
+	};
+}
+
 export function searchForAEVs({
 	gazObject,
 	overriddenWKT,

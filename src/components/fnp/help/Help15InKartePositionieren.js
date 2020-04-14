@@ -28,23 +28,37 @@ const Component = ({ uiState, uiStateActions, showModalMenu }) => {
 						auf der Zielposition platziert.
 					</p>
 					<p>
-						Wenn Sie die Karte wie oben beschrieben auf ein{' '}
-						<Icon name='file' overlay='F' /> FNP-Änderungsverfahren positionieren, wird
-						zusätzlich der Geltungsbereich dieses Verfahrens geladen und der Fokus auf
-						dieses Verfahren gesetzt, sodass die zugehörigen Informationen direkt in der
-						Info-Box angezeigt werden (s.{' '}
+						Wenn Sie die Karte im <strong>Rechtsplan</strong> wie oben beschrieben auf
+						ein <Icon name='file' overlay='F' />FNP-Änderungsverfahren positionieren,
+						wird zusätzlich der Geltungsbereich dieses Verfahrens geladen und der Fokus
+						auf dieses Verfahren gesetzt, sodass die zugehörigen Informationen direkt in
+						der Info-Box angezeigt werden (s.{' '}
 						<a onClick={() => showModalMenu('AenderungsverfahrenAnzeigenUndAbfragen')}>
 							Änderungsverfahren anzeigen und abfragen
-						</a>). Wenn Sie die Karte auf einen <Icon name='file' overlay='B' /> B-Plan
-						positionieren, überprüfen wir, ob dieser der Anlass für ein
-						FNP-Änderungsverfahren war. Ist das der Fall, wird das zugehörige
-						FNP-Änderungsverfahren geladen, so als hätten Sie es direkt ausgewählt.
-						Hinweis: Bei einer Positionierung auf ein FNP-Änderungsverfahren wird,
-						sofern erforderlich, zuvor die{' '}
-						<a onClick={() => showModalMenu('AenderungsverfahrenAnzeigenUndAbfragen')}>
-							Anzeige der Änderungsverfahren in der Hintergrundkarte
-						</a>{' '}
-						aktiviert.
+						</a>). In der <strong>Arbeitskarte</strong> wird dagegen die
+						Hauptnutzungsfläche selektiert, die unter dem Flächenschwerpunkt des
+						Änderungsverfahrens liegt. Die Info-Box zeigt entsprechend die Informationen
+						zu dieser Hauptnutzungsfläche. Dort werden Ihnen auch Verknüpfungen
+						angeboten zu dem Änderungsverfahren und dem B-Plan-Verfahren, das der Anlass
+						für die FNP-Änderung war. Diese Verknüpfungen öffnen den Dokumentenviewer
+						(s.{' '}
+						<a onClick={() => showModalMenu('DokumenteBetrachten')}>
+							Dokumente betrachten
+						</a>).
+					</p>
+					<p>
+						Wenn Sie die Karte im <strong>Rechtsplan</strong> auf einen{' '}
+						<Icon name='file' overlay='F' /> B-Plan positionieren, überprüfen wir, ob
+						dieser der Anlass für ein FNP-Änderungsverfahren war. Ist das der Fall, wird
+						das zugehörige FNP-Änderungsverfahren geladen, so als hätten Sie es direkt
+						ausgewählt. Hinweis: Bei einer Positionierung auf ein FNP-Änderungsverfahren
+						wird, sofern erforderlich, zuvor die Anzeige der Änderungsverfahren in der
+						Hintergrundkarte aktiviert. In der Arbeitskarte wird dagegen die
+						Hauptnutzungsfläche selektiert, die unter dem Flächenschwerpunkt des B-Plans
+						liegt. Verknüpfungen zum B-Plan und einem zugehörigen FNP-Änderungsverfahren
+						werden nur dann angezeigt, wenn der Flächenschwerpunkt des B-Plans innerhalb
+						eines Änderungsverfahrens liegt (probieren Sie es z. B. mit dem B-Plan
+						1115V).
 					</p>
 					<p>
 						Die Positionierung in der Karte ist auch über weitere Begriffe möglich,

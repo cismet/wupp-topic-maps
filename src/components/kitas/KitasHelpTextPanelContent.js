@@ -184,10 +184,9 @@ const KitasHelpTextPanel = () => {
 					alt='Cluster'
 					src='images/vorher_treffer.png'
 				/>{' '}
-				vorheriger Treffer und <img alt='Cluster' src='images/nachher_treffer.png' />{' '}
-				nächster Treffer können Sie ausgehend von der Kita, auf der gerade der Fokus liegt,
-				in nördlicher bzw. südlicher Richtung alle aktuell im Kartenfenster angezeigten
-				Kitas durchmustern.
+				vorheriger Treffer und <a>&gt;&gt;</a> nächster Treffer können Sie ausgehend von der
+				Kita, auf der gerade der Fokus liegt, in nördlicher bzw. südlicher Richtung alle
+				aktuell im Kartenfenster angezeigten Kitas durchmustern.
 			</p>
 			<p>
 				Mit der Schaltfläche <Icon name='chevron-circle-down' /> im dunkelgrau abgesetzten

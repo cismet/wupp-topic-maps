@@ -2,7 +2,7 @@ import React from 'react';
 import GenericModalMenuSection from 'components/commons/GenericModalMenuSection';
 import Icon from 'components/commons/Icon';
 
-const Component = ({ uiState, uiStateActions }) => {
+const Component = ({ uiState, uiStateActions, showModalMenu }) => {
 	return (
 		<GenericModalMenuSection
 			uiState={uiState}
@@ -13,26 +13,45 @@ const Component = ({ uiState, uiStateActions }) => {
 			sectionContent={
 				<div>
 					<p>
-						Durch Anklicken von&nbsp;
-						<Icon name='search' />
-						&nbsp;suchen Sie nach B-Pl&auml;nen, die zumindest teilweise im aktuellen
+						Durch Anklicken von <Icon name='search' /> links neben dem Eingabefeld
+						suchen Sie nach FNP-Änderungsverfahren (ÄV), die zumindest teilweise im
+						aktuellen Kartenausschnitt liegen. (Diese Funktion ist nur im{' '}
+						<strong>Rechtsplan</strong> verfügbar, nicht in der{' '}
+						<strong>Arbeitskarte</strong>.) Alle ÄV werden geladen, wobei der Fokus
+						(blaue Umrandung) auf das Verfahren mit der niedrigsten Nummer gesetzt wird.
+						Sofern erforderlich wird zuvor die{' '}
+						<a onClick={() => showModalMenu('AenderungsverfahrenAnzeigenUndAbfragen')}>
+							Anzeige der Änderungsverfahren
+						</a>{' '}
+						in der Karte aktiviert. In der Info-Box werden Ihnen immer die
+						Detailinformationen und die Verknüpfung zur Dokumentbetrachtung für das ÄV
+						angeboten, das gerade den Fokus hat. Durch Anklicken von&nbsp; &nbsp;suchen
+						Sie nach B-Pl&auml;nen, die zumindest teilweise im aktuellen
 						Kartenausschnitt liegen.
 					</p>
 					<p>
-						Den Kartenausschnitt k&ouml;nnen Sie durch Ziehen mit der Maus verschieben.
-						Mit den Werkzeugen&nbsp;
-						<Icon name='plus' />
-						&nbsp;und&nbsp;
-						<Icon name='minus' />
-						&nbsp;k&ouml;nnen Sie den Kartenma&szlig;stab vergr&ouml;&szlig;ern bzw.
-						verkleinern.
+						Der farbige Titelbalken der Info-Box greift für den Verfahrensstand
+						(Grobkategorie) des Änderungsverfahrens die Farbsystematik der
+						Kartendarstellung auf: Grün für rechtswirksame Verfahren, Rot für nicht
+						rechtswirksame. Zusätzlich wird der Verfahrensstand auch als Text im
+						Titelbalken ausgeprägt.
 					</p>
 					<p>
-						Mit einem Doppelklick auf einen B-Plan in der Hintergrundkarte werden alle
-						B-Pl&auml;ne geladen, die an dieser Stelle liegen - meistens genau einer,
-						manchmal auch mehrere Pl&auml;ne. Ein Doppelklick auf die Hintergrundkarte{' '}
-						<b>au&szlig;erhalb</b> der angezeigten B-Pl&auml;ne entfernt alle zuvor
-						geladenen B-Pl&auml;ne (Zur&uuml;cksetzen der Suche).
+						Mit einem einfachen Klick auf einen anderen ÄV-Geltungsbereich aus der
+						Treffermenge erhält das zugehörige ÄV den Fokus. Mit einem weiteren Klick
+						auf diese Fläche wird der Kartenausschnitt so angepasst, dass der
+						Geltungsbereich vollständig und zentriert dargestellt wird. Alternativ
+						können Sie die Treffermenge mit den Schaltflächen <a>&gt;&gt;</a> (nächster
+						Treffer) und <a>&lt;&lt;</a> (vorheriger Treffer) durchmustern. (Die
+						Treffermenge ist nach aufsteigenden Nummern der ÄV geordnet.) Mit{' '}
+						<a>alle Treffer anzeigen</a> können Sie den Kartenausschnitt zuvor so
+						anpassen, dass alle ÄV-Geltungsbereiche der Treffermenge vollständig
+						angezeigt werden. Mit einem Doppelklick entfernen Sie alle zuvor geladenen
+						ÄV. Wenn Sie diesen Doppelklick im Geltungsbereich eines ÄV ausführen, wird
+						statt dessen dieses Verfahren geladen (s.{' '}
+						<a onClick={() => showModalMenu('AenderungsverfahrenAnzeigenUndAbfragen')}>
+							Änderungsverfahren anzeigen und abfragen
+						</a>).
 					</p>
 				</div>
 			}

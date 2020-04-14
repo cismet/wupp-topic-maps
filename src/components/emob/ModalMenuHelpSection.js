@@ -243,12 +243,10 @@ const HelpSection = ({ uiState, uiStateActions }) => {
 					<p>
 						Wenn Sie noch keine Ladestation im aktuellen Kartenausschnitt selektiert
 						haben, wird der Fokus automatisch auf die nördlichste Station gesetzt. Mit
-						den Funktionen <img alt='Cluster' src='images/vorher_treffer.png' />{' '}
-						vorheriger Treffer und{' '}
-						<img alt='Cluster' src='images/nachher_treffer.png' /> nächster Treffer
-						können Sie ausgehend von der Ladestation, auf der gerade der Fokus liegt, in
-						nördlicher bzw. südlicher Richtung alle aktuell im Kartenfenster angezeigten
-						Stationen durchmustern.
+						den Funktionen <a>&lt;&lt;</a> vorheriger Treffer und <a>&gt;&gt;</a>{' '}
+						nächster Treffer können Sie ausgehend von der Ladestation, auf der gerade
+						der Fokus liegt, in nördlicher bzw. südlicher Richtung alle aktuell im
+						Kartenfenster angezeigten Stationen durchmustern.
 					</p>
 					<p>
 						Mit der Schaltfläche <Icon name='chevron-circle-down' /> im dunkelgrau

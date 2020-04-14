@@ -48,7 +48,7 @@ const Component = ({ uiState, uiStateActions, showModalMenu }) => {
 					</p>
 					<p>
 						Wenn Sie die Karte im <strong>Rechtsplan</strong> auf einen{' '}
-						<Icon name='file' overlay='F' /> B-Plan positionieren, überprüfen wir, ob
+						<Icon name='file' overlay='B' /> B-Plan positionieren, überprüfen wir, ob
 						dieser der Anlass für ein FNP-Änderungsverfahren war. Ist das der Fall, wird
 						das zugehörige FNP-Änderungsverfahren geladen, so als hätten Sie es direkt
 						ausgewählt. Hinweis: Bei einer Positionierung auf ein FNP-Änderungsverfahren
@@ -86,10 +86,13 @@ const Component = ({ uiState, uiStateActions, showModalMenu }) => {
 						Eingabebereich). Im Rechtsplan wird Ihnen danach an dieser Stelle wieder das
 						Werkzeug <Icon name='lupe' /> angeboten, mit dem Sie im aktuellen
 						Kartenausschnitt nach{' '}
-						<a onClick={() => showModalMenu('AenderungsverfahrenAnzeigenUndAbfragen')}>
-							FNP-Änderungsverfahren
+						<a
+							onClick={() =>
+								showModalMenu('AenderungsverfahrenSuchenUndDurchmustern')}
+						>
+							FNP-Änderungsverfahren suchen
 						</a>{' '}
-						suchen können.
+						können.
 					</p>
 				</div>
 			}

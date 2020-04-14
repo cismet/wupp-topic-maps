@@ -251,8 +251,7 @@ const BaederModalMenuHelpSection = ({ uiState, uiStateActions }) => {
 					<p>
 						Wenn Sie noch keine Anlage im aktuellen Kartenausschnitt selektiert haben,
 						wird der Fokus automatisch auf die nördlichste Anlage gesetzt. Mit den
-						Funktionen <img alt='Cluster' src='images/vorher_treffer.png' /> vorheriger
-						Treffer und <img alt='Cluster' src='images/nachher_treffer.png' /> nächster
+						Funktionen <a>&lt;&lt;</a> vorheriger Treffer und <a>&gt;&gt;</a> nächster
 						Treffer können Sie ausgehend von der Anlage, auf der gerade der Fokus liegt,
 						in nördlicher bzw. südlicher Richtung alle aktuell im Kartenfenster
 						angezeigten Anlagen durchmustern.

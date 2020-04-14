@@ -7,33 +7,21 @@ const Comp = ({ showModalMenu }) => {
 		<div>
 			<span style={{ fontSize: '11px' }}>
 				<div>
-					<strong>Hintergrundkarte</strong>: Stadtplanwerk 2.0 (Beta) © RVR | Amtliche
-					Basiskarte (ABK), B-Plan-Geltungsbereiche (
+					<strong>Hintergrundkarte</strong>:{' '}
 					<a
 						target='ackmore'
-						href='https://offenedaten-wuppertal.de/dataset/rechtsverbindliche-bebauungspl%C3%A4ne-wuppertal'
+						rel='noopener noreferrer'
+						href='https://www.rvr.ruhr/?id=1002#c179626'
 					>
-						rechtswirksam{' '}
+						Stadtplanwerk 2.0 © RVR
 					</a>{' '}
-					|{' '}
-					<a
-						target='ackmore'
-						href='https://offenedaten-wuppertal.de/dataset/laufende-bebauungsplanverfahren-wuppertal'
+					| Deutsche Grundkarte (DGK 5) Stand 01/2005 © Geobasis NRW | Flächennutzungsplan
+					vom 17.01.2005 © Stadt Wuppertal (<a
+						onClick={() => showModalMenu('RechtsplanUndArbeitskarte')}
 					>
-						laufende Verfahren
+						Rechtsplan und Arbeitskarte
 					</a>
-					) © Stadt Wuppertal |
-					<a
-						target='ackmore'
-						href='http://www.geodatenzentrum.de/geodaten/gdz_rahmen.gdz_div?gdz_spr=deu&amp;gdz_akt_zeile=4&amp;gdz_anz_zeile=4&amp;gdz_unt_zeile=0&amp;gdz_user_id=0'
-					>
-						{' '}
-						WebAtlasDE
-					</a>{' '}
-					© BKG{' '}
-					<a target='ackmore' onClick={() => showModalMenu('hintergrundkarte')}>
-						(Details und Nutzungsbedingungen)
-					</a>
+					)
 					<CismetFooterAcks />
 				</div>
 			</span>

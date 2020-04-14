@@ -21,7 +21,7 @@ const Component = ({ uiState, uiStateActions, showModalMenu }) => {
 						Auswahlliste angepasst.) Aber Achtung: Das Suchfeld unterstützt auch die
 						Suche nach B-Plan-Nummern. Die zu ihrer Eingabe passenden B-Plan-Nummern
 						sind mit dem Symbol <Icon name='file' overlay='B' /> gekennzeichnet. Noch
-						ein Tipp: Wenn Sie „ÄV" oder „BPL“ im Suchfeld eingeben, wird Ihnen eine
+						ein Tipp: Wenn Sie "ÄV" oder "BPL" im Suchfeld eingeben, wird Ihnen eine
 						Auswahlliste aller FNP-Änderungsverfahren bzw. aller B-Plan-Nummern
 						angeboten. Nach der Auswahl eines Treffers aus der Liste wird die Karte auf
 						die zugehörige Position zentriert und ein <Icon name='map-marker' /> Marker

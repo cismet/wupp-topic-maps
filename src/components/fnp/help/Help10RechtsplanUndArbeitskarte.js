@@ -65,8 +65,8 @@ const Component = ({ uiState, uiStateActions, showModalMenu }) => {
 						zugehörigen Dokumenten auseinanderzusetzen.
 					</p>
 					<p>
-						Die Hintergrundkarten im FNP-Inspektor Wuppertal basieren auf den folgenden
-						Geodatendiensten und Geodaten:
+						Die Hintergrundkarten im <strong>FNP-Inspektor Wuppertal</strong> basieren
+						auf den folgenden Geodatendiensten und Geodaten:
 						<br />
 						<br />
 						<ul>

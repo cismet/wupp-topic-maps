@@ -80,23 +80,20 @@ const Component = ({ uiState, uiStateActions, showModalMenu }) => {
 									Landes NRW aus den Fachverfahren ALKIS (Gebäude,
 									Flächennutzungen) und ATKIS (Gewässer). © RVR und
 									Kooperationspartner (<a
-										target='_ackmore'
-										rel='noopener noreferrer'
+										target='ackmore'
 										href='https://www.rvr.ruhr/?id=1002#c179626'
 									>
 										CC BY 4.0
 									</a>). Lizenzen der Ausgangsprodukte:{' '}
 									<a
-										target='_ackmore'
-										rel='noopener noreferrer'
+										target='ackmore'
 										href='https://www.govdata.de/dl-de/zero-2-0'
 									>
 										Datenlizenz Deutschland - Zero - Version 2.0
 									</a>{' '}
 									(Amtliche Geobasisdaten) und{' '}
 									<a
-										target='_ackmore'
-										rel='noopener noreferrer'
+										target='ackmore'
 										href='https://www.opendatacommons.org/licenses/odbl/1.0/'
 									>
 										ODbL
@@ -105,16 +102,14 @@ const Component = ({ uiState, uiStateActions, showModalMenu }) => {
 									Wuppertal. Datengrundlagen: Rasterdaten (Scan) der{' '}
 									<strong>Deutschen Grundkarte 1:5.000 (DGK 5)</strong>, Stand
 									01/2005, © Geobasis NRW (<a
-										target='_ackmore'
-										rel='noopener noreferrer'
+										target='ackmore'
 										href='https://www.govdata.de/dl-de/zero-2-0'
 									>
 										Datenlizenz Deutschland - Zero - Version 2.0
 									</a>) und Rasterdaten (Scan) des{' '}
 									<strong>Flächennutzungsplans vom 17.01.2005</strong> © Stadt
 									Wuppertal (<a
-										target='_ackmore'
-										rel='noopener noreferrer'
+										target='ackmore'
 										href='https://creativecommons.org/licenses/by-nd/4.0/deed.de'
 									>
 										CC BY-ND 4.0
@@ -131,30 +126,21 @@ const Component = ({ uiState, uiStateActions, showModalMenu }) => {
 						</ul>
 						<p>
 							Zusätzlich nutzt der FNP-Inspektor im Rechtsplan die Datensätze{' '}
-							<a
-								target='_ackmore'
-								rel='noopener noreferrer'
-								href='https://offenedaten-wuppertal.de/'
-							>
+							<a target='ackmore' href='https://offenedaten-wuppertal.de/'>
 								Rechtswirksame FNP-Änderungsverfahren
 							</a>{' '}
 							und{' '}
-							<a
-								target='_ackmore'
-								rel='noopener noreferrer'
-								href='https://offenedaten-wuppertal.de/'
-							>
+							<a target='ackmore' href='https://offenedaten-wuppertal.de/'>
 								Laufende FNP-Änderungsverfahren
 							</a>{' '}
 							sowie in der Arbeitskarte den Datensatz{' '}
-							<a
-								target='_ackmore'
-								rel='noopener noreferrer'
-								href='https://offenedaten-wuppertal.de/'
-							>
+							<a target='ackmore' href='https://offenedaten-wuppertal.de/'>
 								FNP-Hauptnutzungen
 							</a>, jeweils aus dem Open-Data-Angebot der Stadt Wuppertal, © Stadt
-							Wuppertal (<a href='https://creativecommons.org/licenses/by-nd/4.0/deed.de'>
+							Wuppertal (<a
+								target='ackmore'
+								href='https://creativecommons.org/licenses/by-nd/4.0/deed.de'
+							>
 								CC BY-ND 4.0
 							</a>).{' '}
 							<em>

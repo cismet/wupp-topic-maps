@@ -13,13 +13,13 @@ const Component = ({ uiState, uiStateActions, showModalMenu }) => {
 				<div>
 					<p>
 						Ein vollständiger Überblick über die FNP-Änderungsverfahren (ÄV) durch
-						Anzeige aller ÄV-Geltungsbereiche in der Karte ist nur im Rechtsplan
-						möglich, nicht in der Arbeitskarte. Klicken Sie dazu auf die Schaltfläche
-						"Änderungsverfahren anzeigen" über der Info-Box. In diesem Modus wird die
-						Transparenz der Hintergrundkarte erhöht. Sie wird dadurch blasser, so dass
-						die Geltungsbereiche der ÄV deutlicher hervortreten. Ein willkommener
-						Nebeneffekt: Die Schriften des unter dem <strong>Rechtsplan</strong>{' '}
-						liegenden Stadtplans scheinen nun durch und erleichtern Ihnen die
+						Anzeige aller ÄV-Geltungsbereiche in der Karte ist nur im{' '}
+						<strong>Rechtsplan</strong> möglich, nicht in der Arbeitskarte. Klicken Sie
+						dazu auf die Schaltfläche "Änderungsverfahren anzeigen" über der Info-Box.
+						In diesem Modus wird die Transparenz der Hintergrundkarte erhöht. Sie wird
+						dadurch blasser, so dass die Geltungsbereiche der ÄV deutlicher
+						hervortreten. Ein willkommener Nebeneffekt: Die Schriften des unter dem{' '}
+						Rechtsplan liegenden Stadtplans scheinen nun durch und erleichtern Ihnen die
 						Orientierung. Die rechtswirksamen ÄV werden mit einem grünen Umring
 						dargestellt, die noch nicht rechtswirksamen ÄV mit einem roten Umring. Durch
 						erneutes Anklicken der o. g. Schaltfläche, die jetzt die Beschriftung

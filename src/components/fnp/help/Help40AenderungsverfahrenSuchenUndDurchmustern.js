@@ -16,18 +16,15 @@ const Component = ({ uiState, uiStateActions, showModalMenu }) => {
 						Durch Anklicken von <Icon name='search' /> links neben dem Eingabefeld
 						suchen Sie nach FNP-Änderungsverfahren (ÄV), die zumindest teilweise im
 						aktuellen Kartenausschnitt liegen. (Diese Funktion ist nur im{' '}
-						<strong>Rechtsplan</strong> verfügbar, nicht in der{' '}
-						<strong>Arbeitskarte</strong>.) Alle ÄV werden geladen, wobei der Fokus
-						(blaue Umrandung) auf das Verfahren mit der niedrigsten Nummer gesetzt wird.
-						Sofern erforderlich wird zuvor die{' '}
+						<strong>Rechtsplan</strong> verfügbar, nicht in der Arbeitskarte.) Alle ÄV
+						werden geladen, wobei der Fokus (blaue Umrandung) auf das Verfahren mit der
+						niedrigsten Nummer gesetzt wird. Sofern erforderlich wird zuvor die{' '}
 						<a onClick={() => showModalMenu('AenderungsverfahrenAnzeigenUndAbfragen')}>
 							Anzeige der Änderungsverfahren
 						</a>{' '}
 						in der Karte aktiviert. In der Info-Box werden Ihnen immer die
 						Detailinformationen und die Verknüpfung zur Dokumentbetrachtung für das ÄV
-						angeboten, das gerade den Fokus hat. Durch Anklicken von&nbsp; &nbsp;suchen
-						Sie nach B-Pl&auml;nen, die zumindest teilweise im aktuellen
-						Kartenausschnitt liegen.
+						angeboten, das gerade den Fokus hat.
 					</p>
 					<p>
 						Der farbige Titelbalken der Info-Box greift für den Verfahrensstand

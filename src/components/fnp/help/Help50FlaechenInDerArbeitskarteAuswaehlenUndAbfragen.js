@@ -48,8 +48,8 @@ const Component = ({ uiState, uiStateActions, showModalMenu }) => {
 						zugehörigen Dokumenten öffnen (s.{' '}
 						<a onClick={() => showModalMenu('DokumenteBetrachten')}>
 							Dokumente betrachten
-						</a>)). Sofern sich die ausgewählte Hauptnutzungsfläche zu mindestens 80%
-						mit noch nicht rechtswirksamen ÄV überlappt, werden zusätzlich unter "<strong>s. auch</strong>"
+						</a>). Sofern sich die ausgewählte Hauptnutzungsfläche zu mindestens 80% mit
+						noch nicht rechtswirksamen ÄV überlappt, werden zusätzlich unter "<strong>s. auch</strong>"
 						Dokumentenviewer-Links auf diese ÄV angeboten. Auch in der Arbeitskarte
 						können Sie die Info-Box so verkleinern, dass nur noch der Titelbalken, die
 						Überschrift und ggf. das Symbol angezeigt werden (s.{' '}

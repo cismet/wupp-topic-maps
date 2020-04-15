@@ -64,6 +64,105 @@ const Component = ({ uiState, uiStateActions, showModalMenu }) => {
 						dem Rechtsplan und ggf. den relevanten Änderungsverfahren und den jeweils
 						zugehörigen Dokumenten auseinanderzusetzen.
 					</p>
+					<p>
+						Die Hintergrundkarten im FNP-Inspektor Wuppertal basieren auf den folgenden
+						Geodatendiensten und Geodaten:
+						<br />
+						<br />
+						<ul>
+							<li>
+								<p style={{ paddingRight: 50 }}>
+									<strong>Rechtsplan</strong>: (1) Stadtplan-Kartendienst (WMS)
+									des Regionalverbandes Ruhr (RVR). Datengrundlage:{' '}
+									<strong>Stadtplanwerk 2.0</strong>. Wöchentlich in einem
+									automatischen Prozess aktualisierte Zusammenführung des
+									Straßennetzes der OpenStreetMap mit Amtlichen Geobasisdaten des
+									Landes NRW aus den Fachverfahren ALKIS (Gebäude,
+									Flächennutzungen) und ATKIS (Gewässer). © RVR und
+									Kooperationspartner (<a
+										target='_ackmore'
+										rel='noopener noreferrer'
+										href='https://www.rvr.ruhr/?id=1002#c179626'
+									>
+										CC BY 4.0
+									</a>). Lizenzen der Ausgangsprodukte:{' '}
+									<a
+										target='_ackmore'
+										rel='noopener noreferrer'
+										href='https://www.govdata.de/dl-de/zero-2-0'
+									>
+										Datenlizenz Deutschland - Zero - Version 2.0
+									</a>{' '}
+									(Amtliche Geobasisdaten) und{' '}
+									<a
+										target='_ackmore'
+										rel='noopener noreferrer'
+										href='https://www.opendatacommons.org/licenses/odbl/1.0/'
+									>
+										ODbL
+									</a>{' '}
+									(OpenStreetMap contributors). (2) Kartendienste (WMS) der Stadt
+									Wuppertal. Datengrundlagen: Rasterdaten (Scan) der{' '}
+									<strong>Deutschen Grundkarte 1:5.000 (DGK 5)</strong>, Stand
+									01/2005, © Geobasis NRW (<a
+										target='_ackmore'
+										rel='noopener noreferrer'
+										href='https://www.govdata.de/dl-de/zero-2-0'
+									>
+										Datenlizenz Deutschland - Zero - Version 2.0
+									</a>) und Rasterdaten (Scan) des{' '}
+									<strong>Flächennutzungsplans vom 17.01.2005</strong> © Stadt
+									Wuppertal (<a
+										target='_ackmore'
+										rel='noopener noreferrer'
+										href='https://creativecommons.org/licenses/by-nd/4.0/deed.de'
+									>
+										CC BY-ND 4.0
+									</a>).{' '}
+								</p>
+							</li>
+							<li>
+								<p style={{ paddingRight: 50 }}>
+									<strong>Arbeitskarte</strong>: Stadtplan-Kartendienst (WMS) des
+									Regionalverbandes Ruhr (RVR). Datengrundlage:{' '}
+									<strong>Stadtplanwerk 2.0</strong> (wie im Rechtsplan).
+								</p>
+							</li>
+						</ul>
+						<p>
+							Zusätzlich nutzt der FNP-Inspektor im Rechtsplan die Datensätze{' '}
+							<a
+								target='_ackmore'
+								rel='noopener noreferrer'
+								href='https://offenedaten-wuppertal.de/'
+							>
+								Rechtswirksame FNP-Änderungsverfahren
+							</a>{' '}
+							und{' '}
+							<a
+								target='_ackmore'
+								rel='noopener noreferrer'
+								href='https://offenedaten-wuppertal.de/'
+							>
+								Laufende FNP-Änderungsverfahren
+							</a>{' '}
+							sowie in der Arbeitskarte den Datensatz{' '}
+							<a
+								target='_ackmore'
+								rel='noopener noreferrer'
+								href='https://offenedaten-wuppertal.de/'
+							>
+								FNP-Hauptnutzungen
+							</a>, jeweils aus dem Open-Data-Angebot der Stadt Wuppertal, © Stadt
+							Wuppertal (<a href='https://creativecommons.org/licenses/by-nd/4.0/deed.de'>
+								CC BY-ND 4.0
+							</a>).{' '}
+							<em>
+								Hinweis: Die Bereitstellung dieser Datensätze in den
+								Open-Data-Portalen ist zzt. noch in Bearbeitung.
+							</em>
+						</p>
+					</p>
 				</div>
 			}
 		/>

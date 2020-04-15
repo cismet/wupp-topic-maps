@@ -31,7 +31,7 @@ const Component = ({ uiState, uiStateActions, showModalMenu }) => {
 						Beim FNP werden immer mehrere Dokumente angezeigt, nämlich der
 						Erläuterungsbericht und die vier Anlagen. Zu den FNP-Änderungsverfahren gibt
 						nur dann separate verfahrensbegleitende Zusatzdokumente, wenn es sich um
-						Änderungen gemäß §2 ff BauGB handelt. Bei Berichtigungen gemäß § 13a BauGB
+						Änderungen gemäß §2 ff. BauGB handelt. Bei Berichtigungen gemäß § 13a BauGB
 						werden die Dokumente zur FNP-Berichtigung bei dem B-Plan-Verfahren geführt,
 						das der Anlass für die Berichtigung war. Sowohl bei den B-Plan-Verfahren wie
 						auch bei den FNP-Änderungsverfahren werden die verfahrensbegleitenden
@@ -40,7 +40,7 @@ const Component = ({ uiState, uiStateActions, showModalMenu }) => {
 						schon mehrere Dokumente angezeigt, wenn der B-Plan mehrere Planteile
 						umfasst.) Die Online-Bereitstellung der Zusatzdokumente ist ein laufendes
 						Vorhaben der Stadtverwaltung Wuppertal. Stand 03/2020 sind sie für rund 72%
-						der Wuppertaler B-Pläne und 60% der relevanten FNP-Änderungsverfahren
+						der Wuppertaler B-Pläne und 63% der relevanten FNP-Änderungsverfahren
 						verfügbar. Die Namenskonventionen für die vielfältigen Zusatzdateien sind
 						jeweils im Dokument{' '}
 						<a

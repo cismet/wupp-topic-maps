@@ -112,10 +112,59 @@ export class DocViewer_ extends React.Component {
 		super(props, context);
 		this.state = {
 			downloadArchiveIcon: 'file-archive-o',
-			downloadArchivePrepInProgress: false
+			downloadArchivePrepInProgress: false,
+			gazDataLoaded: false,
+			topicDataLoaded: false
 		};
+		this.loadData = this.loadData.bind(this);
 	}
-	componentWillMount() {}
+
+	loadData(dataLoader) {
+		var promise = new Promise((resolve, reject) => {
+			setTimeout(() => {
+				// entweder dataLoader ist eine Funktion oder ein Array von Funktionen
+				if (Array.isArray(dataLoader)) {
+					this.props.uiStateActions.setPendingLoader(dataLoader.length);
+					for (const loader of dataLoader) {
+						loader(() => {
+							this.props.uiStateActions.setPendingLoader(
+								this.props.uiState.pendingLoader - 1
+							);
+						});
+					}
+				} else {
+					console.log('xxx');
+
+					this.props.uiStateActions.setPendingLoader(1);
+					if (dataLoader) {
+						dataLoader(() => {
+							console.log('this.props.uiStateActions.setPendingLoader(0)');
+
+							this.props.uiStateActions.setPendingLoader(0);
+						});
+					}
+				}
+				resolve('ok');
+			}, 100);
+		});
+		return promise;
+	}
+
+	componentWillMount() {
+		this.loadData([
+			this.props.aevActions.loadAEVs
+			//this.props.bplanActions.loadBPlaene
+		]).then((data) => {
+			// setTimeout(() => {
+			this.setState({ topicDataLoaded: true });
+			this.forceUpdate();
+			// }, 2500);
+		});
+		this.props.gazetteerTopicsActions.loadTopicsData([ 'bplaene', 'aenderungsv' ]).then(() => {
+			this.setState({ gazDataLoaded: true });
+			this.forceUpdate();
+		});
+	}
 
 	componentDidMount() {
 		this.componentDidUpdate();
@@ -123,9 +172,18 @@ export class DocViewer_ extends React.Component {
 	}
 
 	componentDidUpdate(prevProps, prevState) {
-		if (!this.props.allGazetteerTopics.bplaene) {
+		// console.log('this.state', this.state);
+
+		if (
+			this.state.gazDataLoaded === false ||
+			this.state.topicDataLoaded === false ||
+			this.props.uiState.pendingLoader > 0
+		) {
 			return;
 		}
+		// if (!this.props.allGazetteerTopics.bplaene || !this.props.allGazetteerTopics.aenderungsv) {
+		// 	return;
+		// }
 		const topicParam = this.props.match.params.topic;
 		const docPackageIdParam = this.props.match.params.docPackageId;
 		const fileNumberParam = this.props.match.params.file || 1;
@@ -351,11 +409,11 @@ export class DocViewer_ extends React.Component {
 		};
 
 		let numPages;
-		console.log('numPagesPostfix decission', {
-			docs: this.props.docs.docs,
-			docIndex: this.props.docs.docIndex,
-			xxx: this.props.docs.docs[this.props.docs.docIndex]
-		});
+		// console.log('numPagesPostfix decission', {
+		// 	docs: this.props.docs.docs,
+		// 	docIndex: this.props.docs.docIndex,
+		// 	xxx: this.props.docs.docs[this.props.docs.docIndex]
+		// });
 
 		if (
 			this.props.docs.docs !== undefined &&

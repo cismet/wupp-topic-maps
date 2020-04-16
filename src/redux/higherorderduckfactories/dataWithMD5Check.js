@@ -50,6 +50,7 @@ const makeDataWithMD5CheckDuckFor = (section, substateResolver, featureFactory) 
 					}
 				};
 				config = Object.assign(defaultConfig, config);
+
 				const state = substateResolver(getState());
 				// console.log('state in higherorder duck',state)
 				let noCacheHeaders = new Headers();

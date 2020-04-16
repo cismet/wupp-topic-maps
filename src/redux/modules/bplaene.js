@@ -8,6 +8,7 @@ import { WUNDAAPI } from '../../constants/services';
 import { getPolygonfromBBox } from '../../utils/gisHelper';
 import makeInfoBoxStateDuck from '../higherorderduckfactories/minifiedInfoBoxState';
 import { actions as mappingActions, constants as mappingConstants } from './mapping';
+import makeDataDuck from '../higherorderduckfactories/dataWithMD5Check';
 
 ///TYPES
 export const types = {
@@ -15,9 +16,9 @@ export const types = {
 	SET_DOCUMENT_HAS_LOADING_ERROR: 'BPLAENE/SET_DOCUMENT_HAS_LOADING_ERROR',
 	SET_PREPARED_DOWNLOAD: 'BPLAENE/SET_PREPARED_DOWNLOAD'
 };
-
+//HIGHER ORDER DUCKS
 const infoBoxStateDuck = makeInfoBoxStateDuck('BPLAENE', (state) => state.bplaene.infoBoxState);
-
+const dataDuck = makeDataDuck('bplaene', (state) => state.bplaene.dataState, convertBPlanToFeature);
 ///REDUCER
 //no local Reducer needed
 
@@ -26,13 +27,36 @@ const infoBoxStateStorageConfig = {
 	storage: localForage,
 	whitelist: [ 'minified' ]
 };
+const dataStateStorageConfig = {
+	key: 'bplaeneData',
+	storage: localForage,
+	whitelist: [ 'items', 'md5', 'features' ]
+};
 const reducer = combineReducers({
-	infoBoxState: persistReducer(infoBoxStateStorageConfig, infoBoxStateDuck.reducer)
+	infoBoxState: persistReducer(infoBoxStateStorageConfig, infoBoxStateDuck.reducer),
+	dataState: persistReducer(dataStateStorageConfig, dataDuck.reducer)
 });
 export default reducer;
 ///SIMPLEACTIONCREATORS
 
 //COMPLEXACTIONS
+function loadBPlaene(finishedHandler = () => {}) {
+	console.log('xxx loadBPlaene');
+
+	const manualReloadRequest = false;
+	return (dispatch, getState) => {
+		dispatch(
+			dataDuck.actions.load({
+				manualReloadRequested: manualReloadRequest,
+				dataURL: '/data/bplaene.data.json',
+				errorHandler: (err) => {
+					console.log(err);
+				},
+				done: finishedHandler
+			})
+		);
+	};
+}
 
 export function searchForPlans(
 	gazObject,
@@ -228,8 +252,40 @@ function convertPropArrayToFeature(propArray, counter) {
 	};
 }
 
+function convertBPlanToFeature(bplan, index) {
+	if (bplan === undefined) {
+		return undefined;
+	}
+	const id = bplan.id;
+	const type = 'Feature';
+	const featuretype = 'B-Plan';
+
+	const selected = false;
+	const geometry = bplan.geojson;
+
+	const text = bplan.s;
+
+	return {
+		id,
+		index,
+		text,
+		type,
+		featuretype,
+		selected,
+		geometry,
+		crs: {
+			type: 'name',
+			properties: {
+				name: 'urn:ogc:def:crs:EPSG::25832'
+			}
+		},
+		properties: bplan.m
+	};
+}
+
 //EXPORT ACTIONS
 export const actions = {
 	searchForPlans,
+	loadBPlaene,
 	setCollapsedInfoBox: infoBoxStateDuck.actions.setMinifiedInfoBoxState
 };

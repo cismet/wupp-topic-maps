@@ -88,6 +88,11 @@ export function getDocsForAEVGazetteerEntry(props) {
 		gazObject: [ gazHit ],
 		skipMappingActions: true,
 		done: (aevFeatures) => {
+			if (aevFeatures === undefined || aevFeatures.length === 0) {
+				console.log('::this should not happen -- race condition?');
+
+				return;
+			}
 			let docs = [];
 			const aev = aevFeatures[0].properties;
 			let title =
@@ -158,8 +163,6 @@ export function getDocsForAEVGazetteerEntry(props) {
 				}
 			}
 
-			console.log('docs', docs);
-
 			setDocs({
 				docs,
 				docsActions,
@@ -185,7 +188,6 @@ export function getDocsForBPlanGazetteerEntry(props) {
 		dox,
 		gotoWholeDocument
 	} = props;
-	console.log('getDocsForBPlanGazetteerEntry', props);
 
 	searchForPlans(
 		[
@@ -275,7 +277,6 @@ export function getDocsForBPlanGazetteerEntry(props) {
 						)
 					});
 				}
-				console.log('docs', docs);
 				setDocs({
 					docs,
 					docsActions,

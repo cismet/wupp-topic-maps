@@ -45,7 +45,7 @@ const Component = ({ uiState, uiStateActions, showModalMenu }) => {
 						jeweils im Dokument{' '}
 						<a
 							target='_info'
-							href='https://wunda-geoportal-docs.cismet.de/fnp_dokumente/Info_FNP-Zusatzdokumente_WUP_1-0.pdf'
+							href='https://wunda-geoportal-docs.cismet.de/fnp_dokumente/Info_FNP-Zusatzdokumente_WUP.pdf'
 						>
 							Info Dateinamen
 						</a>{' '}

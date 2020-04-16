@@ -122,11 +122,11 @@ export function getDocsForAEVGazetteerEntry(props) {
 
 				if (aev.docUrls.length > 0) {
 					let url =
-						'https://www.wuppertal.de/geoportal/fnp_dokumente/Info_FNP-Zusatzdokumente_WUP_1-0.pdf';
+						'https://www.wuppertal.de/geoportal/fnp_dokumente/Info_FNP-Zusatzdokumente_WUP.pdf';
 					docs.push({
 						group: 'Zusatzdokumente',
 						title: 'Info Dateinamen',
-						file: 'Info_FNP-Zusatzdokumente_WUP_1-0.pdf',
+						file: 'Info_FNP-Zusatzdokumente_WUP.pdf',
 						url: url.replace(
 							'https://www.wuppertal.de/geoportal/',
 							'https://wunda-geoportal-docs.cismet.de/'

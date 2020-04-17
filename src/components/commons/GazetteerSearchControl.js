@@ -1,7 +1,5 @@
 import React, { useRef, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
 import L from 'leaflet';
 import Icon from 'components/commons/Icon';
 // import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';

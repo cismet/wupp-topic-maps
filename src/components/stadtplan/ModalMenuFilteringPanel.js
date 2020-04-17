@@ -199,7 +199,6 @@ const ModalMenuFilteringSection = ({
 				<h4
 					style={{
 						lineHeight: 1.7,
-						overflowWrap: 'break-word',
 						wordWrap: 'break-word',
 						wordBreak: 'normal',
 						lineBreak: 'strict',

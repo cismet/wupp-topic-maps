@@ -1,8 +1,7 @@
 import Icon from 'components/commons/Icon';
 import PropTypes from 'prop-types';
 import React from 'react';
-import { OverlayTrigger, Tooltip, Well } from 'react-bootstrap';
-import Color from 'color';
+import { OverlayTrigger, Tooltip } from 'react-bootstrap';
 import CollapsibleABWell from 'components/commons/CollapsibleABWell';
 import InfoBoxHeader from 'components/commons/InfoBoxHeader';
 
@@ -146,7 +145,6 @@ const Comp = ({
 										style={{
 											marginLeft: 5,
 											marginRight: 5,
-											marginBottom: '4px',
 											marginBottom: '4px'
 										}}
 									>

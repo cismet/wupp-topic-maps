@@ -1,8 +1,5 @@
 import Icon from 'components/commons/Icon';
-import PropTypes from 'prop-types';
 import React from 'react';
-import { OverlayTrigger, Tooltip, Well } from 'react-bootstrap';
-import Color from 'color';
 import CollapsibleABWell from 'components/commons/CollapsibleABWell';
 import InfoBoxHeader from 'components/commons/InfoBoxHeader';
 

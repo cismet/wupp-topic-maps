@@ -31,7 +31,7 @@ const Comp = ({ showModalMenu }) => {
 						WebAtlasDE
 					</a>{' '}
 					© BKG{' '}
-					<a target='ackmore' onClick={() => showModalMenu('hintergrundkarte')}>
+					<a onClick={() => showModalMenu('hintergrundkarte')}>
 						(Details und Nutzungsbedingungen)
 					</a>
 					<CismetFooterAcks />

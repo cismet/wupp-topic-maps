@@ -13,9 +13,10 @@ import {
 
 import Chart from 'chart.js';
 import ReactChartkick, { PieChart } from 'react-chartkick';
-ReactChartkick.addAdapter(Chart);
-
 /* eslint-disable jsx-a11y/anchor-is-valid */
+
+
+ReactChartkick.addAdapter(Chart);
 
 const ModalMenuFilteringSection = ({
 	uiState,

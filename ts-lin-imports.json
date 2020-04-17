@@ -1,6 +1,9 @@
 {
-  "extends": ["tslint-etc"],
+  "extends": [
+    "tslint-etc"
+  ],
   "rules": {
-    "no-unused-declaration": true
+    "no-unused-declaration": true,
+    "jsx-a11y/anchor-is-valid": "off"
   }
 }

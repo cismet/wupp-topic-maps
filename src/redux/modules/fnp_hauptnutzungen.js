@@ -4,7 +4,7 @@ import localForage from 'localforage';
 import { combineReducers } from 'redux';
 import { persistReducer } from 'redux-persist';
 import makeDataDuck from '../higherorderduckfactories/dataWithMD5Check';
-import { searchForAEVs, getAEVByNr, getAEVsByNrs } from './fnp_aenderungsverfahren';
+import { getAEVByNr, getAEVsByNrs } from './fnp_aenderungsverfahren';
 //TYPES
 //no types bc no local store
 export const types = {};
@@ -67,7 +67,6 @@ export function searchForHauptnutzungen({
 	mappingActions
 }) {
 	return function(dispatch, getState) {
-		let selectionIndexWish = 0;
 		if (gazObject === undefined && (boundingBox !== undefined || point !== undefined)) {
 			let bboxPoly;
 			if (boundingBox !== undefined) {

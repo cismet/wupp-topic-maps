@@ -7,6 +7,7 @@ import { Link } from 'react-scroll';
 import { getSymbolSVG } from '../../utils/emobHelper';
 import MeinStandortHelpText from 'components/commons/GenericHelpTextForMyLocation';
 import GenericModalMenuSection from 'components/commons/GenericModalMenuSection';
+/* eslint-disable jsx-a11y/anchor-is-valid */
 
 const onlineSVG = getSymbolSVG(24, '#003B80', 'pr', 'onlineSVGinHELP');
 const offlineSVG = getSymbolSVG(24, '#888A87', 'pr', 'offlineSVGinHELP');

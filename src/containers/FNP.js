@@ -1,14 +1,11 @@
 import { faRandom } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import Icon from 'components/commons/Icon';
 import proj4 from 'proj4';
 import PropTypes from 'prop-types';
 import queryString from 'query-string';
 import React from 'react';
-import { OverlayTrigger, Tooltip, Well } from 'react-bootstrap';
-import { FeatureCollectionDisplayWithTooltipLabels, FeatureCollectionDisplay } from 'react-cismap';
+import { FeatureCollectionDisplayWithTooltipLabels } from 'react-cismap';
 import { WMSTileLayer, ScaleControl } from 'react-leaflet';
-import VectorGrid from 'react-leaflet-vectorgrid';
 import { connect } from 'react-redux';
 import { routerActions as RoutingActions } from 'react-router-redux';
 import { bindActionCreators } from 'redux';
@@ -21,33 +18,15 @@ import ShowAEVModeButton from '../components/fnp/ShowAEVModeButton';
 import { proj4crs25832def } from '../constants/gis';
 import TopicMap from '../containers/TopicMap';
 import { actions as AEVActions, getAEVFeatures } from '../redux/modules/fnp_aenderungsverfahren';
-import { actions as HNActions, getHNFeatures } from '../redux/modules/fnp_hauptnutzungen';
+import { actions as HNActions } from '../redux/modules/fnp_hauptnutzungen';
 import { actions as MappingActions } from '../redux/modules/mapping';
 import { actions as UIStateActions } from '../redux/modules/uiState';
-import {
-	aevFeatureStyler,
-	aevLabeler,
-	hnFeatureStyler,
-	hnLabeler,
-	getColorForHauptnutzung
-} from '../utils/fnpHelper';
+import { aevFeatureStyler, aevLabeler, hnFeatureStyler, hnLabeler } from '../utils/fnpHelper';
 import { removeQueryPart } from '../utils/routingHelper';
-import { Control } from 'leaflet';
-import CollapsibleABWell from 'components/commons/CollapsibleABWell';
-import InfoBoxHeader from 'components/commons/InfoBoxHeader';
 import FNPModalHelp from 'components/fnp/help/Help00MainComponent';
-import Color from 'color';
 
 let reduxBackground = undefined;
 
-const options = {
-	type: 'protobuf',
-	url2: 'http://localhost:8080/data/xx/{z}/{x}/{y}.pbf',
-	url: 'http://localhost:8080/data/v3/{z}/{x}/{y}.pbf',
-	subdomains: ''
-
-	// vectorTileLayerStyles: { ... }
-};
 const switchIcon = faRandom;
 const searchMinZoom = 7;
 function mapStateToProps(state) {
@@ -258,7 +237,7 @@ export class Container_ extends React.Component {
 	render() {
 		let backgroundStyling = queryString.parse(this.props.routing.location.search).mapStyle;
 
-		const { aevVisible, scaleVisible, currentZoom } = this.getNeededUrlParams();
+		const { aevVisible, currentZoom } = this.getNeededUrlParams();
 
 		let titleContent;
 		let backgrounds = [];

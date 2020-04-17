@@ -5,6 +5,7 @@ import { Label } from 'react-bootstrap';
 import GenericModalMenuSection from 'components/commons/GenericModalMenuSection';
 import MeinStandortHelpText from 'components/commons/GenericHelpTextForMyLocation';
 import { getColorForProperties, getBadSVG } from '../../utils/baederHelper';
+/* eslint-disable jsx-a11y/anchor-is-valid */
 
 const helpSVGSize = 18;
 const hallenBadSVG = getBadSVG(helpSVGSize, '#565B5E', 'Hallenbad', 'helpTextSVG0');

@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-scroll';
 import Icon from 'components/commons/Icon';
 import { Label } from 'react-bootstrap';
+/* eslint-disable jsx-a11y/anchor-is-valid */
 
 // Since this component is simple and static, there's no parent container for it.
 const KitasHelpTextPanel = () => {

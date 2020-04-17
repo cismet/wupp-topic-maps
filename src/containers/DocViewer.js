@@ -324,7 +324,7 @@ export class DocViewer_ extends React.Component {
 		const topicParam = this.props.match.params.topic;
 
 		if (
-			topicParam != undefined &&
+			topicParam !== undefined &&
 			filenameShortenerMapping[topicParam] !== undefined &&
 			{}.toString.call(filenameShortenerMapping[topicParam]) === '[object Function]'
 		) {

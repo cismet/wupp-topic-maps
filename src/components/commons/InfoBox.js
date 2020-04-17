@@ -5,6 +5,7 @@ import CollapsibleWell from './CollapsibleWell';
 
 /* eslint-disable jsx-a11y/anchor-is-valid */
 
+
 // Since this component is simple and static, there's no parent container for it.
 const InfoBox = ({
 	featureCollection,

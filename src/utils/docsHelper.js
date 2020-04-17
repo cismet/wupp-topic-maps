@@ -1,18 +1,7 @@
-import { actions as bplanActions } from '../redux/modules/bplaene';
-import { actions as DocsActions } from '../redux/modules/docs';
 const tileservice = 'https://aaa.cismet.de/tiles/';
 
 export function getDocsForStaticEntry(props) {
-	let {
-		docPackageIdParam,
-		docIndex,
-		pageIndex,
-		gazHit,
-		searchForAEVs,
-		docsActions,
-		dox,
-		gotoWholeDocument
-	} = props;
+	let { docPackageIdParam, docIndex, pageIndex, docsActions, dox, gotoWholeDocument } = props;
 	let title = '-';
 
 	let urlToGetDocsFrom = tileservice + '/static/docs/' + docPackageIdParam + '.json';

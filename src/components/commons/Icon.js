@@ -6,7 +6,6 @@ import {
 	faFile,
 	faSearchLocation,
 	faChargingStation,
-	faNumber,
 	faCircle,
 	faChartPie,
 	faHome,

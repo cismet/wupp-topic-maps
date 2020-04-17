@@ -4,7 +4,6 @@ import React from 'react';
 import { getColorForProperties } from '../../utils/baederHelper';
 import IconLink from '../commons/IconLink';
 import InfoBox from '../commons/InfoBox';
-
 /* eslint-disable jsx-a11y/anchor-is-valid */
 
 // Since this component is simple and static, there's no parent container for it.

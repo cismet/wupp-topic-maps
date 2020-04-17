@@ -1,7 +1,5 @@
-import Icon from 'components/commons/Icon';
 import PropTypes from 'prop-types';
 import React from 'react';
-import { OverlayTrigger, Tooltip, Well } from 'react-bootstrap';
 import Color from 'color';
 import CollapsibleABWell from 'components/commons/CollapsibleABWell';
 import InfoBoxHeader from 'components/commons/InfoBoxHeader';
@@ -12,23 +10,7 @@ import { getColorForHauptnutzung } from '../../utils/fnpHelper';
 
 // Since this component is simple and static, there's no parent container for it.
 const Comp = ({ selectedFeature, collapsed, setCollapsed }) => {
-	const currentFeature = selectedFeature;
 	let headerBackgroundColor = Color(getColorForHauptnutzung(selectedFeature));
-
-	let logCurrentFeature = function() {
-		//console.log(JSON.stringify(currentFeature));
-	};
-
-	// let name = selectedFeature.text;
-
-	// const nameParts = name.split('-');
-	// const datetimeParts = (selectedFeature.properties.rechtswirksam || '').split(' ');
-	// const dateParts = datetimeParts[0].split('-');
-	// const date = dateParts[2] + '.' + dateParts[1] + '.' + dateParts[0];
-	// const oberbegriff = nameParts[0];
-	// const headerText = oberbegriff;
-	// const os = selectedFeature.properties.os;
-	// console.log('selectedFeature.properties.fnp_aender', selectedFeature.properties.fnp_aender);
 
 	let header = (
 		<InfoBoxHeader headerColor={headerBackgroundColor} content={'nicht genehmigte Fläche'} />
@@ -70,10 +52,6 @@ const Comp = ({ selectedFeature, collapsed, setCollapsed }) => {
 		}
 	};
 
-	const festgelegt = getLinkFromAEV({
-		aevs: selectedFeature.properties.fnp_aender,
-		defaultEl: <span>FNP vom 17.01.2005</span>
-	});
 	let sieheAuchLinks = undefined;
 	if (selectedFeature.properties.siehe_auch_aev !== undefined) {
 		sieheAuchLinks = getLinkFromAEV({
@@ -92,8 +70,6 @@ const Comp = ({ selectedFeature, collapsed, setCollapsed }) => {
 			)
 		</div>
 	);
-
-	let infoTextDiv;
 
 	if (selectedFeature.properties.area > 0) {
 		infoText = (
@@ -133,7 +109,7 @@ const Comp = ({ selectedFeature, collapsed, setCollapsed }) => {
 								return <span>{comp} (jeweils nicht rechtswirksam)</span>;
 							}
 						})}
-					{sieheAuchLinks.length == 1 &&
+					{sieheAuchLinks.length === 1 &&
 						sieheAuchLinks.map((comp, index) => {
 							return <span>{comp} (nicht rechtswirksam)</span>;
 						})}

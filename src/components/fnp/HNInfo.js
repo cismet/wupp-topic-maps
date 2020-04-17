@@ -1,11 +1,9 @@
-import Icon from 'components/commons/Icon';
 import PropTypes from 'prop-types';
 import React, { useRef } from 'react';
-import { OverlayTrigger, Tooltip, Well } from 'react-bootstrap';
 import Color from 'color';
 import CollapsibleABWell from 'components/commons/CollapsibleABWell';
 import InfoBoxHeader from 'components/commons/InfoBoxHeader';
-import { getColorForHauptnutzung, aevFeatureStyler } from '../../utils/fnpHelper';
+import { getColorForHauptnutzung } from '../../utils/fnpHelper';
 /* eslint-disable jsx-a11y/anchor-is-valid */
 
 //printf 'const validFNPIcons=['; for file  in *.svg; printf '"'$file'"',; printf ']'
@@ -61,12 +59,7 @@ const validFNPIcons = [
 ];
 // Since this component is simple and static, there's no parent container for it.
 const Comp = ({ selectedFeature, collapsed, setCollapsed }) => {
-	const currentFeature = selectedFeature;
 	let headerBackgroundColor = Color(getColorForHauptnutzung(selectedFeature));
-
-	let logCurrentFeature = function() {
-		//console.log(JSON.stringify(currentFeature));
-	};
 
 	let name = selectedFeature.text;
 	const collapsedTitleRef = useRef(null);
@@ -213,7 +206,7 @@ const Comp = ({ selectedFeature, collapsed, setCollapsed }) => {
 								return <span>{comp} (jeweils nicht rechtswirksam)</span>;
 							}
 						})}
-					{sieheAuchLinks.length == 1 &&
+					{sieheAuchLinks.length === 1 &&
 						sieheAuchLinks.map((comp, index) => {
 							return <span>{comp} (nicht rechtswirksam)</span>;
 						})}

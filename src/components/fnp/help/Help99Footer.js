@@ -19,7 +19,7 @@ const Comp = ({ showModalMenu }) => {
 					vom 17.01.2005 © Stadt Wuppertal (<a
 						onClick={() => showModalMenu('RechtsplanUndArbeitskarte')}
 					>
-						Rechtsplan und Arbeitskarte
+						Details und Nutzungsbedingungen
 					</a>
 					)
 					<CismetFooterAcks />

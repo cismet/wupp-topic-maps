@@ -2,7 +2,7 @@ import React from 'react';
 import GenericModalMenuSection from 'components/commons/GenericModalMenuSection';
 import Icon from 'components/commons/Icon';
 
-const Component = ({ uiState, uiStateActions }) => {
+const Component = ({ uiState, uiStateActions, showModalMenu }) => {
 	return (
 		<GenericModalMenuSection
 			uiState={uiState}
@@ -30,13 +30,21 @@ const Component = ({ uiState, uiStateActions }) => {
 						&nbsp;POI oder die&nbsp;
 						<Icon name='tags' />
 						&nbsp;alternative Bezeichnung eines POI handelt. (Probieren Sie es mal mit
-						der Eingabe &bdquo;Sankt&ldquo;.)
+						der Eingabe "Sankt".)
 					</p>
 					<p>
 						Nach der Auswahl eines Eintrags wird die entsprechende Position in der Karte
 						markiert. B-Plan-Verfahren werden hier allerdings in der Umgebung dieses
 						Punktes gesucht, in einem Kartenausschnitt der Zoomstufe 14. Sie erhalten
 						daher in der Regel mehrere Treffer.
+					</p>
+					<p>
+						Auch nach einer Positionierung in der Karte über Adresse oder POI können Sie
+						die Suche mit dem Werkzeug <Icon name='times' /> links neben dem Eingabefeld
+						zurücksetzen (s.{' '}
+						<a onClick={() => showModalMenu('suche-ueber-bplan-nummer')}>
+							Suche über B-Plan-Nummer
+						</a>).
 					</p>
 				</div>
 			}

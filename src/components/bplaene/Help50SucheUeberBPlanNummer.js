@@ -36,9 +36,9 @@ const Component = ({ uiState, uiStateActions }) => {
 						Kartenausschnitt nach B-Plänen suchen können.
 					</p>
 					<p>
-						Klicken Sie auf <Icon name='search' />, um alle Pl&auml;ne hinzuzuladen, die
-						im jetzt aktuellen Ausschnitt liegen. Damit stellen Sie auch sicher, dass
-						Sie keinen Plan &uuml;bersehen, der sich mit dem zuvor gesuchten
+						Klicken Sie nun auf <Icon name='search' />, um alle Pl&auml;ne hinzuzuladen,
+						die im jetzt aktuellen Ausschnitt liegen. Damit stellen Sie auch sicher,
+						dass Sie keinen Plan &uuml;bersehen, der sich mit dem zuvor gesuchten
 						&uuml;berlappt.
 					</p>
 				</div>

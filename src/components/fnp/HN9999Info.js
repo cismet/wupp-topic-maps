@@ -62,7 +62,7 @@ const Comp = ({ selectedFeature, collapsed, setCollapsed }) => {
 	const bemArr = selectedFeature.properties.bem.split('+');
 	console.log('selectedFeature.properties', selectedFeature.properties);
 	let infoText = bemArr[2].trim();
-	const vorgeschlHN = bemArr[3].trim();
+	// const vorgeschlHN = bemArr[3].trim();
 	const ursprLegende = (
 		<div>
 			Gemäß den Verfügungen der Bezirksregierung Düsseldorf vom 14.10. und 02.12.2004 von der

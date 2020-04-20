@@ -2,9 +2,10 @@ import React from 'react';
 import { Link } from 'react-scroll';
 import Icon from 'components/commons/Icon';
 import { Label } from 'react-bootstrap';
-import GenericModalMenuSection from '../commons/GenericModalMenuSection';
-import MeinStandortHelpText from '../commons/GenericHelpTextForMyLocation';
+import GenericModalMenuSection from 'components/commons/GenericModalMenuSection';
+import MeinStandortHelpText from 'components/commons/GenericHelpTextForMyLocation';
 import { getColorForProperties, getBadSVG } from '../../utils/baederHelper';
+/* eslint-disable jsx-a11y/anchor-is-valid */
 
 const helpSVGSize = 18;
 const hallenBadSVG = getBadSVG(helpSVGSize, '#565B5E', 'Hallenbad', 'helpTextSVG0');
@@ -235,8 +236,7 @@ const BaederModalMenuHelpSection = ({ uiState, uiStateActions }) => {
 					<p>
 						Wenn Sie noch kein Schwimmbad im aktuellen Kartenausschnitt selektiert
 						haben, wird der Fokus automatisch auf das nördlichste Bad gesetzt. Mit den
-						Funktionen <img alt='Cluster' src='images/vorher_treffer.png' /> vorheriger
-						Treffer und <img alt='Cluster' src='images/nachher_treffer.png' /> nächster
+						Funktionen <a>&lt;&lt;</a> vorheriger Treffer und <a>&gt;&gt;</a> nächster
 						Treffer können Sie ausgehend von dem Schwimmbad, auf dem gerade der Fokus
 						liegt, in nördlicher bzw. südlicher Richtung alle aktuell im Kartenfenster
 						angezeigten Bäder durchmustern.

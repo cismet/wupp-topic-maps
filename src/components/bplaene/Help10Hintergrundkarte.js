@@ -1,5 +1,5 @@
 import React from 'react';
-import GenericModalMenuSection from '../commons/GenericModalMenuSection';
+import GenericModalMenuSection from 'components/commons/GenericModalMenuSection';
 
 const Component = ({ uiState, uiStateActions, showModalMenu }) => {
 	return (
@@ -27,24 +27,28 @@ const Component = ({ uiState, uiStateActions, showModalMenu }) => {
 					<ul>
 						<li>
 							<strong>Stadtplan, in allen Maßstäben</strong>: Kartendienst (WMS) des
-							Regionalverbandes Ruhr (RVR). Datengrundlage: Stadtplanwerk 2.0 Beta.
-							(Wöchentlich in einem automatischen Prozess aktualisierte
-							Zusammenführung des Straßennetzes der OpenStreetMap mit Gebäuden und
-							Flächennutzungen aus dem Fachverfahren ALKIS des
-							Liegenschaftskatasters.) © RVR und Kooperationspartner (<a
-								href='https://creativecommons.org/licenses/by/4.0/legalcode.de'
+							Regionalverbandes Ruhr (RVR). Datengrundlage:{' '}
+							<strong>Stadtplanwerk 2.0</strong>. Wöchentlich in einem automatischen
+							Prozess aktualisierte Zusammenführung des Straßennetzes der
+							OpenStreetMap mit Amtlichen Geobasisdaten des Landes NRW aus den
+							Fachverfahren ALKIS (Gebäude, Flächennutzungen) und ATKIS (Gewässer). ©
+							RVR und Kooperationspartner (<a
+								href='https://www.rvr.ruhr/?id=1002#c179626'
 								target='_license'
 							>
 								CC BY 4.0
-							</a>). Lizenzen der Ausgangsprodukte: OpenStreetMap contributors (<a
+							</a>). Lizenzen der Ausgangsprodukte:{' '}
+							<a href='https://www.govdata.de/dl-de/zero-2-0' target='_license'>
+								Datenlizenz Deutschland - Zero - Version 2.0
+							</a>{' '}
+							(Amtliche Geobasisdaten) und{' '}
+							<a
 								href='https://www.opendatacommons.org/licenses/odbl/1.0/'
 								target='_license'
 							>
 								ODbL
-							</a>) und Land NRW (2018){' '}
-							<a href='http://www.govdata.de/dl-de/by-2-0' target='_license'>
-								Datenlizenz Deutschland - Namensnennung - Version 2.0
-							</a>.
+							</a>{' '}
+							(OpenStreetMap contributors).
 						</li>
 						<li>
 							<strong>Amtliche Basiskarte ABK, in Detailmaßstäben</strong>:
@@ -52,10 +56,10 @@ const Component = ({ uiState, uiStateActions, showModalMenu }) => {
 							Basiskarte ABK Graustufen. (Wöchentlich in einem automatisierten Prozess
 							aus dem Fachverfahren ALKIS des Liegenschaftskatasters abgeleitete
 							großmaßstäbige topographische Karte in Graustufen.) © Stadt Wuppertal (<a
-								href='http://www.govdata.de/dl-de/by-2-0'
+								href='https://www.govdata.de/dl-de/zero-2-0'
 								target='_license'
 							>
-								Datenlizenz Deutschland - Namensnennung - Version 2.0
+								Datenlizenz Deutschland - Zero - Version 2.0
 							</a>).
 						</li>
 						<li>

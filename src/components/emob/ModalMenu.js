@@ -1,8 +1,8 @@
 import React from 'react';
 import ModalMenuIntroduction from './ModalMenuIntroduction';
 import ModalMenuHelpSection from './ModalMenuHelpSection';
-import GenericModalApplicationMenu from '../commons/GenericModalApplicationMenu';
-import GenericModalMenuSection from '../commons/GenericModalMenuSection';
+import GenericModalApplicationMenu from 'components/commons/GenericModalApplicationMenu';
+import GenericModalMenuSection from 'components/commons/GenericModalMenuSection';
 import ModalMenuSettingsPanel from './ModalMenuSettingsPanel';
 import ModalMenuFilterPanel from './FilterPaneContent';
 import { getColorForProperties } from '../../utils/emobHelper';

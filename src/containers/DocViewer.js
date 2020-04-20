@@ -14,6 +14,7 @@ import scrollIntoViewIfNeeded from 'scroll-into-view-if-needed';
 import { Column, Row } from 'simple-flexbox';
 import 'url-search-params-polyfill';
 import { actions as bplanActions } from '../redux/modules/bplaene';
+import { actions as AEVActions } from '../redux/modules/fnp_aenderungsverfahren';
 import { actions as DocsActions } from '../redux/modules/docs';
 import {
 	actions as gazetteerTopicsActions,
@@ -22,6 +23,12 @@ import {
 import { actions as UIStateActions } from '../redux/modules/uiState';
 import { downloadSingleFile, prepareDownloadMultipleFiles } from '../utils/downloadHelper';
 import { modifyQueryPart, removeQueryPart } from '../utils/routingHelper';
+import {
+	getDocsForBPlanGazetteerEntry,
+	getDocsForAEVGazetteerEntry,
+	getDocsForStaticEntry
+} from '../utils/docsHelper';
+import { constants as DOC_CONSTANTS } from '../redux/modules/docs';
 
 /* eslint-disable jsx-a11y/anchor-is-valid */
 
@@ -74,9 +81,10 @@ const HEIGHT = 'HEIGHT';
 const LOADING_FINISHED = 'LOADING_FINISHED';
 const LOADING_OVERLAY = 'LOADING_OVERLAY';
 
-const sidebarWidth = 130;
+const zipFileNameMapping = DOC_CONSTANTS.ZIP_FILE_NAME_MAPPING;
+const filenameShortenerMapping = DOC_CONSTANTS.SIDEBAR_FILENAME_SHORTENER;
 
-const tileservice = 'https://aaa.cismet.de/tiles/';
+const sidebarWidth = 130;
 
 function mapStateToProps(state) {
 	return {
@@ -93,6 +101,7 @@ function mapDispatchToProps(dispatch) {
 		uiStateActions: bindActionCreators(UIStateActions, dispatch),
 		routingActions: bindActionCreators(RoutingActions, dispatch),
 		bplanActions: bindActionCreators(bplanActions, dispatch),
+		aevActions: bindActionCreators(AEVActions, dispatch),
 		docsActions: bindActionCreators(DocsActions, dispatch),
 		gazetteerTopicsActions: bindActionCreators(gazetteerTopicsActions, dispatch)
 	};
@@ -103,10 +112,59 @@ export class DocViewer_ extends React.Component {
 		super(props, context);
 		this.state = {
 			downloadArchiveIcon: 'file-archive-o',
-			downloadArchivePrepInProgress: false
+			downloadArchivePrepInProgress: false,
+			gazDataLoaded: false,
+			topicDataLoaded: false
 		};
+		this.loadData = this.loadData.bind(this);
 	}
-	componentWillMount() {}
+
+	loadData(dataLoader) {
+		var promise = new Promise((resolve, reject) => {
+			setTimeout(() => {
+				// entweder dataLoader ist eine Funktion oder ein Array von Funktionen
+				if (Array.isArray(dataLoader)) {
+					this.props.uiStateActions.setPendingLoader(dataLoader.length);
+					for (const loader of dataLoader) {
+						loader(() => {
+							this.props.uiStateActions.setPendingLoader(
+								this.props.uiState.pendingLoader - 1
+							);
+						});
+					}
+				} else {
+					console.log('xxx');
+
+					this.props.uiStateActions.setPendingLoader(1);
+					if (dataLoader) {
+						dataLoader(() => {
+							console.log('this.props.uiStateActions.setPendingLoader(0)');
+
+							this.props.uiStateActions.setPendingLoader(0);
+						});
+					}
+				}
+				resolve('ok');
+			}, 100);
+		});
+		return promise;
+	}
+
+	componentWillMount() {
+		this.loadData([
+			this.props.aevActions.loadAEVs
+			//this.props.bplanActions.loadBPlaene
+		]).then((data) => {
+			// setTimeout(() => {
+			this.setState({ topicDataLoaded: true });
+			this.forceUpdate();
+			// }, 2500);
+		});
+		this.props.gazetteerTopicsActions.loadTopicsData([ 'bplaene', 'aenderungsv' ]).then(() => {
+			this.setState({ gazDataLoaded: true });
+			this.forceUpdate();
+		});
+	}
 
 	componentDidMount() {
 		this.componentDidUpdate();
@@ -114,9 +172,18 @@ export class DocViewer_ extends React.Component {
 	}
 
 	componentDidUpdate(prevProps, prevState) {
-		if (!this.props.allGazetteerTopics.bplaene) {
+		// console.log('this.state', this.state);
+
+		if (
+			this.state.gazDataLoaded === false ||
+			this.state.topicDataLoaded === false ||
+			this.props.uiState.pendingLoader > 0
+		) {
 			return;
 		}
+		// if (!this.props.allGazetteerTopics.bplaene || !this.props.allGazetteerTopics.aenderungsv) {
+		// 	return;
+		// }
 		const topicParam = this.props.match.params.topic;
 		const docPackageIdParam = this.props.match.params.docPackageId;
 		const fileNumberParam = this.props.match.params.file || 1;
@@ -177,126 +244,53 @@ export class DocViewer_ extends React.Component {
 				}
 			}
 
-			if (gazHit) {
-				this.props.bplanActions.searchForPlans(
-					[
-						{
-							sorter: 0,
-							string: gazHit.string,
-							glyph: '-',
-							x: gazHit.x,
-							y: gazHit.y,
-							more: { zl: 18, v: gazHit.more.v }
-						}
-					],
-					null,
-					{
-						skipMappingActions: true,
-						done: (bplanFeatures) => {
-							const bplan = bplanFeatures[0].properties;
-							let docs = [];
-							for (const doc of bplan.plaene_rk) {
-								// let pagecount = this.props.docs.pages[this.replaceUmlauteAndSpaces(doc.file)].pages;
-								// let pageinfo = [];
-
-								// for (let i = 0; i < pagecount; ++i) {
-								// 	if (pagecount > 1) {
-								// 		pageinfo.push(
-								// 			this.props.docs.layers[this.replaceUmlauteAndSpaces(doc.file + '-' + i)]
-								// 		);
-								// 	} else {
-								// 		pageinfo.push(this.props.docs.layers[this.replaceUmlauteAndSpaces(doc.file)]);
-								// 	}
-								// }
-								docs.push({
-									group: 'rechtskraeftig',
-									file: doc.file,
-									url: doc.url.replace(
-										'https://wunda-geoportal-docs.cismet.de/',
-										'https://wunda-geoportal-docs.cismet.de/'
-									),
-									layer: this.replaceUmlauteAndSpaces(
-										doc.url.replace(
-											'https://wunda-geoportal-docs.cismet.de/',
-											tileservice
-										) + '/{z}/{x}/{y}.png'
-									),
-									meta: this.replaceUmlauteAndSpaces(
-										doc.url.replace(
-											'https://wunda-geoportal-docs.cismet.de/',
-											tileservice
-										) + '/meta.json'
-									)
-								});
-							}
-							for (const doc of bplan.plaene_nrk) {
-								docs.push({
-									group: 'nicht_rechtskraeftig',
-									file: doc.file,
-									url: doc.url.replace(
-										'https://wunda-geoportal-docs.cismet.de/',
-										'https://wunda-geoportal-docs.cismet.de/'
-									),
-
-									layer: this.replaceUmlauteAndSpaces(
-										doc.url.replace(
-											'https://wunda-geoportal-docs.cismet.de/',
-											tileservice
-										) + '/{z}/{x}/{y}.png'
-									),
-									meta: this.replaceUmlauteAndSpaces(
-										doc.url.replace(
-											'https://wunda-geoportal-docs.cismet.de/',
-											tileservice
-										) + '/meta.json'
-									)
-								});
-							}
-							for (const doc of bplan.docs) {
-								docs.push({
-									group: 'Zusatzdokumente',
-									file: doc.file,
-									url: doc.url.replace(
-										'https://wunda-geoportal-docs.cismet.de/',
-										'https://wunda-geoportal-docs.cismet.de/'
-									),
-									hideInDocViewer: doc.hideInDocViewer,
-									layer: this.replaceUmlauteAndSpaces(
-										doc.url.replace(
-											'https://wunda-geoportal-docs.cismet.de/',
-											tileservice
-										) + '/{z}/{x}/{y}.png'
-									),
-
-									meta: this.replaceUmlauteAndSpaces(
-										doc.url.replace(
-											'https://wunda-geoportal-docs.cismet.de/',
-											tileservice
-										) + '/meta.json'
-									)
-								});
-							}
-							this.props.docsActions.setDocsInformation(docs, () => {
-								this.props.docsActions.finished(
-									docPackageIdParam,
-									docIndex,
-									pageIndex,
-									() => {
-										setTimeout(() => {
-											if (
-												this.props.docs.docs[docIndex] &&
-												this.props.docs.docs[docIndex].meta
-											) {
-												this.gotoWholeDocument();
-											} else {
-											}
-										}, 1);
-									}
-								);
-							});
-						}
+			if (gazHit || topicParam === 'static') {
+				switch (topicParam) {
+					case 'bplaene': {
+						const p = {
+							docPackageIdParam,
+							docIndex,
+							pageIndex,
+							gazHit,
+							searchForPlans: this.props.bplanActions.searchForPlans,
+							docsActions: this.props.docsActions,
+							docs: this.props.docs,
+							gotoWholeDocument: this.gotoWholeDocument
+						};
+						getDocsForBPlanGazetteerEntry(p);
+						break;
 					}
-				);
+					case 'aenderungsv': {
+						const p = {
+							docPackageIdParam,
+							docIndex,
+							pageIndex,
+							gazHit,
+							searchForAEVs: this.props.aevActions.searchForAEVs,
+							docsActions: this.props.docsActions,
+							docs: this.props.docs,
+							gotoWholeDocument: this.gotoWholeDocument
+						};
+						getDocsForAEVGazetteerEntry(p);
+						break;
+					}
+					case 'static': {
+						console.log('STATIIIIIIIIIC');
+
+						const p = {
+							docPackageIdParam,
+							docIndex,
+							pageIndex,
+							docsActions: this.props.docsActions,
+							docs: this.props.docs,
+							gotoWholeDocument: this.gotoWholeDocument
+						};
+						getDocsForStaticEntry(p);
+						break;
+					}
+					default:
+						break;
+				}
 			}
 		} else if (
 			(this.props.docs.loadingState === LOADING_FINISHED &&
@@ -326,6 +320,22 @@ export class DocViewer_ extends React.Component {
 		}
 	}
 
+	filenameShortener = (original) => {
+		const topicParam = this.props.match.params.topic;
+
+		if (
+			topicParam !== undefined &&
+			filenameShortenerMapping[topicParam] !== undefined &&
+			{}.toString.call(filenameShortenerMapping[topicParam]) === '[object Function]'
+		) {
+			const shorty = filenameShortenerMapping[topicParam](original);
+
+			return shorty;
+		} else {
+			return original;
+		}
+	};
+
 	downloadEverything = () => {
 		this.setState({ downloadArchivePrepInProgress: true, downloadArchiveIcon: 'spinner' });
 
@@ -334,8 +344,15 @@ export class DocViewer_ extends React.Component {
 			encoding = 'CP850';
 		}
 
+		let zipnamePrefix = zipFileNameMapping[this.props.docs.topic];
+		if (zipnamePrefix === undefined) {
+			zipnamePrefix = 'Archiv.';
+		} else if (zipnamePrefix !== '') {
+			zipnamePrefix = zipnamePrefix + '.';
+		}
+
 		let downloadConf = {
-			name: 'BPLAN_Plaene_und_Zusatzdokumente.' + this.props.docs.docPackageId,
+			name: zipnamePrefix + this.props.docs.docPackageId,
 			files: [],
 			encoding: encoding
 		};
@@ -392,13 +409,20 @@ export class DocViewer_ extends React.Component {
 		};
 
 		let numPages;
+		// console.log('numPagesPostfix decission', {
+		// 	docs: this.props.docs.docs,
+		// 	docIndex: this.props.docs.docIndex,
+		// 	xxx: this.props.docs.docs[this.props.docs.docIndex]
+		// });
 
 		if (
-			this.props.docs.docs &&
-			this.props.docs.docIndex &&
-			this.props.docs.docs[this.props.docs.docIndex]
+			this.props.docs.docs !== undefined &&
+			this.props.docs.docIndex !== undefined &&
+			this.props.docs.docs[this.props.docs.docIndex] !== undefined
 		) {
-			numPages = ' / ' + this.props.docs.docs[this.props.docs.docIndex].pages;
+			const pages = this.props.docs.docs[this.props.docs.docIndex].pages;
+
+			numPages = ' / ' + pages;
 		}
 		let downloadURL;
 		const downloadAvailable =
@@ -491,10 +515,14 @@ export class DocViewer_ extends React.Component {
 								onClick={() => this.showMainDoc()}
 								disabled={this.props.docs.loadingState !== LOADING_FINISHED}
 							>
-								{'B-Plan ' +
+								{this.props.docs.viewerTitle === undefined ? (
+									'Dokument ' +
 									(this.props.docs.docPackageId ||
 										this.props.docs.futuredocPackageId ||
-										'')}
+										'')
+								) : (
+									this.props.docs.viewerTitle
+								)}
 							</a>
 						</Navbar.Brand>
 						<Navbar.Toggle />
@@ -671,13 +699,8 @@ export class DocViewer_ extends React.Component {
 															wordWrap: 'break-word'
 														}}
 													>
-														{doc.file
-															.replace(/.pdf$/, '')
-															.replace(/^BPL_n*\d*_(0_)*/, '')
-															.replace(
-																/Info_BPlan-Zusatzdokumente_WUP_.*/,
-																'Info Dateinamen'
-															)}
+														{doc.title ||
+															this.filenameShortener(doc.file)}
 													</p>
 													{selectionMarker}
 													{progressBar}
@@ -1016,30 +1039,6 @@ export class DocViewer_ extends React.Component {
 		}
 	};
 
-	replaceUmlauteAndSpaces(str) {
-		const umlautMap = {
-			Ü: 'UE',
-			Ä: 'AE',
-			Ö: 'OE',
-			ü: 'ue',
-			ä: 'ae',
-			ö: 'oe',
-			ß: 'ss',
-			' ': '_'
-		};
-		let ret = str
-			.replace(/[\u00dc|\u00c4|\u00d6][a-z]/g, (a) => {
-				var big = umlautMap[a.slice(0, 1)];
-				return big.charAt(0) + big.charAt(1) + a.slice(1);
-			})
-			.replace(
-				new RegExp('[' + Object.keys(umlautMap).join('|') + ']', 'g'),
-				(a) => umlautMap[a]
-			);
-		// console.log('in', str);
-		// console.log('out', ret);
-		return ret;
-	}
 	getLayer = () => {
 		if (this.props.docs.docIndex !== undefined && this.props.docs.docs.length > 0) {
 			try {

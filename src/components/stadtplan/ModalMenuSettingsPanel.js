@@ -1,7 +1,7 @@
 import React from 'react';
 import { FormGroup, ControlLabel, Checkbox } from 'react-bootstrap';
 
-import GenericModalMenuSection from '../commons/GenericModalMenuSection';
+import GenericModalMenuSection from 'components/commons/GenericModalMenuSection';
 import SymbolSizeChooser from '../commons/SymbolSizeChooser';
 import NamedMapStyleChooser from '../commons/NamedMapStyleChooser';
 import SettingsPanelWithPreviewSection from '../commons/SettingsPanelWithPreviewSection';

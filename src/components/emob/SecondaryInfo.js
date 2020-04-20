@@ -2,7 +2,7 @@ import Icon from 'components/commons/Icon';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { Accordion, Button, Modal, Panel, Table } from 'react-bootstrap';
-import CismetFooterAcks from '../commons/CismetFooterAcknowledgements';
+import CismetFooterAcks from 'components/commons/CismetFooterAcknowledgements';
 import GenericRVRStadtplanwerkMenuFooter from '../commons/GenericRVRStadtplanwerkMenuFooter';
 import IconLink from '../commons/IconLink';
 import { getConnectorImageUrl } from '../../utils/emobHelper';

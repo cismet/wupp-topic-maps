@@ -1,5 +1,5 @@
 import React from 'react';
-import GenericModalMenuSection from '../commons/GenericModalMenuSection';
+import GenericModalMenuSection from 'components/commons/GenericModalMenuSection';
 import Icon from 'components/commons/Icon';
 import { INFO_DOC_DATEINAMEN_URL } from '../../constants/bplaene';
 
@@ -31,8 +31,8 @@ const Component = ({ uiState, uiStateActions, showModalMenu }) => {
 						Mehrere Dokumente werden angezeigt, wenn der B-Plan mehrere Planteile
 						umfasst oder wenn die verfahrensbegleitenden Zusatzdokumente bereits in
 						digitaler Form vorliegen. Die Bereitstellung dieser Dokumente ist ein
-						laufendes Vorhaben der Stadtverwaltung Wuppertal, Stand 03/2019 sind sie für
-						rund 60% der Wuppertaler B-Pläne verfügbar. Die Namenskonventionen für die
+						laufendes Vorhaben der Stadtverwaltung Wuppertal, Stand 04/2020 sind sie für
+						rund 72% der Wuppertaler B-Pläne verfügbar. Die Namenskonventionen für die
 						vielfältigen Zusatzdateien sind im Dokument{' '}
 						<a href={INFO_DOC_DATEINAMEN_URL} target='_info'>
 							Info Dateinamen

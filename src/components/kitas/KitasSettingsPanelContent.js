@@ -14,7 +14,7 @@ import {
 	getChildSVG,
 	getKitaClusterIconCreatorFunction
 } from '../../utils/kitasHelper';
-import GenericModalMenuSection from '../commons/GenericModalMenuSection';
+import GenericModalMenuSection from 'components/commons/GenericModalMenuSection';
 import queryString from 'query-string';
 
 // Since this component is simple and static, there's no parent container for it.

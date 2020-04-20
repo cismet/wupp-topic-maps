@@ -8,6 +8,7 @@
 
 
 
+
     
         {
             "type": "chrome",
@@ -60,8 +61,21 @@
         {
             "type": "chrome",
             "request": "launch",
-            "name": "Debug DocViewer",
+            "name": "Debug DocViewer (BPlan 928)",
             "url": "http://localhost:3000/#/docs/bplaene/928/2/1",
+            "webRoot": "${workspaceRoot}"
+        },
+        {
+            "type": "chrome",
+            "request": "launch",
+            "name": "Debug DocViewer (ÄV 1)",
+            "url": "http://localhost:3000/#/docs/aenderungsv/1/1/1",
+            "webRoot": "${workspaceRoot}"
+        },{
+            "type": "chrome",
+            "request": "launch",
+            "name": "Debug DocViewer (static#all)",
+            "url": "http://localhost:3000/#/docs/static/all/1",
             "webRoot": "${workspaceRoot}"
         },
         {

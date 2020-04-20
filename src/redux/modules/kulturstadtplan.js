@@ -133,7 +133,7 @@ const localStateStorageConfig = {
 const dataStateStorageConfig = {
 	key: 'kulturstadtplanPOIData',
 	storage: localForage,
-	whitelist: [] //[ 'items', 'md5' ]
+	whitelist: [ 'items', 'md5' ]
 };
 const infoBoxStateStorageConfig = {
 	key: 'kulturstadtplaninfoBoxMinifiedState',
@@ -190,7 +190,7 @@ function setSelectedPOI(pid) {
 	};
 }
 
-function loadPOIs() {
+function loadPOIs(finishedHandler = () => {}) {
 	const manualReloadRequest = false;
 	return (dispatch, getState) => {
 		const state = getState();
@@ -241,6 +241,7 @@ function loadPOIs() {
 					}
 					dispatch(applyFilter());
 					dispatch(createFeatureCollectionFromPOIs());
+					finishedHandler();
 				},
 				errorHandler: (err) => {
 					console.log(err);

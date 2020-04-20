@@ -329,7 +329,7 @@ export class Stadtplan_ extends React.Component {
 						this.cismapRef = cismap;
 						this.topicMap = cismap;
 					}}
-					initialLoadingText='Laden der Veranstaltungsorte...'
+					initialLoadingText='Laden der Veranstaltungsorte'
 					home={{
 						center: [ 51.2724, 7.199806 ],
 						zoom: 8
@@ -352,7 +352,7 @@ export class Stadtplan_ extends React.Component {
 					backgroundlayers={
 						this.props.match.params.layers || reduxBackground || 'wupp-plan-live@90'
 					}
-					dataLoader={this.props.stadtplanActions.getPOIs}
+					dataLoader={this.props.stadtplanActions.loadPOIs}
 					getFeatureCollectionForData={() => {
 						return this.props.mapping.featureCollection;
 					}}

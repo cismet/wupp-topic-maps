@@ -190,7 +190,7 @@ function setSelectedKita(kid) {
 	};
 }
 
-function loadKitas() {
+function loadKitas(finishedHandler = () => {}) {
 	return (dispatch, getState) => {
 		let md5 = null;
 		let currentKita = null;
@@ -224,6 +224,7 @@ function loadKitas() {
 				if (md5 === state.kitas.kitasMD5 && constants.DEBUG_ALWAYS_LOADING === false) {
 					dispatch(applyFilter());
 					dispatch(createFeatureCollectionFromKitas());
+					finishedHandler();
 					//TODO
 					// don't know another way yet
 					//therefore
@@ -252,6 +253,7 @@ function loadKitas() {
 				dispatch(setKitas(data, md5));
 				dispatch(applyFilter());
 				dispatch(createFeatureCollectionFromKitas());
+				finishedHandler();
 			})
 			.catch(function(err) {
 				if (err !== 'CACHEHIT') {

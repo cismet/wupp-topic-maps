@@ -59,7 +59,7 @@ export class TopicMap_ extends React.Component {
 		this.dataLoaded = false;
 		this.loadData().then((data) => {
 			this.dataLoaded = true;
-			if (this.props.dataLoader === undefined) {
+			if (this.props.dataLoader !== undefined) {
 				this.forceUpdate();
 			}
 		});
@@ -94,8 +94,26 @@ export class TopicMap_ extends React.Component {
 	loadData() {
 		var promise = new Promise((resolve, reject) => {
 			setTimeout(() => {
-				if (this.props.dataLoader) {
-					this.props.dataLoader();
+				// entweder dataLoader ist eine Funktion oder ein Array von Funktionen
+
+				if (Array.isArray(this.props.dataLoader)) {
+					this.props.uiStateActions.setPendingLoader(this.props.dataLoader.length);
+					for (const loader of this.props.dataLoader) {
+						loader(() => {
+							this.props.uiStateActions.setPendingLoader(
+								this.props.uiState.pendingLoader - 1
+							);
+						});
+					}
+				} else {
+					this.props.uiStateActions.setPendingLoader(1);
+					if (this.props.dataLoader) {
+						this.props.dataLoader(() => {
+							console.log('this.props.uiStateActions.setPendingLoader(0)');
+
+							this.props.uiStateActions.setPendingLoader(0);
+						});
+					}
 				}
 				resolve('ok');
 			}, 100);
@@ -160,6 +178,10 @@ export class TopicMap_ extends React.Component {
 			width: info.props.pixelwidth
 		};
 
+		//TODO the call of this.props.responsiveTrigger(true|false) triggers the warning
+		// Cannot update during an existing state transition (such as within `render`).
+		// Render methods should be a pure function of props and state.
+
 		if (width - gap - widthLeft - widthRight <= 0) {
 			infoBoxControlPosition = 'bottomright';
 			searchControlPosition = 'bottomright';
@@ -168,6 +190,9 @@ export class TopicMap_ extends React.Component {
 				...infoStyle,
 				width: searchControlWidth + 'px'
 			};
+			this.props.responsiveTrigger(true);
+		} else {
+			this.props.responsiveTrigger(false);
 		}
 
 		let searchControl;
@@ -175,9 +200,6 @@ export class TopicMap_ extends React.Component {
 			searchControl = (
 				<GazetteerSearchControl
 					className='JKHKJHKJHJK'
-					ref={(comp) => {
-						this.searchControl = comp;
-					}}
 					key={
 						'GazetteerSearchControl.' +
 						infoBoxControlPosition +
@@ -204,7 +226,10 @@ export class TopicMap_ extends React.Component {
 					searchIcon={searchIcon}
 					overlayFeature={this.props.mapping.overlayFeature}
 					gazetteerHit={this.props.mapping.gazetteerHit}
+					gazetteerHitAction={this.props.mappingActions.gazetteerHit}
 					searchButtonTrigger={this.props.searchButtonTrigger}
+					gazSearchMinLength={this.props.gazSearchMinLength}
+					setOverlayFeature={this.props.mappingActions.setOverlayFeature}
 				/>
 			);
 		}
@@ -269,13 +294,19 @@ export class TopicMap_ extends React.Component {
 		if (searchControlPosition === 'bottomright') {
 			infoBoxBottomMargin = 5;
 		}
+		let statusPostfix = '';
+		if (this.props.uiState.loadingStatus !== undefined) {
+			statusPostfix = '(' + this.props.uiState.loadingStatus + ')';
+		}
 		return (
 			<div>
 				{this.props.modalMenu}
 				<Loadable
-					active={!this.dataLoaded && !this.props.noInitialLoadingText}
+					active={
+						this.props.uiState.pendingLoader > 0 && !this.props.noInitialLoadingText
+					}
 					spinner
-					text={this.props.initialLoadingText}
+					text={this.props.initialLoadingText + ' ' + statusPostfix + ' ...'}
 				>
 					<div>
 						{photoLightBox}
@@ -287,6 +318,7 @@ export class TopicMap_ extends React.Component {
 								this.leafletRoutedMap = leafletMap;
 							}}
 							minZoom={this.props.minZoom}
+							maxZoom={this.props.maxZoom}
 							layers=''
 							style={mapStyle}
 							fallbackPosition={{
@@ -431,7 +463,9 @@ TopicMap.propTypes = {
 	mappingBoundsChanged: PropTypes.func,
 	clusterOptions: PropTypes.object,
 	clusteringEnabled: PropTypes.bool,
-	gazeteerHitTrigger: PropTypes.func
+	gazeteerHitTrigger: PropTypes.func,
+	gazSearchMinLength: PropTypes.number,
+	responsiveTrigger: PropTypes.func
 };
 
 TopicMap.defaultProps = {
@@ -473,5 +507,6 @@ TopicMap.defaultProps = {
 		cismapZoomTillSpiderfy: 12,
 		selectionSpiderfyMinZoom: 12
 	},
-	gazeteerHitTrigger: () => {}
+	gazeteerHitTrigger: () => {},
+	responsiveTrigger: (smallState) => {}
 };

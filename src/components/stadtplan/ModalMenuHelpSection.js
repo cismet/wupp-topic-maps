@@ -2,8 +2,10 @@ import React from 'react';
 import { Link } from 'react-scroll';
 import Icon from 'components/commons/Icon';
 import { Label } from 'react-bootstrap';
-import GenericModalMenuSection from '../commons/GenericModalMenuSection';
-import MeinStandort from '../commons/GenericHelpTextForMyLocation';
+import GenericModalMenuSection from 'components/commons/GenericModalMenuSection';
+import MeinStandort from 'components/commons/GenericHelpTextForMyLocation';
+/* eslint-disable jsx-a11y/anchor-is-valid */
+
 const ModalMenuHelpSection = ({ uiState, uiStateActions }) => {
 	return (
 		<GenericModalMenuSection
@@ -244,11 +246,9 @@ const ModalMenuHelpSection = ({ uiState, uiStateActions }) => {
 					<p>
 						Wenn Sie noch nicht aktiv einen bestimmten POI im aktuellen Kartenausschnitt
 						selektiert haben, wird der Fokus automatisch auf den nördlichsten POI
-						gesetzt. Mit den Funktionen{' '}
-						<img alt='Cluster' src='images/vorher_treffer.png' /> vorheriger Treffer und{' '}
-						<img alt='Cluster' src='images/nachher_treffer.png' /> nächster Treffer
-						können Sie in nördlicher bzw. südlicher Richtung alle aktuell im
-						Kartenfenster angezeigten POI durchmustern.
+						gesetzt. Mit den Funktionen <a>&lt;&lt;</a> vorheriger Treffer und{' '}
+						<a>&gt;&gt;</a> nächster Treffer können Sie in nördlicher bzw. südlicher
+						Richtung alle aktuell im Kartenfenster angezeigten POI durchmustern.
 					</p>
 					<p>
 						Mit der Schaltfläche <Icon name='chevron-circle-down' /> im dunkelgrau

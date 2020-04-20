@@ -419,7 +419,7 @@ function applyFilter() {
 	};
 }
 
-function loadOffers() {
+function loadOffers(finishedHandler = () => {}) {
 	return (dispatch, getState) => {
 		let md5 = null;
 		let currentOffer = null;
@@ -441,6 +441,7 @@ function loadOffers() {
 				if (md5 === state.ehrenamt.offersMD5) {
 					dispatch(applyFilter());
 					dispatch(createFeatureCollectionFromOffers());
+					finishedHandler();
 					// TODO
 					// dont know another way yet
 					//therefore
@@ -492,6 +493,7 @@ function loadOffers() {
 				dispatch(setOffers(data, md5));
 				dispatch(applyFilter());
 				dispatch(createFeatureCollectionFromOffers());
+				finishedHandler();
 			})
 			.catch(function(err) {
 				if (err !== 'CACHEHIT') {

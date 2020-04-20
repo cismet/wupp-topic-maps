@@ -5,8 +5,9 @@ import React from 'react';
 import { Label } from 'react-bootstrap';
 import { Link } from 'react-scroll';
 import { getPRSVG } from '../../utils/prbrHelper';
-import MeinStandortHelpText from '../commons/GenericHelpTextForMyLocation';
-import GenericModalMenuSection from '../commons/GenericModalMenuSection';
+import MeinStandortHelpText from 'components/commons/GenericHelpTextForMyLocation';
+import GenericModalMenuSection from 'components/commons/GenericModalMenuSection';
+/* eslint-disable jsx-a11y/anchor-is-valid */
 
 const prSVG = getPRSVG(24, '#FFFFFF', 'pr');
 const brSVG = getPRSVG(24, '#FFFFFF', 'br');
@@ -251,8 +252,7 @@ const BaederModalMenuHelpSection = ({ uiState, uiStateActions }) => {
 					<p>
 						Wenn Sie noch keine Anlage im aktuellen Kartenausschnitt selektiert haben,
 						wird der Fokus automatisch auf die nördlichste Anlage gesetzt. Mit den
-						Funktionen <img alt='Cluster' src='images/vorher_treffer.png' /> vorheriger
-						Treffer und <img alt='Cluster' src='images/nachher_treffer.png' /> nächster
+						Funktionen <a>&lt;&lt;</a> vorheriger Treffer und <a>&gt;&gt;</a> nächster
 						Treffer können Sie ausgehend von der Anlage, auf der gerade der Fokus liegt,
 						in nördlicher bzw. südlicher Richtung alle aktuell im Kartenfenster
 						angezeigten Anlagen durchmustern.

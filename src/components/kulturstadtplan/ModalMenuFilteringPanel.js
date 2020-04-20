@@ -2,7 +2,7 @@ import React from 'react';
 import { Tabs, Tab, Checkbox } from 'react-bootstrap';
 import Icon from 'components/commons/Icon';
 
-import GenericModalMenuSection from '../commons/GenericModalMenuSection';
+import GenericModalMenuSection from 'components/commons/GenericModalMenuSection';
 import 'url-search-params-polyfill';
 import {
 	textConversion,
@@ -13,9 +13,10 @@ import {
 
 import Chart from 'chart.js';
 import ReactChartkick, { PieChart } from 'react-chartkick';
-ReactChartkick.addAdapter(Chart);
-
 /* eslint-disable jsx-a11y/anchor-is-valid */
+
+
+ReactChartkick.addAdapter(Chart);
 
 const ModalMenuFilteringSection = ({
 	uiState,

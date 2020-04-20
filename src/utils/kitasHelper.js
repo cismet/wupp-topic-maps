@@ -290,7 +290,7 @@ export const getColorForProperties = (properties, featureRendering) => {
 		if (color) {
 			return color;
 		} else {
-			return '#AAAAAA';
+			return '#<a>&lt;&lt;</a><a>&lt;&lt;</a>';
 		}
 	} else if (featureRendering === kitasConstants.FEATURE_RENDERING_BY_TRAEGERTYP2) {
 		const lookup = opts[1];
@@ -298,7 +298,7 @@ export const getColorForProperties = (properties, featureRendering) => {
 		if (color) {
 			return color;
 		} else {
-			return '#AAAAAA';
+			return '#<a>&lt;&lt;</a><a>&lt;&lt;</a>';
 		}
 	} else if (featureRendering === kitasConstants.FEATURE_RENDERING_BY_TRAEGERTYP3) {
 		const lookup = opts[2];
@@ -306,7 +306,7 @@ export const getColorForProperties = (properties, featureRendering) => {
 		if (color) {
 			return color;
 		} else {
-			return '#AAAAAA';
+			return '#<a>&lt;&lt;</a><a>&lt;&lt;</a>';
 		}
 	} else {
 		return '#333333';

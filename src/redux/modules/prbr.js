@@ -94,7 +94,7 @@ const markerSizeStorageConfig = {
 const dataStateStorageConfig = {
 	key: 'prbrData',
 	storage: localForage,
-	whitelist: [] //[ 'items', 'md5' ]
+	whitelist: [ 'items', 'md5' ]
 };
 const infoBoxStateStorageConfig = {
 	key: 'prbrInfoBoxMinifiedState',
@@ -131,7 +131,7 @@ function setEnvZoneVisible(visible) {
 	return { type: types.SET_ENV_ZONE_VISIBILITY, visible };
 }
 //COMPLEXACTIONS
-function loadPRBRs() {
+function loadPRBRs(finishedHandler = () => {}) {
 	const manualReloadRequest = false;
 	return (dispatch, getState) => {
 		dispatch(
@@ -141,8 +141,8 @@ function loadPRBRs() {
 				done: (dispatch, data, md5) => {
 					dispatch(actions.setFeatureCollectionDataSource(data));
 					dispatch(actions.applyFilter());
-
 					dispatch(actions.createFeatureCollection());
+					finishedHandler();
 				},
 				prepare: (dispatch, data) => {
 					let svgResolvingPromises = data.map(function(prbr) {

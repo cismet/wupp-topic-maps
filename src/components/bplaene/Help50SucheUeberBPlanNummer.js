@@ -1,5 +1,5 @@
 import React from 'react';
-import GenericModalMenuSection from '../commons/GenericModalMenuSection';
+import GenericModalMenuSection from 'components/commons/GenericModalMenuSection';
 import Icon from 'components/commons/Icon';
 
 const Component = ({ uiState, uiStateActions }) => {
@@ -28,11 +28,18 @@ const Component = ({ uiState, uiStateActions }) => {
 						Geltungsbereich zu verschaffen. (Probieren Sie mal die Nummer 150.)
 					</p>
 					<p>
-						Klicken Sie auf&nbsp;
-						<Icon name='search' />
-						&nbsp;, um alle Pl&auml;ne hinzuzuladen, die im jetzt aktuellen Ausschnitt
-						liegen. Damit stellen Sie auch sicher, dass Sie keinen Plan &uuml;bersehen,
-						der sich mit dem zuvor gesuchten &uuml;berlappt.
+						Nach einer solchen Positionierung in der Karte über die B-Plan-Nummer können
+						Sie die Suche mit dem Werkzeug <Icon name='times' /> links neben dem
+						Eingabefeld zurücksetzen (Entfernung von Marker bzw. Abdunklung, Löschen des
+						Textes im Eingabebereich). Es wird Ihnen danach an dieser Stelle wieder das
+						Werkzeug <Icon name='search' /> angeboten, mit dem Sie im aktuellen
+						Kartenausschnitt nach B-Plänen suchen können.
+					</p>
+					<p>
+						Klicken Sie nun auf <Icon name='search' />, um alle Pl&auml;ne hinzuzuladen,
+						die im jetzt aktuellen Ausschnitt liegen. Damit stellen Sie auch sicher,
+						dass Sie keinen Plan &uuml;bersehen, der sich mit dem zuvor gesuchten
+						&uuml;berlappt.
 					</p>
 				</div>
 			}

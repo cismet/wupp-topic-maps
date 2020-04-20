@@ -4,7 +4,7 @@ import localForage from 'localforage';
 import { combineReducers } from 'redux';
 import { persistReducer } from 'redux-persist';
 import makeDataDuck from '../higherorderduckfactories/dataWithMD5Check';
-
+import makeInfoBoxStateDuck from '../higherorderduckfactories/minifiedInfoBoxState';
 //TYPES
 //no types bc no local store
 export const types = {};
@@ -19,6 +19,11 @@ const dataDuck = makeDataDuck(
 	(state) => state.fnpAenderungsverfahren.dataState,
 	convertAEVToFeature
 );
+const infoBoxStateDuck = makeInfoBoxStateDuck(
+	'FNP_AEV',
+	(state) => state.fnpAenderungsverfahren.infoBoxState
+);
+
 // const dataDuck = makeDataDuck('aev', (state) => state.aev.dataState, convertHauptnutzungToFeature);
 
 ///INITIAL STATE
@@ -27,14 +32,20 @@ const dataDuck = makeDataDuck(
 ///REDUCER
 //no localState
 
+const infoBoxStateStorageConfig = {
+	key: 'fnpAevInfoBoxMinifiedState',
+	storage: localForage,
+	whitelist: [ 'minified' ]
+};
 const dataStateStorageConfig = {
 	key: 'aevData',
 	storage: localForage,
-	whitelist: [] //[ 'items', 'md5', 'features' ]
+	whitelist: [ 'items', 'md5', 'features' ]
 };
 
 const reducer = combineReducers({
-	dataState: persistReducer(dataStateStorageConfig, dataDuck.reducer)
+	dataState: persistReducer(dataStateStorageConfig, dataDuck.reducer),
+	infoBoxState: persistReducer(infoBoxStateStorageConfig, infoBoxStateDuck.reducer)
 });
 
 export default reducer;
@@ -42,7 +53,7 @@ export default reducer;
 //SIMPLEACTIONCREATORS
 
 //COMPLEXACTIONS
-function loadAEVs() {
+function loadAEVs(finishedHandler = () => {}) {
 	const manualReloadRequest = false;
 	return (dispatch, getState) => {
 		dispatch(
@@ -51,9 +62,34 @@ function loadAEVs() {
 				dataURL: '/data/aenderungsv.data.json',
 				errorHandler: (err) => {
 					console.log(err);
-				}
+				},
+				done: finishedHandler
 			})
 		);
+	};
+}
+
+export function getAEVsByNrs(nrArr, done = () => {}) {
+	return function(dispatch, getState) {
+		const state = getState();
+		let finalResults = [];
+		if (state.fnpAenderungsverfahren.dataState.features.length === 0) {
+			loadAEVs();
+		}
+		for (const nr of nrArr) {
+			let hit = state.fnpAenderungsverfahren.dataState.features.find((elem, index) => {
+				return elem.properties.name === nr;
+			});
+			if (hit) {
+				finalResults.push(hit);
+			}
+		}
+		done(finalResults);
+	};
+}
+export function getAEVByNr(nr, done = () => {}) {
+	return function(dispatch, getState) {
+		dispatch(getAEVsByNrs([ nr ], done));
 	};
 }
 
@@ -64,10 +100,17 @@ export function searchForAEVs({
 	point,
 	skipMappingActions = false,
 	done = () => {},
-	mappingActions
+	mappingActions,
+	fitAll = true
 }) {
+	//because mappingActions are created with bindActionCreators don`t call them with dispatch()
+	//see also https://github.com/reduxjs/redux-thunk/issues/29#issuecomment-154162983
 	return function(dispatch, getState) {
 		let selectionIndexWish = 0;
+
+		const state = getState();
+		let finalResults = [];
+
 		if (gazObject === undefined && (boundingBox !== undefined || point !== undefined)) {
 			let bboxPoly;
 			if (boundingBox !== undefined) {
@@ -86,29 +129,65 @@ export function searchForAEVs({
 				]);
 			}
 
-			//Simple
-			const state = getState();
-			let finalResults = [];
-
 			for (let feature of state.fnpAenderungsverfahren.dataState.features) {
 				// console.log('feature', feature);
 				if (!booleanDisjoint(bboxPoly, feature)) {
 					finalResults.push(feature);
 				}
 			}
-			dispatch(mappingActions.setFeatureCollection(finalResults));
-			if (finalResults.length > 0) {
-				dispatch(mappingActions.setSelectedFeatureIndex(selectionIndexWish));
+		} else if (
+			gazObject !== undefined &&
+			gazObject[0] !== undefined &&
+			gazObject[0].type === 'aenderungsv'
+		) {
+			if (state.fnpAenderungsverfahren.dataState.features.length === 0) {
+				loadAEVs();
 			}
-		} else if (point !== undefined) {
+
+			let hit = state.fnpAenderungsverfahren.dataState.features.find((elem, index) => {
+				return elem.properties.name === gazObject[0].more.v;
+			});
+			if (hit) {
+				finalResults.push(hit);
+			}
+		} else if (
+			gazObject !== undefined &&
+			gazObject[0] !== undefined &&
+			gazObject[0].type === 'bplaene'
+		) {
+			let hit = state.fnpAenderungsverfahren.dataState.features.find((elem, index) => {
+				let bplanArr = [];
+				if (elem.properties.bplan_nr !== undefined) {
+					bplanArr = elem.properties.bplan_nr.split('+');
+				}
+				let found = false;
+				bplanArr.forEach((nr) => {
+					found = found || nr === gazObject[0].more.v;
+				});
+				return found;
+			});
+			if (hit) {
+				finalResults.push(hit);
+			}
 		}
+		if (skipMappingActions === false) {
+			mappingActions.setFeatureCollection(finalResults);
+			if (finalResults.length > 0) {
+				mappingActions.setSelectedFeatureIndex(selectionIndexWish);
+				if (fitAll === true) {
+					mappingActions.fitAll();
+				}
+			}
+		}
+		done(finalResults);
 	};
 }
 
 //EXPORT ACTIONS
 export const actions = {
 	loadAEVs,
-	searchForAEVs
+	searchForAEVs,
+	setCollapsedInfoBox: infoBoxStateDuck.actions.setMinifiedInfoBoxState
 };
 
 //EXPORT SELECTORS
@@ -123,16 +202,19 @@ function convertAEVToFeature(aev, index) {
 	}
 	const id = aev.id;
 	const type = 'Feature';
+	const featuretype = 'Hauptnutzung';
+
 	const selected = false;
 	const geometry = aev.geojson;
 
-	const text = aev.verfahren !== 'B' ? aev.name : aev.name + '_B';
+	const text = aev.name;
 
 	return {
 		id,
 		index,
 		text,
 		type,
+		featuretype,
 		selected,
 		geometry,
 		crs: {

@@ -1,5 +1,5 @@
 import React from 'react';
-import CismetFooterAcks from '../commons/CismetFooterAcknowledgements';
+import CismetFooterAcks from 'components/commons/CismetFooterAcknowledgements';
 /* eslint-disable jsx-a11y/anchor-is-valid */
 
 const Comp = ({ showModalMenu }) => {
@@ -7,8 +7,8 @@ const Comp = ({ showModalMenu }) => {
 		<div>
 			<span style={{ fontSize: '11px' }}>
 				<div>
-					<strong>Hintergrundkarte</strong>: Stadtplanwerk 2.0 (Beta) © RVR | Amtliche
-					Basiskarte (ABK), B-Plan-Geltungsbereiche (
+					<strong>Hintergrundkarte</strong>: Stadtplanwerk 2.0 © RVR | Amtliche Basiskarte
+					(ABK), B-Plan-Geltungsbereiche (
 					<a
 						target='ackmore'
 						href='https://offenedaten-wuppertal.de/dataset/rechtsverbindliche-bebauungspl%C3%A4ne-wuppertal'
@@ -31,7 +31,7 @@ const Comp = ({ showModalMenu }) => {
 						WebAtlasDE
 					</a>{' '}
 					© BKG{' '}
-					<a target='ackmore' onClick={() => showModalMenu('hintergrundkarte')}>
+					<a onClick={() => showModalMenu('hintergrundkarte')}>
 						(Details und Nutzungsbedingungen)
 					</a>
 					<CismetFooterAcks />

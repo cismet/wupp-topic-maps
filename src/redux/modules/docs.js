@@ -5,6 +5,7 @@ export const types = {
 	SET_LOADING_STATE: 'SET_LOADING_STATE',
 	RENDERING_FINISHED: 'RENDERING_FINISHED',
 	SET_DOCS_INFO: 'SET_DOCS_INFO',
+	SET_VIEWER_TITLE: 'SET_VIEWER_TITLE',
 	SET_SIZES: 'SET_SIZES',
 	SET_SIZE: 'SET_SIZE',
 	SET_TOPIC: 'SET_TOPIC',
@@ -16,11 +17,29 @@ export const constants = {
 	LOADING_FINISHED: 'LOADING_FINISHED',
 	LOADING_STARTED: 'LOADING_STARTED',
 	LOADING_OVERLAY: 'LOADING_OVERLAY',
-	OVERLAY_DELAY: 500
+	OVERLAY_DELAY: 500,
+	ZIP_FILE_NAME_MAPPING: {
+		bplaene: 'BPLAN_Plaene_und_Zusatzdokumente',
+		aenderungsv: 'FNP_Aenderungsverfahren_und_Zusatzdokumente',
+		static: ''
+	},
+	SIDEBAR_FILENAME_SHORTENER: {
+		bplaene: (original) => {
+			return original
+				.replace(/.pdf$/, '')
+				.replace(/^BPL_n*\d*_(0_)*/, '')
+				.replace(/Info_BPlan-Zusatzdokumente_WUP_.*/, 'Info Dateinamen');
+		},
+		aenderungsv: (original) => {
+			return original.replace(/.pdf$/, '').replace(/^FNP_n*\d*_\d*(And)*_/, '');
+		}
+	}
 };
 
 ///INITIAL STATE
 const initialState = {
+	viewerTitle: undefined,
+
 	topic: undefined,
 	topicData: undefined,
 
@@ -76,6 +95,12 @@ export default function docReducer(state = initialState, action) {
 			newState.docs = action.docs;
 			return newState;
 		}
+
+		case types.SET_VIEWER_TITLE: {
+			newState = objectAssign({}, state);
+			newState.viewerTitle = action.title;
+			return newState;
+		}
 		case types.SET_TOPIC: {
 			newState = objectAssign({}, state);
 			newState.topic = action.topic;
@@ -119,6 +144,10 @@ function renderingFinished(docPackageId, docIndex, pageIndex, pdfdoc, canvas) {
 
 function setDocsInfo(docs) {
 	return { type: types.SET_DOCS_INFO, docs };
+}
+
+function setViewerTitle(title) {
+	return { type: types.SET_VIEWER_TITLE, title };
 }
 
 function setSizes(sizes) {
@@ -202,7 +231,8 @@ export const actions = {
 	setDocsInformation,
 	setDelayedLoadingState,
 	setDebugBounds,
-	setTopic
+	setTopic,
+	setViewerTitle
 };
 
 //HELPER FUNCTIONS

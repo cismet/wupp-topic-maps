@@ -15,21 +15,37 @@ const Comp = ({ aevVisible = false, setAevVisible = (visible) => {}, fontSize = 
 		>
 			<Button
 				id='cmdShowGetFeatureInfo'
-				title='Maximalen Wasserstand abfragen'
 				onClick={(e) => {
 					e.stopPropagation();
 					setAevVisible(!aevVisible);
 				}}
 				style={{
-					fontSize: '1.2em'
+					width: '247px',
+					fontSize: '1.2em',
+					verticalAlign: 'middle'
 				}}
 			>
-				<FontAwesomeIcon icon={aevVisible === true ? faToggleOn : faToggleOff} />{' '}
-				{aevVisible === true ? (
-					'Änderungsverfahren verbergen'
-				) : (
-					'Änderungsverfahren anzeigen'
-				)}
+				<table>
+					<tbody>
+						<tr>
+							<td>
+								<FontAwesomeIcon
+									className='fa-1x'
+									icon={aevVisible === true ? faToggleOn : faToggleOff}
+								/>
+							</td>
+							<td style={{ paddingLeft: '5px' }}>
+								<span>
+									{aevVisible === true ? (
+										'Änderungsverfahren verbergen'
+									) : (
+										'Änderungsverfahren anzeigen'
+									)}
+								</span>
+							</td>
+						</tr>
+					</tbody>
+				</table>
 			</Button>
 		</div>
 	);

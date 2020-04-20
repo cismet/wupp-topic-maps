@@ -6,7 +6,18 @@ import {
 	faFile,
 	faSearchLocation,
 	faChargingStation,
+<<<<<<< HEAD
 	faNumber
+=======
+	faCircle,
+	faChartPie,
+	faHome,
+	faRoad,
+	faTag,
+	faTags,
+	faChild,
+	faTimes
+>>>>>>> feature/041-fnp-dev-sprint
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React from 'react';
@@ -16,14 +27,28 @@ const nameMap = {
 	clock: faClock,
 	phone: undefined, // faPhone,
 	search: faSearch,
+	lupe: faSearch,
 	'search-location': faSearchLocation,
 	info: faInfoCircle,
 	file: faFile,
+<<<<<<< HEAD
 	home: undefined,
 	road: undefined,
 	tags: undefined,
 	tag: undefined,
 	times: undefined,
+=======
+	home: faHome,
+	adresse: faHome,
+	road: faRoad,
+	strasse: faRoad,
+	tags: faTags,
+	altpoi: faTags,
+	tag: faTag,
+	poi: faTag,
+	times: faTimes,
+	x: faTimes,
+>>>>>>> feature/041-fnp-dev-sprint
 	'external-link-square': undefined,
 	'chevron-circle-down': undefined,
 	user: undefined,
@@ -34,9 +59,12 @@ const nameMap = {
 	'chevron-circle-up': undefined,
 	'arrow-circle-up': undefined,
 	bicycle: undefined,
-	circle: undefined,
-	'pie-chart': undefined,
-	child: undefined,
+	circle: faCircle,
+	stadtbezirk: faCircle,
+	'pie-chart': faChartPie,
+	quartier: faChartPie,
+	child: faChild,
+	kita: faChild,
 	'map-marker': undefined,
 	'battery-quarter': faChargingStation,
 	'charging-station': faChargingStation,
@@ -56,14 +84,23 @@ const IconComp = (props) => {
 	let overlay = props.overlay;
 	let lookupName = props.name;
 	let icon = nameMap[lookupName];
+<<<<<<< HEAD
+=======
+	let marginRight = props.marginRight || '1px';
+	let width = props.width || '18px';
+>>>>>>> feature/041-fnp-dev-sprint
 
 	if (icon !== undefined) {
 		if (overlay !== undefined) {
 			return (
+<<<<<<< HEAD
 				<span
 					className='fa-layers fa-w12 fa-lg'
 					style={{ marginRight: '10px', width: '18px' }}
 				>
+=======
+				<span className='fa-layers fa-w12 fa-lg' style={{ marginRight, width }}>
+>>>>>>> feature/041-fnp-dev-sprint
 					<FontAwesomeIcon icon={icon} />
 					<span
 						style={{ fontSize: '1.0rem', paddingRight: '2px', paddingTop: '3px' }}

@@ -2,6 +2,7 @@ import Icon from 'components/commons/Icon';
 import React from 'react';
 import { Well } from 'react-bootstrap';
 import { getRoundedValueStringForValue } from '../../utils/starkregenHelpers';
+/* eslint-disable jsx-a11y/anchor-is-valid */
 
 const Comp = ({ setFeatureInfoModeActivation, featureInfoValue, showModalMenu, legendObject }) => {
 	let headerColor = '#7e7e7e';

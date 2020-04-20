@@ -122,7 +122,8 @@ function loadTopicData(topicKey) {
 			.catch(function(err) {
 				if (err !== 'CACHEHIT') {
 					console.log(
-						'Error during loading of Topic Data. There will be Problems with the Gazetteer-Box.'
+						'Error during loading of Topic Data. There will be Problems with the Gazetteer-Box.',
+						err
 					);
 				}
 			});
@@ -145,7 +146,8 @@ export const getGazDataForTopicIds = (state, topics) => {
 					glyph: topicItem.g,
 					x: topicItem.x,
 					y: topicItem.y,
-					more: topicItem.m
+					more: topicItem.m,
+					type: 'pois'
 				};
 				gazData.push(g);
 			}
@@ -160,7 +162,8 @@ export const getGazDataForTopicIds = (state, topics) => {
 					glyph: topicItem.g,
 					x: topicItem.x,
 					y: topicItem.y,
-					more: topicItem.m
+					more: topicItem.m,
+					type: 'quartiere'
 				};
 				gazData.push(g);
 			}
@@ -175,7 +178,8 @@ export const getGazDataForTopicIds = (state, topics) => {
 					glyph: topicItem.g,
 					x: topicItem.x,
 					y: topicItem.y,
-					more: topicItem.m
+					more: topicItem.m,
+					type: 'bezirke'
 				};
 				gazData.push(g);
 			}
@@ -190,7 +194,8 @@ export const getGazDataForTopicIds = (state, topics) => {
 					glyph: topicItem.g,
 					x: topicItem.x,
 					y: topicItem.y,
-					more: topicItem.m
+					more: topicItem.m,
+					type: 'kitas'
 				};
 				gazData.push(g);
 			}
@@ -212,7 +217,8 @@ export const getGazDataForTopicIds = (state, topics) => {
 					glyph: topicItem.g,
 					x: topicItem.x,
 					y: topicItem.y,
-					more: topicItem.m
+					more: topicItem.m,
+					type: 'adressen'
 				};
 				gazData.push(g);
 			}
@@ -226,9 +232,28 @@ export const getGazDataForTopicIds = (state, topics) => {
 					sorter: sorter++,
 					string: topicItem.s,
 					glyph: topicItem.g,
+					overlay: 'B',
 					x: topicItem.x,
 					y: topicItem.y,
-					more: topicItem.m
+					more: topicItem.m,
+					type: 'bplaene'
+				};
+				gazData.push(g);
+			}
+		}
+		if (topic === 'aenderungsv') {
+			let aev = JSON.parse(state.aenderungsv);
+			for (let i = 0; i < aev.length; ++i) {
+				let topicItem = aev[i];
+				let g = {
+					sorter: sorter++,
+					string: topicItem.s,
+					glyph: topicItem.g,
+					overlay: 'F',
+					x: topicItem.x,
+					y: topicItem.y,
+					more: topicItem.m,
+					type: 'aenderungsv'
 				};
 				gazData.push(g);
 			}
@@ -244,7 +269,8 @@ export const getGazDataForTopicIds = (state, topics) => {
 					glyph: topicItem.g,
 					x: topicItem.x,
 					y: topicItem.y,
-					more: topicItem.m
+					more: topicItem.m,
+					type: 'prbr'
 				};
 				gazData.push(g);
 			}
@@ -260,7 +286,8 @@ export const getGazDataForTopicIds = (state, topics) => {
 					glyph: topicItem.g,
 					x: topicItem.x,
 					y: topicItem.y,
-					more: topicItem.m
+					more: topicItem.m,
+					type: 'emob'
 				};
 				gazData.push(g);
 			}
@@ -275,7 +302,8 @@ export const getGazDataForTopicIds = (state, topics) => {
 					glyph: 'code-fork', //topicItem.g,
 					x: topicItem.x,
 					y: topicItem.y,
-					more: topicItem.m
+					more: topicItem.m,
+					type: 'geps'
 				};
 				gazData.push(g);
 			}
@@ -290,7 +318,8 @@ export const getGazDataForTopicIds = (state, topics) => {
 					glyph: 'code-fork', //topicItem.g,
 					x: topicItem.x,
 					y: topicItem.y,
-					more: topicItem.m
+					more: topicItem.m,
+					type: 'geps_reverse'
 				};
 				gazData.push(g);
 			}

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Button, Label } from 'react-bootstrap';
 
-import GenericModalMenuSection from '../commons/GenericModalMenuSection';
+import GenericModalMenuSection from 'components/commons/GenericModalMenuSection';
 import 'url-search-params-polyfill';
 import { getColorFromLebenslagenCombination } from '../../utils/stadtplanHelper';
 
@@ -199,7 +199,6 @@ const ModalMenuFilteringSection = ({
 				<h4
 					style={{
 						lineHeight: 1.7,
-						overflowWrap: 'break-word',
 						wordWrap: 'break-word',
 						wordBreak: 'normal',
 						lineBreak: 'strict',

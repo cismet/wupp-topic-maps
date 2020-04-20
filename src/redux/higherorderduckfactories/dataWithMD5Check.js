@@ -1,4 +1,5 @@
 import objectAssign from 'object-assign';
+import { actions as UIStateActions } from '../modules/uiState';
 
 const makeDataWithMD5CheckDuckFor = (section, substateResolver, featureFactory) => {
 	const actionTypes = {
@@ -14,6 +15,8 @@ const makeDataWithMD5CheckDuckFor = (section, substateResolver, featureFactory) 
 	const constants = {
 		DEBUG_ALWAYS_LOADING: false
 	};
+
+	const debugLog = false;
 
 	//SELECTORS
 	const selectors = {
@@ -47,6 +50,7 @@ const makeDataWithMD5CheckDuckFor = (section, substateResolver, featureFactory) 
 					}
 				};
 				config = Object.assign(defaultConfig, config);
+
 				const state = substateResolver(getState());
 				// console.log('state in higherorder duck',state)
 				let noCacheHeaders = new Headers();
@@ -67,22 +71,59 @@ const makeDataWithMD5CheckDuckFor = (section, substateResolver, featureFactory) 
 					})
 					.then((md5value) => {
 						md5 = md5value.trim();
+						if (debugLog) {
+							console.log(
+								'dataWithMD5Check:' + section + ' fetched \tmd5 Value :' + md5 + ':'
+							);
+						}
 						if (config.manualReloadRequested) {
 							console.log(
-								'Fetch Data because of alwaysRefreshPOIsOnReload Parameter'
+								'dataWithMD5Check:' +
+									section +
+									' Fetch Data because of alwaysRefreshPOIsOnReload Parameter'
 							);
+
 							return 'fetchit';
 						}
-
+						if (debugLog) {
+							console.log(
+								'dataWithMD5Check:' +
+									section +
+									' state \tmd5 Value :' +
+									state.md5 +
+									':'
+							);
+							console.log(
+								'dataWithMD5Check:' +
+									section +
+									' md5 === state.md5 ' +
+									(md5 === state.md5)
+							);
+							console.log(
+								'dataWithMD5Check:' +
+									section +
+									' constants.DEBUG_ALWAYS_LOADING ' +
+									constants.DEBUG_ALWAYS_LOADING
+							);
+						}
 						if (md5 === state.md5 && constants.DEBUG_ALWAYS_LOADING === false) {
-							config.done(dispatch);
+							config.done(dispatch, state.items, state.md5);
 							// TODO
 							// don't know another way yet
 							//therefore
 							/* eslint-disable */
+							if (debugLog) {
+								console.log('dataWithMD5Check:' + section + ': CACHEHIT ');
+							}
+							dispatch(UIStateActions.setLoadingStatus('aus dem Cache'));
+
 							throw 'CACHEHIT';
 							/* eslint-enable */
 						} else {
+							if (debugLog) {
+								console.log('dataWithMD5Check:' + section + ': fetch the data');
+							}
+
 							return 'fetchit';
 						}
 					})

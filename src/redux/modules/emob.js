@@ -101,7 +101,7 @@ const markerSizeStorageConfig = {
 const dataStateStorageConfig = {
 	key: 'emobData',
 	storage: localForage,
-	whitelist: [] //["items", "md5"]
+	whitelist: [ 'items', 'md5' ]
 };
 const infoBoxStateStorageConfig = {
 	key: 'emobInfoBoxMinifiedState',
@@ -111,7 +111,7 @@ const infoBoxStateStorageConfig = {
 const emobFeatureCollectionStateStorageConfig = {
 	key: 'emobFeatureCollectionStateConfig',
 	storage: localForage,
-	whitelist: [ 'filter_' ]
+	whitelist: [ 'filter' ]
 };
 
 const reducer = combineReducers({
@@ -130,7 +130,7 @@ export default reducer;
 //SIMPLEACTIONCREATORS
 
 //COMPLEXACTIONS
-function loadEMOBs() {
+function loadEMOBs(finishedHandler = () => {}) {
 	const manualReloadRequest = false;
 	return (dispatch, getState) => {
 		dispatch(
@@ -142,6 +142,7 @@ function loadEMOBs() {
 					dispatch(actions.applyFilter());
 
 					dispatch(actions.createFeatureCollection());
+					finishedHandler();
 				},
 				prepare: (dispatch, data) => {
 					let svgResolvingPromises = data.map(function(emob) {

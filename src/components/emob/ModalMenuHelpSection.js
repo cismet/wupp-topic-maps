@@ -5,8 +5,9 @@ import React from 'react';
 import { Label } from 'react-bootstrap';
 import { Link } from 'react-scroll';
 import { getSymbolSVG } from '../../utils/emobHelper';
-import MeinStandortHelpText from '../commons/GenericHelpTextForMyLocation';
-import GenericModalMenuSection from '../commons/GenericModalMenuSection';
+import MeinStandortHelpText from 'components/commons/GenericHelpTextForMyLocation';
+import GenericModalMenuSection from 'components/commons/GenericModalMenuSection';
+/* eslint-disable jsx-a11y/anchor-is-valid */
 
 const onlineSVG = getSymbolSVG(24, '#003B80', 'pr', 'onlineSVGinHELP');
 const offlineSVG = getSymbolSVG(24, '#888A87', 'pr', 'offlineSVGinHELP');
@@ -243,12 +244,10 @@ const HelpSection = ({ uiState, uiStateActions }) => {
 					<p>
 						Wenn Sie noch keine Ladestation im aktuellen Kartenausschnitt selektiert
 						haben, wird der Fokus automatisch auf die nördlichste Station gesetzt. Mit
-						den Funktionen <img alt='Cluster' src='images/vorher_treffer.png' />{' '}
-						vorheriger Treffer und{' '}
-						<img alt='Cluster' src='images/nachher_treffer.png' /> nächster Treffer
-						können Sie ausgehend von der Ladestation, auf der gerade der Fokus liegt, in
-						nördlicher bzw. südlicher Richtung alle aktuell im Kartenfenster angezeigten
-						Stationen durchmustern.
+						den Funktionen <a>&lt;&lt;</a> vorheriger Treffer und <a>&gt;&gt;</a>{' '}
+						nächster Treffer können Sie ausgehend von der Ladestation, auf der gerade
+						der Fokus liegt, in nördlicher bzw. südlicher Richtung alle aktuell im
+						Kartenfenster angezeigten Stationen durchmustern.
 					</p>
 					<p>
 						Mit der Schaltfläche <Icon name='chevron-circle-down' /> im dunkelgrau

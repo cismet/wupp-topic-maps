@@ -92,10 +92,10 @@ const Comp = ({ selectedFeature, collapsed, setCollapsed }) => {
 	let divWhenLarge = (
 		<div>
 			<h4>{infoText}</h4>
-			<p>
+			{/* <p>
 				<b>vorgeschlagene Hauptnutzung: </b>
 				{vorgeschlHN}
-			</p>
+			</p> */}
 
 			<p>{ursprLegende}</p>
 			{sieheAuchLinks !== undefined && (

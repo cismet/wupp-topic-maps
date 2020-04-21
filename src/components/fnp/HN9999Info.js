@@ -13,7 +13,10 @@ const Comp = ({ selectedFeature, collapsed, setCollapsed }) => {
 	let headerBackgroundColor = Color(getColorForHauptnutzung(selectedFeature));
 
 	let header = (
-		<InfoBoxHeader headerColor={headerBackgroundColor} content={'nicht genehmigte Fläche'} />
+		<InfoBoxHeader
+			headerColor={headerBackgroundColor}
+			content={'nicht genehmigte Darstellung'}
+		/>
 	);
 
 	const getLinkFromAEV = ({ aevs, defaultEl = <div />, skipStatus = false }) => {

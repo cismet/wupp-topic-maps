@@ -60,11 +60,12 @@ const Component = ({ uiState, uiStateActions, showModalMenu }) => {
 					<p>
 						Der FNP enthält einige von der Bezirksregierung Düsseldorf als zuständiger
 						Aufsichtsbehörde mit ihren Verfügungen vom 14.10. und 02.12.2004, Az.
-						35.2-11.14 (Wup neu), nicht genehmigte Flächen, die in der Arbeitskarte als
-						weiße Flächen angezeigt werden. Sie sind im Rechtsplan und seiner Legende
-						von 1 bis 5 durchnummeriert. Nach einem Doppelklick auf eine solche Fläche
-						in der Arbeitskarte werden in der Info-Box spezifische Detailinformationen
-						zu dieser Fläche einschließlich ihrer Nummer im Rechtsplan angezeigt.
+						35.2-11.14 (Wup neu), nicht genehmigte Darstellungen, die in der
+						Arbeitskarte als weiße Flächen angezeigt werden. Sie sind im Rechtsplan und
+						seiner Legende von 1 bis 5 durchnummeriert. Nach einem Doppelklick auf eine
+						solche Fläche in der Arbeitskarte werden in der Info-Box spezifische
+						Detailinformationen zu dieser Fläche einschließlich ihrer Nummer im
+						Rechtsplan angezeigt.
 					</p>
 				</div>
 			}

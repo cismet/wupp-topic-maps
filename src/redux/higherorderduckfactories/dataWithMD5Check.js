@@ -161,7 +161,7 @@ const makeDataWithMD5CheckDuckFor = (section, substateResolver, featureFactory) 
 					})
 					.catch(function(err) {
 						if (err !== 'CACHEHIT') {
-							console.log('Problem during DataLoading');
+							console.log('Problem during DataLoading of ' + config.dataURL);
 							console.log(err);
 							config.errorHandler(err);
 						} else {

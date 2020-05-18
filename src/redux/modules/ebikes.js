@@ -1,7 +1,7 @@
 import localForage from 'localforage';
 import { combineReducers } from 'redux';
 import { persistReducer } from 'redux-persist';
-import { addSVGToFeature } from '../../utils/emobHelper';
+import { addSVGToFeature } from '../../utils/ebikesHelper';
 import makeDataDuck from '../higherorderduckfactories/dataWithMD5Check';
 import makePointFeatureCollectionWithIndexDuck from '../higherorderduckfactories/filteredPointFeatureCollectionWithIndex';
 import makeMarkerSizeDuck from '../higherorderduckfactories/markerSize';
@@ -18,48 +18,49 @@ export const constants = {
 
 const filterFunctionFactory = (filter) => {
 	return (obj) => {
-		let keep = false;
+		// let keep = false;
 
-		//Online
-		if (filter.nur_online === true) {
-			keep = obj.online;
-		} else {
-			keep = true;
-		}
-		if (keep === true) {
-			keep = false;
-			//Öffnungszeiten
-			if (filter.oeffnungszeiten === '*') {
-				keep = true;
-			}
-			if (filter.oeffnungszeiten === '24' && obj.oeffnungszeiten.startsWith('24')) {
-				keep = true;
-			}
-		}
-		//Stecker
-		if (filter.stecker !== undefined) {
-			if (keep === true) {
-				keep = false;
-				for (let steckv of obj.steckerverbindungen) {
-					if (filter.stecker.indexOf(steckv.steckdosentyp) !== -1) {
-						keep = true;
-						break;
-					}
-				}
-			}
-		}
+		// //Online
+		// if (filter.nur_online === true) {
+		// 	keep = obj.online;
+		// } else {
+		// 	keep = true;
+		// }
+		// if (keep === true) {
+		// 	keep = false;
+		// 	//Öffnungszeiten
+		// 	if (filter.oeffnungszeiten === '*') {
+		// 		keep = true;
+		// 	}
+		// 	if (filter.oeffnungszeiten === '24' && obj.oeffnungszeiten.startsWith('24')) {
+		// 		keep = true;
+		// 	}
+		// }
+		// //Stecker
+		// if (filter.stecker !== undefined) {
+		// 	if (keep === true) {
+		// 		keep = false;
+		// 		for (let steckv of obj.steckerverbindungen) {
+		// 			if (filter.stecker.indexOf(steckv.steckdosentyp) !== -1) {
+		// 				keep = true;
+		// 				break;
+		// 			}
+		// 		}
+		// 	}
+		// }
 
-		//Grüner Strom
-		if (keep === true && filter.nur_gruener_strom === true) {
-			keep = obj.gruener_strom === true;
-		}
+		// //Grüner Strom
+		// if (keep === true && filter.nur_gruener_strom === true) {
+		// 	keep = obj.gruener_strom === true;
+		// }
 
-		//Schnelllader
-		if (keep === true && filter.nur_schnelllader === true) {
-			return obj.schnellladestation === true;
-		}
+		// //Schnelllader
+		// if (keep === true && filter.nur_schnelllader === true) {
+		// 	return obj.schnellladestation === true;
+		// }
 
-		return keep;
+		// return keep;
+		return true;
 	};
 };
 
@@ -70,10 +71,10 @@ const featureCollectionDuck = makePointFeatureCollectionWithIndexDuck(
 	'ebikes',
 	(state) => state.ebikes.featureCollectionState,
 	(state) => state.mapping.boundingBox,
-	convertEBIKEToFeature,
+	convertEBikesToFeature,
 	filterFunctionFactory,
 	{
-		nur_online: false,
+		verfuegbarkeit: false,
 		oeffnungszeiten: '*',
 		stecker: [ 'Schuko', 'Typ 2', 'CHAdeMO', 'CCS', 'Tesla Supercharger', 'Drehstrom' ],
 		nur_gruener_strom: false,
@@ -101,7 +102,7 @@ const markerSizeStorageConfig = {
 const dataStateStorageConfig = {
 	key: 'ebikesData',
 	storage: localForage,
-	whitelist: [ 'items', 'md5' ]
+	whitelist: [] //[ 'items', 'md5' ]
 };
 const infoBoxStateStorageConfig = {
 	key: 'ebikesInfoBoxMinifiedState',
@@ -130,7 +131,7 @@ export default reducer;
 //SIMPLEACTIONCREATORS
 
 //COMPLEXACTIONS
-function loadEBIKESs(finishedHandler = () => {}) {
+function loadEBikes(finishedHandler = () => {}) {
 	const manualReloadRequest = false;
 	return (dispatch, getState) => {
 		dispatch(
@@ -201,7 +202,7 @@ function convertEBikesToFeature(ebike, index) {
 	const type = 'Feature';
 	const selected = false;
 	const geometry = ebike.geojson;
-	const text = ebike.name;
+	const text = ebike.typ === 'Ladestation' ? ebike.standort : ebike.standort;
 
 	return {
 		id,

@@ -7,6 +7,7 @@ import kulturstadtplanReducer from './modules/kulturstadtplan';
 import baederReducer from './modules/baeder';
 import prbrReducer from './modules/prbr';
 import emobReducer from './modules/emob';
+import eBikesReducer from './modules/ebikes';
 import fnp_aenderungsverfahrenReducer from './modules/fnp_aenderungsverfahren';
 import fnp_hauptnutzungenReducer from './modules/fnp_hauptnutzungen';
 import starkregenReducer from './modules/starkregen';
@@ -78,6 +79,7 @@ const appReducer = combineReducers({
 	baeder: baederReducer,
 	prbr: prbrReducer,
 	emob: emobReducer,
+	ebikes: eBikesReducer,
 	fnpAenderungsverfahren: fnp_aenderungsverfahrenReducer,
 	fnpHauptnutzungen: fnp_hauptnutzungenReducer,
 	kitas: persistReducer(kitasStorageConfig, kitasReducer),

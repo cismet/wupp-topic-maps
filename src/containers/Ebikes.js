@@ -10,20 +10,20 @@ import EMOBModalMenu from '../components/emob/ModalMenu';
 import SecondaryInfoModal from '../components/emob/SecondaryInfo';
 import TopicMap from '../containers/TopicMap';
 import {
-	actions as EMOBActions,
-	getEMOBFeatureCollection,
-	getEMOBFeatureCollectionSelectedIndex,
-	getEMOBFilter,
-	getEMOBFilterDescription,
-	getEMOBFilteredData,
-	getEMOBs,
-	getEMOBSvgSize,
+	actions as EBikesActions,
+	getEBikesFeatureCollection,
+	getEBikesFeatureCollectionSelectedIndex,
+	getEBikesFilter,
+	getEBikesFilterDescription,
+	getEBikesFilteredData,
+	getEBikes,
+	getEBikesSvgSize,
 	hasMinifiedInfoBox,
 	isSecondaryInfoBoxVisible
-} from '../redux/modules/emob';
+} from '../redux/modules/ebikes';
 import { actions as MappingActions } from '../redux/modules/mapping';
 import { actions as UIStateActions } from '../redux/modules/uiState';
-import { getColorForProperties } from '../utils/emobHelper';
+import { getColorForProperties } from '../utils/ebikesHelper';
 import {
 	featureHoverer,
 	getFeatureStyler,
@@ -37,7 +37,7 @@ function mapStateToProps(state) {
 		uiState: state.uiState,
 		mapping: state.mapping,
 		routing: state.routing,
-		emob: state.emob,
+		ebikes: state.ebikes,
 		gazetteerTopics: state.gazetteerTopics
 	};
 }
@@ -47,7 +47,7 @@ function mapDispatchToProps(dispatch) {
 		mappingActions: bindActionCreators(MappingActions, dispatch),
 		uiStateActions: bindActionCreators(UIStateActions, dispatch),
 		routingActions: bindActionCreators(RoutingActions, dispatch),
-		emobActions: bindActionCreators(EMOBActions, dispatch)
+		ebikesActions: bindActionCreators(EBikesActions, dispatch)
 	};
 }
 
@@ -57,7 +57,7 @@ export class Container_ extends React.Component {
 		this.gotoHome = this.gotoHome.bind(this);
 		this.changeMarkerSymbolSize = this.changeMarkerSymbolSize.bind(this);
 		this.props.mappingActions.setBoundingBoxChangedTrigger((bbox) =>
-			this.props.emobActions.refreshFeatureCollection(bbox)
+			this.props.ebikesActions.refreshFeatureCollection(bbox)
 		);
 	}
 	componentDidMount() {
@@ -70,30 +70,32 @@ export class Container_ extends React.Component {
 	}
 
 	changeMarkerSymbolSize(size) {
-		this.props.emobActions.setEMOBSvgSize(size);
+		this.props.ebikesActions.setEBikesSvgSize(size);
 		this.props.mappingActions.setFeatureCollectionKeyPostfix('MarkerSvgSize:' + size);
 	}
 
 	render() {
 		let info = (
 			<EMOBInfo
-				key={'EMOBInfo.' + (getEMOBFeatureCollectionSelectedIndex(this.props.emob) || 0)}
+				key={
+					'EMOBInfo.' + (getEBikesFeatureCollectionSelectedIndex(this.props.ebikes) || 0)
+				}
 				pixelwidth={325}
-				featureCollection={getEMOBFeatureCollection(this.props.emob)}
-				items={getEMOBFilteredData(this.props.emob)}
-				selectedIndex={getEMOBFeatureCollectionSelectedIndex(this.props.emob) || 0}
+				featureCollection={getEBikesFeatureCollection(this.props.ebikes)}
+				items={getEBikesFilteredData(this.props.ebikes)}
+				selectedIndex={getEBikesFeatureCollectionSelectedIndex(this.props.ebikes) || 0}
 				next={() => {
-					this.props.emobActions.setSelectedFeatureIndex(
-						(getEMOBFeatureCollectionSelectedIndex(this.props.emob) + 1) %
-							getEMOBFeatureCollection(this.props.emob).length
+					this.props.ebikesActions.setSelectedFeatureIndex(
+						(getEBikesFeatureCollectionSelectedIndex(this.props.ebikes) + 1) %
+							getEBikesFeatureCollection(this.props.ebikes).length
 					);
 				}}
 				previous={() => {
-					this.props.emobActions.setSelectedFeatureIndex(
-						(getEMOBFeatureCollectionSelectedIndex(this.props.emob) +
-							getEMOBFeatureCollection(this.props.emob).length -
+					this.props.ebikesActions.setSelectedFeatureIndex(
+						(getEBikesFeatureCollectionSelectedIndex(this.props.ebikes) +
+							getEBikesFeatureCollection(this.props.ebikes).length -
 							1) %
-							getEMOBFeatureCollection(this.props.emob).length
+							getEBikesFeatureCollection(this.props.ebikes).length
 					);
 				}}
 				fitAll={this.gotoHome}
@@ -102,9 +104,9 @@ export class Container_ extends React.Component {
 				uiState={this.props.uiState}
 				uiStateActions={this.props.uiStateActions}
 				panelClick={(e) => {}}
-				minified={hasMinifiedInfoBox(this.props.emob)}
-				minify={(minified) => this.props.emobActions.setMinifiedInfoBox(minified)}
-				setVisibleStateOfSecondaryInfo={this.props.emobActions.setSecondaryInfoVisible}
+				minified={hasMinifiedInfoBox(this.props.ebikes)}
+				minify={(minified) => this.props.ebikesActions.setMinifiedInfoBox(minified)}
+				setVisibleStateOfSecondaryInfo={this.props.ebikesActions.setSecondaryInfoVisible}
 				zoomToFeature={(feature) => {
 					if (this.topicMap !== undefined) {
 						const pos = proj4(proj4crs25832def, proj4.defs('EPSG:4326'), [
@@ -126,11 +128,11 @@ export class Container_ extends React.Component {
 		} catch (e) {}
 		let selectedFeature;
 		if (
-			(getEMOBFeatureCollection(this.props.emob) || []).length > 0 &&
-			getEMOBFeatureCollectionSelectedIndex(this.props.emob) !== undefined
+			(getEBikesFeatureCollection(this.props.ebikes) || []).length > 0 &&
+			getEBikesFeatureCollectionSelectedIndex(this.props.ebikes) !== undefined
 		) {
-			selectedFeature = getEMOBFeatureCollection(this.props.emob)[
-				getEMOBFeatureCollectionSelectedIndex(this.props.emob) || 0
+			selectedFeature = getEBikesFeatureCollection(this.props.ebikes)[
+				getEBikesFeatureCollectionSelectedIndex(this.props.ebikes) || 0
 			];
 		}
 
@@ -140,7 +142,7 @@ export class Container_ extends React.Component {
 		let qTitle = queryString.parse(this.props.routing.location.search).title;
 		if (qTitle !== undefined) {
 			if (qTitle === null || qTitle === '') {
-				filterDesc = getEMOBFilterDescription(this.props.emob);
+				filterDesc = getEBikesFilterDescription(this.props.ebikes);
 				titleContent = (
 					<div>
 						<b>Meine Ladestationen: </b> {filterDesc}
@@ -152,8 +154,11 @@ export class Container_ extends React.Component {
 			}
 			if (
 				filterDesc !== '' &&
-				getEMOBFilteredData(this.props.emob).length > 0 &&
-				!(getEMOBs(this.props.emob).length === getEMOBFilteredData(this.props.emob).length)
+				getEBikesFilteredData(this.props.ebikes).length > 0 &&
+				!(
+					getEBikes(this.props.ebikes).length ===
+					getEBikesFilteredData(this.props.ebikes).length
+				)
 			) {
 				title = (
 					<table
@@ -190,12 +195,12 @@ export class Container_ extends React.Component {
 		return (
 			<div>
 				{title}
-				{isSecondaryInfoBoxVisible(this.props.emob) === true &&
+				{isSecondaryInfoBoxVisible(this.props.ebikes) === true &&
 				selectedFeature !== undefined && (
 					<SecondaryInfoModal
-						visible={isSecondaryInfoBoxVisible(this.props.emob)}
+						visible={isSecondaryInfoBoxVisible(this.props.ebikes)}
 						feature={selectedFeature}
-						setVisibleState={this.props.emobActions.setSecondaryInfoVisible}
+						setVisibleState={this.props.ebikesActions.setSecondaryInfoVisible}
 						uiHeight={this.props.uiState.height}
 					/>
 				)}
@@ -223,12 +228,12 @@ export class Container_ extends React.Component {
 							selectedObject[0].more &&
 							selectedObject[0].more.id
 						) {
-							this.props.emobActions.setSelectedEMOB(selectedObject[0].more.id);
+							this.props.ebikesActions.setSelectedEBikes(selectedObject[0].more.id);
 						}
 					}}
 					photoLightBox
-					infoBox={info}
-					secondaryInfoBoxElements={[
+					_off_infoBox={info}
+					_off_secondaryInfoBoxElements={[
 						<InfoBoxFotoPreview
 							currentFeature={selectedFeature}
 							getPhotoUrl={(feature) => {
@@ -247,16 +252,16 @@ export class Container_ extends React.Component {
 					backgroundlayers={
 						this.props.match.params.layers || reduxBackground || 'wupp-plan-live'
 					}
-					dataLoader={this.props.emobActions.loadEMOBs}
+					dataLoader={this.props.ebikesActions.loadEBikes}
 					getFeatureCollectionForData={() => {
-						return getEMOBFeatureCollection(this.props.emob);
+						return getEBikesFeatureCollection(this.props.ebikes);
 					}}
 					featureStyler={getFeatureStyler(
-						getEMOBSvgSize(this.props.emob) || 60,
+						getEBikesSvgSize(this.props.ebikes) || 60,
 						getColorForProperties
 					)}
-					refreshFeatureCollection={this.props.emobActions.refreshFeatureCollection}
-					setSelectedFeatureIndex={this.props.emobActions.setSelectedFeatureIndex}
+					refreshFeatureCollection={this.props.ebikesActions.refreshFeatureCollection}
+					setSelectedFeatureIndex={this.props.ebikesActions.setSelectedFeatureIndex}
 					featureHoverer={featureHoverer}
 					applicationMenuTooltipString='Filter | Einstellungen | Kompaktanleitung'
 					modalMenu={
@@ -266,7 +271,7 @@ export class Container_ extends React.Component {
 							urlPathname={this.props.routing.location.pathname}
 							urlSearch={this.props.routing.location.search}
 							pushNewRoute={this.props.routingActions.push}
-							currentMarkerSize={getEMOBSvgSize(this.props.emob)}
+							currentMarkerSize={getEBikesSvgSize(this.props.ebikes)}
 							changeMarkerSymbolSize={this.changeMarkerSymbolSize}
 							topicMapRef={this.topicMap}
 							setLayerByKey={this.props.mappingActions.setSelectedMappingBackground}
@@ -275,13 +280,13 @@ export class Container_ extends React.Component {
 								this.props.mappingActions.setFeatureCollectionKeyPostfix
 							}
 							refreshFeatureCollection={
-								this.props.emobActions.refreshFeatureCollection
+								this.props.ebikesActions.refreshFeatureCollection
 							}
-							filter={getEMOBFilter(this.props.emob)}
-							setFilter={this.props.emobActions.setFilter}
-							filteredObjects={getEMOBFilteredData(this.props.emob)}
+							filter={getEBikesFilter(this.props.ebikes)}
+							setFilter={this.props.ebikesActions.setFilter}
+							filteredObjects={getEBikesFilteredData(this.props.ebikes)}
 							featureCollectionObjectsCount={
-								getEMOBFeatureCollection(this.props.emob).length
+								getEBikesFeatureCollection(this.props.ebikes).length
 							}
 						/>
 					}
@@ -291,7 +296,7 @@ export class Container_ extends React.Component {
 					}
 					clusterOptions={{
 						spiderfyOnMaxZoom: false,
-						spiderfyDistanceMultiplier: getEMOBSvgSize(this.props.emob) / 24,
+						spiderfyDistanceMultiplier: getEBikesSvgSize(this.props.ebikes) / 24,
 						showCoverageOnHover: false,
 						zoomToBoundsOnClick: false,
 						maxClusterRadius: 40,
@@ -300,7 +305,7 @@ export class Container_ extends React.Component {
 						cismapZoomTillSpiderfy: 12,
 						selectionSpiderfyMinZoom: 12,
 						iconCreateFunction: getPoiClusterIconCreatorFunction(
-							getEMOBSvgSize(this.props.emob) - 10,
+							getEBikesSvgSize(this.props.ebikes) - 10,
 							getColorForProperties
 						)
 					}}

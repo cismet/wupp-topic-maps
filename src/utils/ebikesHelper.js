@@ -355,12 +355,6 @@ export const addSVGToFeature = (feature, manualReloadRequested) => {
 			.then((svgText) => {
 				const svgDocument = new DOMParser().parseFromString(svgText, 'application/xml');
 				const svgObject = svgDocument.documentElement;
-				console.log('svgObject', svgObject.tagName);
-				console.log('svgObject', svgObject);
-				if (svgObject.tagName === 'html') {
-					console.log('svgObject', svgObject);
-					console.log('svgText', svgText);
-				}
 				if (svgObject.tagName === 'svg') {
 					feature.svgBadge = svgText;
 					feature.svgBadgeDimension = {

@@ -103,7 +103,7 @@ const Component = ({ uiState, uiStateActions, showModalMenu }) => {
 									(OpenStreetMap contributors). (2) Kartendienste (WMS) der Stadt
 									Wuppertal. Datengrundlagen: Rasterdaten (Scan) der{' '}
 									<strong>Deutschen Grundkarte 1:5.000 (DGK 5)</strong>, Stand
-									01/2005, © Geobasis NRW (<a
+									1996, © Geobasis NRW (<a
 										target='ackmore'
 										href='https://www.govdata.de/dl-de/zero-2-0'
 									>
@@ -128,15 +128,24 @@ const Component = ({ uiState, uiStateActions, showModalMenu }) => {
 						</ul>
 						<p>
 							Zusätzlich nutzt der FNP-Inspektor im Rechtsplan die Datensätze{' '}
-							<a target='ackmore' href='https://offenedaten-wuppertal.de/'>
+							<a
+								target='ackmore'
+								href='https://offenedaten-wuppertal.de/dataset/rechtswirksame-fnp-%C3%A4nderungsverfahren-wuppertal'
+							>
 								Rechtswirksame FNP-Änderungsverfahren
 							</a>{' '}
 							und{' '}
-							<a target='ackmore' href='https://offenedaten-wuppertal.de/'>
+							<a
+								target='ackmore'
+								href='https://offenedaten-wuppertal.de/dataset/laufende-fnp-%C3%A4nderungsverfahren-wuppertal'
+							>
 								Laufende FNP-Änderungsverfahren
 							</a>{' '}
 							sowie in der Arbeitskarte den Datensatz{' '}
-							<a target='ackmore' href='https://offenedaten-wuppertal.de/'>
+							<a
+								target='ackmore'
+								href='https://offenedaten-wuppertal.de/dataset/fnp-hauptnutzungen-wuppertal'
+							>
 								FNP-Hauptnutzungen
 							</a>, jeweils aus dem Open-Data-Angebot der Stadt Wuppertal, © Stadt
 							Wuppertal (<a
@@ -145,10 +154,6 @@ const Component = ({ uiState, uiStateActions, showModalMenu }) => {
 							>
 								CC BY-ND 4.0
 							</a>).{' '}
-							<em>
-								Hinweis: Die Bereitstellung dieser Datensätze in den
-								Open-Data-Portalen ist zzt. noch in Bearbeitung.
-							</em>
 						</p>
 					</p>
 				</div>

@@ -15,7 +15,7 @@ const Comp = ({ showModalMenu }) => {
 					>
 						Stadtplanwerk 2.0 © RVR
 					</a>{' '}
-					| Deutsche Grundkarte (DGK 5) Stand 01/2005 © Geobasis NRW | Flächennutzungsplan
+					| Deutsche Grundkarte (DGK 5) Stand 1996 © Geobasis NRW | Flächennutzungsplan
 					vom 17.01.2005 © Stadt Wuppertal (<a
 						onClick={() => showModalMenu('RechtsplanUndArbeitskarte')}
 					>

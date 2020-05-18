@@ -17,6 +17,7 @@ import DocViewer from './containers/DocViewer';
 import FNP from './containers/FNP';
 
 import Elektromobilitaet from './containers/Elektromobilitaet';
+import Ebikes from './containers/Ebikes';
 import XandRide from './containers/XandRide';
 import HitzeInDerStadt from './containers/HitzeInDerStadt';
 
@@ -90,6 +91,8 @@ export default class App extends React.Component {
 								path='/elektromobilitaet/:layers?/'
 								component={Elektromobilitaet}
 							/>
+
+							<Route exact path='/ebikes/:layers?/' component={Ebikes} />
 							<Route exact path='/xandride/:layers?/' component={XandRide} />
 
 							<Route

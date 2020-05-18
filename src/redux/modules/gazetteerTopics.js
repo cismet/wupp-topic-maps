@@ -292,6 +292,25 @@ export const getGazDataForTopicIds = (state, topics) => {
 				gazData.push(g);
 			}
 		}
+		if (topic === 'ebikes') {
+			let stationen = JSON.parse(state.ebikes);
+
+			for (let i = 0; i < stationen.length; ++i) {
+				let topicItem = stationen[i];
+				let verleihstation = topicItem.m.id.startsWith('V');
+
+				let g = {
+					sorter: sorter++,
+					string: topicItem.n,
+					glyph: verleihstation ? 'bicycle' : 'charging-station',
+					x: topicItem.x,
+					y: topicItem.y,
+					more: topicItem.m,
+					type: 'ebikes'
+				};
+				gazData.push(g);
+			}
+		}
 		if (topic === 'geps') {
 			let geps = JSON.parse(state.geps);
 			for (let i = 0; i < geps.length; ++i) {

@@ -213,14 +213,14 @@ export class Container_ extends React.Component {
 					locatorControl
 					gazetteerSearchBox
 					gazetteerTopicsList={[
-						'emob',
+						'ebikes',
 						'pois',
 						'kitas',
 						'quartiere',
 						'bezirke',
 						'adressen'
 					]}
-					gazetteerSearchBoxPlaceholdertext='Ladestation | Stadtteil | Adresse | POI '
+					gazetteerSearchBoxPlaceholdertext='Stationen | Stadtteil | Adresse | POI '
 					gazeteerHitTrigger={(selectedObject) => {
 						if (
 							selectedObject &&
@@ -228,7 +228,7 @@ export class Container_ extends React.Component {
 							selectedObject[0].more &&
 							selectedObject[0].more.id
 						) {
-							this.props.ebikesActions.setSelectedEBikes(selectedObject[0].more.id);
+							this.props.ebikesActions.setSelectedEBike(selectedObject[0].more.id);
 						}
 					}}
 					photoLightBox

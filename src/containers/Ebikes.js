@@ -5,9 +5,9 @@ import { connect } from 'react-redux';
 import { routerActions as RoutingActions } from 'react-router-redux';
 import { bindActionCreators } from 'redux';
 import InfoBoxFotoPreview from '../components/commons/InfoBoxFotoPreview';
-import EMOBInfo from '../components/emob/Info';
-import EMOBModalMenu from '../components/emob/ModalMenu';
-import SecondaryInfoModal from '../components/emob/SecondaryInfo';
+import InfoPanel from '../components/ebikes/Info';
+import ModalMenu from '../components/ebikes/ModalMenu';
+import SecondaryInfoModal from '../components/ebikes/SecondaryInfo';
 import TopicMap from '../containers/TopicMap';
 import {
 	actions as EBikesActions,
@@ -76,11 +76,11 @@ export class Container_ extends React.Component {
 
 	render() {
 		let info = (
-			<EMOBInfo
+			<InfoPanel
 				key={
 					'EMOBInfo.' + (getEBikesFeatureCollectionSelectedIndex(this.props.ebikes) || 0)
 				}
-				pixelwidth={325}
+				pixelwidth={355}
 				featureCollection={getEBikesFeatureCollection(this.props.ebikes)}
 				items={getEBikesFilteredData(this.props.ebikes)}
 				selectedIndex={getEBikesFeatureCollectionSelectedIndex(this.props.ebikes) || 0}
@@ -232,16 +232,13 @@ export class Container_ extends React.Component {
 						}
 					}}
 					photoLightBox
-					_off_infoBox={info}
-					_off_secondaryInfoBoxElements={[
+					infoBox={info}
+					secondaryInfoBoxElements={[
 						<InfoBoxFotoPreview
 							currentFeature={selectedFeature}
 							getPhotoUrl={(feature) => {
 								if ((feature || { properties: {} }).properties.foto !== undefined) {
-									return (
-										'https://www.wuppertal.de/geoportal/emobil/autos/fotos/' +
-										feature.properties.foto
-									);
+									return feature.properties.foto;
 								} else {
 									return undefined;
 								}
@@ -265,7 +262,7 @@ export class Container_ extends React.Component {
 					featureHoverer={featureHoverer}
 					applicationMenuTooltipString='Filter | Einstellungen | Kompaktanleitung'
 					modalMenu={
-						<EMOBModalMenu
+						<ModalMenu
 							uiState={this.props.uiState}
 							uiStateActions={this.props.uiStateActions}
 							urlPathname={this.props.routing.location.pathname}

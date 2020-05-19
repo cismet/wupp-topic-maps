@@ -142,11 +142,11 @@ const Info = ({
 			subtitle={address}
 			additionalInfo={secondary}
 			zoomToAllLabel={`${items.length} ${items.length === 1
-				? 'Ladestation'
-				: 'Ladestationen'} in Wuppertal`}
+				? 'Station'
+				: 'Stationen'} in Wuppertal`}
 			currentlyShownCountLabel={`${featureCollection.length} ${featureCollection.length === 1
-				? 'Ladestation'
-				: 'Ladestationen'} angezeigt`}
+				? 'Station'
+				: 'Stationen'} angezeigt`}
 			collapsedInfoBox={minified}
 			setCollapsedInfoBox={minify}
 			noCurrentFeatureTitle={<h5>Keine Ladestationen gefunden!</h5>}

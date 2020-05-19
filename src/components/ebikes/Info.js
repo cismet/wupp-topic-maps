@@ -1,7 +1,7 @@
 import Icon from 'components/commons/Icon';
 import PropTypes from 'prop-types';
 import React from 'react';
-import { getColorForProperties } from '../../utils/ebikesHelper';
+import { getColorForProperties, getLinksForStation } from '../../utils/ebikesHelper';
 import IconLink from '../commons/IconLink';
 import InfoBox from '../commons/InfoBox';
 
@@ -62,59 +62,15 @@ const Info = ({
 			tel = currentFeature.properties.betreiber.telefon;
 			email = currentFeature.properties.betreiber.email;
 		}
-
-		links = [];
-		links.push(
-			<IconLink
-				key={`zoom`}
-				tooltip={'Auf ' + subject + 'zoomen'}
-				onClick={() => {
-					zoomToFeature(currentFeature);
-				}}
-				iconname={'search-location'}
-			/>
-		);
-		// links.push(
-		// 	<IconLink
-		// 		key={`IconLink.secondaryInfo`}
-		// 		tooltip='Datenblatt anzeigen'
-		// 		onClick={() => {
-		// 			setVisibleStateOfSecondaryInfo(true);
-		// 		}}
-		// 		iconname='info'
-		// 	/>
-		// );
-		if (tel) {
-			links.push(
-				<IconLink
-					key={`IconLink.tel`}
-					tooltip={contactSubject + ' anrufen'}
-					href={'tel:' + tel}
-					iconname='phone'
-				/>
-			);
-		}
-		if (email) {
-			links.push(
-				<IconLink
-					key={`IconLink.email`}
-					tooltip={'E-Mail an ' + contactSubject + ' schreiben'}
-					href={'mailto:' + email}
-					iconname='envelope-square'
-				/>
-			);
-		}
-		if (web) {
-			links.push(
-				<IconLink
-					key={`IconLink.web`}
-					tooltip={contactSubject + 'webseite'}
-					href={web}
-					target='_blank'
-					iconname='external-link-square'
-				/>
-			);
-		}
+		links = getLinksForStation(currentFeature.properties, {
+			zoomToFeature: () => {
+				zoomToFeature(currentFeature);
+			},
+			showSecondaryInfo: setVisibleStateOfSecondaryInfo,
+			phone: true,
+			email: true,
+			web: true
+		});
 		headerColor = getColorForProperties(currentFeature.properties);
 		primary = currentFeature.text;
 	}

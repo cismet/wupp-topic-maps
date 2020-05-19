@@ -8,6 +8,7 @@ import SVGInline from 'react-svg-inline';
 import createElement from 'svg-create-element';
 import { poiColors } from '../constants/colors.js';
 import store from '../redux/store';
+import IconLink from '../components/commons/IconLink';
 
 const fallbackSVG = `
     <svg xmlns="http://www.w3.org/2000/svg" width="311.668" height="311.668">
@@ -381,6 +382,90 @@ export const addSVGToFeature = (feature, manualReloadRequested) => {
 				fulfilled(feature);
 			});
 	});
+};
+
+export const getLinksForStation = (
+	station,
+	linkConfig = {
+		zoomToFeature: undefined,
+		showSecondaryInfo: undefined,
+		phone: true,
+		email: true,
+		web: true
+	}
+) => {
+	let links = [];
+	let web, tel, email, primary, secondary, address, subject, contactSubject;
+	if (station.typ === 'Verleihstation') {
+		subject = 'Verleihstation';
+		contactSubject = 'Verleihstation';
+		web = station.homepage;
+		tel = station.telefon;
+		email = station.email;
+	} else {
+		// typ==='Ladestation'
+		subject = 'Ladestation';
+		contactSubject = 'Betreiber';
+		web = station.betreiber.web;
+		tel = station.betreiber.telefon;
+		email = station.betreiber.email;
+	}
+	if (linkConfig.zoomToFeature !== undefined) {
+		links.push(
+			<IconLink
+				key={`zoom`}
+				tooltip={'Auf ' + subject + 'zoomen'}
+				onClick={() => {
+					linkConfig.zoomToFeature();
+				}}
+				iconname={'search-location'}
+			/>
+		);
+	}
+	if (linkConfig.showSecondaryInfo !== undefined) {
+		links.push(
+			<IconLink
+				key={`IconLink.secondaryInfo`}
+				tooltip='Datenblatt anzeigen'
+				onClick={() => {
+					linkConfig.showSecondaryInfo(true);
+				}}
+				iconname='info'
+			/>
+		);
+	}
+	if (tel && linkConfig.phone === true) {
+		links.push(
+			<IconLink
+				key={`IconLink.tel`}
+				tooltip={contactSubject + ' anrufen'}
+				href={'tel:' + tel}
+				iconname='phone'
+			/>
+		);
+	}
+	if (email && linkConfig.email === true) {
+		links.push(
+			<IconLink
+				key={`IconLink.email`}
+				tooltip={'E-Mail an ' + contactSubject + ' schreiben'}
+				href={'mailto:' + email}
+				iconname='envelope-square'
+			/>
+		);
+	}
+	if (web && linkConfig.web === true) {
+		links.push(
+			<IconLink
+				key={`IconLink.web`}
+				tooltip={contactSubject + 'webseite'}
+				href={web}
+				target='_blank'
+				iconname='external-link-square'
+			/>
+		);
+	}
+	return links;
 };
 
 export const getSymbolSVG = (

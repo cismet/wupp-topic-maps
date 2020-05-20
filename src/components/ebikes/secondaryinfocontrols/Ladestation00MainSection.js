@@ -22,7 +22,7 @@ const Comp = ({ station }) => {
 			<div>{station.bemerkung}</div>
 			<br />
 			<div>
-				<b>Öffnungszeiten:</b> {station.oeffnungszeiten + 'XXX'}
+				<b>Öffnungszeiten:</b> {station.oeffnungszeiten}
 			</div>
 			<br />
 			<div>

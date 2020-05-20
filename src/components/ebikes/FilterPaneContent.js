@@ -3,8 +3,6 @@ import { Button } from 'react-bootstrap';
 import GruenerStromFC from './filtercontrols/GruenerStrom';
 import OeffnungszeitenFC from './filtercontrols/Oeffnungszeiten';
 import OnlineFC from './filtercontrols/Online';
-import SchnelladerFC from './filtercontrols/Schnellader';
-import SteckerFC from './filtercontrols/Stecker';
 
 // Since this component is simple and static, there's no parent container for it.
 const Comp = ({ width, filter, setFilter, featureRenderingOption, pieChart }) => {
@@ -35,9 +33,7 @@ const Comp = ({ width, filter, setFilter, featureRenderingOption, pieChart }) =>
 						<td valign='center' style={{ width: '330px' }}>
 							<OnlineFC filter={filter} setFilter={setFilter} />
 							<OeffnungszeitenFC filter={filter} setFilter={setFilter} />
-							<SteckerFC filter={filter} setFilter={setFilter} />
 							<GruenerStromFC filter={filter} setFilter={setFilter} />
-							<SchnelladerFC filter={filter} setFilter={setFilter} />
 
 							<p>
 								<Button

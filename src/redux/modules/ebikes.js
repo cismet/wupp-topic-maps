@@ -68,11 +68,11 @@ const featureCollectionDuck = makePointFeatureCollectionWithIndexDuck(
 	convertEBikesToFeature,
 	filterFunctionFactory,
 	{
-		// stationsart: [ 'Ladestation', 'Verleihstation' ],
-		// nur_online: false,
-		// halb_oeffentlich: false,
-		// gruener_strom: false,
-		// ladebox: false
+		stationsart: [ 'Ladestation', 'Verleihstation' ],
+		nur_online: false,
+		halb_oeffentlich: false,
+		gruener_strom: false,
+		ladebox: false
 	}
 );
 const infoBoxStateDuck = makeInfoBoxStateDuck('ebikes', (state) => state.ebikes.infoBoxState);

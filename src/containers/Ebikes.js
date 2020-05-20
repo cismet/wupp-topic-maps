@@ -61,7 +61,7 @@ export class Container_ extends React.Component {
 		);
 	}
 	componentDidMount() {
-		document.title = 'Elektrofahrrad-Karte Wuppertal';
+		document.title = 'E-Fahrrad-Karte Wuppertal';
 	}
 	gotoHome() {
 		if (this.topicMap) {

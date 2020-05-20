@@ -15,8 +15,8 @@ const Comp = ({ station, visible, uiHeight, setVisibleState, links }) => {
 			uiHeight={uiHeight}
 			imageUrl={station.foto}
 			setVisibleState={setVisibleState}
-			title={'Datenblatt: Ladestation ' + station.standort}
-			titleIconName='charging-station'
+			title={'Datenblatt: Verleihstation ' + station.standort}
+			titleIconName='bicycle'
 			mainSection={<MainSection station={station} />}
 			subSections={[
 				<Verleih station={station} />,

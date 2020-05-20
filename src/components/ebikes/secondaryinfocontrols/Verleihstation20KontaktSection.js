@@ -21,8 +21,7 @@ const Comp = ({ station, links }) => {
 					</div>
 					<div>{station.standort}</div>
 					<div>
-						{station.strasse}
-						{station.hausnummer !== undefined ? ', ' + station.hausnummer : ''}
+						{station.strasse} {station.hausnummer || ''}
 					</div>
 				</div>
 			}

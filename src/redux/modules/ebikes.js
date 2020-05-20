@@ -106,7 +106,7 @@ const infoBoxStateStorageConfig = {
 const ebikesFeatureCollectionStateStorageConfig = {
 	key: 'ebikesFeatureCollectionStateConfig',
 	storage: localForage,
-	whitelist: [] //] 'filter' ]
+	whitelist: [ 'filter' ]
 };
 
 const reducer = combineReducers({

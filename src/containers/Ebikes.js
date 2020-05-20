@@ -61,7 +61,7 @@ export class Container_ extends React.Component {
 		);
 	}
 	componentDidMount() {
-		document.title = 'E-Auto-Ladestationskarte Wuppertal';
+		document.title = 'Elektrofahrrad-Karte Wuppertal';
 	}
 	gotoHome() {
 		if (this.topicMap) {

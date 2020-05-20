@@ -18,49 +18,43 @@ export const constants = {
 
 const filterFunctionFactory = (filter) => {
 	return (obj) => {
-		// let keep = false;
+		let keep = false;
 
-		// //Online
-		// if (filter.nur_online === true) {
-		// 	keep = obj.online;
-		// } else {
-		// 	keep = true;
-		// }
-		// if (keep === true) {
-		// 	keep = false;
-		// 	//Öffnungszeiten
-		// 	if (filter.oeffnungszeiten === '*') {
+		// const example = {
+		// 	stationsart: [ 'Ladestation', 'Verleihstation' ],
+		// 	nur_online: false,
+		// 	halb_oeffentlich: false,
+		// 	gruener_strom: false,
+		// 	ladebox: false
+		// };
+
+		// keep = filter.stationsart.includes(obj.typ);
+
+		// if (obj.typ === 'Ladestation') {
+		// 	if (filter.nur_online === true) {
+		// 		keep = obj.online;
+		// 	} else {
 		// 		keep = true;
 		// 	}
-		// 	if (filter.oeffnungszeiten === '24' && obj.oeffnungszeiten.startsWith('24')) {
-		// 		keep = true;
-		// 	}
-		// }
-		// //Stecker
-		// if (filter.stecker !== undefined) {
 		// 	if (keep === true) {
 		// 		keep = false;
-		// 		for (let steckv of obj.steckerverbindungen) {
-		// 			if (filter.stecker.indexOf(steckv.steckdosentyp) !== -1) {
-		// 				keep = true;
-		// 				break;
-		// 			}
+		// 		//Öffnungszeiten
+		// 		if (filter.halb_oeffentlich === true) {
+		// 			keep = obj.halb_oeffentlich;
 		// 		}
 		// 	}
-		// }
+		// 	//Grüner Strom
+		// 	if (keep === true && filter.gruener_strom === true) {
+		// 		keep = obj.gruener_strom === true;
+		// 	}
 
-		// //Grüner Strom
-		// if (keep === true && filter.nur_gruener_strom === true) {
-		// 	keep = obj.gruener_strom === true;
+		// 	//Ladebox
+		// 	if (keep === true && filter.ladebox === true) {
+		// 		keep = obj.ladebox;
+		// 	}
 		// }
-
-		// //Schnelllader
-		// if (keep === true && filter.nur_schnelllader === true) {
-		// 	return obj.schnellladestation === true;
-		// }
-
-		// return keep;
 		return true;
+		return keep;
 	};
 };
 
@@ -74,11 +68,11 @@ const featureCollectionDuck = makePointFeatureCollectionWithIndexDuck(
 	convertEBikesToFeature,
 	filterFunctionFactory,
 	{
-		verfuegbarkeit: false,
-		oeffnungszeiten: '*',
-		stecker: [ 'Schuko', 'Typ 2', 'CHAdeMO', 'CCS', 'Tesla Supercharger', 'Drehstrom' ],
-		nur_gruener_strom: false,
-		nur_schnelllader: false
+		// stationsart: [ 'Ladestation', 'Verleihstation' ],
+		// nur_online: false,
+		// halb_oeffentlich: false,
+		// gruener_strom: false,
+		// ladebox: false
 	}
 );
 const infoBoxStateDuck = makeInfoBoxStateDuck('ebikes', (state) => state.ebikes.infoBoxState);
@@ -112,7 +106,7 @@ const infoBoxStateStorageConfig = {
 const ebikesFeatureCollectionStateStorageConfig = {
 	key: 'ebikesFeatureCollectionStateConfig',
 	storage: localForage,
-	whitelist: [ 'filter' ]
+	whitelist: [] //] 'filter' ]
 };
 
 const reducer = combineReducers({

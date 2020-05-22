@@ -5,7 +5,7 @@ import GenericModalApplicationMenu from 'components/commons/GenericModalApplicat
 import GenericModalMenuSection from 'components/commons/GenericModalMenuSection';
 import ModalMenuSettingsPanel from './ModalMenuSettingsPanel';
 import ModalMenuFilterPanel from './FilterPaneContent';
-import { getColorForProperties } from '../../utils/emobHelper';
+import { getColorForProperties } from '../../utils/ebikesHelper';
 
 import Footer from '../commons/ModalMenuFooter';
 import PieChart from './PieChart';
@@ -29,7 +29,7 @@ const ModalMenu = ({
 	featureCollectionObjectsCount
 }) => {
 	const filteredObjectsCount = (filteredObjects || []).length;
-	let rightTerm = filteredObjectsCount !== 1 ? 'Ladestationen' : 'Ladestation';
+	let rightTerm = filteredObjectsCount !== 1 ? 'Stationen' : 'Station';
 	let filterSubTitle = `(${filteredObjectsCount} ${rightTerm} gefunden, davon ${featureCollectionObjectsCount} in der Karte)`;
 	return (
 		<GenericModalApplicationMenu
@@ -54,11 +54,15 @@ const ModalMenu = ({
 									filteredObjects={filteredObjects}
 									colorizer={getColorForProperties}
 									groupingFunction={(obj) => {
-										if (obj.online === true) {
-											return 'online';
-										} else {
-											return 'offline';
+										let groupString = obj.typ;
+										if (groupString === 'Ladestation') {
+											if (obj.online === true) {
+												groupString = groupString + ' (online)';
+											} else {
+												groupString = groupString + ' (offline)';
+											}
 										}
+										return groupString;
 									}}
 								/>
 							}

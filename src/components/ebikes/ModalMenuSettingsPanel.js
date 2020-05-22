@@ -5,7 +5,7 @@ import { FeatureCollectionDisplay, getLayersByName, MappingConstants } from 'rea
 import { Map } from 'react-leaflet';
 import 'url-search-params-polyfill';
 import { getInternetExplorerVersion } from '../../utils/browserHelper';
-import { getColorForProperties, getSymbolSVG } from '../../utils/emobHelper';
+import { getColorForProperties, getSymbolSVG } from '../../utils/ebikesHelper';
 import { removeQueryPart } from '../../utils/routingHelper';
 import { getFeatureStyler, getPoiClusterIconCreatorFunction } from '../../utils/stadtplanHelper';
 import GenericModalMenuSection from 'components/commons/GenericModalMenuSection';
@@ -72,7 +72,7 @@ const ModalMenuSettingsSection = ({
 								paddingleft: '10px'
 							}}
 						>
-							<b>Meine Ladestationen: </b> passender Stecker | Ökostrom
+							<b>Meine Ladestationen: </b> Verleih- und Ladestationen | Ökostrom
 						</td>
 					</tr>
 				</tbody>

@@ -19,41 +19,43 @@ export const constants = {
 const filterFunctionFactory = (filter) => {
 	return (obj) => {
 		let keep = false;
-
-		// const example = {
+		const all = [ 'Ladestation', 'Verleihstation' ];
+		// filter = {
 		// 	stationsart: [ 'Ladestation', 'Verleihstation' ],
 		// 	nur_online: false,
-		// 	halb_oeffentlich: false,
+		// 	immer_offen: false,
 		// 	gruener_strom: false,
 		// 	ladebox: false
 		// };
 
-		// keep = filter.stationsart.includes(obj.typ);
+		keep = (filter.stationsart || all).includes(obj.typ);
 
-		// if (obj.typ === 'Ladestation') {
-		// 	if (filter.nur_online === true) {
-		// 		keep = obj.online;
-		// 	} else {
-		// 		keep = true;
-		// 	}
-		// 	if (keep === true) {
-		// 		keep = false;
-		// 		//Öffnungszeiten
-		// 		if (filter.halb_oeffentlich === true) {
-		// 			keep = obj.halb_oeffentlich;
-		// 		}
-		// 	}
-		// 	//Grüner Strom
-		// 	if (keep === true && filter.gruener_strom === true) {
-		// 		keep = obj.gruener_strom === true;
-		// 	}
+		if (keep && obj.typ === 'Ladestation') {
+			console.log('in filter Ladestation');
+			if (filter.nur_online === true) {
+				keep = obj.online;
+			} else {
+				keep = true;
+			}
+			if (keep === true) {
+				//Öffnungszeiten
+				if (filter.immer_offen === true) {
+					keep = !obj.halb_oeffentlich;
+				} else {
+					keep = true;
+				}
+			}
+			//Grüner Strom
+			if (keep === true && filter.gruener_strom === true) {
+				keep = obj.gruener_strom === true;
+			}
 
-		// 	//Ladebox
-		// 	if (keep === true && filter.ladebox === true) {
-		// 		keep = obj.ladebox;
-		// 	}
-		// }
-		return true;
+			//Ladebox
+			if (keep === true && filter.ladebox === true) {
+				keep = obj.ladebox_zu;
+			}
+		}
+
 		return keep;
 	};
 };
@@ -70,7 +72,7 @@ const featureCollectionDuck = makePointFeatureCollectionWithIndexDuck(
 	{
 		stationsart: [ 'Ladestation', 'Verleihstation' ],
 		nur_online: false,
-		halb_oeffentlich: false,
+		immer_offen: false,
 		gruener_strom: false,
 		ladebox: false
 	}
@@ -217,20 +219,35 @@ function convertEBikesToFeature(ebike, index) {
 
 function convertEBikesFilterToText(filter) {
 	let filterDescriptions = [];
-	if (filter.nur_online === true) {
-		filterDescriptions.push('verfügbar');
+	if (filter.stationsart.includes('Ladestation')) {
+		if (
+			filter.stationsart.includes('Ladestation') &&
+			!filter.stationsart.includes('Verleihstation')
+		) {
+			filterDescriptions.push('nur Ladestationen');
+		} else {
+			filterDescriptions.push('Verleih- und Ladestationen');
+		}
+
+		if (filter.nur_online === true) {
+			filterDescriptions.push('verfügbar');
+		}
+		if (filter.immer_offen === true) {
+			filterDescriptions.push('24/7');
+		}
+		if (filter.gruener_strom === true) {
+			filterDescriptions.push('Ökostrom');
+		}
+		if (filter.ladebox_zu === true) {
+			filterDescriptions.push('Ladebox');
+		}
 	}
-	if (filter.oeffnungszeiten === '24') {
-		filterDescriptions.push('24/7');
+	if (
+		!filter.stationsart.includes('Ladestation') &&
+		filter.stationsart.includes('Verleihstation')
+	) {
+		filterDescriptions.push('nur Verleihstationen');
 	}
-	if (filter.stecker.length < 6) {
-		filterDescriptions.push('passender Stecker');
-	}
-	if (filter.nur_gruener_strom === true) {
-		filterDescriptions.push('Ökostrom');
-	}
-	if (filter.nur_schnelllader === true) {
-		filterDescriptions.push('Schnelllader');
-	}
+
 	return filterDescriptions.join(' | ');
 }

@@ -8,7 +8,7 @@ const Comp = ({ filter, setFilter }) => {
 		<div>
 			<FormGroup>
 				<ControlLabel>
-					Ladestation - Verfügbarkeit
+					Ladestation - Ladebox vorhanden
 					{'  '}
 					<FontAwesomeIcon
 						icon={faToggleOn}
@@ -25,29 +25,29 @@ const Comp = ({ filter, setFilter }) => {
 						<Radio
 							disabled={!filter.stationsart.includes('Ladestation')}
 							readOnly={true}
-							key={'filter.emob.online.only'}
+							key={'filter.ebikes.ladebox_zu.only'}
 							onClick={(e) => {
 								const f = JSON.parse(JSON.stringify(filter));
-								f.nur_online = e.target.checked;
+								f.ladebox_zu = e.target.checked;
 								setFilter(f);
 							}}
-							checked={filter.nur_online === true}
+							checked={filter.ladebox_zu === true}
 							inline
 						>
-							nur verfügbare Ladestationen (online)
+							nur Ladestationen mit Ladeboxen
 						</Radio>
 					</div>
 					<div>
 						<Radio
 							disabled={!filter.stationsart.includes('Ladestation')}
 							readOnly={true}
-							key={'filter.emob.online.all'}
+							key={'filter.ebikes.ladebox_zu.all'}
 							onClick={(e) => {
 								const f = JSON.parse(JSON.stringify(filter));
-								f.nur_online = !e.target.checked;
+								f.ladebox_zu = !e.target.checked;
 								setFilter(f);
 							}}
-							checked={filter.nur_online === false}
+							checked={filter.ladebox_zu === false}
 							inline
 						>
 							alle Ladestationen

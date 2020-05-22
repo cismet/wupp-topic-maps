@@ -8,7 +8,7 @@ const Comp = ({ filter, setFilter }) => {
 		<div>
 			<FormGroup>
 				<ControlLabel>
-					Öffnungszeiten
+					Ladestation - Öffnungszeiten
 					{'  '}
 					<FontAwesomeIcon
 						icon={faClock}
@@ -23,18 +23,19 @@ const Comp = ({ filter, setFilter }) => {
 				<div>
 					<div>
 						<Radio
+							disabled={!filter.stationsart.includes('Ladestation')}
 							readOnly={true}
-							key={'filter.emob.open.24/7'}
+							key={'filter.ebikes.open.24/7'}
 							onClick={(e) => {
 								const f = JSON.parse(JSON.stringify(filter));
 								if (e.target.checked) {
-									f.oeffnungszeiten = '24';
+									f.immer_offen = true;
 								} else {
-									f.oeffnungszeiten = '*';
+									f.immer_offen = false;
 								}
 								setFilter(f);
 							}}
-							checked={filter.oeffnungszeiten === '24'}
+							checked={filter.immer_offen === true}
 							inline
 						>
 							24/7
@@ -42,18 +43,19 @@ const Comp = ({ filter, setFilter }) => {
 					</div>
 					<div>
 						<Radio
+							disabled={!filter.stationsart.includes('Ladestation')}
 							readOnly={true}
-							key={'filter.emob.open.*'}
+							key={'filter.ebikes.open.*'}
 							onClick={(e) => {
 								const f = JSON.parse(JSON.stringify(filter));
 								if (e.target.checked) {
-									f.oeffnungszeiten = '*';
+									f.immer_offen = false;
 								} else {
-									f.oeffnungszeiten = '24';
+									f.immer_offen = true;
 								}
 								setFilter(f);
 							}}
-							checked={filter.oeffnungszeiten === '*'}
+							checked={filter.immer_offen === false}
 							inline
 						>
 							alle Ladestationen

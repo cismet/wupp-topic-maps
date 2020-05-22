@@ -3,7 +3,8 @@ import { Button } from 'react-bootstrap';
 import GruenerStromFC from './filtercontrols/GruenerStrom';
 import OeffnungszeitenFC from './filtercontrols/Oeffnungszeiten';
 import OnlineFC from './filtercontrols/Online';
-
+import TypFC from './filtercontrols/Typ';
+import LadeboxFC from './filtercontrols/Ladebox';
 // Since this component is simple and static, there's no parent container for it.
 const Comp = ({ width, filter, setFilter, featureRenderingOption, pieChart }) => {
 	let widePieChartPlaceholder = null;
@@ -31,27 +32,22 @@ const Comp = ({ width, filter, setFilter, featureRenderingOption, pieChart }) =>
 				<tbody>
 					<tr>
 						<td valign='center' style={{ width: '330px' }}>
+							<TypFC filter={filter} setFilter={setFilter} />
 							<OnlineFC filter={filter} setFilter={setFilter} />
 							<OeffnungszeitenFC filter={filter} setFilter={setFilter} />
 							<GruenerStromFC filter={filter} setFilter={setFilter} />
+							<LadeboxFC filter={filter} setFilter={setFilter} />
 
 							<p>
 								<Button
 									bsSize='small'
 									onClick={() => {
 										setFilter({
+											stationsart: [ 'Ladestation', 'Verleihstation' ],
 											nur_online: false,
-											oeffnungszeiten: '*',
-											stecker: [
-												'Schuko',
-												'Typ 2',
-												'CHAdeMO',
-												'CCS',
-												'Tesla Supercharger',
-												'Drehstrom'
-											],
-											nur_gruener_strom: false,
-											nur_schnelllader: false
+											immer_offen: false,
+											gruener_strom: false,
+											ladebox: false
 										});
 									}}
 								>

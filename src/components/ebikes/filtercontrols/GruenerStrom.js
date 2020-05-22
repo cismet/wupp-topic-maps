@@ -9,7 +9,7 @@ const Comp = ({ filter, setFilter }) => {
 		<div>
 			<FormGroup>
 				<ControlLabel>
-					Ökostrom
+					Ladestation - Ökostrom
 					{'  '}
 					<FontAwesomeIcon
 						icon={faLeaf}
@@ -24,14 +24,15 @@ const Comp = ({ filter, setFilter }) => {
 				<div>
 					<div>
 						<Radio
+							disabled={!filter.stationsart.includes('Ladestation')}
 							readOnly={true}
 							key={'filter.emob.green.only'}
 							onClick={(e) => {
 								const f = JSON.parse(JSON.stringify(filter));
-								f.nur_gruener_strom = e.target.checked;
+								f.gruener_strom = e.target.checked;
 								setFilter(f);
 							}}
-							checked={filter.nur_gruener_strom === true}
+							checked={filter.gruener_strom === true}
 							inline
 						>
 							nur Ökostrom-Ladestationen
@@ -39,14 +40,15 @@ const Comp = ({ filter, setFilter }) => {
 					</div>
 					<div>
 						<Radio
+							disabled={!filter.stationsart.includes('Ladestation')}
 							readOnly={true}
 							key={'filter.emob.green.all'}
 							onClick={(e) => {
 								const f = JSON.parse(JSON.stringify(filter));
-								f.nur_gruener_strom = !e.target.checked;
+								f.gruener_strom = !e.target.checked;
 								setFilter(f);
 							}}
-							checked={filter.nur_gruener_strom === false}
+							checked={filter.gruener_strom === false}
 							inline
 						>
 							alle Ladestationen

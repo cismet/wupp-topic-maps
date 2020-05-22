@@ -145,7 +145,7 @@ export class Container_ extends React.Component {
 				filterDesc = getEBikesFilterDescription(this.props.ebikes);
 				titleContent = (
 					<div>
-						<b>Meine Ladestationen: </b> {filterDesc}
+						<b>Meine Stationen: </b> {filterDesc}
 					</div>
 				);
 			} else {

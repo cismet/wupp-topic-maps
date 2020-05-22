@@ -473,7 +473,7 @@ export const getSymbolSVG = (
 	bg = '#FF0000',
 	kind = '-',
 	svgStyleRelatedId = 'default',
-	svgCodeInput = ladestationSVG
+	svgCodeInput = verleihstationSVG
 ) => {
 	let bdim = {
 		width: 20,

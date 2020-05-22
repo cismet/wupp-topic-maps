@@ -14,8 +14,8 @@ const BaederModalMenuIntroduction = ({ uiStateActions }) => {
 				onClick={() => uiStateActions.setApplicationMenuActiveKey('filter')}
 			>
 				Filter
-			</Link>, um die in der Karte angezeigten Ladestationen für E-Autos auf die für Sie
-			relevanten Stationen zu beschränken. Über{' '}
+			</Link>, um die in der Karte angezeigten Lade- oder Verleihstationen für E-Fahrräder auf
+			die für Sie relevanten Stationen zu beschränken. Über{' '}
 			<Link
 				id='lnkSettings'
 				to='settings'

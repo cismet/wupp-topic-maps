@@ -198,7 +198,7 @@ const ModalMenuSettingsSection = ({
 					preview={preview}
 					settingsSections={[
 						<div>
-							<ControlLabel>Ladestation-Einstellungen:</ControlLabel>
+							<ControlLabel>Einstellungen Lade- und Verleihstationen:</ControlLabel>
 							<br />
 							<Checkbox
 								readOnly={true}
@@ -243,7 +243,7 @@ const ModalMenuSettingsSection = ({
 								checked={clusteredObjects}
 								inline
 							>
-								Ladestationen ma&szlig;stabsabh&auml;ngig zusammenfassen
+								Stationen maßstabsabhängig zusammenfassen
 							</Checkbox>
 
 							<br />

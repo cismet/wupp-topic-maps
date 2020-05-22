@@ -1,4 +1,3 @@
-import PropTypes from 'prop-types';
 import React from 'react';
 import GenericSecondaryInfoPanelSection from 'components/commons/GenericSecondaryInfoPanelSection';
 import { getLinkOrText } from 'utils/commonHelpers';

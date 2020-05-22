@@ -1,11 +1,9 @@
 import Icon from 'components/commons/Icon';
 import PropTypes from 'prop-types';
 import React from 'react';
-import { Accordion, Button, Modal, Panel, Table } from 'react-bootstrap';
+import { Button, Modal } from 'react-bootstrap';
 import CismetFooterAcks from 'components/commons/CismetFooterAcknowledgements';
 import GenericRVRStadtplanwerkMenuFooter from './GenericRVRStadtplanwerkMenuFooter';
-import IconLink from './IconLink';
-import { getConnectorImageUrl } from '../../utils/emobHelper';
 const Comp = ({
 	visible,
 	uiHeight,

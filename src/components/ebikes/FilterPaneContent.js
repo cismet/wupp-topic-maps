@@ -47,7 +47,7 @@ const Comp = ({ width, filter, setFilter, featureRenderingOption, pieChart }) =>
 											nur_online: false,
 											immer_offen: false,
 											gruener_strom: false,
-											ladebox: false
+											ladebox_zu: false
 										});
 									}}
 								>

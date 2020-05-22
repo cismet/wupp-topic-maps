@@ -396,7 +396,7 @@ export const getLinksForStation = (
 	}
 ) => {
 	let links = [];
-	let web, tel, email, primary, secondary, address, subject, contactSubject;
+	let web, tel, email, subject, contactSubject;
 	if (station.typ === 'Verleihstation') {
 		subject = 'Verleihstation';
 		contactSubject = 'Verleihstation';

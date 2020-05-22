@@ -76,7 +76,7 @@ export const triggerLightBoxForFeature = ({
 };
 
 export const getLinkOrText = (input) => {
-	if (input != undefined && input !== null) {
+	if (input !== undefined && input !== null) {
 		if (input.startsWith('https://') || input.startsWith('http://')) {
 			return (
 				<a href={input} target='_more'>

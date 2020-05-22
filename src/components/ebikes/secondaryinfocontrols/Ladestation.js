@@ -1,4 +1,3 @@
-import PropTypes from 'prop-types';
 import React from 'react';
 import GenericSecondaryInfo from 'components/commons/GenericSecondaryInfo';
 import MainSection from './Ladestation00MainSection';

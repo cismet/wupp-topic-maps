@@ -2,7 +2,6 @@ import Icon from 'components/commons/Icon';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { getColorForProperties, getLinksForStation } from '../../utils/ebikesHelper';
-import IconLink from '../commons/IconLink';
 import InfoBox from '../commons/InfoBox';
 
 /* eslint-disable jsx-a11y/anchor-is-valid */
@@ -33,7 +32,7 @@ const Info = ({
 	if (items && items.length === 0) {
 		return null;
 	}
-	let web, tel, email, primary, secondary, address, subject, contactSubject;
+	let primary, secondary, address;
 	if (currentFeature) {
 		address = (currentFeature.properties.strasse +
 			' ' +
@@ -41,13 +40,7 @@ const Info = ({
 		secondary = currentFeature.properties.zusatzinfo;
 		if (currentFeature.properties.typ === 'Verleihstation') {
 			header = 'Verleihstationen von E-Fahrrädern';
-			subject = 'Verleihstation';
-			contactSubject = 'Verleihstation';
 			primary = currentFeature.properties.standort;
-
-			web = currentFeature.properties.homepage;
-			tel = currentFeature.properties.telefon;
-			email = currentFeature.properties.email;
 		} else {
 			// typ==='Ladestation'
 			if (currentFeature.properties.online === false) {
@@ -55,12 +48,7 @@ const Info = ({
 			} else {
 				header = 'Ladestationen für E-Fahrräder (online) ';
 			}
-			subject = 'Ladestation';
-			contactSubject = 'Betreiber';
 			primary = currentFeature.properties.standort;
-			web = currentFeature.properties.betreiber.web;
-			tel = currentFeature.properties.betreiber.telefon;
-			email = currentFeature.properties.betreiber.email;
 		}
 		links = getLinksForStation(currentFeature.properties, {
 			zoomToFeature: () => {

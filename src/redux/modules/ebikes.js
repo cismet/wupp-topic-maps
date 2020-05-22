@@ -51,7 +51,7 @@ const filterFunctionFactory = (filter) => {
 			}
 
 			//Ladebox
-			if (keep === true && filter.ladebox === true) {
+			if (keep === true && filter.ladebox_zu === true) {
 				keep = obj.ladebox_zu;
 			}
 		}
@@ -74,7 +74,8 @@ const featureCollectionDuck = makePointFeatureCollectionWithIndexDuck(
 		nur_online: false,
 		immer_offen: false,
 		gruener_strom: false,
-		ladebox: false
+		ladebox: false,
+		ladebox_zu: false
 	}
 );
 const infoBoxStateDuck = makeInfoBoxStateDuck('ebikes', (state) => state.ebikes.infoBoxState);
@@ -98,7 +99,7 @@ const markerSizeStorageConfig = {
 const dataStateStorageConfig = {
 	key: 'ebikesData',
 	storage: localForage,
-	whitelist: [] //[ 'items', 'md5' ]
+	whitelist: [ 'items', 'md5' ]
 };
 const infoBoxStateStorageConfig = {
 	key: 'ebikesInfoBoxMinifiedState',

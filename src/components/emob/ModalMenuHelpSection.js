@@ -125,18 +125,18 @@ const HelpSection = ({ uiState, uiStateActions }) => {
 						<li>
 							<strong>Stadtplan (Tag | Nacht)</strong>: Kartendienst (WMS) des
 							Regionalverbandes Ruhr (RVR). Datengrundlage:{' '}
-							<strong>Stadtplanwerk 2.0 Beta</strong>. (Wöchentlich in einem
-							automatischen Prozess aktualisierte Zusammenführung des Straßennetzes
-							der OpenStreetMap mit Gebäuden und Flächennutzungen aus dem
-							Fachverfahren ALKIS des Liegenschaftskatasters.) © RVR und
-							Kooperationspartner (<a
+							<strong>Stadtplanwerk 2.0</strong>. Wöchentlich in einem automatischen
+							Prozess aktualisierte Zusammenführung des Straßennetzes der
+							OpenStreetMap mit Amtlichen Geobasisdaten des Landes NRW aus den
+							Fachverfahren ALKIS (Gebäude, Flächennutzungen) und ATKIS (Gewässer). ©
+							RVR und Kooperationspartner (<a
 								target='_legal'
-								href='https://creativecommons.org/licenses/by/4.0/legalcode.de'
+								href='https://www.govdata.de/dl-de/by-2-0'
 							>
-								CC BY 4.0
-							</a>). Lizenzen der Ausgangsprodukte: Land NRW (2018){' '}
-							<a target='_legal' href='http://www.govdata.de/dl-de/by-2-0'>
 								Datenlizenz Deutschland - Namensnennung - Version 2.0
+							</a>). Lizenzen der Ausgangsprodukte: Land NRW (2018){' '}
+							<a target='_legal' href='https://www.govdata.de/dl-de/zero-2-0'>
+								Datenlizenz Deutschland - Zero - Version 2.0
 							</a>{' '}
 							und OpenStreetMap contributors (<a
 								target='_legal'
@@ -160,9 +160,9 @@ const HelpSection = ({ uiState, uiStateActions }) => {
 							>
 								NB-GDIKOM C
 							</a>). (2) Kartendienste (WMS) des Regionalverbandes Ruhr (RVR).
-							Datengrundlagen: <strong>Stadtplanwerk 2.0 Beta</strong> und{' '}
-							<strong>Kartenschrift aus dem Stadtplanwerk 2.0 Beta</strong>. (Details
-							s. Hintergrundkarte Stadtplan).
+							Datengrundlagen: <strong>Stadtplanwerk 2.0</strong> und{' '}
+							<strong>Kartenschrift aus dem Stadtplanwerk 2.0</strong>. (Details s.
+							Hintergrundkarte Stadtplan).
 						</li>
 					</ul>
 

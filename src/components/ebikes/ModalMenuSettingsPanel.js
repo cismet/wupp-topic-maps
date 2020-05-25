@@ -72,7 +72,7 @@ const ModalMenuSettingsSection = ({
 								paddingleft: '10px'
 							}}
 						>
-							<b>Meine Ladestationen: </b> Verleih- und Ladestationen | Ökostrom
+							<b>Meine Stationen: </b> Verleih- und Ladestationen | Ökostrom
 						</td>
 					</tr>
 				</tbody>

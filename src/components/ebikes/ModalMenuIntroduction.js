@@ -14,7 +14,7 @@ const BaederModalMenuIntroduction = ({ uiStateActions }) => {
 				onClick={() => uiStateActions.setApplicationMenuActiveKey('filter')}
 			>
 				Filter
-			</Link>, um die in der Karte angezeigten Lade- oder Verleihstationen für E-Fahrräder auf
+			</Link>, um die in der Karte angezeigten Lade- und Verleihstationen für E-Fahrräder auf
 			die für Sie relevanten Stationen zu beschränken. Über{' '}
 			<Link
 				id='lnkSettings'
@@ -26,7 +26,7 @@ const BaederModalMenuIntroduction = ({ uiStateActions }) => {
 			>
 				Einstellungen
 			</Link>{' '}
-			können Sie die Darstellung der Hintergrundkarte und der Ladestationen an Ihre Vorlieben
+			können Sie die Darstellung der Hintergrundkarte und der Stationen an Ihre Vorlieben
 			anpassen. Wählen Sie{' '}
 			<Link
 				id='lnkHelp'

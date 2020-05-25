@@ -93,15 +93,15 @@ const Info = ({
 				: 'Stationen'} angezeigt`}
 			collapsedInfoBox={minified}
 			setCollapsedInfoBox={minify}
-			noCurrentFeatureTitle={<h5>Keine Ladestationen gefunden!</h5>}
+			noCurrentFeatureTitle={<h5>Keine Stationen gefunden!</h5>}
 			noCurrentFeatureContent={
 				<div style={{ marginRight: 9 }}>
 					<p>
-						Für mehr Ladestationen Ansicht mit <Icon name='minus-square' /> verkleinern
-						oder mit dem untenstehenden Link auf das komplette Stadtgebiet zoomen.
+						Für mehr Stationen Ansicht mit <Icon name='minus-square' /> verkleinern oder
+						mit dem untenstehenden Link auf das komplette Stadtgebiet zoomen.
 					</p>
 					<div align='center'>
-						<a onClick={fitAll}>{items.length} Ladestationen in Wuppertal</a>
+						<a onClick={fitAll}>{items.length} Stationen in Wuppertal</a>
 					</div>
 				</div>
 			}

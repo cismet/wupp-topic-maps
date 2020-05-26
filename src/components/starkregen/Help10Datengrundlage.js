@@ -1,5 +1,7 @@
 import React from 'react';
 import GenericModalMenuSection from 'components/commons/GenericModalMenuSection';
+import LicenseStadtplanTagNacht from 'components/commons/LicenseStadtplanTagNacht';
+
 /* eslint-disable jsx-a11y/anchor-is-valid */
 
 const Component = ({ uiState, uiStateActions, showModalMenu }) => {
@@ -105,32 +107,7 @@ const Component = ({ uiState, uiStateActions, showModalMenu }) => {
 							).
 						</li>
 
-						<li>
-							<strong>Stadtplan</strong>: Kartendienst (WMS) des Regionalverbandes
-							Ruhr (RVR). Datengrundlage: <strong>Stadtplanwerk 2.0 Beta</strong>.
-							(Wöchentlich in einem automatischen Prozess aktualisierte
-							Zusammenführung des Straßennetzes der OpenStreetMap mit Gebäuden und
-							Flächennutzungen aus dem Fachverfahren ALKIS des
-							Liegenschaftskatasters.) © RVR und Kooperationspartner (
-							<a
-								target='_more'
-								href='https://creativecommons.org/licenses/by/4.0/legalcode.de'
-							>
-								CC BY 4.0
-							</a>
-							). Lizenzen der Ausgangsprodukte: Land NRW (2018){' '}
-							<a target='_more' href='http://www.govdata.de/dl-de/by-2-0'>
-								Datenlizenz Deutschland - Namensnennung - Version 2.0
-							</a>{' '}
-							und OpenStreetMap contributors (
-							<a
-								target='_more'
-								href='http://www.opendatacommons.org/licenses/odbl/1.0/'
-							>
-								ODbL
-							</a>
-							).{' '}
-						</li>
+						<LicenseStadtplanTagNacht stylesDesc='' />
 					</ul>
 				</div>
 			}

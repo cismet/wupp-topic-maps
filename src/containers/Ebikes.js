@@ -208,7 +208,7 @@ export class Container_ extends React.Component {
 					ref={(comp) => {
 						this.topicMap = comp;
 					}}
-					initialLoadingText='Laden der Anlagen'
+					initialLoadingText='Laden der Stationen'
 					fullScreenControl
 					locatorControl
 					gazetteerSearchBox

@@ -7,6 +7,9 @@ import { Link } from 'react-scroll';
 import { getSymbolSVG, ladestationSVG, verleihstationSVG } from '../../utils/ebikesHelper';
 import MeinStandortHelpText from 'components/commons/GenericHelpTextForMyLocation';
 import GenericModalMenuSection from 'components/commons/GenericModalMenuSection';
+import LicenseStadtplanTagNacht from 'components/commons/LicenseStadtplanTagNacht';
+import LicenseLuftbildkarte from 'components/commons/LicenseLuftbildkarte';
+
 /* eslint-disable jsx-a11y/anchor-is-valid */
 
 const chargingOnlineSVG = getSymbolSVG(30, '#1EA342', 'pr', 'onlineSVGinHELP', ladestationSVG);
@@ -123,48 +126,8 @@ const HelpSection = ({ uiState, uiStateActions }) => {
 					</p>
 
 					<ul>
-						<li>
-							<strong>Stadtplan (Tag | Nacht)</strong>: Kartendienst (WMS) des
-							Regionalverbandes Ruhr (RVR). Datengrundlage:{' '}
-							<strong>Stadtplanwerk 2.0</strong>. Wöchentlich in einem automatischen
-							Prozess aktualisierte Zusammenführung des Straßennetzes der
-							OpenStreetMap mit Amtlichen Geobasisdaten des Landes NRW aus den
-							Fachverfahren ALKIS (Gebäude, Flächennutzungen) und ATKIS (Gewässer). ©
-							RVR und Kooperationspartner (<a
-								target='_legal'
-								href='https://www.govdata.de/dl-de/by-2-0'
-							>
-								Datenlizenz Deutschland - Namensnennung - Version 2.0
-							</a>). Lizenzen der Ausgangsprodukte: Land NRW (2018){' '}
-							<a target='_legal' href='https://www.govdata.de/dl-de/zero-2-0'>
-								Datenlizenz Deutschland - Zero - Version 2.0
-							</a>{' '}
-							und OpenStreetMap contributors (<a
-								target='_legal'
-								href='https://www.opendatacommons.org/licenses/odbl/1.0/'
-							>
-								ODbL
-							</a>).
-						</li>
-
-						<li>
-							<strong>Luftbildkarte</strong>: (1) Kartendienst (WMS) der Stadt
-							Wuppertal. Datengrundlage:{' '}
-							<strong>True Orthophoto aus Bildflug vom 19.04.2018</strong>,
-							hergestellt durch Aerowest GmbH/Dortmund, Bodenauflösung 10 cm. (True
-							Orthophoto: Aus Luftbildern mit hoher Längs- und Querüberdeckung in
-							einem automatisierten Bildverarbeitungsprozess berechnetes Bild in
-							Parallelprojektion, also ohne Gebäudeverkippung und sichttote Bereiche.)
-							© Stadt Wuppertal (<a
-								target='_legal'
-								href='https://www.wuppertal.de/geoportal/Nutzungsbedingungen/NB-GDIKOM-C_Geodaten.pdf'
-							>
-								NB-GDIKOM C
-							</a>). (2) Kartendienste (WMS) des Regionalverbandes Ruhr (RVR).
-							Datengrundlagen: <strong>Stadtplanwerk 2.0</strong> und{' '}
-							<strong>Kartenschrift aus dem Stadtplanwerk 2.0</strong>. (Details s.
-							Hintergrundkarte Stadtplan).
-						</li>
+						<LicenseStadtplanTagNacht />
+						<LicenseLuftbildkarte />
 					</ul>
 
 					<p>
@@ -206,12 +169,12 @@ const HelpSection = ({ uiState, uiStateActions }) => {
 						dauernder Maßnahmen nicht in Betrieb ("offline") {chargingOfflineSVG} sind.
 						Zur Darstellung der Verleihstationen verwenden wir das Symbol {rentingSVG}.
 						Die Farben der Symbole werden in der Titelzeile der Info-Box unten rechts
-						aufgegriffen. Zusätzlich wird dort der der Typ und der Betriebszustand der
-						Ladestation - Ladestation für E-Fahrräder (online) bzw. Ladestation für
-						E-Fahrräder (offline) bzw. Verleihstationen von E-Fahrrädern - wiederholt.
-						Räumlich nah beieinander liegende Anlagen werden standardmäßig
-						maßstabsabhängig zu größeren Kreis-Symbolen zusammengefasst, jeweils mit der
-						Anzahl der repräsentierten Anlagen im Zentrum{' '}
+						aufgegriffen. Zusätzlich wird dort der Typ (Ladestation für E-Fahrräder bzw.
+						Verleihstation von E-Fahrrädern) und bei den Ladestationen auch der
+						Betriebszustand (online oder offline) wiederholt. Räumlich nah beieinander
+						liegende Anlagen werden standardmäßig maßstabsabhängig zu größeren
+						Kreis-Symbolen zusammengefasst, jeweils mit der Anzahl der repräsentierten
+						Anlagen im Zentrum{' '}
 						<img alt='Cluster' width='32' src='images/ebikes_cluster.png' />. Vergrößern
 						Sie ein paar Mal durch direktes Anklicken eines solchen Punktes oder mit{' '}
 						<FontAwesomeIcon icon={faPlus} /> die Darstellung, so werden die
@@ -236,20 +199,20 @@ const HelpSection = ({ uiState, uiStateActions }) => {
 					<p>
 						Bewegen Sie den Mauszeiger im Kartenfenster auf eines der Symbole für die
 						Stationen, um sich den Namen der Station anzeigen zu lassen. Ein Klick auf
-						das Symbol setzt den Fokus auf diese Ladestation. Sie wird dann blau
-						hinterlegt und die zugehörigen Informationen (Name, ggf. Lagebeschreibung,
-						Adresse) werden in der Info-Box angezeigt. (Auf einem Tablet-PC wird der
-						Fokus durch das erste Antippen des Symbols gesetzt, das zweite Antippen
-						blendet den Namen ein.) Durch Anklicken des Symbols <Icon name='info' />{' '}
-						rechts neben dem Namen der Ladestation öffnen Sie das Datenblatt mit den
-						vollständigen Informationen zu dieser Station einschließlich einer
-						Verknüpfung zu eventuellen weiteren Informationen des Betreibers oder
-						Eigentümers. Mit dem Lupensymbol <Icon name='search' /> links daneben wird
-						die Karte auf die Station, die gerade den Fokus hat, zentriert und
-						gleichzeitig ein großer Betrachtungsmaßstab (Zoomstufe 14) eingestellt. Mit
-						den Symbolen <Icon name='phone' /> und <Icon name='external-link-square' />{' '}
-						rechts daneben können Sie den Betreiber oder Inhaber via Smartphone direkt
-						anrufen oder zu seiner Website wechseln.
+						das Symbol setzt den Fokus auf diese Station. Sie wird dann blau hinterlegt
+						und die zugehörigen Informationen (Name, ggf. Lagebeschreibung, Adresse)
+						werden in der Info-Box angezeigt. (Auf einem Tablet-PC wird der Fokus durch
+						das erste Antippen des Symbols gesetzt, das zweite Antippen blendet den
+						Namen ein.) Durch Anklicken des Symbols <Icon name='info' /> rechts neben
+						dem Namen der Station öffnen Sie das Datenblatt mit den vollständigen
+						Informationen zu dieser Station einschließlich einer Verknüpfung zu
+						eventuellen weiteren Informationen des Betreibers oder Eigentümers. Mit dem
+						Lupensymbol <Icon name='search' /> links daneben wird die Karte auf die
+						Station, die gerade den Fokus hat, zentriert und gleichzeitig ein großer
+						Betrachtungsmaßstab (Zoomstufe 14) eingestellt. Mit den Symbolen{' '}
+						<Icon name='phone' /> und <Icon name='external-link-square' /> rechts
+						daneben können Sie den Betreiber oder Inhaber via Smartphone direkt anrufen
+						oder zu seiner Website wechseln.
 					</p>
 					<p>
 						Wenn Sie noch keine Station im aktuellen Kartenausschnitt selektiert haben,
@@ -262,8 +225,8 @@ const HelpSection = ({ uiState, uiStateActions }) => {
 					<p>
 						Mit der Schaltfläche <Icon name='chevron-circle-down' /> im dunkelgrau
 						abgesetzten rechten Rand der Info-Box lässt sich diese so verkleinern, dass
-						nur noch der Betriebszustand und die Art der Station (Verleihstation oder
-						Ladestation online / offline), ihr Name und die Symbole{' '}
+						nur noch der Typ der Station und ggf. ihr Betriebszustand (Verleihstation
+						oder Ladestation online / offline), ihr Name und die Symbole{' '}
 						<Icon name='search-location' />, <Icon name='info' />, <Icon name='phone' />{' '}
 						und <Icon name='external-link-square' /> angezeigt werden - nützlich für
 						Endgeräte mit kleinem Display. Mit der Schaltfläche{' '}
@@ -357,7 +320,7 @@ const HelpSection = ({ uiState, uiStateActions }) => {
 
 					<p>
 						Im Bereich "<b>Filter</b>" können Sie im Anwendungsmenü <Icon name='bars' />{' '}
-						die in der Karte angezeigten Lade- oder Verleihstationen so ausdünnen, dass
+						die in der Karte angezeigten Lade- und Verleihstationen so ausdünnen, dass
 						nur die für Sie interessanten Stationen übrig bleiben. Standardmäßig sind
 						die Einstellungen hier so gesetzt, dass alle Stationen angezeigt werden.
 					</p>
@@ -374,15 +337,16 @@ const HelpSection = ({ uiState, uiStateActions }) => {
 							<i>Ökostrom</i>
 						</b>" und "<b>
 							<i>Ladebox vorhanden</i>
-						</b>" können Sie die Kartenanzeige auf Ladestationen beschränken (diese
-						Optionsgruppen sind nur Verfügbar, wenn überhaupt Ladestationen in der Karte
-						dargestellt werden), die aktuell verfügbar (online) sind, die durchgehend
-						(jeweils 24 Stunden an 7 Tagen die Woche) benutzbar sind, die ökologisch
-						erzeugten Strom bereitstellen oder bei denen eine abschließbare Ladebox
-						vorhanden ist. Mit der in jeder dieser Gruppen verfügbaren Option "alle
-						Ladestationen" wird das jeweilige Filterkriterium nicht ausgewertet. Alle
-						Filterkriterien werden mit einem logischen "und" kombiniert: Wenn Sie z. B.
-						unter "<b>
+						</b>" können Sie die Kartenanzeige auf Ladestationen beschränken, die
+						aktuell verfügbar (online) sind, die durchgehend (jeweils 24 Stunden an 7
+						Tagen die Woche) benutzbar sind, die ökologisch erzeugten Strom
+						bereitstellen oder bei denen eine abschließbare Ladebox vorhanden ist. Diese
+						Optionsgruppen werden deaktiviert, wenn die Kartenanzeige unter "<i>
+							<b>Typ</b>
+						</i>" auf "nur Verleihstationen" beschränkt wird. Mit der in jeder dieser
+						Gruppen verfügbaren Option "alle Ladestationen" wird das jeweilige
+						Filterkriterium nicht ausgewertet. Alle Filterkriterien werden mit einem
+						logischen "und" kombiniert: Wenn Sie z. B. unter "<b>
 							<i>Öffnungszeiten</i>
 						</b>" den Wert "24/7" wählen und unter "<b>
 							<i>Ökostrom</i>
@@ -396,9 +360,9 @@ const HelpSection = ({ uiState, uiStateActions }) => {
 						Filteroptionen finden, ausgewertet. Die Titelzeile zeigt die Gesamtanzahl
 						der Stationen, die den von Ihnen gesetzten Filterbedingungen entsprechen.
 						Das Donut-Diagramm zeigt zusätzlich die Verteilung auf die drei Kategorien
-						Verleihstationen, verfügbare Ladestationen (online) und nicht verfügbare
-						Ladestationen (offline). Bewegen Sie dazu den Mauszeiger auf eines der
-						farbigen Segmente des Diagramms.
+						Verleihstationen, Ladestationen (online) und Ladestationen (offline).
+						Bewegen Sie dazu den Mauszeiger auf eines der farbigen Segmente des
+						Diagramms.
 					</p>
 
 					<div id='anchorDivInHelp_settings' name='Einstellungen'>
@@ -425,8 +389,8 @@ const HelpSection = ({ uiState, uiStateActions }) => {
 						Unter "<b>
 							<i>Symbolgröße</i>
 						</b>" können Sie in Abhängigkeit von Ihrer Bildschirmauflösung und Ihrem
-						Sehvermögen auswählen, ob die Ladestationen mit kleinen (35 Pixel),
-						mittleren (45 Pixel) oder großen (55 Pixel) Symbolen angezeigt werden.
+						Sehvermögen auswählen, ob die Stationen mit kleinen (35 Pixel), mittleren
+						(45 Pixel) oder großen (55 Pixel) Symbolen angezeigt werden.
 					</p>
 
 					<p>

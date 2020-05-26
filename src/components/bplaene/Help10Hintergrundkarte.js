@@ -33,10 +33,10 @@ const Component = ({ uiState, uiStateActions, showModalMenu }) => {
 							OpenStreetMap mit Amtlichen Geobasisdaten des Landes NRW aus den
 							Fachverfahren ALKIS (Gebäude, Flächennutzungen) und ATKIS (Gewässer). ©
 							RVR und Kooperationspartner (<a
-								href='https://www.rvr.ruhr/?id=1002#c179626'
+								href='https://www.govdata.de/dl-de/by-2-0'
 								target='_license'
 							>
-								CC BY 4.0
+								Datenlizenz Deutschland - Namensnennung - Version 2.0
 							</a>). Lizenzen der Ausgangsprodukte:{' '}
 							<a href='https://www.govdata.de/dl-de/zero-2-0' target='_license'>
 								Datenlizenz Deutschland - Zero - Version 2.0

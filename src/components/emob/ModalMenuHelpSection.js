@@ -7,6 +7,8 @@ import { Link } from 'react-scroll';
 import { getSymbolSVG } from '../../utils/emobHelper';
 import MeinStandortHelpText from 'components/commons/GenericHelpTextForMyLocation';
 import GenericModalMenuSection from 'components/commons/GenericModalMenuSection';
+import LicenseStadtplanTagNacht from 'components/commons/LicenseStadtplanTagNacht';
+import LicenseLuftbildkarte from 'components/commons/LicenseLuftbildkarte';
 /* eslint-disable jsx-a11y/anchor-is-valid */
 
 const onlineSVG = getSymbolSVG(24, '#003B80', 'pr', 'onlineSVGinHELP');
@@ -122,48 +124,8 @@ const HelpSection = ({ uiState, uiStateActions }) => {
 					</p>
 
 					<ul>
-						<li>
-							<strong>Stadtplan (Tag | Nacht)</strong>: Kartendienst (WMS) des
-							Regionalverbandes Ruhr (RVR). Datengrundlage:{' '}
-							<strong>Stadtplanwerk 2.0</strong>. Wöchentlich in einem automatischen
-							Prozess aktualisierte Zusammenführung des Straßennetzes der
-							OpenStreetMap mit Amtlichen Geobasisdaten des Landes NRW aus den
-							Fachverfahren ALKIS (Gebäude, Flächennutzungen) und ATKIS (Gewässer). ©
-							RVR und Kooperationspartner (<a
-								target='_legal'
-								href='https://www.govdata.de/dl-de/by-2-0'
-							>
-								Datenlizenz Deutschland - Namensnennung - Version 2.0
-							</a>). Lizenzen der Ausgangsprodukte: Land NRW (2018){' '}
-							<a target='_legal' href='https://www.govdata.de/dl-de/zero-2-0'>
-								Datenlizenz Deutschland - Zero - Version 2.0
-							</a>{' '}
-							und OpenStreetMap contributors (<a
-								target='_legal'
-								href='https://www.opendatacommons.org/licenses/odbl/1.0/'
-							>
-								ODbL
-							</a>).
-						</li>
-
-						<li>
-							<strong>Luftbildkarte</strong>: (1) Kartendienst (WMS) der Stadt
-							Wuppertal. Datengrundlage:{' '}
-							<strong>True Orthophoto aus Bildflug vom 19.04.2018</strong>,
-							hergestellt durch Aerowest GmbH/Dortmund, Bodenauflösung 10 cm. (True
-							Orthophoto: Aus Luftbildern mit hoher Längs- und Querüberdeckung in
-							einem automatisierten Bildverarbeitungsprozess berechnetes Bild in
-							Parallelprojektion, also ohne Gebäudeverkippung und sichttote Bereiche.)
-							© Stadt Wuppertal (<a
-								target='_legal'
-								href='https://www.wuppertal.de/geoportal/Nutzungsbedingungen/NB-GDIKOM-C_Geodaten.pdf'
-							>
-								NB-GDIKOM C
-							</a>). (2) Kartendienste (WMS) des Regionalverbandes Ruhr (RVR).
-							Datengrundlagen: <strong>Stadtplanwerk 2.0</strong> und{' '}
-							<strong>Kartenschrift aus dem Stadtplanwerk 2.0</strong>. (Details s.
-							Hintergrundkarte Stadtplan).
-						</li>
+						<LicenseStadtplanTagNacht />
+						<LicenseLuftbildkarte />
 					</ul>
 
 					<p>
@@ -197,8 +159,8 @@ const HelpSection = ({ uiState, uiStateActions }) => {
 						("online") {onlineSVG} sind, und diejenigen, die wegen länger dauernder
 						Maßnahmen nicht in Betrieb ("offline") {offlineSVG} sind. Die Farben der
 						Symbole werden in der Titelzeile der Info-Box unten rechts aufgegriffen.
-						Zusätzlich wird dort der der Betriebszustand der Ladestation - Ladestation
-						für E-Autos (online) bzw. Ladestation für E-Autos (offline) - wiederholt.
+						Zusätzlich wird dort der Betriebszustand der Ladestation - Ladestation für
+						E-Autos (online) bzw. Ladestation für E-Autos (offline) - wiederholt.
 						Räumlich nah beieinander liegende Anlagen werden standardmäßig
 						maßstabsabhängig zu größeren Kreis-Symbolen zusammengefasst, jeweils mit der
 						Anzahl der repräsentierten Anlagen im Zentrum{' '}

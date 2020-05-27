@@ -124,7 +124,8 @@ const ModalMenuHelpSection = ({ uiState, uiStateActions }) => {
 					</p>
 
 					<ul>
-						[<LicenseStadtplanTagNacht />, <LicenseLuftbildkarte />]
+						<LicenseStadtplanTagNacht />
+						<LicenseLuftbildkarte />
 					</ul>
 
 					<p>

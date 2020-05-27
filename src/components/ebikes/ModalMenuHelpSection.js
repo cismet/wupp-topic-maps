@@ -343,14 +343,14 @@ const HelpSection = ({ uiState, uiStateActions }) => {
 						bereitstellen oder bei denen eine abschließbare Ladebox vorhanden ist. Diese
 						Optionsgruppen werden deaktiviert, wenn die Kartenanzeige unter "<i>
 							<b>Typ</b>
-						</i>" auf "nur Verleihstationen" beschränkt wird. Mit der in jeder dieser
-						Gruppen verfügbaren Option "alle Ladestationen" wird das jeweilige
-						Filterkriterium nicht ausgewertet. Alle Filterkriterien werden mit einem
-						logischen "und" kombiniert: Wenn Sie z. B. unter "<b>
+						</i>" auf "<i>nur Verleihstationen</i>" beschränkt wird. Mit der in jeder
+						dieser Gruppen verfügbaren Option "<i>alle Ladestationen</i>" wird das
+						jeweilige Filterkriterium nicht ausgewertet. Alle Filterkriterien werden mit
+						einem logischen "und" kombiniert: Wenn Sie z. B. unter "<b>
 							<i>Öffnungszeiten</i>
-						</b>" den Wert "24/7" wählen und unter "<b>
+						</b>" den Wert "<i>24/7</i>" wählen und unter "<b>
 							<i>Ökostrom</i>
-						</b>" den Wert "nur Ökostrom-Ladestationen", werden alle Stationen
+						</b>" den Wert "<i>nur Ökostrom-Ladestationen</i>", werden alle Stationen
 						angezeigt, die durchgehend erreichbar sind <b>und</b> ökologisch erzeugten
 						Strom bereitstellen.
 					</p>

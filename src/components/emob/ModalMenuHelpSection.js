@@ -326,8 +326,9 @@ const HelpSection = ({ uiState, uiStateActions }) => {
 						aktuell verfügbar (online) sind, die durchgehend (jeweils 24 Stunden an 7
 						Tagen die Woche) erreichbar sind, die ökologisch erzeugten Strom
 						bereitstellen oder bei denen es sich um Schnell-Ladestationen handelt. Mit
-						der in jeder dieser Gruppen verfügbaren Option "alle Ladestationen" wird das
-						jeweilige Filterkriterium nicht ausgewertet. In der Optionsgruppe "<b>
+						der in jeder dieser Gruppen verfügbaren Option "<i>alle Ladestationen</i>"
+						wird das jeweilige Filterkriterium nicht ausgewertet. In der Optionsgruppe "<b
+						>
 							<i>Steckertypen</i>
 						</b>" können Sie die für ihre Ladekabel passenden Steckertypen auswählen.
 						Damit grenzen Sie die Kartenanzeige auf diejenigen Stationen ein, die
@@ -335,9 +336,9 @@ const HelpSection = ({ uiState, uiStateActions }) => {
 						Filterkriterien werden mit einem logischen "und" kombiniert: Wenn Sie z. B.
 						unter "<b>
 							<i>Öffnungszeiten</i>
-						</b>" den Wert "24/7" wählen und unter "<b>
+						</b>" den Wert "<i>24/7</i>" wählen und unter "<b>
 							<i>Ökostrom</i>
-						</b>" den Wert "nur Ökostrom-Ladestationen", werden alle Stationen
+						</b>" den Wert "<i>nur Ökostrom-Ladestationen</i>", werden alle Stationen
 						angezeigt, die durchgehend erreichbar sind <b>und</b> ökologisch erzeugten
 						Strom bereitstellen.
 					</p>

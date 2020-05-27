@@ -16,7 +16,7 @@ const Comp = ({ stylesDesc = ' (Tag | Nacht)' }) => {
 			<a target='_legal' href='https://www.govdata.de/dl-de/zero-2-0'>
 				Datenlizenz Deutschland - Zero - Version 2.0
 			</a>{' '}
-			und{' '}
+			(Amtliche Geobasisdaten) und{' '}
 			<a target='_legal' href='https://www.opendatacommons.org/licenses/odbl/1.0/'>
 				ODbL
 			</a>{' '}

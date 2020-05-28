@@ -100,7 +100,17 @@ const initialState = {
 			backgroundColor: '#003E7A',
 			link: '/#/elektromobilitaet',
 			target: '_elektromobilitaet'
-		} // {   on: ["Sport"],   name: "Sporthallen",   bsStyle: "default",
+		},
+		{
+			on: [ 'Mobilität' ],
+			name: 'E-Fahrradkarte',
+			bsStyle: 'warning',
+			backgroundColor: '#326C88', //'#15A44C', //'#EC7529',
+			link: '/#ebikes',
+			target: '_ebikes'
+		}
+
+		// {   on: ["Sport"],   name: "Sporthallen",   bsStyle: "default",
 		// backgroundColor: null,   link: "/#/ehrenamt",   target: "_hallen" }
 	]
 };

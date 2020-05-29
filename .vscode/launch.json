@@ -98,6 +98,14 @@
             "name": "Debug FNP",
             "url": "http://localhost:3000/#/fnp/rechtsplan?lat=51.26456858928464&lng=7.180332354343092&zoom=8",
             "webRoot": "${workspaceRoot}"
+        },{
+            "type": "chrome",
+            "request": "launch",
+            "name": "Debug eBikes",
+            "url": " http://localhost:3000/#/ebikes",
+            "webRoot": "${workspaceRoot}"
         }
+
+        http://localhost:3000/#/ebikes
     ]
 }

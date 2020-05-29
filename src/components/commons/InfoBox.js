@@ -105,7 +105,7 @@ const InfoBox = ({
 										<tr>
 											<td style={{ textAlign: 'left' }}>
 												<h6>
-													{additionalInfo.split('\n').map((item, key) => {
+													{additionalInfo!==undefined && additionalInfo.split('\n').map((item, key) => {
 														return (
 															<span key={key}>
 																{item}

@@ -83,9 +83,9 @@ const Component = ({ uiState, uiStateActions, showModalMenu }) => {
 									Flächennutzungen) und ATKIS (Gewässer). © RVR und
 									Kooperationspartner (<a
 										target='ackmore'
-										href='https://www.rvr.ruhr/?id=1002#c179626'
+										href='https://www.govdata.de/dl-de/by-2-0'
 									>
-										CC BY 4.0
+										Datenlizenz Deutschland - Namensnennung - Version 2.0
 									</a>). Lizenzen der Ausgangsprodukte:{' '}
 									<a
 										target='ackmore'

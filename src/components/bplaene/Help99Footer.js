@@ -7,7 +7,7 @@ const Comp = ({ showModalMenu }) => {
 		<div>
 			<span style={{ fontSize: '11px' }}>
 				<div>
-					<strong>Hintergrundkarte</strong>: Stadtplanwerk 2.0 © RVR | Amtliche Basiskarte
+					<strong>Hintergrundkarte</strong>: Stadtkarte 2.0 © RVR | Amtliche Basiskarte
 					(ABK), B-Plan-Geltungsbereiche (
 					<a
 						target='ackmore'

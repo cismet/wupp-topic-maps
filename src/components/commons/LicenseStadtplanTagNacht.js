@@ -4,7 +4,7 @@ const Comp = ({ stylesDesc = ' (Tag | Nacht)' }) => {
 	return (
 		<li>
 			<strong>Stadtplan{stylesDesc}</strong>: Kartendienst (WMS) des Regionalverbandes Ruhr
-			(RVR). Datengrundlage: <strong>Stadtplanwerk 2.0</strong>. Wöchentlich in einem
+			(RVR). Datengrundlage: <strong>Stadtkarte 2.0</strong>. Wöchentlich in einem
 			automatischen Prozess aktualisierte Zusammenführung des Straßennetzes der OpenStreetMap
 			mit Amtlichen Geobasisdaten des Landes NRW aus den Fachverfahren ALKIS (Gebäude,
 			Flächennutzungen) und ATKIS (Gewässer). © RVR und Kooperationspartner (<a

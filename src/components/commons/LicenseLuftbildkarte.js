@@ -14,8 +14,8 @@ const Comp = () => {
 			>
 				NB-GDIKOM C
 			</a>). (2) Kartendienste (WMS) des Regionalverbandes Ruhr (RVR). Datengrundlagen:{' '}
-			<strong>Stadtplanwerk 2.0</strong> und{' '}
-			<strong>Kartenschrift aus dem Stadtplanwerk 2.0</strong>. (Details s. Hintergrundkarte
+			<strong>Stadtkarte 2.0</strong> und{' '}
+			<strong>Kartenschrift aus dem Stadtkarte 2.0</strong>. (Details s. Hintergrundkarte
 			Stadtplan).
 		</li>
 	);

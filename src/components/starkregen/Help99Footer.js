@@ -6,7 +6,7 @@ const Comp = ({ showModalMenu }) => {
 	return (
 		<div style={{ fontSize: '11px' }}>
 			<b>Hintergrundkarten</b>: True Orthophoto 2018, Amtliche Basiskarte (ABK), Hillshade ©
-			Stadt Wuppertal | Stadtplanwerk 2.0 © RVR | WebAtlasDE © BKG{' '}
+			Stadt Wuppertal | Stadtkarte 2.0 © RVR | WebAtlasDE © BKG{' '}
 			<a onClick={() => showModalMenu('datengrundlage')}>(Details und Nutzungsbedingungen)</a>
 			<br />
 			<b>Modellierung und Simulationsberechnung</b> (Version 1.0 | 12/2018):{' '}

@@ -76,7 +76,7 @@ const Component = ({ uiState, uiStateActions, showModalMenu }) => {
 								<p style={{ paddingRight: 50 }}>
 									<strong>Rechtsplan</strong>: (1) Stadtplan-Kartendienst (WMS)
 									des Regionalverbandes Ruhr (RVR). Datengrundlage:{' '}
-									<strong>Stadtplanwerk 2.0</strong>. Wöchentlich in einem
+									<strong>Stadtkarte 2.0</strong>. Wöchentlich in einem
 									automatischen Prozess aktualisierte Zusammenführung des
 									Straßennetzes der OpenStreetMap mit Amtlichen Geobasisdaten des
 									Landes NRW aus den Fachverfahren ALKIS (Gebäude,
@@ -122,7 +122,7 @@ const Component = ({ uiState, uiStateActions, showModalMenu }) => {
 								<p style={{ paddingRight: 50 }}>
 									<strong>Arbeitskarte</strong>: Stadtplan-Kartendienst (WMS) des
 									Regionalverbandes Ruhr (RVR). Datengrundlage:{' '}
-									<strong>Stadtplanwerk 2.0</strong> (wie im Rechtsplan).
+									<strong>Stadtkarte 2.0</strong> (wie im Rechtsplan).
 								</p>
 							</li>
 						</ul>

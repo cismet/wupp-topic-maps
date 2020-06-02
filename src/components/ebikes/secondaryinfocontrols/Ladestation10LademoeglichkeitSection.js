@@ -2,6 +2,8 @@ import React from 'react';
 import GenericSecondaryInfoPanelSection from 'components/commons/GenericSecondaryInfoPanelSection';
 
 const Comp = ({ station }) => {
+	console.log('station.stecker', station.stecker);
+
 	return (
 		<GenericSecondaryInfoPanelSection
 			header={
@@ -43,9 +45,8 @@ const Comp = ({ station }) => {
 									) : (
 										<span />
 									)}
-									{stecker.typ}, {stecker.leistung}kW, {stecker.strom}A,{' '}
-									{stecker.spannung}V{station.stecker.length > 1 &&
-									station.stecker.length - 1 === index ? (
+									{stecker.typ} ({stecker.leistung}kW, {stecker.strom}A,{' '}
+									{stecker.spannung}V){station.stecker.length - 1 === index ? (
 										<span />
 									) : (
 										<span>, </span>

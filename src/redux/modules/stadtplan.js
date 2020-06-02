@@ -103,7 +103,7 @@ const initialState = {
 		},
 		{
 			on: [ 'Mobilität' ],
-			name: 'E-Fahrradkarte',
+			name: 'E-Fahrrad-Karte',
 			bsStyle: 'warning',
 			backgroundColor: '#326C88', //'#15A44C', //'#EC7529',
 			link: '/#ebikes',

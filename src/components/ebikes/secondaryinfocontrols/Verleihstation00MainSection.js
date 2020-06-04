@@ -1,8 +1,6 @@
 import React from 'react';
 
 const Comp = ({ station }) => {
-	console.log('weitereinfo', station.weitereinfo);
-
 	return (
 		<div style={{ fontSize: '115%', padding: '10px', paddingTop: '0px' }}>
 			<div>

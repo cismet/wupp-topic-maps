@@ -2,8 +2,6 @@ import React from 'react';
 import GenericSecondaryInfoPanelSection from 'components/commons/GenericSecondaryInfoPanelSection';
 
 const Comp = ({ station }) => {
-	console.log('station.stecker', station.stecker);
-
 	return (
 		<GenericSecondaryInfoPanelSection
 			header={

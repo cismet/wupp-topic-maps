@@ -280,7 +280,7 @@ export class Starkregen_ extends React.Component {
 				<FeatureInfoModeBox
 					setFeatureInfoModeActivation={setFeatureInfoModeActivation}
 					featureInfoValue={this.props.starkregen.currentFeatureInfoValue}
-					showModalmenu={(section) => {
+					showModalMenu={(section) => {
 						this.props.uiStateActions.showApplicationMenuAndActivateSection(
 							true,
 							section

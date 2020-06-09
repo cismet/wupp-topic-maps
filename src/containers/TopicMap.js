@@ -23,7 +23,8 @@ import {
 import { actions as MappingActions } from '../redux/modules/mapping';
 import { actions as UIStateActions } from '../redux/modules/uiState';
 import { builtInGazetteerHitTrigger } from '../utils/gazetteerHelper';
-import { modifyQueryPart } from '../utils/routingHelper';
+import { modifyQueryPart, removeQueryPart } from '../utils/routingHelper';
+
 import PhotoLightbox from './PhotoLightbox';
 
 function mapStateToProps(state) {
@@ -85,7 +86,30 @@ export class TopicMap_ extends React.Component {
 				});
 		}
 	}
-
+	componentWillUpdate() {
+		let gazHitBase64 = new URLSearchParams(this.props.routing.location.search).get('gazHit');
+		if (gazHitBase64 !== undefined && gazHitBase64 !== null) {
+			try {
+				let gazHit = JSON.parse(window.atob(gazHitBase64));
+				let suppressMarker = true;
+				console.log('gazHit', gazHit);
+				builtInGazetteerHitTrigger(
+					[ gazHit ],
+					this.leafletRoutedMap.leafletMap.leafletElement,
+					this.props.mappingActions,
+					this.props.gazeteerHitTrigger,
+					suppressMarker
+				);
+			} catch (err) {
+				console.log('Error when injecting stuff.', err);
+			} finally {
+				this.props.routingActions.push(
+					this.props.routing.location.pathname +
+						removeQueryPart(this.props.routing.location.search, 'gazHit')
+				);
+			}
+		}
+	}
 	featureClick(event) {
 		if (event.target.feature) {
 			this.props.setSelectedFeatureIndex(event.target.feature.index);

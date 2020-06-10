@@ -17,6 +17,7 @@ import mappingReducer from './modules/mapping';
 import gazetteerTopicsReducer from './modules/gazetteerTopics';
 import uiStateReducer from './modules/uiState';
 import docsReducer from './modules/docs';
+import planOffenlegungenReducer from './modules/planoffenlegungen';
 
 import { persistReducer } from 'redux-persist';
 import localForage from 'localforage';
@@ -86,6 +87,7 @@ const appReducer = combineReducers({
 	mapping: mappingReducer,
 	uiState: persistReducer(uiStateStorageConfig, uiStateReducer),
 	routing: routerReducer,
+	planoffenlegungen: planOffenlegungenReducer,
 	gazetteerTopics: persistReducer(gazetteerTopicsStorageConfig, gazetteerTopicsReducer),
 	// gazetteerTopics: gazetteerTopicsReducer, // uncomment to skip persitent gazetteer data,
 	docs: docsReducer,

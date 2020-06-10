@@ -175,7 +175,9 @@ export function searchForAEVs({
 			if (finalResults.length > 0) {
 				mappingActions.setSelectedFeatureIndex(selectionIndexWish);
 				if (fitAll === true) {
-					mappingActions.fitAll();
+					setTimeout(() => {
+						mappingActions.fitAll();
+					}, 50);
 				}
 			}
 		}

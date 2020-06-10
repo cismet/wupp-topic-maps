@@ -19,7 +19,8 @@ const Comp = ({
 	preparedDownload,
 	resetPreparedDownload,
 	collapsed,
-	setCollapsed
+	setCollapsed,
+	inPlanoffenlegung = false
 }) => {
 	const currentFeature = featureCollection[selectedIndex];
 
@@ -30,7 +31,12 @@ const Comp = ({
 	let logCurrentFeature = function() {
 		//console.log(JSON.stringify(currentFeature));
 	};
-
+	let urlPrefix = '';
+	let target = '_docviewer';
+	if (inPlanoffenlegung === true) {
+		urlPrefix = 'https://wuppertal.planoffenlegung.de';
+		target = '_planoffenlegung';
+	}
 	let docOrDocs;
 	let mainDocOrDocs;
 	if (currentFeature.properties.docUrls.length > 0) {
@@ -85,7 +91,7 @@ const Comp = ({
 	bplArr.forEach((nr, index) => {
 		linkArr.push(
 			<span key={'bpl.' + index}>
-				<a href={`/#/docs/bplaene/${nr}/1`} target='_bplaene'>
+				<a href={urlPrefix + `/#/docs/bplaene/${nr}/1`} target={target}>
 					B-Plan {nr}
 				</a>
 				{index < bplArr.length - 1 ? ', ' : ''}
@@ -138,8 +144,10 @@ const Comp = ({
 							{hasMainDocument === true && (
 								<a
 									style={{ color: '#333' }}
-									href={`/#/docs/aenderungsv/${currentFeature.text}/1`}
-									target='_aenderungsv'
+									href={
+										urlPrefix + `/#/docs/aenderungsv/${currentFeature.text}/1`
+									}
+									target={target}
 								>
 									<h4
 										style={{

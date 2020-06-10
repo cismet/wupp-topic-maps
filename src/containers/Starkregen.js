@@ -7,7 +7,7 @@ import { WMSTileLayer } from 'react-leaflet';
 import { connect } from 'react-redux';
 import { routerActions as RoutingActions } from 'react-router-redux';
 import { bindActionCreators } from 'redux';
-import ContactButton from '../components/starkregen/ContactButton';
+import ContactButton from '../components/commons/ContactButton';
 import InfoBox from '../components/starkregen/ControlInfoBox';
 import FeatureInfoModeBox from '../components/starkregen/FeatureInfoModeBox';
 import FeatureInfoModeButton from '../components/starkregen/FeatureInfoModeButton';

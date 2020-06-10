@@ -15,6 +15,7 @@ import Experiments from './containers/Experiments';
 import Reset from './containers/Reset';
 import DocViewer from './containers/DocViewer';
 import FNP from './containers/FNP';
+import IFrameTest from './containers/IFrameTest';
 
 import Elektromobilitaet from './containers/Elektromobilitaet';
 import Ebikes from './containers/Ebikes';
@@ -113,6 +114,7 @@ export default class App extends React.Component {
 								path='/docs/:topic?/:docPackageId?/:file?/:page?'
 								component={DocViewer}
 							/>
+							<Route exact path='/iframetest/' component={IFrameTest} />
 							<Route component={NotFoundPage} />
 						</Switch>
 					</main>

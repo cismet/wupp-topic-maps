@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router';
+/* eslint-disable jsx-a11y/anchor-is-valid */
 
 // Since this component is simple and static, there's no parent container for it.
 const Comp = () => {
@@ -35,7 +35,9 @@ const Comp = () => {
 								href='https://wuppertal.planoffenlegung.de/#/docs/bplaene/1259/1/1'
 								target='_planoffenlegung'
 							>
-								📄
+								<span role='img' aria-label='Document'>
+									📄
+								</span>
 							</a>
 						</li>
 
@@ -53,7 +55,9 @@ const Comp = () => {
 								href='https://wuppertal.planoffenlegung.de/#/docs/bplaene/1241/1/1'
 								target='_planoffenlegung'
 							>
-								📄
+								<span role='img' aria-label='Document'>
+									📄
+								</span>
 							</a>
 						</li>
 					</ul>
@@ -94,7 +98,9 @@ const Comp = () => {
 								href='https://wuppertal.planoffenlegung.de/#/docs/aenderungsv/114/1/1'
 								target='_planoffenlegung'
 							>
-								📄
+								<span role='img' aria-label='Document'>
+									📄
+								</span>
 							</a>
 						</li>
 					</ul>

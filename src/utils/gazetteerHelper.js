@@ -4,7 +4,6 @@ import objectAssign from 'object-assign';
 import proj4 from 'proj4';
 import { proj4crs25832def } from '../constants/gis';
 import * as gisHelpers from './gisHelper';
-import { removeQueryPart } from '../utils/routingHelper';
 
 export const builtInGazetteerHitTrigger = (
 	hit,

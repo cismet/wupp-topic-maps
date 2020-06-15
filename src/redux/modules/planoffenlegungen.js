@@ -1,5 +1,3 @@
-import bboxPolygon from '@turf/bbox-polygon';
-import booleanDisjoint from '@turf/boolean-disjoint';
 import localForage from 'localforage';
 import { combineReducers } from 'redux';
 import { persistReducer } from 'redux-persist';

@@ -329,19 +329,26 @@ export class BPlaene_ extends React.Component {
 									'mailto:bauleitplaene@stadt.wuppertal.de?subject=Stellungnahme%20zu%20B-Plan%20' +
 									selectedFeature.properties.nummer +
 									'&body=' +
-									encodeURI(`Sehr geehrte Damen und Herren,${br}${br}` + ` `) +
-									// encodeURI(`auf${br}${br}`) +
-									// `${window.location.href
-									// 	.replace(/&/g, '%26')
-									// 	.replace(/#/g, '%23')}` +
 									encodeURI(
-										// 	`${br}` +
-										// 		`${br}` +
-										// 		`ist mir folgendes aufgefallen:${br}` +
-										`${br}${br}${br}${br}` +
+										`Sehr geehrte Damen und Herren,${br}${br}` +
+											`zum offenliegenden Bebauungsplan ${selectedFeature
+												.properties.nummer} äußere ich mich ` +
+											`als Privatperson | als Vertreter einer Firma oder Organisation [Nichtzutreffendes bitte löschen] ` +
+											`wie folgt:${br}` +
+											`${br}${br}` +
+											`[Tragen Sie hier bitte Ihre Stellungnahme ein.]${br}` +
+											`${br}${br}` +
 											`Mit freundlichen Grüßen${br}` +
-											`${br}` +
-											`${br}`
+											`${br}${br}${br}` +
+											`[Bitte überschreiben Sie den nachfolgenden Block mit Ihren Kontaktinformationen, damit wir Ihnen das Ergebnis der Prüfung Ihrer Stellungnahme mitteilen können:]` +
+											`${br}${br}` +
+											`Vor- und Nachname${br}` +
+											`ggf. Firma / Organisation${br}` +
+											`Straße und Hausnummer${br}` +
+											`Postleitzahl und Ort${br}` +
+											`E-Mail-Adresse${br}` +
+											`Telefonnummer${br}${br}` +
+											`!! Mit Absenden dieser E-Mail erkläre ich mein Einverständnis mit der zweckgebundenen Verarbeitung meiner personenbezogenen Daten gemäß der Information nach Artikel 13 bzw. Art. 14 Datenschutz-Grundverordnung (DS-GVO).`
 									);
 								document.body.appendChild(link);
 								//link.href = downloadOptions.url;

@@ -21,9 +21,12 @@ import { actions as AEVActions, getAEVFeatures } from '../redux/modules/fnp_aend
 import { actions as HNActions } from '../redux/modules/fnp_hauptnutzungen';
 import { actions as MappingActions } from '../redux/modules/mapping';
 import { actions as UIStateActions } from '../redux/modules/uiState';
+import { actions as PlanoffenlegungsActions } from '../redux/modules/planoffenlegungen';
+
 import { aevFeatureStyler, aevLabeler, hnFeatureStyler, hnLabeler } from '../utils/fnpHelper';
 import { removeQueryPart } from '../utils/routingHelper';
 import FNPModalHelp from 'components/fnp/help/Help00MainComponent';
+import ContactButton from '../components/commons/ContactButton';
 
 let reduxBackground = undefined;
 
@@ -36,7 +39,8 @@ function mapStateToProps(state) {
 		routing: state.routing,
 		aev: state.fnpAenderungsverfahren,
 		hn: state.fnpHauptnutzungen,
-		gazetteerTopics: state.gazetteerTopics
+		gazetteerTopics: state.gazetteerTopics,
+		planoffenlegungen: state.planoffenlegungen
 	};
 }
 
@@ -46,7 +50,8 @@ function mapDispatchToProps(dispatch) {
 		uiStateActions: bindActionCreators(UIStateActions, dispatch),
 		routingActions: bindActionCreators(RoutingActions, dispatch),
 		aevActions: bindActionCreators(AEVActions, dispatch),
-		hnActions: bindActionCreators(HNActions, dispatch)
+		hnActions: bindActionCreators(HNActions, dispatch),
+		planoffenlegungsActions: bindActionCreators(PlanoffenlegungsActions, dispatch)
 	};
 }
 
@@ -301,6 +306,29 @@ export class Container_ extends React.Component {
 		}
 
 		let info;
+		let inPlanoffenlegung = false;
+		let selectedFeature;
+
+		if (
+			this.props.mapping.featureCollection !== undefined &&
+			this.props.mapping.selectedIndex !== undefined &&
+			this.props.mapping.selectedIndex !== -1
+		) {
+			selectedFeature = this.props.mapping.featureCollection[
+				this.props.mapping.selectedIndex
+			];
+			console.log('selectedFeature', selectedFeature);
+
+			if (
+				selectedFeature !== undefined &&
+				this.props.planoffenlegungen.dataState.items.aenderungsv.includes(
+					selectedFeature.properties.name
+				) &&
+				selectedFeature.properties.status === 'n'
+			) {
+				inPlanoffenlegung = true;
+			}
+		}
 		if (
 			this.props.mapping.featureCollection.length > 0 &&
 			(aevVisible === true || this.isArbeitskarte() === true)
@@ -318,13 +346,10 @@ export class Container_ extends React.Component {
 						setCollapsed={(collapsed) => {
 							this.props.aevActions.setCollapsedInfoBox(collapsed);
 						}}
+						inPlanoffenlegung={inPlanoffenlegung}
 					/>
 				);
 			} else if (this.isArbeitskarte() === true) {
-				const selectedFeature = this.props.mapping.featureCollection[
-					this.props.mapping.selectedIndex || 0
-				];
-
 				if (selectedFeature.properties.os !== '9999') {
 					info = (
 						<HNInfo
@@ -467,7 +492,8 @@ export class Container_ extends React.Component {
 					}
 					dataLoader={[
 						this.props.aevActions.loadAEVs,
-						this.props.hnActions.loadHauptnutzungen
+						this.props.hnActions.loadHauptnutzungen,
+						this.props.planoffenlegungsActions.loadPlanoffenlegungen
 					]}
 					getFeatureCollectionForData={() => {
 						if (aevVisible === false && this.isRechtsplan()) {
@@ -530,6 +556,52 @@ export class Container_ extends React.Component {
 						}
 					}}
 				>
+					{inPlanoffenlegung === true && (
+						<ContactButton
+							id='329487'
+							key='dsjkhfg'
+							position='topleft'
+							title='Stellungnahme einreichen'
+							action={() => {
+								let link = document.createElement('a');
+								link.setAttribute('type', 'hidden');
+								const br = '\n';
+
+								let mailToHref =
+									'mailto:bauleitplaene@stadt.wuppertal.de?subject=Stellungnahme%20zur%20' +
+									selectedFeature.properties.name +
+									'. FNP-Änderung' +
+									'&body=' +
+									encodeURI(
+										`Sehr geehrte Damen und Herren,${br}${br}` +
+											`zur offenliegenden ${selectedFeature.properties
+												.name}. FNP-Änderung äußere ich mich ` +
+											`als Privatperson | als Vertreter einer Firma oder Organisation [Nichtzutreffendes bitte löschen] ` +
+											`wie folgt:${br}` +
+											`${br}${br}` +
+											`[Tragen Sie hier bitte Ihre Stellungnahme ein.]${br}` +
+											`${br}${br}` +
+											`Mit freundlichen Grüßen${br}` +
+											`${br}${br}${br}` +
+											`[Bitte überschreiben Sie den nachfolgenden Block mit Ihren Kontaktinformationen, damit wir Ihnen das Ergebnis der Prüfung Ihrer Stellungnahme mitteilen können:]` +
+											`${br}${br}` +
+											`Vor- und Nachname${br}` +
+											`ggf. Firma / Organisation${br}` +
+											`Straße und Hausnummer${br}` +
+											`Postleitzahl und Ort${br}` +
+											`E-Mail-Adresse${br}` +
+											`Telefonnummer${br}${br}` +
+											`!! Mit Absenden dieser E-Mail erkläre ich mein Einverständnis mit der zweckgebundenen Verarbeitung meiner personenbezogenen Daten gemäß der Information nach Artikel 13 bzw. Art. 14 Datenschutz-Grundverordnung (DS-GVO).`
+									);
+								document.body.appendChild(link);
+								//link.href = downloadOptions.url;
+								link.href = mailToHref;
+								//link.download = downloadOptions.file;
+								//link.target = "_blank";
+								link.click();
+							}}
+						/>
+					)}
 					{aevVisible === true &&
 						(this.isRechtsplan() && (
 							<FeatureCollectionDisplayWithTooltipLabels

@@ -15,12 +15,14 @@ import {
 } from '../redux/modules/gazetteerTopics';
 import { actions as mappingActions } from '../redux/modules/mapping';
 import { actions as uiStateActions } from '../redux/modules/uiState';
+import { actions as PlanoffenlegungsActions } from '../redux/modules/planoffenlegungen';
 import {
 	bplanFeatureStyler,
 	bplanLabeler,
 	getMarkerStyleFromFeatureConsideringSelection as bplanMarkerStyle
 } from '../utils/bplanHelper';
 import TopicMap from './TopicMap';
+import ContactButton from '../components/commons/ContactButton';
 
 function mapStateToProps(state) {
 	return {
@@ -28,7 +30,8 @@ function mapStateToProps(state) {
 		mapping: state.mapping,
 		routing: state.routing,
 		bplaene: state.bplaene,
-		allGazetteerTopics: state.gazetteerTopics
+		allGazetteerTopics: state.gazetteerTopics,
+		planoffenlegungen: state.planoffenlegungen
 	};
 }
 
@@ -37,7 +40,8 @@ function mapDispatchToProps(dispatch) {
 		bplanActions: bindActionCreators(bplanActions, dispatch),
 		mappingActions: bindActionCreators(mappingActions, dispatch),
 		uiStateActions: bindActionCreators(uiStateActions, dispatch),
-		gazetteerTopicsActions: bindActionCreators(gazetteerTopicsActions, dispatch)
+		gazetteerTopicsActions: bindActionCreators(gazetteerTopicsActions, dispatch),
+		planoffenlegungsActions: bindActionCreators(PlanoffenlegungsActions, dispatch)
 	};
 }
 
@@ -100,10 +104,31 @@ export class BPlaene_ extends React.Component {
 		this.props.mappingActions.fitAll();
 	}
 
+	isInPlanOffenlegung() {
+		let selectedFeature = this.props.mapping.featureCollection[
+			this.props.mapping.selectedIndex
+		];
+
+		return (
+			selectedFeature !== undefined &&
+			this.props.planoffenlegungen.dataState.items.bplaene.includes(
+				selectedFeature.properties.nummer
+			) &&
+			selectedFeature.properties.status === 'nicht rechtskräftig'
+		);
+	}
+
 	openDocViewer() {
 		const currentFeature = this.props.mapping.featureCollection[
 			this.props.mapping.selectedIndex
 		];
+		let urlPrefix = '';
+		let target = '_docviewer';
+
+		if (this.isInPlanOffenlegung() === true) {
+			urlPrefix = 'https://wuppertal.planoffenlegung.de';
+			target = '_planoffenlegung';
+		}
 		try {
 			let link = document.createElement('a');
 			document.body.appendChild(link);
@@ -119,9 +144,11 @@ export class BPlaene_ extends React.Component {
 					/*eslint-enable */
 				});
 				if (found) {
-					link.href = '/#/docs/bplaene/' + currentFeature.properties.nummer + '/1/1'; //keepLatLng';
+					link.href =
+						urlPrefix + '/#/docs/bplaene/' + currentFeature.properties.nummer + '/1/1'; //keepLatLng';
 				} else {
 					link.href =
+						urlPrefix +
 						'/#/docs/bplaene/' +
 						currentFeature.properties.nummer +
 						' (' +
@@ -130,7 +157,7 @@ export class BPlaene_ extends React.Component {
 				}
 			}
 
-			link.target = '_docviewer';
+			link.target = target;
 			link.click();
 		} catch (err) {
 			window.alert(err);
@@ -180,6 +207,20 @@ export class BPlaene_ extends React.Component {
 	}
 
 	render() {
+		let inPlanoffenlegung = false;
+		let selectedFeature;
+
+		if (
+			this.props.mapping.featureCollection !== undefined &&
+			this.props.mapping.selectedIndex !== undefined &&
+			this.props.mapping.selectedIndex !== -1
+		) {
+			selectedFeature = this.props.mapping.featureCollection[
+				this.props.mapping.selectedIndex
+			];
+
+			inPlanoffenlegung = this.isInPlanOffenlegung();
+		}
 		let info = null;
 		if (this.props.mapping.featureCollection.length > 0) {
 			info = (
@@ -199,6 +240,7 @@ export class BPlaene_ extends React.Component {
 					setCollapsed={(collapsed) => {
 						this.props.bplanActions.setCollapsedInfoBox(collapsed);
 					}}
+					inPlanoffenlegung={{ inPlanoffenlegung }}
 				/>
 			);
 		} else {
@@ -247,6 +289,7 @@ export class BPlaene_ extends React.Component {
 					gazetteerSearchBoxPlaceholdertext=' B-Plan-Nr. | Adresse | POI'
 					infoBox={info}
 					backgroundlayers={this.props.match.params.layers || 'uwBPlan|wupp-plan-live@20'}
+					dataLoader={[ this.props.planoffenlegungsActions.loadPlanoffenlegungen ]}
 					getFeatureCollectionForData={() => {
 						return this.props.mapping.featureCollection;
 					}}
@@ -270,7 +313,53 @@ export class BPlaene_ extends React.Component {
 					gazeteerHitTrigger={this.bplanGazeteerhHit}
 					searchButtonTrigger={this.bplanSearchButtonHit}
 					searchAfterGazetteer={true}
-				/>
+				>
+					{inPlanoffenlegung === true && (
+						<ContactButton
+							id='329487'
+							key='dsjkhfg'
+							position='topleft'
+							title='Stellungnahme einreichen'
+							action={() => {
+								let link = document.createElement('a');
+								link.setAttribute('type', 'hidden');
+								const br = '\n';
+
+								let mailToHref =
+									'mailto:bauleitplaene@stadt.wuppertal.de?subject=Stellungnahme%20zu%20B-Plan%20' +
+									selectedFeature.properties.nummer +
+									'&body=' +
+									encodeURI(
+										`Sehr geehrte Damen und Herren,${br}${br}` +
+											`zum offenliegenden Bebauungsplan ${selectedFeature
+												.properties.nummer} äußere ich mich ` +
+											`als Privatperson | als Vertreter einer Firma oder Organisation [Nichtzutreffendes bitte löschen] ` +
+											`wie folgt:${br}` +
+											`${br}${br}` +
+											`[Tragen Sie hier bitte Ihre Stellungnahme ein.]${br}` +
+											`${br}${br}` +
+											`Mit freundlichen Grüßen${br}` +
+											`${br}${br}${br}` +
+											`[Bitte überschreiben Sie den nachfolgenden Block mit Ihren Kontaktinformationen, damit wir Ihnen das Ergebnis der Prüfung Ihrer Stellungnahme mitteilen können:]` +
+											`${br}${br}` +
+											`Vor- und Nachname${br}` +
+											`ggf. Firma / Organisation${br}` +
+											`Straße und Hausnummer${br}` +
+											`Postleitzahl und Ort${br}` +
+											`E-Mail-Adresse${br}` +
+											`Telefonnummer${br}${br}` +
+											`!! Mit Absenden dieser E-Mail erkläre ich mein Einverständnis mit der zweckgebundenen Verarbeitung meiner personenbezogenen Daten gemäß der Information nach Artikel 13 bzw. Art. 14 Datenschutz-Grundverordnung (DS-GVO).`
+									);
+								document.body.appendChild(link);
+								//link.href = downloadOptions.url;
+								link.href = mailToHref;
+								//link.download = downloadOptions.file;
+								//link.target = "_blank";
+								link.click();
+							}}
+						/>
+					)}
+				</TopicMap>
 			</div>
 		);
 	}

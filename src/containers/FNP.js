@@ -317,8 +317,6 @@ export class Container_ extends React.Component {
 			selectedFeature = this.props.mapping.featureCollection[
 				this.props.mapping.selectedIndex
 			];
-			console.log('selectedFeature', selectedFeature);
-
 			if (
 				selectedFeature !== undefined &&
 				this.props.planoffenlegungen.dataState.items.aenderungsv.includes(

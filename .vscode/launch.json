@@ -9,6 +9,7 @@
 
 
 
+
     
         {
             "type": "chrome",
@@ -104,8 +105,15 @@
             "name": "Debug eBikes",
             "url": " http://localhost:3000/#/ebikes",
             "webRoot": "${workspaceRoot}"
+        },
+        {
+            "type": "chrome",
+            "request": "launch",
+            "name": "Debug iframetest",
+            "url": "http://localhost:3000/#/iframetest/",
+            "webRoot": "${workspaceRoot}"
         }
 
-        http://localhost:3000/#/ebikes
+        
     ]
 }

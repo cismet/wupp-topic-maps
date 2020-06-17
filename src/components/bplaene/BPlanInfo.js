@@ -31,7 +31,9 @@ const BPlanInfo = ({
 	let planOrPlanteile_rk;
 	let planOrPlanteile_nrk;
 	let dokumentArt = '';
-
+	if (currentFeature.featuretype !== 'B-Plan') {
+		return <div />;
+	}
 	if (
 		currentFeature.properties.plaene_rk.length + currentFeature.properties.plaene_nrk.length >
 		1

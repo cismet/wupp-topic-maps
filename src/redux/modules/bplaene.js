@@ -229,8 +229,11 @@ function convertPropArrayToFeature(propArray, counter) {
 	// console.log('plaene_rk', JSON.stringify(plaene_rk));
 	// console.log('plaene_nrk', JSON.stringify(plaene_nrk));
 	// console.log('docs', JSON.stringify(docs));
+	const featuretype = 'B-Plan';
+
 	return {
 		id: propArray[0] + '.' + counter,
+		featuretype,
 		type: 'Feature',
 		selected: false,
 		geometry: geom,

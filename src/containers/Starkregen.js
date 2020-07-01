@@ -17,6 +17,7 @@ import { actions as MappingActions } from '../redux/modules/mapping';
 import { actions as StarkregenActions } from '../redux/modules/starkregen';
 import { actions as UIStateActions } from '../redux/modules/uiState';
 import { modifyQueryPart } from '../utils/routingHelper';
+import VectorFieldAnimation from '../components/starkregen/VectorFieldAnimation';
 
 /* eslint-disable jsx-a11y/anchor-is-valid */
 
@@ -374,6 +375,7 @@ export class Starkregen_ extends React.Component {
 					caching={this.state.caching}
 				/>
 				{featureInfoLayer}
+				<VectorFieldAnimation />
 
 				<ContactButton
 					id='329487'

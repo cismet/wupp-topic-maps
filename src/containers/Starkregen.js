@@ -20,6 +20,8 @@ import { modifyQueryPart } from '../utils/routingHelper';
 import VectorFieldAnimation from '../components/starkregen/VectorFieldAnimation';
 
 /* eslint-disable jsx-a11y/anchor-is-valid */
+// const service="http://127.0.0.1:8881";
+const service = 'https://rasterfari.cismet.de';
 
 function mapStateToProps(state) {
 	return {
@@ -145,6 +147,8 @@ export class Starkregen_ extends React.Component {
 		return undefined;
 	}
 	render() {
+		let currentZoom = new URLSearchParams(this.props.routing.location.search).get('zoom') || 8;
+
 		let simulationLabels = [];
 		this.props.starkregen.simulations.forEach((item, index) => {
 			let bsStyle;
@@ -175,6 +179,19 @@ export class Starkregen_ extends React.Component {
 		}
 
 		const mapRef = this.getMapRef();
+		let url_u, url_v;
+		console.log('mapRef', mapRef);
+
+		if (mapRef !== undefined) {
+			const bounds = mapRef.getBounds();
+			url_u = `${service}/gdalProcessor?REQUEST=translate&SRS=EPSG:4326&BBOX=${bounds
+				._southWest.lng},${bounds._northEast.lat},${bounds._northEast.lng},${bounds
+				._southWest.lat}&LAYERS=docs/regen/u84.tif&FORMAT=text/raster.asc`;
+			url_v = `${service}/gdalProcessor?REQUEST=translate&SRS=EPSG:4326&BBOX=${bounds
+				._southWest.lng},${bounds._northEast.lat},${bounds._northEast.lng},${bounds
+				._southWest.lat}&LAYERS=docs/regen/v84.tif&FORMAT=text/raster.asc`;
+		}
+		console.log('url_u', url_u);
 
 		let info = (
 			<InfoBox
@@ -261,8 +278,6 @@ export class Starkregen_ extends React.Component {
 				this.props.starkregenActions.setCurrentFeatureInfoValue(undefined);
 				this.props.starkregenActions.setCurrentFeatureInfoPosition(undefined);
 			} else {
-				let currentZoom =
-					new URLSearchParams(this.props.routing.location.search).get('zoom') || 8;
 				if (currentZoom < 15) {
 					this.props.routingActions.push(
 						this.props.routing.location.pathname +
@@ -375,7 +390,16 @@ export class Starkregen_ extends React.Component {
 					caching={this.state.caching}
 				/>
 				{featureInfoLayer}
-				<VectorFieldAnimation />
+				{currentZoom >= 13 &&
+				url_u !== undefined &&
+				url_v !== undefined && (
+					<VectorFieldAnimation
+						key={'VFA:' + currentZoom}
+						url_u={url_u}
+						url_v={url_v}
+						zoomlevel={currentZoom}
+					/>
+				)}
 
 				<ContactButton
 					id='329487'

@@ -423,7 +423,15 @@ export class Starkregen_ extends React.Component {
 				{featureInfoLayer}
 				{currentZoom >= 13 && (
 					<VectorFieldAnimation
-						key={'VFA:' + currentZoom + JSON.stringify(currentBBox)}
+						key={
+							'VFA:' +
+							currentZoom +
+							JSON.stringify(currentBBox) +
+							JSON.stringify(
+								this.props.match.params.layers ||
+									this.props.starkregen.backgrounds[validBackgroundIndex].layerkey
+							)
+						}
 						bbox={currentBBox}
 						settings={vectorFieldAnimationSettings}
 					/>

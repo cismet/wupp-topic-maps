@@ -198,27 +198,30 @@ export class Starkregen_ extends React.Component {
 			// url_v = `${service}/gdalProcessor?REQUEST=translate&SRS=EPSG:4326&BBOX=${bounds
 			// 	._southWest.lng},${bounds._northEast.lat},${bounds._northEast.lng},${bounds
 			// 	._southWest.lat}&LAYERS=docs/regen/v84.tif&FORMAT=text/raster.asc`;
-			currentBBox = [
-				bounds._southWest.lng,
-				bounds._northEast.lat,
-				bounds._northEast.lng,
-				bounds._southWest.lat
-			];
-			const bboxpoly = bboxPolygon(currentBBox);
-			currentMapArea = area(bboxpoly);
-			console.log('currentMapArea', currentMapArea);
+			if (currentZoom >= 13) {
+				currentBBox = [
+					bounds._southWest.lng,
+					bounds._northEast.lat,
+					bounds._northEast.lng,
+					bounds._southWest.lat
+				];
+				const bboxpoly = bboxPolygon(currentBBox);
+				currentMapArea = area(bboxpoly);
+				console.log('currentMapArea', currentMapArea);
 
-			const paths = Math.sqrt(currentMapArea) * 8;
-			console.log('paths', paths);
-			vectorFieldAnimationSettings = {
-				paths, // settingsForZoom[currentZoom].paths, //-- default 800
-				fade: settingsForZoom[currentZoom].fade, // 0 to 1 -- default 0.96
-				velocityScale: settingsForZoom[currentZoom].velocityScale, // -- default 1/ 5000
-				maxAge: settingsForZoom[currentZoom].age, // number of maximum frames per path  -- default 200
-				width: 1.0, // number | function widthFor(value)  -- default 1.0
-				duration: 20, // milliseconds per 'frame'  -- default 20,
-				color: '#326C88' // html-color | function colorFor(value) [e.g. chromajs.scale]   -- default white
-			};
+				const paths = Math.sqrt(currentMapArea) * 8;
+				console.log('paths', paths);
+
+				vectorFieldAnimationSettings = {
+					paths, // settingsForZoom[currentZoom].paths, //-- default 800
+					fade: settingsForZoom[currentZoom].fade, // 0 to 1 -- default 0.96
+					velocityScale: settingsForZoom[currentZoom].velocityScale, // -- default 1/ 5000
+					maxAge: settingsForZoom[currentZoom].age, // number of maximum frames per path  -- default 200
+					width: 1.0, // number | function widthFor(value)  -- default 1.0
+					duration: 20, // milliseconds per 'frame'  -- default 20,
+					color: '#326C88' // html-color | function colorFor(value) [e.g. chromajs.scale]   -- default white
+				};
+			}
 		}
 
 		let info = (

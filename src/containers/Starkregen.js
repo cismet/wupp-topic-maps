@@ -18,7 +18,8 @@ import { actions as StarkregenActions } from '../redux/modules/starkregen';
 import { actions as UIStateActions } from '../redux/modules/uiState';
 import { modifyQueryPart } from '../utils/routingHelper';
 import VectorFieldAnimation from '../components/starkregen/VectorFieldAnimation';
-
+import bboxPolygon from '@turf/bbox-polygon';
+import area from '@turf/area';
 /* eslint-disable jsx-a11y/anchor-is-valid */
 // const service="http://127.0.0.1:8881";
 const service = 'https://rasterfari.cismet.de';
@@ -179,19 +180,46 @@ export class Starkregen_ extends React.Component {
 		}
 
 		const mapRef = this.getMapRef();
-		let url_u, url_v;
+		let url_u, url_v, vectorFieldAnimationSettings, currentBBox, currentMapArea;
 		console.log('mapRef', mapRef);
-
+		const settingsForZoom = {
+			13: { paths: 3000, velocityScale: 1 / 200, fade: 80 / 100, age: 50 },
+			14: { paths: 2560, velocityScale: 1 / 400, fade: 83 / 100, age: 80 },
+			15: { paths: 2120, velocityScale: 1 / 800, fade: 86 / 100, age: 110 },
+			16: { paths: 1680, velocityScale: 1 / 1600, fade: 89 / 100, age: 140 },
+			17: { paths: 1240, velocityScale: 1 / 3200, fade: 92 / 100, age: 170 },
+			18: { paths: 800, velocityScale: 1 / 4000, fade: 95 / 100, age: 200 }
+		};
 		if (mapRef !== undefined) {
 			const bounds = mapRef.getBounds();
-			url_u = `${service}/gdalProcessor?REQUEST=translate&SRS=EPSG:4326&BBOX=${bounds
-				._southWest.lng},${bounds._northEast.lat},${bounds._northEast.lng},${bounds
-				._southWest.lat}&LAYERS=docs/regen/u84.tif&FORMAT=text/raster.asc`;
-			url_v = `${service}/gdalProcessor?REQUEST=translate&SRS=EPSG:4326&BBOX=${bounds
-				._southWest.lng},${bounds._northEast.lat},${bounds._northEast.lng},${bounds
-				._southWest.lat}&LAYERS=docs/regen/v84.tif&FORMAT=text/raster.asc`;
+			// url_u = `${service}/gdalProcessor?REQUEST=translate&SRS=EPSG:4326&BBOX=${bounds
+			// 	._southWest.lng},${bounds._northEast.lat},${bounds._northEast.lng},${bounds
+			// 	._southWest.lat}&LAYERS=docs/regen/u84.tif&FORMAT=text/raster.asc`;
+			// url_v = `${service}/gdalProcessor?REQUEST=translate&SRS=EPSG:4326&BBOX=${bounds
+			// 	._southWest.lng},${bounds._northEast.lat},${bounds._northEast.lng},${bounds
+			// 	._southWest.lat}&LAYERS=docs/regen/v84.tif&FORMAT=text/raster.asc`;
+			currentBBox = [
+				bounds._southWest.lng,
+				bounds._northEast.lat,
+				bounds._northEast.lng,
+				bounds._southWest.lat
+			];
+			const bboxpoly = bboxPolygon(currentBBox);
+			currentMapArea = area(bboxpoly);
+			console.log('currentMapArea', currentMapArea);
+
+			const paths = Math.sqrt(currentMapArea) * 8;
+			console.log('paths', paths);
+			vectorFieldAnimationSettings = {
+				paths, // settingsForZoom[currentZoom].paths, //-- default 800
+				fade: settingsForZoom[currentZoom].fade, // 0 to 1 -- default 0.96
+				velocityScale: settingsForZoom[currentZoom].velocityScale, // -- default 1/ 5000
+				maxAge: settingsForZoom[currentZoom].age, // number of maximum frames per path  -- default 200
+				width: 1.0, // number | function widthFor(value)  -- default 1.0
+				duration: 20, // milliseconds per 'frame'  -- default 20,
+				color: '#326C88' // html-color | function colorFor(value) [e.g. chromajs.scale]   -- default white
+			};
 		}
-		console.log('url_u', url_u);
 
 		let info = (
 			<InfoBox
@@ -390,14 +418,11 @@ export class Starkregen_ extends React.Component {
 					caching={this.state.caching}
 				/>
 				{featureInfoLayer}
-				{currentZoom >= 13 &&
-				url_u !== undefined &&
-				url_v !== undefined && (
+				{currentZoom >= 13 && (
 					<VectorFieldAnimation
-						key={'VFA:' + currentZoom}
-						url_u={url_u}
-						url_v={url_v}
-						zoomlevel={currentZoom}
+						key={'VFA:' + currentZoom + JSON.stringify(currentBBox)}
+						bbox={currentBBox}
+						settings={vectorFieldAnimationSettings}
 					/>
 				)}
 

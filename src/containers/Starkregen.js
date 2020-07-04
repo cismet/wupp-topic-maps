@@ -426,7 +426,9 @@ export class Starkregen_ extends React.Component {
 						key={
 							'VFA:' +
 							currentZoom +
+							'.' +
 							// JSON.stringify(currentBBox) +
+							// '.' +
 							JSON.stringify(
 								this.props.match.params.layers ||
 									this.props.starkregen.backgrounds[validBackgroundIndex].layerkey

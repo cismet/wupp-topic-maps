@@ -63,6 +63,15 @@ class VectorFieldAnimation extends MapLayer {
 		});
 	}
 
+	componentWillUnmount() {
+		if (this.leafletElement) {
+			if (this.leafletElement.timer) {
+				this.leafletElement.timer.stop();
+			}
+		}
+		super.componentWillUnmount();
+	}
+
 	superComponentDidMount() {
 		super.componentDidMount();
 	}

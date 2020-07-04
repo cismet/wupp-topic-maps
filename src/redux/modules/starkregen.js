@@ -32,7 +32,7 @@ export const initialState = {
 	simulations: [
 		{
 			layer: 'R102:50md',
-			animation: '',
+			animation: 'S6_',
 			name: 'Stärke 6',
 			title: 'Starkregen SRI 6 (38,5 l/m² in 2h)',
 			icon: 'bar-chart',

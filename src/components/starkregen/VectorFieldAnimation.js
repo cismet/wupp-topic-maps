@@ -39,8 +39,10 @@ class VectorFieldAnimation extends MapLayer {
 
 		const bbox = this.props.bbox;
 		//BBOX=7.1954778,51.2743996,7.2046701,51.2703213
-		let url_u = `${service}/gdalProcessor?REQUEST=translate&SRS=EPSG:4326&BBOX=${bbox[0]},${bbox[1]},${bbox[2]},${bbox[3]}&LAYERS=docs/regen/u84.tif&FORMAT=text/raster.asc`;
-		let url_v = `${service}/gdalProcessor?REQUEST=translate&SRS=EPSG:4326&BBOX=${bbox[0]},${bbox[1]},${bbox[2]},${bbox[3]}&LAYERS=docs/regen/v84.tif&FORMAT=text/raster.asc`;
+		let url_u = `${service}/gdalProcessor?REQUEST=translate&SRS=EPSG:4326&BBOX=${bbox[0]},${bbox[1]},${bbox[2]},${bbox[3]}&LAYERS=docs/regen/${this
+			.props.layerPrefix}u84.tif&FORMAT=text/raster.asc`;
+		let url_v = `${service}/gdalProcessor?REQUEST=translate&SRS=EPSG:4326&BBOX=${bbox[0]},${bbox[1]},${bbox[2]},${bbox[3]}&LAYERS=docs/regen/${this
+			.props.layerPrefix}v84.tif&FORMAT=text/raster.asc`;
 
 		var urls = [ url_u, url_v ];
 		console.log('VFA: ', urls);
@@ -69,7 +71,11 @@ class VectorFieldAnimation extends MapLayer {
 				this.leafletElement.timer.stop();
 			}
 		}
-		super.componentWillUnmount();
+		try {
+			super.componentWillUnmount();
+		} catch (e) {
+			console.log('could be already unmounted');
+		}
 	}
 
 	superComponentDidMount() {
@@ -88,8 +94,10 @@ class VectorFieldAnimation extends MapLayer {
 			const bbox = getBBoxForBounds(bounds);
 
 			//BBOX=7.1954778,51.2743996,7.2046701,51.2703213
-			let url_u = `${service}/gdalProcessor?REQUEST=translate&SRS=EPSG:4326&BBOX=${bbox[0]},${bbox[1]},${bbox[2]},${bbox[3]}&LAYERS=docs/regen/u84.tif&FORMAT=text/raster.asc`;
-			let url_v = `${service}/gdalProcessor?REQUEST=translate&SRS=EPSG:4326&BBOX=${bbox[0]},${bbox[1]},${bbox[2]},${bbox[3]}&LAYERS=docs/regen/v84.tif&FORMAT=text/raster.asc`;
+			let url_u = `${service}/gdalProcessor?REQUEST=translate&SRS=EPSG:4326&BBOX=${bbox[0]},${bbox[1]},${bbox[2]},${bbox[3]}&LAYERS=docs/regen/${this
+				.props.layerPrefix}u84.tif&FORMAT=text/raster.asc`;
+			let url_v = `${service}/gdalProcessor?REQUEST=translate&SRS=EPSG:4326&BBOX=${bbox[0]},${bbox[1]},${bbox[2]},${bbox[3]}&LAYERS=docs/regen/${this
+				.props.layerPrefix}v84.tif&FORMAT=text/raster.asc`;
 
 			var urls = [ url_u, url_v ];
 			if (this.leafletElement.url_u === url_u && this.leafletElement.url_v === url_v) {

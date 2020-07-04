@@ -429,10 +429,17 @@ export class Starkregen_ extends React.Component {
 							'.' +
 							// JSON.stringify(currentBBox) +
 							// '.' +
+							this.props.starkregen.selectedSimulation +
+							'.' +
 							JSON.stringify(
 								this.props.match.params.layers ||
 									this.props.starkregen.backgrounds[validBackgroundIndex].layerkey
 							)
+						}
+						layerPrefix={
+							this.props.starkregen.simulations[
+								this.props.starkregen.selectedSimulation
+							].animation
 						}
 						bbox={currentBBox}
 						settings={vectorFieldAnimationSettings}

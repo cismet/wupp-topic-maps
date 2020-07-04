@@ -32,6 +32,7 @@ export const initialState = {
 	simulations: [
 		{
 			layer: 'R102:50md',
+			animation: '',
 			name: 'Stärke 6',
 			title: 'Starkregen SRI 6 (38,5 l/m² in 2h)',
 			icon: 'bar-chart',
@@ -40,6 +41,7 @@ export const initialState = {
 		},
 		{
 			layer: 'R102:100md',
+			animation: 'S7_',
 			name: 'Stärke 7',
 			icon: 'bar-chart',
 			title: 'Starkregen SRI 7 (42 l/m² in 2h)',
@@ -48,6 +50,7 @@ export const initialState = {
 		},
 		{
 			layer: 'R102:90md',
+			animation: 'S10_',
 			name: 'Stärke 10',
 			icon: 'bitbucket',
 			title: 'Starkregen SRI 10 (90 l/m² in 1h)',
@@ -56,6 +59,7 @@ export const initialState = {
 		},
 		{
 			layer: 'R102:SRmd',
+			animation: 'S29.05.2018_',
 			name: '29.05.18',
 			icon: 'calendar',
 			title: 'Regen vom 29.05.2018 (SRI 11)',

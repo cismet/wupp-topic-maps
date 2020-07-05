@@ -13,7 +13,8 @@ export const types = {
 	SET_FEATUREOINFO_VALUE: 'STARKREGEN/SET_FEATUREOINFO_VALUE',
 	SET_FEATUREOINFO_POSITION: 'STARKREGEN/SET_FEATUREOINFO_POSITION',
 	SET_FEATUREOINFO_SIMULATION: 'STARKREGEN/SET_FEATUREOINFO_SIMULATION',
-	SET_MODELLAYERPROBLEM_STATUS: 'STARKREGEN/SET_MODELLAYERPROBLEM_STATUS'
+	SET_MODELLAYERPROBLEM_STATUS: 'STARKREGEN/SET_MODELLAYERPROBLEM_STATUS',
+	SET_ANIMATION_ENABLED: 'STARKREGEN/SET_ANIMATION_ENABLED'
 };
 
 export const constants = {};
@@ -29,6 +30,7 @@ export const initialState = {
 	selectedSimulation: 0,
 	backgroundLayer: undefined,
 	selectedBackground: 0,
+	animationEnabled: true,
 	simulations: [
 		{
 			layer: 'R102:50md',
@@ -157,6 +159,11 @@ export default function starkregenReducer(state = initialState, action) {
 			newState.modelLayerProblem = action.modelLayerProblem;
 			return newState;
 		}
+		case types.SET_ANIMATION_ENABLED: {
+			newState = objectAssign({}, state);
+			newState.animationEnabled = action.animationEnabled;
+			return newState;
+		}
 		default:
 			return state;
 	}
@@ -189,6 +196,9 @@ function setCurrentFeaturSelectedSimulation(simulation) {
 }
 function setModelLayerProblemStatus(modelLayerProblem) {
 	return { type: types.SET_MODELLAYERPROBLEM_STATUS, modelLayerProblem };
+}
+function setAnimationEnabled(animationEnabled) {
+	return { type: types.SET_ANIMATION_ENABLED, animationEnabled };
 }
 //COMPLEXACTIONS
 
@@ -275,7 +285,8 @@ export const actions = {
 	setCurrentFeatureInfoValue,
 	setCurrentFeatureInfoPosition,
 	getFeatureInfo,
-	setModelLayerProblemStatus
+	setModelLayerProblemStatus,
+	setAnimationEnabled
 };
 
 //HELPER FUNCTIONS

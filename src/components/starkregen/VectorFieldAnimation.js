@@ -34,10 +34,10 @@ class VectorFieldAnimation extends MapLayer {
 	loadAndVis(didMount = false) {}
 
 	componentDidMount() {
-		// const bounds = this.context.map.getBounds();
-		// const bbox = getBBoxForBounds(bounds);
+		const bounds = this.context.map.getBounds();
+		const bbox = getBBoxForBounds(bounds);
 
-		const bbox = this.props.bbox;
+		// const bbox = this.props.bbox;
 		//BBOX=7.1954778,51.2743996,7.2046701,51.2703213
 		let url_u = `${service}/gdalProcessor?REQUEST=translate&SRS=EPSG:4326&BBOX=${bbox[0]},${bbox[1]},${bbox[2]},${bbox[3]}&LAYERS=docs/regen/${this
 			.props.layerPrefix}u84.tif&FORMAT=text/raster.asc`;

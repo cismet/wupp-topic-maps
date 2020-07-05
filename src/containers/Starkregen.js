@@ -18,12 +18,13 @@ import { actions as StarkregenActions } from '../redux/modules/starkregen';
 import { actions as UIStateActions } from '../redux/modules/uiState';
 import { modifyQueryPart } from '../utils/routingHelper';
 import VectorFieldAnimation from '../components/starkregen/VectorFieldAnimation';
+import AnimationModeButton from '../components/starkregen/AnimationModeButton';
 import bboxPolygon from '@turf/bbox-polygon';
 import area from '@turf/area';
 /* eslint-disable jsx-a11y/anchor-is-valid */
 // const service="http://127.0.0.1:8881";
-const service = 'https://rasterfari.cismet.de';
-
+const ANIMATION_RASTERFARI_SERVICE = 'https://rasterfari.cismet.de';
+const MIN_ANIMATION_ZOOM = 13;
 function mapStateToProps(state) {
 	return {
 		uiState: state.uiState,
@@ -182,6 +183,9 @@ export class Starkregen_ extends React.Component {
 		const mapRef = this.getMapRef();
 		let url_u, url_v, vectorFieldAnimationSettings, currentBBox, currentMapArea;
 		console.log('mapRef', mapRef);
+		if (mapRef !== undefined) {
+			console.log('mapRef.getZoom()', mapRef.getZoom());
+		}
 		const settingsForZoom = {
 			13: { paths: 3000, velocityScale: 1 / 200, fade: 80 / 100, age: 50 },
 			14: { paths: 2560, velocityScale: 1 / 400, fade: 83 / 100, age: 80 },
@@ -192,13 +196,8 @@ export class Starkregen_ extends React.Component {
 		};
 		if (mapRef !== undefined) {
 			const bounds = mapRef.getBounds();
-			// url_u = `${service}/gdalProcessor?REQUEST=translate&SRS=EPSG:4326&BBOX=${bounds
-			// 	._southWest.lng},${bounds._northEast.lat},${bounds._northEast.lng},${bounds
-			// 	._southWest.lat}&LAYERS=docs/regen/u84.tif&FORMAT=text/raster.asc`;
-			// url_v = `${service}/gdalProcessor?REQUEST=translate&SRS=EPSG:4326&BBOX=${bounds
-			// 	._southWest.lng},${bounds._northEast.lat},${bounds._northEast.lng},${bounds
-			// 	._southWest.lat}&LAYERS=docs/regen/v84.tif&FORMAT=text/raster.asc`;
-			if (currentZoom >= 13) {
+
+			if (currentZoom >= MIN_ANIMATION_ZOOM) {
 				currentBBox = [
 					bounds._southWest.lng,
 					bounds._northEast.lat,
@@ -224,9 +223,24 @@ export class Starkregen_ extends React.Component {
 			}
 		}
 
+		const setAnimationEnabled = (enabled) => {
+			if (currentZoom < MIN_ANIMATION_ZOOM) {
+				this.props.routingActions.push(
+					this.props.routing.location.pathname +
+						modifyQueryPart(this.props.routing.location.search, {
+							zoom: MIN_ANIMATION_ZOOM
+						})
+				);
+				setTimeout(() => {
+					this.props.starkregenActions.setAnimationEnabled(true);
+				}, 50);
+			} else {
+				this.props.starkregenActions.setAnimationEnabled(enabled);
+			}
+		};
 		let info = (
 			<InfoBox
-				pixelwidth={340}
+				pixelwidth={370}
 				selectedSimulation={selSim}
 				simulationLabels={simulationLabels}
 				backgrounds={this.props.starkregen.backgrounds}
@@ -244,6 +258,10 @@ export class Starkregen_ extends React.Component {
 				mapClickListener={this.getFeatureInfo}
 				mapRef={mapRef}
 				mapCursor={cursor}
+				animationEnabled={
+					this.props.starkregen.animationEnabled && currentZoom >= MIN_ANIMATION_ZOOM
+				}
+				setAnimationEnabled={setAnimationEnabled}
 			/>
 		);
 
@@ -421,11 +439,14 @@ export class Starkregen_ extends React.Component {
 					caching={this.state.caching}
 				/>
 				{featureInfoLayer}
-				{currentZoom >= 13 && (
+				{mapRef !== undefined &&
+				this.props.starkregen.animationEnabled === true &&
+				mapRef.getZoom() >= MIN_ANIMATION_ZOOM && ( //use mapRef.getZoom() to avoid rasie conditions due to animations
 					<VectorFieldAnimation
+						mapRef={mapRef}
 						key={
 							'VFA:' +
-							currentZoom +
+							mapRef.getZoom() +
 							'.' +
 							// JSON.stringify(currentBBox) +
 							// '.' +

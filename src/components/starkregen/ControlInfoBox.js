@@ -1,5 +1,7 @@
 import Icon from 'components/commons/Icon';
 import PropTypes from 'prop-types';
+import { Alert, Button, Label } from 'react-bootstrap';
+
 import React from 'react';
 import CollapsibleWell from '../commons/CollapsibleWell';
 import Legend from './Legend';
@@ -22,7 +24,9 @@ const InfoBox = ({
 	showModalMenu,
 	mapClickListener,
 	mapRef,
-	mapCursor
+	mapCursor,
+	animationEnabled,
+	setAnimationEnabled
 }) => {
 	const legend = <Legend legendObjects={legendObject} />;
 
@@ -92,6 +96,23 @@ const InfoBox = ({
 								}}
 							>
 								<b>Karte</b>
+							</h5>
+						</td>
+						<td
+							style={{
+								textAlign: 'center',
+								paddingLeft: '0px',
+								paddingTop: '0px',
+								paddingBottom: '5px'
+							}}
+						>
+							<h5
+								style={{
+									textAlign: 'center',
+									margin: '4px'
+								}}
+							>
+								<b>Animation</b>
 							</h5>
 						</td>
 					</tr>
@@ -169,6 +190,55 @@ const InfoBox = ({
 									</a>
 								);
 							})}
+						</td>
+						<td
+							style={{
+								textAlign: 'center',
+								verticalAlign: 'top',
+
+								paddingLeft: '0px',
+								paddingTop: '0px',
+								paddingBottom: '0px'
+							}}
+						>
+							<table
+								border={0}
+								style={{
+									width: '100%'
+								}}
+							>
+								<tbody>
+									<tr>
+										<td
+											style={{
+												textAlign: 'center',
+												verticalAlign: 'center'
+											}}
+										>
+											<a
+												style={{ textDecoration: 'none' }}
+												onClick={() => {
+													setAnimationEnabled(
+														!(animationEnabled === true)
+													);
+												}}
+											>
+												<Label
+													bsStyle={
+														animationEnabled === true ? (
+															'primary'
+														) : (
+															'default'
+														)
+													}
+												>
+													Geschwindigkeit
+												</Label>
+											</a>
+										</td>
+									</tr>
+								</tbody>
+							</table>
 						</td>
 					</tr>
 				</tbody>

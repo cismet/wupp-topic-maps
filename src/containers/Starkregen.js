@@ -18,7 +18,6 @@ import { actions as StarkregenActions } from '../redux/modules/starkregen';
 import { actions as UIStateActions } from '../redux/modules/uiState';
 import { modifyQueryPart } from '../utils/routingHelper';
 import VectorFieldAnimation from '../components/starkregen/VectorFieldAnimation';
-import AnimationModeButton from '../components/starkregen/AnimationModeButton';
 import bboxPolygon from '@turf/bbox-polygon';
 import area from '@turf/area';
 /* eslint-disable jsx-a11y/anchor-is-valid */

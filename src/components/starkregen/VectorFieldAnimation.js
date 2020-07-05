@@ -25,8 +25,13 @@ class VectorFieldAnimation extends MapLayer {
 		super(props, context);
 		window.d3 = d3;
 		this.context = context;
+
+		this.state = { isLoadingAnimationData: true };
 	}
 
+	setLoadingAnimationData(isLoadingAnimationData) {
+		//this.setState({ isLoadingAnimationData });
+	}
 	createLeafletElement() {
 		return null;
 	}
@@ -36,7 +41,6 @@ class VectorFieldAnimation extends MapLayer {
 	componentDidMount() {
 		const bounds = this.context.map.getBounds();
 		const bbox = getBBoxForBounds(bounds);
-
 		// const bbox = this.props.bbox;
 		//BBOX=7.1954778,51.2743996,7.2046701,51.2703213
 		let url_u = `${service}/gdalProcessor?REQUEST=translate&SRS=EPSG:4326&BBOX=${bbox[0]},${bbox[1]},${bbox[2]},${bbox[3]}&LAYERS=docs/regen/${this
@@ -47,8 +51,10 @@ class VectorFieldAnimation extends MapLayer {
 		var urls = [ url_u, url_v ];
 		console.log('VFA: ', urls);
 
+		this.setLoadingAnimationData(true);
 		var promises = urls.map((url) => fetch(url).then((r) => r.text()));
 		let that = this;
+
 		Promise.all(promises).then(function(arrays) {
 			console.log('VFA: urls fetched');
 
@@ -62,6 +68,7 @@ class VectorFieldAnimation extends MapLayer {
 			that.leafletElement = layer;
 			that.superComponentDidMount();
 			console.log('VFA: didMount done');
+			that.setLoadingAnimationData(false);
 		});
 	}
 
@@ -101,6 +108,7 @@ class VectorFieldAnimation extends MapLayer {
 					this.leafletElement.timer.stop();
 					console.log('VFA: stop timer');
 				}
+				this.setLoadingAnimationData(true);
 				//BBOX=7.1954778,51.2743996,7.2046701,51.2703213
 
 				let url_u = `${service}/gdalProcessor?REQUEST=translate&SRS=EPSG:4326&BBOX=${bbox[0]},${bbox[1]},${bbox[2]},${bbox[3]}&LAYERS=docs/regen/${this
@@ -139,6 +147,7 @@ class VectorFieldAnimation extends MapLayer {
 							that.leafletElement._field = vf;
 							//that.leafletElement = layer;
 							console.log('VFA: vectorfield updated');
+							that.setLoadingAnimationData(false);
 						});
 					});
 				}, 1);

@@ -14,13 +14,16 @@ export const types = {
 	SET_FEATUREOINFO_POSITION: 'STARKREGEN/SET_FEATUREOINFO_POSITION',
 	SET_FEATUREOINFO_SIMULATION: 'STARKREGEN/SET_FEATUREOINFO_SIMULATION',
 	SET_MODELLAYERPROBLEM_STATUS: 'STARKREGEN/SET_MODELLAYERPROBLEM_STATUS',
-	SET_ANIMATION_ENABLED: 'STARKREGEN/SET_ANIMATION_ENABLED'
+	SET_ANIMATION_ENABLED: 'STARKREGEN/SET_ANIMATION_ENABLED',
+	SET_LOADING_ANIMATION_DATA: 'STARKREGEN/SET_LOADING_ANIMATION_DATA',
+	SET_DISPLAY_MODE: 'STARKREGEN/SET_DISPLAY_MODE'
 };
 
-export const constants = {};
+export const constants = { SHOW_VELOCITY: 'SHOW_VELOCITY', SHOW_HEIGHTS: 'SHOW_HEIGHTS' };
 
 ///INITIAL STATE
 export const initialState = {
+	displayMode: constants.SHOW_HEIGHT,
 	modelLayerProblem: false,
 	featureInfoModeActivated: false,
 	currentFeatureInfoValue: undefined,
@@ -34,6 +37,8 @@ export const initialState = {
 	simulations: [
 		{
 			layer: 'R102:50md',
+			velocityLayer: 'R102:50md',
+			directionsLayer: 'R102:50md',
 			animation: 'S6_',
 			name: 'Stärke 6',
 			title: 'Starkregen SRI 6 (38,5 l/m² in 2h)',
@@ -43,6 +48,8 @@ export const initialState = {
 		},
 		{
 			layer: 'R102:100md',
+			velocityLayer: 'R102:100md',
+			directionsLayer: 'R102:100md',
 			animation: 'S7_',
 			name: 'Stärke 7',
 			icon: 'bar-chart',
@@ -52,6 +59,8 @@ export const initialState = {
 		},
 		{
 			layer: 'R102:90md',
+			velocityLayer: 'R102:90md',
+			directionsLayer: 'R102:90md',
 			animation: 'S10_',
 			name: 'Stärke 10',
 			icon: 'bitbucket',
@@ -61,6 +70,8 @@ export const initialState = {
 		},
 		{
 			layer: 'R102:SRmd',
+			velocityLayer: 'R102:SRmd',
+			directionsLayer: 'R102:SRmd',
 			animation: 'S29.05.2018_',
 			name: '29.05.18',
 			icon: 'calendar',
@@ -108,7 +119,8 @@ export const initialState = {
 		{ title: '> 30 cm', lt: 0.3, bg: '#FED27B' },
 		{ title: '> 50 cm', lt: 0.4, bg: '#E9B279' },
 		{ title: '> 100 cm', lt: 1.0, bg: '#DD8C7B' }
-	]
+	],
+	isLoadingAnimationData: false
 };
 ///REDUCER
 export default function starkregenReducer(state = initialState, action) {
@@ -164,6 +176,16 @@ export default function starkregenReducer(state = initialState, action) {
 			newState.animationEnabled = action.animationEnabled;
 			return newState;
 		}
+		case types.SET_LOADING_ANIMATION_DATA: {
+			newState = objectAssign({}, state);
+			newState.isLoadingAnimationData = action.isLoadingAnimationData;
+			return newState;
+		}
+		case types.SET_DISPLAY_MODE: {
+			newState = objectAssign({}, state);
+			newState.displayMode = action.displayMode;
+			return newState;
+		}
 		default:
 			return state;
 	}
@@ -199,6 +221,12 @@ function setModelLayerProblemStatus(modelLayerProblem) {
 }
 function setAnimationEnabled(animationEnabled) {
 	return { type: types.SET_ANIMATION_ENABLED, animationEnabled };
+}
+function setLoadingAnimationData(isLoadingAnimationData) {
+	return { type: types.SET_LOADING_ANIMATION_DATA, isLoadingAnimationData };
+}
+function setDisplayMode(displayMode) {
+	return { type: types.SET_DISPLAY_MODE, displayMode };
 }
 //COMPLEXACTIONS
 
@@ -286,7 +314,9 @@ export const actions = {
 	setCurrentFeatureInfoPosition,
 	getFeatureInfo,
 	setModelLayerProblemStatus,
-	setAnimationEnabled
+	setAnimationEnabled,
+	setLoadingAnimationData,
+	setDisplayMode
 };
 
 //HELPER FUNCTIONS

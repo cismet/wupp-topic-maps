@@ -2,6 +2,9 @@ import Icon from 'components/commons/Icon';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { Alert, Button, Label } from 'react-bootstrap';
+import Loadable from 'react-loading-overlay';
+import { faRandom } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { FeatureCollectionDisplay } from 'react-cismap';
 import { WMSTileLayer } from 'react-leaflet';
 import { connect } from 'react-redux';
@@ -14,16 +17,22 @@ import FeatureInfoModeButton from '../components/starkregen/FeatureInfoModeButto
 import HelpAndInfo from '../components/starkregen/Help00MainComponent';
 import TopicMap from '../containers/TopicMap';
 import { actions as MappingActions } from '../redux/modules/mapping';
-import { actions as StarkregenActions } from '../redux/modules/starkregen';
+import {
+	actions as StarkregenActions,
+	constants as starkregenConstants
+} from '../redux/modules/starkregen';
 import { actions as UIStateActions } from '../redux/modules/uiState';
 import { modifyQueryPart } from '../utils/routingHelper';
 import VectorFieldAnimation from '../components/starkregen/VectorFieldAnimation';
 import bboxPolygon from '@turf/bbox-polygon';
 import area from '@turf/area';
+
 /* eslint-disable jsx-a11y/anchor-is-valid */
 // const service="http://127.0.0.1:8881";
 const ANIMATION_RASTERFARI_SERVICE = 'https://rasterfari.cismet.de';
 const MIN_ANIMATION_ZOOM = 13;
+const switchIcon = faRandom;
+
 function mapStateToProps(state) {
 	return {
 		uiState: state.uiState,
@@ -62,6 +71,24 @@ export class Starkregen_ extends React.Component {
 	}
 
 	componentDidUpdate() {
+		if (
+			this.props.match.params.mode !== 'hoehen' &&
+			this.props.match.params.mode !== 'fliessgeschwindigkeiten'
+		) {
+			this.props.routingActions.push(
+				'/starkregen/hoehen' + this.props.routing.location.search
+			);
+			this.props.starkregenActions.setDisplayMode(starkregenConstants.SHOW_HEIGHTS);
+		} else if (this.props.match.params.mode === 'fliessgeschwindigkeiten') {
+			if (this.props.starkregen.displayMode !== starkregenConstants.SHOW_VELOCITY) {
+				this.props.starkregenActions.setDisplayMode(starkregenConstants.SHOW_VELOCITY);
+			}
+		} else {
+			if (this.props.starkregen.displayMode !== starkregenConstants.SHOW_HEIGHTS) {
+				this.props.starkregenActions.setDisplayMode(starkregenConstants.SHOW_HEIGHTS);
+			}
+		}
+
 		this.setSimulationStateFromUrl();
 		this.setBackgroundStateFromUrl();
 		const that = this;
@@ -149,7 +176,71 @@ export class Starkregen_ extends React.Component {
 	}
 	render() {
 		let currentZoom = new URLSearchParams(this.props.routing.location.search).get('zoom') || 8;
+		let titleContent;
+		if (this.props.starkregen.displayMode === starkregenConstants.SHOW_HEIGHTS) {
+			titleContent = (
+				<div>
+					<b>Starkregengefahrenkarte: </b> maximale Wasserstände<div
+						style={{ float: 'right', paddingRight: 10 }}
+					>
+						<a
+							href={
+								'/#/starkregen/fliessgeschwindigkeiten' +
+								this.props.routing.location.search
+							}
+						>
+							<FontAwesomeIcon icon={switchIcon} style={{ marginRight: 5 }} />zu den
+							Fließgeschwindigkeiten
+						</a>
+					</div>
+				</div>
+			);
+		} else {
+			titleContent = (
+				<div>
+					<b>Starkregengefahrenkarte: </b> Fließgeschwindigkeiten<div
+						style={{ float: 'right', paddingRight: 10 }}
+					>
+						<a href={'/#/starkregen/hoehen' + this.props.routing.location.search}>
+							<FontAwesomeIcon icon={switchIcon} style={{ marginRight: 5 }} />zu den
+							maximalen Wasserstädnen
+						</a>
+					</div>
+				</div>
+			);
+		}
 
+		let title = null;
+		let width = this.props.uiState.width;
+		title = (
+			<table
+				style={{
+					width: this.props.uiState.width - 54 - 12 - 38 - 12 + 'px',
+					height: '30px',
+					position: 'absolute',
+					left: 54,
+					top: 12,
+					zIndex: 555
+				}}
+			>
+				<tbody>
+					<tr>
+						<td
+							style={{
+								textAlign: 'center',
+								verticalAlign: 'middle',
+								background: '#ffffff',
+								color: 'black',
+								opacity: '0.9',
+								paddingLeft: '10px'
+							}}
+						>
+							{titleContent}
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		);
 		let simulationLabels = [];
 		this.props.starkregen.simulations.forEach((item, index) => {
 			let bsStyle;
@@ -362,200 +453,217 @@ export class Starkregen_ extends React.Component {
 		}
 
 		return (
-			<TopicMap
-				key={'topicmap with background no' + this.backgroundIndex}
-				ref={(comp) => {
-					this.topicMap = comp;
-				}}
-				noInitialLoadingText={true}
-				fullScreenControl
-				locatorControl
-				gazetteerSearchBox
-				gazetteerTopicsList={[
-					'geps',
-					'geps_reverse',
-					'pois',
-					'kitas',
-					'quartiere',
-					'bezirke',
-					'adressen'
-				]}
-				gazetteerSearchBoxPlaceholdertext='Stadtteil | Adresse | POI | GEP'
-				photoLightBox
-				infoBox={info}
-				secondaryInfoBoxElements={secondaryInfoBoxElements}
-				backgroundlayers={
-					this.props.match.params.layers ||
-					this.props.starkregen.backgrounds[validBackgroundIndex].layerkey
-				}
-				onclick={this.getFeatureInfo}
-				applicationMenuTooltipString='Kompaktanleitung | Hintergrundinfo'
-				applicationMenuIconname='info'
-				modalMenu={
-					<HelpAndInfo
-						uiState={this.props.uiState}
-						uiStateActions={this.props.uiStateActions}
-					/>
-				}
-				cursor={cursor}
-				mappingBoundsChanged={(bbox) => {
-					if (this.props.starkregen.currentFeatureInfoPosition) {
-						const x = this.props.starkregen.currentFeatureInfoPosition[0];
-						const y = this.props.starkregen.currentFeatureInfoPosition[1];
-						const bb = bbox;
-						if (x < bb.left || x > bb.right || y < bb.bottom || y > bb.top) {
-							this.props.starkregenActions.setCurrentFeatureInfoValue(undefined);
-							this.props.starkregenActions.setCurrentFeatureInfoPosition(undefined);
+			<div>
+				{title}
+
+				<TopicMap
+					key={'topicmap with background no' + this.backgroundIndex}
+					ref={(comp) => {
+						this.topicMap = comp;
+					}}
+					noInitialLoadingText={true}
+					fullScreenControl
+					locatorControl
+					gazetteerSearchBox
+					gazetteerTopicsList={[
+						'geps',
+						'geps_reverse',
+						'pois',
+						'kitas',
+						'quartiere',
+						'bezirke',
+						'adressen'
+					]}
+					gazetteerSearchBoxPlaceholdertext='Stadtteil | Adresse | POI | GEP'
+					photoLightBox
+					infoBox={info}
+					secondaryInfoBoxElements={secondaryInfoBoxElements}
+					backgroundlayers={
+						// this.props.match.params.layers ||
+						this.props.starkregen.backgrounds[validBackgroundIndex].layerkey
+					}
+					onclick={this.getFeatureInfo}
+					applicationMenuTooltipString='Kompaktanleitung | Hintergrundinfo'
+					applicationMenuIconname='info'
+					modalMenu={
+						<HelpAndInfo
+							uiState={this.props.uiState}
+							uiStateActions={this.props.uiStateActions}
+						/>
+					}
+					cursor={cursor}
+					mappingBoundsChanged={(bbox) => {
+						if (this.props.starkregen.currentFeatureInfoPosition) {
+							const x = this.props.starkregen.currentFeatureInfoPosition[0];
+							const y = this.props.starkregen.currentFeatureInfoPosition[1];
+							const bb = bbox;
+							if (x < bb.left || x > bb.right || y < bb.bottom || y > bb.top) {
+								this.props.starkregenActions.setCurrentFeatureInfoValue(undefined);
+								this.props.starkregenActions.setCurrentFeatureInfoPosition(
+									undefined
+								);
+							}
 						}
-					}
-				}}
-				home={{
-					center: [ 51.27243990281796, 7.199752226846924 ],
-					zoom: 13
-				}}
-			>
-				<WMSTileLayer
-					ref={(c) => (this.modelLayer = c)}
-					key={
-						'rainHazardMap.bgMap' +
-						this.props.starkregen.selectedBackground +
-						'.' +
-						this.props.match.params.layers
-					}
-					url='https://maps.wuppertal.de/deegree/wms'
-					//url="https://wunda-geoportal-cache.cismet.de/geoportal"
-					layers={
-						this.props.starkregen.simulations[this.props.starkregen.selectedSimulation]
-							.layer
-					}
-					version='1.1.1'
-					transparent='true'
-					format='image/png'
-					tiled='true'
-					styles='default'
-					maxZoom={19}
-					opacity={1}
-					caching={this.state.caching}
-				/>
-				{featureInfoLayer}
-				{mapRef !== undefined &&
-				this.props.starkregen.animationEnabled === true &&
-				mapRef.getZoom() >= MIN_ANIMATION_ZOOM && ( //use mapRef.getZoom() to avoid rasie conditions due to animations
-					<VectorFieldAnimation
-						mapRef={mapRef}
+					}}
+					home={{
+						center: [ 51.27243990281796, 7.199752226846924 ],
+						zoom: 13
+					}}
+				>
+					<WMSTileLayer
+						ref={(c) => (this.modelLayer = c)}
 						key={
-							'VFA:' +
-							mapRef.getZoom() +
-							'.' +
-							// JSON.stringify(currentBBox) +
-							// '.' +
-							this.props.starkregen.selectedSimulation +
-							'.' +
-							JSON.stringify(
-								this.props.match.params.layers ||
-									this.props.starkregen.backgrounds[validBackgroundIndex].layerkey
-							) +
-							'.' +
-							this.props.uiState.applicationMenuVisible +
-							'.' +
-							this.props.starkregen.minifiedInfoBox +
-							'.' +
-							this.props.starkregen.featureInfoModeActivated +
-							'.' +
-							this.props.starkregen.currentFeatureInfoPosition +
-							'.' +
-							this.props.mapping.gazetteerHit +
-							'.' +
-							this.props.mapping.overlayFeature
+							'rainHazardMap.bgMap' + this.props.starkregen.selectedBackground + '.'
+							// +
+							// this.props.match.params.layers
 						}
-						layerPrefix={
+						url='https://maps.wuppertal.de/deegree/wms'
+						//url="https://wunda-geoportal-cache.cismet.de/geoportal"
+						layers={
 							this.props.starkregen.simulations[
 								this.props.starkregen.selectedSimulation
-							].animation
+							].layer
 						}
-						bbox={currentBBox}
-						settings={vectorFieldAnimationSettings}
+						version='1.1.1'
+						transparent='true'
+						format='image/png'
+						tiled='true'
+						styles='default'
+						maxZoom={19}
+						opacity={1}
+						caching={this.state.caching}
 					/>
-				)}
+					{featureInfoLayer}
+					{mapRef !== undefined &&
+					this.props.starkregen.animationEnabled === true &&
+					mapRef.getZoom() >= MIN_ANIMATION_ZOOM && ( //use mapRef.getZoom() to avoid rasie conditions due to animations
+						<VectorFieldAnimation
+							key={
+								'VFA:' +
+								mapRef.getZoom() +
+								'.' +
+								// JSON.stringify(currentBBox) +
+								// '.' +
+								this.props.starkregen.selectedSimulation +
+								'.' +
+								JSON.stringify(
+									// this.props.match.params.layers ||
+									this.props.starkregen.backgrounds[validBackgroundIndex].layerkey
+								) +
+								'.' +
+								this.props.uiState.applicationMenuVisible +
+								'.' +
+								this.props.starkregen.minifiedInfoBox +
+								'.' +
+								this.props.starkregen.featureInfoModeActivated +
+								'.' +
+								this.props.starkregen.currentFeatureInfoPosition +
+								'.' +
+								this.props.mapping.gazetteerHit +
+								'.' +
+								this.props.mapping.overlayFeature +
+								'.' +
+								this.props.starkregen.displayMode
+							}
+							layerPrefix={
+								this.props.starkregen.simulations[
+									this.props.starkregen.selectedSimulation
+								].animation
+							}
+							bbox={currentBBox}
+							settings={vectorFieldAnimationSettings}
+						/>
+					)}
 
-				<ContactButton
-					id='329487'
-					key='dsjkhfg'
-					position='topleft'
-					title='Fehler im Geländemodell melden'
-					action={() => {
-						let link = document.createElement('a');
-						link.setAttribute('type', 'hidden');
-						const br = '\n';
+					<ContactButton
+						id='329487'
+						key='dsjkhfg'
+						position='topleft'
+						title='Fehler im Geländemodell melden'
+						action={() => {
+							let link = document.createElement('a');
+							link.setAttribute('type', 'hidden');
+							const br = '\n';
 
-						let mailToHref =
-							'mailto:starkregen@stadt.wuppertal.de?subject=eventueller Fehler im Geländemodell&body=' +
-							encodeURI(
-								`Sehr geehrte Damen und Herren,${br}${br}` +
-									`in der Starkregengefahrenkarte `
-							) +
-							encodeURI(`auf${br}${br}`) +
-							`${window.location.href.replace(/&/g, '%26').replace(/#/g, '%23')}` +
-							encodeURI(
-								`${br}` +
+							let mailToHref =
+								'mailto:starkregen@stadt.wuppertal.de?subject=eventueller Fehler im Geländemodell&body=' +
+								encodeURI(
+									`Sehr geehrte Damen und Herren,${br}${br}` +
+										`in der Starkregengefahrenkarte `
+								) +
+								encodeURI(`auf${br}${br}`) +
+								`${window.location.href
+									.replace(/&/g, '%26')
+									.replace(/#/g, '%23')}` +
+								encodeURI(
 									`${br}` +
-									`ist mir folgendes aufgefallen:${br}` +
-									`${br}${br}${br}${br}` +
-									`Mit freundlichen Grüßen${br}` +
-									`${br}` +
-									`${br}`
-							);
-						document.body.appendChild(link);
-						//link.href = downloadOptions.url;
-						link.href = mailToHref;
-						//link.download = downloadOptions.file;
-						//link.target = "_blank";
-						link.click();
-					}}
-				/>
+										`${br}` +
+										`ist mir folgendes aufgefallen:${br}` +
+										`${br}${br}${br}${br}` +
+										`Mit freundlichen Grüßen${br}` +
+										`${br}` +
+										`${br}`
+								);
+							document.body.appendChild(link);
+							//link.href = downloadOptions.url;
+							link.href = mailToHref;
+							//link.download = downloadOptions.file;
+							//link.target = "_blank";
+							link.click();
+						}}
+					/>
 
-				{this.props.starkregen.modelLayerProblem && (
-					<Alert
-						style={{
-							position: 'absolute',
-							zIndex: 1000,
-							top_alt: '10px',
-							top: '30%',
-							left: '15%',
-							width: '70%',
-							textAlignment: 'center'
-						}}
-						bsStyle='danger'
-						onDismiss={() => {
-							this.setState({
-								caching: this.state.caching + 1
-							});
-						}}
-					>
-						<h5>
-							<Icon name='exclamation-circle' /> Es liegt eine Störung vor. Momentan
-							können leider keine Modellinformationen angezeigt werden. Bitte
-							versuchen Sie es später noch einmal.
-						</h5>
-						<div style={{ textAlign: 'right' }}>
-							<Button
-								bsSize='xsmall'
-								style={{ opacity: 0.5 }}
-								onClick={() => {
-									this.setState({
-										caching: this.state.caching + 1
-									});
-								}}
-							>
-								Erneut versuchen
-							</Button>
-						</div>
-					</Alert>
-				)}
-			</TopicMap>
+					{this.props.starkregen.modelLayerProblem && (
+						<Alert
+							style={{
+								position: 'absolute',
+								zIndex: 1000,
+								top_alt: '10px',
+								top: '30%',
+								left: '15%',
+								width: '70%',
+								textAlignment: 'center'
+							}}
+							bsStyle='danger'
+							onDismiss={() => {
+								this.setState({
+									caching: this.state.caching + 1
+								});
+							}}
+						>
+							<h5>
+								<Icon name='exclamation-circle' /> Es liegt eine Störung vor.
+								Momentan können leider keine Modellinformationen angezeigt werden.
+								Bitte versuchen Sie es später noch einmal.
+							</h5>
+							<div style={{ textAlign: 'right' }}>
+								<Button
+									bsSize='xsmall'
+									style={{ opacity: 0.5 }}
+									onClick={() => {
+										this.setState({
+											caching: this.state.caching + 1
+										});
+									}}
+								>
+									Erneut versuchen
+								</Button>
+							</div>
+						</Alert>
+					)}
+				</TopicMap>
+			</div>
 		);
 	}
 }
+
+/*
+// <Loadable
+			// 	style={{ position: 'relative', zIndex: 9 }}
+			// 	active={this.props.starkregen.isLoadingAnimationData}
+			// 	spinner
+			// 	text={'Animationsdaten werden geladen ...'}
+			// >*/
 
 const Starkregen = connect(mapStateToProps, mapDispatchToProps, null, { withRef: true })(
 	Starkregen_

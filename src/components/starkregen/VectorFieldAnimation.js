@@ -61,48 +61,55 @@ class VectorFieldAnimation extends MapLayer {
 
 			that.leafletElement = layer;
 			that.superComponentDidMount();
-			console.log('xxx done');
+			console.log('VFA: didMount done');
 		});
 	}
 
 	componentWillUnmount() {
-		if (this.leafletElement) {
-			if (this.leafletElement.timer) {
-				this.leafletElement.timer.stop();
-			}
-		}
+		// if (this.leafletElement) {
+		// 	if (this.leafletElement.timer) {
+		// 		this.leafletElement.timer.stop();
+		// 	}
+		// }
 		try {
 			super.componentWillUnmount();
 		} catch (e) {
-			console.log('could be already unmounted');
+			console.log('VFA: error in super.componentWillUnmount. could be already unmounted', e);
 		}
 	}
 
 	superComponentDidMount() {
-		super.componentDidMount();
+		try {
+			super.componentDidMount();
+		} catch (e) {
+			console.log('VFA: error in super.componentDidMount. could be already unmounted', e);
+		}
 	}
 
 	componentDidUpdate(prevProps, newProps) {
 		if (this.leafletElement) {
 			if (this.leafletElement.timer) {
 				this.leafletElement.timer.stop();
+				console.log('VFA: stop timer');
 			}
-			//this.context.map.removeLayer(this.leafletElement);
-			//this.componentDidMount();
-
 			const bounds = this.context.map.getBounds();
 			const bbox = getBBoxForBounds(bounds);
-
-			//BBOX=7.1954778,51.2743996,7.2046701,51.2703213
-			let url_u = `${service}/gdalProcessor?REQUEST=translate&SRS=EPSG:4326&BBOX=${bbox[0]},${bbox[1]},${bbox[2]},${bbox[3]}&LAYERS=docs/regen/${this
-				.props.layerPrefix}u84.tif&FORMAT=text/raster.asc`;
-			let url_v = `${service}/gdalProcessor?REQUEST=translate&SRS=EPSG:4326&BBOX=${bbox[0]},${bbox[1]},${bbox[2]},${bbox[3]}&LAYERS=docs/regen/${this
-				.props.layerPrefix}v84.tif&FORMAT=text/raster.asc`;
-
-			var urls = [ url_u, url_v ];
-			if (this.leafletElement.url_u === url_u && this.leafletElement.url_v === url_v) {
+			if (this.leafletElement.bbox === JSON.stringify(bbox)) {
 				console.log('VFA: same shit: do nothing');
 			} else {
+				if (this.leafletElement.timer) {
+					this.leafletElement.timer.stop();
+					console.log('VFA: stop timer');
+				}
+				//BBOX=7.1954778,51.2743996,7.2046701,51.2703213
+
+				let url_u = `${service}/gdalProcessor?REQUEST=translate&SRS=EPSG:4326&BBOX=${bbox[0]},${bbox[1]},${bbox[2]},${bbox[3]}&LAYERS=docs/regen/${this
+					.props.layerPrefix}u84.tif&FORMAT=text/raster.asc`;
+				let url_v = `${service}/gdalProcessor?REQUEST=translate&SRS=EPSG:4326&BBOX=${bbox[0]},${bbox[1]},${bbox[2]},${bbox[3]}&LAYERS=docs/regen/${this
+					.props.layerPrefix}v84.tif&FORMAT=text/raster.asc`;
+
+				var urls = [ url_u, url_v ];
+
 				console.log('VFA: different urls: fetch again');
 
 				var promises = urls.map((url) => fetch(url).then((r) => r.text()));
@@ -124,6 +131,7 @@ class VectorFieldAnimation extends MapLayer {
 							// 	scaleFactor
 							// );
 							console.log('VFA: after vectorfield creation', vf);
+
 							var range = vf.range;
 							var scale = chroma.scale('OrRd').domain(range);
 
@@ -134,6 +142,8 @@ class VectorFieldAnimation extends MapLayer {
 						});
 					});
 				}, 1);
+
+				this.leafletElement.bbox = JSON.stringify(bbox);
 			}
 		}
 	}

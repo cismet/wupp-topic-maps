@@ -434,7 +434,19 @@ export class Starkregen_ extends React.Component {
 							JSON.stringify(
 								this.props.match.params.layers ||
 									this.props.starkregen.backgrounds[validBackgroundIndex].layerkey
-							)
+							) +
+							'.' +
+							this.props.uiState.applicationMenuVisible +
+							'.' +
+							this.props.starkregen.minifiedInfoBox +
+							'.' +
+							this.props.starkregen.featureInfoModeActivated +
+							'.' +
+							this.props.starkregen.currentFeatureInfoPosition +
+							'.' +
+							this.props.mapping.gazetteerHit +
+							'.' +
+							this.props.mapping.overlayFeature
 						}
 						layerPrefix={
 							this.props.starkregen.simulations[

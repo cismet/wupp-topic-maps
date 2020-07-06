@@ -79,13 +79,16 @@ export class Starkregen_ extends React.Component {
 				'/starkregen/hoehen' + this.props.routing.location.search
 			);
 			this.props.starkregenActions.setDisplayMode(starkregenConstants.SHOW_HEIGHTS);
+			return;
 		} else if (this.props.match.params.mode === 'fliessgeschwindigkeiten') {
 			if (this.props.starkregen.displayMode !== starkregenConstants.SHOW_VELOCITY) {
 				this.props.starkregenActions.setDisplayMode(starkregenConstants.SHOW_VELOCITY);
+				return;
 			}
 		} else {
 			if (this.props.starkregen.displayMode !== starkregenConstants.SHOW_HEIGHTS) {
 				this.props.starkregenActions.setDisplayMode(starkregenConstants.SHOW_HEIGHTS);
+				return;
 			}
 		}
 
@@ -175,6 +178,12 @@ export class Starkregen_ extends React.Component {
 		return undefined;
 	}
 	render() {
+		console.log('bughunt: this.props.match.params.mode', this.props.match.params.mode);
+		console.log(
+			'bughunt: this.props.starkregen.displayMode',
+			this.props.starkregen.displayMode
+		);
+
 		let currentZoom = new URLSearchParams(this.props.routing.location.search).get('zoom') || 8;
 		let titleContent;
 		if (this.props.starkregen.displayMode === starkregenConstants.SHOW_HEIGHTS) {
@@ -535,6 +544,7 @@ export class Starkregen_ extends React.Component {
 					/>
 					{featureInfoLayer}
 					{mapRef !== undefined &&
+					this.props.starkregen.displayMode !== undefined &&
 					this.props.starkregen.animationEnabled === true &&
 					mapRef.getZoom() >= MIN_ANIMATION_ZOOM && ( //use mapRef.getZoom() to avoid rasie conditions due to animations
 						<VectorFieldAnimation

@@ -516,29 +516,85 @@ export class Starkregen_ extends React.Component {
 						zoom: 13
 					}}
 				>
-					<WMSTileLayer
-						ref={(c) => (this.modelLayer = c)}
-						key={
-							'rainHazardMap.bgMap' + this.props.starkregen.selectedBackground + '.'
-							// +
-							// this.props.match.params.layers
-						}
-						url='https://maps.wuppertal.de/deegree/wms'
-						//url="https://wunda-geoportal-cache.cismet.de/geoportal"
-						layers={
-							this.props.starkregen.simulations[
-								this.props.starkregen.selectedSimulation
-							].layer
-						}
-						version='1.1.1'
-						transparent='true'
-						format='image/png'
-						tiled='true'
-						styles='default'
-						maxZoom={19}
-						opacity={1}
-						caching={this.state.caching}
-					/>
+					{this.props.starkregen.displayMode === starkregenConstants.SHOW_HEIGHTS && (
+						<WMSTileLayer
+							ref={(c) => (this.modelLayer = c)}
+							key={
+								'rainHazardMap.bgMap' +
+								this.props.starkregen.selectedBackground +
+								'.'
+								// +
+								// this.props.match.params.layers
+							}
+							url='https://maps.wuppertal.de/deegree/wms'
+							//url="https://wunda-geoportal-cache.cismet.de/geoportal"
+							layers={
+								this.props.starkregen.simulations[
+									this.props.starkregen.selectedSimulation
+								].layer
+							}
+							version='1.1.1'
+							transparent='true'
+							format='image/png'
+							tiled='true'
+							styles='default'
+							maxZoom={19}
+							opacity={1}
+							caching={this.state.caching}
+						/>
+					)}
+					{this.props.starkregen.displayMode === starkregenConstants.SHOW_VELOCITY && [
+						<WMSTileLayer
+							ref={(c) => (this.modelLayer = c)}
+							key={
+								'rainHazardMap.velocityLayer' +
+								this.props.starkregen.selectedBackground +
+								'.'
+								// +
+								// this.props.match.params.layers
+							}
+							url='http://starkregen-maps.cismet.de/geoserver/wms?SERVICE=WMS'
+							//url="https://wunda-geoportal-cache.cismet.de/geoportal"
+							layers={
+								this.props.starkregen.simulations[
+									this.props.starkregen.selectedSimulation
+								].velocityLayer
+							}
+							version='1.1.1'
+							transparent='true'
+							format='image/png'
+							tiled='true'
+							styles='starkregen:velocity'
+							maxZoom={19}
+							opacity={0.7}
+							caching={this.state.caching}
+						/>,
+						<WMSTileLayer
+							ref={(c) => (this.modelLayer = c)}
+							key={
+								'rainHazardMap.bgMap' +
+								this.props.starkregen.selectedBackground +
+								'.'
+								// +
+								// this.props.match.params.layers
+							}
+							url='http://starkregen-maps.cismet.de/geoserver/wms?SERVICE=WMS'
+							//url="https://wunda-geoportal-cache.cismet.de/geoportal"
+							layers={
+								this.props.starkregen.simulations[
+									this.props.starkregen.selectedSimulation
+								].directionsLayer
+							}
+							version='1.1.1'
+							transparent='true'
+							format='image/png'
+							tiled='true'
+							styles='starkregen:direction'
+							maxZoom={19}
+							opacity={1}
+							caching={this.state.caching}
+						/>
+					]}
 					{featureInfoLayer}
 					{mapRef !== undefined &&
 					this.props.starkregen.displayMode !== undefined &&

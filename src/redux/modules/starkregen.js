@@ -37,8 +37,8 @@ export const initialState = {
 	simulations: [
 		{
 			layer: 'R102:50md',
-			velocityLayer: 'R102:50md',
-			directionsLayer: 'R102:50md',
+			velocityLayer: 'starkregen:S6_velocity',
+			directionsLayer: 'starkregen:S6_direction',
 			animation: 'S6_',
 			name: 'Stärke 6',
 			title: 'Starkregen SRI 6 (38,5 l/m² in 2h)',
@@ -48,8 +48,8 @@ export const initialState = {
 		},
 		{
 			layer: 'R102:100md',
-			velocityLayer: 'R102:100md',
-			directionsLayer: 'R102:100md',
+			velocityLayer: 'starkregen:S7_velocity',
+			directionsLayer: 'starkregen:S7_direction',
 			animation: 'S7_',
 			name: 'Stärke 7',
 			icon: 'bar-chart',
@@ -59,8 +59,8 @@ export const initialState = {
 		},
 		{
 			layer: 'R102:90md',
-			velocityLayer: 'R102:90md',
-			directionsLayer: 'R102:90md',
+			velocityLayer: 'starkregen:S10_velocity',
+			directionsLayer: 'starkregen:S10_direction',
 			animation: 'S10_',
 			name: 'Stärke 10',
 			icon: 'bitbucket',
@@ -70,8 +70,8 @@ export const initialState = {
 		},
 		{
 			layer: 'R102:SRmd',
-			velocityLayer: 'R102:SRmd',
-			directionsLayer: 'R102:SRmd',
+			velocityLayer: 'starkregen:S29.05.2018_velocity',
+			directionsLayer: 'starkregen:S29.05.2018_direction',
 			animation: 'S29.05.2018_',
 			name: '29.05.18',
 			icon: 'calendar',

@@ -178,12 +178,6 @@ export class Starkregen_ extends React.Component {
 		return undefined;
 	}
 	render() {
-		console.log('bughunt: this.props.match.params.mode', this.props.match.params.mode);
-		console.log(
-			'bughunt: this.props.starkregen.displayMode',
-			this.props.starkregen.displayMode
-		);
-
 		let currentZoom = new URLSearchParams(this.props.routing.location.search).get('zoom') || 8;
 		let titleContent;
 		if (this.props.starkregen.displayMode === starkregenConstants.SHOW_HEIGHTS) {
@@ -295,6 +289,9 @@ export class Starkregen_ extends React.Component {
 		};
 		if (mapRef !== undefined) {
 			const bounds = mapRef.getBounds();
+
+			console.log('bughunt: currentZoom', currentZoom);
+			console.log('bughunt: mapref.getZoom()', mapRef.getZoom());
 
 			if (currentZoom >= MIN_ANIMATION_ZOOM) {
 				currentBBox = [
@@ -546,6 +543,7 @@ export class Starkregen_ extends React.Component {
 					{mapRef !== undefined &&
 					this.props.starkregen.displayMode !== undefined &&
 					this.props.starkregen.animationEnabled === true &&
+					mapRef.getZoom() === parseInt(currentZoom) &&
 					mapRef.getZoom() >= MIN_ANIMATION_ZOOM && ( //use mapRef.getZoom() to avoid rasie conditions due to animations
 						<VectorFieldAnimation
 							key={

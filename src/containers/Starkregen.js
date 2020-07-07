@@ -183,7 +183,7 @@ export class Starkregen_ extends React.Component {
 		if (this.props.starkregen.displayMode === starkregenConstants.SHOW_HEIGHTS) {
 			titleContent = (
 				<div>
-					<b>Starkregengefahrenkarte: </b> maximale Wasserstände<div
+					<b>Starkregengefahrenkarte: </b> max. Wasserstände<div
 						style={{ float: 'right', paddingRight: 10 }}
 					>
 						<a
@@ -203,7 +203,7 @@ export class Starkregen_ extends React.Component {
 		} else {
 			titleContent = (
 				<div>
-					<b>Starkregengefahrenkarte: </b> Fließgeschwindigkeiten<div
+					<b>Starkregengefahrenkarte: </b> max. Fließgeschwindigkeiten<div
 						style={{ float: 'right', paddingRight: 10 }}
 					>
 						<a href={'/#/starkregen/hoehen' + this.props.routing.location.search}>

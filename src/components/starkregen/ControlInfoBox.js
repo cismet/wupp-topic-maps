@@ -194,7 +194,7 @@ const InfoBox = ({
 						<td
 							style={{
 								textAlign: 'center',
-								verticalAlign: 'top',
+								verticalAlign: 'center',
 
 								paddingLeft: '0px',
 								paddingTop: '0px',
@@ -222,8 +222,15 @@ const InfoBox = ({
 														!(animationEnabled === true)
 													);
 												}}
+												title={
+													animationEnabled === true ? (
+														'Fließgeschehen ausblenden'
+													) : (
+														'Fließgeschehen darstellen'
+													)
+												}
 											>
-												<Label
+												{/* <Label
 													bsStyle={
 														animationEnabled === true ? (
 															'primary'
@@ -232,8 +239,25 @@ const InfoBox = ({
 														)
 													}
 												>
-													Geschwindigkeit
-												</Label>
+													
+												</Label> */}
+												<img
+													style={
+														animationEnabled === true ? (
+															{
+																border: '3px solid #5f83b8',
+																marginLeft: 7
+															}
+														) : (
+															{
+																//border: '3px solid #818180',
+																marginLeft: 7
+															}
+														)
+													}
+													src='images/animationEnabled.1.png'
+													width='36px'
+												/>
 											</a>
 										</td>
 									</tr>

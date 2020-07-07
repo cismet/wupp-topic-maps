@@ -192,8 +192,10 @@ export class Starkregen_ extends React.Component {
 								this.props.routing.location.search
 							}
 						>
-							<FontAwesomeIcon icon={switchIcon} style={{ marginRight: 5 }} />zu den
-							Fließgeschwindigkeiten
+							<FontAwesomeIcon
+								icon={switchIcon}
+								style={{ marginRight: 5 }}
+							/>Fließgeschwindigkeiten
 						</a>
 					</div>
 				</div>
@@ -205,8 +207,10 @@ export class Starkregen_ extends React.Component {
 						style={{ float: 'right', paddingRight: 10 }}
 					>
 						<a href={'/#/starkregen/hoehen' + this.props.routing.location.search}>
-							<FontAwesomeIcon icon={switchIcon} style={{ marginRight: 5 }} />zu den
-							maximalen Wasserstädnen
+							<FontAwesomeIcon
+								icon={switchIcon}
+								style={{ marginRight: 5 }}
+							/>Wasserstände
 						</a>
 					</div>
 				</div>

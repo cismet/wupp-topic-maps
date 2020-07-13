@@ -1,7 +1,8 @@
 import Icon from 'components/commons/Icon';
 import PropTypes from 'prop-types';
 import { Alert, Button, Label } from 'react-bootstrap';
-
+import { faToggleOff, faToggleOn } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React from 'react';
 import CollapsibleWell from '../commons/CollapsibleWell';
 import Legend from './Legend';
@@ -230,7 +231,7 @@ const InfoBox = ({
 													)
 												}
 											>
-												{/* <Label
+												<Label
 													bsStyle={
 														animationEnabled === true ? (
 															'primary'
@@ -239,9 +240,19 @@ const InfoBox = ({
 														)
 													}
 												>
-													
-												</Label> */}
-												<img
+													<FontAwesomeIcon
+														className='fa-1x'
+														icon={
+															animationEnabled === true ? (
+																faToggleOn
+															) : (
+																faToggleOff
+															)
+														}
+													/>
+													{animationEnabled === true ? ' An' : ' Aus'}{' '}
+												</Label>
+												{/* <img
 													style={
 														animationEnabled === true ? (
 															{
@@ -257,7 +268,7 @@ const InfoBox = ({
 													}
 													src='images/animationEnabled.1.png'
 													width='36px'
-												/>
+												/> */}
 											</a>
 										</td>
 									</tr>

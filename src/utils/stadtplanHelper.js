@@ -234,7 +234,12 @@ export const getColorForProperties = (properties) => {
 	let { mainlocationtype } = properties;
 	let ll = mainlocationtype.lebenslagen;
 	//console.log(colorHash.hex("" + JSON.stringify({ll})));
-	return getColorFromLebenslagenCombination(ll.join(', '));
+	if (mainlocationtype.color !== undefined) {
+		return mainlocationtype.color;
+	} else {
+		return getColorFromLebenslagenCombination(ll.join(', '));
+	}
+
 	//return "#A83F6A";
 };
 export const getColorFromLebenslagenCombination = (combination) => {

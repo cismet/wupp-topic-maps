@@ -7,6 +7,8 @@ import '../commons/canvaslayerfield/_main';
 import '../commons/canvaslayerfield/layer/L.CanvasLayer.Field';
 import * as d3 from 'd3';
 import bboxPolygon from '@turf/bbox-polygon';
+/* eslint import/no-webpack-loader-syntax: off */
+// import Worker from 'worker-loader!./VectorFieldAnimationUpdateLayerWorker.js';
 
 async function produceVectorfield(uGrid, vGrid, scaleFactor) {
 	return L.VectorField.fromASCIIGrids(uGrid, vGrid, scaleFactor);
@@ -40,6 +42,7 @@ const getBBoxForBounds = (bounds) => {
 };
 // const service="http://127.0.0.1:8881";
 const service = 'https://rasterfari.cismet.de';
+// const worker = new Worker();
 
 class VectorFieldAnimation extends MapLayer {
 	constructor(props, context) {
@@ -48,6 +51,13 @@ class VectorFieldAnimation extends MapLayer {
 		this.context = context;
 		this.timers = [];
 		this.state = { isLoadingAnimationData: true };
+		const that = this;
+		// worker.addEventListener('message', function(e) {
+		// 	if (that.leafletElement !== undefined) {
+		// 		that.leafletElement._field = e.data;
+		// 	}
+		// 	console.log('Message from Worker: ' + e.data);
+		// });
 	}
 
 	setLoadingAnimationData(isLoadingAnimationData) {
@@ -93,19 +103,19 @@ class VectorFieldAnimation extends MapLayer {
 		}
 	}
 
-	componentWillUnmount() {
-		console.log('VFA: componentWillUnmount');
+	// componentWillUnmount() {
+	// 	console.log('VFA: componentWillUnmount');
 
-		if (this.leafletElement.timer) {
-			this.leafletElement.timer.stop();
-		}
-		this.context.map.removeLayer(this.leafletElement);
-		// try {
-		// 	super.componentWillUnmount();
-		// } catch (e) {
-		// 	console.log('error in componentWillUnmount', e);
-		// }
-	}
+	// 	if (this.leafletElement.timer) {
+	// 		this.leafletElement.timer.stop();
+	// 	}
+	// 	this.context.map.removeLayer(this.leafletElement);
+	// 	// try {
+	// 	// 	super.componentWillUnmount();
+	// 	// } catch (e) {
+	// 	// 	console.log('error in componentWillUnmount', e);
+	// 	// }
+	// }
 
 	// componentDidMount() {
 	// 	try {
@@ -127,15 +137,15 @@ class VectorFieldAnimation extends MapLayer {
 	// 	// }
 	// }
 
-	componentDidMount() {
-		super.componentDidMount();
-		console.log('VFA: timer', this.leafletElement.timer);
+	// componentDidMount() {
+	// 	super.componentDidMount();
+	// 	console.log('VFA: timer', this.leafletElement.timer);
 
-		// const bounds = this.context.map.getBounds();
-		// const bbox = getBBoxForBounds(bounds);
-		// super.componentDidMount();
-		// this.updateLayer(bbox, true);
-	}
+	// 	// const bounds = this.context.map.getBounds();
+	// 	// const bbox = getBBoxForBounds(bounds);
+	// 	// super.componentDidMount();
+	// 	// this.updateLayer(bbox, true);
+	// }
 
 	// componentWillUnmount() {
 	// 	try {
@@ -177,13 +187,20 @@ class VectorFieldAnimation extends MapLayer {
 	// 	}
 	// }
 
+	// updateLayer_(bbox) {
+	// 	worker.postMessage({ bbox, layerPrefix: this.props.layerPrefix });
+	// }
+
 	updateLayer(bbox) {
+		this.leafletElement.bbox = JSON.stringify(bbox);
+
 		console.log(
 			'VFA: updateLayer()',
 			this.leafletElement.timer,
 			this.leafletElement.initialized
 		);
-		this.timers.push(this.leafletElement.timer);
+
+		//		this.timers.push(this.leafletElement.timer);
 
 		if (this.leafletElement.timer && this.leafletElement.initialized === true) {
 			this.leafletElement.timer.stop();
@@ -206,7 +223,6 @@ class VectorFieldAnimation extends MapLayer {
 
 		setTimeout(() => {
 			console.log('VFA: updateLayer: debug waiting period over');
-			that.leafletElement.bbox = JSON.stringify(bbox);
 
 			Promise.all(promises).then(function(arrays) {
 				let scaleFactor = 0.001; // to m/s

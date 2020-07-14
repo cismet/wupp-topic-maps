@@ -11,7 +11,7 @@ import bboxPolygon from '@turf/bbox-polygon';
 // import Worker from 'worker-loader!./VectorFieldAnimationUpdateLayerWorker.js';
 
 // import VectorField from ../commons/canvaslayerfield/Vector
-import { fromASCIIGridsWithWorker } from '../commons/canvaslayerfield/VectorFieldWorker';
+// import { fromASCIIGridsWithWorker } from '../commons/canvaslayerfield/VectorFieldWorker';
 window.d3 = d3;
 const NO_DATA_GRID = L.VectorField.fromASCIIGrids(
 	`ncols        1

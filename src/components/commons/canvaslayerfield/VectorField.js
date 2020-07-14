@@ -1,12 +1,12 @@
 import Vector from './Vector';
 import Field from './Field';
 import ScalarField from './ScalarField';
-import * as d3 from 'd3v4';
 
 /**
  *  A set of vectors assigned to a regular 2D-grid (lon-lat)
  *  (e.g. a raster representing winds for a region)
  */
+
 export default class VectorField extends Field {
 	/**
      * Creates a VectorField from the content of two ASCIIGrid files
@@ -21,6 +21,19 @@ export default class VectorField extends Field {
 
 		return new VectorField(p);
 	}
+	/**
+     * Creates a VectorField from the content of two ASCIIGrid files
+     * @param   {String} ascU - with u-component
+     * @param   {String} ascV - with v-component
+     * @returns {VectorField}
+     */
+	static fromASCIIGridsWithWorkers(ascU, ascV, scaleFactor = 1) {
+		let u = ScalarField.fromASCIIGridWithWorker(ascU, scaleFactor);
+		let v = ScalarField.fromASCIIGridWithWorker(ascV, scaleFactor);
+		let p = VectorField._paramsFromScalarFields(u, v);
+
+		return new VectorField(p);
+	}
 
 	/**
      * Creates a VectorField from the content of two different Geotiff files
@@ -28,9 +41,9 @@ export default class VectorField extends Field {
      * @param   {ArrayBuffer} gtV - geotiff data with v-component (band 0)
      * @returns {VectorField}
      */
-	static fromGeoTIFFs(gtU, gtV) {
-		let u = ScalarField.fromGeoTIFF(gtU);
-		let v = ScalarField.fromGeoTIFF(gtV);
+	static fromGeoTIFFs(gtU, gtV, factor = 1) {
+		let u = ScalarField.fromGeoTIFF(gtU, 0, factor);
+		let v = ScalarField.fromGeoTIFF(gtV, 0, factor);
 		let p = VectorField._paramsFromScalarFields(u, v);
 
 		return new VectorField(p);
@@ -181,8 +194,8 @@ export default class VectorField extends Field {
 
 		// TODO check memory crash with high num of vectors!
 		let magnitudes = vectors.map((v) => v.magnitude());
-		let min = d3.min(magnitudes);
-		let max = d3.max(magnitudes);
+		let min = Math.min(magnitudes);
+		let max = Math.max(magnitudes);
 
 		return [ min, max ];
 	}

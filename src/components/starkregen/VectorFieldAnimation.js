@@ -10,9 +10,8 @@ import bboxPolygon from '@turf/bbox-polygon';
 /* eslint import/no-webpack-loader-syntax: off */
 // import Worker from 'worker-loader!./VectorFieldAnimationUpdateLayerWorker.js';
 
-async function produceVectorfield(uGrid, vGrid, scaleFactor) {
-	return L.VectorField.fromASCIIGrids(uGrid, vGrid, scaleFactor);
-}
+// import VectorField from ../commons/canvaslayerfield/Vector
+import { fromASCIIGridsWithWorker } from '../commons/canvaslayerfield/VectorFieldWorker';
 window.d3 = d3;
 const NO_DATA_GRID = L.VectorField.fromASCIIGrids(
 	`ncols        1
@@ -40,7 +39,7 @@ const getBBoxForBounds = (bounds) => {
 		bounds._southWest.lat
 	];
 };
-// const service="http://127.0.0.1:8881";
+// const service = 'http://127.0.0.1:8881';
 const service = 'https://rasterfari.cismet.de';
 // const worker = new Worker();
 
@@ -209,16 +208,26 @@ class VectorFieldAnimation extends MapLayer {
 		this.setLoadingAnimationData(true);
 		//BBOX=7.1954778,51.2743996,7.2046701,51.2703213
 
+		let format = 'image/tiff';
+		// format = 'text/raster.asc';
+
 		let url_u = `${service}/gdalProcessor?REQUEST=translate&SRS=EPSG:4326&BBOX=${bbox[0]},${bbox[1]},${bbox[2]},${bbox[3]}&LAYERS=docs/regen/${this
-			.props.layerPrefix}u84.tif&FORMAT=text/raster.asc`;
+			.props.layerPrefix}u84.tif&FORMAT=${format}`;
 		let url_v = `${service}/gdalProcessor?REQUEST=translate&SRS=EPSG:4326&BBOX=${bbox[0]},${bbox[1]},${bbox[2]},${bbox[3]}&LAYERS=docs/regen/${this
-			.props.layerPrefix}v84.tif&FORMAT=text/raster.asc`;
+			.props.layerPrefix}v84.tif&FORMAT=${format}`;
 
 		var urls = [ url_u, url_v ];
 
 		console.log('VFA: different urls: fetch again');
 
-		var promises = urls.map((url) => fetch(url).then((r) => r.text()));
+		// var promises = urls.map((url) => fetch(url).then((r) => r.text()));
+		let promises;
+		if (format === 'image/tiff') {
+			promises = urls.map((url) => fetch(url).then((r) => r.arrayBuffer()));
+		} else {
+			//text
+			promises = urls.map((url) => fetch(url).then((r) => r.text()));
+		}
 		let that = this;
 
 		setTimeout(() => {
@@ -227,10 +236,16 @@ class VectorFieldAnimation extends MapLayer {
 			Promise.all(promises).then(function(arrays) {
 				let scaleFactor = 0.001; // to m/s
 				console.log('VFA: updateLayer: before vectorfield creation');
-				// 	Promise.resolve(
-				// 		produceVectorfield(arrays[0], arrays[1], scaleFactor)
-				// 	).then((vf) => {
-				let vf = L.VectorField.fromASCIIGrids(arrays[0], arrays[1], scaleFactor);
+
+				//let
+				let vf;
+				if (format === 'image/tiff') {
+					vf = L.VectorField.fromGeoTIFFs(arrays[0], arrays[1], scaleFactor);
+				} else {
+					//text
+					vf = L.VectorField.fromASCIIGrids(arrays[0], arrays[1], scaleFactor);
+				}
+
 				console.log('VFA: updateLayer: after vectorfield creation', vf);
 
 				var range = vf.range;
@@ -245,7 +260,23 @@ class VectorFieldAnimation extends MapLayer {
 					'VFA: updateLayer: vectorfield updated',
 					that.leafletElement.initialized
 				);
-				// 	});
+
+				// fromASCIIGridsWithWorker(arrays[0], arrays[1], scaleFactor, (vf) => {
+				// 	console.log('parallel:VFA: updateLayer: after vectorfield creation', vf);
+
+				// 	var range = vf.range;
+				// 	var scale = chroma.scale('OrRd').domain(range);
+
+				// 	console.log('VFA: updateLayer: before vectorfield update');
+				// 	that.leafletElement._field = vf;
+
+				// 	//that.leafletElement = layer;
+				// 	that.leafletElement.initialized = true;
+				// 	console.log(
+				// 		'VFA: updateLayer: vectorfield updated',
+				// 		that.leafletElement.initialized
+				// 	);
+				// });
 			});
 		}, 1);
 	}

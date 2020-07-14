@@ -1,7 +1,6 @@
 import Cell from './Cell';
 import inside from '@turf/inside';
 import L from 'leaflet';
-import * as d3 from 'd3v4';
 /**
  *  Abstract class for a set of values (Vector | Scalar)
  *  assigned to a regular 2D-grid (lon-lat), aka 'a Raster source'

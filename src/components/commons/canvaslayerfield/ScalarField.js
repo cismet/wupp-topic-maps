@@ -1,6 +1,5 @@
 import Field from './Field';
 import GeoTIFF from 'geotiff';
-import * as d3 from 'd3v4';
 
 /**
  * Scalar Field
@@ -20,6 +19,7 @@ export default class ScalarField extends Field {
 		var header = ScalarField._parseASCIIGridHeader(lines.slice(0, 6));
 
 		// Data (left-right and top-down)
+		console.log(' before fromASCIIGrid');
 		let zs = [];
 		for (let i = 6; i < lines.length; i++) {
 			let line = lines[i].trim();
@@ -36,6 +36,7 @@ export default class ScalarField extends Field {
 		p.zs = zs;
 
 		//console.timeEnd('ScalarField from ASC');
+		console.log(' before Constructor');
 		return new ScalarField(p);
 	}
 
@@ -83,8 +84,8 @@ export default class ScalarField extends Field {
      * @param   {Number}   bandIndex
      * @returns {ScalarField}
      */
-	static fromGeoTIFF(data, bandIndex = 0) {
-		return ScalarField.multipleFromGeoTIFF(data, [ bandIndex ])[0];
+	static fromGeoTIFF(data, bandIndex = 0, factor = 0.01) {
+		return ScalarField.multipleFromGeoTIFF(data, [ bandIndex ], factor)[0];
 	}
 
 	/**
@@ -93,7 +94,7 @@ export default class ScalarField extends Field {
      * @param   {Array}   bandIndexes - if not provided all bands are returned
      * @returns {Array.<ScalarField>}
      */
-	static multipleFromGeoTIFF(data, bandIndexes) {
+	static multipleFromGeoTIFF(data, bandIndexes, factor) {
 		//console.time('ScalarField from GeoTIFF');
 
 		let tiff = GeoTIFF.parse(data); // geotiff.js
@@ -116,7 +117,7 @@ export default class ScalarField extends Field {
 				// console.log(noData);
 				let simpleZS = Array.from(zs); // to simple array, so null is allowed | TODO efficiency??
 				zs = simpleZS.map(function(z) {
-					return z === noData ? null : z;
+					return z === noData ? null : z * factor;
 				});
 			}
 
@@ -143,6 +144,7 @@ export default class ScalarField extends Field {
 		this.grid = this._buildGrid();
 		this._updateRange();
 		//console.log(`ScalarField created (${this.nCols} x ${this.nRows})`);
+		console.log('ScalarField constructor done');
 	}
 
 	/**
@@ -193,7 +195,7 @@ export default class ScalarField extends Field {
 		if (this._inFilter) {
 			data = data.filter(this._inFilter);
 		}
-		return [ d3.min(data), d3.max(data) ];
+		return [ Math.min(data), Math.max(data) ];
 	}
 
 	/**

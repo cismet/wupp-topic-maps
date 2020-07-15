@@ -12,7 +12,8 @@ import { routerActions as RoutingActions } from 'react-router-redux';
 import { bindActionCreators } from 'redux';
 import ContactButton from '../components/commons/ContactButton';
 import InfoBox from '../components/starkregen/ControlInfoBox';
-import FeatureInfoModeBox from '../components/starkregen/FeatureInfoModeBox';
+import FeatureInfoModeBoxForHeights from '../components/starkregen/FeatureInfoModeBoxForHeights';
+import FeatureInfoModeBoxForVelocityAndDirection from '../components/starkregen/FeatureInfoModeBoxForVelocityAndDirection';
 import FeatureInfoModeButton from '../components/starkregen/FeatureInfoModeButton';
 import HelpAndInfo from '../components/starkregen/Help00MainComponent';
 import TopicMap from '../containers/TopicMap';
@@ -348,7 +349,13 @@ export class Starkregen_ extends React.Component {
 				setBackgroundIndex={(index) => this.setBackgroundStateInUrl(index)}
 				minified={this.props.starkregen.minifiedInfoBox}
 				minify={(minified) => this.props.starkregenActions.setMinifiedInfoBox(minified)}
-				legendObject={this.props.starkregen.legend}
+				legendObject={
+					this.props.starkregen.displayMode === starkregenConstants.SHOW_HEIGHTS ? (
+						this.props.starkregen.heightsLegend
+					) : (
+						this.props.starkregen.velocityLegend
+					)
+				}
 				featureInfoModeActivated={this.props.starkregen.featureInfoModeActivated}
 				// setFeatureInfoModeActivation={}
 				featureInfoValue={this.props.starkregen.currentFeatureInfoValue}
@@ -367,8 +374,24 @@ export class Starkregen_ extends React.Component {
 
 		let featureInfoLayer;
 		if (this.props.starkregen.currentFeatureInfoPosition) {
-			const x = Math.round(this.props.starkregen.currentFeatureInfoPosition[0]) - 0.125;
-			const y = Math.round(this.props.starkregen.currentFeatureInfoPosition[1]) - 0.02;
+			let x, y;
+			console.log(
+				'xxx x,y',
+				this.props.starkregen.currentFeatureInfoPosition[0],
+				this.props.starkregen.currentFeatureInfoPosition[1]
+			);
+
+			let size;
+			if (this.props.starkregen.displayMode === starkregenConstants.SHOW_HEIGHTS) {
+				size = 0.5;
+				x = Math.round(this.props.starkregen.currentFeatureInfoPosition[0]) - 0.125;
+				y = Math.round(this.props.starkregen.currentFeatureInfoPosition[1]) - 0.02;
+			} else {
+				size = 0.5;
+				x = Math.round(this.props.starkregen.currentFeatureInfoPosition[0] - 0.37) + 0.37;
+				y = Math.round(this.props.starkregen.currentFeatureInfoPosition[1] - 0.5) + 0.5;
+			}
+
 			const geoJsonObject = {
 				id: 0,
 				type: 'Feature',
@@ -380,11 +403,11 @@ export class Starkregen_ extends React.Component {
 					type: 'Polygon',
 					coordinates: [
 						[
-							[ x - 0.5, y - 0.5 ],
-							[ x + 0.5, y - 0.5 ],
-							[ x + 0.5, y + 0.5 ],
-							[ x - 0.5, y + 0.5 ],
-							[ x - 0.5, y - 0.5 ]
+							[ x - size, y - size ],
+							[ x + size, y - size ],
+							[ x + size, y + size ],
+							[ x - size, y + size ],
+							[ x - size, y - size ]
 						]
 					]
 				},
@@ -441,19 +464,35 @@ export class Starkregen_ extends React.Component {
 
 		let secondaryInfoBoxElements = [];
 		if (this.props.starkregen.featureInfoModeActivated === true) {
-			secondaryInfoBoxElements = [
-				<FeatureInfoModeBox
-					setFeatureInfoModeActivation={setFeatureInfoModeActivation}
-					featureInfoValue={this.props.starkregen.currentFeatureInfoValue}
-					showModalMenu={(section) => {
-						this.props.uiStateActions.showApplicationMenuAndActivateSection(
-							true,
-							section
-						);
-					}}
-					legendObject={this.props.starkregen.legend}
-				/>
-			];
+			if (this.props.starkregen.displayMode === starkregenConstants.SHOW_HEIGHTS) {
+				secondaryInfoBoxElements = [
+					<FeatureInfoModeBoxForHeights
+						setFeatureInfoModeActivation={setFeatureInfoModeActivation}
+						featureInfoValue={this.props.starkregen.currentFeatureInfoValue}
+						showModalMenu={(section) => {
+							this.props.uiStateActions.showApplicationMenuAndActivateSection(
+								true,
+								section
+							);
+						}}
+						legendObject={this.props.starkregen.heightsLegend}
+					/>
+				];
+			} else {
+				secondaryInfoBoxElements = [
+					<FeatureInfoModeBoxForVelocityAndDirection
+						setFeatureInfoModeActivation={setFeatureInfoModeActivation}
+						featureInfoValue={this.props.starkregen.currentFeatureInfoValue}
+						showModalMenu={(section) => {
+							this.props.uiStateActions.showApplicationMenuAndActivateSection(
+								true,
+								section
+							);
+						}}
+						legendObject={this.props.starkregen.velocityLegend}
+					/>
+				];
+			}
 		} else {
 			secondaryInfoBoxElements = [
 				<FeatureInfoModeButton
@@ -569,6 +608,7 @@ export class Starkregen_ extends React.Component {
 							format='image/png'
 							tiled='true'
 							styles='starkregen:velocity'
+							// _sld='https://gist.githubusercontent.com/helllth/d922f098870fd8097b4e2659ea005f49/raw/c7fca5ddb2c64aea29e1d0463df73522dd53ed3b/velocity.sld'
 							maxZoom={19}
 							opacity={0.7}
 							caching={this.state.caching}

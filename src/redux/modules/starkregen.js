@@ -114,11 +114,17 @@ export const initialState = {
 			title: 'Stadtplan'
 		}
 	],
-	legend: [
+	heightsLegend: [
 		{ title: '> 10 cm', lt: 0.1, bg: '#AFCFF9' },
 		{ title: '> 30 cm', lt: 0.3, bg: '#FED27B' },
 		{ title: '> 50 cm', lt: 0.4, bg: '#E9B279' },
 		{ title: '> 100 cm', lt: 1.0, bg: '#DD8C7B' }
+	],
+	velocityLegend: [
+		{ title: '> 0.5 m/s', lt: 0.5, bg: '#BEC356' },
+		{ title: '> 2 m/s', lt: 2, bg: '#DA723E' },
+		{ title: '> 4 m/s', lt: 4, bg: '#D64733' },
+		{ title: '> 6 m/s', lt: 6, bg: '#8F251B' }
 	],
 	isLoadingAnimationData: false
 };
@@ -259,47 +265,114 @@ function getFeatureInfo(mapEvent) {
 				mapEvent.latlng.lat
 			]);
 		}
-		const minimalBoxSize = 0.0001;
-		const selectedSimulation = localState.simulations[localState.selectedSimulation].layer;
-		const getFetureInfoRequestUrl =
-			`https://maps.wuppertal.de/deegree/wms?` +
-			`service=WMS&request=GetFeatureInfo&` +
-			`styles=default&format=image%2Fpng&transparenttrue&` +
-			`version=1.1.1&tiled=true&` +
-			`width=1&height=1&srs=EPSG%3A25832&` +
-			`bbox=` +
-			`${pos[0] - minimalBoxSize},` +
-			`${pos[1] - minimalBoxSize},` +
-			`${pos[0] + minimalBoxSize},` +
-			`${pos[1] + minimalBoxSize}&` +
-			`x=0&y=0&` +
-			`layers=${selectedSimulation}&` +
-			`QUERY_LAYERS=${selectedSimulation}&` +
-			`INFO_FORMAT=application/vnd.ogc.gml`;
-		let valueKey = 'll:value';
-		if (/Edge/.test(navigator.userAgent)) {
-			valueKey = 'value';
-		}
+		if (localState.displayMode === constants.SHOW_HEIGHTS) {
+			const minimalBoxSize = 0.0001;
+			const selectedSimulation = localState.simulations[localState.selectedSimulation].layer;
+			const getFetureInfoRequestUrl =
+				`https://maps.wuppertal.de/deegree/wms?` +
+				`service=WMS&request=GetFeatureInfo&` +
+				`styles=default&format=image%2Fpng&transparenttrue&` +
+				`version=1.1.1&tiled=true&` +
+				`width=1&height=1&srs=EPSG%3A25832&` +
+				`bbox=` +
+				`${pos[0] - minimalBoxSize},` +
+				`${pos[1] - minimalBoxSize},` +
+				`${pos[0] + minimalBoxSize},` +
+				`${pos[1] + minimalBoxSize}&` +
+				`x=0&y=0&` +
+				`layers=${selectedSimulation}&` +
+				`QUERY_LAYERS=${selectedSimulation}&` +
+				`INFO_FORMAT=application/vnd.ogc.gml`;
+			let valueKey = 'll:value';
+			if (/Edge/.test(navigator.userAgent)) {
+				valueKey = 'value';
+			}
 
-		fetch(getFetureInfoRequestUrl)
-			.then((response) => {
-				if (response.ok) {
-					return response.text();
-				} else {
-					throw new Error("Server response wasn't OK");
-				}
-			})
-			.then((data) => {
-				const parser = new DOMParser();
-				const xmlDoc = parser.parseFromString(data, 'text/xml');
-				const value = parseFloat(xmlDoc.getElementsByTagName(valueKey)[0].textContent, 10);
-				dispatch(setCurrentFeaturSelectedSimulation(localState.selectedSimulation));
-				dispatch(setCurrentFeatureInfoValue(value));
-				dispatch(setCurrentFeatureInfoPosition(pos));
-			})
-			.catch((error) => {
-				console.log('error during fetch', error);
-			});
+			fetch(getFetureInfoRequestUrl)
+				.then((response) => {
+					if (response.ok) {
+						return response.text();
+					} else {
+						throw new Error("Server response wasn't OK");
+					}
+				})
+				.then((data) => {
+					const parser = new DOMParser();
+					const xmlDoc = parser.parseFromString(data, 'text/xml');
+					const value = parseFloat(
+						xmlDoc.getElementsByTagName(valueKey)[0].textContent,
+						10
+					);
+					dispatch(setCurrentFeaturSelectedSimulation(localState.selectedSimulation));
+					dispatch(setCurrentFeatureInfoValue(value));
+
+					dispatch(setCurrentFeatureInfoPosition(pos));
+				})
+				.catch((error) => {
+					console.log('error during fetch', error);
+				});
+		} else {
+			const minimalBoxSize = 0.0001;
+			const selectedSimulation =
+				localState.simulations[localState.selectedSimulation].velocityLayer;
+
+			const getFetureInfoRequestUrl =
+				//https://starkregen-maps.cismet.de/geoserver/wms?
+				// SERVICE=WMS&&VERSION=1.1.1&REQUEST=GetFeatureInfo&
+				// BBOX=370755.2616521128,5681738.694328977,370860.33397403057,5681799.102881027&
+				// WIDTH=981&HEIGHT=564&SRS=EPSG:25832&
+				// FORMAT=image/png&TRANSPARENT=TRUE&BGCOLOR=0xF0F0F0&EXCEPTIONS=application/vnd.ogc.se_xml&
+				// FEATURE_COUNT=99&
+				// LAYERS=starkregen:S6_velocity&
+				// STYLES=starkregen%3Avelocity&
+				// QUERY_LAYERS=starkregen:S6_velocity&
+				// INFO_FORMAT=application/json&X=618&Y=227
+				`https://starkregen-maps.cismet.de/geoserver/wms?` +
+				`SERVICE=WMS&&VERSION=1.1.1&REQUEST=GetFeatureInfo&` +
+				`format=image%2Fpng&transparenttrue&` +
+				`version=1.1.1&tiled=true&` +
+				`width=1&height=1&srs=EPSG%3A25832&` +
+				`bbox=` +
+				`${pos[0] - minimalBoxSize},` +
+				`${pos[1] - minimalBoxSize},` +
+				`${pos[0] + minimalBoxSize},` +
+				`${pos[1] + minimalBoxSize}&` +
+				`x=0&y=0&` +
+				`layers=${selectedSimulation}&` +
+				`QUERY_LAYERS=${selectedSimulation}&` +
+				`INFO_FORMAT=application/vnd.ogc.gml`;
+			console.log('xxxx getFetureInfoRequestUrl', getFetureInfoRequestUrl);
+
+			let valueKey = 'starkregen:velocity';
+			if (/Edge/.test(navigator.userAgent)) {
+				valueKey = 'value';
+			}
+
+			fetch(getFetureInfoRequestUrl)
+				.then((response) => {
+					if (response.ok) {
+						return response.text();
+					} else {
+						throw new Error("Server response wasn't OK");
+					}
+				})
+				.then((data) => {
+					const parser = new DOMParser();
+					const xmlDoc = parser.parseFromString(data, 'text/xml');
+					const value = parseFloat(
+						xmlDoc.getElementsByTagName(valueKey)[0].textContent,
+						10
+					);
+					dispatch(setCurrentFeaturSelectedSimulation(localState.selectedSimulation));
+					dispatch(setCurrentFeatureInfoValue(value));
+					console.log('xxxxxx value', value);
+
+					dispatch(setCurrentFeatureInfoPosition(pos));
+				})
+				.catch((error) => {
+					console.log('error during fetch', error);
+				});
+		}
 	};
 }
 

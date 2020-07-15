@@ -2,7 +2,7 @@ import Icon from 'components/commons/Icon';
 import React from 'react';
 import { Button } from 'react-bootstrap';
 
-const Comp = ({ setFeatureInfoModeActivation }) => {
+const Comp = ({ setFeatureInfoModeActivation, title = 'Maximalen Wasserstand abfragen' }) => {
 	return (
 		<div
 			key='featureInfoModeButton'
@@ -10,7 +10,7 @@ const Comp = ({ setFeatureInfoModeActivation }) => {
 		>
 			<Button
 				id='cmdShowGetFeatureInfo'
-				title='Maximalen Wasserstand abfragen'
+				title={title}
 				onClick={(e) => {
 					e.stopPropagation();
 					setFeatureInfoModeActivation(true);

@@ -190,6 +190,9 @@ export default function starkregenReducer(state = initialState, action) {
 		case types.SET_DISPLAY_MODE: {
 			newState = objectAssign({}, state);
 			newState.displayMode = action.displayMode;
+			newState.currentFeatureInfoValue = undefined;
+			newState.featureInfoModeActivated = false;
+			newState.currentFeatureInfoPosition = undefined;
 			return newState;
 		}
 		default:

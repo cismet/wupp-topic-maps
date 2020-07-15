@@ -2,6 +2,8 @@ import Icon from 'components/commons/Icon';
 import React from 'react';
 import { Well } from 'react-bootstrap';
 import { getRoundedValueStringForValue } from '../../utils/starkregenHelpers';
+import Color from 'color';
+
 /* eslint-disable jsx-a11y/anchor-is-valid */
 
 const Comp = ({ setFeatureInfoModeActivation, featureInfoValue, showModalMenu, legendObject }) => {
@@ -12,6 +14,11 @@ const Comp = ({ setFeatureInfoModeActivation, featureInfoValue, showModalMenu, l
 				headerColor = item.bg;
 			}
 		}
+	}
+	let textColor = 'black';
+	let backgroundColor = new Color(headerColor);
+	if (backgroundColor.isDark()) {
+		textColor = 'white';
 	}
 	if (featureInfoValue <= 0) {
 		featureInfoValue = 0;
@@ -40,6 +47,8 @@ const Comp = ({ setFeatureInfoModeActivation, featureInfoValue, showModalMenu, l
 								paddingTop: '0px',
 								paddingBottom: '0px',
 								background: headerColor,
+								color: textColor,
+
 								textAlign: 'left'
 							}}
 						>
@@ -53,6 +62,8 @@ const Comp = ({ setFeatureInfoModeActivation, featureInfoValue, showModalMenu, l
 								paddingRight: '2px',
 								paddingBottom: '0px',
 								background: headerColor,
+								color: textColor,
+
 								textAlign: 'right'
 							}}
 						>
@@ -60,7 +71,7 @@ const Comp = ({ setFeatureInfoModeActivation, featureInfoValue, showModalMenu, l
 								onClick={() => {
 									setFeatureInfoModeActivation(false);
 								}}
-								style={{ color: 'black' }}
+								style={{ color: textColor }}
 							>
 								<Icon name='close' />{' '}
 							</a>

@@ -497,6 +497,13 @@ export class Starkregen_ extends React.Component {
 			secondaryInfoBoxElements = [
 				<FeatureInfoModeButton
 					setFeatureInfoModeActivation={setFeatureInfoModeActivation}
+					title={
+						this.props.starkregen.displayMode === starkregenConstants.SHOW_HEIGHTS ? (
+							'Maximalen Wasserstand abfragen'
+						) : (
+							'Maximale Fließgeschwindigkeiten abfragen'
+						)
+					}
 				/>
 			];
 		}
@@ -592,7 +599,10 @@ export class Starkregen_ extends React.Component {
 							key={
 								'rainHazardMap.velocityLayer' +
 								this.props.starkregen.selectedBackground +
-								'.'
+								'.' +
+								this.props.starkregen.displayMode +
+								'.' +
+								(currentZoom >= 12)
 								// +
 								// this.props.match.params.layers
 							}
@@ -621,7 +631,10 @@ export class Starkregen_ extends React.Component {
 							key={
 								'rainHazardMap.bgMap' +
 								this.props.starkregen.selectedBackground +
-								'.'
+								'.' +
+								this.props.starkregen.displayMode +
+								'.' +
+								(currentZoom >= 12)
 								// +
 								// this.props.match.params.layers
 							}

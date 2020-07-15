@@ -1,6 +1,6 @@
 {
   "name": "topic-maps-wuppertal",
-  "version": "1.15.0-SNAPSHOT.22",
+  "version": "1.15.0-SNAPSHOT.23",
   "config": {
     "dockerRegistryPath": "reg.cismet.de/wupp"
   },

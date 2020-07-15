@@ -8,6 +8,7 @@ import SVGInline from 'react-svg-inline';
 import createElement from 'svg-create-element';
 import { poiColors } from '../constants/colors.js';
 import store from '../redux/store';
+import { getPOIColors } from '../redux/modules/stadtplan';
 
 const fallbackSVG = `
     <svg xmlns="http://www.w3.org/2000/svg" width="311.668" height="311.668">
@@ -231,13 +232,21 @@ export const getPoiClusterIconCreatorFunction = (
 };
 
 export const getColorForProperties = (properties) => {
-	let { mainlocationtype } = properties;
+	let { mainlocationtype, color } = properties;
 	let ll = mainlocationtype.lebenslagen;
 	//console.log(colorHash.hex("" + JSON.stringify({ll})));
-	if (mainlocationtype.color !== undefined) {
+	if (color !== undefined) {
+		return color;
+	} else if (mainlocationtype.color !== undefined) {
 		return mainlocationtype.color;
 	} else {
-		return getColorFromLebenslagenCombination(ll.join(', '));
+		return getColorFromLebenslagenCombination(
+			ll
+				.sort(function(a, b) {
+					return a.localeCompare(b);
+				})
+				.join(', ')
+		);
 	}
 
 	//return "#A83F6A";
@@ -260,7 +269,14 @@ export const getColorFromLebenslagenCombination = (combination) => {
 		//problem dduring colorRulesn override
 	}
 	if (lookup === null) {
-		lookup = poiColors;
+		const stateObject = getPOIColors(store.getState().stadtplan);
+		if (stateObject !== undefined) {
+			lookup = stateObject[0];
+		}
+
+		if (lookup === undefined || lookup === null) {
+			lookup = poiColors;
+		}
 	}
 
 	colorCandidate = lookup[combination];
@@ -269,7 +285,7 @@ export const getColorFromLebenslagenCombination = (combination) => {
 	} else {
 		let colorHash = new ColorHash({ saturation: 0.3 });
 		const c = colorHash.hex(combination);
-		console.debug(
+		console.log(
 			"Keine vordefinierte Farbe für '" +
 				combination +
 				"' vorhanden. (Ersatz wird automatisch erstellt) --> " +

@@ -31,6 +31,7 @@ export const constants = {
 //HIGHER ORDER DUCKS
 const dataDuck = makeDataDuck('POIS', (state) => state.stadtplan.dataState);
 const infoBoxStateDuck = makeInfoBoxStateDuck('POIS', (state) => state.stadtplan.infoBoxState);
+const colorDataDuck = makeDataDuck('POICOLORS', (state) => state.stadtplan.poiColorDataState);
 
 ///INITIAL STATE
 const initialState = {
@@ -172,6 +173,11 @@ const dataStateStorageConfig = {
 	storage: localForage,
 	whitelist: [ 'items', 'md5' ]
 };
+const colordataStateStorageConfig = {
+	key: 'stadtplanPOIColorData',
+	storage: localForage,
+	whitelist: [ 'items', 'md5' ]
+};
 const infoBoxStateStorageConfig = {
 	key: 'stadtplaninfoBoxMinifiedState',
 	storage: localForage,
@@ -181,6 +187,7 @@ const infoBoxStateStorageConfig = {
 const stadtplanReducer = combineReducers({
 	localState: persistReducer(localStateStorageConfig, localStadtplanReducer),
 	dataState: persistReducer(dataStateStorageConfig, dataDuck.reducer),
+	poiColorDataState: persistReducer(colordataStateStorageConfig, colorDataDuck.reducer),
 	infoBoxState: persistReducer(infoBoxStateStorageConfig, infoBoxStateDuck.reducer)
 });
 
@@ -215,6 +222,22 @@ function setSelectedPOI(pid) {
 		} else {
 			//dispatch(setPoiGazHit(poiFeature.index));
 		}
+	};
+}
+
+function loadPOIColors(finishedHandler = () => {}) {
+	const manualReloadRequest = true;
+	return (dispatch, getState) => {
+		dispatch(
+			colorDataDuck.actions.load({
+				manualReloadRequested: manualReloadRequest,
+				dataURL: '/data/poi.farben.json',
+				errorHandler: (err) => {
+					console.log(err);
+				},
+				done: finishedHandler
+			})
+		);
 	};
 }
 
@@ -419,6 +442,7 @@ function createFeatureCollectionFromPOIs(boundingBox) {
 //EXPORT ACTIONS
 export const actions = {
 	loadPOIs,
+	loadPOIColors,
 	setSelectedPOI,
 	createFeatureCollectionFromPOIs,
 	setFilterAndApply,
@@ -432,6 +456,7 @@ export const actions = {
 
 //EXPORT SELECTORS
 export const getPOIs = (state) => dataDuck.selectors.getItems(state.dataState);
+export const getPOIColors = (state) => colorDataDuck.selectors.getItems(state.poiColorDataState);
 export const getPOIGazHitId = (state) => state.localState.poiGazHitId;
 export const getPOIsMD5 = (state) => dataDuck.selectors.getMD5(state.dataState);
 export const getFilteredPOIs = (state) => state.localState.filteredPois;

@@ -308,7 +308,10 @@ export class Stadtplan_ extends React.Component {
 					backgroundlayers={
 						this.props.match.params.layers || reduxBackground || 'wupp-plan-live@90'
 					}
-					dataLoader={this.props.stadtplanActions.loadPOIs}
+					dataLoader={
+						(this.props.stadtplanActions.loadPOIs,
+						this.props.stadtplanActions.loadPOIColors)
+					}
 					getFeatureCollectionForData={() => {
 						return this.props.mapping.featureCollection;
 					}}

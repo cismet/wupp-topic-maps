@@ -180,6 +180,9 @@ export class Starkregen_ extends React.Component {
 	}
 	render() {
 		let currentZoom = new URLSearchParams(this.props.routing.location.search).get('zoom') || 8;
+		let dirOpac = parseFloat(
+			new URLSearchParams(this.props.routing.location.search).get('dirOpac') || 1
+		);
 		let titleContent;
 		if (this.props.starkregen.displayMode === starkregenConstants.SHOW_HEIGHTS) {
 			titleContent = (
@@ -501,7 +504,7 @@ export class Starkregen_ extends React.Component {
 						this.props.starkregen.displayMode === starkregenConstants.SHOW_HEIGHTS ? (
 							'Maximalen Wasserstand abfragen'
 						) : (
-							'Maximale Fließgeschwindigkeiten abfragen'
+							'Maximale Fließgeschwindigkeit abfragen'
 						)
 					}
 				/>
@@ -620,7 +623,7 @@ export class Starkregen_ extends React.Component {
 							styles='starkregen:velocity'
 							// _sld='https://gist.githubusercontent.com/helllth/d922f098870fd8097b4e2659ea005f49/raw/c7fca5ddb2c64aea29e1d0463df73522dd53ed3b/velocity.sld'
 							maxZoom={19}
-							opacity={0.7}
+							opacity={1}
 							caching={this.state.caching}
 						/>
 					)}
@@ -651,7 +654,7 @@ export class Starkregen_ extends React.Component {
 							tiled='true'
 							styles='starkregen:direction'
 							maxZoom={19}
-							opacity={1}
+							opacity={dirOpac}
 							caching={this.state.caching}
 						/>
 					)}
@@ -687,7 +690,9 @@ export class Starkregen_ extends React.Component {
 								'.' +
 								this.props.mapping.overlayFeature +
 								'.' +
-								this.props.starkregen.displayMode
+								this.props.starkregen.displayMode +
+								'.' +
+								dirOpac
 							}
 							layerPrefix={
 								this.props.starkregen.simulations[

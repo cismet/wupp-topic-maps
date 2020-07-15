@@ -115,7 +115,7 @@ const Comp = ({ setFeatureInfoModeActivation, featureInfoValue, showModalMenu, l
 								)}
 								{featureInfoValue === undefined && (
 									<p>
-										Klick in die Karte zur Abfrage des simulierten max.
+										Klick in die Karte zur Abfrage der simulierten max.
 										Fließgeschwindigkeit
 									</p>
 								)}

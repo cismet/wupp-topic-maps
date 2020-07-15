@@ -586,7 +586,7 @@ export class Starkregen_ extends React.Component {
 							caching={this.state.caching}
 						/>
 					)}
-					{this.props.starkregen.displayMode === starkregenConstants.SHOW_VELOCITY && [
+					{this.props.starkregen.displayMode === starkregenConstants.SHOW_VELOCITY && (
 						<WMSTileLayer
 							ref={(c) => (this.modelLayer = c)}
 							key={
@@ -612,7 +612,10 @@ export class Starkregen_ extends React.Component {
 							maxZoom={19}
 							opacity={0.7}
 							caching={this.state.caching}
-						/>,
+						/>
+					)}
+					{this.props.starkregen.displayMode === starkregenConstants.SHOW_VELOCITY &&
+					currentZoom >= 12 && (
 						<WMSTileLayer
 							ref={(c) => (this.modelLayer = c)}
 							key={
@@ -638,7 +641,7 @@ export class Starkregen_ extends React.Component {
 							opacity={1}
 							caching={this.state.caching}
 						/>
-					]}
+					)}
 					{featureInfoLayer}
 					{mapRef !== undefined &&
 					this.props.starkregen.displayMode !== undefined &&

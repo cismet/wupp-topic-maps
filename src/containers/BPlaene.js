@@ -114,7 +114,8 @@ export class BPlaene_ extends React.Component {
 			this.props.planoffenlegungen.dataState.items.bplaene.includes(
 				selectedFeature.properties.nummer
 			) &&
-			selectedFeature.properties.status === 'nicht rechtskräftig'
+			(selectedFeature.properties.status === 'nicht rechtskräftig' ||
+				selectedFeature.properties.status === 'nicht rechtskräftig,rechtskräftig')
 		);
 	}
 

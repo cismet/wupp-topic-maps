@@ -51,9 +51,10 @@ const Component = ({ uiState, uiStateActions, showModalMenu }) => {
 						Wenn es z. B. in den Tagen vor dem angenommenen Starkregenereignis schon so
 						viel geregnet hätte, dass der Boden mit Wasser gesättigt ist, würde der
 						Effekt der Versickerung ja tatsächlich wegfallen! Es bleibt aber eine
-						gewisse Tendenz zur lokalen Überzeichnung der Wasserstände, die sich bei
-						einem realen Regen der angenommenen Stärke einstellen würden. Um diesem
-						Umstand Rechnung zu tragen, geben wir bei der{' '}
+						gewisse Tendenz zur lokalen Überzeichnung der Wasserstände und
+						Fließgeschwindigkeiten, die sich bei einem realen Regen der angenommenen
+						Stärke einstellen würden. Um diesem Umstand Rechnung zu tragen, geben wir
+						bei der{' '}
 						<a onClick={() => showModalMenu('wasserstand')}>
 							Abfrage des maximalen Wasserstandes
 						</a>{' '}

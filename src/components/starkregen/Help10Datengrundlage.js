@@ -15,18 +15,23 @@ const Component = ({ uiState, uiStateActions, showModalMenu }) => {
 			sectionContent={
 				<div>
 					<p>
-						Die Starkregengefahrenkarte Wuppertal stellt in einem 1m x 1m Raster
-						maximale Wasserstände dar, die im Verlauf von simulierten
-						Starkregenereignissen auftreten. Die Wasserstände werden dazu in vier Stufen
-						(größer als 10, 30, 50 und 100 cm) klassifiziert, die in der Karte durch
-						unterschiedliche Einfärbung der Rasterzellen (von blau nach rot) dargestellt
-						werden. Die Simulationsberechnungen wurden im Auftrag der Stadt Wuppertal
-						und der Wuppertaler Stadtwerke (WSW Energie und Wasser AG) durch das
-						Ingenieurbüro Dr. Pecher AG (Erkrath) durchgeführt. Der Regenwasserabfluss
-						im Kanalnetz und durch Überstau aus dem Kanalnetz austretendes Wasser wurden
-						hierbei vereinfacht berücksichtigt, ebenso die unterschiedlichen
-						Abflussgeschwindigkeiten auf Oberflächen mit unterschiedlicher Rauhigkeit
-						(z. B. auf einer Straße schneller als auf einer Wiese).
+						Die Starkregengefahrenkarte Wuppertal stellt in zwei umschaltbaren
+						Kartenansichten jeweils in einem 1m x 1m Raster maximale Wasserstände bzw.
+						maximale Fließgeschwindigkeiten dar, die im Verlauf von simulierten
+						Starkregenereignissen auftreten. Die <b>Wasserstände</b> werden dabei in
+						vier Stufen (größer als 10, 30, 50 und 100 cm) klassifiziert, die in der
+						Karte durch unterschiedliche Einfärbung der Rasterzellen (von blau nach rot)
+						dargestellt werden. Die Einfärbung der Rasterzellen für die Darstellung der{' '}
+						<b>Fließgeschwindigkeiten</b> jenseits eines Schwellwertes von 0,5 Meter pro
+						Sekunde (m/s) bis hin zu Maximalwerten größer als 6 m/s erfolgt über einen
+						Farbverlauf von gelb nach dunkelrot. Die Simulationsberechnungen wurden im
+						Auftrag der Stadt Wuppertal und der Wuppertaler Stadtwerke (WSW Energie und
+						Wasser AG) durch das Ingenieurbüro Dr. Pecher AG (Erkrath) durchgeführt. Der
+						Regenwasserabfluss im Kanalnetz und durch Überstau aus dem Kanalnetz
+						austretendes Wasser wurden hierbei vereinfacht berücksichtigt, ebenso die
+						unterschiedlichen Abflussgeschwindigkeiten auf Oberflächen mit
+						unterschiedlicher Rauhigkeit (z. B. auf einer Straße schneller als auf einer
+						Wiese).
 					</p>
 
 					<p>

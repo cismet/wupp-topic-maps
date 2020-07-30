@@ -14,10 +14,20 @@ const Component = ({ uiState, uiStateActions, showModalMenu }) => {
 			sectionContent={
 				<div>
 					<p>
+						Die Starkregengefahrenkarte unterstützt zwei verschiedene Kartenansichten.
+						In der stets sichtbaren Titelzeile oben im Kartenfenster wird Ihnen die
+						gerade aktive Kartenansicht angezeigt. Standardmäßig werden die maximalen
+						Wasserstände dargestellt, die im Verlauf eines simulierten
+						Starkregenereignisses auftreten. Mit der Schaltfläche [Umschalt-Icon] auf
+						der rechten Seite der Titelzeile können Sie zur Anzeige der maximalen
+						Fließgeschwindigkeiten wechseln. (Ein erneuter Klick führt wieder zurück zur
+						Anzeige der maximalen Wasserstände.)
+					</p>
+					<p>
 						In der rechten unteren Ecke der Anwendung (bei kleinen Displays unten direkt
 						über dem Eingabefeld) finden Sie das <b>Kontrollfeld</b>, mit dem Sie den
-						Karteninhalt nach Ihren Wünschen festlegen können. Klicken Sie unter{' '}
-						<b>Simulation</b> auf eine der vier Schaltflächen, um die
+						weiteren Karteninhalt nach Ihren Wünschen festlegen können. Klicken Sie
+						unter <b>Simulation</b> auf eine der vier Schaltflächen, um die
 						Starkregensimulation auszuwählen, die angezeigt werden soll. Details zu den
 						Simulationsberechnungen finden Sie hier in der Kompaktanleitung unter{' '}
 						<a onClick={() => showModalMenu('datengrundlage')}>Datengrundlagen</a> und{' '}
@@ -34,6 +44,16 @@ const Component = ({ uiState, uiStateActions, showModalMenu }) => {
 						vor allem für Detailbetrachtungen. Näheres zu den Geodaten, die diesen
 						Karten zu Grunde liegen, finden Sie ebenfalls unter{' '}
 						<a onClick={() => showModalMenu('datengrundlage')}>Datengrundlagen</a>.
+					</p>
+					<p>
+						Unter <b>Animation</b> finden Sie einen Wechselschalter zum An- und
+						Ausschalten einer animierten Darstellung des Fließgeschehens. Standardmäßig
+						ist diese Animation aktiviert. Sie basiert auf den Maximalbeträgen der
+						Geschwindigkeitsvektoren, die sich für jede Rasterzelle im Verlauf der
+						betrachteten Simulation einstellen. Es wird also der Abfluss die Richtung
+						animiert, in der sich die größte Geschwindigkeit einstellt. Die Animation
+						vermittelt ein besonders anschauliches Bild des komplexen Abflussgeschehens
+						bei Starkregenereignissen.
 					</p>
 					<p>
 						Am oberen Rand des Kontrollfeldes befindet sich eine platzsparende Legende,

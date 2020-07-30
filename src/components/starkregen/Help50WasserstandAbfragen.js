@@ -37,6 +37,14 @@ const Component = ({ uiState, uiStateActions, showModalMenu }) => {
 						Meter pro Sekunde werden als "> 6 m/s" angezeigt.
 					</p>
 					<p>
+						<b>Tipp für die Abfrage der maximalen Fließgeschwindigkeiten:</b>{' '}
+						Deaktivieren Sie die{' '}
+						<a onClick={() => showModalMenu('karteninhalt')}>Animation</a> und stellen
+						Sie einen sehr großen Betrachtungsmaßstab ein (Zoomstufe 17 oder 18). Dann
+						wird Ihnen in der Kartendarstellung auch die zu der maximalen
+						Fließgeschwindigkeit gehörende Fließrichtung zellenscharf angezeigt.
+					</p>
+					<p>
 						Wenn Sie nach der Abfrage eines maximalen Wasserstandes bzw. einer maximalen
 						Fließgeschwindigkeit eine andere Simulation auswählen, wird der angezeigte
 						Zellwert automatisch aktualisiert So können Sie für eine bestimmte Position

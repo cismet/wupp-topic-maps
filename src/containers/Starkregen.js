@@ -625,7 +625,9 @@ export class Starkregen_ extends React.Component {
 						/>
 					)}
 					{this.props.starkregen.displayMode === starkregenConstants.SHOW_VELOCITY &&
-					currentZoom >= 12 && (
+					currentZoom >= 12 &&
+					(this.props.starkregen.animationEnabled === false ||
+						mapRef.getZoom() < MIN_ANIMATION_ZOOM) && (
 						<WMSTileLayer
 							ref={(c) => (this.modelLayer = c)}
 							key={

@@ -22,7 +22,7 @@ const Component = ({ uiState, uiStateActions, showModalMenu }) => {
 						<a>
 							<Icon name='random' />
 						</a>{' '}
-						 auf der rechten Seite der Titelzeile können Sie zur Anzeige der maximalen
+						auf der rechten Seite der Titelzeile können Sie zur Anzeige der maximalen
 						Fließgeschwindigkeiten wechseln. (Ein erneuter Klick führt wieder zurück zur
 						Anzeige der maximalen Wasserstände.)
 					</p>
@@ -52,14 +52,18 @@ const Component = ({ uiState, uiStateActions, showModalMenu }) => {
 						Unter <b>Animation</b> finden Sie einen Wechselschalter zum An- und
 						Ausschalten einer animierten Darstellung des Fließgeschehens. Standardmäßig
 						ist diese Animation aktiviert. Sie basiert auf den Maximalbeträgen der
-						Geschwindigkeitsvektoren, die sich für jede Rasterzelle im Verlauf der
-						betrachteten Simulation einstellen. Es wird also der Abfluss die Richtung
-						animiert, in der sich die größte Geschwindigkeit einstellt. Die Animation
-						vermittelt ein besonders anschauliches Bild des komplexen Abflussgeschehens
-						bei einem Starkregenereignis. Die Animation steht nur bei der Betrachtung
-						der Starkregengefahrenkarte in einem Detailmaßstab (Zoomstufen 13 bis 18)
-						zur Verfügung, in den Übersichtsmaßstäben (Zoomstufen 12 und kleiner) wird
-						sie automatisch ausgeblendet.
+						Geschwindigkeitsvektoren, die für jede Rasterzelle im Verlauf einer
+						Simulationsberechnung bestimmt werden. Es wird also der Abfluss in die
+						Richtung animiert, in der sich die größte Geschwindigkeit einstellt. Die
+						Animation vermittelt ein besonders anschauliches Bild des komplexen
+						Abflussgeschehens bei einem Starkregenereignis. Die Animation steht nur bei
+						der Betrachtung der Starkregengefahrenkarte in einem Detailmaßstab
+						(Zoomstufen 13 bis 18) zur Verfügung, in den Übersichtsmaßstäben (Zoomstufen
+						12 und kleiner) wird sie automatisch ausgeblendet. Wenn die Animation nicht
+						angezeigt wird, blenden wir in der Kartenansicht "max.
+						Fließgeschwindigkeiten" in Detailmaßstäben (hier bis zur Zoomstufe 12)
+						statische Fließrichtungspfeile ein, um die Richtungen des
+						Regenwasserabflusses zu visualisieren.
 					</p>
 					<p>
 						Am oberen Rand des Kontrollfeldes befindet sich eine platzsparende Legende,

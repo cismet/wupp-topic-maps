@@ -204,7 +204,7 @@ function convertAEVToFeature(aev, index) {
 	}
 	const id = aev.id;
 	const type = 'Feature';
-	const featuretype = 'Hauptnutzung';
+	const featuretype = 'Änderungsverfahren';
 
 	const selected = false;
 	const geometry = aev.geojson;

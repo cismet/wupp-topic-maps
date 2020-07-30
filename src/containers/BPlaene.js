@@ -114,7 +114,8 @@ export class BPlaene_ extends React.Component {
 			this.props.planoffenlegungen.dataState.items.bplaene.includes(
 				selectedFeature.properties.nummer
 			) &&
-			selectedFeature.properties.status === 'nicht rechtskräftig'
+			(selectedFeature.properties.status === 'nicht rechtskräftig' ||
+				selectedFeature.properties.status === 'nicht rechtskräftig,rechtskräftig')
 		);
 	}
 
@@ -333,7 +334,6 @@ export class BPlaene_ extends React.Component {
 										`Sehr geehrte Damen und Herren,${br}${br}` +
 											`zum offenliegenden Bebauungsplan ${selectedFeature
 												.properties.nummer} äußere ich mich ` +
-											`als Privatperson | als Vertreter einer Firma oder Organisation [Nichtzutreffendes bitte löschen] ` +
 											`wie folgt:${br}` +
 											`${br}${br}` +
 											`[Tragen Sie hier bitte Ihre Stellungnahme ein.]${br}` +

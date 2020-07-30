@@ -574,7 +574,6 @@ export class Container_ extends React.Component {
 										`Sehr geehrte Damen und Herren,${br}${br}` +
 											`zur offenliegenden ${selectedFeature.properties
 												.name}. FNP-Änderung äußere ich mich ` +
-											`als Privatperson | als Vertreter einer Firma oder Organisation [Nichtzutreffendes bitte löschen] ` +
 											`wie folgt:${br}` +
 											`${br}${br}` +
 											`[Tragen Sie hier bitte Ihre Stellungnahme ein.]${br}` +

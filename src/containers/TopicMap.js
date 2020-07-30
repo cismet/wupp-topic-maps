@@ -92,6 +92,7 @@ export class TopicMap_ extends React.Component {
 			try {
 				let gazHit = JSON.parse(window.atob(gazHitBase64));
 				let suppressMarker = true;
+				this.props.mappingActions.setFeatureCollection([]);
 				builtInGazetteerHitTrigger(
 					[ gazHit ],
 					this.leafletRoutedMap.leafletMap.leafletElement,

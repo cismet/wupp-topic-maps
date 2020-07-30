@@ -18,8 +18,11 @@ const Component = ({ uiState, uiStateActions, showModalMenu }) => {
 						In der stets sichtbaren Titelzeile oben im Kartenfenster wird Ihnen die
 						gerade aktive Kartenansicht angezeigt. Standardmäßig werden die maximalen
 						Wasserstände dargestellt, die im Verlauf eines simulierten
-						Starkregenereignisses auftreten. Mit der Schaltfläche [Umschalt-Icon] auf
-						der rechten Seite der Titelzeile können Sie zur Anzeige der maximalen
+						Starkregenereignisses auftreten. Mit der Schaltfläche{' '}
+						<a>
+							<Icon name='random' />
+						</a>{' '}
+						 auf der rechten Seite der Titelzeile können Sie zur Anzeige der maximalen
 						Fließgeschwindigkeiten wechseln. (Ein erneuter Klick führt wieder zurück zur
 						Anzeige der maximalen Wasserstände.)
 					</p>
@@ -53,14 +56,17 @@ const Component = ({ uiState, uiStateActions, showModalMenu }) => {
 						betrachteten Simulation einstellen. Es wird also der Abfluss die Richtung
 						animiert, in der sich die größte Geschwindigkeit einstellt. Die Animation
 						vermittelt ein besonders anschauliches Bild des komplexen Abflussgeschehens
-						bei Starkregenereignissen.
+						bei einem Starkregenereignis. Die Animation steht nur bei der Betrachtung
+						der Starkregengefahrenkarte in einem Detailmaßstab (Zoomstufen 13 bis 18)
+						zur Verfügung, in den Übersichtsmaßstäben (Zoomstufen 12 und kleiner) wird
+						sie automatisch ausgeblendet.
 					</p>
 					<p>
 						Am oberen Rand des Kontrollfeldes befindet sich eine platzsparende Legende,
-						die die vier zur Klassifizierung der maximalen simulierten Wasserstände
-						verwendeten Farben erläutert. Direkt darunter finden Sie die Bezeichnung und
-						(in kleiner Schrift) eine Kurzbeschreibung des aktuell ausgewählten
-						Simulations-Szenarios. Über den Link{' '}
+						mit der die zur Klassifizierung der maximalen simulierten Wasserstände bzw.
+						Fließgeschwindigkeiten verwendeten Farben erläutert werden. Direkt darunter
+						finden Sie die Bezeichnung und (in kleiner Schrift) eine Kurzbeschreibung
+						des aktuell ausgewählten Simulations-Szenarios. Über den Link{' '}
 						<a onClick={() => showModalMenu('szenarien')}>(mehr)</a> am Ende jeder
 						Kurzbeschreibung gelangen Sie zu einer ausführlicheren Darstellung aller
 						vier Szenarien in der Kompaktanleitung. Mit der Schaltfläche{' '}

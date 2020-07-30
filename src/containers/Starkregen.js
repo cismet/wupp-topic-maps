@@ -298,9 +298,6 @@ export class Starkregen_ extends React.Component {
 		if (mapRef !== undefined) {
 			const bounds = mapRef.getBounds();
 
-			console.log('bughunt: currentZoom', currentZoom);
-			console.log('bughunt: mapref.getZoom()', mapRef.getZoom());
-
 			if (currentZoom >= MIN_ANIMATION_ZOOM) {
 				currentBBox = [
 					bounds._southWest.lng,

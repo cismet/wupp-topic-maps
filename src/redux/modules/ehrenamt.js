@@ -93,10 +93,11 @@ export default function ehrenamtReducer(state = initialState, action) {
 			return newState;
 		}
 		case types.SET_FILTERED_OFFERS: {
+			const cleanOffers = action.offers.filter((o) => o !== null);
 			newState = objectAssign({}, state);
-			newState.filteredOffers = action.offers;
+			newState.filteredOffers = cleanOffers;
 			newState.filteredOfferIndex = kdbush(
-				action.offers,
+				cleanOffers,
 				(p) => p.point25832[0],
 				(p) => p.point25832[1]
 			);
@@ -468,21 +469,27 @@ function loadOffers(finishedHandler = () => {}) {
 				let zielgruppen = new Set();
 
 				for (let offer of data) {
-					currentOffer = offer;
-					offer.point25832 = convertPoint(offer.geo_x, offer.geo_y);
-					if (offer.globalbereiche) {
-						for (let g of offer.globalbereiche) {
-							globalbereiche.add(g);
-						}
-					}
-					if (offer.kenntnisse) {
-						for (let k of offer.kenntnisse) {
-							kenntnisse.add(k);
-						}
-					}
-					if (offer.zielgruppen) {
-						for (let z of offer.zielgruppen) {
-							zielgruppen.add(z);
+					if (offer !== undefined && offer !== null) {
+						currentOffer = offer;
+						try {
+							offer.point25832 = convertPoint(offer.geo_x, offer.geo_y);
+							if (offer.globalbereiche) {
+								for (let g of offer.globalbereiche) {
+									globalbereiche.add(g);
+								}
+							}
+							if (offer.kenntnisse) {
+								for (let k of offer.kenntnisse) {
+									kenntnisse.add(k);
+								}
+							}
+							if (offer.zielgruppen) {
+								for (let z of offer.zielgruppen) {
+									zielgruppen.add(z);
+								}
+							}
+						} catch (e) {
+							console.error('error during import of new offers ', e, currentOffer);
 						}
 					}
 				}

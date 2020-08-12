@@ -74,17 +74,22 @@ export class BPlaene_ extends React.Component {
 
 	bplanGazeteerhHit(selectedObject) {
 		// this.props.bplanActions.searchForPlans(selectedObject);
-
-		this.props.bplanActions.getPlanFeatureByGazObject(selectedObject, (hit) => {
-			if (hit !== undefined) {
-				this.props.mappingActions.setFeatureCollection([ hit ]);
-				this.props.mappingActions.setSelectedFeatureIndex(0);
-				this.props.mappingActions.fitFeatureBounds(
-					hit,
-					mappingConstants.AUTO_FIT_MODE_STRICT
-				);
-			}
-		});
+		console.log('selectedObject', selectedObject);
+		if (
+			selectedObject !== undefined &&
+			selectedObject.length === 1 &&
+			selectedObject[0].type === 'bplaene'
+		)
+			this.props.bplanActions.getPlanFeatureByGazObject(selectedObject, (hit) => {
+				if (hit !== undefined) {
+					this.props.mappingActions.setFeatureCollection([ hit ]);
+					this.props.mappingActions.setSelectedFeatureIndex(0);
+					this.props.mappingActions.fitFeatureBounds(
+						hit,
+						mappingConstants.AUTO_FIT_MODE_STRICT
+					);
+				}
+			});
 	}
 
 	componentWillUpdate() {

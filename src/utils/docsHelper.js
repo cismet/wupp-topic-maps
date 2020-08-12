@@ -173,12 +173,13 @@ export function getDocsForBPlanGazetteerEntry(props) {
 		pageIndex,
 		gazHit,
 		searchForPlans,
+		getPlanFeatureByGazObject,
 		docsActions,
 		dox,
 		gotoWholeDocument
 	} = props;
 
-	searchForPlans(
+	getPlanFeatureByGazObject(
 		[
 			{
 				sorter: 0,
@@ -189,94 +190,121 @@ export function getDocsForBPlanGazetteerEntry(props) {
 				more: { zl: 18, v: gazHit.more.v }
 			}
 		],
-		null,
-		{
-			skipMappingActions: true,
-			done: (bplanFeatures) => {
-				const bplan = bplanFeatures[0].properties;
-				let title = 'B-Plan ' + bplan.nummer;
+		(bplanFeature) => {
+			console.log('bplanFeature', bplanFeature);
 
-				let docs = [];
-				for (const doc of bplan.plaene_rk) {
-					docs.push({
-						group: 'rechtskraeftig',
-						file: doc.file,
-						url: doc.url.replace(
-							'https://wunda-geoportal-docs.cismet.de/',
-							'https://wunda-geoportal-docs.cismet.de/'
-						),
-						layer: replaceUmlauteAndSpaces(
-							doc.url.replace(
-								'https://wunda-geoportal-docs.cismet.de/',
-								tileservice
-							) + '/{z}/{x}/{y}.png'
-						),
-						meta: replaceUmlauteAndSpaces(
-							doc.url.replace(
-								'https://wunda-geoportal-docs.cismet.de/',
-								tileservice
-							) + '/meta.json'
-						)
-					});
-				}
-				for (const doc of bplan.plaene_nrk) {
-					docs.push({
-						group: 'nicht_rechtskraeftig',
-						file: doc.file,
-						url: doc.url.replace(
-							'https://wunda-geoportal-docs.cismet.de/',
-							'https://wunda-geoportal-docs.cismet.de/'
-						),
+			const bplan = bplanFeature.properties;
+			let title = 'B-Plan ' + bplan.nummer;
 
-						layer: replaceUmlauteAndSpaces(
-							doc.url.replace(
-								'https://wunda-geoportal-docs.cismet.de/',
-								tileservice
-							) + '/{z}/{x}/{y}.png'
-						),
-						meta: replaceUmlauteAndSpaces(
-							doc.url.replace(
-								'https://wunda-geoportal-docs.cismet.de/',
-								tileservice
-							) + '/meta.json'
-						)
-					});
-				}
-				for (const doc of bplan.docs) {
-					docs.push({
-						group: 'Zusatzdokumente',
-						file: doc.file,
-						url: doc.url.replace(
-							'https://wunda-geoportal-docs.cismet.de/',
-							'https://wunda-geoportal-docs.cismet.de/'
-						),
-						hideInDocViewer: doc.hideInDocViewer,
-						layer: replaceUmlauteAndSpaces(
-							doc.url.replace(
-								'https://wunda-geoportal-docs.cismet.de/',
-								tileservice
-							) + '/{z}/{x}/{y}.png'
-						),
+			let docs = [];
+			for (const doc of bplan.plaene_rk) {
+				docs.push({
+					group: 'rechtskraeftig',
+					file: doc.file,
+					url: doc.url,
 
-						meta: replaceUmlauteAndSpaces(
-							doc.url.replace(
-								'https://wunda-geoportal-docs.cismet.de/',
-								tileservice
-							) + '/meta.json'
-						)
-					});
-				}
-				setDocs({
-					docs,
-					docsActions,
-					title,
-					docPackageIdParam,
-					docIndex,
-					pageIndex,
-					dox,
-					gotoWholeDocument
+					layer: replaceUmlauteAndSpaces(
+						doc.url
+							.replace('http://', 'https://')
+							.replace(
+								'https://www.wuppertal.de/geoportal/',
+								'https://wunda-geoportal-docs.cismet.de/'
+							)
+							.replace('https://wunda-geoportal-docs.cismet.de/', tileservice) +
+							'/{z}/{x}/{y}.png'
+					),
+					meta: replaceUmlauteAndSpaces(
+						doc.url
+							.replace('http://', 'https://')
+							.replace(
+								'https://www.wuppertal.de/geoportal/',
+								'https://wunda-geoportal-docs.cismet.de/'
+							)
+							.replace('https://wunda-geoportal-docs.cismet.de/', tileservice) +
+							'/meta.json'
+					)
 				});
 			}
+
+			for (const doc of bplan.plaene_nrk) {
+				docs.push({
+					group: 'nicht_rechtskraeftig',
+					file: doc.file,
+					url: doc.url
+						.replace('http://', 'https://')
+						.replace(
+							'https://www.wuppertal.de/geoportal/',
+							'https://wunda-geoportal-docs.cismet.de/'
+						),
+
+					layer: replaceUmlauteAndSpaces(
+						doc.url
+							.replace('http://', 'https://')
+							.replace(
+								'https://www.wuppertal.de/geoportal/',
+								'https://wunda-geoportal-docs.cismet.de/'
+							)
+							.replace('https://wunda-geoportal-docs.cismet.de/', tileservice) +
+							'/{z}/{x}/{y}.png'
+					),
+					meta: replaceUmlauteAndSpaces(
+						doc.url
+							.replace('http://', 'https://')
+							.replace(
+								'https://www.wuppertal.de/geoportal/',
+								'https://wunda-geoportal-docs.cismet.de/'
+							)
+							.replace('https://wunda-geoportal-docs.cismet.de/', tileservice) +
+							'/meta.json'
+					)
+				});
+			}
+			for (const doc of bplan.docs) {
+				docs.push({
+					group: 'Zusatzdokumente',
+					file: doc.file,
+					url: doc.url
+						.replace('http://', 'https://')
+						.replace(
+							'https://www.wuppertal.de/geoportal/',
+							'https://wunda-geoportal-docs.cismet.de/'
+						),
+					hideInDocViewer: doc.hideInDocViewer,
+					layer: replaceUmlauteAndSpaces(
+						doc.url
+							.replace('http://', 'https://')
+							.replace(
+								'https://www.wuppertal.de/geoportal/',
+								'https://wunda-geoportal-docs.cismet.de/'
+							)
+							.replace('https://wunda-geoportal-docs.cismet.de/', tileservice) +
+							'/{z}/{x}/{y}.png'
+					),
+
+					meta: replaceUmlauteAndSpaces(
+						doc.url
+							.replace('http://', 'https://')
+							.replace(
+								'https://www.wuppertal.de/geoportal/',
+								'https://wunda-geoportal-docs.cismet.de/'
+							)
+							.replace('https://wunda-geoportal-docs.cismet.de/', tileservice) +
+							'/meta.json'
+					)
+				});
+			}
+			console.log('docs', docs);
+
+			setDocs({
+				docs,
+				docsActions,
+				title,
+				docPackageIdParam,
+				docIndex,
+				pageIndex,
+				dox,
+				gotoWholeDocument
+			});
 		}
 	);
 }

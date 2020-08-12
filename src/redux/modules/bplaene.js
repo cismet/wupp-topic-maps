@@ -1,5 +1,6 @@
 import * as turfHelpers from '@turf/helpers';
 import inside from '@turf/inside';
+import center from '@turf/center';
 import localForage from 'localforage';
 import { combineReducers } from 'redux';
 import { persistReducer } from 'redux-persist';
@@ -9,6 +10,8 @@ import { getPolygonfromBBox } from '../../utils/gisHelper';
 import makeInfoBoxStateDuck from '../higherorderduckfactories/minifiedInfoBoxState';
 import { actions as mappingActions, constants as mappingConstants } from './mapping';
 import makeDataDuck from '../higherorderduckfactories/dataWithMD5Check';
+import booleanDisjoint from '@turf/boolean-disjoint';
+import bboxPolygon from '@turf/bbox-polygon';
 
 ///TYPES
 export const types = {
@@ -41,9 +44,7 @@ export default reducer;
 
 //COMPLEXACTIONS
 function loadBPlaene(finishedHandler = () => {}) {
-	console.log('xxx loadBPlaene');
-
-	const manualReloadRequest = false;
+	const manualReloadRequest = true;
 	return (dispatch, getState) => {
 		dispatch(
 			dataDuck.actions.load({
@@ -58,11 +59,97 @@ function loadBPlaene(finishedHandler = () => {}) {
 	};
 }
 
+export function getPlanFeatureByGazObject(gazObjects, done) {
+	const gazObject = gazObjects[0];
+	const nr = gazObject.more.v;
+	let status = undefined;
+	if (gazObject.string.includes('(nicht rechtskräftig)')) {
+		status = 'nicht rechtskräftig';
+	} else if (gazObject.string.includes('(rechtskräftig)')) {
+		status = 'rechtskräftig';
+	}
+	//use status if ambiguous
+
+	return function(dispatch, getState) {
+		dispatch(getPlanFeature(nr, status, done));
+	};
+}
+
+export function getPlanFeature(nr, status, done) {
+	return function(dispatch, getState) {
+		dispatch(mappingActions.setSearchProgressIndicator(true));
+
+		const state = getState();
+		if (state.bplaene.dataState.features.length === 0) {
+			loadBPlaene();
+		}
+		const hit = state.bplaene.dataState.features.find((elem, index) => {
+			if (status !== undefined) {
+				return elem.text === `${nr} (${status})`;
+			} else {
+				return elem.text === nr;
+			}
+		});
+		done(hit);
+		dispatch(mappingActions.setSearchProgressIndicator(false));
+	};
+}
+export function getPlanFeatures({ boundingBox, point, done }) {
+	return function(dispatch, getState) {
+		dispatch(mappingActions.setSearchProgressIndicator(true));
+		let bboxPoly;
+		let finalResults = [];
+
+		const state = getState();
+		if (boundingBox !== undefined) {
+			bboxPoly = bboxPolygon([
+				boundingBox.left,
+				boundingBox.top,
+				boundingBox.right,
+				boundingBox.bottom
+			]);
+		} else if (point !== undefined) {
+			bboxPoly = bboxPolygon([
+				point.x - 0.05,
+				point.y - 0.05,
+				point.x + 0.05,
+				point.y + 0.05
+			]);
+		}
+
+		for (const feature of state.bplaene.dataState.features) {
+			if (!booleanDisjoint(bboxPoly, feature)) {
+				feature.searchDistance = distance(
+					getXYFromPointFeature(center(bboxPoly)),
+					getXYFromPointFeature(center(feature))
+				);
+				finalResults.push(feature);
+			}
+		}
+		finalResults.sort((a, b) => a.searchDistance - b.searchDistance);
+
+		done(finalResults);
+
+		dispatch(mappingActions.setSearchProgressIndicator(false));
+	};
+}
+
+function getXYFromPointFeature(feature) {
+	return { x: feature.geometry.coordinates[0], y: feature.geometry.coordinates[1] };
+}
+function distance(p, q) {
+	var dx = p.x - q.x;
+	var dy = p.y - q.y;
+	var dist = Math.sqrt(dx * dx + dy * dy);
+	return dist;
+}
 export function searchForPlans(
 	gazObject,
 	overriddenWKT,
 	cfg = { skipMappingActions: false, done: () => {} }
 ) {
+	console.log('gazObject', gazObject);
+
 	return function(dispatch, getState) {
 		if (!cfg.skipMappingActions) {
 			dispatch(mappingActions.setSearchProgressIndicator(true));
@@ -259,12 +346,12 @@ function convertBPlanToFeature(bplan, index) {
 	if (bplan === undefined) {
 		return undefined;
 	}
-	const id = bplan.id;
+	const id = index;
 	const type = 'Feature';
 	const featuretype = 'B-Plan';
 
 	const selected = false;
-	const geometry = bplan.geojson;
+	const geometry = bplan.m.geojson;
 
 	const text = bplan.s;
 
@@ -289,6 +376,8 @@ function convertBPlanToFeature(bplan, index) {
 //EXPORT ACTIONS
 export const actions = {
 	searchForPlans,
+	getPlanFeatures,
 	loadBPlaene,
-	setCollapsedInfoBox: infoBoxStateDuck.actions.setMinifiedInfoBoxState
+	setCollapsedInfoBox: infoBoxStateDuck.actions.setMinifiedInfoBoxState,
+	getPlanFeatureByGazObject
 };

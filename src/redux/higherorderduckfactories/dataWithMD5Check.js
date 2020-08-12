@@ -16,7 +16,7 @@ const makeDataWithMD5CheckDuckFor = (section, substateResolver, featureFactory) 
 		DEBUG_ALWAYS_LOADING: false
 	};
 
-	const debugLog = true;
+	const debugLog = false;
 
 	//SELECTORS
 	const selectors = {

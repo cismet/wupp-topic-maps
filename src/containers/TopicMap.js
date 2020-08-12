@@ -85,6 +85,17 @@ export class TopicMap_ extends React.Component {
 					this.forceUpdate(); //ugly winning: prevent typeahead to have shitty behaviour
 				});
 		}
+		const uSearch = new URLSearchParams(this.props.routing.location.search);
+		let allowRemoteControl =
+			uSearch.get('allowRemoteControl') !== null &&
+			uSearch.get('allowRemoteControl') === 'true';
+
+		if (allowRemoteControl === true) {
+			window.addEventListener('message', this.messageHandler, true);
+			console.log('RC enabled.');
+		} else {
+			console.log('RC disabled.');
+		}
 	}
 	componentWillUpdate() {
 		let gazHitBase64 = new URLSearchParams(this.props.routing.location.search).get('gazHit');
@@ -470,7 +481,7 @@ TopicMap.propTypes = {
 	fullScreenControl: PropTypes.bool,
 	locator: PropTypes.bool,
 	photoLightBox: PropTypes.bool,
-	dataLoader: PropTypes.func,
+	dataLoader: PropTypes.oneOfType([ PropTypes.func, PropTypes.array ]),
 	getFeatureCollectionForData: PropTypes.func,
 	featureStyler: PropTypes.func,
 	featureHoverer: PropTypes.func,

@@ -71,6 +71,22 @@ export class BPlaene_ extends React.Component {
 		this.props.bplanActions.searchForPlans(selectedObject);
 	}
 
+	doubleMapClick(event) {
+		const pos = proj4(proj4.defs('EPSG:4326'), proj4crs25832def, [
+			event.latlng.lng,
+			event.latlng.lat
+		]);
+		// let wkt = `POINT(${pos[0]} ${pos[1]})`;
+		// this.props.bplanActions.searchForPlans(null, wkt);
+		this.props.bplanActions.getPlanFeatures({
+			point: { x: pos[0], y: pos[1] },
+			done: (hits) => {
+				this.props.mappingActions.setFeatureCollection(hits);
+
+				this.props.mappingActions.setSelectedFeatureIndex(0);
+			}
+		});
+	}
 	bplanSearchButtonHit(event) {
 		this.props.bplanActions.searchForPlans();
 	}

@@ -58,6 +58,90 @@ function loadBPlaene(finishedHandler = () => {}) {
 	};
 }
 
+export function getPlanFeatureByGazObject(gazObjects, done) {
+	const gazObject = gazObjects[0];
+	const nr = gazObject.more.v;
+	let status = undefined;
+	if (gazObject.string.includes('(nicht rechtskräftig)')) {
+		status = 'nicht rechtskräftig';
+	} else if (gazObject.string.includes('(rechtskräftig)')) {
+		status = 'rechtskräftig';
+	}
+	//use status if ambiguous
+
+	return function(dispatch, getState) {
+		dispatch(getPlanFeature(nr, status, done));
+	};
+}
+
+export function getPlanFeature(nr, status, done) {
+	return function(dispatch, getState) {
+		dispatch(mappingActions.setSearchProgressIndicator(true));
+
+		const state = getState();
+		if (state.bplaene.dataState.features.length === 0) {
+			loadBPlaene();
+		}
+		const hit = state.bplaene.dataState.features.find((elem, index) => {
+			if (status !== undefined) {
+				return elem.text === nr && elem.properties.status === status;
+			} else {
+				return elem.text === nr;
+			}
+		});
+		done(hit);
+		dispatch(mappingActions.setSearchProgressIndicator(false));
+	};
+}
+export function getPlanFeatures({ boundingBox, point, done }) {
+	return function(dispatch, getState) {
+		dispatch(mappingActions.setSearchProgressIndicator(true));
+		let bboxPoly;
+		let finalResults = [];
+
+		const state = getState();
+		if (boundingBox !== undefined) {
+			bboxPoly = bboxPolygon([
+				boundingBox.left,
+				boundingBox.top,
+				boundingBox.right,
+				boundingBox.bottom
+			]);
+		} else if (point !== undefined) {
+			bboxPoly = bboxPolygon([
+				point.x - 0.05,
+				point.y - 0.05,
+				point.x + 0.05,
+				point.y + 0.05
+			]);
+		}
+
+		for (const feature of state.bplaene.dataState.features) {
+			if (!booleanDisjoint(bboxPoly, feature)) {
+				feature.searchDistance = distance(
+					getXYFromPointFeature(center(bboxPoly)),
+					getXYFromPointFeature(center(feature))
+				);
+				finalResults.push(feature);
+			}
+		}
+		finalResults.sort((a, b) => a.searchDistance - b.searchDistance);
+
+		done(finalResults);
+
+		dispatch(mappingActions.setSearchProgressIndicator(false));
+	};
+}
+
+function getXYFromPointFeature(feature) {
+	return { x: feature.geometry.coordinates[0], y: feature.geometry.coordinates[1] };
+}
+function distance(p, q) {
+	var dx = p.x - q.x;
+	var dy = p.y - q.y;
+	var dist = Math.sqrt(dx * dx + dy * dy);
+	return dist;
+}
 export function searchForPlans(
 	gazObject,
 	overriddenWKT,
@@ -266,7 +350,16 @@ function convertBPlanToFeature(bplan, index) {
 	const selected = false;
 	const geometry = bplan.geojson;
 
-	const text = bplan.s;
+	const text = bplan.nummer;
+
+	if (bplan.docs.length > 0) {
+		bplan.docs = [
+			{
+				file: INFO_DOC_DATEINAMEN_NAME,
+				url: INFO_DOC_DATEINAMEN_URL
+			}
+		].concat(bplan.docs);
+	}
 
 	return {
 		id,
@@ -282,7 +375,7 @@ function convertBPlanToFeature(bplan, index) {
 				name: 'urn:ogc:def:crs:EPSG::25832'
 			}
 		},
-		properties: bplan.m
+		properties: bplan
 	};
 }
 

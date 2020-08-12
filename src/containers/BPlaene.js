@@ -5,6 +5,8 @@ import React from 'react';
 import { Tooltip, Well } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import { routerActions } from 'react-router-redux';
+
 import BPlanInfo from '../components/bplaene/BPlanInfo';
 import BPlanModalHelp from '../components/bplaene/Help00MainComponent';
 import { proj4crs25832def } from '../constants/gis';
@@ -23,6 +25,7 @@ import {
 } from '../utils/bplanHelper';
 import TopicMap from './TopicMap';
 import ContactButton from '../components/commons/ContactButton';
+import { removeQueryPart } from '../utils/routingHelper';
 
 function mapStateToProps(state) {
 	return {
@@ -41,7 +44,8 @@ function mapDispatchToProps(dispatch) {
 		mappingActions: bindActionCreators(mappingActions, dispatch),
 		uiStateActions: bindActionCreators(uiStateActions, dispatch),
 		gazetteerTopicsActions: bindActionCreators(gazetteerTopicsActions, dispatch),
-		planoffenlegungsActions: bindActionCreators(PlanoffenlegungsActions, dispatch)
+		planoffenlegungsActions: bindActionCreators(PlanoffenlegungsActions, dispatch),
+		routingActions: bindActionCreators(routerActions, dispatch)
 	};
 }
 
@@ -53,6 +57,7 @@ export class BPlaene_ extends React.Component {
 		this.selectNextIndex = this.selectNextIndex.bind(this);
 		this.selectPreviousIndex = this.selectPreviousIndex.bind(this);
 		this.fitAll = this.fitAll.bind(this);
+		this.showPlan = this.showPlan.bind(this);
 		this.featureClick = this.featureClick.bind(this);
 		this.doubleMapClick = this.doubleMapClick.bind(this);
 		this.openDocViewer = this.openDocViewer.bind(this);
@@ -69,6 +74,48 @@ export class BPlaene_ extends React.Component {
 
 	bplanGazeteerhHit(selectedObject) {
 		this.props.bplanActions.searchForPlans(selectedObject);
+	}
+
+	componentWillUpdate() {
+		let bplanNr = new URLSearchParams(this.props.routing.location.search).get('nr');
+		if (bplanNr !== undefined && bplanNr !== null && bplanNr != '') {
+			try {
+				this.props.routingActions.push(
+					this.props.routing.location.pathname +
+						removeQueryPart(this.props.routing.location.search, 'nr')
+				);
+				if (this.props.bplaene.dataState.features.length === 0) {
+					const intid = setInterval(() => {
+						//console.log('try again');
+						if (this.props.bplaene.dataState.features.length > 0) {
+							this.showPlan(bplanNr);
+							clearInterval(intid);
+						} else {
+							//console.log('still not there');
+						}
+					}, 100);
+				} else {
+					this.showPlan(bplanNr);
+				}
+			} catch (e) {
+				console.error(e);
+			}
+		}
+	}
+
+	showPlan(bplanNr) {
+		this.props.bplanActions.getPlanFeatureByTitle(bplanNr, (hit) => {
+			if (hit !== undefined) {
+				this.props.mappingActions.setFeatureCollection([ hit ]);
+				this.props.mappingActions.setSelectedFeatureIndex(0);
+				setTimeout(() => {
+					this.props.mappingActions.fitFeatureBounds(
+						hit,
+						mappingConstants.AUTO_FIT_MODE_STRICT
+					);
+				}, 200);
+			}
+		});
 	}
 
 	doubleMapClick(event) {

@@ -204,24 +204,16 @@ export function getDocsForBPlanGazetteerEntry(props) {
 					url: doc.url,
 
 					layer: replaceUmlauteAndSpaces(
-						doc.url
-							.replace('http://', 'https://')
-							.replace(
-								'https://www.wuppertal.de/geoportal/',
-								'https://wunda-geoportal-docs.cismet.de/'
-							)
-							.replace('https://wunda-geoportal-docs.cismet.de/', tileservice) +
-							'/{z}/{x}/{y}.png'
+						repairUrl(doc.url).replace(
+							'https://wunda-geoportal-docs.cismet.de/',
+							tileservice
+						) + '/{z}/{x}/{y}.png'
 					),
 					meta: replaceUmlauteAndSpaces(
-						doc.url
-							.replace('http://', 'https://')
-							.replace(
-								'https://www.wuppertal.de/geoportal/',
-								'https://wunda-geoportal-docs.cismet.de/'
-							)
-							.replace('https://wunda-geoportal-docs.cismet.de/', tileservice) +
-							'/meta.json'
+						repairUrl(doc.url).replace(
+							'https://wunda-geoportal-docs.cismet.de/',
+							tileservice
+						) + '/meta.json'
 					)
 				});
 			}
@@ -230,32 +222,19 @@ export function getDocsForBPlanGazetteerEntry(props) {
 				docs.push({
 					group: 'nicht_rechtskraeftig',
 					file: doc.file,
-					url: doc.url
-						.replace('http://', 'https://')
-						.replace(
-							'https://www.wuppertal.de/geoportal/',
-							'https://wunda-geoportal-docs.cismet.de/'
-						),
+					url: repairUrl(doc.url),
 
 					layer: replaceUmlauteAndSpaces(
-						doc.url
-							.replace('http://', 'https://')
-							.replace(
-								'https://www.wuppertal.de/geoportal/',
-								'https://wunda-geoportal-docs.cismet.de/'
-							)
-							.replace('https://wunda-geoportal-docs.cismet.de/', tileservice) +
-							'/{z}/{x}/{y}.png'
+						repairUrl(doc.url).replace(
+							'https://wunda-geoportal-docs.cismet.de/',
+							tileservice
+						) + '/{z}/{x}/{y}.png'
 					),
 					meta: replaceUmlauteAndSpaces(
-						doc.url
-							.replace('http://', 'https://')
-							.replace(
-								'https://www.wuppertal.de/geoportal/',
-								'https://wunda-geoportal-docs.cismet.de/'
-							)
-							.replace('https://wunda-geoportal-docs.cismet.de/', tileservice) +
-							'/meta.json'
+						repairUrl(doc.url).replace(
+							'https://wunda-geoportal-docs.cismet.de/',
+							tileservice
+						) + '/meta.json'
 					)
 				});
 			}
@@ -263,33 +242,20 @@ export function getDocsForBPlanGazetteerEntry(props) {
 				docs.push({
 					group: 'Zusatzdokumente',
 					file: doc.file,
-					url: doc.url
-						.replace('http://', 'https://')
-						.replace(
-							'https://www.wuppertal.de/geoportal/',
-							'https://wunda-geoportal-docs.cismet.de/'
-						),
+					url: repairUrl(doc.url),
 					hideInDocViewer: doc.hideInDocViewer,
 					layer: replaceUmlauteAndSpaces(
-						doc.url
-							.replace('http://', 'https://')
-							.replace(
-								'https://www.wuppertal.de/geoportal/',
-								'https://wunda-geoportal-docs.cismet.de/'
-							)
-							.replace('https://wunda-geoportal-docs.cismet.de/', tileservice) +
-							'/{z}/{x}/{y}.png'
+						repairUrl(doc.url).replace(
+							'https://wunda-geoportal-docs.cismet.de/',
+							tileservice
+						) + '/{z}/{x}/{y}.png'
 					),
 
 					meta: replaceUmlauteAndSpaces(
-						doc.url
-							.replace('http://', 'https://')
-							.replace(
-								'https://www.wuppertal.de/geoportal/',
-								'https://wunda-geoportal-docs.cismet.de/'
-							)
-							.replace('https://wunda-geoportal-docs.cismet.de/', tileservice) +
-							'/meta.json'
+						repairUrl(doc.url).replace(
+							'https://wunda-geoportal-docs.cismet.de/',
+							tileservice
+						) + '/meta.json'
 					)
 				});
 			}
@@ -307,6 +273,12 @@ export function getDocsForBPlanGazetteerEntry(props) {
 			});
 		}
 	);
+}
+
+function repairUrl(url) {
+	return url
+		.replace('http://', 'https://')
+		.replace('https://www.wuppertal.de/geoportal/', 'https://wunda-geoportal-docs.cismet.de/');
 }
 
 function setDocs({

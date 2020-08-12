@@ -82,8 +82,8 @@ export class BPlaene_ extends React.Component {
 			event.latlng.lng,
 			event.latlng.lat
 		]);
-		//let wkt = `POINT(${pos[0]} ${pos[1]})`;
-		//this.props.bplanActions.searchForPlans(null, wkt);
+		// let wkt = `POINT(${pos[0]} ${pos[1]})`;
+		// this.props.bplanActions.searchForPlans(null, wkt);
 		this.props.bplanActions.getPlanFeatures({
 			point: { x: pos[0], y: pos[1] },
 			done: (hits) => {

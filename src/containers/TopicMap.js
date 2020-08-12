@@ -93,9 +93,9 @@ export class TopicMap_ extends React.Component {
 
 		if (allowRemoteControl === true) {
 			window.addEventListener('message', this.messageHandler, true);
-			console.log('xxx remote control will be available');
+			console.log('RC enabled.');
 		} else {
-			console.log('xxx no remote control available');
+			console.log('RC disabled.');
 		}
 	}
 	componentWillUpdate() {
@@ -497,7 +497,7 @@ TopicMap.propTypes = {
 	fullScreenControl: PropTypes.bool,
 	locator: PropTypes.bool,
 	photoLightBox: PropTypes.bool,
-	dataLoader: PropTypes.func,
+	dataLoader: PropTypes.oneOfType([ PropTypes.func, PropTypes.array ]),
 	getFeatureCollectionForData: PropTypes.func,
 	featureStyler: PropTypes.func,
 	featureHoverer: PropTypes.func,

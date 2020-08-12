@@ -85,7 +85,7 @@ export function getPlanFeature(nr, status, done) {
 		}
 		const hit = state.bplaene.dataState.features.find((elem, index) => {
 			if (status !== undefined) {
-				return elem.text === `${nr} (${status})`;
+				return elem.text === nr && elem.properties.status === status;
 			} else {
 				return elem.text === nr;
 			}
@@ -351,9 +351,18 @@ function convertBPlanToFeature(bplan, index) {
 	const featuretype = 'B-Plan';
 
 	const selected = false;
-	const geometry = bplan.m.geojson;
+	const geometry = bplan.geojson;
 
-	const text = bplan.s;
+	const text = bplan.nummer;
+
+	if (bplan.docs.length > 0) {
+		bplan.docs = [
+			{
+				file: INFO_DOC_DATEINAMEN_NAME,
+				url: INFO_DOC_DATEINAMEN_URL
+			}
+		].concat(bplan.docs);
+	}
 
 	return {
 		id,
@@ -369,7 +378,7 @@ function convertBPlanToFeature(bplan, index) {
 				name: 'urn:ogc:def:crs:EPSG::25832'
 			}
 		},
-		properties: bplan.m
+		properties: bplan
 	};
 }
 

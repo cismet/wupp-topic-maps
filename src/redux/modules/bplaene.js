@@ -44,7 +44,7 @@ export default reducer;
 
 //COMPLEXACTIONS
 function loadBPlaene(finishedHandler = () => {}) {
-	const manualReloadRequest = true;
+	const manualReloadRequest = false;
 	return (dispatch, getState) => {
 		dispatch(
 			dataDuck.actions.load({
@@ -86,22 +86,35 @@ export function getPlanFeatureByTitle(title, done) {
 export function getPlanFeature(nr, status, done) {
 	return function(dispatch, getState) {
 		dispatch(mappingActions.setSearchProgressIndicator(true));
-
 		const state = getState();
+
+		const findIt = () => {
+			const state = getState();
+
+			const hit = state.bplaene.dataState.features.find((elem, index) => {
+				if (status !== undefined) {
+					return elem.text === nr && elem.properties.status === status;
+				} else {
+					return elem.text === nr;
+				}
+			});
+			done(hit);
+			dispatch(mappingActions.setSearchProgressIndicator(false));
+		};
+
 		if (state.bplaene.dataState.features.length === 0) {
-			loadBPlaene();
+			dispatch(
+				loadBPlaene(() => {
+					findIt();
+				})
+			);
+		} else {
+			findIt();
 		}
-		const hit = state.bplaene.dataState.features.find((elem, index) => {
-			if (status !== undefined) {
-				return elem.text === nr && elem.properties.status === status;
-			} else {
-				return elem.text === nr;
-			}
-		});
-		done(hit);
-		dispatch(mappingActions.setSearchProgressIndicator(false));
 	};
 }
+
+function findPlanFeature(nr, status, done) {}
 export function getPlanFeatures({ boundingBox, point, done }) {
 	return function(dispatch, getState) {
 		dispatch(mappingActions.setSearchProgressIndicator(true));

@@ -61,12 +61,20 @@ function loadBPlaene(finishedHandler = () => {}) {
 
 export function getPlanFeatureByGazObject(gazObjects, done) {
 	const gazObject = gazObjects[0];
-	const nr = gazObject.more.v;
+	return function(dispatch, getState) {
+		dispatch(getPlanFeatureByTitle(gazObject.string, done));
+	};
+}
+
+export function getPlanFeatureByTitle(title, done) {
 	let status = undefined;
-	if (gazObject.string.includes('(nicht rechtskräftig)')) {
+	let nr = title;
+	if (title.includes('(nicht rechtskräftig)')) {
 		status = 'nicht rechtskräftig';
-	} else if (gazObject.string.includes('(rechtskräftig)')) {
+		nr = title.split(' (nicht rechtskräftig)')[0];
+	} else if (title.includes('(rechtskräftig)')) {
 		status = 'rechtskräftig';
+		nr = title.split(' (rechtskräftig)')[0];
 	}
 	//use status if ambiguous
 
@@ -387,6 +395,7 @@ export const actions = {
 	searchForPlans,
 	getPlanFeatures,
 	loadBPlaene,
+	getPlanFeatureByTitle,
 	setCollapsedInfoBox: infoBoxStateDuck.actions.setMinifiedInfoBoxState,
 	getPlanFeatureByGazObject
 };

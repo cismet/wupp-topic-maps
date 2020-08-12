@@ -269,9 +269,6 @@ function fitFeatureBounds(feature, mode) {
 	return function(dispatch) {
 		const projectedF = L.Proj.geoJson(feature);
 		const bounds = projectedF.getBounds();
-		console.log('fitFeatureBounds', bounds);
-		console.log('fitFeatureBounds.isValid()', bounds.isValid());
-
 		dispatch(setAutoFit(true, getSimpleBounds(bounds), mode));
 	};
 }

@@ -121,6 +121,34 @@ export class TopicMap_ extends React.Component {
 			}
 		}
 	}
+	componentWillUnmount() {
+		window.removeEventListener('message', this.messageHandler);
+	}
+
+	messageHandler(event) {
+		const data = event.data;
+
+		if (data !== undefined && data.type === 'topicMap.RC') {
+			console.log('message received', data);
+			console.log('this.props', this.props);
+			console.log('window.location', window.location);
+
+			//ugly winning to prevent a animation zoom and rounding problems (stuck half way)
+			if (!data.payload.includes('lat=')) {
+				data.payload += '&lat=10';
+			}
+			if (!data.payload.includes('lng=')) {
+				data.payload += '&lng=10';
+			}
+			if (!data.payload.includes('zoom=')) {
+				data.payload += '&zoom=18';
+			}
+
+			this.props.routingActions.push(data.payload);
+
+			console.log('window.location', window.location);
+		}
+	}
 	featureClick(event) {
 		if (event.target.feature) {
 			this.props.setSelectedFeatureIndex(event.target.feature.index);

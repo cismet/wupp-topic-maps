@@ -113,7 +113,7 @@ export class BPlaene_ extends React.Component {
 						hit,
 						mappingConstants.AUTO_FIT_MODE_STRICT
 					);
-				}, 200);
+				}, 100);
 			}
 		});
 	}

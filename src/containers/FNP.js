@@ -19,7 +19,7 @@ import { proj4crs25832def } from '../constants/gis';
 import TopicMap from '../containers/TopicMap';
 import { actions as AEVActions, getAEVFeatures } from '../redux/modules/fnp_aenderungsverfahren';
 import { actions as HNActions } from '../redux/modules/fnp_hauptnutzungen';
-import { actions as MappingActions } from '../redux/modules/mapping';
+import { actions as MappingActions, constants as mappingConstants } from '../redux/modules/mapping';
 import { actions as UIStateActions } from '../redux/modules/uiState';
 import { actions as PlanoffenlegungsActions } from '../redux/modules/planoffenlegungen';
 
@@ -71,6 +71,7 @@ export class Container_ extends React.Component {
 		this.changeMarkerSymbolSize = this.changeMarkerSymbolSize.bind(this);
 		this.isRechtsplan = this.isRechtsplan.bind(this);
 		this.isArbeitskarte = this.isArbeitskarte.bind(this);
+		this.showAEV = this.showAEV.bind(this);
 
 		// this.props.mappingActions.setBoundingBoxChangedTrigger((bbox) =>
 		// 	this.props.aevActions.refreshFeatureCollection(bbox)
@@ -218,7 +219,49 @@ export class Container_ extends React.Component {
 
 		return { aevVisible, scaleVisible, currentZoom };
 	}
+	componentWillUpdate() {
+		let aevNr = new URLSearchParams(this.props.routing.location.search).get('aev');
+		if (aevNr !== undefined && aevNr !== null && aevNr != '') {
+			try {
+				this.props.routingActions.push(
+					this.props.routing.location.pathname +
+						removeQueryPart(this.props.routing.location.search, 'aev')
+				);
+				if (this.props.aev.dataState.features.length === 0) {
+					const intid = setInterval(() => {
+						//console.log('try again');
+						if (this.props.aev.dataState.features.length > 0) {
+							this.showAEV(aevNr);
+							clearInterval(intid);
+						} else {
+							//console.log('still not there');
+						}
+					}, 100);
+				} else {
+					this.showAEV(aevNr);
+				}
+			} catch (e) {
+				console.error(e);
+			}
+		}
+	}
+	showAEV(aevNr) {
+		this.props.aevActions.getAEVByNr(aevNr, (hits) => {
+			if (hits !== undefined && hits.length === 1) {
+				const hit = hits[0];
+				this.setAevVisible(true);
+				this.props.mappingActions.setFeatureCollection([ hit ]);
+				this.props.mappingActions.setSelectedFeatureIndex(0);
 
+				setTimeout(() => {
+					this.props.mappingActions.fitFeatureBounds(
+						hit,
+						mappingConstants.AUTO_FIT_MODE_STRICT
+					);
+				}, 200);
+			}
+		});
+	}
 	componentDidUpdate() {
 		if (
 			this.props.match.params.mode !== 'arbeitskarte' &&

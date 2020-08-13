@@ -4,24 +4,33 @@ import React, { useEffect } from 'react';
 // Since this component is simple and static, there's no parent container for it.
 
 const Comp = () => {
-	const hashChange = () => {
+	const hashChange = (event) => {
 		console.log('hashChange', window.location.hash);
+		console.log('hashChange event', event);
+		let parts = event.oldURL.split('#');
+		parts.shift();
+		const oldHash = parts.join('#');
+		console.log('hashChange oldHash', oldHash);
 
 		var hash = window.location.hash;
+
 		var keyword = 'rc';
-		var topicMapUrl = 'http://localhost:3000/';
-		var targetUrl = hash.substring(
-			hash.indexOf('rc=[') + keyword.length + 2,
-			hash.indexOf(']')
-		);
-		console.log('targetUrl', targetUrl);
-		document.getElementsByClassName('SP-Iframe__main')[0].contentWindow.postMessage(
-			{
-				type: 'topicMap.RC',
-				payload: targetUrl
-			},
-			topicMapUrl
-		);
+		if (hash.includes(keyword + '=')) {
+			var topicMapUrl = 'http://localhost:3000/';
+			var targetUrl = hash.substring(
+				hash.indexOf('rc=[') + keyword.length + 2,
+				hash.indexOf(']')
+			);
+			console.log('targetUrl', targetUrl);
+			window.location.hash = oldHash;
+			document.getElementsByClassName('SP-Iframe__main')[0].contentWindow.postMessage(
+				{
+					type: 'topicMap.RC',
+					payload: targetUrl
+				},
+				topicMapUrl
+			);
+		}
 	};
 
 	useEffect(() => {
@@ -32,7 +41,7 @@ const Comp = () => {
 			<h2 className='alt-header'>iFrame</h2>
 			<p>
 				<iframe
-					src='http://localhost:3000/#/bplaene?allowRemoteControl=true'
+					src='http://localhost:3000/#/bplaene?allowRemoteControl=true&lat=51.26956716943953&lng=7.186829522224084&zoom=8'
 					className='SP-Iframe__main'
 					allowfullscreen=''
 					style={{ height: '512px', width: '868px' }}
@@ -57,17 +66,17 @@ const Comp = () => {
 						</a>{' '}
 					</li>
 					<li>
-						<a href='#/iframetest?rc=[/bplaene?gazHit=eyJzb3J0ZXIiOjE5ODksInN0cmluZyI6Ijg5MiIsImdseXBoIjoiZmlsZSIsIm92ZXJsYXkiOiJCIiwieCI6Mzc0MTk4LjQxLCJ5Ijo1NjgxNDczLjc1LCJtb3JlIjp7InpsIjoxOCwidiI6Ijg5MiJ9LCJ0eXBlIjoiYnBsYWVuZSJ9]'>
+						<a href='#/iframetest?rc=[/bplaene?nr=892]'>
 							> Bebauungsplan 892 - Steinweg / Alter Markt - 3. Änderung
 						</a>{' '}
 					</li>
 					<li>
-						<a href='#/iframetest?rc=[/bplaene?gazHit=eyJzb3J0ZXIiOjE0MDUsInN0cmluZyI6IjExNTUiLCJnbHlwaCI6ImZpbGUiLCJvdmVybGF5IjoiQiIsIngiOjM3NTAzMi42LCJ5Ijo1NjgxOTIxLjE5LCJtb3JlIjp7InpsIjoxOCwidiI6IjExNTUifSwidHlwZSI6ImJwbGFlbmUifQ==]'>
+						<a href='#/iframetest?rc=[/bplaene?nr=1155]'>
 							> Bebauungsplan 1155 - Berliner Straße / Bredde
 						</a>{' '}
 					</li>
 					<li>
-						<a href='#/iframetest?rc=[/fnp/rechtsplan?gazHit=eyJzb3J0ZXIiOjE2Niwic3RyaW5nIjoiMTE0IiwiZ2x5cGgiOiJmaWxlIiwib3ZlcmxheSI6IkYiLCJ4IjozNzQ0MjkuNiwieSI6NTY4MjA1OC4wMSwibW9yZSI6eyJ6bCI6MTUsInYiOiIxMTQifSwidHlwZSI6ImFlbmRlcnVuZ3N2In0=]'>
+						<a href='#/iframetest?rc=[/fnp/rechtsplan?aev=114]'>
 							> 114. Änderung des Flächennutzungsplanes - Bahnhof Heubruch
 						</a>{' '}
 					</li>

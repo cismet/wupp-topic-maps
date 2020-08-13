@@ -189,6 +189,7 @@ export function searchForAEVs({
 export const actions = {
 	loadAEVs,
 	searchForAEVs,
+	getAEVByNr,
 	setCollapsedInfoBox: infoBoxStateDuck.actions.setMinifiedInfoBoxState
 };
 

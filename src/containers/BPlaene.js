@@ -17,7 +17,10 @@ import {
 } from '../redux/modules/gazetteerTopics';
 import { actions as mappingActions, constants as mappingConstants } from '../redux/modules/mapping';
 import { actions as uiStateActions } from '../redux/modules/uiState';
-import { actions as PlanoffenlegungsActions } from '../redux/modules/planoffenlegungen';
+import {
+	actions as PlanoffenlegungsActions,
+	getOffenlegungsStatus
+} from '../redux/modules/planoffenlegungen';
 import {
 	bplanFeatureStyler,
 	bplanLabeler,
@@ -186,15 +189,25 @@ export class BPlaene_ extends React.Component {
 		let selectedFeature = this.props.mapping.featureCollection[
 			this.props.mapping.selectedIndex
 		];
-
-		return (
-			selectedFeature !== undefined &&
-			this.props.planoffenlegungen.dataState.items.bplaene.includes(
+		if (selectedFeature !== undefined) {
+			const status = getOffenlegungsStatus(
+				this.props.planoffenlegungen,
+				'bplaene',
 				selectedFeature.properties.nummer
-			) &&
-			(selectedFeature.properties.status === 'nicht rechtskräftig' ||
-				selectedFeature.properties.status === 'nicht rechtskräftig,rechtskräftig')
-		);
+			);
+			return (
+				status !== undefined &&
+				(status.art === 'offenlegung' || status.art === 'beteiligung') &&
+				(selectedFeature.properties.status === 'nicht rechtskräftig' ||
+					selectedFeature.properties.status === 'nicht rechtskräftig,rechtskräftig')
+			);
+		}
+		return false;
+		// return (
+		// 	selectedFeature !== undefined &&
+		// 	this.props.planoffenlegungen.dataState.items.bplaene.includes(
+		// 		selectedFeature.properties.nummer
+		// 	) &&
 	}
 
 	openDocViewer() {

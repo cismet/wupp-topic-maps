@@ -21,7 +21,10 @@ import { actions as AEVActions, getAEVFeatures } from '../redux/modules/fnp_aend
 import { actions as HNActions } from '../redux/modules/fnp_hauptnutzungen';
 import { actions as MappingActions, constants as mappingConstants } from '../redux/modules/mapping';
 import { actions as UIStateActions } from '../redux/modules/uiState';
-import { actions as PlanoffenlegungsActions } from '../redux/modules/planoffenlegungen';
+import {
+	actions as PlanoffenlegungsActions,
+	getOffenlegungsStatus
+} from '../redux/modules/planoffenlegungen';
 
 import { aevFeatureStyler, aevLabeler, hnFeatureStyler, hnLabeler } from '../utils/fnpHelper';
 import { removeQueryPart } from '../utils/routingHelper';
@@ -282,6 +285,18 @@ export class Container_ extends React.Component {
 		}
 	}
 
+	isInPlanOffenlegung(selectedFeature) {
+		if (selectedFeature !== undefined) {
+			const status = getOffenlegungsStatus(
+				this.props.planoffenlegungen,
+				'aenderungsv',
+				selectedFeature.properties.name
+			);
+			return status !== undefined && selectedFeature.properties.status === 'n';
+		}
+		return false;
+	}
+
 	render() {
 		let backgroundStyling = queryString.parse(this.props.routing.location.search).mapStyle;
 
@@ -360,15 +375,17 @@ export class Container_ extends React.Component {
 			selectedFeature = this.props.mapping.featureCollection[
 				this.props.mapping.selectedIndex
 			];
-			if (
-				selectedFeature !== undefined &&
-				this.props.planoffenlegungen.dataState.items.aenderungsv.includes(
-					selectedFeature.properties.name
-				) &&
-				selectedFeature.properties.status === 'n'
-			) {
-				inPlanoffenlegung = true;
-			}
+			inPlanoffenlegung = this.isInPlanOffenlegung(selectedFeature);
+
+			// if (
+			// 	selectedFeature !== undefined &&
+			// 	this.props.planoffenlegungen.dataState.items.aenderungsv.includes(
+			// 		selectedFeature.properties.name
+			// 	) &&
+			// 	selectedFeature.properties.status === 'n'
+			// ) {
+			// 	inPlanoffenlegung = true;
+			// }
 		}
 		if (
 			this.props.mapping.featureCollection.length > 0 &&

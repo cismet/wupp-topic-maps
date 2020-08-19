@@ -24,7 +24,7 @@ COPY . .
 RUN rm /app/public/data && mkdir /app/public/data
 RUN rm /app/public/ehrenamt && mkdir /app/public/ehrenamt
 RUN rm /app/public/gaz && mkdir /app/public/gaz
-git add RUN VERSION=`cat .version`; sed -i "s/%TOPICMAP_VERSION%/$VERSION/" src/constants/versions.js
+RUN VERSION=`cat .version`; sed -i "s/%TOPICMAP_VERSION%/$VERSION/" src/constants/versions.js
 RUN HASH=`cat .githash`; sed -i "s/%TOPICMAP_HASH%/$HASH/" src/constants/versions.js
 RUN yarn run build
 

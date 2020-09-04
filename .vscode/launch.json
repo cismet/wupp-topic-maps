@@ -31,7 +31,16 @@
             "name": "Debug Stadtplan",
             "url": "http://localhost:3000/#/stadtplan/?lat=51.27179498177712&lng=7.197965721193838&zoom=10",
             "webRoot": "${workspaceRoot}"
+        },{
+            "type": "chrome",
+            "request": "launch",
+            "name": "Debug Stadtplan Bahnhof Vohwinkel",
+            "url": "http://localhost:3000/#/stadtplan/?lat=51.234209466916816&lng=7.071332509958746&zoom=14,",
+            "webRoot": "${workspaceRoot}"
         },
+        
+        
+        
         {
             "type": "chrome",
             "request": "launch",

@@ -271,7 +271,7 @@ export const getColorFromLebenslagenCombination = (combination) => {
 	if (lookup === null) {
 		const stateObject = getPOIColors(store.getState().stadtplan);
 		if (stateObject !== undefined) {
-			lookup = stateObject[0];
+			lookup = stateObject;
 		}
 
 		if (lookup === undefined || lookup === null) {

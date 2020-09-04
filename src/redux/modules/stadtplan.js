@@ -226,7 +226,7 @@ function setSelectedPOI(pid) {
 }
 
 function loadPOIColors(finishedHandler = () => {}) {
-	const manualReloadRequest = true;
+	const manualReloadRequest = false;
 	return (dispatch, getState) => {
 		dispatch(
 			colorDataDuck.actions.load({

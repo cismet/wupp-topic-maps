@@ -15,7 +15,7 @@ import {
 	actions as gazetteerTopicsActions,
 	getGazDataForTopicIds
 } from '../redux/modules/gazetteerTopics';
-import { actions as mappingActions } from '../redux/modules/mapping';
+import { actions as mappingActions, constants as mappingConstants } from '../redux/modules/mapping';
 import { actions as uiStateActions } from '../redux/modules/uiState';
 import {
 	actions as PlanoffenlegungsActions,
@@ -76,7 +76,23 @@ export class BPlaene_ extends React.Component {
 	}
 
 	bplanGazeteerhHit(selectedObject) {
-		this.props.bplanActions.searchForPlans(selectedObject);
+		// this.props.bplanActions.searchForPlans(selectedObject);
+		console.log('selectedObject', selectedObject);
+		if (
+			selectedObject !== undefined &&
+			selectedObject.length === 1 &&
+			selectedObject[0].type === 'bplaene'
+		)
+			this.props.bplanActions.getPlanFeatureByGazObject(selectedObject, (hit) => {
+				if (hit !== undefined) {
+					this.props.mappingActions.setFeatureCollection([ hit ]);
+					this.props.mappingActions.setSelectedFeatureIndex(0);
+					this.props.mappingActions.fitFeatureBounds(
+						hit,
+						mappingConstants.AUTO_FIT_MODE_STRICT
+					);
+				}
+			});
 	}
 
 	componentWillUpdate() {
@@ -138,7 +154,15 @@ export class BPlaene_ extends React.Component {
 		});
 	}
 	bplanSearchButtonHit(event) {
-		this.props.bplanActions.searchForPlans();
+		// this.props.bplanActions.searchForPlans();
+		this.props.bplanActions.getPlanFeatures({
+			boundingBox: this.props.mapping.boundingBox,
+			done: (hits) => {
+				this.props.mappingActions.setFeatureCollection(hits);
+
+				this.props.mappingActions.setSelectedFeatureIndex(0);
+			}
+		});
 	}
 
 	selectNextIndex() {
@@ -147,15 +171,6 @@ export class BPlaene_ extends React.Component {
 			potIndex = 0;
 		}
 		this.props.mappingActions.setSelectedFeatureIndex(potIndex);
-	}
-
-	doubleMapClick(event) {
-		const pos = proj4(proj4.defs('EPSG:4326'), proj4crs25832def, [
-			event.latlng.lng,
-			event.latlng.lat
-		]);
-		let wkt = `POINT(${pos[0]} ${pos[1]})`;
-		this.props.bplanActions.searchForPlans(null, wkt);
 	}
 
 	selectPreviousIndex() {
@@ -354,7 +369,7 @@ export class BPlaene_ extends React.Component {
 		return (
 			<div>
 				<TopicMap
-					noInitialLoadingText
+					initialLoadingText='Laden der B-Plan-Daten'
 					home={{
 						center: [ 51.2724, 7.199806 ],
 						zoom: 13
@@ -366,7 +381,10 @@ export class BPlaene_ extends React.Component {
 					gazetteerSearchBoxPlaceholdertext=' B-Plan-Nr. | Adresse | POI'
 					infoBox={info}
 					backgroundlayers={this.props.match.params.layers || 'uwBPlan|wupp-plan-live@20'}
-					dataLoader={[ this.props.planoffenlegungsActions.loadPlanoffenlegungen ]}
+					dataLoader={[
+						this.props.planoffenlegungsActions.loadPlanoffenlegungen,
+						this.props.bplanActions.loadBPlaene
+					]}
 					getFeatureCollectionForData={() => {
 						return this.props.mapping.featureCollection;
 					}}

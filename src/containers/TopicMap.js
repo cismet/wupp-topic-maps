@@ -51,6 +51,7 @@ export class TopicMap_ extends React.Component {
 		this.loadData = this.loadData.bind(this);
 		this.featureClick = this.featureClick.bind(this);
 		this.gotoHome = this.gotoHome.bind(this);
+		this.messageHandler = this.messageHandler.bind(this);
 		this.defaultShowModalApplicationMenu = this.defaultShowModalApplicationMenu.bind(this);
 		this.props.mappingActions.setBoundingBoxChangedTrigger((bbox) =>
 			this.props.refreshFeatureCollection(bbox)

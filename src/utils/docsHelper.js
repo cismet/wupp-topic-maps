@@ -173,12 +173,13 @@ export function getDocsForBPlanGazetteerEntry(props) {
 		pageIndex,
 		gazHit,
 		searchForPlans,
+		getPlanFeatureByGazObject,
 		docsActions,
 		dox,
 		gotoWholeDocument
 	} = props;
 
-	searchForPlans(
+	getPlanFeatureByGazObject(
 		[
 			{
 				sorter: 0,
@@ -189,12 +190,8 @@ export function getDocsForBPlanGazetteerEntry(props) {
 				more: { zl: 18, v: gazHit.more.v }
 			}
 		],
-		null,
-		{
-			skipMappingActions: true,
-			done: (bplanFeatures) => {
-				const bplan = bplanFeatures[0].properties;
-				let title = 'B-Plan ' + bplan.nummer;
+		(bplanFeature) => {
+			console.log('bplanFeature', bplanFeature);
 
 			const bplan = bplanFeature.properties;
 			let title = 'B-Plan ' + bplan.nummer;
@@ -262,6 +259,18 @@ export function getDocsForBPlanGazetteerEntry(props) {
 					)
 				});
 			}
+			console.log('docs', docs);
+
+			setDocs({
+				docs,
+				docsActions,
+				title,
+				docPackageIdParam,
+				docIndex,
+				pageIndex,
+				dox,
+				gotoWholeDocument
+			});
 		}
 	);
 }

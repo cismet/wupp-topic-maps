@@ -1,5 +1,6 @@
 import * as turfHelpers from '@turf/helpers';
 import inside from '@turf/inside';
+import center from '@turf/center';
 import localForage from 'localforage';
 import { combineReducers } from 'redux';
 import { persistReducer } from 'redux-persist';
@@ -9,6 +10,8 @@ import { getPolygonfromBBox } from '../../utils/gisHelper';
 import makeInfoBoxStateDuck from '../higherorderduckfactories/minifiedInfoBoxState';
 import { actions as mappingActions, constants as mappingConstants } from './mapping';
 import makeDataDuck from '../higherorderduckfactories/dataWithMD5Check';
+import booleanDisjoint from '@turf/boolean-disjoint';
+import bboxPolygon from '@turf/bbox-polygon';
 
 ///TYPES
 export const types = {
@@ -166,6 +169,8 @@ export function searchForPlans(
 	overriddenWKT,
 	cfg = { skipMappingActions: false, done: () => {} }
 ) {
+	console.log('gazObject', gazObject);
+
 	return function(dispatch, getState) {
 		if (!cfg.skipMappingActions) {
 			dispatch(mappingActions.setSearchProgressIndicator(true));
@@ -362,7 +367,7 @@ function convertBPlanToFeature(bplan, index) {
 	if (bplan === undefined) {
 		return undefined;
 	}
-	const id = bplan.id;
+	const id = index;
 	const type = 'Feature';
 	const featuretype = 'B-Plan';
 
@@ -401,6 +406,7 @@ function convertBPlanToFeature(bplan, index) {
 //EXPORT ACTIONS
 export const actions = {
 	searchForPlans,
+	getPlanFeatures,
 	loadBPlaene,
 	getPlanFeatureByTitle,
 	setCollapsedInfoBox: infoBoxStateDuck.actions.setMinifiedInfoBoxState,

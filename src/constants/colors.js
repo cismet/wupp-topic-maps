@@ -1,22 +1,23 @@
+//joined lebenslagen need to be sorted
 let poiColors = {
 	'Freizeit, Sport': '#194761',
 	Mobilität: '#6BB6D7',
-	'Religion, Erholung': '#094409',
+	'Erholung, Religion': '#094409',
 	Gesellschaft: '#B0CBEC',
 	Religion: '#0D0D0D',
 	Gesundheit: '#CB0D0D',
-	'Freizeit, Erholung': '#638555',
+	'Erholung, Freizeit': '#638555',
 	Sport: '#0141CF',
-	'Kultur, Freizeit': '#B27A08',
-	'Kultur, Gesellschaft': '#E26B0A',
+	'Freizeit, Kultur': '#B27A08',
+	'Gesellschaft, Kultur': '#E26B0A',
 	'öffentliche Dienstleistungen': '#417DD4',
 	Orientierung: '#BFBFBF',
 	Bildung: '#FFC000',
 	Stadtbild: '#695656',
-	'öffentliche Dienstleistungen, Gesellschaft': '#569AD6',
-	'Freizeit, Dienstleistungen': '#26978F',
+	'Gesellschaft, öffentliche Dienstleistungen': '#569AD6',
+	'Dienstleistungen, Freizeit': '#26978F',
 	Dienstleistungen: '#538DD5',
-	'Freizeit, Bildung': '#BBAA1E',
+	'Bildung, Freizeit': '#BBAA1E',
 	Kinderbetreuung: '#00A0B0'
 };
 

@@ -51,6 +51,7 @@ export class TopicMap_ extends React.Component {
 		this.loadData = this.loadData.bind(this);
 		this.featureClick = this.featureClick.bind(this);
 		this.gotoHome = this.gotoHome.bind(this);
+		this.messageHandler = this.messageHandler.bind(this);
 		this.defaultShowModalApplicationMenu = this.defaultShowModalApplicationMenu.bind(this);
 		this.props.mappingActions.setBoundingBoxChangedTrigger((bbox) =>
 			this.props.refreshFeatureCollection(bbox)
@@ -85,6 +86,17 @@ export class TopicMap_ extends React.Component {
 					this.forceUpdate(); //ugly winning: prevent typeahead to have shitty behaviour
 				});
 		}
+		const uSearch = new URLSearchParams(this.props.routing.location.search);
+		let allowRemoteControl =
+			uSearch.get('allowRemoteControl') !== null &&
+			uSearch.get('allowRemoteControl') === 'true';
+
+		if (allowRemoteControl === true) {
+			window.addEventListener('message', this.messageHandler, true);
+			console.log('RC enabled.');
+		} else {
+			console.log('RC disabled.');
+		}
 	}
 	componentWillUpdate() {
 		let gazHitBase64 = new URLSearchParams(this.props.routing.location.search).get('gazHit');
@@ -108,6 +120,34 @@ export class TopicMap_ extends React.Component {
 						removeQueryPart(this.props.routing.location.search, 'gazHit')
 				);
 			}
+		}
+	}
+	componentWillUnmount() {
+		window.removeEventListener('message', this.messageHandler);
+	}
+
+	messageHandler(event) {
+		const data = event.data;
+
+		if (data !== undefined && data.type === 'topicMap.RC') {
+			console.log('message received', data);
+			console.log('this.props', this.props);
+			console.log('window.location', window.location);
+
+			//ugly winning to prevent a animation zoom and rounding problems (stuck half way)
+			if (!data.payload.includes('lat=')) {
+				data.payload += '&lat=10';
+			}
+			if (!data.payload.includes('lng=')) {
+				data.payload += '&lng=10';
+			}
+			if (!data.payload.includes('zoom=')) {
+				data.payload += '&zoom=18';
+			}
+
+			this.props.routingActions.push(data.payload);
+
+			console.log('window.location', window.location);
 		}
 	}
 	featureClick(event) {
@@ -470,7 +510,7 @@ TopicMap.propTypes = {
 	fullScreenControl: PropTypes.bool,
 	locator: PropTypes.bool,
 	photoLightBox: PropTypes.bool,
-	dataLoader: PropTypes.func,
+	dataLoader: PropTypes.oneOfType([ PropTypes.func, PropTypes.array ]),
 	getFeatureCollectionForData: PropTypes.func,
 	featureStyler: PropTypes.func,
 	featureHoverer: PropTypes.func,

@@ -203,7 +203,7 @@ function loadKitas(finishedHandler = () => {}) {
 			queryString.parse(state.routing.location.search).alwaysRefreshKitasOnReload !==
 			undefined;
 
-		return fetch('/kitas/kitas.data.json.md5', {
+		return fetch('/data/kitas.data.json.md5', {
 			method: 'get',
 			headers: noCacheHeaders
 		})
@@ -237,7 +237,7 @@ function loadKitas(finishedHandler = () => {}) {
 				}
 			})
 			.then((fetchit) => {
-				return fetch('/kitas/kitas.data.json', {
+				return fetch('/data/kitas.data.json', {
 					method: 'get',
 					headers: noCacheHeaders
 				});

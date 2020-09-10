@@ -82,7 +82,7 @@ export class BPlaene_ extends React.Component {
 			selectedObject !== undefined &&
 			selectedObject.length === 1 &&
 			selectedObject[0].type === 'bplaene'
-		)
+		) {
 			this.props.bplanActions.getPlanFeatureByGazObject(selectedObject, (hit) => {
 				if (hit !== undefined) {
 					this.props.mappingActions.setFeatureCollection([ hit ]);
@@ -93,6 +93,9 @@ export class BPlaene_ extends React.Component {
 					);
 				}
 			});
+		} else {
+			this.bplanSearchButtonHit();
+		}
 	}
 
 	componentWillUpdate() {

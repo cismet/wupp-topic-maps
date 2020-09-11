@@ -16,9 +16,15 @@ import {
 	faTimes,
 	faMapMarker,
 	faMapMarkerAlt,
-	faExternalLinkSquareAlt
+	faExternalLinkSquareAlt,
+	faCalendar,
+	faCalendarAlt,
+	faBars,
+	faCodeBranch,
+	faChartBar
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faBitbucket } from '@fortawesome/free-brands-svg-icons';
 import React from 'react';
 import { Icon } from 'react-fa';
 
@@ -43,9 +49,12 @@ const nameMap = {
 	'external-link-square': faExternalLinkSquareAlt,
 	'chevron-circle-down': undefined,
 	user: undefined,
-	calendar: undefined,
-	bars: undefined,
+	calendar: faCalendarAlt,
+	bars: faBars,
+	'bar-chart': faChartBar,
 	'minus-square': undefined,
+	bitbucket: faBitbucket,
+	'code-fork': faCodeBranch,
 	car: undefined,
 	'chevron-circle-up': undefined,
 	'arrow-circle-up': undefined,

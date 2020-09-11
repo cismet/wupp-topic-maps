@@ -15,7 +15,8 @@ import {
 	faChild,
 	faTimes,
 	faMapMarker,
-	faMapMarkerAlt
+	faMapMarkerAlt,
+	faExternalLinkSquareAlt
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React from 'react';
@@ -39,7 +40,7 @@ const nameMap = {
 	poi: faTag,
 	times: faTimes,
 	x: faTimes,
-	'external-link-square': undefined,
+	'external-link-square': faExternalLinkSquareAlt,
 	'chevron-circle-down': undefined,
 	user: undefined,
 	calendar: undefined,

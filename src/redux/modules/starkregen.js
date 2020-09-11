@@ -70,7 +70,7 @@ export const initialState = {
 			title: 'Top. Karte'
 		},
 		{
-			layerkey: 'trueOrtho2018@50|rvrSchrift@100|wupp-plan-live@20',
+			layerkey: 'trueOrtho2020@50|rvrSchrift@100|wupp-plan-live@20',
 			src: '/images/rain-hazard-map-bg/ortho.png',
 			title: 'Luftbildkarte'
 		},
@@ -87,7 +87,7 @@ export const initialState = {
 			title: 'Top. Karte'
 		},
 		{
-			layerkey: 'trueOrtho2018Cached@50|rvrSchrift@100',
+			layerkey: 'trueOrtho2020Cached@50|rvrSchrift@100',
 			src: '/images/rain-hazard-map-bg/ortho.png',
 			title: 'Luftbildkarte'
 		},

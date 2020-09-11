@@ -13,7 +13,9 @@ import {
 	faTag,
 	faTags,
 	faChild,
-	faTimes
+	faTimes,
+	faMapMarker,
+	faMapMarkerAlt
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React from 'react';
@@ -53,7 +55,7 @@ const nameMap = {
 	quartier: faChartPie,
 	child: faChild,
 	kita: faChild,
-	'map-marker': undefined,
+	'map-marker': faMapMarker,
 	'battery-quarter': faChargingStation,
 	'charging-station': faChargingStation,
 	'square-full': faSquareFull

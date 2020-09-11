@@ -198,7 +198,7 @@ const KitasSettingsPanel = ({
 			uiStateActions={uiStateActions}
 			sectionKey='settings'
 			sectionTitle='Einstellungen'
-			sectionBsStyle='primary'
+			sectionBsStyle='success'
 			sectionContent={
 				<SettingsPanelWithPreviewSection
 					width={uiState.width}

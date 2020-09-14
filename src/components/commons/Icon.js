@@ -21,7 +21,8 @@ import {
 	faCalendarAlt,
 	faBars,
 	faCodeBranch,
-	faChartBar
+	faChartBar,
+	faFilePdf
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBitbucket } from '@fortawesome/free-brands-svg-icons';
@@ -36,6 +37,7 @@ const nameMap = {
 	'search-location': faSearchLocation,
 	info: faInfoCircle,
 	file: faFile,
+	'file-pdf-o': faFilePdf,
 	home: faHome,
 	adresse: faHome,
 	road: faRoad,

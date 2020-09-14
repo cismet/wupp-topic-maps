@@ -22,7 +22,10 @@ import {
 	faBars,
 	faCodeBranch,
 	faChartBar,
-	faFilePdf
+	faFilePdf,
+	faArrowsAltV,
+	faArrowsAltH,
+	faFileArchive
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBitbucket } from '@fortawesome/free-brands-svg-icons';
@@ -71,7 +74,10 @@ const nameMap = {
 	'map-marker': faMapMarker,
 	'battery-quarter': faChargingStation,
 	'charging-station': faChargingStation,
-	'square-full': faSquareFull
+	'square-full': faSquareFull,
+	'arrows-v': faArrowsAltV,
+	'arrows-h': faArrowsAltH,
+	'file-archive-o': faFileArchive
 };
 
 const IconComp = (props) => {

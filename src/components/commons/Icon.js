@@ -46,6 +46,7 @@ const nameMap = {
 	poi: faTag,
 	times: faTimes,
 	x: faTimes,
+	close: faTimes,
 	'external-link-square': faExternalLinkSquareAlt,
 	'chevron-circle-down': undefined,
 	user: undefined,

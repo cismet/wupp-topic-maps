@@ -15,10 +15,11 @@ const freibadBadSVG = getBadSVG(helpSVGSize, '#565B5E', 'Freibad', 'helpTextSVG1
 
 const staedtischesFreibadSVG = getBadSVG(
 	helpSVGSize,
-	getColorForProperties({
-		more: { zugang: 'öffentlich', betreiber: 'Stadt' },
-		mainlocationtype: { lebenslagen: [ 'Freizeit', 'Sport' ] }
-	}),
+	// getColorForProperties({
+	// 	more: { typ: 'Hallenbad', zugang: 'öffentlich', betreiber: 'Stadt' },
+	// 	mainlocationtype: { name: 'Schwimmbäder', lebenslagen: [ 'Freizeit', 'Sport' ] }
+	// }),
+	'#1A4860',
 	'Freibad',
 	'helpTextSVG2'
 );
@@ -189,11 +190,10 @@ const BaederModalMenuHelpSection = ({ uiState, uiStateActions }) => {
 						<span style={{ whiteSpace: 'nowrap' }}>
 							<Icon name='envelope-square' /> E-Mail
 						</span>{' '}
-						und <Icon name='phone' />
-						Telefon. Durch Anklicken des Kalender-Symbols <Icon name='calendar' />{' '}
-						gelangen Sie bei einigen städtischen Bädern zum Aqua-Aktiv-Kursprogramm des
-						Sport- und Bäderamtes. Dort können Sie online Fitnesskurse in diesen Bädern
-						buchen.
+						und <Icon name='phone' /> Telefon. Durch Anklicken des Kalender-Symbols{' '}
+						<Icon name='calendar' /> gelangen Sie bei einigen städtischen Bädern zum
+						Aqua-Aktiv-Kursprogramm des Sport- und Bäderamtes. Dort können Sie online
+						Fitnesskurse in diesen Bädern buchen.
 					</p>
 					<p>
 						Wenn Sie noch kein Schwimmbad im aktuellen Kartenausschnitt selektiert

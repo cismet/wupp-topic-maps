@@ -1,6 +1,7 @@
 import {
 	faClock,
 	faInfoCircle,
+	faFile,
 	faSquareFull,
 	faSearch,
 	faSearchLocation,
@@ -25,7 +26,7 @@ import {
 	faArrowsAltH,
 	faFileArchive
 } from '@fortawesome/free-solid-svg-icons';
-import { faFilePdf, faFile } from '@fortawesome/free-regular-svg-icons';
+import { faFilePdf, faFile as faFileReg } from '@fortawesome/free-regular-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBitbucket } from '@fortawesome/free-brands-svg-icons';
 import React from 'react';
@@ -77,7 +78,7 @@ const nameMap = {
 	'arrows-v': faArrowsAltV,
 	'arrows-h': faArrowsAltH,
 	'file-archive-o': faFileArchive,
-	'file-o': faFile
+	'file-o': faFileReg
 };
 
 const IconComp = (props) => {
@@ -104,7 +105,7 @@ const IconComp = (props) => {
 					<span
 						style={{ fontSize: '1.0rem', paddingRight: '2px', paddingTop: '3px' }}
 						className='fa-layers-text fa-inverse'
-						data-fa-transform='rotate-90'
+						// data-fa-transform='rotate-90'
 					>
 						{overlay}
 					</span>

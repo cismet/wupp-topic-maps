@@ -21,7 +21,7 @@ const Component = ({ uiState, uiStateActions }) => {
 						angeboten. (Wenn Sie weitere Zeichen eingeben, wird der Inhalt der
 						Auswahlliste angepasst.) Durch das vorangestellte Symbol erkennen Sie, ob es
 						sich dabei um einen <Icon name='circle' /> Stadtbezirk, ein{' '}
-						<Icon name='pie-chart' /> Quartier, eine <Icon name='home' /> Adresse, eine
+						<Icon name='pie-chart' /> Quartier, eine <Icon name='home' /> Adresse, eine{' '}
 						<Icon name='road' /> Straße ohne zugeordnete Hausnummern, einen{' '}
 						<Icon name='tag' /> POI, die <Icon name='tags' /> alternative Bezeichnung
 						eines POI oder eine <Icon name='child' /> Kindertageseinrichtung handelt.

@@ -3,7 +3,6 @@ import {
 	faInfoCircle,
 	faSquareFull,
 	faSearch,
-	faFile,
 	faSearchLocation,
 	faChargingStation,
 	faCircle,
@@ -22,11 +21,11 @@ import {
 	faBars,
 	faCodeBranch,
 	faChartBar,
-	faFilePdf,
 	faArrowsAltV,
 	faArrowsAltH,
 	faFileArchive
 } from '@fortawesome/free-solid-svg-icons';
+import { faFilePdf, faFile } from '@fortawesome/free-regular-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBitbucket } from '@fortawesome/free-brands-svg-icons';
 import React from 'react';
@@ -77,7 +76,8 @@ const nameMap = {
 	'square-full': faSquareFull,
 	'arrows-v': faArrowsAltV,
 	'arrows-h': faArrowsAltH,
-	'file-archive-o': faFileArchive
+	'file-archive-o': faFileArchive,
+	'file-o': faFile
 };
 
 const IconComp = (props) => {

@@ -24,7 +24,10 @@ import {
 	faChartBar,
 	faArrowsAltV,
 	faArrowsAltH,
-	faFileArchive
+	faFileArchive,
+	faPhone,
+	faChevronCircleDown,
+	faChevronCircleUp
 } from '@fortawesome/free-solid-svg-icons';
 import { faFilePdf, faFile as faFileReg } from '@fortawesome/free-regular-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -34,7 +37,7 @@ import { Icon } from 'react-fa';
 
 const nameMap = {
 	clock: faClock,
-	phone: undefined, // faPhone,
+	phone: faPhone,
 	search: faSearch,
 	lupe: faSearch,
 	'search-location': faSearchLocation,
@@ -53,7 +56,7 @@ const nameMap = {
 	x: faTimes,
 	close: faTimes,
 	'external-link-square': faExternalLinkSquareAlt,
-	'chevron-circle-down': undefined,
+	'chevron-circle-down': faChevronCircleDown,
 	user: undefined,
 	calendar: faCalendarAlt,
 	bars: faBars,
@@ -62,7 +65,7 @@ const nameMap = {
 	bitbucket: faBitbucket,
 	'code-fork': faCodeBranch,
 	car: undefined,
-	'chevron-circle-up': undefined,
+	'chevron-circle-up': faChevronCircleUp,
 	'arrow-circle-up': undefined,
 	bicycle: undefined,
 	circle: faCircle,

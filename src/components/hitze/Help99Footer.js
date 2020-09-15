@@ -9,13 +9,13 @@ const Comp = ({ showModalMenu }) => {
 			Stadt Wuppertal | Stadtkarte 2.0 © RVR | WebAtlasDE © BKG{' '}
 			<a onClick={() => showModalMenu('datengrundlage')}>(Details und Nutzungsbedingungen)</a>
 			<br />
-			<b>Modellierung und Simulationsberechnung</b> (Version 1.0 | 12/2018):{' '}
-			<a target='_wsw' href='https://www.wsw-online.de/wsw-energie-wasser/privatkunden/'>
-				WSW Energie und Wasser AG
+			<b>Modellberechnungen</b>{' '}
+			<a target='_more' href='http://www.k.plan.ruhr/'>
+				K.PLAN Klima.Umwelt &amp; Planung GmbH
 			</a>{' '}
-			|{' '}
-			<a target='_pecher' href='https://www.pecher.de/'>
-				Dr. Pecher AG (Erkrath)
+			im Auftrag der{' '}
+			<a target='_more' href='https://www.wuppertal.de/microsite/klimaschutz/index.php'>
+				Stadt Wuppertal / Klimaschutz
 			</a>
 			<CismetFooterAcks />
 		</div>

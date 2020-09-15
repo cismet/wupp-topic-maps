@@ -18,7 +18,7 @@ const Component = ({ uiState, uiStateActions, showModalMenu }) => {
 						Die Modellberechnungen zu den Hitzebelastungen in der Stadt Wuppertal wurden
 						vom Ingenieurbüro{' '}
 						<a target='_more' href='http://www.k.plan.ruhr/'>
-							K.PLAN Klima.Umwelt&amp;Planung GmbH
+							K.PLAN Klima.Umwelt &amp; Planung GmbH
 						</a>{' '}
 						im Zusammenhang mit der Erstellung des Gutachtens{' '}
 						<a
@@ -78,11 +78,12 @@ const Component = ({ uiState, uiStateActions, showModalMenu }) => {
 							<strong>Amtliche Basiskarte ABK Graustufen</strong>. (Wöchentlich in
 							einem automatisierten Prozess aus dem Fachverfahren ALKIS des
 							Liegenschaftskatasters abgeleitete großmaßstäbige topographische Karte
-							in Graustufen.) © Stadt Wuppertal (
-							<a target='_more' href='http://www.govdata.de/dl-de/by-2-0'>
-								Datenlizenz Deutschland - Namensnennung - Version 2.0
-							</a>
-							). (b) <strong>Hillshade</strong> (Schummerungsdarstellung eines für
+							in Graustufen.) © Stadt Wuppertal (<a
+								target='_more'
+								href='https://www.govdata.de/dl-de/zero-2-0'
+							>
+								Datenlizenz Deutschland - Zero - Version 2.0
+							</a>). (b) <strong>Hillshade</strong> (Schummerungsdarstellung eines für
 							hydrologische Fragestellungen optimierten Digitalen Geländemodells aus
 							Laserscanner-Befliegungen (12/2008 und 01/2009) mit ergänztem
 							Gebäudebestand (Auflösung 25cm x 25cm), ausgeführt in 2012 vom

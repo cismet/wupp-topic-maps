@@ -9,7 +9,7 @@ const Comp = ({ showModalMenu }) => {
 			Stadt Wuppertal | Stadtkarte 2.0 © RVR | WebAtlasDE © BKG{' '}
 			<a onClick={() => showModalMenu('datengrundlage')}>(Details und Nutzungsbedingungen)</a>
 			<br />
-			<b>Modellberechnungen</b>{' '}
+			<b>Modellberechnungen</b>:{' '}
 			<a target='_more' href='http://www.k.plan.ruhr/'>
 				K.PLAN Klima.Umwelt &amp; Planung GmbH
 			</a>{' '}

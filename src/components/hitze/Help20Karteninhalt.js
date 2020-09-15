@@ -26,7 +26,7 @@ const Component = ({ uiState, uiStateActions, showModalMenu }) => {
 						Datenebene wieder ausgeblendet. Weil sich die hitzebelasteten und die stark
 						hitzebelasteten Rasterzellen nicht überlappen und die Hitzebelastung im
 						Zukunftsszenario 2050-2016 als transparenter Decker ausgeprägt wird, können
-						die drei Datenbenen beliebig kombiniert werden. Details zu den
+						die drei Datenebenen beliebig kombiniert werden. Details zu den
 						Modellberechnungen finden Sie hier in der Kompaktanleitung unter{' '}
 						<a onClick={() => showModalMenu('datengrundlage')}>Datengrundlagen</a>,{' '}
 						<a onClick={() => showModalMenu('modellberechnungen')}>

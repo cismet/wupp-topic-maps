@@ -26,7 +26,7 @@ const Component = ({ uiState, uiStateActions, showModalMenu }) => {
 							Representative Concentration Pathways, abgekürzt RCP
 						</a>) erstellt. Für unser Zukunftsszenario wurde das Treibhausgas-Szenario
 						RCP 8.5 verwendet, in dem ein sehr hoher vom Menschen verursachter
-						Strahlungsantrieb von 8.5 W/m² bis zum Jahr 2100 angenommen wird. Der
+						Strahlungsantrieb von 8,5 W/m² bis zum Jahr 2100 angenommen wird. Der
 						Strahlungsantrieb beschreibt den Energieumsatz pro Zeitspanne und
 						Flächeneinheit, der durch die Treibhausgasemissionen verursacht wird. RCP
 						8.5 passt zu der Annahme, dass keine wirksamen Klimaschutzmaßnahmen

@@ -77,7 +77,6 @@ export class BPlaene_ extends React.Component {
 
 	bplanGazeteerhHit(selectedObject) {
 		// this.props.bplanActions.searchForPlans(selectedObject);
-		console.log('selectedObject', selectedObject);
 		if (
 			selectedObject !== undefined &&
 			selectedObject.length === 1 &&
@@ -192,6 +191,7 @@ export class BPlaene_ extends React.Component {
 		let selectedFeature = this.props.mapping.featureCollection[
 			this.props.mapping.selectedIndex
 		];
+
 		if (selectedFeature !== undefined) {
 			const status = getOffenlegungsStatus(
 				this.props.planoffenlegungen,

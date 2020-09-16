@@ -25,7 +25,7 @@ export function loadPlanoffenlegungen(finishedHandler = () => {}) {
 		dispatch(
 			dataDuck.actions.load({
 				manualReloadRequested: manualReloadRequest,
-				dataURL: '/data/planoffenlegungen-alpha.json',
+				dataURL: '/data/planoffenlegungen.json',
 				errorHandler: (err) => {
 					console.log(err);
 				},
@@ -55,7 +55,7 @@ export const getOffenlegungsStatus = (state, kind, nr) => {
 		const found = entries.find((e) => e.nr === nr);
 		if (found !== undefined) {
 			const entry = Object.assign(
-				{ art: 'offenlegung', von: '2020-01-01:00:00', bis: '3000-01-01:00:00' },
+				{ art: 'offenlegung', von: '2020-01-01T00:00', bis: '3000-01-01T00:00' },
 				found
 			);
 

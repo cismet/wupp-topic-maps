@@ -121,6 +121,12 @@
             "name": "Debug iframetest",
             "url": "http://localhost:3000/#/iframetest/",
             "webRoot": "${workspaceRoot}"
+        },{
+            "type": "chrome",
+            "request": "launch",
+            "name": "Debug GenericTopicMap",
+            "url": "http://localhost:3000/#/meine/Wasserstofft_in_Wuppertal?lat=51.308116461219015&lng=7.252548680284107&zoom=13",
+            "webRoot": "${workspaceRoot}"
         }
 
         

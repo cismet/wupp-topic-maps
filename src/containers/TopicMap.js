@@ -415,7 +415,7 @@ export class TopicMap_ extends React.Component {
 							}}
 							backgroundlayers={this.props.backgroundlayers}
 							fallbackZoom={this.props.home.zoom}
-							fullScreenControlEnabled={this.props.locatorControl}
+							fullScreenControlEnabled={this.props.fullScreenControl}
 							locateControlEnabled={this.props.locatorControl}
 						>
 							{overlayFeature}

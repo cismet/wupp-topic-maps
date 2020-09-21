@@ -75,7 +75,7 @@ export class GenericTopicMap_ extends React.Component {
 	componentDidUpdate() {
 		console.log('this.props.routing', this.props.match.params.name);
 		if (this.props.match.params.name !== undefined) {
-			document.title = this.props.match.params.name.replaceAll('_', ' ');
+			document.title = this.props.match.params.name.replace(/_/g, ' ');
 		} else {
 			document.title = 'Meine Karte';
 		}

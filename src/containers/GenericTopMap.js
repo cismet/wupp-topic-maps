@@ -30,7 +30,7 @@ import DemoMenuIntroduction from '../components/demo/DemoMenuIntroduction';
 import DemoMenuSettingsSection from '../components/demo/DemoMenuSettingsSection';
 import InfoBox from '../components/commons/InfoBox';
 import { config } from 'components/generic/Config';
-
+import SecondaryInfoModal from 'components/generic/SecondaryInfo';
 function mapStateToProps(state) {
 	return {
 		uiState: state.uiState,
@@ -53,6 +53,9 @@ export class GenericTopicMap_ extends React.Component {
 	constructor(props, context) {
 		super(props, context);
 		this.zoomToFeature = this.zoomToFeature.bind(this);
+		this.state = {
+			secondaryInfoVisible: false
+		};
 		// this.gotoHome = this.gotoHome.bind(this);
 		// this.changeMarkerSymbolSize = this.changeMarkerSymbolSize.bind(this);
 		// this.props.mappingActions.setBoundingBoxChangedTrigger((bbox) =>
@@ -109,7 +112,8 @@ export class GenericTopicMap_ extends React.Component {
 		const links = getActionLinksForFeature(currentFeature, {
 			displayZoomToFeature: true,
 			zoomToFeature: this.zoomToFeature,
-			displaySecondaryInfoAction: true
+			displaySecondaryInfoAction: true,
+			setVisibleStateOfSecondaryInfo: (vis) => this.setState({ secondaryInfoVisible: vis })
 		});
 		const header = <span>{currentFeature.properties.info.header || config.info.header}</span>;
 		const headerColor = getColorForProperties((currentFeature || {}).properties);
@@ -164,72 +168,87 @@ export class GenericTopicMap_ extends React.Component {
 		);
 
 		return (
-			<TopicMap
-				ref={(comp) => {
-					this.topicMap = comp;
-				}}
-				{...config.tmConfig}
-				infoBox={info}
-				getFeatureCollectionForData={() => featureCollection}
-				setSelectedFeatureIndex={this.props.mappingActions.setSelectedFeatureIndex}
-				featureStyler={getFeatureStyler(50, getColorForProperties)}
-				secondaryInfoBoxElements={[
-					<InfoBoxFotoPreview
-						currentFeature={currentFeature}
-						getPhotoUrl={(feature) => {
-							console.log('feature', feature);
-
-							if ((feature || { properties: {} }).properties.fotos !== undefined) {
-								return (
-									'https://www.wuppertal.de/geoportal/emobil/autos/fotos/' +
-									feature.properties.foto
-								);
-							} else if (
-								(feature || { properties: {} }).properties.foto !== undefined
-							) {
-								return feature.properties.foto;
-							} else {
-								return undefined;
-							}
-						}}
-						getPhotoSeriesUrl={(feature) => {
-							console.log('feature', feature);
-
-							if ((feature || { properties: {} }).properties.fotos !== undefined) {
-								return (
-									'https://www.wuppertal.de/geoportal/emobil/autos/fotos/' +
-									feature.properties.foto
-								);
-							} else {
-								return undefined;
-							}
-						}}
-						uiStateActions={this.props.uiStateActions}
+			<div>
+				{this.state.secondaryInfoVisible === true &&
+				currentFeature !== undefined && (
+					<SecondaryInfoModal
+						visible={this.state.secondaryInfoVisible}
+						feature={currentFeature}
+						setVisibleState={(vis) => this.setState({ secondaryInfoVisible: vis })}
+						uiHeight={this.props.uiState.height}
 					/>
-				]}
-				modalMenu={
-					<GenericModalApplicationMenu
-						uiState={this.props.uiState}
-						uiStateActions={this.props.uiStateActions}
-						menuIntroduction={
-							<DemoMenuIntroduction uiStateActions={this.props.uiStateActions} />
-						}
-						menuSections={[
-							<DemoMenuSettingsSection
-								key='DemoMenuSettingsSection'
-								uiState={this.props.uiState}
-								uiStateActions={this.props.uiStateActions}
-							/>,
-							<DemoMenuHelpSection
-								key='DemoMenuHelpSection'
-								uiState={this.props.uiState}
-								uiStateActions={this.props.uiStateActions}
-							/>
-						]}
-					/>
-				}
-				featureCollection={config.features}
-			/>
+				)}
+				<TopicMap
+					ref={(comp) => {
+						this.topicMap = comp;
+					}}
+					{...config.tmConfig}
+					infoBox={info}
+					getFeatureCollectionForData={() => featureCollection}
+					setSelectedFeatureIndex={this.props.mappingActions.setSelectedFeatureIndex}
+					featureStyler={getFeatureStyler(50, getColorForProperties)}
+					secondaryInfoBoxElements={[
+						<InfoBoxFotoPreview
+							currentFeature={currentFeature}
+							getPhotoUrl={(feature) => {
+								console.log('feature', feature);
+
+								if (
+									(feature || { properties: {} }).properties.fotos !== undefined
+								) {
+									return (
+										'https://www.wuppertal.de/geoportal/emobil/autos/fotos/' +
+										feature.properties.foto
+									);
+								} else if (
+									(feature || { properties: {} }).properties.foto !== undefined
+								) {
+									return feature.properties.foto;
+								} else {
+									return undefined;
+								}
+							}}
+							getPhotoSeriesUrl={(feature) => {
+								console.log('feature', feature);
+
+								if (
+									(feature || { properties: {} }).properties.fotos !== undefined
+								) {
+									return (
+										'https://www.wuppertal.de/geoportal/emobil/autos/fotos/' +
+										feature.properties.foto
+									);
+								} else {
+									return undefined;
+								}
+							}}
+							uiStateActions={this.props.uiStateActions}
+						/>
+					]}
+					modalMenu={
+						<GenericModalApplicationMenu
+							uiState={this.props.uiState}
+							uiStateActions={this.props.uiStateActions}
+							menuIntroduction={
+								<DemoMenuIntroduction uiStateActions={this.props.uiStateActions} />
+							}
+							menuSections={[
+								<DemoMenuSettingsSection
+									key='DemoMenuSettingsSection'
+									uiState={this.props.uiState}
+									uiStateActions={this.props.uiStateActions}
+								/>,
+								<DemoMenuHelpSection
+									key='DemoMenuHelpSection'
+									uiState={this.props.uiState}
+									uiStateActions={this.props.uiStateActions}
+								/>
+							]}
+						/>
+					}
+					featureCollection={config.features}
+				/>
+			</div>
 		);
 	}
 }

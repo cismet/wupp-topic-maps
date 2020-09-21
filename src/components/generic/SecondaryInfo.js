@@ -16,17 +16,17 @@ const Comp = ({ visible, feature, setVisibleState, uiHeight }) => {
 		overflowX: 'hidden',
 		maxHeight: uiHeight - 200
 	};
-	const ladestation = feature.properties;
+	const properties = feature.properties;
 	let foto;
-	if (ladestation.foto !== undefined) {
-		foto = 'https://www.wuppertal.de/geoportal/emobil/autos/fotos/' + ladestation.foto;
+	if (properties.foto !== undefined) {
+		foto = properties.secondaryInfos.image;
 	}
 	let iconName = 'charging-station';
 
 	let steckerverbindungenArr = [];
 	let steckerverbindungenTableArr = [];
-	if (ladestation.steckerverbindungen && ladestation.steckerverbindungen.length > 0) {
-		ladestation.steckerverbindungen.forEach((v, index) => {
+	if (properties.steckerverbindungen && properties.steckerverbindungen.length > 0) {
+		properties.steckerverbindungen.forEach((v, index) => {
 			steckerverbindungenArr.push(
 				`${v.anzahl} x ${v.steckdosentyp} (${v.leistung}kW,${v.strom}A,${v.spannung}V)`
 			);
@@ -59,32 +59,32 @@ const Comp = ({ visible, feature, setVisibleState, uiHeight }) => {
 		});
 	}
 	let links = [];
-	if (ladestation.betreiber.telefon) {
+	if (properties.betreiber.telefon) {
 		links.push(
 			<IconLink
 				key={`IconLink.tel`}
 				tooltip='Betreiber Anrufen'
-				href={'tel:' + ladestation.betreiber.telefon}
+				href={'tel:' + properties.betreiber.telefon}
 				iconname='phone'
 			/>
 		);
 	}
-	if (ladestation.betreiber.email) {
+	if (properties.betreiber.email) {
 		links.push(
 			<IconLink
 				key={`IconLink.email`}
 				tooltip='E-Mail an Betreiber schreiben'
-				href={'mailto:' + ladestation.betreiber.email}
+				href={'mailto:' + properties.betreiber.email}
 				iconname='envelope-square'
 			/>
 		);
 	}
-	if (ladestation.betreiber.homepage) {
+	if (properties.betreiber.homepage) {
 		links.push(
 			<IconLink
 				key={`IconLink.web`}
 				tooltip='Betreiberwebseite'
-				href={ladestation.betreiber.homepage}
+				href={properties.betreiber.homepage}
 				target='_blank'
 				iconname='external-link-square'
 			/>
@@ -103,7 +103,7 @@ const Comp = ({ visible, feature, setVisibleState, uiHeight }) => {
 		>
 			<Modal.Header>
 				<Modal.Title>
-					<Icon name={iconName} /> {`Datenblatt: Ladestation ${ladestation.name}`}
+					<Icon name={iconName} /> {`Datenblatt: Ladestation ${properties.name}`}
 				</Modal.Title>
 			</Modal.Header>
 			<Modal.Body style={modalBodyStyle} id='myMenu' key={'prbr.secondaryInfo'}>
@@ -126,73 +126,49 @@ const Comp = ({ visible, feature, setVisibleState, uiHeight }) => {
 							<b>Adresse:</b>
 						</div>
 						<div>
-							{ladestation.strasse} {ladestation.hausnummer}
+							{properties.strasse} {properties.hausnummer}
 						</div>
 						<br />
-						<div>{ladestation.detailbeschreibung}</div>
-						<div> {ladestation.zusatzinfo}</div>
+						<div>{properties.detailbeschreibung}</div>
+						<div> {properties.zusatzinfo}</div>
 						<br />
 						<div>
-							<b>Öffnungszeiten:</b> {ladestation.oeffnungszeiten}
+							<b>Öffnungszeiten:</b>
+							<p>{properties.oeffnungszeiten}</p>
 						</div>
 					</div>
 				</div>
 				<Accordion key={'1'} name={'1'} style={{ marginBottom: 6 }} defaultActiveKey={'1'}>
 					<Panel
 						header={
-							ladestation.online === true ? (
-								'Lademöglichkeit verfügbar (online)'
+							properties.online === true ? (
+								'Zapfmöglichkeit verfügbar (online)'
 							) : (
-								'Lademöglichkeit momentan nicht verfügbar (offline)'
+								'Zapfmöglichkeit momentan nicht verfügbar (offline)'
 							)
 						}
 						eventKey={'1'}
-						bsStyle={ladestation.online === true ? 'info' : 'default'}
+						bsStyle={properties.online === true ? 'info' : 'default'}
 					>
 						<div>
-							<b>Ladeplätze:</b> {ladestation.ladeplaetze}
-						</div>
-						<div>
-							{/* <b>Steckerverbindungen:</b> {steckerverbindungen} */}
-							<b>Steckerverbindungen:</b>
-							<Table striped bordered condensed hover style={{ marginTop: 8 }}>
-								<tbody>{steckerverbindungenTableArr}</tbody>
-							</Table>
-							<div style={{ textAlign: 'right' }}>
-								<a
-									href='https://github.com/cismet/wupp-topic-maps/blob/feature/039-winter-2019-dev-sprint/public/images/emob/'
-									target='_license'
-								>
-									Bildnachweis
-								</a>
-							</div>
-						</div>
-						<div>
-							<b>Strom:</b> {ladestation.stromart}
-						</div>
-						<div>
-							<b>Schnellladestation:</b>{' '}
-							{ladestation.schnellladestation === true ? 'Ja' : 'Nein'}
+							<b>Zapfsäulen:</b> {properties.ladeplaetze}
 						</div>
 					</Panel>
 				</Accordion>
 				<Accordion key={'2'} name={'2'} style={{ marginBottom: 6 }} defaultActiveKey={'2'}>
 					<Panel header={'Bezahlen'} eventKey={'2'} bsStyle={'warning'}>
 						<div>
-							<b>Authentifizierung:</b> {ladestation.authentifizierung.join(' / ')}
+							<b>Authentifizierung:</b> {properties.authentifizierung.join(' / ')}
 						</div>
 						<div>
 							<b>Ladekosten:</b>{' '}
-							{ladestation.ladekosten.startsWith('http') ? (
-								<a href={ladestation.ladekosten} target='_ladekosten'>
+							{properties.ladekosten.startsWith('http') ? (
+								<a href={properties.ladekosten} target='_ladekosten'>
 									in anderem Fenster anschauen
 								</a>
 							) : (
-								ladestation.ladekosten
+								properties.ladekosten
 							)}
-						</div>
-						<div>
-							<b>Parkgebühr:</b> {ladestation.parkgebuehr}
 						</div>
 					</Panel>
 				</Accordion>
@@ -209,12 +185,12 @@ const Comp = ({ visible, feature, setVisibleState, uiHeight }) => {
 						>
 							{links}
 						</div>
-						<div>{ladestation.betreiber.name}</div>
+						<div>{properties.betreiber.name}</div>
 						<div>
-							{ladestation.betreiber.strasse} {ladestation.betreiber.hausnummer}
+							{properties.betreiber.strasse} {properties.betreiber.hausnummer}
 						</div>
 						<div>
-							{ladestation.betreiber.plz} {ladestation.betreiber.ort}
+							{properties.betreiber.plz} {properties.betreiber.ort}
 						</div>
 						<br />
 					</Panel>

@@ -84,6 +84,26 @@ export const config = {
 					'https://updates.cismet.de/docs/h2.shell.2.png'
 				],
 
+				secondaryInfos: {
+					title: 'Datenblatt: Wasserstoffstation Shell Tankstelle',
+					image: 'https://updates.cismet.de/docs/h2.shell.0.png',
+					mainSections: [ { title: 'Adresse:', text: '' }, { title: '', text: '' } ],
+					secondarySections: [
+						{
+							title: '',
+							type: '',
+							md: '',
+							actions: []
+						},
+						{
+							title: '',
+							type: '',
+							md: '',
+							actions: []
+						}
+					]
+				},
+
 				id: 42,
 				name: 'Shell Tankstelle',
 				zusatzinfo:

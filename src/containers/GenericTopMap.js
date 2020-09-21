@@ -196,10 +196,7 @@ export class GenericTopicMap_ extends React.Component {
 								if (
 									(feature || { properties: {} }).properties.fotos !== undefined
 								) {
-									return (
-										'https://www.wuppertal.de/geoportal/emobil/autos/fotos/' +
-										feature.properties.foto
-									);
+									return feature.properties.foto;
 								} else if (
 									(feature || { properties: {} }).properties.foto !== undefined
 								) {
@@ -214,10 +211,7 @@ export class GenericTopicMap_ extends React.Component {
 								if (
 									(feature || { properties: {} }).properties.fotos !== undefined
 								) {
-									return (
-										'https://www.wuppertal.de/geoportal/emobil/autos/fotos/' +
-										feature.properties.foto
-									);
+									return feature.properties.foto;
 								} else {
 									return undefined;
 								}

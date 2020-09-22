@@ -86,6 +86,7 @@
     "redux-thunk": "^2.2.0",
     "scroll-into-view-if-needed": "^2.2.20",
     "simple-flexbox": "^1.2.0",
+    "stacktrace-js": "^2.0.2",
     "svg-create-element": "^1.0.0",
     "terraformer-wkt-parser": "^1.1.2",
     "url-search-params-polyfill": "^2.0.1",

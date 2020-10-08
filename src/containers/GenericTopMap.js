@@ -7,7 +7,7 @@ import BaederInfo from '../components/baeder/BaederInfo';
 import BaederModalMenu from '../components/baeder/BaederModalMenu';
 import InfoBoxFotoPreview from '../components/commons/InfoBoxFotoPreview';
 import TopicMap from '../containers/TopicMap';
-import { getActionLinksForFeature } from 'utils/uiHelper';
+import { getActionLinksForFeature, faqEntriesFactory } from 'utils/uiHelper';
 import { proj4crs25832def } from '../constants/gis';
 import proj4 from 'proj4';
 import {
@@ -25,12 +25,14 @@ import { featureHoverer, getFeatureStyler } from '../utils/stadtplanHelper';
 import Icon from 'components/commons/Icon';
 import { Well } from 'react-bootstrap';
 import GenericModalApplicationMenu from '../components/commons/GenericModalApplicationMenu';
-import DemoMenuHelpSection from '../components/demo/DemoMenuHelpSection';
-import DemoMenuIntroduction from '../components/demo/DemoMenuIntroduction';
-import DemoMenuSettingsSection from '../components/demo/DemoMenuSettingsSection';
+import GenericMenuHelpSection from '../components/generic/GenericMenuHelpSection';
+import GenericMenuIntroduction from '../components/generic/GenericMenuIntroduction';
 import InfoBox from '../components/commons/InfoBox';
 import { config } from 'components/generic/Config';
 import SecondaryInfoModal from 'components/generic/SecondaryInfo';
+import GenericMenuSettingsPanel from 'components/generic/GenericMenuSettingsPanel';
+
+//------
 function mapStateToProps(state) {
 	return {
 		uiState: state.uiState,
@@ -47,7 +49,9 @@ function mapDispatchToProps(dispatch) {
 		routingActions: bindActionCreators(RoutingActions, dispatch)
 	};
 }
-const getColorForProperties = (props = { color: '#dddddd' }) => props.color;
+const getColorForProperties = (props = { color: '#dddddd' }) => {
+	return props.color;
+};
 
 export class GenericTopicMap_ extends React.Component {
 	constructor(props, context) {
@@ -117,6 +121,8 @@ export class GenericTopicMap_ extends React.Component {
 		});
 		const header = <span>{currentFeature.properties.info.header || config.info.header}</span>;
 		const headerColor = getColorForProperties((currentFeature || {}).properties);
+		console.log('headerColor', headerColor);
+
 		const items = featureCollection;
 		const minified = undefined;
 		const minify = undefined;
@@ -166,6 +172,38 @@ export class GenericTopicMap_ extends React.Component {
 				hideNavigator={true}
 			/>
 		);
+		const showOnSeperatePage = false;
+		const { linkArray, entryArray } = faqEntriesFactory(showOnSeperatePage, [
+			{
+				title: 'Hintergrund',
+				bsStyle: 'default',
+				content: (
+					<p>
+						Eine Wasserstofftankstelle ist eine Tankstelle zum Betanken von
+						Kraftfahrzeugen mit Wasserstoff. Sie verfügt über eine oder mehrere
+						Zapfsäulen mit der der Energievorrat mobiler Wasserstoffverbraucher, meist
+						Brennstoffzellenfahrzeuge aufgefüllt werden kann. Für die
+						Wasserstofftankstelle wird der flüssige oder komprimiert gasförmige
+						Wasserstoff in Tanks bereitgehalten. Eine Wasserstofftankstelle verfügt
+						typischerweise über Pumpen und Zapfvorrichtungen zum Anschluss an die
+						jeweiligen Fahrzeugtanks. Damit eine Nutzung derartiger Fahrzeuge
+						überregional möglich wird, wurde vor allem in Nordamerika der Aufbau von
+						Tankstellen entlang sogenannter „Hydrogen highways“ geplant. Der erste
+						Highway wurde im September 2017 eingeweiht. In Deutschland erfolgt der
+						Aufbau maßgeblich in sieben Regionen (Hamburg, Berlin, Rhein-Ruhr,
+						Frankfurt, Nürnberg, Stuttgart und München) sowie entlang der verbindenden
+						Autobahnen und Fernstraßen.
+					</p>
+				)
+			}
+		]);
+		let choosenBackground = (config.tmConfig.fallbackBackgroundlayers = 'wupp-plan-live@90');
+		if (this.props.mapping.selectedBackground !== undefined) {
+			choosenBackground = this.props.mapping.backgrounds[
+				this.props.mapping.selectedBackground
+			];
+		}
+		console.log('choosenBackground');
 
 		return (
 			<div>
@@ -183,6 +221,7 @@ export class GenericTopicMap_ extends React.Component {
 						this.topicMap = comp;
 					}}
 					{...config.tmConfig}
+					backgroundlayers={choosenBackground.layerkey}
 					infoBox={info}
 					getFeatureCollectionForData={() => featureCollection}
 					setSelectedFeatureIndex={this.props.mappingActions.setSelectedFeatureIndex}
@@ -224,18 +263,44 @@ export class GenericTopicMap_ extends React.Component {
 							uiState={this.props.uiState}
 							uiStateActions={this.props.uiStateActions}
 							menuIntroduction={
-								<DemoMenuIntroduction uiStateActions={this.props.uiStateActions} />
+								<GenericMenuIntroduction
+									uiStateActions={this.props.uiStateActions}
+									markdown={`Über **Einstellungen** können Sie die Darstellung der
+									 Hintergrundkarte und der Wasserstofftankstellen an Ihre 
+									 Vorlieben anpassen. Wählen Sie **Kompaktanleitung** 
+									 für detailliertere Bedienungsinformationen.`}
+								/>
 							}
 							menuSections={[
-								<DemoMenuSettingsSection
-									key='DemoMenuSettingsSection'
+								<GenericMenuSettingsPanel
 									uiState={this.props.uiState}
 									uiStateActions={this.props.uiStateActions}
+									width={this.props.uiState.width}
+									urlPathname={this.props.routing.location.pathname}
+									urlSearch={this.props.routing.location.search}
+									pushNewRoute={this.props.routingActions.push}
+									changeMarkerSymbolSize={30}
+									currentMarkerSize={this.changeMarkerSymbolSize}
+									topicMapRef={this.topicMap}
+									setLayerByKey={
+										this.props.mappingActions.setSelectedMappingBackground
+									}
+									activeLayerKey={this.props.mapping.selectedBackground}
 								/>,
-								<DemoMenuHelpSection
+								<GenericMenuHelpSection
 									key='DemoMenuHelpSection'
 									uiState={this.props.uiState}
 									uiStateActions={this.props.uiStateActions}
+									markdown={`Über **Einstellungen** können Sie die Darstellung der
+									Hintergrundkarte und der Wasserstofftankstellen an Ihre 
+									Vorlieben anpassen. Wählen Sie **Kompaktanleitung** 
+									für detailliertere Bedienungsinformationen.`}
+									content={
+										<div name='help'>
+											<font size='3'>{linkArray}</font>
+											{entryArray}
+										</div>
+									}
 								/>
 							]}
 						/>

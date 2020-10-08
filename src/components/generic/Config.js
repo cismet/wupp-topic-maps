@@ -6,7 +6,7 @@ export const defaultConfig = {
 		noInitialLoadingText: true,
 		gazetteerSearchBoxPlaceholdertext: 'Suchbegriff hier eingeben.',
 		photoLightBox: true,
-		backgroundlayers: 'wupp-plan-live@50',
+		fallbackBackgroundlayers: 'wupp-plan-live@90',
 		gazetteerTopicsList: [ 'pois', 'kitas', 'quartiere', 'bezirke', 'adressen' ],
 		home: {
 			center: [ 51.22665888065321, 7.146690085998209 ],
@@ -52,6 +52,8 @@ export const defaultConfig = {
 	city: 'Wuppertal'
 };
 export const defaultProperties = {
+	color: '#247CE0',
+
 	svgBadge: `
 	<svg width="132px" height="132px" viewBox="0 0 132 132" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
 		<g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">

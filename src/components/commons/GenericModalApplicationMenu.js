@@ -44,9 +44,7 @@ const GenericModalApplicationMenu = ({
 				</Modal.Title>
 			</Modal.Header>
 			<Modal.Body style={modalBodyStyle} id='myMenu' key={uiState.applicationMenuActiveKey}>
-				{menuIntroduction}
-				<br />
-				<br />
+				<p>{menuIntroduction}</p>
 				{menuSections}
 			</Modal.Body>
 			<Modal.Footer>

@@ -31,6 +31,11 @@ import InfoBox from '../components/commons/InfoBox';
 import { config } from 'components/generic/Config';
 import SecondaryInfoModal from 'components/generic/SecondaryInfo';
 import GenericMenuSettingsPanel from 'components/generic/GenericMenuSettingsPanel';
+import GenericHelpTextForMyLocation from 'components/commons/GenericHelpTextForMyLocation';
+import LicenseLuftbildkarte from 'components/commons/LicenseLuftbildkarte';
+import LicenseStadtplanTagNacht from 'components/commons/LicenseStadtplanTagNacht';
+import ConfigurableDocBlocks from 'components/generic/ConfigurableDocBlocks';
+import { getSymbolSVGGetter } from '../utils/uiHelper';
 
 //------
 function mapStateToProps(state) {
@@ -58,7 +63,8 @@ export class GenericTopicMap_ extends React.Component {
 		super(props, context);
 		this.zoomToFeature = this.zoomToFeature.bind(this);
 		this.state = {
-			secondaryInfoVisible: false
+			secondaryInfoVisible: false,
+			currentMarkerSize: 30
 		};
 		// this.gotoHome = this.gotoHome.bind(this);
 		// this.changeMarkerSymbolSize = this.changeMarkerSymbolSize.bind(this);
@@ -172,38 +178,89 @@ export class GenericTopicMap_ extends React.Component {
 				hideNavigator={true}
 			/>
 		);
+		const a = (
+			<div>
+				<p>
+					Die Karte <b>Wasserstoff in Wuppertal</b> bietet ihnen die folgenden
+					Hintergrundkarten an, die auf verschiedenen Geodatendiensten und Geodaten
+					basieren:
+				</p>
+			</div>
+		);
 		const showOnSeperatePage = false;
-		const { linkArray, entryArray } = faqEntriesFactory(showOnSeperatePage, [
+		const compactHelpTextConfiguration = [
 			{
-				title: 'Hintergrund',
-				bsStyle: 'default',
-				content: (
+				type: 'FAQS',
+				configs: [
+					{
+						title: 'Datengrundlage',
+						bsStyle: 'warning',
+						contentBlockConf: {
+							type: 'DOCBLOCK',
+							docBlockConfigs: [
+								{
+									type: 'HTML',
+									html: `
+												Die Karte <b>Wasserstoff in Wuppertal</b> bietet ihnen die folgenden
+												Hintergrundkarten an, die auf verschiedenen Geodatendiensten und Geodaten
+												basieren:
+												`
+								},
+								{
+									type: 'HTML',
+									html: '<p><ul><li id="lic_lbk"/><li id="lic_sp"/></ul></p>',
+									replaceConfig: {
+										lic_lbk: { type: 'LICENSE_LBK' },
+										lic_sp: { type: 'LICENSE_STADTPLAN' }
+									}
+								}
+							]
+						}
+					},
+					{
+						title: 'Hintergrund',
+						bsStyle: 'warning',
+						contentBlockConf: {
+							type: 'HTML',
+							html: `
 					<p>
 						Eine Wasserstofftankstelle ist eine Tankstelle zum Betanken von
 						Kraftfahrzeugen mit Wasserstoff. Sie verfügt über eine oder mehrere
-						Zapfsäulen mit der der Energievorrat mobiler Wasserstoffverbraucher, meist
-						Brennstoffzellenfahrzeuge aufgefüllt werden kann. Für die
+						Zapfsäulen mit der der Energievorrat mobiler Wasserstoffverbraucher,
+						meist Brennstoffzellenfahrzeuge aufgefüllt werden kann. Für die
 						Wasserstofftankstelle wird der flüssige oder komprimiert gasförmige
-						Wasserstoff in Tanks bereitgehalten. Eine Wasserstofftankstelle verfügt
-						typischerweise über Pumpen und Zapfvorrichtungen zum Anschluss an die
-						jeweiligen Fahrzeugtanks. Damit eine Nutzung derartiger Fahrzeuge
-						überregional möglich wird, wurde vor allem in Nordamerika der Aufbau von
-						Tankstellen entlang sogenannter „Hydrogen highways“ geplant. Der erste
-						Highway wurde im September 2017 eingeweiht. In Deutschland erfolgt der
-						Aufbau maßgeblich in sieben Regionen (Hamburg, Berlin, Rhein-Ruhr,
-						Frankfurt, Nürnberg, Stuttgart und München) sowie entlang der verbindenden
-						Autobahnen und Fernstraßen.
+						Wasserstoff in Tanks bereitgehalten. Eine Wasserstofftankstelle
+						verfügt typischerweise über Pumpen und Zapfvorrichtungen zum
+						Anschluss an die jeweiligen Fahrzeugtanks. Damit eine Nutzung
+						derartiger Fahrzeuge überregional möglich wird, wurde vor allem in
+						Nordamerika der Aufbau von Tankstellen entlang sogenannter „Hydrogen
+						highways“ geplant. Der erste Highway wurde im September 2017
+						eingeweiht. In Deutschland erfolgt der Aufbau maßgeblich in sieben
+						Regionen (Hamburg, Berlin, Rhein-Ruhr, Frankfurt, Nürnberg,
+						Stuttgart und München) sowie entlang der verbindenden Autobahnen und
+						Fernstraßen.
 					</p>
-				)
+						`
+						}
+					},
+					{
+						title: 'Mein Standort',
+						bsStyle: 'default',
+						contentBlockConf: {
+							type: 'MYLOCATION'
+						}
+					}
+				]
 			}
-		]);
+		];
+
 		let choosenBackground = (config.tmConfig.fallbackBackgroundlayers = 'wupp-plan-live@90');
 		if (this.props.mapping.selectedBackground !== undefined) {
 			choosenBackground = this.props.mapping.backgrounds[
 				this.props.mapping.selectedBackground
 			];
 		}
-		console.log('choosenBackground');
+		console.log('yyy config.features[0]', config.features[0]);
 
 		return (
 			<div>
@@ -225,7 +282,13 @@ export class GenericTopicMap_ extends React.Component {
 					infoBox={info}
 					getFeatureCollectionForData={() => featureCollection}
 					setSelectedFeatureIndex={this.props.mappingActions.setSelectedFeatureIndex}
-					featureStyler={getFeatureStyler(50, getColorForProperties)}
+					featureStyler={getFeatureStyler(
+						this.state.currentMarkerSize,
+						getColorForProperties
+					)}
+					featureKeySuffixCreator={() => {
+						return '.' + this.state.currentMarkerSize;
+					}}
 					secondaryInfoBoxElements={[
 						<InfoBoxFotoPreview
 							currentFeature={currentFeature}
@@ -279,13 +342,19 @@ export class GenericTopicMap_ extends React.Component {
 									urlPathname={this.props.routing.location.pathname}
 									urlSearch={this.props.routing.location.search}
 									pushNewRoute={this.props.routingActions.push}
-									changeMarkerSymbolSize={30}
-									currentMarkerSize={this.changeMarkerSymbolSize}
+									changeMarkerSymbolSize={(size) => {
+										this.setState({ currentMarkerSize: size });
+									}}
+									currentMarkerSize={this.state.currentMarkerSize}
 									topicMapRef={this.topicMap}
 									setLayerByKey={
 										this.props.mappingActions.setSelectedMappingBackground
 									}
 									activeLayerKey={this.props.mapping.selectedBackground}
+									getSymbolSVG={getSymbolSVGGetter(
+										config.features[0].properties.svgBadge,
+										config.features[0].properties.svgBadgeDimension
+									)}
 								/>,
 								<GenericMenuHelpSection
 									key='DemoMenuHelpSection'
@@ -296,10 +365,9 @@ export class GenericTopicMap_ extends React.Component {
 									Vorlieben anpassen. Wählen Sie **Kompaktanleitung** 
 									für detailliertere Bedienungsinformationen.`}
 									content={
-										<div name='help'>
-											<font size='3'>{linkArray}</font>
-											{entryArray}
-										</div>
+										<ConfigurableDocBlocks
+											configs={compactHelpTextConfiguration}
+										/>
 									}
 								/>
 							]}

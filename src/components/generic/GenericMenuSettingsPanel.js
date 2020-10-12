@@ -14,7 +14,7 @@ import { Map } from 'react-leaflet';
 
 import { getFeatureStyler } from '../../utils/stadtplanHelper';
 
-const BaederModalMenuSettingsSection = ({
+const GenericModalMenuSettingsSection = ({
 	uiState,
 	uiStateActions,
 	width,
@@ -25,7 +25,8 @@ const BaederModalMenuSettingsSection = ({
 	currentMarkerSize,
 	topicMapRef,
 	setLayerByKey,
-	activeLayerKey
+	activeLayerKey,
+	getSymbolSVG
 }) => {
 	let namedMapStyle = new URLSearchParams(urlSearch).get('mapStyle') || 'default';
 	let zoom = 7;
@@ -118,6 +119,7 @@ const BaederModalMenuSettingsSection = ({
 			{ title: 'Luftbildkarte', mode: 'default', layerKey: 'lbk' }
 		];
 	}
+	console.log('yyy getSymbolSVG', getSymbolSVG);
 
 	return (
 		<GenericModalMenuSection
@@ -144,7 +146,7 @@ const BaederModalMenuSettingsSection = ({
 						<SymbolSizeChooser
 							changeMarkerSymbolSize={changeMarkerSymbolSize}
 							currentMarkerSize={currentMarkerSize}
-							getSymbolSVG={getBadSVG}
+							getSymbolSVG={getSymbolSVG}
 							symbolColor={getColorForProperties({
 								more: { zugang: 'öffentlich', betreiber: 'Verein' }
 							})}
@@ -156,4 +158,4 @@ const BaederModalMenuSettingsSection = ({
 	);
 };
 
-export default BaederModalMenuSettingsSection;
+export default GenericModalMenuSettingsSection;

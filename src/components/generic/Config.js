@@ -74,6 +74,7 @@ export const defaultProperties = {
 };
 export const config = {
 	...defaultConfig,
+
 	features: [
 		{
 			index: 0,
@@ -109,7 +110,7 @@ export const config = {
 					iconName: 'charging-station',
 					image: 'https://updates.cismet.de/docs/h2.shell.0.png',
 					md:
-						'**Adresse**:\nSchmiedestraße 91\n\n<div style="padding-top:20px;"/>Autobahnanbindung A1 (Dreieck Wuppertal Nord) und A46 (Wuppertal Oberbarmen).\n\n<div style="padding-top:20px;"/>\n\n**Öffnungszeiten:**24 Stunden / 7 Tage',
+						'**Adresse**:\nSchmiedestraße 91\n\n<div style="padding-top:20px;"/>Autobahnanbindung A1 (Dreieck Wuppertal Nord) und A46 (Wuppertal Oberbarmen).\n\n<div style="padding-top:20px;"/>\n\n**Öffnungszeiten: **24 Stunden / 7 Tage',
 					secondarySections: [
 						{
 							title: 'Zapfmöglichkeit verfügbar (online)',

@@ -28,7 +28,7 @@ import GenericModalApplicationMenu from '../components/commons/GenericModalAppli
 import GenericMenuHelpSection from '../components/generic/GenericMenuHelpSection';
 import GenericMenuIntroduction from '../components/generic/GenericMenuIntroduction';
 import InfoBox from '../components/commons/InfoBox';
-import { config } from 'components/generic/Config';
+import { config, createConfigJSON } from 'components/generic/Config';
 import SecondaryInfoModal from 'components/generic/SecondaryInfo';
 import GenericMenuSettingsPanel from 'components/generic/GenericMenuSettingsPanel';
 import GenericHelpTextForMyLocation from 'components/commons/GenericHelpTextForMyLocation';
@@ -80,6 +80,8 @@ export class GenericTopicMap_ extends React.Component {
 		}
 		this.props.mappingActions.setFeatureCollection(fc);
 		// this.props.mappingActions.fitFeatureCollection(fc);
+
+		// createConfigJSON();
 	}
 
 	componentDidUpdate() {
@@ -188,71 +190,7 @@ export class GenericTopicMap_ extends React.Component {
 			</div>
 		);
 		const showOnSeperatePage = false;
-		const compactHelpTextConfiguration = [
-			{
-				type: 'FAQS',
-				configs: [
-					{
-						title: 'Datengrundlage',
-						bsStyle: 'warning',
-						contentBlockConf: {
-							type: 'DOCBLOCK',
-							docBlockConfigs: [
-								{
-									type: 'HTML',
-									html: `
-												Die Karte <b>Wasserstoff in Wuppertal</b> bietet ihnen die folgenden
-												Hintergrundkarten an, die auf verschiedenen Geodatendiensten und Geodaten
-												basieren:
-												`
-								},
-								{
-									type: 'HTML',
-									html: '<p><ul><li id="lic_lbk"/><li id="lic_sp"/></ul></p>',
-									replaceConfig: {
-										lic_lbk: { type: 'LICENSE_LBK' },
-										lic_sp: { type: 'LICENSE_STADTPLAN' }
-									}
-								}
-							]
-						}
-					},
-					{
-						title: 'Hintergrund',
-						bsStyle: 'warning',
-						contentBlockConf: {
-							type: 'HTML',
-							html: `
-					<p>
-						Eine Wasserstofftankstelle ist eine Tankstelle zum Betanken von
-						Kraftfahrzeugen mit Wasserstoff. Sie verfügt über eine oder mehrere
-						Zapfsäulen mit der der Energievorrat mobiler Wasserstoffverbraucher,
-						meist Brennstoffzellenfahrzeuge aufgefüllt werden kann. Für die
-						Wasserstofftankstelle wird der flüssige oder komprimiert gasförmige
-						Wasserstoff in Tanks bereitgehalten. Eine Wasserstofftankstelle
-						verfügt typischerweise über Pumpen und Zapfvorrichtungen zum
-						Anschluss an die jeweiligen Fahrzeugtanks. Damit eine Nutzung
-						derartiger Fahrzeuge überregional möglich wird, wurde vor allem in
-						Nordamerika der Aufbau von Tankstellen entlang sogenannter „Hydrogen
-						highways“ geplant. Der erste Highway wurde im September 2017
-						eingeweiht. In Deutschland erfolgt der Aufbau maßgeblich in sieben
-						Regionen (Hamburg, Berlin, Rhein-Ruhr, Frankfurt, Nürnberg,
-						Stuttgart und München) sowie entlang der verbindenden Autobahnen und
-						Fernstraßen.
-					</p>
-						`
-						}
-					},
-					{
-						title: 'Mein Standort',
-						bsStyle: 'default',
-						contentBlockConf: {
-							type: 'MYLOCATION'
-						}
-					}
-				]
-			}
-		];
+		const compactHelpTextConfiguration = config.helpTextblocks;
 
 		let choosenBackground = (config.tmConfig.fallbackBackgroundlayers = 'wupp-plan-live@90');
 		if (this.props.mapping.selectedBackground !== undefined) {
@@ -260,7 +198,6 @@ export class GenericTopicMap_ extends React.Component {
 				this.props.mapping.selectedBackground
 			];
 		}
-		console.log('yyy config.features[0]', config.features[0]);
 
 		return (
 			<div>

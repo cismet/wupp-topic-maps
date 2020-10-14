@@ -6,6 +6,7 @@ export const triggerLightBoxForFeature = ({
 	currentFeature,
 	getPhotoUrl,
 	getPhotoSeriesUrl,
+	getPhotoSeriesArray = () => {},
 	urlManipulation = (input) => input,
 	uiStateActions,
 	captionFactory = (linkUrl) => (
@@ -37,8 +38,21 @@ export const triggerLightBoxForFeature = ({
 }) => {
 	const photoUrl = urlManipulation(getPhotoUrl(currentFeature));
 	const photoSeriesUrl = urlManipulation(getPhotoSeriesUrl(currentFeature));
+	const photoSeriesPhotoUrls = getPhotoSeriesArray(currentFeature);
+
+	console.log('photoSeriesPhotoUrls', photoSeriesPhotoUrls);
 
 	if (
+		photoSeriesPhotoUrls !== undefined &&
+		photoSeriesPhotoUrls.length !== undefined &&
+		photoSeriesPhotoUrls.length > 0
+	) {
+		uiStateActions.setLightboxUrls(photoSeriesPhotoUrls);
+		uiStateActions.setLightboxTitle(currentFeature.text);
+		uiStateActions.setLightboxCaption('Bilderstrecke');
+		uiStateActions.setLightboxIndex(0);
+		uiStateActions.setLightboxVisible(true);
+	} else if (
 		photoSeriesUrl === undefined ||
 		photoSeriesUrl === null ||
 		photoSeriesUrl.indexOf('&noparse') !== -1

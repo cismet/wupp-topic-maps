@@ -34,6 +34,7 @@ const Comp = ({
 										captionFactory,
 										getPhotoUrl,
 										getPhotoSeriesUrl,
+										getPhotoSeriesArray,
 										urlManipulation
 									});
 								}}

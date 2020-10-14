@@ -51,6 +51,7 @@ export class PhotoLightbox_ extends React.Component {
 						)}
 					imageTitle={this.props.uiState.lightboxtitle}
 					imageCaption={this.props.uiState.lightboxcaption}
+					imagePadding={65}
 					animationDuration={600}
 				/>
 			);

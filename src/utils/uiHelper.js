@@ -149,8 +149,6 @@ export const getSymbolSVGGetter = (
 `,
 	svgBadgeDimension
 ) => {
-	console.log('yyy getSymbolSVGGetter', svgCode);
-
 	return (svgSize = 30, bg = '#FF0000', svgStyleRelatedId = 'default') => {
 		let bdim = {
 			width: svgBadgeDimension.width,

@@ -103,7 +103,7 @@
     "cy-run": "cypress run",
     "Xdebugpostversion": "echo $npm_package_version && echo $npm_package_version > .version",
     "debugpostversion": "rm .version && rm .githash && sed '/^.*\"version\":.*$/d' package.json > .package.json.without.version && echo $npm_package_version && echo $npm_package_version > .version && git rev-parse HEAD > .githash",
-    "postversion": "rm .version && rm .githash && sed '/^.*\"version\":.*$/d' package.json > .package.json.without.version && echo $npm_package_version && echo $npm_package_version > .version && git rev-parse HEAD > .githash",
+    "postversion": "echo Postversionhook && rm .version && rm .githash && sed '/^.*\"version\":.*$/d' package.json > .package.json.without.version && echo $npm_package_version && echo $npm_package_version > .version && git rev-parse HEAD > .githash",
     "newSnapshot": "npm version preminor --preid=SNAPSHOT",
     "bumpSnapshot": "npm version prerelease --preid=SNAPSHOT",
     "updateAlpha": "ssh -t docker@$npm_package_config_alphaHost \"cd $npm_package_config_alphaFolder ; docker-compose pull && docker-compose down && docker-compose up -d\"",

@@ -105,7 +105,7 @@
     "debugpostversion": "rm .version && rm .githash && sed '/^.*\"version\":.*$/d' package.json > .package.json.without.version && echo $npm_package_version && echo $npm_package_version > .version && git rev-parse HEAD > .githash",
     "postversion": "echo Postversionhook && rm .version && rm .githash && sed '/^.*\"version\":.*$/d' package.json > .package.json.without.version && echo $npm_package_version && echo $npm_package_version > .version && git rev-parse HEAD > .githash",
     "newSnapshot": "npm version preminor --preid=SNAPSHOT",
-    "bumpSnapshot": "npm version prerelease --preid=SNAPSHOT && npm run postversion",
+    "bumpSnapshot": "npm version prerelease --preid=SNAPSHOT && yarn run postversion",
     "updateAlpha": "ssh -t docker@$npm_package_config_alphaHost \"cd $npm_package_config_alphaFolder ; docker-compose pull && docker-compose down && docker-compose up -d\"",
     "build:docker": "VERSION=`echo $npm_package_version| sed 's/\\.[0-9]*-SNAPSHOT.*$/-SNAPSHOT/'`; docker build  -t cismet/$npm_package_name -t cismet/$npm_package_name:$VERSION .",
     "publish:docker": "yarn run build:docker; VERSION=`echo $npm_package_version| sed 's/\\.[0-9]*-SNAPSHOT.*$/-SNAPSHOT/'`; docker tag cismet/$npm_package_name:$VERSION $npm_package_config_dockerRegistryPath/$npm_package_name:$VERSION && docker push $npm_package_config_dockerRegistryPath/$npm_package_name:$VERSION"

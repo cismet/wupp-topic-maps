@@ -101,6 +101,7 @@
     "eject": "react-scripts eject",
     "cy": "cypress open",
     "cy-run": "cypress run",
+    "debugpostversion": "echo $npm_package_version && echo $npm_package_version > .version",
     "postversion": "sed '/^.*\"version\":.*$/d' package.json > .package.json.without.version && echo $npm_package_version && echo $npm_package_version > .version && git rev-parse HEAD > .githash",
     "newSnapshot": "npm version preminor --preid=SNAPSHOT",
     "bumpSnapshot": "npm version prerelease --preid=SNAPSHOT",

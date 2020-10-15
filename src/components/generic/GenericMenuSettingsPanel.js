@@ -119,7 +119,6 @@ const GenericModalMenuSettingsSection = ({
 			{ title: 'Luftbildkarte', mode: 'default', layerKey: 'lbk' }
 		];
 	}
-	console.log('yyy getSymbolSVG', getSymbolSVG);
 
 	return (
 		<GenericModalMenuSection

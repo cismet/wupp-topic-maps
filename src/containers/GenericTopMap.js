@@ -28,7 +28,7 @@ import GenericModalApplicationMenu from '../components/commons/GenericModalAppli
 import GenericMenuHelpSection from '../components/generic/GenericMenuHelpSection';
 import GenericMenuIntroduction from '../components/generic/GenericMenuIntroduction';
 import InfoBox from '../components/commons/InfoBox';
-import { config, createConfigJSON } from 'components/generic/Config';
+// import { config as configX, createConfigJSON } from 'components/generic/Config';
 import SecondaryInfoModal from 'components/generic/SecondaryInfo';
 import GenericMenuSettingsPanel from 'components/generic/GenericMenuSettingsPanel';
 import GenericHelpTextForMyLocation from 'components/commons/GenericHelpTextForMyLocation';
@@ -36,8 +36,64 @@ import LicenseLuftbildkarte from 'components/commons/LicenseLuftbildkarte';
 import LicenseStadtplanTagNacht from 'components/commons/LicenseStadtplanTagNacht';
 import ConfigurableDocBlocks from 'components/generic/ConfigurableDocBlocks';
 import { getSymbolSVGGetter } from '../utils/uiHelper';
-
+import slugify from 'slugify';
 //------
+
+async function getConfig(slugName, configType, server, path) {
+	try {
+		const u = server + path + slugName + '/' + configType + '.json';
+		console.log('try to read rconfig at ', u);
+		const result = await fetch(u);
+		const resultObject = await result.json();
+		console.log('config: loaded ' + slugName + '/' + configType);
+		return resultObject;
+	} catch (ex) {
+		console.log('error for rconfig', ex);
+	}
+}
+
+async function initialize({
+	slugName,
+	setConfig,
+	setFeatureCollection,
+	path = '/data/generic/',
+	server = ''
+}) {
+	const config = await getConfig(slugName, 'config', server, path);
+	const featureDefaultProperties = await getConfig(
+		slugName,
+		'featureDefaultProperties',
+		server,
+		path
+	);
+	const featureDefaults = await getConfig(slugName, 'featureDefaults', server, path);
+	const helpTextBlocks = await getConfig(slugName, 'helpTextBlocks', server, path);
+	const infoBoxConfig = await getConfig(slugName, 'infoBoxConfig', server, path);
+	const features = await getConfig(slugName, 'features', server, path);
+
+	if (helpTextBlocks !== undefined) {
+		config.helpTextblocks = helpTextBlocks;
+	}
+	if (features !== undefined) {
+		config.features = features;
+	}
+
+	if (infoBoxConfig !== undefined) {
+		config.info = infoBoxConfig;
+	}
+
+	const fc = [];
+	for (const f of config.features) {
+		const ef = { ...featureDefaults, ...f };
+		ef.properties = { ...featureDefaultProperties, ...ef.properties };
+		fc.push(ef);
+	}
+	config.features = fc;
+
+	setConfig(config);
+	setFeatureCollection(fc);
+}
+
 function mapStateToProps(state) {
 	return {
 		uiState: state.uiState,
@@ -64,7 +120,9 @@ export class GenericTopicMap_ extends React.Component {
 		this.zoomToFeature = this.zoomToFeature.bind(this);
 		this.state = {
 			secondaryInfoVisible: false,
-			currentMarkerSize: 30
+			currentMarkerSize: 30,
+			initialized: undefined,
+			config: {}
 		};
 		// this.gotoHome = this.gotoHome.bind(this);
 		// this.changeMarkerSymbolSize = this.changeMarkerSymbolSize.bind(this);
@@ -73,28 +131,30 @@ export class GenericTopicMap_ extends React.Component {
 		// );
 	}
 	componentDidMount() {
-		const fc = [];
-		for (const f of config.features) {
-			const ef = { ...config.featureDefaultConfig, ...f };
-			fc.push(ef);
-		}
-		this.props.mappingActions.setFeatureCollection(fc);
-		// this.props.mappingActions.fitFeatureCollection(fc);
-
-		// createConfigJSON();
+		this.props.mappingActions.setFeatureCollection([]);
 	}
 
 	componentDidUpdate() {
-		console.log('this.props.routing', this.props.match.params.name);
 		if (this.props.match.params.name !== undefined) {
 			document.title = this.props.match.params.name.replace(/_/g, ' ');
+			if (this.state.initialized === undefined) {
+				const slugName = slugify(this.props.match.params.name).toLowerCase();
+				console.log('not initialized. will initialize: ' + slugName);
+				this.setState({ initialized: slugName });
+				const setConfig = (config) => this.setState({ config });
+				const usp = new URLSearchParams(this.props.routing.location.search);
+				initialize({
+					slugName,
+					setConfig,
+					setFeatureCollection: this.props.mappingActions.setFeatureCollection,
+					server: usp.get('genericConfigServer') || '',
+					path: usp.get('genericConfigPath') || '/data/generic/'
+				});
+			} else {
+			}
 		} else {
 			document.title = 'Meine Karte';
 		}
-		console.log('this.props.mapping.selectedIndex', this.props.mapping.selectedIndex);
-		// if (this.props.mapping.selectedIndex === null) {
-		// 	this.props.mappingActions.setSelectedFeatureIndex(0);
-		// }
 	}
 	zoomToFeature(feature) {
 		if (this.topicMap !== undefined) {
@@ -127,9 +187,10 @@ export class GenericTopicMap_ extends React.Component {
 			displaySecondaryInfoAction: true,
 			setVisibleStateOfSecondaryInfo: (vis) => this.setState({ secondaryInfoVisible: vis })
 		});
-		const header = <span>{currentFeature.properties.info.header || config.info.header}</span>;
+		const header = (
+			<span>{currentFeature.properties.info.header || this.state.config.info.header}</span>
+		);
 		const headerColor = getColorForProperties((currentFeature || {}).properties);
-		console.log('headerColor', headerColor);
 
 		const items = featureCollection;
 		const minified = undefined;
@@ -149,7 +210,7 @@ export class GenericTopicMap_ extends React.Component {
 				uiStateActions={this.props.uiStateActions}
 				panelClick={() => {}}
 				colorize={getColorForProperties}
-				pixelwidth={config.info.pixelwidth}
+				pixelwidth={this.state.config.info.pixelwidth}
 				header={header}
 				headerColor={headerColor}
 				links={links}
@@ -157,15 +218,15 @@ export class GenericTopicMap_ extends React.Component {
 				subtitle={currentFeature.properties.info.subtitle}
 				additionalInfo={currentFeature.properties.info.additionalInfo}
 				zoomToAllLabel={`${items.length} ${items.length === 1
-					? config.info.navigator.noun.singular
-					: config.info.navigator.noun.plural} in ${config.city}`}
+					? this.state.config.info.navigator.noun.singular
+					: this.state.config.info.navigator.noun.plural} in ${this.state.config.city}`}
 				currentlyShownCountLabel={`${featureCollection.length} ${featureCollection.length ===
 				1
-					? config.info.navigator.noun.singular
-					: config.info.navigator.noun.plural} angezeigt`}
+					? this.state.config.info.navigator.noun.singular
+					: this.state.config.info.navigator.noun.plural} angezeigt`}
 				collapsedInfoBox={minified}
 				setCollapsedInfoBox={minify}
-				noCurrentFeatureTitle={<h5>{config.info.noFeatureTitle}</h5>}
+				noCurrentFeatureTitle={<h5>{this.state.config.info.noFeatureTitle}</h5>}
 				noCurrentFeatureContent={
 					<div style={{ marginRight: 9 }}>
 						<p>
@@ -190,9 +251,10 @@ export class GenericTopicMap_ extends React.Component {
 			</div>
 		);
 		const showOnSeperatePage = false;
-		const compactHelpTextConfiguration = config.helpTextblocks;
+		const compactHelpTextConfiguration = this.state.config.helpTextblocks;
 
-		let choosenBackground = (config.tmConfig.fallbackBackgroundlayers = 'wupp-plan-live@90');
+		let choosenBackground = (this.state.config.tm.fallbackBackgroundlayers =
+			'wupp-plan-live@90');
 		if (this.props.mapping.selectedBackground !== undefined) {
 			choosenBackground = this.props.mapping.backgrounds[
 				this.props.mapping.selectedBackground
@@ -214,7 +276,7 @@ export class GenericTopicMap_ extends React.Component {
 					ref={(comp) => {
 						this.topicMap = comp;
 					}}
-					{...config.tmConfig}
+					{...this.state.config.tm}
 					backgroundlayers={choosenBackground.layerkey}
 					infoBox={info}
 					getFeatureCollectionForData={() => featureCollection}
@@ -230,8 +292,6 @@ export class GenericTopicMap_ extends React.Component {
 						<InfoBoxFotoPreview
 							currentFeature={currentFeature}
 							getPhotoUrl={(feature) => {
-								console.log('feature', feature);
-
 								if (
 									(feature || { properties: {} }).properties.fotos !== undefined
 								) {
@@ -289,8 +349,8 @@ export class GenericTopicMap_ extends React.Component {
 									}
 									activeLayerKey={this.props.mapping.selectedBackground}
 									getSymbolSVG={getSymbolSVGGetter(
-										config.features[0].properties.svgBadge,
-										config.features[0].properties.svgBadgeDimension
+										this.state.config.features[0].properties.svgBadge,
+										this.state.config.features[0].properties.svgBadgeDimension
 									)}
 								/>,
 								<GenericMenuHelpSection
@@ -310,7 +370,7 @@ export class GenericTopicMap_ extends React.Component {
 							]}
 						/>
 					}
-					featureCollection={config.features}
+					featureCollection={this.state.config.features}
 				/>
 			</div>
 		);

@@ -1,5 +1,5 @@
 export const createConfigJSON = () => {
-	console.log('tmConfig', JSON.stringify(defaultConfig.tmConfig, null, 2));
+	console.log('tm', JSON.stringify(defaultConfig.tm, null, 2));
 	console.log('featureDefaults', JSON.stringify(defaultConfig.featureDefaultConfig, null, 2));
 	console.log('infoBoxConfig', JSON.stringify(defaultConfig.info, null, 2));
 	console.log('featureDefaultProperties', JSON.stringify(defaultProperties, null, 2));
@@ -8,7 +8,7 @@ export const createConfigJSON = () => {
 };
 
 export const defaultConfig = {
-	tmConfig: {
+	tm: {
 		fullScreenControl: true,
 		locatorControl: true,
 		gazetteerSearchBox: true,

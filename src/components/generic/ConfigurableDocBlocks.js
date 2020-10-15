@@ -29,8 +29,6 @@ const ConfigurableDocBlocks = ({
 	style
 }) => {
 	const blocks = [];
-	console.log('xxx ConfigurableDocBlocks configs', configs);
-
 	for (const block of configs) {
 		blocks.push(getBlock4Config(block));
 	}
@@ -41,9 +39,6 @@ const ConfigurableDocBlocks = ({
 export default ConfigurableDocBlocks;
 
 const getBlock4Config = (block) => {
-	console.log('xxx getBlock4Config', block);
-	console.log('xxx getBlock4Config type', block.type);
-
 	switch (block.type) {
 		case DOCBLOCKSTYLES.TEXT:
 			//params: text, style
@@ -71,8 +66,6 @@ const getBlock4Config = (block) => {
 			return <GenericHelpTextForMyLocation />;
 			break;
 		case DOCBLOCKSTYLES.DOCBLOCK:
-			console.log('xxx DOCBLOCKSTYLES.DOCBLOCK', block);
-
 			//params: docBlockConfigs, style, innerStyle
 			return (
 				<div style={block.style}>
@@ -85,7 +78,6 @@ const getBlock4Config = (block) => {
 			break;
 		case DOCBLOCKSTYLES.HTML:
 			//params: docBlockConfigs, style, innerStyle
-			console.log('xxx DOCBLOCKSTYLES.REACT:', block.html);
 
 			if (block.replaceConfig === undefined) {
 				return <div style={block.style}>{parse(block.html)}</div>;
@@ -94,7 +86,6 @@ const getBlock4Config = (block) => {
 					replace: ({ attribs, children }) => {
 						if (!attribs) return;
 						const replacementInfo = block.replaceConfig[attribs.id];
-						console.log('xxx replacementInfo', replacementInfo);
 						if (replacementInfo !== undefined) {
 							// return tReact.createElement(LicenseLuftbildKarte, {});
 							return getBlock4Config(replacementInfo);
@@ -111,12 +102,9 @@ const getBlock4Config = (block) => {
 			}
 			break;
 		case DOCBLOCKSTYLES.FAQS: {
-			console.log('xxx DOCBLOCKSTYLES.FAQS:', block.configs);
 			const showOnSeperatePage = false;
 			for (const faqConfig of block.configs) {
 				if (faqConfig.contentBlockConf !== undefined) {
-					console.log('xxx faqConfiq.content', faqConfig.contentBlockConf);
-
 					faqConfig.content = getBlock4Config(faqConfig.contentBlockConf);
 				}
 			}

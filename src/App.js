@@ -25,7 +25,7 @@ import HitzeInDerStadt from './containers/HitzeInDerStadt';
 import store from './redux/store';
 import ReactLoading from 'react-loading';
 import { getTopicMapVersion, getTopicMapHash } from './constants/versions';
-import GenericTopicMap from 'containers/GenericTopMap';
+import GenericTopicMap from 'containers/GenericTopicMap';
 
 export default class App extends React.Component {
 	constructor() {

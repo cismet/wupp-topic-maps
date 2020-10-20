@@ -7,7 +7,7 @@ import NamedMapStyleChooser from '../commons/NamedMapStyleChooser';
 import SettingsPanelWithPreviewSection from '../commons/SettingsPanelWithPreviewSection';
 import { getInternetExplorerVersion } from '../../utils/browserHelper';
 import 'url-search-params-polyfill';
-import { getColorForProperties } from '../../containers/GenericTopMap';
+import { getColorForProperties } from '../../containers/GenericTopicMap';
 import { MappingConstants, FeatureCollectionDisplay, getLayersByName } from 'react-cismap';
 
 import { Map } from 'react-leaflet';
@@ -48,16 +48,16 @@ const GenericModalMenuSettingsSection = ({
 			crs={MappingConstants.crs25832}
 			style={{ height: 300 }}
 			center={{
-				lat: previewMapLat,
-				lng: previewMapLng
+				lat: Number(previewMapLat),
+				lng: Number(previewMapLng)
 			}}
 			zoomControl={false}
 			attributionControl={false}
 			dragging={false}
 			keyboard={false}
-			zoom={previewMapZoom}
-			minZoom={previewMapZoom}
-			maxZoom={previewMapZoom}
+			zoom={Number(previewMapZoom)}
+			minZoom={Number(previewMapZoom)}
+			maxZoom={Number(previewMapZoom)}
 		>
 			{getLayersByName(layers, namedMapStyle)}
 			<FeatureCollectionDisplay

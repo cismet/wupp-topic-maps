@@ -38,33 +38,33 @@ const ConfigurableDocBlocks = ({
 
 export default ConfigurableDocBlocks;
 
-const getBlock4Config = (block) => {
+const getBlock4Config = (block, key) => {
 	switch (block.type) {
 		case DOCBLOCKSTYLES.TEXT:
 			//params: text, style
-			return <div style={block.style}>{block.text}</div>;
-			break;
+			return (
+				<div key={key} style={block.style}>
+					{block.text}
+				</div>
+			);
 		case DOCBLOCKSTYLES.MARKDOWN:
 			//params: md, style
 			return (
-				<div style={block.style}>
+				<div key={key} style={block.style}>
 					<Markdown escapeHtml={false} source={block.md} />
 				</div>
 			);
-			break;
 
 		case DOCBLOCKSTYLES.LICENSE_LBK:
 			//params: faqConfig, style
 			return <LicenseLuftbildKarte />;
-			break;
+
 		case DOCBLOCKSTYLES.LICENSE_STADTPLAN:
 			//params: faqConfig, style
 			return <LicenseStadtplanTagNacht />;
-			break;
 		case DOCBLOCKSTYLES.MYLOCATION:
 			//params: faqConfig, style
 			return <GenericHelpTextForMyLocation />;
-			break;
 		case DOCBLOCKSTYLES.DOCBLOCK:
 			//params: docBlockConfigs, style, innerStyle
 			return (
@@ -72,15 +72,19 @@ const getBlock4Config = (block) => {
 					<ConfigurableDocBlocks
 						style={block.innerStyle}
 						configs={block.docBlockConfigs}
+						key={key}
 					/>
 				</div>
 			);
-			break;
 		case DOCBLOCKSTYLES.HTML:
 			//params: docBlockConfigs, style, innerStyle
 
 			if (block.replaceConfig === undefined) {
-				return <div style={block.style}>{parse(block.html)}</div>;
+				return (
+					<div key={'DOCBLOCKSTYLES.HTML.' + key} style={block.style}>
+						{parse(block.html)}
+					</div>
+				);
 			} else {
 				const options = {
 					replace: ({ attribs, children }) => {
@@ -100,18 +104,20 @@ const getBlock4Config = (block) => {
 				const x = parse(block.html, options);
 				return x;
 			}
-			break;
 		case DOCBLOCKSTYLES.FAQS: {
 			const showOnSeperatePage = false;
+			let i = 0;
 			for (const faqConfig of block.configs) {
+				let key = 'DOCBLOCKSTYLES.FAQS.' + i;
 				if (faqConfig.contentBlockConf !== undefined) {
-					faqConfig.content = getBlock4Config(faqConfig.contentBlockConf);
+					faqConfig.content = getBlock4Config(faqConfig.contentBlockConf, key);
 				}
+				i++;
 			}
 
 			const { linkArray, entryArray } = faqEntriesFactory(showOnSeperatePage, block.configs);
 			return (
-				<div style={block.style} name='help'>
+				<div key={'DOCVBLOCKFAQ.' + key} style={block.style} name='help'>
 					<font size='3'>{linkArray}</font>
 					{entryArray}
 				</div>

@@ -6,7 +6,7 @@ import { bindActionCreators } from 'redux';
 import BaederInfo from '../components/baeder/BaederInfo';
 import BaederModalMenu from '../components/baeder/BaederModalMenu';
 import InfoBoxFotoPreview from '../components/commons/InfoBoxFotoPreview';
-import TopicMap from '../containers/TopicMap';
+import TopicMap from './TopicMap';
 import { getActionLinksForFeature, faqEntriesFactory } from 'utils/uiHelper';
 import { proj4crs25832def } from '../constants/gis';
 import proj4 from 'proj4';
@@ -186,8 +186,6 @@ export class GenericTopicMap_ extends React.Component {
 			previewFeatureCollection = featureCollection.slice(0, previewCount);
 		}
 
-		console.log('previewFeatureCollection', previewFeatureCollection);
-
 		const selectedIndex = this.props.mapping.selectedIndex;
 		const currentFeature = this.props.mapping.featureCollection[selectedIndex];
 		if (currentFeature === undefined) {
@@ -345,6 +343,7 @@ export class GenericTopicMap_ extends React.Component {
 							}
 							menuSections={[
 								<GenericMenuSettingsPanel
+									key='GenericMenuSettingsPanel'
 									uiState={this.props.uiState}
 									uiStateActions={this.props.uiStateActions}
 									width={this.props.uiState.width}

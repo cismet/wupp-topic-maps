@@ -24,7 +24,6 @@ const pferdeSVG = `<svg xmlns="http://www.w3.org/2000/svg" width="20.0" height="
 
 export const getFeatureStyler = (svgSize = 24, colorizer = getColorForProperties) => {
 	return (feature) => {
-		console.log('getfeatureSttyler', feature);
 		var color = Color(colorizer(feature.properties));
 		let radius = svgSize / 2; //needed for the Tooltip Positioning
 		let canvasSize = svgSize;

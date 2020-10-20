@@ -148,7 +148,7 @@ const helpTextblocks = [
 	}
 ];
 
-export const config = {
+export const configDev = {
 	...defaultConfig,
 	helpTextblocks,
 	features: [

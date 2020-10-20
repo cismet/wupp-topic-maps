@@ -110,7 +110,7 @@ function mapDispatchToProps(dispatch) {
 		routingActions: bindActionCreators(RoutingActions, dispatch)
 	};
 }
-const getColorForProperties = (props = { color: '#dddddd' }) => {
+export const getColorForProperties = (props = { color: '#dddddd' }) => {
 	return props.color;
 };
 
@@ -171,10 +171,18 @@ export class GenericTopicMap_ extends React.Component {
 
 	render() {
 		const featureCollection = this.props.mapping.featureCollection;
-
 		if (featureCollection === undefined) {
 			return <div />;
 		}
+		let previewCount = this.state.config.previewFeatureCollectionCount || -1;
+		let previewFeatureCollection;
+		if (previewCount === -1) {
+			previewFeatureCollection = featureCollection;
+		} else {
+			previewFeatureCollection = featureCollection.slice(0, previewCount);
+		}
+
+		console.log('previewFeatureCollection', previewFeatureCollection);
 
 		const selectedIndex = this.props.mapping.selectedIndex;
 		const currentFeature = this.props.mapping.featureCollection[selectedIndex];
@@ -342,6 +350,7 @@ export class GenericTopicMap_ extends React.Component {
 									changeMarkerSymbolSize={(size) => {
 										this.setState({ currentMarkerSize: size });
 									}}
+									previewFeatureCollection={previewFeatureCollection}
 									currentMarkerSize={this.state.currentMarkerSize}
 									topicMapRef={this.topicMap}
 									setLayerByKey={

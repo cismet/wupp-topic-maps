@@ -7,7 +7,7 @@ import NamedMapStyleChooser from '../commons/NamedMapStyleChooser';
 import SettingsPanelWithPreviewSection from '../commons/SettingsPanelWithPreviewSection';
 import { getInternetExplorerVersion } from '../../utils/browserHelper';
 import 'url-search-params-polyfill';
-import { getColorForProperties, getBadSVG } from '../../utils/baederHelper';
+import { getColorForProperties } from '../../containers/GenericTopMap';
 import { MappingConstants, FeatureCollectionDisplay, getLayersByName } from 'react-cismap';
 
 import { Map } from 'react-leaflet';
@@ -26,7 +26,8 @@ const GenericModalMenuSettingsSection = ({
 	topicMapRef,
 	setLayerByKey,
 	activeLayerKey,
-	getSymbolSVG
+	getSymbolSVG,
+	previewFeatureCollection = []
 }) => {
 	let namedMapStyle = new URLSearchParams(urlSearch).get('mapStyle') || 'default';
 	let zoom = 7;
@@ -64,7 +65,7 @@ const GenericModalMenuSettingsSection = ({
 					//   ".customPostfix:" +
 					//   this.props.featureCollectionKeyPostfix
 				}
-				featureCollection={[]}
+				featureCollection={previewFeatureCollection}
 				clusteringEnabled={false}
 				style={getFeatureStyler(currentMarkerSize, getColorForProperties)}
 				featureStylerScalableImageSize={currentMarkerSize}
@@ -146,9 +147,9 @@ const GenericModalMenuSettingsSection = ({
 							changeMarkerSymbolSize={changeMarkerSymbolSize}
 							currentMarkerSize={currentMarkerSize}
 							getSymbolSVG={getSymbolSVG}
-							symbolColor={getColorForProperties({
-								more: { zugang: 'öffentlich', betreiber: 'Verein' }
-							})}
+							symbolColor={getColorForProperties(
+								previewFeatureCollection[0].properties
+							)}
 						/>
 					]}
 				/>

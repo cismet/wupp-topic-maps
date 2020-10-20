@@ -174,7 +174,11 @@ export class GenericTopicMap_ extends React.Component {
 		if (featureCollection === undefined) {
 			return <div />;
 		}
-		let previewCount = this.state.config.previewFeatureCollectionCount || -1;
+		let previewCount = -1;
+		try {
+			previewCount = this.state.config.tm.previewFeatureCollectionCount || -1;
+		} catch (e) {}
+
 		let previewFeatureCollection;
 		if (previewCount === -1) {
 			previewFeatureCollection = featureCollection;
@@ -351,6 +355,7 @@ export class GenericTopicMap_ extends React.Component {
 										this.setState({ currentMarkerSize: size });
 									}}
 									previewFeatureCollection={previewFeatureCollection}
+									previewMapPosition={this.state.config.tm.previewMapPosition}
 									currentMarkerSize={this.state.currentMarkerSize}
 									topicMapRef={this.topicMap}
 									setLayerByKey={

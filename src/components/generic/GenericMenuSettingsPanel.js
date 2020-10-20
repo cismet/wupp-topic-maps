@@ -27,10 +27,15 @@ const GenericModalMenuSettingsSection = ({
 	setLayerByKey,
 	activeLayerKey,
 	getSymbolSVG,
+	previewMapPosition = 'lat=51.25606840617622&lng=7.188449776870144&zoom=7',
 	previewFeatureCollection = []
 }) => {
 	let namedMapStyle = new URLSearchParams(urlSearch).get('mapStyle') || 'default';
-	let zoom = 7;
+
+	let previewMapPositionParams = new URLSearchParams(previewMapPosition);
+	let previewMapLng = previewMapPositionParams.get('lng') || '7.188449776870144';
+	let previewMapLat = previewMapPositionParams.get('lat') || '51.25606840617622';
+	let previewMapZoom = previewMapPositionParams.get('zoom') || '7';
 	let layers = '';
 	if (topicMapRef) {
 		layers = topicMapRef.wrappedInstance.props.backgroundlayers;
@@ -43,16 +48,16 @@ const GenericModalMenuSettingsSection = ({
 			crs={MappingConstants.crs25832}
 			style={{ height: 300 }}
 			center={{
-				lat: 51.26357182763206,
-				lng: 7.176242149341344
+				lat: previewMapLat,
+				lng: previewMapLng
 			}}
 			zoomControl={false}
 			attributionControl={false}
 			dragging={false}
 			keyboard={false}
-			zoom={zoom}
-			minZoom={zoom}
-			maxZoom={zoom}
+			zoom={previewMapZoom}
+			minZoom={previewMapZoom}
+			maxZoom={previewMapZoom}
 		>
 			{getLayersByName(layers, namedMapStyle)}
 			<FeatureCollectionDisplay

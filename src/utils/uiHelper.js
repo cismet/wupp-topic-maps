@@ -9,6 +9,7 @@ import SVGInline from 'react-svg-inline';
 export const getActionLinksForFeature = (
 	feature,
 	{
+		entityClassName = 'Fachobjekt',
 		displayZoomToFeature = false,
 		zoomToFeature = () => {
 			console.warn('no action cause zoomToFeature was not set in config object');
@@ -26,7 +27,7 @@ export const getActionLinksForFeature = (
 		links.push(
 			<IconLink
 				key={`zoom`}
-				tooltip='Auf Ladestation zoomen'
+				tooltip={'Auf ' + entityClassName + ' zoomen'}
 				onClick={() => {
 					zoomToFeature(feature);
 				}}

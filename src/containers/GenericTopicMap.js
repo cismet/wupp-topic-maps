@@ -196,6 +196,7 @@ export class GenericTopicMap_ extends React.Component {
 			return <div />;
 		}
 		const links = getActionLinksForFeature(currentFeature, {
+			entityClassName: this.state.config.info.navigator.noun.singular,
 			displayZoomToFeature: true,
 			zoomToFeature: this.zoomToFeature,
 			displaySecondaryInfoAction: true,

@@ -6,6 +6,10 @@ import LicenseLuftbildKarte from 'components/commons/LicenseLuftbildkarte';
 import LicenseStadtplanTagNacht from 'components/commons/LicenseStadtplanTagNacht';
 import { faqEntriesFactory } from 'utils/uiHelper';
 import GenericHelpTextForMyLocation from 'components/commons/GenericHelpTextForMyLocation';
+import InKartePositionieren from 'components/generic/help/InKartePositionieren';
+import Einstellungen from 'components/generic/help/Einstellungen';
+import KartendarstellungDerFachobjekte from 'components/generic/help/KartendarstellungDerFachobjekte';
+import FachobjekteAuswaehlenUndAbfragen from 'components/generic/help/FachobjekteAuswaehlenUndAbfragen';
 
 export const DOCBLOCKSTYLES = {
 	TEXT: 'TEXT',
@@ -15,7 +19,11 @@ export const DOCBLOCKSTYLES = {
 	DOCBLOCK: 'DOCBLOCK',
 	LICENSE_LBK: 'LICENSE_LBK',
 	LICENSE_STADTPLAN: 'LICENSE_STADTPLAN',
-	MYLOCATION: 'MYLOCATION'
+	MEINSTANDORT: 'MEINSTANDORT',
+	INKARTEPOSITIONIEREN: 'INKARTEPOSITIONIEREN',
+	EINSTELLUNGEN: 'EINSTELLUNGEN',
+	KARTENDARSTELLUNGDERFACHOBJEKTE: 'KARTENDARSTELLUNGDERFACHOBJEKTE',
+	FACHOBJEKTEAUSWAEHLENUNDABFRAGEN: 'FACHOBJEKTEAUSWAEHLENUNDABFRAGEN'
 };
 
 const ConfigurableDocBlocks = ({
@@ -51,20 +59,26 @@ const getBlock4Config = (block, key) => {
 			//params: md, style
 			return (
 				<div key={key} style={block.style}>
-					<Markdown escapeHtml={false} source={block.md} />
+					<Markdown escapeHtml={false} source={block.content} />
 				</div>
 			);
 
 		case DOCBLOCKSTYLES.LICENSE_LBK:
-			//params: faqConfig, style
 			return <LicenseLuftbildKarte />;
 
 		case DOCBLOCKSTYLES.LICENSE_STADTPLAN:
-			//params: faqConfig, style
 			return <LicenseStadtplanTagNacht />;
-		case DOCBLOCKSTYLES.MYLOCATION:
-			//params: faqConfig, style
+		case DOCBLOCKSTYLES.MEINSTANDORT:
 			return <GenericHelpTextForMyLocation />;
+		case DOCBLOCKSTYLES.INKARTEPOSITIONIEREN:
+			return <InKartePositionieren />;
+		case DOCBLOCKSTYLES.EINSTELLUNGEN:
+			return <Einstellungen />;
+		case DOCBLOCKSTYLES.KARTENDARSTELLUNGDERFACHOBJEKTE:
+			return <KartendarstellungDerFachobjekte />;
+		case DOCBLOCKSTYLES.FACHOBJEKTEAUSWAEHLENUNDABFRAGEN:
+			return <FachobjekteAuswaehlenUndAbfragen />;
+
 		case DOCBLOCKSTYLES.DOCBLOCK:
 			//params: docBlockConfigs, style, innerStyle
 			return (
@@ -82,7 +96,7 @@ const getBlock4Config = (block, key) => {
 			if (block.replaceConfig === undefined) {
 				return (
 					<div key={'DOCBLOCKSTYLES.HTML.' + key} style={block.style}>
-						{parse(block.html)}
+						{parse(block.content)}
 					</div>
 				);
 			} else {
@@ -101,7 +115,7 @@ const getBlock4Config = (block, key) => {
 					}
 				};
 
-				const x = parse(block.html, options);
+				const x = parse(block.content, options);
 				return x;
 			}
 		case DOCBLOCKSTYLES.FAQS: {

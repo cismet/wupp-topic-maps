@@ -36,6 +36,7 @@ import LicenseLuftbildkarte from 'components/commons/LicenseLuftbildkarte';
 import LicenseStadtplanTagNacht from 'components/commons/LicenseStadtplanTagNacht';
 import ConfigurableDocBlocks from 'components/generic/ConfigurableDocBlocks';
 import { getSymbolSVGGetter } from '../utils/uiHelper';
+import { getSimpleHelpForGenericTM } from '../utils/genericTopicMapHelper';
 import slugify from 'slugify';
 //------
 
@@ -68,11 +69,14 @@ async function initialize({
 	);
 	const featureDefaults = await getConfig(slugName, 'featureDefaults', server, path);
 	const helpTextBlocks = await getConfig(slugName, 'helpTextBlocks', server, path);
+	const simpleHelp = await await getConfig(slugName, 'simpleHelp', server, path);
 	const infoBoxConfig = await getConfig(slugName, 'infoBoxConfig', server, path);
 	const features = await getConfig(slugName, 'features', server, path);
 
 	if (helpTextBlocks !== undefined) {
 		config.helpTextblocks = helpTextBlocks;
+	} else {
+		config.helpTextblocks = getSimpleHelpForGenericTM(document.title, simpleHelp);
 	}
 	if (features !== undefined) {
 		config.features = features;

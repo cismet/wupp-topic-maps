@@ -389,6 +389,11 @@ export class GenericTopicMap_ extends React.Component {
 						/>
 					}
 					featureCollection={this.state.config.features}
+					featureHoverer={(feature) => {
+						return (
+							'<div>' + (feature.properties.hoverString || feature.text) + '</div>'
+						);
+					}}
 				/>
 			</div>
 		);

@@ -15,11 +15,30 @@ export default () => {
 			</p>
 			<p>
 				Durch das in der Auswahlliste vorangestellte Symbol erkennen Sie, ob es sich bei
-				einem Treffer um einen <Icon name='circle' /> Stadtbezirk, ein{' '}
-				<Icon name='pie-chart' /> Quartier, eine <Icon name='home' /> Adresse, eine{' '}
-				<Icon name='road' />Straße ohne Hausnummern, einen
-				<Icon name='tag' /> POI, die <Icon name='tags' /> alternative Bezeichnung eines POI
-				oder eine <Icon name='child' /> Kindertageseinrichtung handelt.
+				einem Treffer um einen{' '}
+				<NW>
+					<Icon name='circle' /> Stadtbezirk
+				</NW>, ein{' '}
+				<NW>
+					<Icon name='pie-chart' /> Quartier
+				</NW>, eine{' '}
+				<NW>
+					<Icon name='home' /> Adresse
+				</NW>, eine{' '}
+				<NW>
+					<Icon name='road' /> Straße ohne Hausnummern
+				</NW>, einen{' '}
+				<NW>
+					<Icon name='tag' /> POI
+				</NW>, die{' '}
+				<NW>
+					<Icon name='tags' /> alternative Bezeichnung eines POI
+				</NW>{' '}
+				oder eine{' '}
+				<NW>
+					<Icon name='child' /> Kindertageseinrichtung
+				</NW>{' '}
+				handelt.
 			</p>
 			<p>
 				Nach der Auswahl eines Treffers aus der Liste wird die Karte auf die zugehörige
@@ -37,4 +56,7 @@ export default () => {
 			</p>
 		</div>
 	);
+};
+const NW = (props) => {
+	return <span style={{ whiteSpace: 'nowrap' }}>{props.children}</span>;
 };

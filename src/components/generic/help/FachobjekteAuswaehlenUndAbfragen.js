@@ -13,13 +13,14 @@ export default () => {
 				rechts in der Info-Box angezeigt. (Auf einem Tablet-PC wird der Fokus durch das
 				erste Antippen des Fachobjekt-Symbols gesetzt, das zweite Antippen blendet den Namen
 				ein.) Außerdem werden Ihnen in der Info-Box weiterführende Funktionen und
-				Kommunikationslinks zu diesem Fachobjekt angeboten. Mit der Lupenfunktion
-				[Lupen-Icon] wird die Karte auf das aktuelle Fachobjekt zentriert und gleichzeitig
-				ein großer Betrachtungsmaßstab (Zoomstufe 14) eingestellt. Falls es mehr
-				Informationen zu den Fachobjekten gibt, als in der Info-Box dargestellt werden
-				können, können Sie sich diese über die Datenblattfunktion [Info-Icon] anzeigen
-				lassen. Die Kommunikationslinks umfassen i. d. R. [Telefon-Icon] Telefon,
-				[E-Mail-Icon] E-Mail und [Internetlink-Icon] Internet-Homepage.
+				Kommunikationslinks zu diesem Fachobjekt angeboten. Mit der Lupenfunktion{' '}
+				<Icon name='search' /> wird die Karte auf das aktuelle Fachobjekt zentriert und
+				gleichzeitig ein großer Betrachtungsmaßstab (Zoomstufe 14) eingestellt. Falls es
+				mehr Informationen zu den Fachobjekten gibt, als in der Info-Box dargestellt werden
+				können, können Sie sich diese über die Datenblattfunktion <Icon name='info' />{' '}
+				anzeigen lassen. Die Kommunikationslinks umfassen i. d. R. <Icon name='phone' />{' '}
+				Telefon, <Icon name='envelope-square' /> E-Mail und{' '}
+				<Icon name='external-link-square' /> Internet-Homepage.
 			</p>
 			<p>
 				Wenn Sie noch kein Fachobjekt im aktuellen Kartenausschnitt selektiert haben, wird
@@ -31,15 +32,15 @@ export default () => {
 				Fachobjekt umfasst, bleibt der Fokus auf diesem Objekt, auch wenn sich dieses nicht
 				im aktuell eingestellten Kartenausschnitt befindet. Die Funktionen{' '}
 				<a href='url'>&lt;&lt;</a> vorheriger Treffer und <a href='url'>&gt;&gt;</a>{' '}
-				nächster Treffer werden Ihnen in diesem Fall nicht angeboten. Mit der Funktion
-				[Lupen-Icon] in der Info-Box können Sie jederzeit wieder zu diesem Fachobjekt
-				zurückkehren.
+				nächster Treffer werden Ihnen in diesem Fall nicht angeboten. Mit der Funktion{' '}
+				<Icon name='search' /> in der Info-Box können Sie jederzeit wieder zu diesem
+				Fachobjekt zurückkehren.
 			</p>
 			<p>
 				Mit der Schaltfläche <Icon name='chevron-circle-down' /> im dunkelgrau abgesetzten
 				rechten Rand der Info-Box lässt sich diese so verkleinern, dass nur noch die
 				thematische Zuordnung und der Name des Fachobjektes sowie die Link-Symbole angezeigt
-				werden - nützlich für Endgeräte mit kleinem Display. Mit der Schaltfläche
+				werden - nützlich für Endgeräte mit kleinem Display. Mit der Schaltfläche{' '}
 				<Icon name='chevron-circle-up' /> an derselben Stelle können Sie die Info-Box dann
 				wieder vollständig einblenden.
 			</p>

@@ -125,9 +125,20 @@ const GenericModalMenuSettingsSection = ({
 			{ title: 'Luftbildkarte', mode: 'default', layerKey: 'lbk' }
 		];
 	}
+	let symbolColor = '#000000';
+	try {
+		symbolColor = getColorForProperties(previewFeatureCollection[0].properties);
+	} catch (e) {
+		console.log(
+			'exceptiuon in getColorForProperties(previewFeatureCollection[0].properties);',
+			e
+		);
+	}
+	console.log('symbolColor', symbolColor);
 
 	return (
 		<GenericModalMenuSection
+			key={'GenericModalMenuSection.' + symbolColor}
 			uiState={uiState}
 			uiStateActions={uiStateActions}
 			sectionKey='settings'
@@ -152,9 +163,7 @@ const GenericModalMenuSettingsSection = ({
 							changeMarkerSymbolSize={changeMarkerSymbolSize}
 							currentMarkerSize={currentMarkerSize}
 							getSymbolSVG={getSymbolSVG}
-							symbolColor={getColorForProperties(
-								previewFeatureCollection[0].properties
-							)}
+							symbolColor={symbolColor}
 						/>
 					]}
 				/>

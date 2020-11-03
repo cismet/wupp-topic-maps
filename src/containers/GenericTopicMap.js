@@ -20,6 +20,12 @@ import {
 } from '../redux/modules/baeder';
 import { actions as MappingActions } from '../redux/modules/mapping';
 import { actions as UIStateActions } from '../redux/modules/uiState';
+import {
+	actions as GenericsActions,
+	getGenericsFeatureCollection,
+	getGenericsFeatureCollectionSelectedIndex
+} from '../redux/modules/generics';
+
 import { fotoKraemerCaptionFactory, fotoKraemerUrlManipulation } from '../utils/commonHelpers';
 import { featureHoverer, getFeatureStyler } from '../utils/stadtplanHelper';
 import Icon from 'components/commons/Icon';
@@ -103,7 +109,8 @@ function mapStateToProps(state) {
 		uiState: state.uiState,
 		mapping: state.mapping,
 		routing: state.routing,
-		gazetteerTopics: state.gazetteerTopics
+		gazetteerTopics: state.gazetteerTopics,
+		generics: state.generics
 	};
 }
 
@@ -111,7 +118,8 @@ function mapDispatchToProps(dispatch) {
 	return {
 		mappingActions: bindActionCreators(MappingActions, dispatch),
 		uiStateActions: bindActionCreators(UIStateActions, dispatch),
-		routingActions: bindActionCreators(RoutingActions, dispatch)
+		routingActions: bindActionCreators(RoutingActions, dispatch),
+		genericsActions: bindActionCreators(GenericsActions, dispatch)
 	};
 }
 export const getColorForProperties = (props = { color: '#dddddd' }) => {
@@ -126,18 +134,27 @@ export class GenericTopicMap_ extends React.Component {
 			secondaryInfoVisible: false,
 			currentMarkerSize: 30,
 			initialized: undefined,
-			config: {}
+			config: undefined
 		};
+		this.gotoHome = this.gotoHome.bind(this);
+
 		// this.gotoHome = this.gotoHome.bind(this);
 		// this.changeMarkerSymbolSize = this.changeMarkerSymbolSize.bind(this);
 		// this.props.mappingActions.setBoundingBoxChangedTrigger((bbox) =>
 		// 	this.props.baederActions.refreshFeatureCollection(bbox)
 		// );
+		this.props.mappingActions.setBoundingBoxChangedTrigger((bbox) =>
+			this.props.genericsActions.refreshFeatureCollection(bbox)
+		);
 	}
 	componentDidMount() {
 		this.props.mappingActions.setFeatureCollection([]);
 	}
-
+	gotoHome() {
+		if (this.topicMap) {
+			this.topicMap.wrappedInstance.gotoHome();
+		}
+	}
 	componentDidUpdate() {
 		if (this.props.match.params.name !== undefined) {
 			document.title = this.props.match.params.name.replace(/_/g, ' ');
@@ -150,7 +167,11 @@ export class GenericTopicMap_ extends React.Component {
 				initialize({
 					slugName,
 					setConfig,
-					setFeatureCollection: this.props.mappingActions.setFeatureCollection,
+					setFeatureCollection: (fc) => {
+						this.props.genericsActions.setFeatureCollectionDataSource(fc);
+						this.props.genericsActions.createFeatureCollection();
+					},
+
 					server: usp.get('genericConfigServer') || '',
 					path: usp.get('genericConfigPath') || '/data/generic/'
 				});
@@ -174,98 +195,139 @@ export class GenericTopicMap_ extends React.Component {
 	}
 
 	render() {
-		const featureCollection = this.props.mapping.featureCollection;
-		if (featureCollection === undefined) {
+		if (this.state.config === undefined) {
 			return <div />;
 		}
-		let previewCount = -1;
-		try {
-			previewCount = this.state.config.tm.previewFeatureCollectionCount || -1;
-		} catch (e) {}
+		const featureCollection = getGenericsFeatureCollection(this.props.generics);
+		let currentFeature, info;
+		let previewFeatureCollection = [];
 
-		let previewFeatureCollection;
-		if (previewCount === -1) {
-			previewFeatureCollection = featureCollection;
-		} else {
-			previewFeatureCollection = featureCollection.slice(0, previewCount);
-		}
+		console.log('featureCollection', featureCollection);
 
-		const selectedIndex = this.props.mapping.selectedIndex;
-		const currentFeature = this.props.mapping.featureCollection[selectedIndex];
-		if (currentFeature === undefined) {
-			return <div />;
-		}
-		const links = getActionLinksForFeature(currentFeature, {
-			entityClassName: this.state.config.info.navigator.noun.singular,
-			displayZoomToFeature: true,
-			zoomToFeature: this.zoomToFeature,
-			displaySecondaryInfoAction: true,
-			setVisibleStateOfSecondaryInfo: (vis) => this.setState({ secondaryInfoVisible: vis })
-		});
-		const header = (
-			<span>{currentFeature.properties.info.header || this.state.config.info.header}</span>
-		);
-		const headerColor = getColorForProperties((currentFeature || {}).properties);
+		if (featureCollection !== undefined) {
+			let previewCount = -1;
+			try {
+				previewCount = this.state.config.tm.previewFeatureCollectionCount || -1;
+			} catch (e) {}
 
-		const items = featureCollection;
-		const minified = undefined;
-		const minify = undefined;
-		const fitAll = () => {};
-		const info = (
-			<InfoBox
-				isCollapsible={currentFeature !== undefined}
-				featureCollection={featureCollection}
-				items={featureCollection}
-				selectedIndex={selectedIndex}
-				next={() => {}}
-				previous={() => {}}
-				fitAll={() => {}}
-				showModalMenu={() => {}}
-				uiState={this.props.uiState}
-				uiStateActions={this.props.uiStateActions}
-				panelClick={() => {}}
-				colorize={getColorForProperties}
-				pixelwidth={this.state.config.info.pixelwidth}
-				header={header}
-				headerColor={headerColor}
-				links={links}
-				title={currentFeature.properties.info.title}
-				subtitle={currentFeature.properties.info.subtitle}
-				additionalInfo={currentFeature.properties.info.additionalInfo}
-				zoomToAllLabel={`${items.length} ${items.length === 1
-					? this.state.config.info.navigator.noun.singular
-					: this.state.config.info.navigator.noun.plural} in ${this.state.config.city}`}
-				currentlyShownCountLabel={`${featureCollection.length} ${featureCollection.length ===
-				1
-					? this.state.config.info.navigator.noun.singular
-					: this.state.config.info.navigator.noun.plural} angezeigt`}
-				collapsedInfoBox={minified}
-				setCollapsedInfoBox={minify}
-				noCurrentFeatureTitle={<h5>{this.state.config.info.noFeatureTitle}</h5>}
-				noCurrentFeatureContent={
-					<div style={{ marginRight: 9 }}>
-						<p>
-							Für mehr Bäder Ansicht mit <Icon name='minus-square' /> verkleinern oder
-							mit dem untenstehenden Link auf das komplette Stadtgebiet zoomen.
-						</p>
-						<div align='center'>
-							<a onClick={fitAll}>{items.length} Bäder in Wuppertal</a>
+			if (previewCount === -1) {
+				previewFeatureCollection = this.state.config.features;
+			} else {
+				previewFeatureCollection = this.state.config.features.slice(0, previewCount);
+			}
+			console.log('featureCollection', featureCollection);
+			console.log('previewFeatureCollection', previewFeatureCollection);
+
+			const selectedIndex = getGenericsFeatureCollectionSelectedIndex(this.props.generics);
+			currentFeature = featureCollection[selectedIndex];
+			let links = [];
+			let header, title, subtitle, additionalInfo;
+			if (currentFeature !== undefined) {
+				links = getActionLinksForFeature(currentFeature, {
+					entityClassName: this.state.config.info.navigator.noun.singular,
+					displayZoomToFeature: true,
+					zoomToFeature: this.zoomToFeature,
+					displaySecondaryInfoAction: true,
+					setVisibleStateOfSecondaryInfo: (vis) =>
+						this.setState({ secondaryInfoVisible: vis })
+				});
+				header = (
+					<span>
+						{currentFeature.properties.info.header || this.state.config.info.header}
+					</span>
+				);
+				title = currentFeature.properties.info.title;
+				subtitle = currentFeature.properties.info.subtitle;
+				additionalInfo = currentFeature.properties.info.additionalInfo;
+			}
+			const headerColor = getColorForProperties((currentFeature || {}).properties);
+
+			const items = this.state.config.features;
+			const minified = undefined;
+			const minify = undefined;
+			const fitAll = this.gotoHome;
+			info = (
+				<InfoBox
+					isCollapsible={currentFeature !== undefined}
+					featureCollection={featureCollection}
+					items={items}
+					selectedIndex={selectedIndex}
+					next={() => {}}
+					previous={() => {}}
+					showModalMenu={() => {}}
+					uiState={this.props.uiState}
+					uiStateActions={this.props.uiStateActions}
+					panelClick={() => {}}
+					colorize={getColorForProperties}
+					pixelwidth={this.state.config.info.pixelwidth}
+					header={header}
+					headerColor={headerColor}
+					links={links}
+					title={title}
+					subtitle={subtitle}
+					additionalInfo={additionalInfo}
+					zoomToAllLabel={`${items.length} ${items.length === 1
+						? this.state.config.info.navigator.noun.singular
+						: this.state.config.info.navigator.noun.plural} in ${this.state.config
+						.city}`}
+					currentlyShownCountLabel={`${featureCollection.length} ${featureCollection.length ===
+					1
+						? this.state.config.info.navigator.noun.singular
+						: this.state.config.info.navigator.noun.plural} angezeigt`}
+					collapsedInfoBox={minified}
+					setCollapsedInfoBox={minify}
+					noCurrentFeatureTitle={<h5>{this.state.config.info.noFeatureTitle}</h5>}
+					noCurrentFeatureContent={
+						<div style={{ marginRight: 9 }}>
+							<p>
+								Für mehr {this.state.config.info.navigator.noun.plural}, Ansicht mit{' '}
+								<Icon name='minus-square' /> verkleinern oder mit dem untenstehenden
+								Link auf das komplette Stadtgebiet zoomen.
+							</p>
+							<div align='center'>
+								<a onClick={fitAll}>
+									{items.length}{' '}
+									{featureCollection.length === 1 ? (
+										this.state.config.info.navigator.noun.singular
+									) : (
+										this.state.config.info.navigator.noun.plural
+									)}} in Wuppertal
+								</a>
+							</div>
 						</div>
-					</div>
-				}
-				hideNavigator={true}
-			/>
-		);
-		const a = (
-			<div>
-				<p>
-					Die Karte <b>Wasserstoff in Wuppertal</b> bietet ihnen die folgenden
-					Hintergrundkarten an, die auf verschiedenen Geodatendiensten und Geodaten
-					basieren:
-				</p>
-			</div>
-		);
-		const showOnSeperatePage = false;
+					}
+					next={() => {
+						this.props.genericsActions.setSelectedFeatureIndex(
+							(getGenericsFeatureCollectionSelectedIndex(this.props.generics) + 1) %
+								getGenericsFeatureCollection(this.props.generics).length
+						);
+					}}
+					previous={() => {
+						this.props.genericsActions.setSelectedFeatureIndex(
+							(getGenericsFeatureCollectionSelectedIndex(this.props.generics) +
+								getGenericsFeatureCollection(this.props.generics).length -
+								1) %
+								getGenericsFeatureCollection(this.props.generics).length
+						);
+					}}
+					hideNavigator={this.state.config.features.length <= 1}
+					fitAll={fitAll}
+				/>
+			);
+			console.log('featureCollection.lenghth', this.state.config.features.length);
+
+			const a = (
+				<div>
+					<p>
+						Die Karte <b>Wasserstoff in Wuppertal</b> bietet ihnen die folgenden
+						Hintergrundkarten an, die auf verschiedenen Geodatendiensten und Geodaten
+						basieren:
+					</p>
+				</div>
+			);
+			const showOnSeperatePage = false;
+		}
+
 		const compactHelpTextConfiguration = this.state.config.helpTextblocks;
 
 		let choosenBackground = (this.state.config.tm.fallbackBackgroundlayers =
@@ -275,6 +337,7 @@ export class GenericTopicMap_ extends React.Component {
 				this.props.mapping.selectedBackground
 			];
 		}
+		console.log('previewFeatureCollection', previewFeatureCollection);
 
 		return (
 			<div>
@@ -294,8 +357,18 @@ export class GenericTopicMap_ extends React.Component {
 					{...this.state.config.tm}
 					backgroundlayers={choosenBackground.layerkey}
 					infoBox={info}
-					getFeatureCollectionForData={() => featureCollection}
-					setSelectedFeatureIndex={this.props.mappingActions.setSelectedFeatureIndex}
+					dataLoader={(finishedHandler) => {
+						this.props.genericsActions.setFeatureCollectionDataSource(
+							this.state.config.features
+						);
+						this.props.genericsActions.createFeatureCollection();
+						finishedHandler();
+					}}
+					getFeatureCollectionForData={() => {
+						return getGenericsFeatureCollection(this.props.generics);
+					}}
+					refreshFeatureCollection={this.props.genericsActions.refreshFeatureCollection}
+					setSelectedFeatureIndex={this.props.genericsActions.setSelectedFeatureIndex}
 					featureStyler={getFeatureStyler(
 						this.state.currentMarkerSize,
 						getColorForProperties
@@ -348,7 +421,7 @@ export class GenericTopicMap_ extends React.Component {
 							}
 							menuSections={[
 								<GenericMenuSettingsPanel
-									key='GenericMenuSettingsPanel'
+									key={'GenericMenuSettingsPanel' + previewFeatureCollection}
 									uiState={this.props.uiState}
 									uiStateActions={this.props.uiStateActions}
 									width={this.props.uiState.width}
@@ -388,7 +461,7 @@ export class GenericTopicMap_ extends React.Component {
 							]}
 						/>
 					}
-					featureCollection={this.state.config.features}
+					// featureCollection={this.state.config.features}
 					featureHoverer={(feature) => {
 						return (
 							'<div>' + (feature.properties.hoverString || feature.text) + '</div>'

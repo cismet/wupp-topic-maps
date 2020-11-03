@@ -5,7 +5,8 @@ const makePointFeatureCollectionWithIndexDuck = (
 	section,
 	ownSubStateResolver,
 	currentBoundingBoxResolver,
-	convertItemToFeature
+	convertItemToFeature,
+	coordinatesResolver = (p) => p.geojson.coordinates
 ) => {
 	const actionTypes = {
 		SET_FEATURECOLLECTION: `HO/POINTFEATURECOLLECTION/${section}/SET_FEATURECOLLECTION`,
@@ -68,16 +69,20 @@ const makePointFeatureCollectionWithIndexDuck = (
 					}
 
 					results.sort((a, b) => {
-						if (a.geojson.coordinates[1] === b.geojson.coordinates[1]) {
-							return a.geojson.coordinates[0] - b.geojson.coordinates[0];
+						if (coordinatesResolver(a)[1] === coordinatesResolver(b)[1]) {
+							return coordinatesResolver(a)[0] - coordinatesResolver(b)[0];
 						} else {
-							return b.geojson.coordinates[1] - a.geojson.coordinates[1];
+							return coordinatesResolver(b)[1] - coordinatesResolver(a)[1];
 						}
 					});
 
 					let selectionWish = 0;
+					let i = 0;
 					for (let item of results) {
-						let itemFeature = convertItemToFeature(item, counter);
+						let itemFeature = JSON.parse(
+							JSON.stringify(convertItemToFeature(item, counter))
+						);
+						itemFeature.index = i++;
 						resultFC.push(itemFeature);
 
 						if (itemFeature.id === currentSelectedFeature.id) {
@@ -112,11 +117,13 @@ const makePointFeatureCollectionWithIndexDuck = (
 			}
 			case actionTypes.SET_DATASOURCE: {
 				newState = objectAssign({}, state);
+				console.log('xxx SET_DATASOURCE', action.datasource);
+
 				newState.datasource = action.datasource;
 				newState.fcIndex = kdbush(
 					action.datasource,
-					(p) => p.geojson.coordinates[0],
-					(p) => p.geojson.coordinates[1]
+					(p) => coordinatesResolver(p)[0],
+					(p) => coordinatesResolver(p)[1]
 				);
 				return newState;
 			}

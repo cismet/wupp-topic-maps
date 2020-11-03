@@ -18,6 +18,7 @@ import gazetteerTopicsReducer from './modules/gazetteerTopics';
 import uiStateReducer from './modules/uiState';
 import docsReducer from './modules/docs';
 import planOffenlegungenReducer from './modules/planoffenlegungen';
+import genericsReducer from './modules/generics';
 
 import { persistReducer } from 'redux-persist';
 import localForage from 'localforage';
@@ -91,7 +92,8 @@ const appReducer = combineReducers({
 	gazetteerTopics: persistReducer(gazetteerTopicsStorageConfig, gazetteerTopicsReducer),
 	// gazetteerTopics: gazetteerTopicsReducer, // uncomment to skip persitent gazetteer data,
 	docs: docsReducer,
-	hitze: persistReducer(hitzeStorageConfig, hitzeReducer)
+	hitze: persistReducer(hitzeStorageConfig, hitzeReducer),
+	generics: genericsReducer
 });
 
 const rootReducer = (state, action) => {

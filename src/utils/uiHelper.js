@@ -5,6 +5,10 @@ import { Link } from 'react-scroll';
 import { Icon } from 'react-fa';
 import { Label } from 'react-bootstrap';
 import SVGInline from 'react-svg-inline';
+import Color from 'color';
+import createSVGPie from 'create-svg-pie';
+import createElement from 'svg-create-element';
+import L from 'leaflet';
 
 export const getActionLinksForFeature = (
 	feature,
@@ -182,5 +186,130 @@ export const getSymbolSVGGetter = (
                 </svg>  `;
 
 		return <SVGInline svg={svg} />;
+	};
+};
+
+export const getClusterIconCreatorFunction = (
+	svgSize = 24,
+	colorizer = () => {
+		return '#ff0000';
+	}
+) => {
+	//return a function because the functionCall of the iconCreateFunction cannot be manipulated
+	return (cluster) => {
+		var childCount = cluster.getChildCount();
+		const values = [];
+		const colors = [];
+
+		const r = svgSize / 1.5;
+		// Pie with default colors
+		let childMarkers = cluster.getAllChildMarkers();
+
+		let containsSelection = false;
+		let inCart = false;
+		for (let marker of childMarkers) {
+			values.push(1);
+			colors.push(Color(colorizer(marker.feature.properties)));
+			if (marker.feature.selected === true) {
+				containsSelection = true;
+			}
+			if (marker.feature.inCart) {
+				inCart = true;
+			}
+		}
+		const pie = createSVGPie(values, r, colors);
+
+		let canvasSize = svgSize / 3.0 * 5.0;
+		let background = createElement('svg', {
+			width: canvasSize,
+			height: canvasSize,
+			viewBox: `0 0 ${canvasSize} ${canvasSize}`
+		});
+
+		//Kleiner Kreis in der Mitte
+		// (blau wenn selektion)
+		let innerCircleColor = '#ffffff';
+		if (containsSelection) {
+			innerCircleColor = 'rgb(67, 149, 254)';
+		}
+
+		//inner circle
+		pie.appendChild(
+			createElement('circle', {
+				cx: r,
+				cy: r,
+				r: svgSize / 3.0,
+				'stroke-width': 0,
+				opacity: '0.5',
+				fill: innerCircleColor
+			})
+		);
+
+		// //Debug Rectangle -should be commnented out
+		// background.appendChild(createElement('rect', {
+		//     x:0,
+		//     y:0,
+		//     width: canvasSize,
+		//     height: canvasSize,
+		//     "stroke-width":1,
+		//     stroke: "#000000",
+		//     opacity: "1",
+		//     fill: "#ff0000"
+
+		// }));
+
+		background.appendChild(pie);
+
+		// Umrandung
+		background.appendChild(
+			createElement('circle', {
+				cx: canvasSize / 2.0,
+				cy: canvasSize / 2.0,
+				r: r,
+				'stroke-width': 2,
+				stroke: '#000000',
+				opacity: '0.5',
+				fill: 'none'
+			})
+		);
+
+		if (inCart) {
+			background
+				.appendChild(
+					createElement('text', {
+						x: '50%',
+						y: '50%',
+						'text-anchor': 'middle',
+						'font-family': 'FontAwesome',
+						fill: '#fff',
+						'font-size': '26',
+						dy: '.4em',
+						opacity: '0.5'
+					})
+				)
+				.appendChild(document.createTextNode('\uf005'));
+		}
+
+		background
+			.appendChild(
+				createElement('text', {
+					x: '50%',
+					y: '50%',
+					'text-anchor': 'middle',
+					dy: '.3em'
+				})
+			)
+			.appendChild(document.createTextNode(childCount));
+
+		pie.setAttribute('x', (canvasSize - r * 2) / 2.0);
+		pie.setAttribute('y', (canvasSize - r * 2) / 2.0);
+
+		var divIcon = L.divIcon({
+			className: 'leaflet-data-marker',
+			html: background.outerHTML || new XMLSerializer().serializeToString(background), //IE11 Compatibility
+			iconAnchor: [ canvasSize / 2.0, canvasSize / 2.0 ],
+			iconSize: [ canvasSize, canvasSize ]
+		});
+		return divIcon;
 	};
 };

@@ -117,7 +117,6 @@ const makePointFeatureCollectionWithIndexDuck = (
 			}
 			case actionTypes.SET_DATASOURCE: {
 				newState = objectAssign({}, state);
-				console.log('xxx SET_DATASOURCE', action.datasource);
 
 				newState.datasource = action.datasource;
 				newState.fcIndex = kdbush(

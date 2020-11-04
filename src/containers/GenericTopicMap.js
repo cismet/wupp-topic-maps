@@ -23,7 +23,8 @@ import { actions as UIStateActions } from '../redux/modules/uiState';
 import {
 	actions as GenericsActions,
 	getGenericsFeatureCollection,
-	getGenericsFeatureCollectionSelectedIndex
+	getGenericsFeatureCollectionSelectedIndex,
+	getGenericItemSvgSize
 } from '../redux/modules/generics';
 
 import { fotoKraemerCaptionFactory, fotoKraemerUrlManipulation } from '../utils/commonHelpers';
@@ -41,7 +42,7 @@ import GenericHelpTextForMyLocation from 'components/commons/GenericHelpTextForM
 import LicenseLuftbildkarte from 'components/commons/LicenseLuftbildkarte';
 import LicenseStadtplanTagNacht from 'components/commons/LicenseStadtplanTagNacht';
 import ConfigurableDocBlocks from 'components/generic/ConfigurableDocBlocks';
-import { getSymbolSVGGetter } from '../utils/uiHelper';
+import { getSymbolSVGGetter, getClusterIconCreatorFunction } from '../utils/uiHelper';
 import { getSimpleHelpForGenericTM } from '../utils/genericTopicMapHelper';
 import slugify from 'slugify';
 //------
@@ -67,6 +68,7 @@ async function initialize({
 	server = ''
 }) {
 	const config = await getConfig(slugName, 'config', server, path);
+
 	const featureDefaultProperties = await getConfig(
 		slugName,
 		'featureDefaultProperties',
@@ -198,11 +200,10 @@ export class GenericTopicMap_ extends React.Component {
 		if (this.state.config === undefined) {
 			return <div />;
 		}
+
 		const featureCollection = getGenericsFeatureCollection(this.props.generics);
 		let currentFeature, info;
 		let previewFeatureCollection = [];
-
-		console.log('featureCollection', featureCollection);
 
 		if (featureCollection !== undefined) {
 			let previewCount = -1;
@@ -225,7 +226,9 @@ export class GenericTopicMap_ extends React.Component {
 					entityClassName: this.state.config.info.navigator.noun.singular,
 					displayZoomToFeature: true,
 					zoomToFeature: this.zoomToFeature,
-					displaySecondaryInfoAction: true,
+					displaySecondaryInfoAction:
+						this.state.config.info.displaySecondaryInfoAction === true ||
+						this.state.config.info.displaySecondaryInfoAction === undefined,
 					setVisibleStateOfSecondaryInfo: (vis) =>
 						this.setState({ secondaryInfoVisible: vis })
 				});
@@ -250,8 +253,6 @@ export class GenericTopicMap_ extends React.Component {
 					featureCollection={featureCollection}
 					items={items}
 					selectedIndex={selectedIndex}
-					next={() => {}}
-					previous={() => {}}
 					showModalMenu={() => {}}
 					uiState={this.props.uiState}
 					uiStateActions={this.props.uiStateActions}
@@ -277,11 +278,20 @@ export class GenericTopicMap_ extends React.Component {
 					noCurrentFeatureTitle={<h5>{this.state.config.info.noFeatureTitle}</h5>}
 					noCurrentFeatureContent={
 						<div style={{ marginRight: 9 }}>
-							<p>
-								Für mehr {this.state.config.info.navigator.noun.plural}, Ansicht mit{' '}
-								<Icon name='minus-square' /> verkleinern oder mit dem untenstehenden
-								Link auf das komplette Stadtgebiet zoomen.
-							</p>
+							{(this.state.config.info.noCurrentFeatureContent === undefined ||
+								this.state.config.info.noCurrentFeatureContent === '') && (
+								<p>
+									Für mehr {this.state.config.info.navigator.noun.plural}, Ansicht
+									mit <Icon name='minus-square' /> verkleinern oder mit dem
+									untenstehenden Link alle{' '}
+									{this.state.config.info.navigator.noun.plural} anzeigen.
+								</p>
+							)}
+							{this.state.config.info.noCurrentFeatureContent !== undefined &&
+							this.state.config.info.noCurrentFeatureContent !== '' && (
+								<p>{this.state.config.info.noCurrentFeatureContent}</p>
+							)}
+
 							<div align='center'>
 								<a onClick={fitAll}>
 									{items.length}{' '}
@@ -313,9 +323,15 @@ export class GenericTopicMap_ extends React.Component {
 					fitAll={fitAll}
 				/>
 			);
-			console.log('featureCollection.lenghth', this.state.config.features.length);
 
 			const showOnSeperatePage = false;
+
+			this.state.config.tm.clusterOptions.iconCreateFunction = getClusterIconCreatorFunction(
+				getGenericItemSvgSize(this.props.generics),
+				getColorForProperties
+			);
+			if (this.state.config.tm.clusteringEnabled === true) {
+			}
 		}
 
 		const compactHelpTextConfiguration = this.state.config.helpTextblocks;

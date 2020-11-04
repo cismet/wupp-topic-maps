@@ -281,7 +281,7 @@ export class GenericTopicMap_ extends React.Component {
 							{(this.state.config.info.noCurrentFeatureContent === undefined ||
 								this.state.config.info.noCurrentFeatureContent === '') && (
 								<p>
-									Für mehr {this.state.config.info.navigator.noun.plural}, Ansicht
+									Für mehr {this.state.config.info.navigator.noun.plural} Ansicht
 									mit <Icon name='minus-square' /> verkleinern oder mit dem
 									untenstehenden Link alle{' '}
 									{this.state.config.info.navigator.noun.plural} anzeigen.

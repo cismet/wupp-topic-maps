@@ -215,8 +215,6 @@ export class GenericTopicMap_ extends React.Component {
 			} else {
 				previewFeatureCollection = this.state.config.features.slice(0, previewCount);
 			}
-			console.log('featureCollection', featureCollection);
-			console.log('previewFeatureCollection', previewFeatureCollection);
 
 			const selectedIndex = getGenericsFeatureCollectionSelectedIndex(this.props.generics);
 			currentFeature = featureCollection[selectedIndex];
@@ -287,11 +285,12 @@ export class GenericTopicMap_ extends React.Component {
 							<div align='center'>
 								<a onClick={fitAll}>
 									{items.length}{' '}
-									{featureCollection.length === 1 ? (
+									{items.length === 1 ? (
 										this.state.config.info.navigator.noun.singular
 									) : (
 										this.state.config.info.navigator.noun.plural
-									)}} in Wuppertal
+									)}{' '}
+									in {this.state.config.city}
 								</a>
 							</div>
 						</div>
@@ -316,15 +315,6 @@ export class GenericTopicMap_ extends React.Component {
 			);
 			console.log('featureCollection.lenghth', this.state.config.features.length);
 
-			const a = (
-				<div>
-					<p>
-						Die Karte <b>Wasserstoff in Wuppertal</b> bietet ihnen die folgenden
-						Hintergrundkarten an, die auf verschiedenen Geodatendiensten und Geodaten
-						basieren:
-					</p>
-				</div>
-			);
 			const showOnSeperatePage = false;
 		}
 
@@ -337,7 +327,6 @@ export class GenericTopicMap_ extends React.Component {
 				this.props.mapping.selectedBackground
 			];
 		}
-		console.log('previewFeatureCollection', previewFeatureCollection);
 
 		return (
 			<div>

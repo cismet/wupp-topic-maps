@@ -95,8 +95,12 @@ async function initialize({
 	}
 
 	const fc = [];
+	let i = 0;
 	for (const f of config.features) {
 		const ef = { ...featureDefaults, ...f };
+		ef.id = i;
+		ef.index = i;
+		i++;
 		ef.properties = { ...featureDefaultProperties, ...ef.properties };
 		fc.push(ef);
 	}

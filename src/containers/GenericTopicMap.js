@@ -47,12 +47,36 @@ import { getSimpleHelpForGenericTM } from '../utils/genericTopicMapHelper';
 import slugify from 'slugify';
 //------
 
-async function getConfig(slugName, configType, server, path) {
+async function getConfig(slugName, configType, server, path, noCache) {
 	try {
+		let options;
+		if (noCache === 'true') {
+			options = { cache: 'no-cache' };
+		} else {
+			options = {};
+		}
 		const u = server + path + slugName + '/' + configType + '.json';
 		console.log('try to read rconfig at ', u);
-		const result = await fetch(u);
+		const result = await fetch(u, options);
 		const resultObject = await result.json();
+		console.log('config: loaded ' + slugName + '/' + configType);
+		return resultObject;
+	} catch (ex) {
+		console.log('error for rconfig', ex);
+	}
+}
+async function getMarkdown(slugName, configType, server, path, noCache) {
+	try {
+		let options;
+		if (noCache === 'true') {
+			options = { cache: 'no-cache' };
+		} else {
+			options = {};
+		}
+		const u = server + path + slugName + '/' + configType + '.md';
+		console.log('xxx try to read rconfig at ', u);
+		const result = await fetch(u, options);
+		const resultObject = await result.text();
 		console.log('config: loaded ' + slugName + '/' + configType);
 		return resultObject;
 	} catch (ex) {
@@ -64,8 +88,9 @@ async function initialize({
 	slugName,
 	setConfig,
 	setFeatureCollection,
-	path = '/data/generic/',
-	server = ''
+	path = '/dev/',
+	server = 'https://raw.githubusercontent.com/cismet/wupp-generic-topic-map-config',
+	noCache
 }) {
 	const config = await getConfig(slugName, 'config', server, path);
 
@@ -75,14 +100,18 @@ async function initialize({
 		server,
 		path
 	);
-	const featureDefaults = await getConfig(slugName, 'featureDefaults', server, path);
-	const helpTextBlocks = await getConfig(slugName, 'helpTextBlocks', server, path);
-	const simpleHelp = await await getConfig(slugName, 'simpleHelp', server, path);
-	const infoBoxConfig = await getConfig(slugName, 'infoBoxConfig', server, path);
-	const features = await getConfig(slugName, 'features', server, path);
+	const featureDefaults = await getConfig(slugName, 'featureDefaults', server, path, noCache);
+	const helpTextBlocks = await getConfig(slugName, 'helpTextBlocks', server, path, noCache);
+	const simpleHelpMd = await await getMarkdown(slugName, 'simpleHelp', server, path, noCache);
+	const simpleHelp = await await getConfig(slugName, 'simpleHelp', server, path, noCache);
+	const infoBoxConfig = await getConfig(slugName, 'infoBoxConfig', server, path, noCache);
+	const features = await getConfig(slugName, 'features', server, path, noCache);
 
 	if (helpTextBlocks !== undefined) {
 		config.helpTextblocks = helpTextBlocks;
+	} else if (simpleHelpMd !== undefined) {
+		const simpleHelpObject = { type: 'MARKDOWN', content: simpleHelpMd };
+		config.helpTextblocks = getSimpleHelpForGenericTM(document.title, simpleHelpObject);
 	} else {
 		config.helpTextblocks = getSimpleHelpForGenericTM(document.title, simpleHelp);
 	}
@@ -178,8 +207,9 @@ export class GenericTopicMap_ extends React.Component {
 						this.props.genericsActions.createFeatureCollection();
 					},
 
-					server: usp.get('genericConfigServer') || '',
-					path: usp.get('genericConfigPath') || '/data/generic/'
+					server: usp.get('genericConfigServer') || undefined,
+					path: usp.get('genericConfigPath') || undefined,
+					noCache: usp.get('noCache') || 'false'
 				});
 			} else {
 			}

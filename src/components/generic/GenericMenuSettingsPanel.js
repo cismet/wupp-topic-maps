@@ -137,8 +137,6 @@ const GenericModalMenuSettingsSection = ({
 			e
 		);
 	}
-	console.log('symbolColor', symbolColor);
-
 	return (
 		<GenericModalMenuSection
 			key={'GenericModalMenuSection.' + symbolColor}

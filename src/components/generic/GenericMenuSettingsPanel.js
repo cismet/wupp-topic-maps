@@ -28,7 +28,9 @@ const GenericModalMenuSettingsSection = ({
 	activeLayerKey,
 	getSymbolSVG,
 	previewMapPosition = 'lat=51.25606840617622&lng=7.188449776870144&zoom=7',
-	previewFeatureCollection = []
+	previewFeatureCollection = [],
+	previewMapClusteringOptions,
+	previewMapClusteringEnabled = false
 }) => {
 	let namedMapStyle = new URLSearchParams(urlSearch).get('mapStyle') || 'default';
 
@@ -71,7 +73,8 @@ const GenericModalMenuSettingsSection = ({
 					//   this.props.featureCollectionKeyPostfix
 				}
 				featureCollection={previewFeatureCollection}
-				clusteringEnabled={false}
+				clusteringEnabled={previewMapClusteringEnabled}
+				clusterOptions={previewMapClusteringOptions}
 				style={getFeatureStyler(currentMarkerSize, getColorForProperties)}
 				featureStylerScalableImageSize={currentMarkerSize}
 				//mapRef={topicMapRef} // commented out because there cannot be a ref in a functional comp and it is bnot needed

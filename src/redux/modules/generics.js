@@ -1,4 +1,3 @@
-import { addSVGToPOI } from '../../utils/stadtplanHelper';
 import makeDataDuck from '../higherorderduckfactories/dataWithMD5Check';
 import makePointFeatureCollectionWithIndexDuck from '../higherorderduckfactories/pointFeatureCollectionWithIndex';
 import makeMarkerSizeDuck from '../higherorderduckfactories/markerSize';
@@ -36,11 +35,7 @@ const markerSizeStorageConfig = {
 	storage: localForage,
 	whitelist: [ 'markerSize' ]
 };
-const dataStateStorageConfig = {
-	key: 'genericsData',
-	storage: localForage,
-	whitelist: []
-};
+
 const infoBoxStateStorageConfig = {
 	key: 'genericsInfoBoxMinifiedState',
 	storage: localForage,
@@ -55,7 +50,6 @@ const reducer = combineReducers({
 });
 
 export default reducer;
-const debugLog = false;
 ///SIMPLEACTIONCREATORS
 //no simple actions
 

@@ -41,6 +41,7 @@ const Comp = () => {
 			<h2 className='alt-header'>iFrame</h2>
 			<p>
 				<iframe
+					title='test'
 					src='http://localhost:3000/#/bplaene?allowRemoteControl=true&lat=51.26956716943953&lng=7.186829522224084&zoom=8'
 					className='SP-Iframe__main'
 					allowfullscreen=''

@@ -1,63 +1,43 @@
+import Icon from 'components/commons/Icon';
+import ConfigurableDocBlocks from 'components/generic/ConfigurableDocBlocks';
+import GenericMenuSettingsPanel from 'components/generic/GenericMenuSettingsPanel';
+// import { config as configX, createConfigJSON } from 'components/generic/Config';
+import SecondaryInfoModal from 'components/generic/SecondaryInfo';
+import proj4 from 'proj4';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { connect } from 'react-redux';
 import { routerActions as RoutingActions } from 'react-router-redux';
 import { bindActionCreators } from 'redux';
-import BaederInfo from '../components/baeder/BaederInfo';
-import BaederModalMenu from '../components/baeder/BaederModalMenu';
-import InfoBoxFotoPreview from '../components/commons/InfoBoxFotoPreview';
-import TopicMap from './TopicMap';
-import { getActionLinksForFeature, faqEntriesFactory } from 'utils/uiHelper';
-import { proj4crs25832def } from '../constants/gis';
-import proj4 from 'proj4';
-import {
-	actions as BaederActions,
-	getBadSvgSize,
-	getBaeder,
-	getBaederFeatureCollection,
-	getBaederFeatureCollectionSelectedIndex,
-	hasMinifiedInfoBox
-} from '../redux/modules/baeder';
-import { actions as MappingActions } from '../redux/modules/mapping';
-import { actions as UIStateActions } from '../redux/modules/uiState';
-import {
-	actions as GenericsActions,
-	getGenericsFeatureCollection,
-	getGenericsFeatureCollectionSelectedIndex,
-	getGenericItemSvgSize
-} from '../redux/modules/generics';
-
-import { fotoKraemerCaptionFactory, fotoKraemerUrlManipulation } from '../utils/commonHelpers';
-import { featureHoverer, getFeatureStyler } from '../utils/stadtplanHelper';
-import Icon from 'components/commons/Icon';
-import { Well } from 'react-bootstrap';
+import slugify from 'slugify';
+import { getActionLinksForFeature } from 'utils/uiHelper';
 import GenericModalApplicationMenu from '../components/commons/GenericModalApplicationMenu';
+import InfoBox from '../components/commons/InfoBox';
+import InfoBoxFotoPreview from '../components/commons/InfoBoxFotoPreview';
 import GenericMenuHelpSection from '../components/generic/GenericMenuHelpSection';
 import GenericMenuIntroduction from '../components/generic/GenericMenuIntroduction';
-import InfoBox from '../components/commons/InfoBox';
-// import { config as configX, createConfigJSON } from 'components/generic/Config';
-import SecondaryInfoModal from 'components/generic/SecondaryInfo';
-import GenericMenuSettingsPanel from 'components/generic/GenericMenuSettingsPanel';
-import GenericHelpTextForMyLocation from 'components/commons/GenericHelpTextForMyLocation';
-import LicenseLuftbildkarte from 'components/commons/LicenseLuftbildkarte';
-import LicenseStadtplanTagNacht from 'components/commons/LicenseStadtplanTagNacht';
-import ConfigurableDocBlocks from 'components/generic/ConfigurableDocBlocks';
-import { getSymbolSVGGetter, getClusterIconCreatorFunction } from '../utils/uiHelper';
+import { proj4crs25832def } from '../constants/gis';
+import {
+	actions as GenericsActions,
+	getGenericItemSvgSize,
+	getGenericsFeatureCollection,
+	getGenericsFeatureCollectionSelectedIndex
+} from '../redux/modules/generics';
+import { actions as MappingActions } from '../redux/modules/mapping';
+import { actions as UIStateActions } from '../redux/modules/uiState';
 import { getSimpleHelpForGenericTM } from '../utils/genericTopicMapHelper';
-import slugify from 'slugify';
-//------
+import { getFeatureStyler } from '../utils/stadtplanHelper';
+import { getClusterIconCreatorFunction, getSymbolSVGGetter } from '../utils/uiHelper';
+import TopicMap from './TopicMap';
 
-async function getConfig(slugName, configType, server, path, noCache) {
+//------
+/* eslint-disable jsx-a11y/anchor-is-valid */
+
+async function getConfig(slugName, configType, server, path) {
 	try {
-		let options;
-		if (noCache === 'true') {
-			options = { cache: 'no-cache' };
-		} else {
-			options = {};
-		}
 		const u = server + path + slugName + '/' + configType + '.json';
 		console.log('try to read rconfig at ', u);
-		const result = await fetch(u, options);
+		const result = await fetch(u);
 		const resultObject = await result.json();
 		console.log('config: loaded ' + slugName + '/' + configType);
 		return resultObject;
@@ -65,17 +45,11 @@ async function getConfig(slugName, configType, server, path, noCache) {
 		console.log('error for rconfig', ex);
 	}
 }
-async function getMarkdown(slugName, configType, server, path, noCache) {
+async function getMarkdown(slugName, configType, server, path) {
 	try {
-		let options;
-		if (noCache === 'true') {
-			options = { cache: 'no-cache' };
-		} else {
-			options = {};
-		}
 		const u = server + path + slugName + '/' + configType + '.md';
-		console.log('xxx try to read rconfig at ', u);
-		const result = await fetch(u, options);
+		console.log('try to read markdown at ', u);
+		const result = await fetch(u);
 		const resultObject = await result.text();
 		console.log('config: loaded ' + slugName + '/' + configType);
 		return resultObject;
@@ -89,8 +63,7 @@ async function initialize({
 	setConfig,
 	setFeatureCollection,
 	path = '/dev/',
-	server = 'https://raw.githubusercontent.com/cismet/wupp-generic-topic-map-config',
-	noCache
+	server = 'https://raw.githubusercontent.com/cismet/wupp-generic-topic-map-config'
 }) {
 	const config = await getConfig(slugName, 'config', server, path);
 
@@ -100,12 +73,12 @@ async function initialize({
 		server,
 		path
 	);
-	const featureDefaults = await getConfig(slugName, 'featureDefaults', server, path, noCache);
-	const helpTextBlocks = await getConfig(slugName, 'helpTextBlocks', server, path, noCache);
-	const simpleHelpMd = await await getMarkdown(slugName, 'simpleHelp', server, path, noCache);
-	const simpleHelp = await await getConfig(slugName, 'simpleHelp', server, path, noCache);
-	const infoBoxConfig = await getConfig(slugName, 'infoBoxConfig', server, path, noCache);
-	const features = await getConfig(slugName, 'features', server, path, noCache);
+	const featureDefaults = await getConfig(slugName, 'featureDefaults', server, path);
+	const helpTextBlocks = await getConfig(slugName, 'helpTextBlocks', server, path);
+	const simpleHelpMd = await await getMarkdown(slugName, 'simpleHelp', server, path);
+	const simpleHelp = await await getConfig(slugName, 'simpleHelp', server, path);
+	const infoBoxConfig = await getConfig(slugName, 'infoBoxConfig', server, path);
+	const features = await getConfig(slugName, 'features', server, path);
 
 	if (helpTextBlocks !== undefined) {
 		config.helpTextblocks = helpTextBlocks;
@@ -208,8 +181,7 @@ export class GenericTopicMap_ extends React.Component {
 					},
 
 					server: usp.get('genericConfigServer') || undefined,
-					path: usp.get('genericConfigPath') || undefined,
-					noCache: usp.get('noCache') || 'false'
+					path: usp.get('genericConfigPath') || undefined
 				});
 			} else {
 			}
@@ -357,21 +329,12 @@ export class GenericTopicMap_ extends React.Component {
 					fitAll={fitAll}
 				/>
 			);
-
-			const showOnSeperatePage = false;
-
-			this.state.config.tm.clusterOptions.iconCreateFunction = getClusterIconCreatorFunction(
-				getGenericItemSvgSize(this.props.generics),
-				getColorForProperties
-			);
-			if (this.state.config.tm.clusteringEnabled === true) {
-			}
 		}
 
 		const compactHelpTextConfiguration = this.state.config.helpTextblocks;
 
-		let choosenBackground = (this.state.config.tm.fallbackBackgroundlayers =
-			'wupp-plan-live@90');
+		let choosenBackground =
+			this.state.config.tm.fallbackBackgroundlayers || 'wupp-plan-live@90';
 		if (this.props.mapping.selectedBackground !== undefined) {
 			choosenBackground = this.props.mapping.backgrounds[
 				this.props.mapping.selectedBackground
@@ -394,6 +357,13 @@ export class GenericTopicMap_ extends React.Component {
 						this.topicMap = comp;
 					}}
 					{...this.state.config.tm}
+					clusterOptions={{
+						...this.state.config.tm.clusterOptions,
+						iconCreateFunction: getClusterIconCreatorFunction(
+							getGenericItemSvgSize(this.props.generics),
+							getColorForProperties
+						)
+					}}
 					backgroundlayers={choosenBackground.layerkey}
 					infoBox={info}
 					dataLoader={(finishedHandler) => {
@@ -472,6 +442,16 @@ export class GenericTopicMap_ extends React.Component {
 									}}
 									previewFeatureCollection={previewFeatureCollection}
 									previewMapPosition={this.state.config.tm.previewMapPosition}
+									previewMapClusteringOptions={{
+										...this.state.config.tm.clusterOptions,
+										iconCreateFunction: getClusterIconCreatorFunction(
+											getGenericItemSvgSize(this.props.generics),
+											getColorForProperties
+										)
+									}}
+									previewMapClusteringEnabled={
+										this.state.config.tm.clusteringEnabled
+									}
 									currentMarkerSize={this.state.currentMarkerSize}
 									topicMapRef={this.topicMap}
 									setLayerByKey={
@@ -484,7 +464,7 @@ export class GenericTopicMap_ extends React.Component {
 									)}
 								/>,
 								<GenericMenuHelpSection
-									key='DemoMenuHelpSection'
+									key='GenericMenuHelpSection'
 									uiState={this.props.uiState}
 									uiStateActions={this.props.uiStateActions}
 									markdown={`Über **Einstellungen** können Sie die Darstellung der

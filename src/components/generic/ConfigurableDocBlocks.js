@@ -1,5 +1,4 @@
-import React, { Suspense } from 'react';
-import ReactDOM from 'react-dom';
+import React from 'react';
 import parse, { domToReact } from 'html-react-parser';
 import Markdown from 'react-markdown';
 import LicenseLuftbildKarte from 'components/commons/LicenseLuftbildkarte';

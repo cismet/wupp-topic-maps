@@ -1,13 +1,11 @@
+import CismetFooterAcks from 'components/commons/CismetFooterAcknowledgements';
 import Icon from 'components/commons/Icon';
 import PropTypes from 'prop-types';
 import React from 'react';
-import { Accordion, Button, Modal, Panel, Table } from 'react-bootstrap';
-import CismetFooterAcks from 'components/commons/CismetFooterAcknowledgements';
-import GenericRVRStadtplanwerkMenuFooter from '../commons/GenericRVRStadtplanwerkMenuFooter';
-import IconLink from '../commons/IconLink';
-import { getConnectorImageUrl } from '../../utils/emobHelper';
-import { getActionLinksForFeature } from 'utils/uiHelper';
+import { Accordion, Button, Modal, Panel } from 'react-bootstrap';
 import Markdown from 'react-markdown';
+import { getActionLinksForFeature } from 'utils/uiHelper';
+import GenericRVRStadtplanwerkMenuFooter from '../commons/GenericRVRStadtplanwerkMenuFooter';
 
 const Comp = ({ visible, feature, setVisibleState, uiHeight }) => {
 	const close = () => {

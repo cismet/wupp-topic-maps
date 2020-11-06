@@ -172,7 +172,7 @@ export function getDocsForBPlanGazetteerEntry(props) {
 		docIndex,
 		pageIndex,
 		gazHit,
-		searchForPlans,
+		// searchForPlans,
 		getPlanFeatureByGazObject,
 		docsActions,
 		dox,

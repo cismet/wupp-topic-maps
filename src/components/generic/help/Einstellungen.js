@@ -1,5 +1,4 @@
 import React from 'react';
-import Icon from 'components/commons/Icon';
 
 export default () => {
 	return (

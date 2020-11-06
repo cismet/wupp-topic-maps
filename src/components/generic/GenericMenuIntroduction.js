@@ -1,5 +1,4 @@
 import React from 'react';
-import { Link } from 'react-scroll';
 import Markdown from 'react-markdown';
 
 const DemoMenuIntroduction = ({ uiStateActions, markdown }) => {

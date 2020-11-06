@@ -1,7 +1,6 @@
 import React from 'react';
 import GenericModalMenuSection from 'components/commons/GenericModalMenuSection';
 import Markdown from 'react-markdown';
-import ConfigurableDocBlocks from 'components/generic/ConfigurableDocBlocks';
 /* eslint-disable jsx-a11y/anchor-is-valid */
 
 const DemoMenuHelpSection = ({ uiState, uiStateActions, markdown, content }) => {

@@ -114,7 +114,6 @@ export function getPlanFeature(nr, status, done) {
 	};
 }
 
-function findPlanFeature(nr, status, done) {}
 export function getPlanFeatures({ boundingBox, point, done }) {
 	return function(dispatch, getState) {
 		dispatch(mappingActions.setSearchProgressIndicator(true));

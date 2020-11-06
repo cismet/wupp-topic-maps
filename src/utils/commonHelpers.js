@@ -109,8 +109,8 @@ export const fotoKraemerUrlManipulation = (input) => {
 			/https*:\/\/.*fotokraemer-wuppertal\.de/,
 			'https://wunda-geoportal-fotos.cismet.de/'
 		);
-		console.log('converted url from ', input);
-		console.log('converted url to ', ret);
+		// console.log('converted url from ', input);
+		// console.log('converted url to ', ret);
 		return ret;
 	} else {
 		return undefined;

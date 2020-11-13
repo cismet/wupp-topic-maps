@@ -340,7 +340,6 @@ export class GenericTopicMap_ extends React.Component {
 				this.props.mapping.selectedBackground
 			];
 		}
-
 		return (
 			<div>
 				{this.state.secondaryInfoVisible === true &&
@@ -422,10 +421,14 @@ export class GenericTopicMap_ extends React.Component {
 							menuIntroduction={
 								<GenericMenuIntroduction
 									uiStateActions={this.props.uiStateActions}
-									markdown={`Über **Einstellungen** können Sie die Darstellung der
-									 Hintergrundkarte und der Wasserstofftankstellen an Ihre 
+									markdown={
+										this.state.config.tm.applicationMenuIntroductionMarkdown ||
+										`Über **Einstellungen** können Sie die Darstellung der
+									 Hintergrundkarte und ${this.state.config.tm.applicationMenuIntroductionTerm ||
+											' der Objekte'} an Ihre 
 									 Vorlieben anpassen. Wählen Sie **Kompaktanleitung** 
-									 für detailliertere Bedienungsinformationen.`}
+									 für detailliertere Bedienungsinformationen.`
+									}
 								/>
 							}
 							menuSections={[

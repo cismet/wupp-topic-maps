@@ -418,6 +418,7 @@ export class GenericTopicMap_ extends React.Component {
 						<GenericModalApplicationMenu
 							uiState={this.props.uiState}
 							uiStateActions={this.props.uiStateActions}
+							menuTitle={this.state.config.tm.applicationMenuTitle}
 							menuIntroduction={
 								<GenericMenuIntroduction
 									uiStateActions={this.props.uiStateActions}

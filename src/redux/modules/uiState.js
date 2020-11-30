@@ -23,7 +23,7 @@ const initialState = {
 	height: null,
 	applicationMenuVisible: false,
 	applicationMenuActiveKey: 'none',
-	gazeteerBoxInfoText: 'Geben Sie einen Suchbegriff ein. XXX',
+	gazeteerBoxInfoText: 'Geben Sie einen Suchbegriff ein.',
 	gazeteerBoxVisible: true,
 	gazetteerBoxEnabled: false,
 	lightboxurls: [

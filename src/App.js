@@ -25,6 +25,7 @@ import HitzeInDerStadt from './containers/HitzeInDerStadt';
 import store from './redux/store';
 import ReactLoading from 'react-loading';
 import { getTopicMapVersion, getTopicMapHash } from './constants/versions';
+import GenericTopicMap from 'containers/GenericTopicMap';
 
 export default class App extends React.Component {
 	constructor() {
@@ -71,6 +72,8 @@ export default class App extends React.Component {
 						<Switch>
 							<Route exact path='/' component={DefaultPage} />
 							<Route exact path='/ehrenamt/:layers?/:offerid?' component={Ehrenamt} />
+
+							<Route exact path='/meine/:name?/' component={GenericTopicMap} />
 							<Route
 								exact
 								path='/bplaene/:layers?/:bplannummer?'

@@ -224,7 +224,7 @@ export class Container_ extends React.Component {
 	}
 	componentWillUpdate() {
 		let aevNr = new URLSearchParams(this.props.routing.location.search).get('aev');
-		if (aevNr !== undefined && aevNr !== null && aevNr != '') {
+		if (aevNr !== undefined && aevNr !== null && aevNr !== '') {
 			try {
 				this.props.routingActions.push(
 					this.props.routing.location.pathname +

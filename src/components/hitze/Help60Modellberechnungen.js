@@ -1,5 +1,6 @@
 import React from 'react';
 import GenericModalMenuSection from 'components/commons/GenericModalMenuSection';
+/* eslint-disable jsx-a11y/anchor-is-valid */
 
 const Component = ({ uiState, uiStateActions, showModalMenu }) => {
 	return (

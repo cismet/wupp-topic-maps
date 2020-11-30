@@ -99,7 +99,7 @@ export class BPlaene_ extends React.Component {
 
 	componentWillUpdate() {
 		let bplanNr = new URLSearchParams(this.props.routing.location.search).get('nr');
-		if (bplanNr !== undefined && bplanNr !== null && bplanNr != '') {
+		if (bplanNr !== undefined && bplanNr !== null && bplanNr !== '') {
 			try {
 				this.props.routingActions.push(
 					this.props.routing.location.pathname +

@@ -6,6 +6,7 @@ export const triggerLightBoxForFeature = ({
 	currentFeature,
 	getPhotoUrl,
 	getPhotoSeriesUrl,
+	getPhotoSeriesArray = () => {},
 	urlManipulation = (input) => input,
 	uiStateActions,
 	captionFactory = (linkUrl) => (
@@ -37,8 +38,21 @@ export const triggerLightBoxForFeature = ({
 }) => {
 	const photoUrl = urlManipulation(getPhotoUrl(currentFeature));
 	const photoSeriesUrl = urlManipulation(getPhotoSeriesUrl(currentFeature));
+	const photoSeriesPhotoUrls = getPhotoSeriesArray(currentFeature);
+
+	console.log('photoSeriesPhotoUrls', photoSeriesPhotoUrls);
 
 	if (
+		photoSeriesPhotoUrls !== undefined &&
+		photoSeriesPhotoUrls.length !== undefined &&
+		photoSeriesPhotoUrls.length > 0
+	) {
+		uiStateActions.setLightboxUrls(photoSeriesPhotoUrls);
+		uiStateActions.setLightboxTitle(currentFeature.text);
+		uiStateActions.setLightboxCaption(captionFactory(currentFeature.text));
+		uiStateActions.setLightboxIndex(0);
+		uiStateActions.setLightboxVisible(true);
+	} else if (
 		photoSeriesUrl === undefined ||
 		photoSeriesUrl === null ||
 		photoSeriesUrl.indexOf('&noparse') !== -1
@@ -91,10 +105,13 @@ export const getLinkOrText = (input) => {
 
 export const fotoKraemerUrlManipulation = (input) => {
 	if (input !== undefined || input === '') {
-		return input.replace(
-			/http:\/\/.*fotokraemer-wuppertal\.de/,
+		const ret = input.replace(
+			/https*:\/\/.*fotokraemer-wuppertal\.de/,
 			'https://wunda-geoportal-fotos.cismet.de/'
 		);
+		// console.log('converted url from ', input);
+		// console.log('converted url to ', ret);
+		return ret;
 	} else {
 		return undefined;
 	}

@@ -7,7 +7,6 @@ import { connect } from 'react-redux';
 import { routerActions as RoutingActions } from 'react-router-redux';
 import { bindActionCreators } from 'redux';
 import InfoBox from '../components/hitze/ControlInfoBox';
-import ContactButton from '../components/commons/ContactButton';
 import HelpAndInfo from '../components/hitze/Help00MainComponent';
 import TopicMap from '../containers/TopicMap';
 import { actions as HitzeActions } from '../redux/modules/hitze';

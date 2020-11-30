@@ -412,6 +412,7 @@ export class GenericTopicMap_ extends React.Component {
 								}
 							}}
 							uiStateActions={this.props.uiStateActions}
+							//captionFactory={()=>{}} here be a vconfigurable captionFactory
 						/>
 					]}
 					modalMenu={

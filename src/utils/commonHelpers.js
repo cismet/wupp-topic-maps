@@ -49,7 +49,7 @@ export const triggerLightBoxForFeature = ({
 	) {
 		uiStateActions.setLightboxUrls(photoSeriesPhotoUrls);
 		uiStateActions.setLightboxTitle(currentFeature.text);
-		uiStateActions.setLightboxCaption('Bilderstrecke');
+		uiStateActions.setLightboxCaption(captionFactory(currentFeature.text));
 		uiStateActions.setLightboxIndex(0);
 		uiStateActions.setLightboxVisible(true);
 	} else if (

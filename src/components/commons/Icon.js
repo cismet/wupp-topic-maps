@@ -1,9 +1,9 @@
 import {
 	faClock,
 	faInfoCircle,
+	faFile,
 	faSquareFull,
 	faSearch,
-	faFile,
 	faSearchLocation,
 	faChargingStation,
 	faCircle,
@@ -13,20 +13,39 @@ import {
 	faTag,
 	faTags,
 	faChild,
-	faTimes
+	faTimes,
+	faMapMarker,
+	faExternalLinkSquareAlt,
+	faCalendarAlt,
+	faBars,
+	faCodeBranch,
+	faChartBar,
+	faArrowsAltV,
+	faArrowsAltH,
+	faFileArchive,
+	faPhone,
+	faChevronCircleDown,
+	faChevronCircleUp,
+	faCar,
+	faMinusSquare,
+	faUser,
+	faBicycle
 } from '@fortawesome/free-solid-svg-icons';
+import { faFilePdf, faFile as faFileReg } from '@fortawesome/free-regular-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faBitbucket } from '@fortawesome/free-brands-svg-icons';
 import React from 'react';
 import { Icon } from 'react-fa';
 
 const nameMap = {
 	clock: faClock,
-	phone: undefined, // faPhone,
+	phone: faPhone,
 	search: faSearch,
 	lupe: faSearch,
 	'search-location': faSearchLocation,
 	info: faInfoCircle,
 	file: faFile,
+	'file-pdf-o': faFilePdf,
 	home: faHome,
 	adresse: faHome,
 	road: faRoad,
@@ -37,26 +56,34 @@ const nameMap = {
 	poi: faTag,
 	times: faTimes,
 	x: faTimes,
-	'external-link-square': undefined,
-	'chevron-circle-down': undefined,
-	user: undefined,
-	calendar: undefined,
-	bars: undefined,
-	'minus-square': undefined,
-	car: undefined,
-	'chevron-circle-up': undefined,
-	'arrow-circle-up': undefined,
-	bicycle: undefined,
+	close: faTimes,
+	'external-link-square': faExternalLinkSquareAlt,
+	'chevron-circle-down': faChevronCircleDown,
+	user: faUser,
+	calendar: faCalendarAlt,
+	bars: faBars,
+	'bar-chart': faChartBar,
+	'minus-square': faMinusSquare,
+	bitbucket: faBitbucket,
+	'code-fork': faCodeBranch,
+	car: faCar,
+	'chevron-circle-up': faChevronCircleUp,
+	'arrow-circle-up': faChevronCircleUp,
+	bicycle: faBicycle,
 	circle: faCircle,
 	stadtbezirk: faCircle,
 	'pie-chart': faChartPie,
 	quartier: faChartPie,
 	child: faChild,
 	kita: faChild,
-	'map-marker': undefined,
+	'map-marker': faMapMarker,
 	'battery-quarter': faChargingStation,
 	'charging-station': faChargingStation,
-	'square-full': faSquareFull
+	'square-full': faSquareFull,
+	'arrows-v': faArrowsAltV,
+	'arrows-h': faArrowsAltH,
+	'file-archive-o': faFileArchive,
+	'file-o': faFileReg
 };
 
 const IconComp = (props) => {
@@ -83,7 +110,7 @@ const IconComp = (props) => {
 					<span
 						style={{ fontSize: '1.0rem', paddingRight: '2px', paddingTop: '3px' }}
 						className='fa-layers-text fa-inverse'
-						data-fa-transform='rotate-90'
+						// data-fa-transform='rotate-90'
 					>
 						{overlay}
 					</span>

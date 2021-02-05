@@ -6,7 +6,7 @@ const GenericRVRStadtplanwerkMenuFooter = () => {
 	return (
 		<div>
 			<span style={{ fontSize: '11px' }}>
-				<b>Hintergrundkarte</b>: <a>Stadtkarte 2.0</a> © Regionalverband Ruhr (RVR) und
+				<b>Hintergrundkarte</b>:Stadtkarte 2.0 © Regionalverband Ruhr (RVR) und
 				Kooperationspartner (<a href='https://www.govdata.de/dl-de/by-2-0'>
 					Datenlizenz Deutschland - Namensnennung - Version 2.0
 				</a>), Lizenzen der Ausgangsprodukte:{' '}

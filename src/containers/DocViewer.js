@@ -253,6 +253,8 @@ export class DocViewer_ extends React.Component {
 							pageIndex,
 							gazHit,
 							searchForPlans: this.props.bplanActions.searchForPlans,
+							getPlanFeatureByGazObject: this.props.bplanActions
+								.getPlanFeatureByGazObject,
 							docsActions: this.props.docsActions,
 							docs: this.props.docs,
 							gotoWholeDocument: this.gotoWholeDocument

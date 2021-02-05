@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState}from 'react';
 import PropTypes from 'prop-types';
 import Color from 'color';
 import CollapsibleWell from './CollapsibleWell';
@@ -29,16 +29,23 @@ const InfoBox = ({
 	zoomToAllLabel,
 	currentlyShownCountLabel,
 	fotoPreview,
-	collapsedInfoBox = false,
+	collapsedInfoBox ,
 	setCollapsedInfoBox,
 	noCurrentFeatureTitle,
 	noCurrentFeatureContent,
-	isCollapsible = true
+	isCollapsible = true,
+	hideNavigator=false
 }) => {
 	// Use this line to enable the collabsible modus even when no object is visible
 	// isCollapsible = true;
 
 	const currentFeature = featureCollection[selectedIndex];
+	const [localMinified,setLocalMinify]=useState(false)
+
+	
+
+	const minified=collapsedInfoBox||localMinified;
+	const minify=setCollapsedInfoBox||setLocalMinify;
 
 	// if (currentFeature) {
 	let headerBackgroundColor = Color(headerColor);
@@ -123,6 +130,8 @@ const InfoBox = ({
 						</tr>
 					</tbody>
 				</table>
+				{hideNavigator===false &&
+				<div>
 				<table style={{ width: '100%' }}>
 					<tbody>
 						<tr>
@@ -156,6 +165,8 @@ const InfoBox = ({
 						</tr>
 					</tbody>
 				</table>
+				</div>
+				}
 			</div>
 		);
 	} else {
@@ -168,8 +179,8 @@ const InfoBox = ({
 			{fotoPreview}
 			{llVis}	
 			<CollapsibleWell
-				collapsed={collapsedInfoBox}
-				setCollapsed={setCollapsedInfoBox}
+				collapsed={minified}
+				setCollapsed={minify}
 				style={{
 					pointerEvents: 'auto',
 					padding: 0,

@@ -53,15 +53,15 @@ const InfoBox = ({
 
 	let alwaysVisibleDiv = (
 		<h4 style={{ margin: 0 }}>
-			<FontAwesomeIcon icon={faSun} /> Klimaanpassungskarte Hitze
+			<FontAwesomeIcon icon={faSun} /> Hitzebelastungen in Wuppertal
 		</h4>
 	);
 
 	const collapsibleDiv = (
 		<div>
 			<p style={{ marginBottom: 5 }}>
-				Die seit Februar 2019 vorliegende Studie gibt Auskunft über die räumliche Verteilung
-				der Hitzebelastungen in Wuppertal (aktuell und Zukunfts­szenario 2050).
+				Kombinierbare Modellberechnungen (Stand 02/2019) von durch Hitze belasteten oder
+				stark belasteten Arealen (IST-Zustand) sowie Zukunftsszenario für 2050 bis 2060{' '}
 				<a onClick={() => showModalMenu('szenarien')}>(mehr)</a>
 				{/* <a>
 			<Icon style={{ paddingLeft: 3, fontSize: 16 }} name="info-circle" />
@@ -84,7 +84,7 @@ const InfoBox = ({
 									margin: '4px'
 								}}
 							>
-								<b>Simulation</b>
+								<b>Modellberechnung</b>
 							</h5>
 						</td>
 						<td

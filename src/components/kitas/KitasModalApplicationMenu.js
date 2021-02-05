@@ -158,25 +158,23 @@ const KitasModalApplicationMenu = ({
 						}
 					}}
 				>
-					<Panel header='Einstellungen' eventKey='settings' bsStyle='success'>
-						<KitasSettingsPanelContent
-							uiState={uiState}
-							uiStateActions={uiStateActions}
-							urlPathname={urlPathname}
-							urlSearch={urlSearch}
-							pushNewRoute={pushNewRoute}
-							currentMarkerSize={currentMarkerSize}
-							topicMapRef={topicMapRef}
-							setLayerByKey={setLayerByKey}
-							activeLayerKey={activeLayerKey}
-							changeMarkerSymbolSize={changeMarkerSymbolSize}
-							featureRendering={featureRendering}
-							setFeatureRendering={setFeatureRendering}
-							refreshFeatureCollection={refreshFeatureCollection}
-							setFeatureCollectionKeyPostfix={setFeatureCollectionKeyPostfix}
-							featureCollectionKeyPostfix={featureCollectionKeyPostfix}
-						/>
-					</Panel>
+					<KitasSettingsPanelContent
+						uiState={uiState}
+						uiStateActions={uiStateActions}
+						urlPathname={urlPathname}
+						urlSearch={urlSearch}
+						pushNewRoute={pushNewRoute}
+						currentMarkerSize={currentMarkerSize}
+						topicMapRef={topicMapRef}
+						setLayerByKey={setLayerByKey}
+						activeLayerKey={activeLayerKey}
+						changeMarkerSymbolSize={changeMarkerSymbolSize}
+						featureRendering={featureRendering}
+						setFeatureRendering={setFeatureRendering}
+						refreshFeatureCollection={refreshFeatureCollection}
+						setFeatureCollectionKeyPostfix={setFeatureCollectionKeyPostfix}
+						featureCollectionKeyPostfix={featureCollectionKeyPostfix}
+					/>
 				</Accordion>
 				<Accordion
 					name='help'

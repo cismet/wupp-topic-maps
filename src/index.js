@@ -7,18 +7,21 @@ import { Provider } from 'react-redux';
 import { ConnectedRouter } from 'react-router-redux';
 import store, { history } from './redux/store';
 import App from './App';
+import ErrorBoundary from './ErrorBoundary';
 
 import './index.css';
 
 const target = document.querySelector('#root');
 
 render(
-	<Provider store={store}>
-		<ConnectedRouter history={history}>
-			<div>
-				<App />
-			</div>
-		</ConnectedRouter>
-	</Provider>,
+	<ErrorBoundary>
+		<Provider store={store}>
+			<ConnectedRouter history={history}>
+				<div>
+					<App />
+				</div>
+			</ConnectedRouter>
+		</Provider>
+	</ErrorBoundary>,
 	target
 );

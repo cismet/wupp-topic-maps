@@ -1,7 +1,7 @@
 import React from 'react';
 import GenericModalMenuSection from 'components/commons/GenericModalMenuSection';
 import LicenseStadtplanTagNacht from 'components/commons/LicenseStadtplanTagNacht';
-
+import LicenseLBK from 'components/commons/LicenseLuftbildkarte';
 /* eslint-disable jsx-a11y/anchor-is-valid */
 
 const Component = ({ uiState, uiStateActions, showModalMenu }) => {
@@ -64,14 +64,15 @@ const Component = ({ uiState, uiStateActions, showModalMenu }) => {
 						<li>
 							<strong>Topographische Karte</strong>: (1) Kartendienste (WMS) der Stadt
 							Wuppertal. Datengrundlagen: (a){' '}
-							<strong>Amtliche Basiskarte ABK Graustufen</strong>. (Wöchentlich in
+							<strong>Amtliche Basiskarte ABK Graustufen</strong>.(Wöchentlich in
 							einem automatisierten Prozess aus dem Fachverfahren ALKIS des
 							Liegenschaftskatasters abgeleitete großmaßstäbige topographische Karte
-							in Graustufen.) © Stadt Wuppertal (
-							<a target='_more' href='http://www.govdata.de/dl-de/by-2-0'>
-								Datenlizenz Deutschland - Namensnennung - Version 2.0
-							</a>
-							). (b) <strong>Hillshade</strong> (Schummerungsdarstellung eines für
+							in Graustufen.) © Stadt Wuppertal (<a
+								target='_more'
+								href='https://www.govdata.de/dl-de/zero-2-0'
+							>
+								Datenlizenz Deutschland - Zero - Version 2.0
+							</a>). (b) <strong>Hillshade</strong> (Schummerungsdarstellung eines für
 							hydrologische Fragestellungen optimierten Digitalen Geländemodells aus
 							Laserscanner-Befliegungen (12/2008 und 01/2009) mit ergänztem
 							Gebäudebestand (Auflösung 25cm x 25cm), ausgeführt in 2012 vom
@@ -90,26 +91,7 @@ const Component = ({ uiState, uiStateActions, showModalMenu }) => {
 							© GeoBasis-DE / BKG 2018
 						</li>
 
-						<li>
-							<strong>Luftbildkarte</strong>: (1) Kartendienst (WMS) der Stadt
-							Wuppertal. Datengrundlage:{' '}
-							<strong>True Orthophoto aus Bildflug vom 19.04.2018</strong>,
-							hergestellt durch Aero West GmbH/Dortmund, Bodenauflösung 10 cm. (True
-							Orthophoto: Aus Luftbildern mit hoher Längs- und Querüberdeckung in
-							einem automatisierten Bildverarbeitungsprozess berechnetes Bild in
-							Parallelprojektion, also ohne Gebäudeverkippung und sichttote Bereiche.)
-							© Stadt Wuppertal (
-							<a
-								target='_more'
-								href='https://www.wuppertal.de/geoportal/Nutzungsbedingungen/NB-GDIKOM-C_Geodaten.pdf'
-							>
-								NB-GDIKOM C
-							</a>
-							). (2) Kartendienst (WMS) des Regionalverbandes Ruhr (RVR).
-							Datengrundlage: <strong>Kartenschrift der Stadtkarte 2.0</strong>.
-							(Details s. Hintergrundkarte <strong>Stadtplan</strong>
-							).
-						</li>
+						<LicenseLBK />
 
 						<LicenseStadtplanTagNacht stylesDesc='' />
 					</ul>

@@ -7,8 +7,7 @@ import { connect } from 'react-redux';
 import { routerActions as RoutingActions } from 'react-router-redux';
 import { bindActionCreators } from 'redux';
 import InfoBox from '../components/hitze/ControlInfoBox';
-import ContactButton from '../components/commons/ContactButton';
-import HelpAndInfo from '../components/starkregen/Help00MainComponent';
+import HelpAndInfo from '../components/hitze/Help00MainComponent';
 import TopicMap from '../containers/TopicMap';
 import { actions as HitzeActions } from '../redux/modules/hitze';
 import { actions as MappingActions } from '../redux/modules/mapping';
@@ -300,42 +299,6 @@ export class Comp_ extends React.Component {
 						/>
 					);
 				})}
-
-				<ContactButton
-					id='329487'
-					key='dsjkhfg'
-					position='topleft'
-					title='Fehler im Geländemodell melden'
-					action={() => {
-						let link = document.createElement('a');
-						link.setAttribute('type', 'hidden');
-						const br = '\n';
-
-						let mailToHref =
-							'mailto:hitzeinderstadt@stadt.wuppertal.de?subject=Frage zum Hitzemodell&body=' +
-							encodeURI(
-								`Sehr geehrte Damen und Herren,${br}${br}` +
-									`in der Hitze-in-der-Stadt-Karte `
-							) +
-							encodeURI(`auf${br}${br}`) +
-							`${window.location.href.replace(/&/g, '%26').replace(/#/g, '%23')}` +
-							encodeURI(
-								`${br}` +
-									`${br}` +
-									`ist mir folgendes aufgefallen:${br}` +
-									`${br}${br}${br}${br}` +
-									`Mit freundlichen Grüßen${br}` +
-									`${br}` +
-									`${br}`
-							);
-						document.body.appendChild(link);
-						//link.href = downloadOptions.url;
-						link.href = mailToHref;
-						//link.download = downloadOptions.file;
-						//link.target = "_blank";
-						link.click();
-					}}
-				/>
 
 				{this.props.hitze.modelLayerProblem && (
 					<Alert

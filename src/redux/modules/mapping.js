@@ -67,7 +67,7 @@ const initialState = {
 			title: 'Top. Karte'
 		},
 		lbk: {
-			layerkey: 'wupp-plan-live@100|trueOrtho2018@75|rvrSchrift@100',
+			layerkey: 'wupp-plan-live@100|trueOrtho2020@75|rvrSchrift@100',
 			src: '/images/rain-hazard-map-bg/ortho.png',
 			title: 'Luftbildkarte'
 		},
@@ -269,9 +269,6 @@ function fitFeatureBounds(feature, mode) {
 	return function(dispatch) {
 		const projectedF = L.Proj.geoJson(feature);
 		const bounds = projectedF.getBounds();
-		console.log('fitFeatureBounds', bounds);
-		console.log('fitFeatureBounds.isValid()', bounds.isValid());
-
 		dispatch(setAutoFit(true, getSimpleBounds(bounds), mode));
 	};
 }

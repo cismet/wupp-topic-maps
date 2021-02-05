@@ -26,7 +26,7 @@ export const initialState = {
 	selectedSimulations: [ 0, 1, 2 ],
 	backgroundLayer: undefined,
 	selectedBackground: 0,
-	simulations: [
+	discardedSimulations: [
 		{
 			layer: 'Frischluftschneisen',
 			longname: 'Luftleitbahnen',
@@ -37,11 +37,13 @@ export const initialState = {
 			opacity: 0.7,
 			subtitle:
 				'Simulation eines zweistündigen Starkregens mit 38,5 Liter/m² Niederschlag (Starkregenindex SRI 6) in ganz Wuppertal, statistische Wiederkehrzeit 50 Jahre'
-		},
+		}
+	],
+	simulations: [
 		{
 			layer: 'Hitze-Ist',
 			longname: 'Hitzeinsel im IST-Zustand',
-			name: 'Hitzeinsel I',
+			name: 'Hitzebelastung',
 			icon: 'bar-chart',
 			title: 'Starkregen SRI 7 (42 l/m² in 2h)',
 			opacity: 0.7,
@@ -51,7 +53,7 @@ export const initialState = {
 		{
 			layer: 'Hitze-Stark-Ist',
 			longname: 'starke Hitzeinsel im IST-Zustand',
-			name: 'Hitzeinsel II (stark)',
+			name: 'starke Hitzebelastung',
 			icon: 'bitbucket',
 			title: 'Starkregen SRI 10 (90 l/m² in 1h)',
 			opacity: 0.7,
@@ -61,7 +63,7 @@ export const initialState = {
 		{
 			layer: 'Hitze-2050',
 			longname: 'Ausweitung der Hitzeinsel im Zukunftsszenario 2050',
-			name: '2050',
+			name: 'Zukunftsszenario 2050-2060',
 			icon: 'calendar',
 			title: 'Regen vom 29.05.2018 (SRI 11)',
 			opacity: 0.7,
@@ -76,7 +78,7 @@ export const initialState = {
 			title: 'Top. Karte'
 		},
 		{
-			layerkey: 'trueOrtho2018@50|rvrSchrift@100|wupp-plan-live@20',
+			layerkey: 'trueOrtho2020@50|rvrSchrift@100|wupp-plan-live@20',
 			src: '/images/rain-hazard-map-bg/ortho.png',
 			title: 'Luftbildkarte'
 		},
@@ -87,10 +89,10 @@ export const initialState = {
 		}
 	],
 	legend: [
-		{ title: 'Luft', lt: 0.1, bg: '#2<a>&lt;&lt;</a>FF' },
-		{ title: 'Hitze I', lt: 0.3, bg: '#FFD521' },
-		{ title: 'Hitze II', lt: 0.4, bg: '#FF3C2E' },
-		{ title: '2050', lt: 1.0, bg: '#CE1EE8' }
+		// { title: 'Luft', lt: 0.1, bg: '#2<a>&lt;&lt;</a>FF' },
+		{ title: 'Hitze', lt: 0.3, bg: '#FFD521' },
+		{ title: 'starke Hitze', lt: 0.4, bg: '#FF3C2E' },
+		{ title: '2050-2060', lt: 1.0, bg: '#CE1EE8' }
 	]
 };
 ///REDUCER

@@ -8,6 +8,7 @@ const Comp = ({
 	currentFeature,
 	getPhotoUrl = (feature) => (feature || { properties: {} }).properties.foto,
 	getPhotoSeriesUrl = (feature) => (feature || { properties: {} }).properties.fotostrecke,
+	getPhotoSeriesArray = (feature) => (feature || { properties: {} }).properties.fotos,
 	urlManipulation = (input) => input,
 	captionFactory,
 	width = 150,
@@ -33,12 +34,10 @@ const Comp = ({
 										captionFactory,
 										getPhotoUrl,
 										getPhotoSeriesUrl,
+										getPhotoSeriesArray,
 										urlManipulation
 									});
 								}}
-								hrefx={
-									getPhotoSeriesUrl(currentFeature) || getPhotoUrl(currentFeature)
-								}
 								target='_fotos'
 							>
 								<img

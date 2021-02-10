@@ -319,7 +319,8 @@ export class Starkregen_ extends React.Component {
 					maxAge: settingsForZoom[currentZoom].age, // number of maximum frames per path  -- default 200
 					width: 1.0, // number | function widthFor(value)  -- default 1.0
 					duration: 20, // milliseconds per 'frame'  -- default 20,
-					color: '#326C88' // html-color | function colorFor(value) [e.g. chromajs.scale]   -- default white
+					color: '#326C88', // html-color | function colorFor(value) [e.g. chromajs.scale]   -- default white
+					uvCorrection: {u:-1,v:-1}
 				};
 			}
 		}
@@ -576,8 +577,8 @@ export class Starkregen_ extends React.Component {
 								// +
 								// this.props.match.params.layers
 							}
-							url='https://maps.wuppertal.de/deegree/wms'
-							//url="https://wunda-geoportal-cache.cismet.de/geoportal"
+							url='http://starkregen-maps-wuppertal.cismet.de/geoserver/wms?SERVICE=WMS'
+							// url='https://maps.wuppertal.de/deegree/wms'
 							layers={
 								this.props.starkregen.simulations[
 									this.props.starkregen.selectedSimulation
@@ -587,9 +588,9 @@ export class Starkregen_ extends React.Component {
 							transparent='true'
 							format='image/png'
 							tiled='true'
-							styles='default'
+							// styles='default'
 							maxZoom={19}
-							opacity={1}
+							opacity={0.7}
 							caching={this.state.caching}
 						/>
 					)}
@@ -606,7 +607,7 @@ export class Starkregen_ extends React.Component {
 								// +
 								// this.props.match.params.layers
 							}
-							url='http://starkregen-maps.cismet.de/geoserver/wms?SERVICE=WMS'
+							url='http://starkregen-maps-wuppertal.cismet.de/geoserver/wms?SERVICE=WMS'
 							//url="https://wunda-geoportal-cache.cismet.de/geoportal"
 							layers={
 								this.props.starkregen.simulations[
@@ -640,7 +641,7 @@ export class Starkregen_ extends React.Component {
 								// +
 								// this.props.match.params.layers
 							}
-							url='http://starkregen-maps.cismet.de/geoserver/wms?SERVICE=WMS'
+							url='http://starkregen-maps-wuppertal.cismet.de/geoserver/wms?SERVICE=WMS'
 							//url="https://wunda-geoportal-cache.cismet.de/geoportal"
 							layers={
 								this.props.starkregen.simulations[
@@ -700,6 +701,7 @@ export class Starkregen_ extends React.Component {
 							}
 							bbox={currentBBox}
 							settings={vectorFieldAnimationSettings}
+							service="https://starkregen-rasterfari-wuppertal.cismet.de"
 						/>
 					)}
 

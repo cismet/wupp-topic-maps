@@ -67,12 +67,14 @@ L.CanvasLayer.VectorFieldAnim = L.CanvasLayer.Field.extend({
 				}
 
 				let vector = self._field.valueAt(par.x, par.y);
+
+				let uvCorr=self.options.uvCorrection||{U:1,v:1}
 				if (vector === null) {
 					par.age = self.options.maxAge;
 				} else {
 					// the next point will be...
-					let xt = par.x + vector.u * self.options.velocityScale; //* screenFactor;
-					let yt = par.y + vector.v * self.options.velocityScale; //* screenFactor;
+					let xt = par.x + vector.u * self.options.velocityScale * uvCorr.u; //* screenFactor;
+					let yt = par.y + vector.v * self.options.velocityScale * uvCorr.v; //* screenFactor;
 
 					if (self._field.hasValueAt(xt, yt)) {
 						par.xt = xt;

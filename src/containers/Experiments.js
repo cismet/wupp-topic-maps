@@ -30,7 +30,7 @@ export class LightboxExample_ extends React.Component {
 		let styles = 'dynamic';
 
 		let sldUrl = 'https://updates.cismet.de/test/dynamic.sld';
-		let url = `https://starkregen-maps.cismet.de/geoserver/wms?SERVICE=WMS&service=WMS&request=GetMap&layers=starkregen%3AS6_velocity&format=image%2Fpng&transparent=true&version=1.1.1&tiled=true&caching=0&width=256&height=256&srs=EPSG%3A25832&bbox=375004.29512409214,5681765.270153522,375042.51363823714,5681803.488667667&styles=${styles}&sld=${sldUrl}`;
+		let url = `https://starkregen-maps-wuppertal.cismet.de/geoserver/wms?SERVICE=WMS&service=WMS&request=GetMap&layers=starkregen%3AS6_velocity&format=image%2Fpng&transparent=true&version=1.1.1&tiled=true&caching=0&width=256&height=256&srs=EPSG%3A25832&bbox=375004.29512409214,5681765.270153522,375042.51363823714,5681803.488667667&styles=${styles}&sld=${sldUrl}`;
 		return (
 			<div>
 				<img src={url} />

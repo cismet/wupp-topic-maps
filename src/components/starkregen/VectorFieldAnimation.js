@@ -40,7 +40,6 @@ const getBBoxForBounds = (bounds) => {
 	];
 };
 // const service = 'http://127.0.0.1:8881';
-const service = 'https://rasterfari.cismet.de';
 // const worker = new Worker();
 
 class VectorFieldAnimation extends MapLayer {
@@ -57,6 +56,7 @@ class VectorFieldAnimation extends MapLayer {
 		// 	}
 		// 	console.log('Message from Worker: ' + e.data);
 		// });
+		
 	}
 
 	setLoadingAnimationData(isLoadingAnimationData) {
@@ -211,9 +211,9 @@ class VectorFieldAnimation extends MapLayer {
 		let format = 'image/tiff';
 		// format = 'text/raster.asc';
 
-		let url_u = `${service}/gdalProcessor?REQUEST=translate&SRS=EPSG:4326&BBOX=${bbox[0]},${bbox[1]},${bbox[2]},${bbox[3]}&LAYERS=docs/regen/${this
+		let url_u = `${this.props.service}/gdalProcessor?REQUEST=translate&SRS=EPSG:4326&BBOX=${bbox[0]},${bbox[1]},${bbox[2]},${bbox[3]}&LAYERS=docs/${this
 			.props.layerPrefix}u84.tif&FORMAT=${format}`;
-		let url_v = `${service}/gdalProcessor?REQUEST=translate&SRS=EPSG:4326&BBOX=${bbox[0]},${bbox[1]},${bbox[2]},${bbox[3]}&LAYERS=docs/regen/${this
+		let url_v = `${this.props.service}/gdalProcessor?REQUEST=translate&SRS=EPSG:4326&BBOX=${bbox[0]},${bbox[1]},${bbox[2]},${bbox[3]}&LAYERS=docs/${this
 			.props.layerPrefix}v84.tif&FORMAT=${format}`;
 
 		var urls = [ url_u, url_v ];

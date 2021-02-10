@@ -36,10 +36,11 @@ export const initialState = {
 	animationEnabled: true,
 	simulations: [
 		{
-			layer: 'R102:50md',
-			velocityLayer: 'starkregen:S6_velocity',
-			directionsLayer: 'starkregen:S6_direction',
-			animation: 'S6_',
+			
+			layer: 'starkregen:11_T50_depth',
+			velocityLayer: 'starkregen:11_T50_velocity',
+			directionsLayer: 'starkregen:11_T50_direction',
+			animation: '11_T50/',
 			name: 'Stärke 6',
 			title: 'Starkregen SRI 6 (38,5 l/m² in 2h)',
 			icon: 'bar-chart',
@@ -47,9 +48,9 @@ export const initialState = {
 				'Simulation eines zweistündigen Starkregens mit 38,5 Liter/m² Niederschlag (Starkregenindex SRI 6) in ganz Wuppertal, statistische Wiederkehrzeit 50 Jahre'
 		},
 		{
-			layer: 'R102:100md',
-			velocityLayer: 'starkregen:S7_velocity',
-			directionsLayer: 'starkregen:S7_direction',
+			layer: 'starkregen:12_T100_depth',
+			velocityLayer: 'starkregen:12_T100_velocity',
+			directionsLayer: 'starkregen:12_T100_direction',
 			animation: 'S7_',
 			name: 'Stärke 7',
 			icon: 'bar-chart',
@@ -58,9 +59,9 @@ export const initialState = {
 				'Simulation eines zweistündigen Starkregens mit 42 Liter/m² Niederschlag (Starkregenindex SRI 7) in ganz Wuppertal, statistische Wiederkehrzeit 100 Jahre'
 		},
 		{
-			layer: 'R102:90md',
-			velocityLayer: 'starkregen:S10_velocity',
-			directionsLayer: 'starkregen:S10_direction',
+			layer: 'starkregen:13_hN90mm_depth',
+			velocityLayer: 'starkregen:13_hN90mm_velocity',
+			directionsLayer: 'starkregen:13_hN90mm_direction',
 			animation: 'S10_',
 			name: 'Stärke 10',
 			icon: 'bitbucket',
@@ -69,9 +70,9 @@ export const initialState = {
 				'Simulation eines einstündigen Starkregens mit 90 Liter/m² Niederschlag (Starkregenindex SRI 10) in ganz Wuppertal'
 		},
 		{
-			layer: 'R102:SRmd',
-			velocityLayer: 'starkregen:S29.05.2018_velocity',
-			directionsLayer: 'starkregen:S29.05.2018_direction',
+			layer: 'starkregen:14_Naturregen_depth',
+			velocityLayer: 'starkregen:14_Naturregen_velocity',
+			directionsLayer: 'starkregen:14_Naturregen_direction',
 			animation: 'S29.05.2018_',
 			name: '29.05.18',
 			icon: 'calendar',

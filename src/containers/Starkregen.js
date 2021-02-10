@@ -577,7 +577,7 @@ export class Starkregen_ extends React.Component {
 								// +
 								// this.props.match.params.layers
 							}
-							url='http://starkregen-maps-wuppertal.cismet.de/geoserver/wms?SERVICE=WMS'
+							url='https://starkregen-maps-wuppertal.cismet.de/geoserver/wms?SERVICE=WMS'
 							// url='https://maps.wuppertal.de/deegree/wms'
 							layers={
 								this.props.starkregen.simulations[
@@ -607,7 +607,7 @@ export class Starkregen_ extends React.Component {
 								// +
 								// this.props.match.params.layers
 							}
-							url='http://starkregen-maps-wuppertal.cismet.de/geoserver/wms?SERVICE=WMS'
+							url='https://starkregen-maps-wuppertal.cismet.de/geoserver/wms?SERVICE=WMS'
 							//url="https://wunda-geoportal-cache.cismet.de/geoportal"
 							layers={
 								this.props.starkregen.simulations[
@@ -641,7 +641,7 @@ export class Starkregen_ extends React.Component {
 								// +
 								// this.props.match.params.layers
 							}
-							url='http://starkregen-maps-wuppertal.cismet.de/geoserver/wms?SERVICE=WMS'
+							url='https://starkregen-maps-wuppertal.cismet.de/geoserver/wms?SERVICE=WMS'
 							//url="https://wunda-geoportal-cache.cismet.de/geoportal"
 							layers={
 								this.props.starkregen.simulations[

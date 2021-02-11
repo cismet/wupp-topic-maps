@@ -31,7 +31,8 @@ const Component = ({ uiState, uiStateActions, showModalMenu }) => {
 						austretendes Wasser wurden hierbei vereinfacht berücksichtigt, ebenso die
 						unterschiedlichen Abflussgeschwindigkeiten auf Oberflächen mit
 						unterschiedlicher Rauhigkeit (z. B. auf einer Straße schneller als auf einer
-						Wiese).
+						Wiese). Durch die Verwendung des Datenbestands der Versiegelungsart von 
+						Oberflächen (VerDIS) kann das Abflussgeschehen flächenbasiert simuliert werden.
 					</p>
 
 					<p>
@@ -42,7 +43,9 @@ const Component = ({ uiState, uiStateActions, showModalMenu }) => {
 						Gebäude aus dem Wuppertaler Liegenschaftskataster und das Kanalnetz
 						inklusive verrohrter Gewässerabschnitte aus der Kanalnetzdatenbank der WSW
 						Energie &amp; Wasser AG ergänzt, um eine hydrologisch korrekte
-						Abflussberechnung zu gewährleisten.{' '}
+						Abflussberechnung zu gewährleisten. Für eine präzisere Simulation des Fliessgeschehens 
+						wurden darüber hinaus 39 Brücken manuell rekonstruiert und zehn Regenrückhaltebecken 
+						des Wupperverbandes inklusive deren Leitungen berücksichtigt.{' '}
 					</p>
 
 					<p>

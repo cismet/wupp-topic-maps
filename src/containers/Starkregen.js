@@ -377,16 +377,10 @@ export class Starkregen_ extends React.Component {
 			// 	this.props.starkregen.currentFeatureInfoPosition[1]
 			// );
 
-			let size;
-			if (this.props.starkregen.displayMode === starkregenConstants.SHOW_HEIGHTS) {
-				size = 0.5;
-				x = Math.round(this.props.starkregen.currentFeatureInfoPosition[0]) - 0.125;
-				y = Math.round(this.props.starkregen.currentFeatureInfoPosition[1]) - 0.02;
-			} else {
-				size = 0.5;
+			const size = 0.5;
 				x = Math.round(this.props.starkregen.currentFeatureInfoPosition[0] - 0.37) + 0.37;
 				y = Math.round(this.props.starkregen.currentFeatureInfoPosition[1] - 0.5) + 0.5;
-			}
+			
 
 			const geoJsonObject = {
 				id: 0,

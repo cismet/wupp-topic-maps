@@ -19,7 +19,6 @@ export default class ScalarField extends Field {
 		var header = ScalarField._parseASCIIGridHeader(lines.slice(0, 6));
 
 		// Data (left-right and top-down)
-		console.log(' before fromASCIIGrid');
 		let zs = [];
 		for (let i = 6; i < lines.length; i++) {
 			let line = lines[i].trim();
@@ -35,8 +34,6 @@ export default class ScalarField extends Field {
 		let p = header;
 		p.zs = zs;
 
-		//console.timeEnd('ScalarField from ASC');
-		console.log(' before Constructor');
 		return new ScalarField(p);
 	}
 
@@ -144,7 +141,6 @@ export default class ScalarField extends Field {
 		this.grid = this._buildGrid();
 		this._updateRange();
 		//console.log(`ScalarField created (${this.nCols} x ${this.nRows})`);
-		console.log('ScalarField constructor done');
 	}
 
 	/**

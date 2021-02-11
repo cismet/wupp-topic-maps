@@ -18,8 +18,6 @@ L.CanvasLayer.Field = L.CanvasLayer.extend({
 
 	initialize: function(field, options) {
 		L.Util.setOptions(this, options);
-		console.log('xxx', 'init');
-
 		this._visible = true;
 		if (field) {
 			this.setData(field);

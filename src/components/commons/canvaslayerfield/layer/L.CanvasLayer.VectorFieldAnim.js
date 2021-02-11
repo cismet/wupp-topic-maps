@@ -17,7 +17,6 @@ L.CanvasLayer.VectorFieldAnim = L.CanvasLayer.Field.extend({
 	initialize: function(vectorField, options) {
 		L.CanvasLayer.Field.prototype.initialize.call(this, vectorField, options);
 		L.Util.setOptions(this, options);
-		console.log('xxx', 'init aniom');
 
 		this.timer = null;
 	},
@@ -144,7 +143,7 @@ L.CanvasLayer.VectorFieldAnim = L.CanvasLayer.Field.extend({
 					ctx.stroke();
 				}
 			} catch (e) {
-				console.log('VFA catched', this.timer);
+				// console.log('VFA catched', this.timer);
 				this._stopAnimation();
 			}
 		}

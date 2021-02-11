@@ -63,7 +63,7 @@ class VectorFieldAnimation extends MapLayer {
 		//this.setState({ isLoadingAnimationData });
 	}
 	createLeafletElement() {
-		console.log('VFA: createleafletElement');
+		// console.log('VFA: createleafletElement');
 
 		let scaleFactor = 0.001; // to m/s
 
@@ -72,7 +72,7 @@ class VectorFieldAnimation extends MapLayer {
 		// let vf = L.VectorField.fromASCIIGrids(arrays[0], arrays[1], scaleFactor);
 		let that = this;
 		setTimeout(() => {
-			console.log('VFA: createleafletElement: updateLayer()');
+			// console.log('VFA: createleafletElement: updateLayer()');
 
 			that.updateLayer(that.props.bbox);
 			// that.leafletElement.initialized = true;
@@ -82,21 +82,18 @@ class VectorFieldAnimation extends MapLayer {
 		return l;
 	}
 	updateLeafletElement(fromProps: Object, toProps: Object) {
-		console.log('VFA: updateLeafletElement');
 
 		if (this.leafletElement) {
-			console.log('VFA: updateLeafletElement ');
 
 			if (this.leafletElement.timer && this.leafletElement.initialized === true) {
-				console.log('VFA: stop timer', this.leafletElement);
 				this.leafletElement.timer.stop();
 			}
 			const bounds = this.context.map.getBounds();
 			const bbox = getBBoxForBounds(bounds);
 			if (this.leafletElement.bbox === JSON.stringify(bbox)) {
-				console.log('VFA: same bbox: do nothing');
+				// console.log('VFA: same bbox: do nothing');
 			} else {
-				console.log('VFA: componentDidUpdate: call updateLayer');
+				// console.log('VFA: componentDidUpdate: call updateLayer');
 				this.updateLayer(toProps.bbox);
 			}
 		}
@@ -193,24 +190,15 @@ class VectorFieldAnimation extends MapLayer {
 	updateLayer(bbox) {
 		this.leafletElement.bbox = JSON.stringify(bbox);
 
-		console.log(
-			'VFA: updateLayer()',
-			this.leafletElement.timer,
-			this.leafletElement.initialized
-		);
-
-		//		this.timers.push(this.leafletElement.timer);
-
+	
 		if (this.leafletElement.timer && this.leafletElement.initialized === true) {
 			this.leafletElement.timer.stop();
 			console.log('VFA: stop timer');
 		}
 		this.setLoadingAnimationData(true);
-		//BBOX=7.1954778,51.2743996,7.2046701,51.2703213
-
+	
 		let format = 'image/tiff';
-		// format = 'text/raster.asc';
-
+	
 		let url_u = `${this.props.service}/gdalProcessor?REQUEST=translate&SRS=EPSG:4326&BBOX=${bbox[0]},${bbox[1]},${bbox[2]},${bbox[3]}&LAYERS=docs/${this
 			.props.layerPrefix}u84.tif&FORMAT=${format}`;
 		let url_v = `${this.props.service}/gdalProcessor?REQUEST=translate&SRS=EPSG:4326&BBOX=${bbox[0]},${bbox[1]},${bbox[2]},${bbox[3]}&LAYERS=docs/${this
@@ -218,7 +206,6 @@ class VectorFieldAnimation extends MapLayer {
 
 		var urls = [ url_u, url_v ];
 
-		console.log('VFA: different urls: fetch again');
 
 		// var promises = urls.map((url) => fetch(url).then((r) => r.text()));
 		let promises;
@@ -231,12 +218,10 @@ class VectorFieldAnimation extends MapLayer {
 		let that = this;
 
 		setTimeout(() => {
-			console.log('VFA: updateLayer: debug waiting period over');
-
+			
 			Promise.all(promises).then(function(arrays) {
 				let scaleFactor = 0.001; // to m/s
-				console.log('VFA: updateLayer: before vectorfield creation');
-
+			
 				//let
 				let vf;
 				if (format === 'image/tiff') {
@@ -246,20 +231,20 @@ class VectorFieldAnimation extends MapLayer {
 					vf = L.VectorField.fromASCIIGrids(arrays[0], arrays[1], scaleFactor);
 				}
 
-				console.log('VFA: updateLayer: after vectorfield creation', vf);
+				// console.log('VFA: updateLayer: after vectorfield creation', vf);
 
 				var range = vf.range;
 				var scale = chroma.scale('OrRd').domain(range);
 
-				console.log('VFA: updateLayer: before vectorfield update');
+				// console.log('VFA: updateLayer: before vectorfield update');
 				that.leafletElement._field = vf;
 
 				//that.leafletElement = layer;
 				that.leafletElement.initialized = true;
-				console.log(
-					'VFA: updateLayer: vectorfield updated',
-					that.leafletElement.initialized
-				);
+				// console.log(
+				// 	'VFA: updateLayer: vectorfield updated',
+				// 	that.leafletElement.initialized
+				// );
 
 				// fromASCIIGridsWithWorker(arrays[0], arrays[1], scaleFactor, (vf) => {
 				// 	console.log('parallel:VFA: updateLayer: after vectorfield creation', vf);

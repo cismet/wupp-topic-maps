@@ -283,10 +283,7 @@ export class Starkregen_ extends React.Component {
 
 		const mapRef = this.getMapRef();
 		let url_u, url_v, vectorFieldAnimationSettings, currentBBox, currentMapArea;
-		console.log('mapRef', mapRef);
-		if (mapRef !== undefined) {
-			console.log('mapRef.getZoom()', mapRef.getZoom());
-		}
+		
 		const settingsForZoom = {
 			13: { paths: 3000, velocityScale: 1 / 200, fade: 80 / 100, age: 50 },
 			14: { paths: 2560, velocityScale: 1 / 400, fade: 83 / 100, age: 80 },
@@ -307,11 +304,9 @@ export class Starkregen_ extends React.Component {
 				];
 				const bboxpoly = bboxPolygon(currentBBox);
 				currentMapArea = area(bboxpoly);
-				console.log('currentMapArea', currentMapArea);
-
+		
 				const paths = Math.sqrt(currentMapArea) * 8;
-				console.log('paths', paths);
-
+		
 				vectorFieldAnimationSettings = {
 					paths, // settingsForZoom[currentZoom].paths, //-- default 800
 					fade: settingsForZoom[currentZoom].fade, // 0 to 1 -- default 0.96

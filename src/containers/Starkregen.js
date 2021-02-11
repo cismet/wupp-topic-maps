@@ -371,11 +371,11 @@ export class Starkregen_ extends React.Component {
 		let featureInfoLayer;
 		if (this.props.starkregen.currentFeatureInfoPosition) {
 			let x, y;
-			console.log(
-				'xxx x,y',
-				this.props.starkregen.currentFeatureInfoPosition[0],
-				this.props.starkregen.currentFeatureInfoPosition[1]
-			);
+			// console.log(
+			// 	'xxx x,y',
+			// 	this.props.starkregen.currentFeatureInfoPosition[0],
+			// 	this.props.starkregen.currentFeatureInfoPosition[1]
+			// );
 
 			let size;
 			if (this.props.starkregen.displayMode === starkregenConstants.SHOW_HEIGHTS) {

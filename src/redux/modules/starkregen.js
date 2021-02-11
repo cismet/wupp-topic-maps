@@ -273,9 +273,9 @@ function getFeatureInfo(mapEvent) {
 			const minimalBoxSize = 0.0001;
 			const selectedSimulation = localState.simulations[localState.selectedSimulation].layer;
 			const getFetureInfoRequestUrl =
-				`https://maps.wuppertal.de/deegree/wms?` +
+				`https://starkregen-maps-wuppertal.cismet.de/geoserver/wms?` +
 				`service=WMS&request=GetFeatureInfo&` +
-				`styles=default&format=image%2Fpng&transparenttrue&` +
+				`format=image%2Fpng&transparenttrue&` +
 				`version=1.1.1&tiled=true&` +
 				`width=1&height=1&srs=EPSG%3A25832&` +
 				`bbox=` +
@@ -287,7 +287,7 @@ function getFeatureInfo(mapEvent) {
 				`layers=${selectedSimulation}&` +
 				`QUERY_LAYERS=${selectedSimulation}&` +
 				`INFO_FORMAT=application/vnd.ogc.gml`;
-			let valueKey = 'll:value';
+			let valueKey = 'starkregen:depth';
 			if (/Edge/.test(navigator.userAgent)) {
 				valueKey = 'value';
 			}
@@ -303,10 +303,12 @@ function getFeatureInfo(mapEvent) {
 				.then((data) => {
 					const parser = new DOMParser();
 					const xmlDoc = parser.parseFromString(data, 'text/xml');
+					
 					const value = parseFloat(
 						xmlDoc.getElementsByTagName(valueKey)[0].textContent,
 						10
 					);
+					
 					dispatch(setCurrentFeaturSelectedSimulation(localState.selectedSimulation));
 					dispatch(setCurrentFeatureInfoValue(value));
 
@@ -345,7 +347,6 @@ function getFeatureInfo(mapEvent) {
 				`layers=${selectedSimulation}&` +
 				`QUERY_LAYERS=${selectedSimulation}&` +
 				`INFO_FORMAT=application/vnd.ogc.gml`;
-			console.log('xxxx getFetureInfoRequestUrl', getFetureInfoRequestUrl);
 
 			let valueKey = 'starkregen:velocity';
 			if (/Edge/.test(navigator.userAgent)) {
@@ -369,7 +370,7 @@ function getFeatureInfo(mapEvent) {
 					);
 					dispatch(setCurrentFeaturSelectedSimulation(localState.selectedSimulation));
 					dispatch(setCurrentFeatureInfoValue(value));
-					console.log('xxxxxx value', value);
+					
 
 					dispatch(setCurrentFeatureInfoPosition(pos));
 				})

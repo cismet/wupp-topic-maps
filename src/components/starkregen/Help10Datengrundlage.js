@@ -43,7 +43,7 @@ const Component = ({ uiState, uiStateActions, showModalMenu }) => {
 						Gebäude aus dem Wuppertaler Liegenschaftskataster und das Kanalnetz
 						inklusive verrohrter Gewässerabschnitte aus der Kanalnetzdatenbank der WSW
 						Energie &amp; Wasser AG ergänzt, um eine hydrologisch korrekte
-						Abflussberechnung zu gewährleisten. Für eine präzisere Simulation des Fliessgeschehens 
+						Abflussberechnung zu gewährleisten. Für eine präzisere Simulation des Fließgeschehens 
 						wurden darüber hinaus 39 Brücken manuell rekonstruiert und zehn Regenrückhaltebecken 
 						des Wupperverbandes inklusive deren Leitungen berücksichtigt.{' '}
 					</p>

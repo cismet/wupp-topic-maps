@@ -1,5 +1,5 @@
 import L from 'leaflet';
-import * as d3 from 'd3v4';
+// import * as d3 from 'd3v4';
 /*
   1.0.1 (downloaded from https://github.com/Sumbera/gLayers.Leaflet/releases/tag/v1.0.1)
 

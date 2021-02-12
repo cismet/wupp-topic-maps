@@ -1,5 +1,5 @@
 import L from 'leaflet';
-import * as d3 from 'd3v4';
+// import * as d3 from 'd3v4';
 /**
  *  Simple layer with lon-lat points
  *

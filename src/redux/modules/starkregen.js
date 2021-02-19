@@ -117,14 +117,14 @@ export const initialState = {
   heightsLegend: [
     { title: '20 cm', lt: 0.1, bg: '#AFCFF9' },
     { title: '40 cm', lt: 0.3, bg: '#FED27B' },
-    { title: '75 cm', lt: 0.4, bg: '#E9B279' },
+    { title: '75 cm', lt: 0.5, bg: '#E9B279' },
     { title: '100 cm', lt: 1.0, bg: '#DD8C7B' },
   ],
   velocityLegend: [
-    { title: '0.5 m/s', lt: 0.5, bg: '#BEC356' },
-    { title: '2 m/s', lt: 2, bg: '#DA723E' },
-    { title: '4 m/s', lt: 4, bg: '#D64733' },
-    { title: '6 m/s', lt: 6, bg: '#8F251B' },
+    { title: '0.5 m/s', lt: 0.1, bg: '#BEC356' },
+    { title: '2 m/s', lt: 1, bg: '#DA723E' },
+    { title: '4 m/s', lt: 3, bg: '#D64733' },
+    { title: '6 m/s', lt: 5, bg: '#8F251B' },
   ],
   isLoadingAnimationData: false,
 };

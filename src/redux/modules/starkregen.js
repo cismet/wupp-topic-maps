@@ -290,8 +290,6 @@ function getFeatureInfo(mapEvent) {
       if (/Edge/.test(navigator.userAgent)) {
         valueKey = 'value';
       }
-      console.log('xxx getFetureInfoRequestUrl', getFetureInfoRequestUrl);
-
       fetch(getFetureInfoRequestUrl)
         .then((response) => {
           if (response.ok) {
@@ -303,8 +301,6 @@ function getFeatureInfo(mapEvent) {
         .then((data) => {
           const parser = new DOMParser();
           const xmlDoc = parser.parseFromString(data, 'text/xml');
-          console.log('xxx xmlDoc', xmlDoc);
-
           const value = parseFloat(xmlDoc.getElementsByTagName(valueKey)[0].textContent, 10);
 
           dispatch(setCurrentFeaturSelectedSimulation(localState.selectedSimulation));

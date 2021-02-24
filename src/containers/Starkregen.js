@@ -172,7 +172,9 @@ export class Starkregen_ extends React.Component {
     return undefined;
   }
   render() {
-    let currentZoom = new URLSearchParams(this.props.routing.location.search).get('zoom') || 8;
+    let currentZoom = Math.round(
+      new URLSearchParams(this.props.routing.location.search).get('zoom') || 8
+    );
     let dirOpac = parseFloat(
       new URLSearchParams(this.props.routing.location.search).get('dirOpac') || 1
     );

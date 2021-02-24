@@ -16,7 +16,7 @@ const Component = ({ uiState, uiStateActions, showModalMenu }) => {
 						Unsere Starkregengefahrenkarte zeigt die Ergebnisse von Simulationen, die
 						dem heutigen Stand der Technik entsprechen. Die Berechnungen basieren auf
 						einem vereinfachten Modell der tatsächlichen Verhältnisse. Für eine noch
-						differenzierte Modellierung fehlen zum einen die Daten, zum anderen ließe
+						differenziertere Modellierung fehlen zum einen die Daten, zum anderen ließe
 						sich die automatisierte Berechnung nicht mehr in erlebbarer Zeit
 						durchführen!{' '}
 					</p>

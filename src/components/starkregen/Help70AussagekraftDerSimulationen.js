@@ -16,7 +16,7 @@ const Component = ({ uiState, uiStateActions, showModalMenu }) => {
 						Unsere Starkregengefahrenkarte zeigt die Ergebnisse von Simulationen, die
 						dem heutigen Stand der Technik entsprechen. Die Berechnungen basieren auf
 						einem vereinfachten Modell der tatsächlichen Verhältnisse. Für eine noch
-						differenzierte Modellierung fehlen zum einen die Daten, zum anderen ließe
+						differenziertere Modellierung fehlen zum einen die Daten, zum anderen ließe
 						sich die automatisierte Berechnung nicht mehr in erlebbarer Zeit
 						durchführen!{' '}
 					</p>
@@ -55,10 +55,12 @@ const Component = ({ uiState, uiStateActions, showModalMenu }) => {
 						einem realen Regen der angenommenen Stärke einstellen würden. Um diesem
 						Umstand Rechnung zu tragen, geben wir bei der{' '}
 						<a onClick={() => showModalMenu('wasserstand')}>
-							Abfrage des maximalen Wasserstandes
+							Abfrage des maximalen Wasserstandes oder der maximalen
+							Fließgeschwindigkeit
 						</a>{' '}
-						ab einem Berechnungsergebnis von 150 cm nur noch "größer als 150 cm" (> 150
-						cm) als Ergebnis an.
+						ab einem berechneten Wasserstand von 150 cm nur noch "größer als 150 cm" (>
+						150 cm) und ab einer berechneten Fließgeschwindigkeit von 6 m/s nur noch ">
+						6 m/s" als Ergebnis an.
 					</p>
 
 					<p>

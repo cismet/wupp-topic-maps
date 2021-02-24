@@ -87,7 +87,7 @@ export default class App extends React.Component {
 								component={Kulturstadtplan}
 							/>
 							<Route exact path='/baeder/:layers?/' component={Baeder} />
-							<Route exact path='/starkregen/:layers?/' component={Starkregen} />
+							<Route exact path='/starkregen/:mode?' component={Starkregen} />
 							<Route exact path='/kitas/:layers?/' component={Kitas} />
 
 							<Route

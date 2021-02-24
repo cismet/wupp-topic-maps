@@ -14,10 +14,23 @@ const Component = ({ uiState, uiStateActions, showModalMenu }) => {
 			sectionContent={
 				<div>
 					<p>
+						Die Starkregengefahrenkarte unterstützt zwei verschiedene Kartenansichten.
+						In der stets sichtbaren Titelzeile oben im Kartenfenster wird Ihnen die
+						gerade aktive Kartenansicht angezeigt. Standardmäßig werden die maximalen
+						Wasserstände dargestellt, die im Verlauf eines simulierten
+						Starkregenereignisses auftreten. Mit der Schaltfläche{' '}
+						<a>
+							<Icon name='random' />
+						</a>{' '}
+						auf der rechten Seite der Titelzeile können Sie zur Anzeige der maximalen
+						Fließgeschwindigkeiten wechseln. (Ein erneuter Klick führt wieder zurück zur
+						Anzeige der maximalen Wasserstände.)
+					</p>
+					<p>
 						In der rechten unteren Ecke der Anwendung (bei kleinen Displays unten direkt
 						über dem Eingabefeld) finden Sie das <b>Kontrollfeld</b>, mit dem Sie den
-						Karteninhalt nach Ihren Wünschen festlegen können. Klicken Sie unter{' '}
-						<b>Simulation</b> auf eine der vier Schaltflächen, um die
+						weiteren Karteninhalt nach Ihren Wünschen festlegen können. Klicken Sie
+						unter <b>Simulation</b> auf eine der vier Schaltflächen, um die
 						Starkregensimulation auszuwählen, die angezeigt werden soll. Details zu den
 						Simulationsberechnungen finden Sie hier in der Kompaktanleitung unter{' '}
 						<a onClick={() => showModalMenu('datengrundlage')}>Datengrundlagen</a> und{' '}
@@ -36,11 +49,28 @@ const Component = ({ uiState, uiStateActions, showModalMenu }) => {
 						<a onClick={() => showModalMenu('datengrundlage')}>Datengrundlagen</a>.
 					</p>
 					<p>
+						Unter <b>Animation</b> finden Sie einen Wechselschalter zum An- und
+						Ausschalten einer animierten Darstellung des Fließgeschehens. Standardmäßig
+						ist diese Animation aktiviert. Sie basiert auf den Maximalbeträgen der
+						Geschwindigkeitsvektoren, die für jede Rasterzelle im Verlauf einer
+						Simulationsberechnung bestimmt werden. Es wird also der Abfluss in die
+						Richtung animiert, in der sich die größte Geschwindigkeit einstellt. Die
+						Animation vermittelt ein besonders anschauliches Bild des komplexen
+						Abflussgeschehens bei einem Starkregenereignis. Die Animation steht nur bei
+						der Betrachtung der Starkregengefahrenkarte in einem Detailmaßstab
+						(Zoomstufen 13 bis 18) zur Verfügung, in den Übersichtsmaßstäben (Zoomstufen
+						12 und kleiner) wird sie automatisch ausgeblendet. Wenn die Animation nicht
+						angezeigt wird, blenden wir in der Kartenansicht "max.
+						Fließgeschwindigkeiten" in Detailmaßstäben (hier bis zur Zoomstufe 12)
+						statische Fließrichtungspfeile ein, um die Richtungen des
+						Regenwasserabflusses zu visualisieren.
+					</p>
+					<p>
 						Am oberen Rand des Kontrollfeldes befindet sich eine platzsparende Legende,
-						die die vier zur Klassifizierung der maximalen simulierten Wasserstände
-						verwendeten Farben erläutert. Direkt darunter finden Sie die Bezeichnung und
-						(in kleiner Schrift) eine Kurzbeschreibung des aktuell ausgewählten
-						Simulations-Szenarios. Über den Link{' '}
+						mit der die zur Klassifizierung der maximalen simulierten Wasserstände bzw.
+						Fließgeschwindigkeiten verwendeten Farben erläutert werden. Direkt darunter
+						finden Sie die Bezeichnung und (in kleiner Schrift) eine Kurzbeschreibung
+						des aktuell ausgewählten Simulations-Szenarios. Über den Link{' '}
 						<a onClick={() => showModalMenu('szenarien')}>(mehr)</a> am Ende jeder
 						Kurzbeschreibung gelangen Sie zu einer ausführlicheren Darstellung aller
 						vier Szenarien in der Kompaktanleitung. Mit der Schaltfläche{' '}

@@ -42,7 +42,7 @@ const Component = ({ uiState, uiStateActions, showModalMenu }) => {
             Anfang 2015). Das DGM wurde um die Gebäude aus dem Wuppertaler Liegenschaftskataster und
             das Kanalnetz inklusive verrohrter Gewässerabschnitte aus der Kanalnetzdatenbank der WSW
             Energie &amp; Wasser AG ergänzt, um eine hydrologisch korrekte Abflussberechnung zu
-            gewährleisten.Für eine präzisere Simulation des Fließgeschehens wurden ab Version 2.0
+            gewährleisten. Für eine präzisere Simulation des Fließgeschehens wurden ab Version 2.0
             der Simulationsberechnungen 39 Brücken manuell rekonstruiert und zehn
             Regenrückhaltebecken des Wupperverbandes mitsamt ihren Zuleitungen berücksichtigt.
           </p>

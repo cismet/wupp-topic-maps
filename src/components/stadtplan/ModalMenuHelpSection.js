@@ -131,7 +131,7 @@ const ModalMenuHelpSection = ({ uiState, uiStateActions }) => {
             Zusätzlich nutzt der Online-Stadtplan für die Themendarstellung den Datensatz{' '}
             <a
               target="_legal"
-              href="https://offenedaten-wuppertal.de/dataset/interessante-orte-wuppertal-poi"
+              href="https://offenedaten-wuppertal.de/dataset/interessante-orte-poi-wuppertal"
             >
               Interessante Orte Wuppertal (POI)
             </a>

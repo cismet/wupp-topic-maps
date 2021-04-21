@@ -24,7 +24,8 @@ const Component = ({ uiState, uiStateActions }) => {
             <Icon name="pie-chart" /> Quartier, eine <Icon name="home" /> Adresse, eine{' '}
             <Icon name="road" /> Straße ohne zugeordnete Hausnummern, einen <Icon name="tag" /> POI,
             die <Icon name="tags" /> alternative Bezeichnung eines POI, eine <Icon name="child" />{' '}
-            Kindertageseinrichtung oder einen <Icon name="code-fork" /> GEP-Bereich handelt.
+            Kindertageseinrichtung, eine <Icon name="graduation-cap" /> Schule oder einen{' '}
+            <Icon name="code-fork" /> GEP-Bereich handelt.
           </p>
           <p>
             Nach der Auswahl eines Treffers aus der Liste wird die Karte auf die zugehörige Position

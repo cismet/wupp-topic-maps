@@ -111,10 +111,15 @@ const InfoBox = ({
                     <tr>
                       <td style={{ textAlign: 'left' }}>
                         <h6>
-                          {additionalInfo && additionalInfo.startsWith('<html>') && (
-                            <p> {parseHtml(additionalInfo.match(/<html>(.*?)<\/html>/)[1])}</p>
-                          )}
+                          {additionalInfo &&
+                            additionalInfo !== null &&
+                            additionalInfo.startsWith &&
+                            additionalInfo.startsWith('<html>') && (
+                              <p> {parseHtml(additionalInfo.match(/<html>(.*?)<\/html>/)[1])}</p>
+                            )}
                           {additionalInfo !== undefined &&
+                            additionalInfo !== null &&
+                            additionalInfo.startsWith &&
                             !additionalInfo.startsWith('<html>') &&
                             additionalInfo.split('\n').map((item, key) => {
                               return (
@@ -126,10 +131,16 @@ const InfoBox = ({
                             })}
                         </h6>
 
-                        {subtitle && subtitle.startsWith('<html>') && (
-                          <p> {parseHtml(subtitle.match(/<html>(.*?)<\/html>/)[1])}</p>
-                        )}
-                        {subtitle && !subtitle.startsWith('<html>') && <p>{subtitle}</p>}
+                        {subtitle &&
+                          subtitle !== null &&
+                          subtitle.startsWith &&
+                          subtitle.startsWith('<html>') && (
+                            <p> {parseHtml(subtitle.match(/<html>(.*?)<\/html>/)[1])}</p>
+                          )}
+                        {subtitle &&
+                          subtitle !== null &&
+                          subtitle.startsWith &&
+                          !subtitle.startsWith('<html>') && <p>{subtitle}</p>}
                       </td>
                     </tr>
                   </tbody>

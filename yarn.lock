@@ -9310,11 +9310,11 @@ leaflet-fullscreen-custom-container-fork@^1.0.7:
   integrity sha512-pTYxQ+NLD/lD36Uhei48ED6ypj52JiHCik6lvBDLrwNnSNEs3R4M29byhXEEZ6KizBIdphcQuga7up9iEQx4qg==
 
 leaflet-geometryutil@*:
-  version "0.9.3"
-  resolved "https://registry.yarnpkg.com/leaflet-geometryutil/-/leaflet-geometryutil-0.9.3.tgz#e10fa302d99d4b1d3c6365a1f39298635a2704cd"
-  integrity sha512-Wi6YvfNx/Xu9q35AEfXpsUXmIFLen/MO+C2qimxHRnjyeyOxBhdcZa6kSiReaOX0cGK7yQInqrzz0dkIqZ8Dpg==
+  version "0.10.0"
+  resolved "https://registry.yarnpkg.com/leaflet-geometryutil/-/leaflet-geometryutil-0.10.0.tgz#0693d64517ac96f0e101d4a3e6e0377fc71316d1"
+  integrity sha512-4OGu2OnpHLx+7QpOY6NatrAiSWWrP/Z3HOM9ZsmQ0JWIzAytFS6SLUnKHVjwpgRzPUpV/6w0b4Fh24pVIgqFHw==
   dependencies:
-    leaflet ">=0.7.0"
+    leaflet "^1.6.0"
 
 leaflet-snap@^0.0.4:
   version "0.0.4"
@@ -9331,10 +9331,15 @@ leaflet.locatecontrol@^0.63.0:
   resolved "https://registry.yarnpkg.com/leaflet.locatecontrol/-/leaflet.locatecontrol-0.63.0.tgz#a93b9af0c36a0edcac50dc336aa718d2c6f91f54"
   integrity sha512-SPhIbVTPo99YBon2YAPPCvfZa2w5MnifDFTYIXk/2YA3eShg56cPKi0A2CoXLKHel762JvheHrLEnSJduDWIlg==
 
-leaflet.markercluster@^1.3.0, leaflet.markercluster@^1.4.0:
+leaflet.markercluster@^1.3.0:
   version "1.4.1"
   resolved "https://registry.yarnpkg.com/leaflet.markercluster/-/leaflet.markercluster-1.4.1.tgz#b53f2c4f2ca7306ddab1dbb6f1861d5e8aa6c5e5"
   integrity sha512-ZSEpE/EFApR0bJ1w/dUGwTSUvWlpalKqIzkaYdYB7jaftQA/Y2Jav+eT4CMtEYFj+ZK4mswP13Q2acnPBnhGOw==
+
+leaflet.markercluster@^1.4.0:
+  version "1.5.0"
+  resolved "https://registry.yarnpkg.com/leaflet.markercluster/-/leaflet.markercluster-1.5.0.tgz#54db42485da32fc3d92c7ae22d0d7982879e0b67"
+  integrity sha512-Fvf/cq4o806mJL50n+fZW9+QALDDLPvt7vuAjlD2vfnxx3srMDs2vWINJze4nKYJYRY45OC6tM/669C3pLwMCA==
 
 leaflet.path.drag@^0.0.6:
   version "0.0.6"
@@ -9356,7 +9361,7 @@ leaflet.vectorgrid@^1.3.0:
     vector-tile "^1.3.0"
     whatwg-fetch "^2.0.3"
 
-leaflet@>=0.7.0, leaflet@>=1.0.3, leaflet@^1.0.1, leaflet@^1.2.0, leaflet@^1.6.0:
+leaflet@>=1.0.3, leaflet@^1.0.1, leaflet@^1.2.0, leaflet@^1.6.0:
   version "1.7.1"
   resolved "https://registry.yarnpkg.com/leaflet/-/leaflet-1.7.1.tgz#10d684916edfe1bf41d688a3b97127c0322a2a19"
   integrity sha512-/xwPEBidtg69Q3HlqPdU3DnrXQOvQU/CCHA1tcDQVzOwm91YMYaILjNp7L4Eaw5Z4sOYdbBz6koWyibppd8Zqw==
@@ -11404,9 +11409,9 @@ point-geometry@0.0.0:
   integrity sha1-b8vK16gDtkGCR91uScKFPFhNr/c=
 
 polygon-clipping@^0.15.2:
-  version "0.15.2"
-  resolved "https://registry.yarnpkg.com/polygon-clipping/-/polygon-clipping-0.15.2.tgz#076199182bf23a4a6cf6c7003f3b81ecf30b2cb8"
-  integrity sha512-qsUFQSY4nA++1/b76dy0BJGwL0FZAk05Y4hZprctLIhAddE8KUUr3TxIF4sAxIQtjH9xvaBe3raaRQrcSI4wlA==
+  version "0.15.3"
+  resolved "https://registry.yarnpkg.com/polygon-clipping/-/polygon-clipping-0.15.3.tgz#0215840438470ba2e9e6593625e4ea5c1087b4b7"
+  integrity sha512-ho0Xx5DLkgxRx/+n4O74XyJ67DcyN3Tu9bGYKsnTukGAW6ssnuak6Mwcyb1wHy9MZc9xsUWqIoiazkZB5weECg==
   dependencies:
     splaytree "^3.1.0"
 
@@ -12161,10 +12166,18 @@ progress@^2.0.0:
   resolved "https://registry.yarnpkg.com/progress/-/progress-2.0.3.tgz#7e8cf8d8f5b8f239c1bc68beb4eb78567d572ef8"
   integrity sha512-7PiHtLll5LdnKIMw100I+8xJXR5gW2QwWYkT6iJva0bXitZKa/XMrSbdmg3r2Xnaidz9Qumd0VPaMrZlF9V9sA==
 
-proj4@^2.3.14, proj4@^2.4.4, proj4@^2.5.0, proj4@^2.6.2:
+proj4@^2.3.14, proj4@^2.4.4:
   version "2.7.0"
   resolved "https://registry.yarnpkg.com/proj4/-/proj4-2.7.0.tgz#4250ee16699d53ebc3318befb1875e9722145f29"
   integrity sha512-UVhulf8m70/dREOBrJagWq8cDYUgjQUWILRqys/gqo/+ZLeNB/04zbtPhJbz8+cCPzZNQMychfBaWUCP60U9mQ==
+  dependencies:
+    mgrs "1.0.0"
+    wkt-parser "^1.2.4"
+
+proj4@^2.5.0, proj4@^2.6.2:
+  version "2.7.2"
+  resolved "https://registry.yarnpkg.com/proj4/-/proj4-2.7.2.tgz#faa42e5965aa275af5438ba2da8c59d1cc501137"
+  integrity sha512-x/EboBmIq48a9FED0Z9zWCXkd8VIpXHLsyEXljGtsnzeztC41bFjPjJ0S//wBbNLDnDYRe0e6c3FSSiqMCebDA==
   dependencies:
     mgrs "1.0.0"
     wkt-parser "^1.2.4"
@@ -12505,10 +12518,10 @@ react-chartkick@^0.2.0:
   dependencies:
     chartkick "^2.3.6"
 
-react-cismap@^0.5.2:
-  version "0.5.5"
-  resolved "https://registry.yarnpkg.com/react-cismap/-/react-cismap-0.5.5.tgz#e2836db18fb08c8926a66f6a08cc26eacaa53128"
-  integrity sha512-r/cAwUQilWBLBBtzhkQWaE3QNjrJyHZxX0MV7m4Vd/hJNA5fiZLx2ZqTFiZzmBGF+ZuEklM+RzmjxtWCDMA3mg==
+react-cismap@0.6.0:
+  version "0.6.0"
+  resolved "https://registry.yarnpkg.com/react-cismap/-/react-cismap-0.6.0.tgz#65016b72a380ce23ac1a31c12034c49e080167aa"
+  integrity sha512-Uxvs92oMxOMRyiee+oH1njwSfJ8oxXJ2k4LRv2NAXMEAzLnyruo8MOEyV95w4PXwsNf0T9S9EHuMlEwAzulI9Q==
   dependencies:
     "@fortawesome/fontawesome-svg-core" "^1.2.26"
     "@fortawesome/free-brands-svg-icons" "^5.12.0"

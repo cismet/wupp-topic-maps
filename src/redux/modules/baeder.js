@@ -9,21 +9,21 @@ import makeInfoBoxStateDuck from '../higherorderduckfactories/minifiedInfoBoxSta
 
 //TYPES
 export const types = {
-	SET_MARKER_SVG_SIZE: 'STADTPLAN/SET_POI_SVG_SIZE'
+  SET_MARKER_SVG_SIZE: 'STADTPLAN/SET_POI_SVG_SIZE',
 };
 
 export const constants = {
-	DEBUG_ALWAYS_LOADING: false
+  DEBUG_ALWAYS_LOADING: false,
 };
 
 //HIGHER ORDER DUCKS
 const dataDuck = makeDataDuck('BAEDER', (state) => state.baeder.dataState);
 const markerSizeDuck = makeMarkerSizeDuck('BAEDER', (state) => state.baeder.markerSizeState);
 const featureCollectionDuck = makePointFeatureCollectionWithIndexDuck(
-	'BAEDER',
-	(state) => state.baeder.featureCollectionState,
-	(state) => state.mapping.boundingBox,
-	convertBadToFeature
+  'BAEDER',
+  (state) => state.baeder.featureCollectionState,
+  (state) => state.mapping.boundingBox,
+  convertBadToFeature
 );
 const infoBoxStateDuck = makeInfoBoxStateDuck('POIS', (state) => state.stadtplan.infoBoxState);
 
@@ -31,26 +31,26 @@ const infoBoxStateDuck = makeInfoBoxStateDuck('POIS', (state) => state.stadtplan
 //no local Reducer needed
 
 const markerSizeStorageConfig = {
-	key: 'baederMarkerSize',
-	storage: localForage,
-	whitelist: [ 'markerSize' ]
+  key: 'baederMarkerSize',
+  storage: localForage,
+  whitelist: ['markerSize'],
 };
 const dataStateStorageConfig = {
-	key: 'baederData',
-	storage: localForage,
-	whitelist: [ 'items', 'md5' ]
+  key: 'baederData',
+  storage: localForage,
+  whitelist: ['items', 'md5'],
 };
 const infoBoxStateStorageConfig = {
-	key: 'stadtplaninfoBoxMinifiedState',
-	storage: localForage,
-	whitelist: [ 'minified' ]
+  key: 'stadtplaninfoBoxMinifiedState',
+  storage: localForage,
+  whitelist: ['minified'],
 };
 
 const reducer = combineReducers({
-	dataState: persistReducer(dataStateStorageConfig, dataDuck.reducer),
-	featureCollectionState: featureCollectionDuck.reducer,
-	markerSizeState: persistReducer(markerSizeStorageConfig, markerSizeDuck.reducer),
-	infoBoxState: persistReducer(infoBoxStateStorageConfig, infoBoxStateDuck.reducer)
+  dataState: persistReducer(dataStateStorageConfig, dataDuck.reducer),
+  featureCollectionState: featureCollectionDuck.reducer,
+  markerSizeState: persistReducer(markerSizeStorageConfig, markerSizeDuck.reducer),
+  infoBoxState: persistReducer(infoBoxStateStorageConfig, infoBoxStateDuck.reducer),
 });
 
 export default reducer;
@@ -60,78 +60,83 @@ const debugLog = false;
 
 //COMPLEXACTIONS
 function loadBaeder(finishedHandler = () => {}) {
-	const manualReloadRequest = false;
-	return (dispatch, getState) => {
-		dispatch(
-			dataDuck.actions.load({
-				manualReloadRequested: manualReloadRequest,
-				dataURL: '/data/baeder.data.json',
-				done: (dispatch, data, md5) => {
-					if (debugLog) {
-						console.log('baeder:before.setFeatureCollectionDataSource' + data);
-					}
-					dispatch(actions.setFeatureCollectionDataSource(data));
-					dispatch(actions.createFeatureCollection());
-					finishedHandler();
-				},
-				prepare: (dispatch, data) => {
-					let svgResolvingPromises = data.map(function(bad) {
-						return addSVGToPOI(bad, manualReloadRequest);
-					});
-					return svgResolvingPromises;
-				},
-				errorHandler: (err) => {
-					console.log(err);
-				}
-			})
-		);
-	};
+  const manualReloadRequest = false;
+  return (dispatch, getState) => {
+    dispatch(
+      dataDuck.actions.load({
+        manualReloadRequested: manualReloadRequest,
+        dataURL: '/data/baeder.data.json',
+        done: (dispatch, data, md5) => {
+          if (debugLog) {
+            console.log('baeder:before.setFeatureCollectionDataSource' + data);
+          }
+          dispatch(actions.setFeatureCollectionDataSource(data));
+          dispatch(actions.createFeatureCollection());
+          finishedHandler();
+        },
+        prepare: (dispatch, data) => {
+          let svgResolvingPromises = data.map(function (bad) {
+            return addSVGToPOI(bad, manualReloadRequest);
+          });
+          return svgResolvingPromises;
+        },
+        errorHandler: (err) => {
+          console.log(err);
+        },
+      })
+    );
+  };
 }
 
 //EXPORT ACTIONS
 export const actions = {
-	loadBaeder,
-	setSelectedBad: featureCollectionDuck.actions.setSelectedItem,
-	setSelectedFeatureIndex: featureCollectionDuck.actions.setSelectedIndex,
-	setFeatureCollectionDataSource: featureCollectionDuck.actions.setDatasource,
-	createFeatureCollection: featureCollectionDuck.actions.createFeatureCollection,
-	refreshFeatureCollection: featureCollectionDuck.actions.createFeatureCollection,
-	setBadSvgSize: markerSizeDuck.actions.setSize,
-	setMinifiedInfoBox: infoBoxStateDuck.actions.setMinifiedInfoBoxState
+  loadBaeder,
+  setSelectedBad: featureCollectionDuck.actions.setSelectedItem,
+  setSelectedFeatureIndex: featureCollectionDuck.actions.setSelectedIndex,
+  setFeatureCollectionDataSource: featureCollectionDuck.actions.setDatasource,
+  createFeatureCollection: featureCollectionDuck.actions.createFeatureCollection,
+  refreshFeatureCollection: featureCollectionDuck.actions.createFeatureCollection,
+  setBadSvgSize: markerSizeDuck.actions.setSize,
+  setMinifiedInfoBox: infoBoxStateDuck.actions.setMinifiedInfoBoxState,
 };
 
 //EXPORT SELECTORS
 export const getBaeder = (state) => dataDuck.selectors.getItems(state.dataState);
 export const getBaederFeatureCollection = (state) =>
-	featureCollectionDuck.selectors.getFeatureCollection(state.featureCollectionState);
+  featureCollectionDuck.selectors.getFeatureCollection(state.featureCollectionState);
 export const getBaederFeatureCollectionSelectedIndex = (state) =>
-	featureCollectionDuck.selectors.getSelectedIndex(state.featureCollectionState);
+  featureCollectionDuck.selectors.getSelectedIndex(state.featureCollectionState);
 export const getBaederMD5 = (state) => dataDuck.selectors.getMD5(state.dataState);
 export const getBadSvgSize = (state) =>
-	markerSizeDuck.selectors.getMarkerSize(state.markerSizeState);
+  markerSizeDuck.selectors.getMarkerSize(state.markerSizeState);
 export const hasMinifiedInfoBox = (state) => state.infoBoxState.minified;
 
 //HELPER FUNCTIONS
 function convertBadToFeature(bad, index) {
-	const id = bad.id;
-	const type = 'Feature';
-	const selected = false;
-	const geometry = bad.geojson;
-	const text = bad.name;
+  //   console.log('call stack', new Error());
 
-	return {
-		id,
-		index,
-		text,
-		type,
-		selected,
-		geometry,
-		crs: {
-			type: 'name',
-			properties: {
-				name: 'urn:ogc:def:crs:EPSG::25832'
-			}
-		},
-		properties: bad
-	};
+  const id = bad.id;
+  const type = 'Feature';
+  const selected = false;
+  const geometry = bad.geojson;
+  const text = bad.name;
+  if (bad?.more?.betreiber === 'Stadt') {
+    bad.email = bad.email + '?subject=Anfrage%20zu:%20' + bad.name;
+  }
+
+  return {
+    id,
+    index,
+    text,
+    type,
+    selected,
+    geometry,
+    crs: {
+      type: 'name',
+      properties: {
+        name: 'urn:ogc:def:crs:EPSG::25832',
+      },
+    },
+    properties: bad,
+  };
 }

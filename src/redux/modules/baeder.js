@@ -121,9 +121,6 @@ function convertBadToFeature(_bad, index) {
   const selected = false;
   const geometry = bad.geojson;
   const text = bad.name;
-  if (bad?.more?.betreiber === 'Stadt') {
-    bad.email = bad.email + '?subject=Anfrage%20zu:%20' + bad.name;
-  }
 
   return {
     id,

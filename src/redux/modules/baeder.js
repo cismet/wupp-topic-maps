@@ -112,7 +112,8 @@ export const getBadSvgSize = (state) =>
 export const hasMinifiedInfoBox = (state) => state.infoBoxState.minified;
 
 //HELPER FUNCTIONS
-function convertBadToFeature(bad, index) {
+function convertBadToFeature(_bad, index) {
+  const bad = JSON.parse(JSON.stringify(_bad));
   //   console.log('call stack', new Error());
 
   const id = bad.id;

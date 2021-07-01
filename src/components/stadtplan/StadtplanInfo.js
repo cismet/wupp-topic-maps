@@ -71,6 +71,7 @@ const StadtplanInfo = ({
             }}
             size="2x"
             name={'envelope-square'}
+            target="_blank"
           />
         </a>
       );

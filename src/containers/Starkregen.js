@@ -663,8 +663,9 @@ export class Starkregen_ extends React.Component {
               let link = document.createElement('a');
               link.setAttribute('type', 'hidden');
               const br = '\n';
+              const iOS = !!navigator.platform && /iPad|iPhone|iPod/.test(navigator.platform);
 
-              let mailToHref =
+              let normalMailToHref =
                 'mailto:starkregen@stadt.wuppertal.de?subject=eventueller Fehler im Geländemodell&body=' +
                 encodeURI(
                   `Sehr geehrte Damen und Herren,${br}${br} in der Starkregengefahrenkarte `
@@ -680,9 +681,19 @@ export class Starkregen_ extends React.Component {
                     `${br}` +
                     `${br}`
                 );
+              let iosMailToHref =
+                'mailto:starkregen@stadt.wuppertal.de?subject=eventueller Fehler im Geländemodell&body=' +
+                encodeURI(`Sehr geehrte Damen und Herren, in der Starkregengefahrenkarte `) +
+                encodeURI(`auf `) +
+                `${window.location.href.replace(/&/g, '%26').replace(/#/g, '%23')}` +
+                encodeURI(` ist mir folgendes aufgefallen:`);
               document.body.appendChild(link);
-              //link.href = downloadOptions.url;
-              link.href = mailToHref;
+              if (iOS) {
+                link.href = iosMailToHref;
+              } else {
+                link.href = normalMailToHref;
+              }
+
               //link.download = downloadOptions.file;
               //link.target = "_blank";
               link.click();

@@ -149,7 +149,7 @@ const Comp = ({ visible, feature, setVisibleState, uiHeight }) => {
             bsStyle={ladestation.online === true ? 'info' : 'default'}
           >
             <div>
-              <b>Ladeplätze:</b> {ladestation.ladeplaetze}
+              <b>Ladepunkte:</b> {ladestation.ladeplaetze}
             </div>
             <div>
               {/* <b>Steckerverbindungen:</b> {steckerverbindungen} */}

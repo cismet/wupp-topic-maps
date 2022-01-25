@@ -715,7 +715,7 @@ export class EhrenamtModalApplicationMenu_ extends React.Component {
                 </a>{' '}
                 im Open-Data-Portal der Stadt Wuppertal publiziert. Die Darstellung der Einsatzorte
                 als Karte macht es Ihnen dabei leicht, Ehrenamtsstellen in Ihrer Nähe zu finden.
-                Einer Ehrenamtsstelle sind im Allgemeinfall mehrere <em>Aufgabenfelder</em>, und{' '}
+                Einer Ehrenamtsstelle sind im Allgemeinfall mehrere <em>Aufgaben</em> und{' '}
                 <em>Zielgruppen</em> zugeordnet.
               </p>
 
@@ -731,7 +731,7 @@ export class EhrenamtModalApplicationMenu_ extends React.Component {
               <p>
                 Die in der Karte für die Punktdarstellungen der Angebote verwendeten Farben stehen
                 jeweils für eine bestimmte Kombination der Kategorisierungen in den Bereichen{' '}
-                <em>Aufgabenfelder</em> und <em>Zielgruppen</em>.<br />
+                <em>Aufgaben</em> und <em>Zielgruppen</em>.<br />
                 Eng beieinander liegende Angebote werden maßstabsabhängig zu größeren Punkten
                 zusammengefasst, mit der Anzahl der repräsentierten Angebote im Zentrum{' '}
                 <img alt="Cluster" src="images/colorcircle_k.jpg" />.<br />
@@ -953,10 +953,10 @@ export class EhrenamtModalApplicationMenu_ extends React.Component {
                 Über das Anwendungsmenü <Icon name="bars" /> in der rechten oberen Ecke können Sie
                 Filter einstellen, um die in der Karte angezeigten Angebote an Ihre Interessen
                 anzupassen. Dazu werden Ihnen in der Auswahlliste "<em>Ich suche nach</em>" alle
-                Kategorisierungen in den Bereichen <em>Aufgabenfelder</em> und <em>Zielgruppen</em>{' '}
-                zur Auswahl angeboten. Es werden alle Angebote gefunden, die vom Zentrum für Gute
-                Taten mit mindestens einem der von Ihnen ausgewählten Begriffe kategorisiert worden
-                sind (logisches "oder"). Die Treffermenge steigt dadurch bei mehreren Suchbegriffen
+                Kategorisierungen in den Bereichen <em>Aufgaben</em> und <em>Zielgruppen</em> zur
+                Auswahl angeboten. Es werden alle Angebote gefunden, die vom Zentrum für Gute Taten
+                mit mindestens einem der von Ihnen ausgewählten Begriffe kategorisiert worden sind
+                (logisches "oder"). Die Treffermenge steigt dadurch bei mehreren Suchbegriffen
                 schnell an.
               </p>
               <p>

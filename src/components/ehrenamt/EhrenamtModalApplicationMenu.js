@@ -251,7 +251,7 @@ export class EhrenamtModalApplicationMenu_ extends React.Component {
         options: berOptions,
       },
       {
-        label: 'Tätigkeit',
+        label: 'Aufgabe',
         cat: 'group',
         options: ktOptions,
       },
@@ -705,10 +705,18 @@ export class EhrenamtModalApplicationMenu_ extends React.Component {
               </h4>
               <p>
                 Diese Anwendung gibt Ihnen einen Überblick über die angebotenen Ehrenamtsstellen aus
-                der Datenbank des Zentrums für gute Taten. Die Darstellung der Einsatzorte als Karte
-                macht es Ihnen dabei leicht, Ehrenamtsstellen in Ihrer Nähe zu finden. Einer
-                Ehrenamtsstelle sind im Allgemeinfall mehrere <em>Aufgabenfelder</em>,{' '}
-                <em>Tätigkeiten</em> und <em>Zielgruppen</em> zugeordnet.
+                der Datenbank des Zentrums für gute Taten. Genau diese Daten werden vom Zentrum für
+                gute Taten auch als Open-Data-Datensatz{' '}
+                <a
+                  target="_opendata"
+                  href="https://offenedaten-wuppertal.de/dataset/ehrenamtsstellen-wuppertal"
+                >
+                  Ehrenamtsstellen Wuppertal
+                </a>{' '}
+                im Open-Data-Portal der Stadt Wuppertal publiziert. Die Darstellung der Einsatzorte
+                als Karte macht es Ihnen dabei leicht, Ehrenamtsstellen in Ihrer Nähe zu finden.
+                Einer Ehrenamtsstelle sind im Allgemeinfall mehrere <em>Aufgabenfelder</em>, und{' '}
+                <em>Zielgruppen</em> zugeordnet.
               </p>
 
               <div name="Kartendarstellung">
@@ -723,7 +731,7 @@ export class EhrenamtModalApplicationMenu_ extends React.Component {
               <p>
                 Die in der Karte für die Punktdarstellungen der Angebote verwendeten Farben stehen
                 jeweils für eine bestimmte Kombination der Kategorisierungen in den Bereichen{' '}
-                <em>Aufgabenfelder</em>, <em>Tätigkeiten</em> und <em>Zielgruppen</em>.<br />
+                <em>Aufgabenfelder</em> und <em>Zielgruppen</em>.<br />
                 Eng beieinander liegende Angebote werden maßstabsabhängig zu größeren Punkten
                 zusammengefasst, mit der Anzahl der repräsentierten Angebote im Zentrum{' '}
                 <img alt="Cluster" src="images/colorcircle_k.jpg" />.<br />
@@ -915,11 +923,11 @@ export class EhrenamtModalApplicationMenu_ extends React.Component {
                   <ul>
                     <li>
                       Zentrale Funktion ist dabei <Icon name="copy" /> Link kopieren: hiermit
-                      kopieren sie einen Link in die Zwischenablage, der das Infoportal Ehrenamt mit
-                      dem Inhalt Ihrer Merkliste öffnet. Der Inhalt Ihrer Merkliste wird als Liste
-                      über den Parameter "cart" übergeben. Wenn ein Nutzer, der bereits eigene
-                      Angebote in seiner Merkliste hat, diesen Link anklickt, werden die übergebenen
-                      Angebote an seine Merkliste angehängt.
+                      kopieren sie einen Link in die Zwischenablage, der die Ehrenamtskarte mit dem
+                      Inhalt Ihrer Merkliste öffnet. Der Inhalt Ihrer Merkliste wird als Liste über
+                      den Parameter "cart" übergeben. Wenn ein Nutzer, der bereits eigene Angebote
+                      in seiner Merkliste hat, diesen Link anklickt, werden die übergebenen Angebote
+                      an seine Merkliste angehängt.
                     </li>
                     <li>
                       Mit <Icon name="at" /> Merkliste per Mail senden schicken Sie diesen Link zur
@@ -945,27 +953,29 @@ export class EhrenamtModalApplicationMenu_ extends React.Component {
                 Über das Anwendungsmenü <Icon name="bars" /> in der rechten oberen Ecke können Sie
                 Filter einstellen, um die in der Karte angezeigten Angebote an Ihre Interessen
                 anzupassen. Dazu werden Ihnen in der Auswahlliste "<em>Ich suche nach</em>" alle
-                Kategorisierungen in den Bereichen <em>Aufgabenfelder</em>, <em>Tätigkeiten</em> und{' '}
-                <em>Zielgruppen</em> zur Auswahl angeboten. Es werden alle Angebote gefunden, die
-                vom Zentrum für Gute Taten mit mindestens einem der von Ihnen ausgewählten Begriffe
-                kategorisiert worden sind (logisches "oder"). Die Treffermenge steigt dadurch bei
-                mehreren Suchbegriffen schnell an.
-                <br />
+                Kategorisierungen in den Bereichen <em>Aufgabenfelder</em> und <em>Zielgruppen</em>{' '}
+                zur Auswahl angeboten. Es werden alle Angebote gefunden, die vom Zentrum für Gute
+                Taten mit mindestens einem der von Ihnen ausgewählten Begriffe kategorisiert worden
+                sind (logisches "oder"). Die Treffermenge steigt dadurch bei mehreren Suchbegriffen
+                schnell an.
+              </p>
+              <p>
                 Als Gegengewicht dazu können Sie in der Liste "<em>Ich schließe aus</em>" auch
                 Ausschlusskriterien definieren.
               </p>
               <p>
                 Eine alternative Eingabemöglichkeit für Ihre Such- und Ausschlussbedingungen bieten
-                Ihnen die 3 Leitfragen unterhalb der Auswahllisten. Durch Klicken auf die jeweilige
-                Frage erhalten Sie eine Übersicht über alle zugehörigen Kategorien und können diese
-                mit <Icon name="thumbs-up" /> oder <Icon name="thumbs-down" /> als Such- oder
-                Ausschlussbegriffe markieren. Die Filter-Auswahllisten und Einstellungen unter den
-                Leitfragen sind vollständig miteinander synchronisiert. Wenn Sie Filtereinstellungen
-                festgelegt haben, wird Ihnen dies durch ein graues Banner{' '}
+                Ihnen die zwei Leitfragen unterhalb der Auswahllisten. Durch Klicken auf die
+                jeweilige Frage erhalten Sie eine Übersicht über alle zugehörigen Kategorien und
+                können diese mit <Icon name="thumbs-up" /> oder <Icon name="thumbs-down" /> als
+                Such- oder Ausschlussbegriffe markieren. Die Filter-Auswahllisten und Einstellungen
+                unter den Leitfragen sind vollständig miteinander synchronisiert. Wenn Sie
+                Filtereinstellungen festgelegt haben, wird Ihnen dies durch ein graues Banner{' '}
                 <img alt="Filter-Banner" src="images/filter_akt.jpg" /> oben in der Info-Box
                 signalisiert. Die in Klammern angezeigte Zahl ist die Anzahl der aktuell von Ihnen
                 zur Filterung verwendeten Such- und Ausschlussbegriffe.
-                <br />
+              </p>
+              <p>
                 Über das Banner können Sie die Filterung durch Klicken auf <Icon name="times" />{' '}
                 wieder zurücksetzen.
               </p>

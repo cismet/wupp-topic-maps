@@ -298,7 +298,7 @@ export class EhrenamtModalApplicationMenu_ extends React.Component {
                   this.close();
                 }}
               >
-                <Icon name="map-marker" />
+                <Icon name="search-location" />
               </a>
             </OverlayTrigger>
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -885,7 +885,7 @@ export class EhrenamtModalApplicationMenu_ extends React.Component {
               <p>Rechts neben jedem Listeneintrag in der Merkliste finden Sie zwei Werkzeuge:</p>
               <ul>
                 <li>
-                  Mit <Icon name="map-marker" /> können Sie das zugehörige Angebot in der Karte
+                  Mit <Icon name="search-location" /> können Sie das zugehörige Angebot in der Karte
                   anzeigen. Es wird dann zentriert in einem großen Maßstab (Zoomstufe 13)
                   dargestellt, zusätzlich wird der Fokus auf dieses Angebot gesetzt. Wenn das
                   Angebot Bestandteil einer Zusammenfassung ist, wird dazu die Explosionsgraphik

@@ -68,33 +68,33 @@ const Info = ({
         iconname="info"
       />
     );
-    if (currentFeature.properties.betreiber.telefon) {
+    if (currentFeature?.properties?.betreiber?.telefon) {
       links.push(
         <IconLink
           key={`IconLink.tel`}
           tooltip="Betreiber anrufen"
-          href={'tel:' + currentFeature.properties.betreiber.telefon}
+          href={'tel:' + currentFeature?.properties?.betreiber?.telefon}
           iconname="phone"
         />
       );
     }
-    if (currentFeature.properties.betreiber.email) {
+    if (currentFeature?.properties?.betreiber?.email) {
       links.push(
         <IconLink
           key={`IconLink.email`}
           tooltip="E-Mail an Betreiber schreiben"
-          href={'mailto:' + currentFeature.properties.betreiber.email}
+          href={'mailto:' + currentFeature?.properties?.betreiber?.email}
           iconname="envelope-square"
           target="_blank"
         />
       );
     }
-    if (currentFeature.properties.betreiber.homepage) {
+    if (currentFeature?.properties?.betreiber?.homepage) {
       links.push(
         <IconLink
           key={`IconLink.web`}
           tooltip="Betreiberwebseite"
-          href={currentFeature.properties.betreiber.homepage}
+          href={currentFeature?.properties?.betreiber?.homepage}
           target="_blank"
           iconname="external-link-square"
         />

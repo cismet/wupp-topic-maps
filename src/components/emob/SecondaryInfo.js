@@ -34,7 +34,17 @@ const Comp = ({ visible, feature, setVisibleState, uiHeight }) => {
         let imageUrl = getConnectorImageUrl(v.steckdosentypkey);
         let image;
         if (imageUrl) {
-          image = <img alt={v.steckdosentypkey} src={imageUrl} width="50" />;
+          image = (
+            <img
+              alt={v.steckdosentypkey}
+              src={imageUrl}
+              width="50"
+              onError={({ currentTarget }) => {
+                currentTarget.onerror = null; // prevents looping
+                currentTarget.src = '/images/emob/dynamic/unknown.png';
+              }}
+            />
+          );
         } else {
           image = <Icon name="question" style={{ fontSize: 50 }} />;
         }

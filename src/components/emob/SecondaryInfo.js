@@ -28,18 +28,18 @@ const Comp = ({ visible, feature, setVisibleState, uiHeight }) => {
   if (ladestation.steckerverbindungen && ladestation.steckerverbindungen.length > 0) {
     ladestation.steckerverbindungen.forEach((v, index) => {
       steckerverbindungenArr.push(
-        `${v.anzahl} x ${v.steckdosentyp} (${v.leistung}kW,${v.strom}A,${v.spannung}V)`
+        `${v.anzahl} x ${v.steckdosentypkey} (${v.leistung}kW,${v.strom}A,${v.spannung}V)`
       );
       for (let i = 0; i < v.anzahl; ++i) {
-        let imageUrl = getConnectorImageUrl(v.steckdosentyp);
+        let imageUrl = getConnectorImageUrl(v.steckdosentypkey);
         let image;
         if (imageUrl) {
-          image = <img alt={v.steckdosentyp} src={imageUrl} width="50" />;
+          image = <img alt={v.steckdosentypkey} src={imageUrl} width="50" />;
         } else {
           image = <Icon name="question" style={{ fontSize: 50 }} />;
         }
         steckerverbindungenTableArr.push(
-          //`${v.anzahl} x ${v.steckdosentyp} (${v.leistung}kW,${v.strom}A,${v.spannung}V)`
+          //`${v.anzahl} x ${v.steckdosentypkey} (${v.leistung}kW,${v.strom}A,${v.spannung}V)`
           <tr key={index + '.' + i}>
             <td
               style={{
@@ -59,33 +59,33 @@ const Comp = ({ visible, feature, setVisibleState, uiHeight }) => {
     });
   }
   let links = [];
-  if (ladestation.betreiber.telefon) {
+  if (ladestation?.betreiber?.telefon) {
     links.push(
       <IconLink
         key={`IconLink.tel`}
         tooltip="Betreiber Anrufen"
-        href={'tel:' + ladestation.betreiber.telefon}
+        href={'tel:' + ladestation?.betreiber?.telefon}
         iconname="phone"
       />
     );
   }
-  if (ladestation.betreiber.email) {
+  if (ladestation?.betreiber?.email) {
     links.push(
       <IconLink
         key={`IconLink.email`}
         tooltip="E-Mail an Betreiber schreiben"
-        href={'mailto:' + ladestation.betreiber.email}
+        href={'mailto:' + ladestation?.betreiber?.email}
         iconname="envelope-square"
         target="_blank"
       />
     );
   }
-  if (ladestation.betreiber.homepage) {
+  if (ladestation?.betreiber?.homepage) {
     links.push(
       <IconLink
         key={`IconLink.web`}
         tooltip="Betreiberwebseite"
-        href={ladestation.betreiber.homepage}
+        href={ladestation?.betreiber?.homepage}
         target="_blank"
         iconname="external-link-square"
       />
@@ -207,12 +207,12 @@ const Comp = ({ visible, feature, setVisibleState, uiHeight }) => {
             >
               {links}
             </div>
-            <div>{ladestation.betreiber.name}</div>
+            <div>{ladestation?.betreiber?.name}</div>
             <div>
-              {ladestation.betreiber.strasse} {ladestation.betreiber.hausnummer}
+              {ladestation?.betreiber?.strasse} {ladestation?.betreiber?.hausnummer}
             </div>
             <div>
-              {ladestation.betreiber.plz} {ladestation.betreiber.ort}
+              {ladestation?.betreiber?.plz} {ladestation?.betreiber?.ort}
             </div>
             <br />
           </Panel>

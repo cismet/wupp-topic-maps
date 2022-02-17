@@ -3,91 +3,63 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React from 'react';
 import { Checkbox, ControlLabel, FormGroup } from 'react-bootstrap';
 
-// select '['||array_to_string(array( select '"'||schluessel||'"' from emob_steckdosentyp order by schluessel),',')||']'
-// select '['||array_to_string(array( select '"'||name||'"' from emob_steckdosentyp  order by schluessel)  ,',')||']'
+const Comp = ({ filter, setFilter, steckertypes }) => {
+  if (steckertypes) {
+    return (
+      <div>
+        <FormGroup>
+          <ControlLabel>
+            Steckertypen
+            {'  '}
+            <FontAwesomeIcon
+              icon={faPlug}
+              size="2x"
+              style={{
+                color: 'grey',
+                width: '30px',
+                textAlign: 'center',
+              }}
+            />
+          </ControlLabel>
+          <div>
+            {Object.keys(steckertypes).map((typ) => {
+              return (
+                <div>
+                  <Checkbox
+                    readOnly={true}
+                    key={'filter.emob.stecker.' + typ}
+                    onClick={(e) => {
+                      const f = JSON.parse(JSON.stringify(filter));
+                      if (filter.stecker === undefined) {
+                        f.stecker = Object.keys(steckertypes);
+                      }
+                      const add = f.stecker.indexOf(typ) === -1;
 
-// const stecker = [ 'Schuko', 'Typ 2', 'CHAdeMO', 'CCS', 'Tesla Supercharger', 'Drehstrom' ];
-const stecker = [
-  'CCS',
-  'CHAdeMO',
-  'CHAdeMO Stecker',
-  'COMBO CCS',
-  'COMBO Kupplung',
-  'Drehstrom',
-  'Kupplung Combo, CHAdeMO',
-  'Schuko',
-  'Tesla Supercharger',
-  'Tesla Typ2',
-  'Tesla Wallbox',
-  'Typ 2',
-  'Typ 2 Kupplung',
-];
+                      if (add === true) {
+                        f.stecker.push(typ);
+                      } else {
+                        f.stecker.splice(f.stecker.indexOf(typ), 1);
+                      }
 
-const steckerNames = [
-  'CCS',
-  'CHAdeMO Kupplung',
-  'CHAdeMO Stecker',
-  'Combo Steckdose',
-  'Combo Kupplung',
-  'Drehstrom',
-  'Combo, CHAdeMO Kupplung',
-  'Schuko Steckdose',
-  'Tesla Supercharger',
-  'Tesla Typ2',
-  'Tesla Wallbox',
-  'Typ 2 Steckdose',
-  'Typ 2 Kupplung',
-];
-const Comp = ({ filter, setFilter }) => {
-  return (
-    <div>
-      <FormGroup>
-        <ControlLabel>
-          Steckertypen
-          {'  '}
-          <FontAwesomeIcon
-            icon={faPlug}
-            size="2x"
-            style={{
-              color: 'grey',
-              width: '30px',
-              textAlign: 'center',
-            }}
-          />
-        </ControlLabel>
-        <div>
-          {stecker.map((typ, index) => {
-            return (
-              <div>
-                <Checkbox
-                  readOnly={true}
-                  key={'filter.emob.stecker.' + typ}
-                  onClick={(e) => {
-                    const f = JSON.parse(JSON.stringify(filter));
-                    const add = filter.stecker.indexOf(typ) === -1;
-
-                    if (add === true) {
-                      f.stecker.push(typ);
-                    } else {
-                      f.stecker.splice(filter.stecker.indexOf(typ), 1);
-                    }
-
-                    //f.stecker = e.target.checked;
-                    setFilter(f);
-                  }}
-                  checked={filter.stecker.indexOf(typ) !== -1}
-                  inline
-                >
-                  {steckerNames[index]}
-                </Checkbox>
-              </div>
-            );
-          })}
-        </div>
-      </FormGroup>
-      <br />
-    </div>
-  );
+                      //f.stecker = e.target.checked;
+                      setFilter(f);
+                    }}
+                    checked={filter.stecker === undefined || filter.stecker.indexOf(typ) !== -1}
+                    inline
+                  >
+                    {steckertypes[typ]}
+                  </Checkbox>
+                </div>
+              );
+            })}
+          </div>
+        </FormGroup>
+        <br />
+      </div>
+    );
+  } else {
+    return null;
+  }
 };
 
 export default Comp;

@@ -7,10 +7,13 @@ import makePointFeatureCollectionWithIndexDuck from '../higherorderduckfactories
 import makeMarkerSizeDuck from '../higherorderduckfactories/markerSize';
 import makeInfoBoxStateDuck from '../higherorderduckfactories/minifiedInfoBoxState';
 import makeSecondaryInfoBoxVisibilityStateDuck from '../higherorderduckfactories/secondaryInfoBoxVisibilityState';
+import objectAssign from 'object-assign';
+import slugify from 'slugify';
 
 //TYPES
-//no types bc no local store
-export const types = {};
+export const types = {
+  SET_STECKERTYPES: 'EMOB/SET_STECKERTYPES',
+};
 
 export const constants = {
   DEBUG_ALWAYS_LOADING: false,
@@ -60,8 +63,6 @@ const filterFunctionFactory = (filter) => {
       return obj.schnellladestation === true;
     }
 
-    console.log('keep', keep, obj);
-
     return keep;
   };
 };
@@ -78,7 +79,7 @@ const featureCollectionDuck = makePointFeatureCollectionWithIndexDuck(
   {
     nur_online: false,
     oeffnungszeiten: '*',
-    stecker: ['Schuko', 'Typ 2', 'CHAdeMO', 'CCS', 'Tesla Supercharger', 'Drehstrom'],
+    stecker: undefined,
     nur_gruener_strom: false,
     nur_schnelllader: false,
   }
@@ -90,11 +91,22 @@ const secondaryInfoBoxVisibilityStateDuck = makeSecondaryInfoBoxVisibilityStateD
 );
 
 ///INITIAL STATE
-//no localState
-
+const initialState = {
+  steckertypes: undefined,
+};
 ///REDUCER
-//no localState
-
+export function localReducer(state = initialState, action) {
+  let newState;
+  switch (action.type) {
+    case types.SET_STECKERTYPES: {
+      newState = objectAssign({}, state);
+      newState.steckertypes = action.steckertypes;
+      return newState;
+    }
+    default:
+      return state;
+  }
+}
 //Storage Configs
 const markerSizeStorageConfig = {
   key: 'emobMarkerSize',
@@ -126,6 +138,7 @@ const reducer = combineReducers({
   markerSizeState: persistReducer(markerSizeStorageConfig, markerSizeDuck.reducer),
   secondaryInfoBoxVisibility: secondaryInfoBoxVisibilityStateDuck.reducer,
   infoBoxState: persistReducer(infoBoxStateStorageConfig, infoBoxStateDuck.reducer),
+  local: localReducer,
 });
 
 export default reducer;
@@ -143,13 +156,18 @@ function loadEMOBs(finishedHandler = () => {}) {
         done: (dispatch, data, md5) => {
           dispatch(actions.setFeatureCollectionDataSource(data));
 
-          //   const stecker = {};
-          //   for (const station of data) {
-          //     for (const steckv of station.steckerverbindungen) {
-          //       stecker[steckv.steckdosentypkey] = steckv.steckdosentyp;
-          //     }
-          //   }
-          //   console.log('allstecker', stecker);
+          const stecker = {};
+          for (const station of data) {
+            for (const steckv of station.steckerverbindungen) {
+              stecker[steckv.steckdosentypkey] = steckv.steckdosentyp;
+            }
+          }
+          console.log('Liste aller Steckertypen:');
+
+          for (const key in stecker) {
+            console.log('Steckertyp', slugify(key).toLowerCase() + '.png');
+          }
+          dispatch(actions.setSteckerTypes(stecker));
 
           dispatch(actions.applyFilter());
 
@@ -171,6 +189,11 @@ function loadEMOBs(finishedHandler = () => {}) {
 }
 
 //EXPORT ACTIONS
+
+function setSteckerTypes(steckertypes) {
+  return { type: types.SET_STECKERTYPES, steckertypes };
+}
+
 export const actions = {
   loadEMOBs,
   setSecondaryInfoVisible:
@@ -185,10 +208,12 @@ export const actions = {
   refreshFeatureCollection: featureCollectionDuck.actions.createFeatureCollection,
   setEMOBSvgSize: markerSizeDuck.actions.setSize,
   setMinifiedInfoBox: infoBoxStateDuck.actions.setMinifiedInfoBoxState,
+  setSteckerTypes,
 };
 
 //EXPORT SELECTORS
 export const getEMOBs = (state) => dataDuck.selectors.getItems(state.dataState);
+export const getSteckertypes = (state) => state.local.steckertypes;
 export const getEMOBFeatureCollection = (state) =>
   featureCollectionDuck.selectors.getFeatureCollection(state.featureCollectionState);
 export const getEMOBFilter = (state) =>

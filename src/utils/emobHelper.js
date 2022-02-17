@@ -34,7 +34,7 @@ viewBox="0 0 524.197 523.652"
 `;
 
 export const getConnectorImageUrl = (type) => {
-  const sluggedType = slugify(type);
+  const sluggedType = slugify(type).toLowerCase();
 
   return '/images/emob/dynamic/' + sluggedType + '.png';
 };

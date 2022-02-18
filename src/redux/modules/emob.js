@@ -147,7 +147,7 @@ export default reducer;
 
 //COMPLEXACTIONS
 function loadEMOBs(finishedHandler = () => {}) {
-  const manualReloadRequest = true;
+  const manualReloadRequest = false;
   return (dispatch, getState) => {
     dispatch(
       dataDuck.actions.load({

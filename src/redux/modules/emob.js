@@ -258,19 +258,19 @@ function convertEMOBToFeature(emob, index) {
 
 function convertEMOBFilterToText(filter) {
   let filterDescriptions = [];
-  if (filter.nur_online === true) {
+  if (filter?.nur_online === true) {
     filterDescriptions.push('verfügbar');
   }
-  if (filter.oeffnungszeiten === '24') {
+  if (filter?.oeffnungszeiten === '24') {
     filterDescriptions.push('24/7');
   }
-  if (filter.stecker.length < 6) {
+  if (filter?.stecker?.length < 6) {
     filterDescriptions.push('passender Stecker');
   }
-  if (filter.nur_gruener_strom === true) {
+  if (filter?.nur_gruener_strom === true) {
     filterDescriptions.push('Ökostrom');
   }
-  if (filter.nur_schnelllader === true) {
+  if (filter?.nur_schnelllader === true) {
     filterDescriptions.push('Schnelllader');
   }
   return filterDescriptions.join(' | ');

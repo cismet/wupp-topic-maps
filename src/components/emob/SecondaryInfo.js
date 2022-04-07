@@ -61,7 +61,11 @@ const Comp = ({ visible, feature, setVisibleState, uiHeight }) => {
             </td>
             <td style={{ verticalAlign: 'middle' }}>{v.steckdosentyp}</td>
             <td style={{ verticalAlign: 'middle' }}>
-              {v.leistung}kW ({v.strom}A, {v.spannung}V)
+              {/* {v.leistung}kW ({v.strom}A, {v.spannung}V) */}
+              {v.leistung}kW
+              {v.strom && v.spannung ? ` (${v.strom}A, ${v.spannung}V)` : ``}
+              {v.strom && !v.spannung ? ` (${v.strom}A)` : ``}
+              {!v.strom && v.spannung ? ` (${v.spannung}V)` : ``}
             </td>
           </tr>
         );

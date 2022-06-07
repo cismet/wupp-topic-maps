@@ -110,14 +110,14 @@ const initialState = {
       link: '/#ebikes',
       target: '_ebikes',
     },
-    {
-      on: ['Gesundheit'],
-      name: 'Corona-Präventionskarte',
-      bsStyle: 'warning',
-      backgroundColor: '#BD000E', //'#15A44C', //'#EC7529',
-      link: 'https://topicmaps-wuppertal.github.io/corona-praevention/#/?title',
-      target: '_corona',
-    },
+    // {
+    //   on: ['Gesundheit'],
+    //   name: 'Corona-Präventionskarte',
+    //   bsStyle: 'warning',
+    //   backgroundColor: '#BD000E', //'#15A44C', //'#EC7529',
+    //   link: 'https://topicmaps-wuppertal.github.io/corona-praevention/#/?title',
+    //   target: '_corona',
+    // },
 
     // {   on: ["Sport"],   name: "Sporthallen",   bsStyle: "default",
     // backgroundColor: null,   link: "/#/ehrenamt",   target: "_hallen" }

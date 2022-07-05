@@ -1,4 +1,3 @@
-import Icon from 'components/commons/Icon';
 import L from 'leaflet';
 import PropTypes from 'prop-types';
 import React from 'react';
@@ -9,26 +8,31 @@ import Control from 'react-leaflet-control';
 import Loadable from 'react-loading-overlay';
 import { connect } from 'react-redux';
 import { routerActions as RoutingActions } from 'react-router-redux';
-import { bindActionCreators } from 'redux';
 import scrollIntoViewIfNeeded from 'scroll-into-view-if-needed';
 import { Column, Row } from 'simple-flexbox';
-import 'url-search-params-polyfill';
+
+import Icon from 'components/commons/Icon';
+import { bindActionCreators } from 'redux';
+
+import DocViewerComponent from '../components/docviewer/DocViewerComponent';
 import { actions as bplanActions } from '../redux/modules/bplaene';
-import { actions as AEVActions } from '../redux/modules/fnp_aenderungsverfahren';
 import { actions as DocsActions } from '../redux/modules/docs';
+import { constants as DOC_CONSTANTS } from '../redux/modules/docs';
+import { actions as AEVActions } from '../redux/modules/fnp_aenderungsverfahren';
 import {
   actions as gazetteerTopicsActions,
   getGazDataForTopicIds,
 } from '../redux/modules/gazetteerTopics';
 import { actions as UIStateActions } from '../redux/modules/uiState';
-import { downloadSingleFile, prepareDownloadMultipleFiles } from '../utils/downloadHelper';
-import { modifyQueryPart, removeQueryPart } from '../utils/routingHelper';
 import {
-  getDocsForBPlanGazetteerEntry,
   getDocsForAEVGazetteerEntry,
+  getDocsForBPlanGazetteerEntry,
   getDocsForStaticEntry,
 } from '../utils/docsHelper';
-import { constants as DOC_CONSTANTS } from '../redux/modules/docs';
+import { downloadSingleFile, prepareDownloadMultipleFiles } from '../utils/downloadHelper';
+import { modifyQueryPart, removeQueryPart } from '../utils/routingHelper';
+
+import 'url-search-params-polyfill';
 
 /* eslint-disable jsx-a11y/anchor-is-valid */
 
@@ -84,8 +88,6 @@ const LOADING_OVERLAY = 'LOADING_OVERLAY';
 const zipFileNameMapping = DOC_CONSTANTS.ZIP_FILE_NAME_MAPPING;
 const filenameShortenerMapping = DOC_CONSTANTS.SIDEBAR_FILENAME_SHORTENER;
 
-const sidebarWidth = 130;
-
 function mapStateToProps(state) {
   return {
     uiState: state.uiState,
@@ -115,8 +117,36 @@ export class DocViewer_ extends React.Component {
       downloadArchivePrepInProgress: false,
       gazDataLoaded: false,
       topicDataLoaded: false,
+      sidebarWidth: 130,
     };
     this.loadData = this.loadData.bind(this);
+    this.startResizing = this.startResizing.bind(this);
+    this.stopResizing = this.stopResizing.bind(this);
+    this.resize = this.resize.bind(this);
+    this.invalidateMapSize = this.invalidateMapSize.bind(this);
+  }
+
+  startResizing() {
+    this.setState({ ...this.state, resizing: true });
+  }
+  stopResizing() {
+    this.setState({ ...this.state, resizing: false });
+    this.invalidateMapSize();
+  }
+
+  resize(mouseMoveEvent) {
+    if (this.state.resizing === true) {
+      this.setState({
+        ...this.state,
+        sidebarWidth: mouseMoveEvent.clientX - this.sidebarRef.getBoundingClientRect().left + 28,
+      });
+      this.invalidateMapSize();
+
+      console.log(
+        'xxxx resizing',
+        mouseMoveEvent.clientX - this.sidebarRef.getBoundingClientRect().left
+      );
+    }
   }
 
   loadData(dataLoader) {
@@ -147,7 +177,6 @@ export class DocViewer_ extends React.Component {
     });
     return promise;
   }
-
   componentWillMount() {
     this.loadData([
       this.props.aevActions.loadAEVs,
@@ -162,6 +191,12 @@ export class DocViewer_ extends React.Component {
       this.setState({ gazDataLoaded: true });
       this.forceUpdate();
     });
+    window.addEventListener('mousemove', this.resize);
+    window.addEventListener('mouseup', this.stopResizing);
+  }
+  componentWillUnmount() {
+    window.removeEventListener('mousemove', this.resize);
+    window.removeEventListener('mouseup', this.stopResizing);
   }
 
   componentDidMount() {
@@ -380,6 +415,11 @@ export class DocViewer_ extends React.Component {
     }
   };
 
+  invalidateMapSize = () => {
+    if (this.leafletRoutedMap) {
+      this.leafletRoutedMap.leafletMap.leafletElement.invalidateSize();
+    }
+  };
   render() {
     let mapHeight;
     if (this.props.uiState.height) {
@@ -391,10 +431,11 @@ export class DocViewer_ extends React.Component {
 
     let w;
     if ((this.props.docs.docs || []).length > 1) {
-      w = this.props.uiState.width - sidebarWidth + 17;
+      w = this.props.uiState.width - this.state.sidebarWidth + 17;
     } else {
       w = this.props.uiState.width;
     }
+    console.log('w', w, this.props.uiState.width);
 
     this.mapStyle = {
       height: this.props.uiState.height - 50,
@@ -476,7 +517,9 @@ export class DocViewer_ extends React.Component {
         <div
           style={{
             zIndex: 234098,
-            left: (this.props.uiState.width - 130) / 2 - (this.props.uiState.width - 130) * 0.2,
+            left:
+              (this.props.uiState.width - this.state.sidebarWidth) / 2 -
+              (this.props.uiState.width - this.state.sidebarWidth) * 0.2,
             top: '30%',
             width: '100%',
             height: '100%',
@@ -500,7 +543,7 @@ export class DocViewer_ extends React.Component {
     }
 
     return (
-      <div>
+      <div style={{ background: 'green' }}>
         <Navbar style={{ marginBottom: 0 }} inverse>
           <Navbar.Header>
             <Navbar.Brand>
@@ -612,103 +655,119 @@ export class DocViewer_ extends React.Component {
         <div>
           <Row vertical="stretch" horizontal="spaced" style={{ width: '100%', height: mapHeight }}>
             {(this.props.docs.docs || []).length > 1 && (
-              <Column
-                style={{
-                  backgroundColor: '#999999',
-                  backgroundColorX: 'red',
-                  padding: '5px 11px 5px 5px',
-                  overflow: 'scroll',
-                  height: mapHeight + 'px',
-                  width: sidebarWidth + 'px',
-                }}
-                vertical="start"
-              >
-                {this.props.docs.docs.map((doc, index) => {
-                  let iconname = 'file-o';
-                  let selected = false;
-                  let progressBar = undefined;
-                  let numPages = '';
-                  let currentPage = '';
-                  let pageStatus = '';
-                  if (doc.group !== 'Zusatzdokumente') {
-                    iconname = 'file-pdf-o';
-                  }
-                  let selectionMarker = undefined;
-                  if (index === this.props.match.params.file - 1) {
-                    numPages = doc.pages;
-                    currentPage = this.props.docs.pageIndex + 1;
-                    selected = true;
-                    pageStatus = `${currentPage} / ${numPages}`;
-                    progressBar = (
-                      <ProgressBar
-                        style={{
-                          height: '5px',
-                          marginTop: 0,
-                          marginBottom: 0,
-                          autofocus: 'true',
-                        }}
-                        max={numPages}
-                        min={0}
-                        now={parseInt(currentPage, 10)}
-                      />
-                    );
-                  }
-                  if (index === parseInt(this.props.match.params.file, 10)) {
-                    selectionMarker = this.selectionDivElement;
-                  }
-                  return (
-                    <div
-                      style={{
-                        marginBottom: 8,
-                      }}
-                      key={'doc.symbol.div.' + index}
-                    >
-                      <Well
-                        key={'doc.symbol.well.' + index}
-                        onClick={() => {
-                          this.pushRouteForPage(
-                            this.props.match.params.topic,
-                            this.props.match.params.docPackageId,
-                            index + 1,
-                            1
-                          );
-                        }}
-                        style={{
-                          background: selected ? '#777777' : undefined,
-                          height: '100%',
-                          padding: 6,
-                        }}
-                      >
-                        <div align="center">
-                          <Icon size="3x" name={iconname} />
-                          <p
+              <>
+                <Column
+                  style={{
+                    backgroundColor: '#999999',
+                    backgroundColorX: 'red',
+                    padding: '5px 1px 5px 5px',
+                    overflow: 'scroll',
+                    height: mapHeight + 'px',
+                    width: this.state.sidebarWidth + 'px',
+                  }}
+                  vertical="start"
+                >
+                  <div ref={(ref) => (this.sidebarRef = ref)}>
+                    {this.props.docs.docs.map((doc, index) => {
+                      let iconname = 'file-o';
+                      let selected = false;
+                      let progressBar = undefined;
+                      let numPages = '';
+                      let currentPage = '';
+                      let pageStatus = '';
+                      if (doc.group !== 'Zusatzdokumente') {
+                        iconname = 'file-pdf-o';
+                      }
+                      let selectionMarker = undefined;
+                      if (index === this.props.match.params.file - 1) {
+                        numPages = doc.pages;
+                        currentPage = this.props.docs.pageIndex + 1;
+                        selected = true;
+                        pageStatus = `${currentPage} / ${numPages}`;
+                        progressBar = (
+                          <ProgressBar
                             style={{
-                              marginTop: 10,
-                              marginBottom: 5,
-                              fontSize: 11,
-                              wordWrap: 'break-word',
-                            }}
-                          >
-                            {doc.title || this.filenameShortener(doc.file)}
-                          </p>
-                          {selectionMarker}
-                          {progressBar}
-                          <p
-                            style={{
-                              marginTop: 5,
+                              height: '5px',
+                              marginTop: 0,
                               marginBottom: 0,
-                              fontSize: 11,
-                              wordWrap: 'break-word',
+                              autofocus: 'true',
+                            }}
+                            max={numPages}
+                            min={0}
+                            now={parseInt(currentPage, 10)}
+                          />
+                        );
+                      }
+                      if (index === parseInt(this.props.match.params.file, 10)) {
+                        selectionMarker = this.selectionDivElement;
+                      }
+                      return (
+                        <div
+                          style={{
+                            marginBottom: 8,
+                          }}
+                          key={'doc.symbol.div.' + index}
+                        >
+                          <Well
+                            key={'doc.symbol.well.' + index}
+                            onClick={() => {
+                              this.pushRouteForPage(
+                                this.props.match.params.topic,
+                                this.props.match.params.docPackageId,
+                                index + 1,
+                                1
+                              );
+                            }}
+                            style={{
+                              background: selected ? '#777777' : undefined,
+                              height: '100%',
+                              padding: 6,
                             }}
                           >
-                            {pageStatus}
-                          </p>
+                            <div align="center">
+                              <Icon size="3x" name={iconname} />
+                              <p
+                                style={{
+                                  marginTop: 10,
+                                  marginBottom: 5,
+                                  fontSize: 11,
+                                  wordWrap: 'break-word',
+                                }}
+                              >
+                                {doc.title || this.filenameShortener(doc.file)}
+                              </p>
+                              {selectionMarker}
+                              {progressBar}
+                              <p
+                                style={{
+                                  marginTop: 5,
+                                  marginBottom: 0,
+                                  fontSize: 11,
+                                  wordWrap: 'break-word',
+                                }}
+                              >
+                                {pageStatus}
+                              </p>
+                            </div>
+                          </Well>
                         </div>
-                      </Well>
-                    </div>
-                  );
-                })}
-              </Column>
+                      );
+                    })}
+                  </div>
+                </Column>
+                <Column
+                  style={{
+                    backgroundColorX: '#999999',
+                    backgroundColor: 'red',
+                    overflow: 'scroll',
+                    height: mapHeight + 'px',
+                    width: 11 + 'px',
+                    cursor: 'col-resize',
+                  }}
+                  vertical="start"
+                  onMouseDown={this.startResizing}
+                />
+              </>
             )}
             <Column style={{ width: '100%' }} horizontal="stretch">
               <Loadable

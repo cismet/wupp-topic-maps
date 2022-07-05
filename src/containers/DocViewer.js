@@ -140,8 +140,6 @@ export class DocViewer_ extends React.Component {
         ...this.state,
         sidebarWidth: mouseMoveEvent.clientX - this.sidebarRef.getBoundingClientRect().left + 28,
       });
-      this.invalidateMapSize();
-
       console.log(
         'xxxx resizing',
         mouseMoveEvent.clientX - this.sidebarRef.getBoundingClientRect().left

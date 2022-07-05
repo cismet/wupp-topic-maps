@@ -32,6 +32,8 @@ import { downloadSingleFile, prepareDownloadMultipleFiles } from '../utils/downl
 import { modifyQueryPart, removeQueryPart } from '../utils/routingHelper';
 
 import 'url-search-params-polyfill';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faGripLinesVertical } from '@fortawesome/free-solid-svg-icons';
 
 /* eslint-disable jsx-a11y/anchor-is-valid */
 
@@ -123,6 +125,15 @@ export class DocViewer_ extends React.Component {
     this.stopResizing = this.stopResizing.bind(this);
     this.resize = this.resize.bind(this);
     this.invalidateMapSize = this.invalidateMapSize.bind(this);
+    this.onMouseDown = this.onMouseDown.bind(this);
+    this.onMouseMove = this.onMouseMove.bind(this);
+    this.onTouchMove = this.onTouchMove.bind(this);
+  }
+  onMouseDown(e) {
+    //only start resizing if the user clicked with the default button
+    if (e.button === 0) {
+      this.startResizing(e);
+    }
   }
 
   startResizing() {
@@ -130,19 +141,28 @@ export class DocViewer_ extends React.Component {
   }
   stopResizing() {
     this.setState({ ...this.state, resizing: false });
-    this.invalidateMapSize();
   }
 
-  resize(mouseMoveEvent) {
+  onMouseMove(e) {
+    if (this.state.resizing === true) {
+      e.preventDefault();
+      this.resize(e.clientX);
+    }
+  }
+  onTouchMove(e) {
+    if (this.state.resizing === true) {
+      e.preventDefault();
+      this.resize(e.touches[0].clientX);
+    }
+  }
+
+  resize(clientX) {
     if (this.state.resizing === true) {
       this.setState({
         ...this.state,
-        sidebarWidth: mouseMoveEvent.clientX - this.sidebarRef.getBoundingClientRect().left,
+        sidebarWidth: clientX - this.sidebarRef.getBoundingClientRect().left + 5,
       });
-      console.log(
-        'xxxx resizing',
-        mouseMoveEvent.clientX - this.sidebarRef.getBoundingClientRect().left
-      );
+      // console.log('xxxx resizing', clientX - this.sidebarRef.getBoundingClientRect().left + 5);
     }
   }
 
@@ -188,11 +208,13 @@ export class DocViewer_ extends React.Component {
       this.setState({ gazDataLoaded: true });
       this.forceUpdate();
     });
-    window.addEventListener('mousemove', this.resize);
+    window.addEventListener('mousemove', this.onMouseMove);
+    window.addEventListener('touchmove', this.onTouchMove);
     window.addEventListener('mouseup', this.stopResizing);
   }
   componentWillUnmount() {
-    window.removeEventListener('mousemove', this.resize);
+    window.removeEventListener('mousemove', this.onMouseMove);
+    window.removeEventListener('touchmove', this.onTouchMove);
     window.removeEventListener('mouseup', this.stopResizing);
   }
 
@@ -428,12 +450,10 @@ export class DocViewer_ extends React.Component {
 
     let w;
     if ((this.props.docs.docs || []).length > 1) {
-      w = this.props.uiState.width - this.state.sidebarWidth + 17;
+      w = this.props.uiState.width - this.state.sidebarWidth;
     } else {
       w = this.props.uiState.width;
     }
-    console.log('w', w, this.props.uiState.width);
-
     this.mapStyle = {
       height: this.props.uiState.height - 50,
       width: w,
@@ -833,13 +853,38 @@ export class DocViewer_ extends React.Component {
             id="sidebar-slider"
             style={{
               background: '#999999',
-              backgroundX: 'red',
+              backgroundx: 'red',
               height: mapHeight,
               width: 10,
               cursor: 'col-resize',
             }}
-            onMouseDown={this.startResizing}
-          ></div>
+            onMouseDown={this.onMouseDown}
+            onTouchStart={this.startResizing}
+            onTouchEnd={this.stopResizing}
+          >
+            {!this.state.resizing && (
+              <div
+                style={{
+                  position: 'relative',
+                  borderLeft: '2px solid #333',
+                  left: '3.5px',
+                  top: mapHeight / 2 - mapHeight * 0.1,
+                  height: mapHeight * 0.2,
+                }}
+              ></div>
+            )}
+            {this.state.resizing === true && (
+              <div
+                style={{
+                  position: 'relative',
+                  borderLeft: '4px solid #333',
+                  left: '2px',
+                  top: mapHeight / 2 - mapHeight * 0.1,
+                  height: mapHeight * 0.2,
+                }}
+              ></div>
+            )}
+          </div>
           <div
             id="docviewer"
             style={{
@@ -852,129 +897,6 @@ export class DocViewer_ extends React.Component {
             {docmap}
           </div>
         </div>
-
-        {/* <div>
-          <Row vertical="stretch" horizontal="spaced" style={{ width: '100%', height: mapHeight }}>
-            {(this.props.docs.docs || []).length > 1 && (
-              <>
-                <Column
-                  style={{
-                    backgroundColorX: '#999999',
-                    backgroundColor: 'yellow',
-                    padding: '5px 1px 5px 5px',
-                    overflow: 'scroll',
-                    height: mapHeight + 'px',
-                    width: this.state.sidebarWidth + 'px',
-                  }}
-                  vertical="start"
-                >
-                  <div ref={(ref) => (this.sidebarRef = ref)}>
-                    {this.props.docs.docs.map((doc, index) => {
-                      let iconname = 'file-o';
-                      let selected = false;
-                      let progressBar = undefined;
-                      let numPages = '';
-                      let currentPage = '';
-                      let pageStatus = '';
-                      if (doc.group !== 'Zusatzdokumente') {
-                        iconname = 'file-pdf-o';
-                      }
-                      let selectionMarker = undefined;
-                      if (index === this.props.match.params.file - 1) {
-                        numPages = doc.pages;
-                        currentPage = this.props.docs.pageIndex + 1;
-                        selected = true;
-                        pageStatus = `${currentPage} / ${numPages}`;
-                        progressBar = (
-                          <ProgressBar
-                            style={{
-                              height: '5px',
-                              marginTop: 0,
-                              marginBottom: 0,
-                              autofocus: 'true',
-                            }}
-                            max={numPages}
-                            min={0}
-                            now={parseInt(currentPage, 10)}
-                          />
-                        );
-                      }
-                      if (index === parseInt(this.props.match.params.file, 10)) {
-                        selectionMarker = this.selectionDivElement;
-                      }
-                      return (
-                        <div
-                          style={{
-                            marginBottom: 8,
-                          }}
-                          key={'doc.symbol.div.' + index}
-                        >
-                          <Well
-                            key={'doc.symbol.well.' + index}
-                            onClick={() => {
-                              this.pushRouteForPage(
-                                this.props.match.params.topic,
-                                this.props.match.params.docPackageId,
-                                index + 1,
-                                1
-                              );
-                            }}
-                            style={{
-                              background: selected ? '#777777' : undefined,
-                              height: '100%',
-                              padding: 6,
-                            }}
-                          >
-                            <div align="center">
-                              <Icon size="3x" name={iconname} />
-                              <p
-                                style={{
-                                  marginTop: 10,
-                                  marginBottom: 5,
-                                  fontSize: 11,
-                                  wordWrap: 'break-word',
-                                }}
-                              >
-                                {doc.title || this.filenameShortener(doc.file)}
-                              </p>
-                              {selectionMarker}
-                              {progressBar}
-                              <p
-                                style={{
-                                  marginTop: 5,
-                                  marginBottom: 0,
-                                  fontSize: 11,
-                                  wordWrap: 'break-word',
-                                }}
-                              >
-                                {pageStatus}
-                              </p>
-                            </div>
-                          </Well>
-                        </div>
-                      );
-                    })}
-                  </div>
-                </Column>
-                <Column
-                  style={{
-                    backgroundColorX: '#999999',
-                    backgroundColor: 'red',
-                    overflow: 'scroll',
-                    height: mapHeight + 'px',
-                    width: 11 + 'px',
-                    cursor: 'col-resize',
-                  }}
-                  vertical="start"
-                  onMouseDown={this.startResizing}
-                />
-              </>
-            )}
-            <Column style={{ width: '100%' }} horizontal="stretch">
-             
-            </Column>
-          </Row> 
-        </div>*/}
       </div>
     );
   }

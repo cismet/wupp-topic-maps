@@ -164,7 +164,6 @@ export class DocViewer_ extends React.Component {
       //   'this.sideBarElementsRefs',
       //   this.sideBarElementsRefs.map((d) => d.getClientRects().length)
       // );
-      console.log('------------------------------');
 
       let countWrapps = 0;
       for (const x of this.sideBarElementsRefs) {
@@ -172,19 +171,28 @@ export class DocViewer_ extends React.Component {
           countWrapps++;
         }
       }
-      let allow = false;
-      if (newSidebarWidth >= sideBarMinSize) {
-        //enlarging
+      if (newSidebarWidth > sideBarMinSize) {
         if (newSidebarWidth > this.state.sidebarWidth && countWrapps > 0) {
-          allow = true;
-        } else if (newSidebarWidth < this.state.sidebarWidth) {
-          allow = true;
-        }
-
-        if (allow) {
           this.setState({
             ...this.state,
             sidebarWidth: newSidebarWidth,
+            sidebarCompactView: false,
+          });
+        } else if (
+          newSidebarWidth > this.state.sidebarWidth &&
+          countWrapps === 0 &&
+          !this.state.sidebarCompactView
+        ) {
+          this.setState({
+            ...this.state,
+            sidebarWidth: newSidebarWidth,
+            sidebarCompactView: true,
+          });
+        } else if (newSidebarWidth < this.state.sidebarWidth) {
+          this.setState({
+            ...this.state,
+            sidebarWidth: newSidebarWidth,
+            sidebarCompactView: false,
           });
         }
       }
@@ -754,16 +762,21 @@ export class DocViewer_ extends React.Component {
                   padding: 6,
                 }}
               >
-                <div align="center">
-                  <Icon size="3x" name={iconname} />
+                <div align={this.state.sidebarCompactView ? 'left' : 'center'}>
+                  {!this.state.sidebarCompactView && <Icon size="3x" name={iconname} />}
                   <p
                     style={{
-                      marginTop: 10,
+                      marginTop: this.state.sidebarCompactView ? 2 : 10,
                       marginBottom: 5,
                       fontSize: 11,
                       wordWrap: 'break-word',
                     }}
                   >
+                    {this.state.sidebarCompactView && (
+                      <b>
+                        <Icon style={{ marginRight: 5 }} size="1.5x" name={iconname} />
+                      </b>
+                    )}
                     <span ref={(ref) => (this.sideBarElementsRefs[index] = ref)}>
                       {doc.title || this.filenameShortener(doc.file)}
                     </span>

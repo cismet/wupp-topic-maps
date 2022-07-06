@@ -160,12 +160,35 @@ export class DocViewer_ extends React.Component {
   resize(clientX) {
     if (this.state.resizing === true) {
       const newSidebarWidth = clientX - this.sidebarRef.getBoundingClientRect().left + 5;
-      if (newSidebarWidth >= sideBarMinSize) {
-        this.setState({
-          ...this.state,
-          sidebarWidth: newSidebarWidth,
-        });
+      // console.log(
+      //   'this.sideBarElementsRefs',
+      //   this.sideBarElementsRefs.map((d) => d.getClientRects().length)
+      // );
+      console.log('------------------------------');
+
+      let countWrapps = 0;
+      for (const x of this.sideBarElementsRefs) {
+        if (x.getClientRects().length > 1) {
+          countWrapps++;
+        }
       }
+      let allow = false;
+      if (newSidebarWidth >= sideBarMinSize) {
+        //enlarging
+        if (newSidebarWidth > this.state.sidebarWidth && countWrapps > 0) {
+          allow = true;
+        } else if (newSidebarWidth < this.state.sidebarWidth) {
+          allow = true;
+        }
+
+        if (allow) {
+          this.setState({
+            ...this.state,
+            sidebarWidth: newSidebarWidth,
+          });
+        }
+      }
+
       // console.log('xxxx resizing', clientX - this.sidebarRef.getBoundingClientRect().left + 5);
     }
   }
@@ -672,6 +695,7 @@ export class DocViewer_ extends React.Component {
         </Navbar.Collapse>
       </Navbar>
     );
+    this.sideBarElementsRefs = [];
     const sidebar = (
       <div ref={(ref) => (this.sidebarRef = ref)}>
         {this.props.docs.docs.map((doc, index) => {
@@ -740,7 +764,9 @@ export class DocViewer_ extends React.Component {
                       wordWrap: 'break-word',
                     }}
                   >
-                    {doc.title || this.filenameShortener(doc.file)}
+                    <span ref={(ref) => (this.sideBarElementsRefs[index] = ref)}>
+                      {doc.title || this.filenameShortener(doc.file)}
+                    </span>
                   </p>
                   {selectionMarker}
                   {progressBar}

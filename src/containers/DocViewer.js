@@ -109,6 +109,7 @@ function mapDispatchToProps(dispatch) {
     gazetteerTopicsActions: bindActionCreators(gazetteerTopicsActions, dispatch),
   };
 }
+const sideBarMinSize = 130;
 
 export class DocViewer_ extends React.Component {
   constructor(props, context) {
@@ -118,7 +119,7 @@ export class DocViewer_ extends React.Component {
       downloadArchivePrepInProgress: false,
       gazDataLoaded: false,
       topicDataLoaded: false,
-      sidebarWidth: 130,
+      sidebarWidth: sideBarMinSize,
     };
     this.loadData = this.loadData.bind(this);
     this.startResizing = this.startResizing.bind(this);
@@ -158,10 +159,13 @@ export class DocViewer_ extends React.Component {
 
   resize(clientX) {
     if (this.state.resizing === true) {
-      this.setState({
-        ...this.state,
-        sidebarWidth: clientX - this.sidebarRef.getBoundingClientRect().left + 5,
-      });
+      const newSidebarWidth = clientX - this.sidebarRef.getBoundingClientRect().left + 5;
+      if (newSidebarWidth >= sideBarMinSize) {
+        this.setState({
+          ...this.state,
+          sidebarWidth: newSidebarWidth,
+        });
+      }
       // console.log('xxxx resizing', clientX - this.sidebarRef.getBoundingClientRect().left + 5);
     }
   }

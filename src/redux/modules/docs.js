@@ -27,7 +27,7 @@ export const constants = {
     bplaene: (original) => {
       const ret = original
         .replace(/.pdf$/, '')
-        .replace(/^BPL_n*\d*(V)?(-)?(A|B|C)*\d*_(0_)*/, '')
+        .replace(/^BPL_n?a?\d*V?-?(A|B|C)*\d*_(0_)*/, '')
         .replace(/Info_BPlan-Zusatzdokumente_WUP.*/, 'Info Dateinamen');
       //   console.log('SIDEBAR_FILENAME_SHORTENER', original, ret);
       return ret;

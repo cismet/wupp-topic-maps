@@ -1,4 +1,3 @@
-import Icon from 'components/commons/Icon';
 import L from 'leaflet';
 import PropTypes from 'prop-types';
 import React from 'react';
@@ -9,26 +8,32 @@ import Control from 'react-leaflet-control';
 import Loadable from 'react-loading-overlay';
 import { connect } from 'react-redux';
 import { routerActions as RoutingActions } from 'react-router-redux';
-import { bindActionCreators } from 'redux';
 import scrollIntoViewIfNeeded from 'scroll-into-view-if-needed';
 import { Column, Row } from 'simple-flexbox';
-import 'url-search-params-polyfill';
+
+import Icon from 'components/commons/Icon';
+import { bindActionCreators } from 'redux';
+
 import { actions as bplanActions } from '../redux/modules/bplaene';
-import { actions as AEVActions } from '../redux/modules/fnp_aenderungsverfahren';
 import { actions as DocsActions } from '../redux/modules/docs';
+import { constants as DOC_CONSTANTS } from '../redux/modules/docs';
+import { actions as AEVActions } from '../redux/modules/fnp_aenderungsverfahren';
 import {
   actions as gazetteerTopicsActions,
   getGazDataForTopicIds,
 } from '../redux/modules/gazetteerTopics';
 import { actions as UIStateActions } from '../redux/modules/uiState';
-import { downloadSingleFile, prepareDownloadMultipleFiles } from '../utils/downloadHelper';
-import { modifyQueryPart, removeQueryPart } from '../utils/routingHelper';
 import {
-  getDocsForBPlanGazetteerEntry,
   getDocsForAEVGazetteerEntry,
+  getDocsForBPlanGazetteerEntry,
   getDocsForStaticEntry,
 } from '../utils/docsHelper';
-import { constants as DOC_CONSTANTS } from '../redux/modules/docs';
+import { downloadSingleFile, prepareDownloadMultipleFiles } from '../utils/downloadHelper';
+import { modifyQueryPart, removeQueryPart } from '../utils/routingHelper';
+
+import 'url-search-params-polyfill';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faGripLinesVertical } from '@fortawesome/free-solid-svg-icons';
 
 /* eslint-disable jsx-a11y/anchor-is-valid */
 
@@ -84,8 +89,6 @@ const LOADING_OVERLAY = 'LOADING_OVERLAY';
 const zipFileNameMapping = DOC_CONSTANTS.ZIP_FILE_NAME_MAPPING;
 const filenameShortenerMapping = DOC_CONSTANTS.SIDEBAR_FILENAME_SHORTENER;
 
-const sidebarWidth = 130;
-
 function mapStateToProps(state) {
   return {
     uiState: state.uiState,
@@ -106,6 +109,7 @@ function mapDispatchToProps(dispatch) {
     gazetteerTopicsActions: bindActionCreators(gazetteerTopicsActions, dispatch),
   };
 }
+const sideBarMinSize = 130;
 
 export class DocViewer_ extends React.Component {
   constructor(props, context) {
@@ -115,8 +119,86 @@ export class DocViewer_ extends React.Component {
       downloadArchivePrepInProgress: false,
       gazDataLoaded: false,
       topicDataLoaded: false,
+      sidebarWidth: sideBarMinSize,
     };
     this.loadData = this.loadData.bind(this);
+    this.startResizing = this.startResizing.bind(this);
+    this.stopResizing = this.stopResizing.bind(this);
+    this.resize = this.resize.bind(this);
+    this.invalidateMapSize = this.invalidateMapSize.bind(this);
+    this.onMouseDown = this.onMouseDown.bind(this);
+    this.onMouseMove = this.onMouseMove.bind(this);
+    this.onTouchMove = this.onTouchMove.bind(this);
+  }
+  onMouseDown(e) {
+    //only start resizing if the user clicked with the default button
+    if (e.button === 0) {
+      this.startResizing(e);
+    }
+  }
+
+  startResizing() {
+    this.setState({ ...this.state, resizing: true });
+  }
+  stopResizing() {
+    this.setState({ ...this.state, resizing: false });
+  }
+
+  onMouseMove(e) {
+    if (this.state.resizing === true) {
+      e.preventDefault();
+      this.resize(e.clientX);
+    }
+  }
+  onTouchMove(e) {
+    if (this.state.resizing === true) {
+      e.preventDefault();
+      this.resize(e.touches[0].clientX);
+    }
+  }
+
+  resize(clientX) {
+    if (this.state.resizing === true) {
+      const newSidebarWidth = clientX - this.sidebarRef.getBoundingClientRect().left + 5;
+      // console.log(
+      //   'this.sideBarElementsRefs',
+      //   this.sideBarElementsRefs.map((d) => d.getClientRects().length)
+      // );
+
+      let countWrapps = 0;
+      for (const x of this.sideBarElementsRefs) {
+        if (x.getClientRects().length > 1) {
+          countWrapps++;
+        }
+      }
+      if (newSidebarWidth > sideBarMinSize) {
+        if (newSidebarWidth > this.state.sidebarWidth && countWrapps > 0) {
+          this.setState({
+            ...this.state,
+            sidebarWidth: newSidebarWidth,
+            sidebarCompactView: false,
+          });
+        } else if (
+          newSidebarWidth > this.state.sidebarWidth &&
+          countWrapps === 0 &&
+          !this.state.sidebarCompactView
+        ) {
+          this.setState({
+            ...this.state,
+            sidebarWidth: newSidebarWidth,
+            sidebarCompactView: true,
+          });
+        } else if (newSidebarWidth < this.state.sidebarWidth) {
+          this.setState({
+            ...this.state,
+            sidebarWidth: newSidebarWidth,
+            sidebarCompactView: false,
+          });
+        }
+      }
+
+      // console.log('xxxx resizing', clientX - this.sidebarRef.getBoundingClientRect().left + 5);
+    }
   }
 
   loadData(dataLoader) {
@@ -147,7 +229,6 @@ export class DocViewer_ extends React.Component {
     });
     return promise;
   }
-
   componentWillMount() {
     this.loadData([
       this.props.aevActions.loadAEVs,
@@ -162,6 +243,14 @@ export class DocViewer_ extends React.Component {
       this.setState({ gazDataLoaded: true });
       this.forceUpdate();
     });
+    window.addEventListener('mousemove', this.onMouseMove);
+    window.addEventListener('touchmove', this.onTouchMove);
+    window.addEventListener('mouseup', this.stopResizing);
+  }
+  componentWillUnmount() {
+    window.removeEventListener('mousemove', this.onMouseMove);
+    window.removeEventListener('touchmove', this.onTouchMove);
+    window.removeEventListener('mouseup', this.stopResizing);
   }
 
   componentDidMount() {
@@ -380,6 +469,11 @@ export class DocViewer_ extends React.Component {
     }
   };
 
+  invalidateMapSize = () => {
+    if (this.leafletRoutedMap) {
+      this.leafletRoutedMap.leafletMap.leafletElement.invalidateSize();
+    }
+  };
   render() {
     let mapHeight;
     if (this.props.uiState.height) {
@@ -391,11 +485,10 @@ export class DocViewer_ extends React.Component {
 
     let w;
     if ((this.props.docs.docs || []).length > 1) {
-      w = this.props.uiState.width - sidebarWidth + 17;
+      w = this.props.uiState.width - this.state.sidebarWidth;
     } else {
       w = this.props.uiState.width;
     }
-
     this.mapStyle = {
       height: this.props.uiState.height - 50,
       width: w,
@@ -476,7 +569,9 @@ export class DocViewer_ extends React.Component {
         <div
           style={{
             zIndex: 234098,
-            left: (this.props.uiState.width - 130) / 2 - (this.props.uiState.width - 130) * 0.2,
+            left:
+              (this.props.uiState.width - this.state.sidebarWidth) / 2 -
+              (this.props.uiState.width - this.state.sidebarWidth) * 0.2,
             top: '30%',
             width: '100%',
             height: '100%',
@@ -499,279 +594,351 @@ export class DocViewer_ extends React.Component {
       );
     }
 
-    return (
-      <div>
-        <Navbar style={{ marginBottom: 0 }} inverse>
-          <Navbar.Header>
-            <Navbar.Brand>
-              <a
-                onClick={() => this.showMainDoc()}
-                disabled={this.props.docs.loadingState !== LOADING_FINISHED}
-              >
-                {this.props.docs.viewerTitle === undefined
-                  ? 'Dokument ' +
-                    (this.props.docs.docPackageId || this.props.docs.futuredocPackageId || '')
-                  : this.props.docs.viewerTitle}
-              </a>
-            </Navbar.Brand>
-            <Navbar.Toggle />
-          </Navbar.Header>
-          <Navbar.Collapse>
-            <Nav>
-              <NavItem
-                onClick={() => this.prevPage()}
-                title="vorherige Seite"
-                disabled={this.props.docs.loadingState !== LOADING_FINISHED}
-                eventKey={2}
-                href="#"
-              >
-                <Icon name="chevron-left" />
-              </NavItem>
-              <NavItem onClick={() => this.gotoWholeDocument()} eventKey={1} href="#">
-                {/* {this.state.docIndex + 1} / {this.props.docs.docs.length} -  */}
-                {(this.props.docs.pageIndex || this.props.docs.futurePageIndex) + 1} {numPages}
-              </NavItem>
-              <NavItem
-                onClick={() => this.nextPage()}
-                title="nächste Seite"
-                disabled={this.props.docs.loadingState !== LOADING_FINISHED}
-                eventKey={1}
-                href="#"
-              >
-                <Icon name="chevron-right" />
-              </NavItem>
-            </Nav>
-            <Navbar.Text>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </Navbar.Text>
-            <Nav>
-              <NavItem
-                title="an Fensterbreite anpassen"
-                onClick={() => this.gotoWholeWidth()}
-                eventKey={2}
-                href="#"
-              >
-                <Icon name="arrows-h" />
-              </NavItem>
-              <NavItem
-                title="an Fensterhöhe anpassen"
-                onClick={() => this.gotoWholeHeight()}
-                eventKey={1}
-                href="#"
-              >
-                <Icon name="arrows-v" />
-              </NavItem>
-            </Nav>
+    const navbar = (
+      <Navbar style={{ marginBottom: 0 }} inverse>
+        <Navbar.Header>
+          <Navbar.Brand>
+            <a
+              onClick={() => this.showMainDoc()}
+              disabled={this.props.docs.loadingState !== LOADING_FINISHED}
+            >
+              {this.props.docs.viewerTitle === undefined
+                ? 'Dokument ' +
+                  (this.props.docs.docPackageId || this.props.docs.futuredocPackageId || '')
+                : this.props.docs.viewerTitle}
+            </a>
+          </Navbar.Brand>
+          <Navbar.Toggle />
+        </Navbar.Header>
+        <Navbar.Collapse>
+          <Nav>
+            <NavItem
+              onClick={() => this.prevPage()}
+              title="vorherige Seite"
+              disabled={this.props.docs.loadingState !== LOADING_FINISHED}
+              eventKey={2}
+              href="#"
+            >
+              <Icon name="chevron-left" />
+            </NavItem>
+            <NavItem onClick={() => this.gotoWholeDocument()} eventKey={1} href="#">
+              {/* {this.state.docIndex + 1} / {this.props.docs.docs.length} -  */}
+              {(this.props.docs.pageIndex || this.props.docs.futurePageIndex) + 1} {numPages}
+            </NavItem>
+            <NavItem
+              onClick={() => this.nextPage()}
+              title="nächste Seite"
+              disabled={this.props.docs.loadingState !== LOADING_FINISHED}
+              eventKey={1}
+              href="#"
+            >
+              <Icon name="chevron-right" />
+            </NavItem>
+          </Nav>
+          <Navbar.Text>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </Navbar.Text>
+          <Nav>
+            <NavItem
+              title="an Fensterbreite anpassen"
+              onClick={() => this.gotoWholeWidth()}
+              eventKey={2}
+              href="#"
+            >
+              <Icon name="arrows-h" />
+            </NavItem>
+            <NavItem
+              title="an Fensterhöhe anpassen"
+              onClick={() => this.gotoWholeHeight()}
+              eventKey={1}
+              href="#"
+            >
+              <Icon name="arrows-v" />
+            </NavItem>
+          </Nav>
 
-            <Nav pullRight>
-              <NavItem
-                title="Dokument herunterladen (pdf)"
-                disabled={false && !downloadAvailable}
-                href={downloadURL}
-                target="_blank"
-              >
-                <Icon name="download" />
-              </NavItem>
-              {/* <NavItem
-								title="Dokument drucken"
-								disabled={false && !downloadAvailable}
-								onClick={() => printJS(downloadURL)}
-								target="_blank"
-							>
-								<Icon name="print" />
-							</NavItem> */}
+          <Nav pullRight>
+            <NavItem
+              title="Dokument herunterladen (pdf)"
+              disabled={false && !downloadAvailable}
+              href={downloadURL}
+              target="_blank"
+            >
+              <Icon name="download" />
+            </NavItem>
+            {/* <NavItem
+          title="Dokument drucken"
+          disabled={false && !downloadAvailable}
+          onClick={() => printJS(downloadURL)}
+          target="_blank"
+        >
+          <Icon name="print" />
+        </NavItem> */}
 
-              <NavItem
-                disabled={!downloadAvailable || this.props.docs.docs.length < 2}
-                title="alles herunterladen (zip)"
-                eventKey={1}
-                href="#"
-                onClick={() => {
-                  if (!this.state.downloadArchivePrepInProgress) {
-                    this.downloadEverything();
-                  }
-                }}
-              >
-                {/* Weird bug: when using it like this, then NotFoundError: Failed to execute 'removeChild' on 'Node': The node to be removed is not a child of this node. is thrown */}
-                {/* <Icon
-                  spin={this.state.downloadArchivePrepInProgress}
-                  name={this.state.downloadArchiveIcon}
-                /> */}
-                {/* Indicate the waiting with the cursor works */}
-                <Icon
-                  style={{ cursor: this.state.downloadArchivePrepInProgress ? 'wait' : 'hand' }}
-                  spin={false}
-                  name="file-archive-o"
-                />
-              </NavItem>
-              <NavItem title="Info B-Pläne" disabled={true} eventKey={2} href="#">
-                <Icon name="question-circle" />
-              </NavItem>
-            </Nav>
-          </Navbar.Collapse>
-        </Navbar>
-
-        <div>
-          <Row vertical="stretch" horizontal="spaced" style={{ width: '100%', height: mapHeight }}>
-            {(this.props.docs.docs || []).length > 1 && (
-              <Column
+            <NavItem
+              disabled={!downloadAvailable || this.props.docs.docs.length < 2}
+              title="alles herunterladen (zip)"
+              eventKey={1}
+              href="#"
+              onClick={() => {
+                if (!this.state.downloadArchivePrepInProgress) {
+                  this.downloadEverything();
+                }
+              }}
+            >
+              {/* Weird bug: when using it like this, then NotFoundError: Failed to execute 'removeChild' on 'Node': The node to be removed is not a child of this node. is thrown */}
+              {/* <Icon
+            spin={this.state.downloadArchivePrepInProgress}
+            name={this.state.downloadArchiveIcon}
+          /> */}
+              {/* Indicate the waiting with the cursor works */}
+              <Icon
+                style={{ cursor: this.state.downloadArchivePrepInProgress ? 'wait' : 'hand' }}
+                spin={false}
+                name="file-archive-o"
+              />
+            </NavItem>
+            <NavItem title="Info B-Pläne" disabled={true} eventKey={2} href="#">
+              <Icon name="question-circle" />
+            </NavItem>
+          </Nav>
+        </Navbar.Collapse>
+      </Navbar>
+    );
+    this.sideBarElementsRefs = [];
+    const sidebar = (
+      <div ref={(ref) => (this.sidebarRef = ref)}>
+        {this.props.docs.docs.map((doc, index) => {
+          let iconname = 'file-o';
+          let selected = false;
+          let progressBar = undefined;
+          let numPages = '';
+          let currentPage = '';
+          let pageStatus = '';
+          if (doc.group !== 'Zusatzdokumente') {
+            iconname = 'file-pdf-o';
+          }
+          let selectionMarker = undefined;
+          if (index === this.props.match.params.file - 1) {
+            numPages = doc.pages;
+            currentPage = this.props.docs.pageIndex + 1;
+            selected = true;
+            pageStatus = `${currentPage} / ${numPages}`;
+            progressBar = (
+              <ProgressBar
                 style={{
-                  backgroundColor: '#999999',
-                  backgroundColorX: 'red',
-                  padding: '5px 11px 5px 5px',
-                  overflow: 'scroll',
-                  height: mapHeight + 'px',
-                  width: sidebarWidth + 'px',
+                  height: '5px',
+                  marginTop: 0,
+                  marginBottom: 0,
+                  autofocus: 'true',
                 }}
-                vertical="start"
-              >
-                {this.props.docs.docs.map((doc, index) => {
-                  let iconname = 'file-o';
-                  let selected = false;
-                  let progressBar = undefined;
-                  let numPages = '';
-                  let currentPage = '';
-                  let pageStatus = '';
-                  if (doc.group !== 'Zusatzdokumente') {
-                    iconname = 'file-pdf-o';
-                  }
-                  let selectionMarker = undefined;
-                  if (index === this.props.match.params.file - 1) {
-                    numPages = doc.pages;
-                    currentPage = this.props.docs.pageIndex + 1;
-                    selected = true;
-                    pageStatus = `${currentPage} / ${numPages}`;
-                    progressBar = (
-                      <ProgressBar
-                        style={{
-                          height: '5px',
-                          marginTop: 0,
-                          marginBottom: 0,
-                          autofocus: 'true',
-                        }}
-                        max={numPages}
-                        min={0}
-                        now={parseInt(currentPage, 10)}
-                      />
-                    );
-                  }
-                  if (index === parseInt(this.props.match.params.file, 10)) {
-                    selectionMarker = this.selectionDivElement;
-                  }
-                  return (
-                    <div
-                      style={{
-                        marginBottom: 8,
-                      }}
-                      key={'doc.symbol.div.' + index}
-                    >
-                      <Well
-                        key={'doc.symbol.well.' + index}
-                        onClick={() => {
-                          this.pushRouteForPage(
-                            this.props.match.params.topic,
-                            this.props.match.params.docPackageId,
-                            index + 1,
-                            1
-                          );
-                        }}
-                        style={{
-                          background: selected ? '#777777' : undefined,
-                          height: '100%',
-                          padding: 6,
-                        }}
-                      >
-                        <div align="center">
-                          <Icon size="3x" name={iconname} />
-                          <p
-                            style={{
-                              marginTop: 10,
-                              marginBottom: 5,
-                              fontSize: 11,
-                              wordWrap: 'break-word',
-                            }}
-                          >
-                            {doc.title || this.filenameShortener(doc.file)}
-                          </p>
-                          {selectionMarker}
-                          {progressBar}
-                          <p
-                            style={{
-                              marginTop: 5,
-                              marginBottom: 0,
-                              fontSize: 11,
-                              wordWrap: 'break-word',
-                            }}
-                          >
-                            {pageStatus}
-                          </p>
-                        </div>
-                      </Well>
-                    </div>
+                max={numPages}
+                min={0}
+                now={parseInt(currentPage, 10)}
+              />
+            );
+          }
+          if (index === parseInt(this.props.match.params.file, 10)) {
+            selectionMarker = this.selectionDivElement;
+          }
+          return (
+            <div
+              style={{
+                marginBottom: 8,
+              }}
+              key={'doc.symbol.div.' + index}
+            >
+              <Well
+                key={'doc.symbol.well.' + index}
+                onClick={() => {
+                  this.pushRouteForPage(
+                    this.props.match.params.topic,
+                    this.props.match.params.docPackageId,
+                    index + 1,
+                    1
                   );
-                })}
-              </Column>
-            )}
-            <Column style={{ width: '100%' }} horizontal="stretch">
-              <Loadable
-                active={this.props.docs.loadingState === LOADING_OVERLAY}
-                spinner
-                text={this.props.docs.loadingText || 'Laden der Datei ...'}
-                content={<h1>test</h1>}
+                }}
+                style={{
+                  background: selected ? '#777777' : undefined,
+                  height: '100%',
+                  padding: 6,
+                }}
               >
-                <div>
-                  <RoutedMap
-                    key={'leafletRoutedMap'}
-                    referenceSystem={L.CRS.Simple}
-                    ref={(leafletMap) => {
-                      this.leafletRoutedMap = leafletMap;
+                <div align={this.state.sidebarCompactView ? 'left' : 'center'}>
+                  {!this.state.sidebarCompactView && <Icon size="3x" name={iconname} />}
+                  <p
+                    style={{
+                      marginTop: this.state.sidebarCompactView ? 2 : 10,
+                      marginBottom: 5,
+                      fontSize: 11,
+                      wordWrap: 'break-word',
                     }}
-                    style={this.mapStyle}
-                    fallbackPosition={fallbackPosition}
-                    fallbackZoom={fallbackZoom}
-                    ondblclick={this.props.ondblclick}
-                    // onclick={this.props.onclick}
-                    locationChangedHandler={(location) => {
-                      this.props.routingActions.push(
-                        this.props.routing.location.pathname +
-                          modifyQueryPart(this.props.routing.location.search, location)
-                      );
-                    }}
-                    autoFitProcessedHandler={() => this.props.mappingActions.setAutoFit(false)}
-                    urlSearchParams={urlSearchParams}
-                    boundingBoxChangedHandler={(bbox) => {
-                      // this.props.mappingActions.mappingBoundsChanged(bbox);
-                      // this.props.mappingBoundsChanged(bbox);
-                    }}
-                    backgroundlayers={'no'}
-                    fullScreenControlEnabled={true}
-                    locateControlEnabled={false}
-                    minZoom={1}
-                    maxZoom={6}
-                    zoomSnap={0.1}
-                    zoomDelta={1}
-                    onclick={(e) => {}}
                   >
-                    {this.documentBoundsRectangle()}
-                    {docLayer}
-                    {this.props.docs.docIndex !== undefined &&
-                      this.props.docs.docs.length > 0 &&
-                      !this.isLoading() && (
-                        <Control position="bottomright">
-                          <p
-                            style={{
-                              backgroundColor: '#D8D8D8D8',
-                              padding: '5px',
-                            }}
-                          >
-                            {this.props.docs.docs[this.props.docs.docIndex].file}
-                          </p>
-                        </Control>
-                      )}
-                  </RoutedMap>
-                  {problemWithDocPreviewAlert}
+                    {this.state.sidebarCompactView && (
+                      <b>
+                        <Icon style={{ marginRight: 5 }} size="1.5x" name={iconname} />
+                      </b>
+                    )}
+                    <span ref={(ref) => (this.sideBarElementsRefs[index] = ref)}>
+                      {doc.title || this.filenameShortener(doc.file)}
+                    </span>
+                  </p>
+                  {selectionMarker}
+                  {progressBar}
+                  <p
+                    style={{
+                      marginTop: 5,
+                      marginBottom: 0,
+                      fontSize: 11,
+                      wordWrap: 'break-word',
+                    }}
+                  >
+                    {pageStatus}
+                  </p>
                 </div>
-              </Loadable>
-            </Column>
-          </Row>
+              </Well>
+            </div>
+          );
+        })}
+      </div>
+    );
+
+    const docmap = (
+      <Loadable
+        active={this.props.docs.loadingState === LOADING_OVERLAY}
+        spinner
+        text={this.props.docs.loadingText || 'Laden der Datei ...'}
+        content={<h1>test</h1>}
+      >
+        <div>
+          <RoutedMap
+            key={'leafletRoutedMap'}
+            referenceSystem={L.CRS.Simple}
+            ref={(leafletMap) => {
+              this.leafletRoutedMap = leafletMap;
+            }}
+            style={this.mapStyle}
+            fallbackPosition={fallbackPosition}
+            fallbackZoom={fallbackZoom}
+            ondblclick={this.props.ondblclick}
+            // onclick={this.props.onclick}
+            locationChangedHandler={(location) => {
+              this.props.routingActions.push(
+                this.props.routing.location.pathname +
+                  modifyQueryPart(this.props.routing.location.search, location)
+              );
+            }}
+            autoFitProcessedHandler={() => this.props.mappingActions.setAutoFit(false)}
+            urlSearchParams={urlSearchParams}
+            boundingBoxChangedHandler={(bbox) => {
+              // this.props.mappingActions.mappingBoundsChanged(bbox);
+              // this.props.mappingBoundsChanged(bbox);
+            }}
+            backgroundlayers={'no'}
+            fullScreenControlEnabled={true}
+            locateControlEnabled={false}
+            minZoom={1}
+            maxZoom={6}
+            zoomSnap={0.1}
+            zoomDelta={1}
+            onclick={(e) => {}}
+          >
+            {this.documentBoundsRectangle()}
+            {docLayer}
+            {this.props.docs.docIndex !== undefined &&
+              this.props.docs.docs.length > 0 &&
+              !this.isLoading() && (
+                <Control position="bottomright">
+                  <p
+                    style={{
+                      backgroundColor: '#D8D8D8D8',
+                      padding: '5px',
+                    }}
+                  >
+                    {this.props.docs.docs[this.props.docs.docIndex].file}
+                  </p>
+                </Control>
+              )}
+          </RoutedMap>
+          {problemWithDocPreviewAlert}
+        </div>
+      </Loadable>
+    );
+
+    return (
+      <div style={{ background: 'green' }}>
+        {navbar}
+        <div
+          style={{
+            height: mapHeight,
+            background: 'grey',
+            display: 'flex',
+            flexDirection: 'row',
+            flexWrap: 'nowrap',
+            justifyContent: 'flex-start',
+            alignItems: 'flex-start',
+            alignContent: 'center',
+          }}
+        >
+          <div
+            id="sidebar"
+            style={{
+              background: '#999999',
+              backgroundX: 'yellow',
+              height: mapHeight,
+              width: this.state.sidebarWidth,
+              padding: '5px 1px 5px 5px',
+              overflow: 'scroll',
+            }}
+            ref={(ref) => (this.sidebarRef = ref)}
+          >
+            {sidebar}
+          </div>
+          <div
+            id="sidebar-slider"
+            style={{
+              background: '#999999',
+              backgroundx: 'red',
+              height: mapHeight,
+              width: 10,
+              cursor: 'col-resize',
+            }}
+            onMouseDown={this.onMouseDown}
+            onTouchStart={this.startResizing}
+            onTouchEnd={this.stopResizing}
+          >
+            {!this.state.resizing && (
+              <div
+                style={{
+                  position: 'relative',
+                  borderLeft: '2px solid #333',
+                  left: '3.5px',
+                  top: mapHeight / 2 - mapHeight * 0.1,
+                  height: mapHeight * 0.2,
+                }}
+              ></div>
+            )}
+            {this.state.resizing === true && (
+              <div
+                style={{
+                  position: 'relative',
+                  borderLeft: '4px solid #333',
+                  left: '2px',
+                  top: mapHeight / 2 - mapHeight * 0.1,
+                  height: mapHeight * 0.2,
+                }}
+              ></div>
+            )}
+          </div>
+          <div
+            id="docviewer"
+            style={{
+              backgroundX: 'green',
+
+              height: mapHeight,
+              width: w,
+            }}
+          >
+            {docmap}
+          </div>
         </div>
       </div>
     );
@@ -949,17 +1116,21 @@ export class DocViewer_ extends React.Component {
       }
     }
     // const meta = {};
-    const rc = new L.RasterCoords(this.leafletRoutedMap.leafletMap.leafletElement, dimensions);
-    const layerBounds = [[rc.unproject([0, 0]), rc.unproject([dimensions[0], dimensions[1]])]];
+    if (this.leafletRoutedMap?.leafletMap?.leafletElement) {
+      const rc = new L.RasterCoords(this.leafletRoutedMap.leafletMap.leafletElement, dimensions);
+      const layerBounds = [[rc.unproject([0, 0]), rc.unproject([dimensions[0], dimensions[1]])]];
 
-    return layerBounds;
+      return layerBounds;
+    }
   };
 
   gotoWholeDocument = () => {
     let wb = this.getOptimalBounds();
     //this.props.docsActions.setDebugBounds(wb);
-    this.leafletRoutedMap.leafletMap.leafletElement.invalidateSize();
-    this.leafletRoutedMap.leafletMap.leafletElement.fitBounds(wb);
+    if (this.leafletRoutedMap?.leafletMap?.leafletElement) {
+      this.leafletRoutedMap.leafletMap.leafletElement.invalidateSize();
+      this.leafletRoutedMap.leafletMap.leafletElement.fitBounds(wb);
+    }
     //this.leafletRoutedMap.leafletMap.leafletElement.setView(wb);
   };
 

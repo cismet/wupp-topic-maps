@@ -5,7 +5,7 @@ import CismetFooterAcks from 'components/commons/CismetFooterAcknowledgements';
 const Comp = ({ showModalMenu }) => {
   return (
     <div style={{ fontSize: '11px' }}>
-      <b>Hintergrundkarten</b>: True Orthophoto 2020, Amtliche Basiskarte (ABK), Hillshade © Stadt
+      <b>Hintergrundkarten</b>: True Orthophoto 2022, Amtliche Basiskarte (ABK), Hillshade © Stadt
       Wuppertal | Stadtkarte 2.0 © RVR | WebAtlasDE © BKG{' '}
       <a onClick={() => showModalMenu('datengrundlage')}>(Details und Nutzungsbedingungen)</a>
       <br />

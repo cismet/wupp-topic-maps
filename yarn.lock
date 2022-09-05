@@ -9331,6 +9331,11 @@ leaflet.locatecontrol@^0.63.0:
   resolved "https://registry.yarnpkg.com/leaflet.locatecontrol/-/leaflet.locatecontrol-0.63.0.tgz#a93b9af0c36a0edcac50dc336aa718d2c6f91f54"
   integrity sha512-SPhIbVTPo99YBon2YAPPCvfZa2w5MnifDFTYIXk/2YA3eShg56cPKi0A2CoXLKHel762JvheHrLEnSJduDWIlg==
 
+leaflet.locatecontrol@^0.76.0:
+  version "0.76.1"
+  resolved "https://registry.yarnpkg.com/leaflet.locatecontrol/-/leaflet.locatecontrol-0.76.1.tgz#03eb8e98e0c54fee457f930a63624479a6177de0"
+  integrity sha512-qA92Mxs2N1jgVx+EdmxtDrdzFD+f2llPJbqaKvmW1epZMSIvD6KNsBjpQYUIxz4XtJkOleqRSwWQcrm5P5NnYw==
+
 leaflet.markercluster@^1.3.0:
   version "1.4.1"
   resolved "https://registry.yarnpkg.com/leaflet.markercluster/-/leaflet.markercluster-1.4.1.tgz#b53f2c4f2ca7306ddab1dbb6f1861d5e8aa6c5e5"
@@ -12525,10 +12530,10 @@ react-chartkick@^0.2.0:
   dependencies:
     chartkick "^2.3.6"
 
-react-cismap@0.6.6:
-  version "0.6.6"
-  resolved "https://registry.yarnpkg.com/react-cismap/-/react-cismap-0.6.6.tgz#6bdfe4900e66687cab964ba156198adbfe6fc495"
-  integrity sha512-2X4vUT1PObVbQwHXlyhq5vUpBQ7drnrXgcTmwTSllRKhq+aOHU3FyLTEztz+JbtSyqL8+OFNQTkf90mUyZu5YA==
+react-cismap@0.6.7:
+  version "0.6.7"
+  resolved "https://registry.yarnpkg.com/react-cismap/-/react-cismap-0.6.7.tgz#83f57eabd139ecfaec303a6b96a5d80eb205b36b"
+  integrity sha512-NOI7B7f9usNO7327Ari0kAKgncaKzABsJTYuQ7wHuMNCX5W7vEkGT8eGAXnxgggHDXEuiOcHYxWH4AIaHxGLuw==
   dependencies:
     "@fortawesome/fontawesome-svg-core" "^1.2.26"
     "@fortawesome/free-brands-svg-icons" "^5.12.0"
@@ -12543,7 +12548,7 @@ react-cismap@0.6.6:
     leaflet-extra-markers "^1.2.1"
     leaflet-fullscreen-custom-container-fork "^1.0.7"
     leaflet-snap "^0.0.4"
-    leaflet.locatecontrol "^0.63.0"
+    leaflet.locatecontrol "^0.76.0"
     leaflet.markercluster "^1.4.0"
     leaflet.nontiledlayer "^1.0.9"
     leaflet.path.drag "^0.0.6"

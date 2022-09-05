@@ -9326,11 +9326,6 @@ leaflet-snap@^0.0.4:
   optionalDependencies:
     leaflet-draw "^0.3.2"
 
-leaflet.locatecontrol@^0.63.0:
-  version "0.63.0"
-  resolved "https://registry.yarnpkg.com/leaflet.locatecontrol/-/leaflet.locatecontrol-0.63.0.tgz#a93b9af0c36a0edcac50dc336aa718d2c6f91f54"
-  integrity sha512-SPhIbVTPo99YBon2YAPPCvfZa2w5MnifDFTYIXk/2YA3eShg56cPKi0A2CoXLKHel762JvheHrLEnSJduDWIlg==
-
 leaflet.locatecontrol@^0.76.0:
   version "0.76.1"
   resolved "https://registry.yarnpkg.com/leaflet.locatecontrol/-/leaflet.locatecontrol-0.76.1.tgz#03eb8e98e0c54fee457f930a63624479a6177de0"

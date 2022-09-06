@@ -32,6 +32,7 @@ import { Link } from 'react-scroll';
 
 import copy from 'copy-to-clipboard';
 import GenericRVRStadtplanwerkMenuFooter from '../commons/GenericRVRStadtplanwerkMenuFooter';
+import GenericHelpTextForMyLocation from 'components/commons/GenericHelpTextForMyLocation';
 /* eslint-disable jsx-a11y/anchor-is-valid */
 
 function mapStateToProps(state) {
@@ -790,21 +791,7 @@ export class EhrenamtModalApplicationMenu_ extends React.Component {
                   <Icon name="arrow-circle-up" />
                 </Link>
               </h4>
-              <p>
-                Mit der Funktion "<em>Mein Standort</em>" <Icon name="map-marker" /> können Sie
-                ihren aktuellen Standort mit einem blauen Kreissymbol{' '}
-                <img alt="Cluster" src="images/MeinStandpunktMarker.jpg" /> in der Karte anzeigen.
-                Das Standortsymbol ist umgeben von einem zweiten Kreis mit transparenter, blauer
-                Füllung, dessen Radius die Unsicherheit der Positionsbestimmung angibt{' '}
-                <img alt="Cluster" src="images/MeinStandpunktMarkerDoppel.jpg" />. Die Richtigkeit
-                der Positionsanzeige ist dabei nicht garantiert, ihre Genauigkeit hängt davon ab,
-                mit welcher Methode Ihr Endgerät und der von Ihnen verwendete Browser die Position
-                bestimmen. Smartphones und Tablet-PC's sind i. d. R. mit einer GPS-Antenne
-                ausgestattet, so dass Sie bei diesen Geräten eine Positionsgenauigkeit in der
-                Größenordnung von 10 Metern erwarten können. Die Markierung Ihrer Position wird
-                laufend automatisch aktualisiert. Ein weiterer Klick auf "<em>Mein Standort</em>"
-                schaltet die Anzeige Ihrer Position wieder ab.
-              </p>
+              <GenericHelpTextForMyLocation />
 
               <div name="selektieren">
                 <br />

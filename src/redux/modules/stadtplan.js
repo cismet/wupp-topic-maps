@@ -1,13 +1,15 @@
-import objectAssign from 'object-assign';
-import { actions as mappingActions } from './mapping';
-import { predicateBy } from '../../utils/stringHelper';
 import kdbush from 'kdbush';
-import { addSVGToPOI } from '../../utils/stadtplanHelper';
-import makeDataDuck from '../higherorderduckfactories/dataWithMD5Check';
-import { combineReducers } from 'redux';
-import { persistReducer } from 'redux-persist';
 import localForage from 'localforage';
+import objectAssign from 'object-assign';
+import { persistReducer } from 'redux-persist';
+
+import { combineReducers } from 'redux';
+
+import { addSVGToPOI } from '../../utils/stadtplanHelper';
+import { predicateBy } from '../../utils/stringHelper';
+import makeDataDuck from '../higherorderduckfactories/dataWithMD5Check';
 import makeInfoBoxStateDuck from '../higherorderduckfactories/minifiedInfoBoxState';
+import { actions as mappingActions } from './mapping';
 import { actions as UIStateActions } from './uiState';
 
 //TYPES
@@ -56,6 +58,7 @@ const initialState = {
       'Bildung',
       'Stadtbild',
       'Kinderbetreuung',
+      'Touristik',
     ],
     negativ: [],
   },

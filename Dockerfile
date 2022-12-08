@@ -2,7 +2,7 @@
 #   - builds the frontend app (Vue, React, Webpack, ...)
 
 # Use an official node image
-FROM node:12-alpine AS builder
+FROM --platform=$BUILDPLATFORM node:14-alpine AS builder
 
 # Reads args and use them to configure the build, setting
 # them as env vars

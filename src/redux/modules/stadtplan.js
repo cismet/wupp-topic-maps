@@ -58,7 +58,7 @@ const initialState = {
       'Bildung',
       'Stadtbild',
       'Kinderbetreuung',
-      'Touristik',
+      'Tourismus',
     ],
     negativ: [],
   },

@@ -1,4 +1,4 @@
-const tileservice = 'https://aaa.cismet.de/tiles/';
+const tileservice = 'https://resources.cismet.de/tiles/';
 
 export function getDocsForStaticEntry(props) {
   let { docPackageIdParam, docIndex, pageIndex, docsActions, dox, gotoWholeDocument } = props;

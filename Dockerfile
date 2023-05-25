@@ -21,9 +21,9 @@ RUN yarn install
 RUN yarn cache clean
 COPY .docker-files/turf-jsts-package.json ./node_modules/turf-jsts/package.json
 COPY . .
-RUN rm /app/public/data && mkdir /app/public/data
-RUN rm /app/public/ehrenamt && mkdir /app/public/ehrenamt
-RUN rm /app/public/gaz && mkdir /app/public/gaz
+RUN rm -f /app/public/data && mkdir /app/public/data
+RUN rm -f /app/public/ehrenamt && mkdir /app/public/ehrenamt
+RUN rm -f /app/public/gaz && mkdir /app/public/gaz
 RUN VERSION=`cat .version`; sed -i "s/%TOPICMAP_VERSION%/$VERSION/" src/constants/versions.js
 RUN HASH=`cat .githash`; sed -i "s/%TOPICMAP_HASH%/$HASH/" src/constants/versions.js
 RUN yarn run build

@@ -532,7 +532,6 @@ export class Starkregen_ extends React.Component {
                 // this.props.match.params.layers
               }
               url="https://starkregen-maps-wuppertal.cismet.de/geoserver/wms?SERVICE=WMS"
-              // url='https://maps.wuppertal.de/deegree/wms'
               layers={
                 this.props.starkregen.simulations[this.props.starkregen.selectedSimulation].layer
               }

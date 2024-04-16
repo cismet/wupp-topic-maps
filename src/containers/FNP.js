@@ -316,7 +316,7 @@ export class Container_ extends React.Component {
       backgrounds = [
         <WMSTileLayer
           key={'Hauptnutzungen.flaeche:aevVisible:' + aevVisible}
-          url="https://maps.wuppertal.de/deegree/wms"
+          url="https://maps.wuppertal.de/planung"
           layers={'r102:fnp_haupt_fl'}
           version="1.1.1"
           transparent="true"
@@ -344,7 +344,7 @@ export class Container_ extends React.Component {
       backgrounds = [
         <WMSTileLayer
           key={'rechtsplan:aevVisible:' + aevVisible}
-          url="https://maps.wuppertal.de/deegree/wms?SRS=EPSG:25832"
+          url="https://maps.wuppertal.de/planung?SRS=EPSG:25832"
           layers={'r102:fnp_clip'}
           version="1.1.1"
           transparent="true"
@@ -452,8 +452,8 @@ export class Container_ extends React.Component {
     }
 
     try {
-      reduxBackground = this.props.mapping.backgrounds[this.props.mapping.selectedBackground]
-        .layerkey;
+      reduxBackground =
+        this.props.mapping.backgrounds[this.props.mapping.selectedBackground].layerkey;
     } catch (e) {}
 
     let title = null;

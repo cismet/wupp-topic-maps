@@ -204,7 +204,7 @@ function getFeatureInfo(mapEvent) {
     // const minimalBoxSize = 0.0001;
     // const selectedSimulation = localState.simulations[localState.selectedSimulation].layer;
     // const getFetureInfoRequestUrl =
-    // 	`https://maps.wuppertal.de/deegree/wms?` +
+    // 	`https://maps.wuppertal.de/umwelt?` +
     // 	`service=WMS&request=GetFeatureInfo&` +
     // 	`styles=default&format=image%2Fpng&transparenttrue&` +
     // 	`version=1.1.1&tiled=true&` +

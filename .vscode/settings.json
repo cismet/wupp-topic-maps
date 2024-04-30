@@ -1,3 +1,18 @@
 {
-    "javascript.validate.enable": false
+    "javascript.validate.enable": false,
+    "workbench.colorCustomizations": {
+        "commandCenter.border": "#e7e7e799",
+        "sash.hoverBorder": "#38cb75",
+        "statusBar.background": "#2ba55e",
+        "statusBar.foreground": "#e7e7e7",
+        "statusBarItem.hoverBackground": "#38cb75",
+        "statusBarItem.remoteBackground": "#2ba55e",
+        "statusBarItem.remoteForeground": "#e7e7e7",
+        "tab.activeBorder": "#38cb75",
+        "titleBar.activeBackground": "#2ba55e",
+        "titleBar.activeForeground": "#e7e7e7",
+        "titleBar.inactiveBackground": "#2ba55e99",
+        "titleBar.inactiveForeground": "#e7e7e799"
+    },
+    "peacock.color": "#2ba55e"
 }

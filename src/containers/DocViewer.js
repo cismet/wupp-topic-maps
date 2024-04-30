@@ -230,15 +230,14 @@ export class DocViewer_ extends React.Component {
     return promise;
   }
   componentWillMount() {
-    this.loadData([
-      this.props.aevActions.loadAEVs,
-      //this.props.bplanActions.loadBPlaene
-    ]).then((data) => {
-      // setTimeout(() => {
-      this.setState({ topicDataLoaded: true });
-      this.forceUpdate();
-      // }, 2500);
-    });
+    this.loadData([this.props.aevActions.loadAEVs, this.props.bplanActions.loadBPlaene]).then(
+      (data) => {
+        // setTimeout(() => {
+        this.setState({ topicDataLoaded: true });
+        this.forceUpdate();
+        // }, 2500);
+      }
+    );
     this.props.gazetteerTopicsActions.loadTopicsData(['bplaene', 'aenderungsv']).then(() => {
       this.setState({ gazDataLoaded: true });
       this.forceUpdate();

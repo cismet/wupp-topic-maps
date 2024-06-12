@@ -30,6 +30,7 @@ import {
 import PhotoLightbox from './PhotoLightbox';
 //import Cismap from '../containers/Cismap';
 import TopicMap from './TopicMap';
+import IconComp from 'components/commons/Icon';
 
 function mapStateToProps(state) {
   return {
@@ -293,8 +294,23 @@ export class Stadtplan_ extends React.Component {
                 return (feature || { properties: {} }).properties.foto;
               }}
               uiStateActions={this.props.uiStateActions}
-              urlManipulation={fotoKraemerUrlManipulation}
-              captionFactory={fotoKraemerCaptionFactory}
+              _urlManipulation={fotoKraemerUrlManipulation}
+              captionFactory={(linkUrl, feature = selectedFeature) => {
+                const urheber = feature?.properties?.urheber_foto || 'Stadt Wuppertal';
+                let link = 'https://www.wuppertal.de/service/impressum.php';
+
+                if (urheber === 'Stadt Wuppertal, Wuppertal Marketing GmbH') {
+                  link = 'https://www.wuppertal.de/microsite/WMG/impressum_431218.php';
+                } else if (urheber === 'Stadt Wuppertal, Medienzentrum') {
+                  link = 'https://www.wuppertal.de/kultur-bildung/schule/medienzentrum/index.php';
+                }
+
+                return (
+                  <a href={link} target="_fotos">
+                    <IconComp name="copyright" /> {urheber}
+                  </a>
+                );
+              }}
             />,
           ]}
           backgroundlayers={

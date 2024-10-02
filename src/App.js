@@ -1,6 +1,6 @@
 import React from 'react';
 import { persistStore } from 'redux-persist';
-import { Route, Switch } from 'react-router-dom';
+import { Redirect, Route, Switch } from 'react-router-dom';
 import NotFoundPage from './components/NotFoundPage';
 import Layout from './components/Layout';
 import DefaultPage from './containers/DefaultPage';
@@ -26,6 +26,18 @@ import store from './redux/store';
 import ReactLoading from 'react-loading';
 import { getTopicMapVersion, getTopicMapHash } from './constants/versions';
 import GenericTopicMap from 'containers/GenericTopicMap';
+
+
+
+class RedirectComponent extends React.Component {
+	componentDidMount() {
+		window.location.href = 'https://www.wuppertal.de/microsite/geoportal/topicmaps/topicmaps.php';
+	}
+
+	render() {
+		return null;
+	}
+}
 
 export default class App extends React.Component {
 	constructor() {
@@ -70,7 +82,8 @@ export default class App extends React.Component {
 					<main>
 						<Route component={Layout} />
 						<Switch>
-							<Route exact path='/' component={DefaultPage} />
+							<Route exact path='/' component={RedirectComponent} />
+
 							<Route exact path='/ehrenamt/:layers?/:offerid?' component={Ehrenamt} />
 
 							<Route exact path='/meine/:name?/' component={GenericTopicMap} />

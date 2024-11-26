@@ -38,7 +38,7 @@
     "filesize": "^4.0.0",
     "html-react-parser": "^0.14.0",
     "jsts": "^1.5.0",
-    "jszip": "^3.1.5",
+    "jszip": "^3.8.0",
     "jszip-utils": "^0.0.2",
     "kdbush": "^1.0.1",
     "leaflet": "^1.2.0",
